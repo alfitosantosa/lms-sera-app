@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import InstallButton from "./installButton";
 
-const AUTH_ROUTES = ["/auth/sign-in", "/auth/sign-up", "/auth/register", "/landing"];
+const AUTH_ROUTES = ["/auth/sign-in", "/auth/sign-up", "/auth/register", "/landing", "/"];
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
