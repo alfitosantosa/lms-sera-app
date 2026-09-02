@@ -1,0 +1,95 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+      # PENTING: Tambahkan ini untuk cleanup build cache
+      cache_from:
+        - ${COMPOSE_PROJECT_NAME}-web:latest
+      # Batasi build context
+      labels:
+        - "com.docker.compose.project=${COMPOSE_PROJECT_NAME}-web"
+
+    image: ${COMPOSE_PROJECT_NAME}-web:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-web-app
+    restart: unless-stopped
+
+    ports:
+      - "${PORT}:${PORT}"
+
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT}
+      - HOSTNAME=0.0.0.0
+      - NEXT_TELEMETRY_DISABLED=1
+
+    env_file:
+      - .env.production
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G # Turunkan dari 7G
+        reservations:
+          cpus: "2.0"
+          memory: 2G # Turunkan dari 2G
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m" # Turunkan dari 10m
+        max-file: "2" # Turunkan dari 3
+        compress: "true"
+
+    # PENTING: Batasi tmpfs size
+    tmpfs:
+      - /tmp:size=100m,mode=1777
+      - /var/tmp:size=100m,mode=1777
+
+    security_opt:
+      - no-new-privileges:true
+
+    labels:
+      - "com.${COMPOSE_PROJECT_NAME}.service=app"
+      - "com.${COMPOSE_PROJECT_NAME}.environment=production"
+
+  # ==========================================
+  # CLEANUP SERVICE - Otomatis bersihkan unused images/containers
+  # ==========================================
+  docker-cleanup:
+    image: docker:cli
+    container_name: ${COMPOSE_PROJECT_NAME}-cleanup
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # Cleanup setiap hari jam 2 pagi
+    command: sh -c "while true; do docker system prune -af --volumes --filter 'until=24h'; sleep 86400; done"
+    profiles:
+      - cleanup
+
+networks:
+  ${COMPOSE_PROJECT_NAME}-app-network:
+    driver: bridge
+
+# PENTING: Batasi volume size (jika didukung driver)
+volumes:
+  node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind,size=500m
+  next_cache:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind,size=300m

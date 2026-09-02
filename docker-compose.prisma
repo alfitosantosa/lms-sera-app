@@ -1,0 +1,16 @@
+  // # ==========================================
+  // # prisma_studio
+  // # ==========================================
+  // # prisma-studio:
+  // #   container_name: prisma-studio
+  // #   build:
+  // #     context: .
+  // #     dockerfile: Dockerfile.prisma # Kita buat Dockerfile khusus studio
+  // #   ports:
+  // #     - "5555:5555"
+  // #   env_file:
+  // #     - .env.production
+  // #   networks:
+  // #     - app-network
+  // #   depends_on:
+  // #     - app

@@ -1,0 +1,62 @@
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import pluginQuery from "@tanstack/eslint-plugin-query";
+
+export default tseslint.config(
+  // Ignore patterns first
+  {
+    ignores: [".next/**", "node_modules/**", "dist/**", "build/**", ".kiro/**", "prisma/generated/**", "*.config.js", "*.config.mjs"],
+  },
+
+  // Base JavaScript recommended rules
+  js.configs.recommended,
+
+  // TypeScript recommended rules
+  ...tseslint.configs.recommended,
+
+  // React recommended rules
+  {
+    files: ["**/*.{jsx,tsx}"],
+    ...pluginReact.configs.flat.recommended,
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    rules: {
+      "react/react-in-jsx-scope": "off", // Next.js doesn't require React import
+      "react/prop-types": "off", // Using TypeScript for prop validation
+    },
+  },
+
+  // TanStack Query recommended rules
+  ...pluginQuery.configs["flat/recommended"],
+
+  // Global language options
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+  },
+
+  // TypeScript specific rules
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-explicit-any": "warn",
+    },
+  },
+);

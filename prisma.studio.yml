@@ -1,0 +1,20 @@
+# # ==========================================
+# # PRISMA STUDIO DOCKERFILE
+# # ==========================================
+# FROM node:24-alpine
+# WORKDIR /app
+
+# COPY package.json package-lock.json* ./
+# RUN npm install --omit=dev
+
+# COPY prisma ./prisma
+# COPY prisma.config.ts ./
+
+# # Allow passing the database URL at build time or via docker run/env
+# ARG DATABASE_URL
+# ENV DATABASE_URL=${DATABASE_URL}
+
+# ENV PORT=5555
+# EXPOSE 5555
+
+# CMD ["npx", "prisma", "studio", "--port", "5555", "--browser", "none"]

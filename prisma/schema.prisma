@@ -1,0 +1,760 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "./generated"
+  engineType = "client"
+  runtime    = "bun"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Foundation {
+id             String @id @unique @default(cuid())
+name           String
+imageUrl       String 
+foundationCode String
+address        String 
+phone          String
+userData       UserData[]
+major          Major[]
+user           User[]
+}
+
+model User {
+  id            String    @id @unique
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  banExpires    DateTime?
+  banReason     String?
+  banned        Boolean?  @default(false)
+  role          String?   @default("user")
+  foundationId  String?
+  foundation    Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  accounts      Account[]
+  sessions      Session[]
+  userData      UserData?
+
+
+  @@map("user")
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String   @unique
+  createdAt      DateTime
+  updatedAt      DateTime
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  issuer                String?
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model UserData {
+  id                      String                 @id @unique @default(cuid())
+  userId                  String?                @unique
+  academicYearId          String?
+  address                 String?
+  avatarUrl               String?
+  birthDate               DateTime?
+  birthPlace              String?
+  classId                 String?
+  employeeId              String?
+  endDate                 DateTime?
+  enrollmentDate          DateTime?
+  gender                  String?
+  graduationDate          DateTime?
+  majorId                 String?
+  nik                     String?
+  nisn                    String?
+  parentPhone             String?
+  position                String?
+  relation                String?
+  roleId                  String?
+  startDate               DateTime?
+  status                  String?                @default("active")
+  studentIds              String[]
+  email                   String?
+  name                    String
+  isActive                Boolean                @default(true)
+  foundationId            String?
+  foundation              Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  createdAt               DateTime?              @default(now())
+  updatedAt               DateTime?              @updatedAt
+  tahfidzGroupId          String?
+  Announcements           Announcement[]
+  studentSubmissions      AssignmentSubmission[] @relation("StudentSubmission")
+  teacherAssignments      Assignment[]           @relation("TeacherAssignment")
+  attendances             Attendance[]           @relation("StudentAttendance")
+  DashboardContents       DashboardContent[]
+  grades                  Grade[]                @relation("StudentGrade")
+  notifications           Notification[]
+  paymentItems            PaymentItems[]
+  PaymentCreated          Payment[]              @relation("CreatedPayment")
+  payments                Payment[]              @relation("StudentPayment")
+  reportCards             ReportCard[]           @relation("StudentReportCard")
+  schedules               Schedule[]             @relation("TeacherSchedule")
+  tahfidzRecords          TahfidzRecord[]        @relation("TahfidzStudent")
+  tahfidzRecordsAsTeacher TahfidzRecord[]        @relation("TahfidzTeacher")
+  createdAttendances      TeacherAttendance[]    @relation("CreatedAttendance")
+  teacherAttendances      TeacherAttendance[]    @relation("TeacherAttendance")
+  academicYear            AcademicYear?          @relation("UserAcademicYear", fields: [academicYearId], references: [id])
+  class                   Class?                 @relation("UserClass", fields: [classId], references: [id])
+  major                   Major?                 @relation("UserMajor", fields: [majorId], references: [id])
+  role                    Role?                  @relation(fields: [roleId], references: [id])
+  tahfidzGroup            TahfidzGroup?          @relation("UserTahfidzGroup", fields: [tahfidzGroupId], references: [id])
+  user                    User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  violations              Violation[]            @relation("StudentViolation")
+
+  @@index([academicYearId])
+  @@index([classId])
+  @@index([majorId])
+  @@index([roleId])
+  @@index([tahfidzGroupId])
+  @@index([status])
+  @@index([email])
+  @@map("user_data")
+}
+
+model Role {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String
+  permissions String[]
+  isActive    Boolean    @default(true)
+  userData    UserData[]
+
+  @@map("roles")
+}
+
+model AcademicYear {
+  id                  String               @id @default(cuid())
+  year                String               @unique
+  startDate           DateTime
+  endDate             DateTime
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  calendarEvents      CalendarEvent[]
+  classes             Class[]
+  gradeConfigurations GradeConfiguration[]
+  gradeScales         GradeScale[]
+  reportCards         ReportCard[]
+  schedules           Schedule[]
+  students            UserData[]           @relation("UserAcademicYear")
+  violationTypes      ViolationType[]
+
+  @@map("academic_years")
+}
+
+model Major {
+  id           String        @id @default(cuid())
+  code         String        @unique
+  name         String
+  description  String?
+  isActive     Boolean       @default(true)
+  address      String?
+  phone        String?
+  adminName    String?
+  signatureUrl String?
+  foundationId            String?
+  foundation              Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  accountBank  AccountBank[]
+  classes      Class[]
+  paymenttype  PaymentType[]
+  payments     Payment[]
+  subjects     Subject[]
+  students     UserData[]    @relation("UserMajor")
+
+  @@map("majors")
+}
+
+model Class {
+  id                  String               @id @default(cuid())
+  name                String
+  grade               Int
+  majorId             String
+  academicYearId      String
+  capacity            Int                  @default(36)
+  isActive            Boolean              @default(true)
+  assignments         Assignment[]
+  academicYear        AcademicYear         @relation(fields: [academicYearId], references: [id])
+  major               Major                @relation(fields: [majorId], references: [id])
+  gradeConfigurations GradeConfiguration[]
+  reportCards         ReportCard[]
+  schedules           Schedule[]
+  students            UserData[]           @relation("UserClass")
+  violations          Violation[]
+
+  @@unique([name, academicYearId])
+  @@map("classes")
+}
+
+model Subject {
+  id                  String               @id @default(cuid())
+  code                String               @unique
+  name                String
+  description         String?
+  majorId             String?
+  credits             Int                  @default(2)
+  isActive            Boolean              @default(true)
+  assignments         Assignment[]
+  gradeConfigurations GradeConfiguration[]
+  grades              Grade[]
+  reportCards         ReportCard[]
+  schedules           Schedule[]
+  major               Major?               @relation(fields: [majorId], references: [id])
+
+  @@map("subjects")
+}
+
+model Schedule {
+  id             String        @id @default(cuid())
+  classId        String?
+  subjectId      String
+  teacherId      String
+  academicYearId String
+  dayOfWeek      Int
+  startTime      String
+  endTime        String
+  room           String?
+  isActive       Boolean       @default(true)
+  tahfidzGroupId String?
+  assignments    Assignment[]
+  attendances    Attendance[]
+  grades         Grade[]
+  academicYear   AcademicYear  @relation(fields: [academicYearId], references: [id])
+  class          Class?        @relation(fields: [classId], references: [id])
+  subject        Subject       @relation(fields: [subjectId], references: [id])
+  tahfidzGroup   TahfidzGroup? @relation("TahfidzGroupSchedule", fields: [tahfidzGroupId], references: [id])
+  teacher        UserData      @relation("TeacherSchedule", fields: [teacherId], references: [id])
+
+  @@unique([classId, subjectId, teacherId, dayOfWeek, startTime])
+  @@index([classId])
+  @@index([subjectId])
+  @@index([teacherId])
+  @@index([academicYearId])
+  @@index([dayOfWeek])
+  @@index([tahfidzGroupId])
+  @@map("schedules")
+}
+
+model Attendance {
+  id         String   @id @default(cuid())
+  studentId  String
+  scheduleId String
+  status     String
+  notes      String?
+  createdAt  DateTime @default(now())
+  date       DateTime
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  student    UserData @relation("StudentAttendance", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, scheduleId, date])
+  @@index([studentId])
+  @@index([scheduleId])
+  @@index([date])
+  @@index([status])
+  @@map("attendances")
+}
+
+model ViolationType {
+  id             String       @id @default(cuid())
+  name           String
+  description    String
+  points         Int
+  category       String
+  academicYearId String
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  violations     Violation[]
+
+  @@map("violation_types")
+}
+
+model Violation {
+  id              String        @id @default(cuid())
+  studentId       String
+  violationTypeId String
+  classId         String
+  description     String?
+  status          String        @default("active")
+  reportedBy      String
+  createdAt       DateTime      @default(now())
+  date            DateTime
+  resolutionDate  DateTime?
+  resolutionNotes String?
+  class           Class         @relation(fields: [classId], references: [id])
+  student         UserData      @relation("StudentViolation", fields: [studentId], references: [id], onDelete: Cascade)
+  violationType   ViolationType @relation(fields: [violationTypeId], references: [id])
+
+  @@index([studentId])
+  @@index([violationTypeId])
+  @@index([classId])
+  @@index([status])
+  @@index([date])
+  @@map("violations")
+}
+
+model PaymentType {
+  id              String         @id @default(cuid())
+  name            String
+  description     String
+  amount          Decimal
+  isMonthly       Boolean        @default(false)
+  isActive        Boolean        @default(true)
+  isFixedAmount   Boolean
+  isFixedQuantity Boolean
+  quantity        Float
+  subtotal        Decimal
+  owner           String
+  majorId         String
+  skuType         String
+  paymentItems    PaymentItems[]
+  major           Major          @relation(fields: [majorId], references: [id])
+
+  @@index([majorId])
+  @@index([owner])
+  @@map("payment_types")
+}
+
+model PaymentItems {
+  id            String      @id @default(uuid())
+  paymentId     String?
+  studentId     String
+  paymentTypeId String
+  quantity      Decimal
+  amount        Decimal
+  subtotal      Decimal
+  isPaid        Boolean     @default(false)
+  month         String
+  name          String
+  year          String
+  skuType       String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  payment       Payment?    @relation(fields: [paymentId], references: [id])
+  PaymentType   PaymentType @relation(fields: [paymentTypeId], references: [id])
+  student       UserData    @relation(fields: [studentId], references: [id])
+
+  @@index([paymentId])
+  @@index([studentId])
+  @@index([paymentTypeId])
+  @@index([isPaid])
+  @@map("payment_items")
+}
+
+model Payment {
+  id                 String              @id @default(cuid())
+  studentId          String
+  amount             Decimal
+  dueDate            DateTime?
+  status             String              @default("pending")
+  notes              String?
+  createdAt          DateTime            @default(now())
+  paymentDate        DateTime
+  receiptNumber      String              @unique
+  accountBankId      String
+  majorId            String
+  month              String
+  bendaharaId        String
+  bankRef            String?
+  transferDate       DateTime?
+  paymentItems       PaymentItems[]
+  paymentTransaction PaymentTransaction?
+  accountBank        AccountBank         @relation(fields: [accountBankId], references: [id])
+  createdBy          UserData            @relation("CreatedPayment", fields: [bendaharaId], references: [id])
+  major              Major               @relation(fields: [majorId], references: [id])
+  student            UserData            @relation("StudentPayment", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([majorId])
+  @@index([accountBankId])
+  @@index([bendaharaId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([month])
+  @@map("payments")
+}
+
+model PaymentTransaction {
+  id                String   @id @default(cuid())
+  paymentId         String   @unique
+  transactionId     String   @unique
+  orderId           String   @unique
+  grossAmount       Decimal
+  paymentType       String
+  transactionTime   DateTime
+  transactionStatus String
+  fraudStatus       String
+  finishRedirectUrl String
+  createdAt         DateTime @default(now())
+  payment           Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@map("payment_transactions")
+}
+
+model AccountBank {
+  id            String    @id @default(uuid())
+  accountName   String
+  accountBank   String
+  accountNumber String
+  majorId       String
+  createdAt     DateTime  @default(now())
+  majors        Major     @relation(fields: [majorId], references: [id])
+  payments      Payment[]
+
+  @@map("account_bank")
+}
+
+model CalendarEvent {
+  id             String       @id @default(cuid())
+  title          String
+  description    String?
+  eventDate      DateTime
+  eventType      String
+  isPublished    Boolean      @default(false)
+  academicYearId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+
+  @@map("calendar_events")
+}
+
+model GradeType {
+  id                  String               @id @default(cuid())
+  name                String
+  code                String               @unique
+  description         String?
+  weight              Int                  @default(0)
+  order               Int                  @default(0)
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  assignments         Assignment[]
+  gradeConfigurations GradeConfiguration[]
+  grades              Grade[]
+
+  @@map("grade_types")
+}
+
+model GradeConfiguration {
+  id             String       @id @default(cuid())
+  subjectId      String?
+  classId        String?
+  academicYearId String
+  gradeTypeId    String
+  weight         Int
+  minEntries     Int          @default(1)
+  isRequired     Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+  class          Class?       @relation(fields: [classId], references: [id], onDelete: Cascade)
+  gradeType      GradeType    @relation(fields: [gradeTypeId], references: [id], onDelete: Cascade)
+  subject        Subject?     @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([gradeTypeId, subjectId, classId, academicYearId])
+  @@index([subjectId])
+  @@index([classId])
+  @@index([academicYearId])
+  @@map("grade_configurations")
+}
+
+model Grade {
+  id          String    @id @default(cuid())
+  studentId   String
+  scheduleId  String
+  subjectId   String
+  score       Decimal
+  maxScore    Decimal   @default(100)
+  description String?
+  date        DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdBy   String
+  gradeTypeId String
+  title       String?
+  gradeType   GradeType @relation(fields: [gradeTypeId], references: [id])
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id])
+  student     UserData  @relation("StudentGrade", fields: [studentId], references: [id], onDelete: Cascade)
+  subject     Subject   @relation(fields: [subjectId], references: [id])
+
+  @@index([studentId])
+  @@index([scheduleId])
+  @@index([subjectId])
+  @@index([gradeTypeId])
+  @@index([date])
+  @@map("grades")
+}
+
+model ReportCard {
+  id               String       @id @default(cuid())
+  studentId        String
+  subjectId        String
+  classId          String
+  academicYearId   String
+  semester         Int
+  taskAverage      Decimal?
+  dailyTestAverage Decimal?
+  midExamScore     Decimal?
+  finalExamScore   Decimal?
+  practiceAverage  Decimal?
+  finalScore       Decimal
+  letterGrade      String?
+  predicate        String?
+  isPassed         Boolean      @default(false)
+  teacherNote      String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  createdBy        String
+  isPublished      Boolean      @default(false)
+  publishedAt      DateTime?
+  academicYear     AcademicYear @relation(fields: [academicYearId], references: [id])
+  class            Class        @relation(fields: [classId], references: [id])
+  student          UserData     @relation("StudentReportCard", fields: [studentId], references: [id], onDelete: Cascade)
+  subject          Subject      @relation(fields: [subjectId], references: [id])
+
+  @@index([studentId])
+  @@index([subjectId])
+  @@index([classId])
+  @@index([academicYearId])
+  @@map("report_cards")
+}
+
+model GradeScale {
+  id             String        @id @default(cuid())
+  academicYearId String?
+  minScore       Decimal
+  maxScore       Decimal
+  letterGrade    String
+  predicate      String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  academicYear   AcademicYear? @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+
+  @@index([academicYearId])
+  @@map("grade_scales")
+}
+
+model Assignment {
+  id                  String                 @id @default(cuid())
+  scheduleId          String
+  classId             String
+  subjectId           String
+  teacherId           String
+  title               String
+  description         String
+  attachments         Json?
+  assignmentType      String?
+  assignedDate        DateTime               @default(now())
+  dueDate             DateTime
+  allowLateSubmission Boolean                @default(false)
+  maxScore            Decimal                @default(100)
+  gradeTypeId         String?
+  isPublished         Boolean                @default(false)
+  isActive            Boolean                @default(true)
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  createdBy           String
+  submissions         AssignmentSubmission[]
+  class               Class                  @relation(fields: [classId], references: [id])
+  gradeType           GradeType?             @relation(fields: [gradeTypeId], references: [id])
+  schedule            Schedule               @relation(fields: [scheduleId], references: [id])
+  subject             Subject                @relation(fields: [subjectId], references: [id])
+  teacher             UserData               @relation("TeacherAssignment", fields: [teacherId], references: [id])
+
+  @@index([scheduleId])
+  @@index([classId])
+  @@index([subjectId])
+  @@index([teacherId])
+  @@index([dueDate])
+  @@index([assignedDate])
+  @@map("assignments")
+}
+
+model AssignmentSubmission {
+  id           String     @id @default(cuid())
+  assignmentId String
+  studentId    String
+  attachments  Json?
+  notes        String?
+  submittedAt  DateTime   @default(now())
+  isLate       Boolean    @default(false)
+  score        Decimal?
+  feedback     String?
+  gradedAt     DateTime?
+  gradedBy     String?
+  status       String     @default("submitted")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      UserData   @relation("StudentSubmission", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+  @@index([assignmentId])
+  @@index([studentId])
+  @@index([status])
+  @@map("assignment_submissions")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String
+  category  String?
+  isRead    Boolean   @default(false)
+  link      String?
+  data      Json?
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+  user      UserData  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+model DashboardContent {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  linkUrl     String?
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  isPublished Boolean   @default(false)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String?
+  user        UserData? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("dashboard_contents")
+}
+
+model Announcement {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  imageUrl    String?
+  linkUrl     String?
+  isActive    Boolean   @default(true)
+  isPublished Boolean   @default(false)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String?
+  user        UserData? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("announcements")
+}
+
+model TahfidzRecord {
+  id           String      @id @default(cuid())
+  startVerse   Int?
+  endVerse     Int?
+  grade        String?
+  date         DateTime
+  notes        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  studentId    String?
+  teacherId    String?
+  surahQuranId String?
+  student      UserData?   @relation("TahfidzStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  surah        SurahQuran? @relation(fields: [surahQuranId], references: [id])
+  teacher      UserData?   @relation("TahfidzTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@map("tahfidz_records")
+}
+
+model SurahQuran {
+  id              String          @id @default(cuid())
+  name            String
+  nameLatin       String
+  verseCount      Int
+  revelationPlace String
+  tahfidzRecords  TahfidzRecord[]
+
+  @@map("surah_quran")
+}
+
+model TeacherAttendance {
+  id            String    @id @default(cuid())
+  teacherId     String
+  date          DateTime  @db.Date
+  status        String    @default("hadir")
+  checkinTime   DateTime?
+  checkoutTime  DateTime?
+  notes         String?
+  createdBy     String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdByUser UserData  @relation("CreatedAttendance", fields: [createdBy], references: [id], onDelete: Cascade)
+  teacher       UserData  @relation("TeacherAttendance", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([teacherId, date])
+  @@index([teacherId])
+  @@index([date])
+  @@map("teacher_attendances")
+}
+
+model TahfidzGroup {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  grade     Int
+  capacity  Int        @default(40)
+  isActive  Boolean    @default(true)
+  schedules Schedule[] @relation("TahfidzGroupSchedule")
+  students  UserData[] @relation("UserTahfidzGroup")
+
+  @@index([grade])
+  @@map("tahfidz_groups")
+}
