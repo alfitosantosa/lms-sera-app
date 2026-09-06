@@ -40,13 +40,27 @@ export const useCreateFoundation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: foundationTypes) => {
+    mutationFn: async (data: FoundationFormData) => {
       const response = await apiPost<FoundationFormData>("/api/foundation", data);
       return response.data;
     },
 
-    onSuccess: () => {
+    onSuccess: async (data, variables) => {
+      // Invalidate foundation queries
       invalidateFoundationQueries(queryClient);
+
+      // CRITICAL: Also invalidate user data cache to force refetch with updated foundationId
+      queryClient.invalidateQueries({ queryKey: ["users-profile"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+
+      // Wait for user cache to be cleared and potentially refetched
+      // Use the userId from the submitted form data
+      if (variables.userId) {
+        await queryClient.refetchQueries({
+          queryKey: ["users-profile", variables.userId],
+        });
+      }
+
       toast.success("Foundation created successfully!");
     },
 

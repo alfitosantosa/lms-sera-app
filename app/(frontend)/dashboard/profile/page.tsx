@@ -365,19 +365,25 @@ export default function Home() {
 
     // If there was an error loading user data, redirect to foundation registration
 
-    const getFoundationFromUserData = user?.foundation;
-    if (!getFoundationFromUserData) {
-      console.log("User data error:", userError);
-      setRedirecting(true);
-      router.push("/landing/register/foundation");
-      return;
-    }
+    // setTimeout(() => {
+    //   const getFoundationFromUserData = user?.foundation;
+    //   if (!getFoundationFromUserData) {
+    //     console.log("User data error:", userError);
+    //     setRedirecting(true);
+    //     router.push("/landing/register/foundation");
+    //     return;
+    //   }
+    // }, 10000);
 
     // If user data loaded successfully but no foundationId, redirect to foundation registration
-    if (user && !user.foundationId) {
-      console.log("User has no foundationId, redirecting to foundation registration");
+    const getFoundationFromUserData = user?.foundation;
+    if (!getFoundationFromUserData) {
+      console.log("User has no foundation data, redirecting to foundation registration");
       setRedirecting(true);
-      router.push("/landing/register/foundation");
+      // Add a small delay to prevent immediate redirect loops
+      setTimeout(() => {
+        router.push("/landing/register/foundation");
+      }, 1000);
       return;
     }
 
@@ -412,8 +418,8 @@ export default function Home() {
     return <UserProfileSkeleton message="Loading user data..." />;
   }
 
-  // If user exists but no foundationId, show skeleton while redirecting
-  if (!user.foundationId) {
+  // If user exists but no foundation, show skeleton while redirecting
+  if (!user.foundation) {
     return <UserProfileSkeleton message="Setting up foundation..." />;
   }
 

@@ -20,6 +20,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 
 // Hooks
 import { useCreateFoundation } from "@/app/(hooks)/hooks/Foundation/useFoundation";
+import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
 
@@ -51,6 +52,48 @@ export default function RegisterFoundation() {
   const createFoundationMutation = useCreateFoundation();
   const session = useSession();
   const userId = session.data?.user.id;
+
+  // Add this hook to check user data periodically after foundation creation
+  const { refetch: refetchUserData } = useGetUserByIdBetterAuthProfile(userId ?? "");
+
+  /**
+   * Poll user data to ensure foundationId is updated before redirecting
+   * This prevents race condition where profile page redirects back here
+   */
+  const waitForUserDataUpdate = async (): Promise<void> => {
+    console.log("🔍 Waiting for user data to be updated with foundationId...");
+
+    let attempts = 0;
+    const maxAttempts = 20; // 20 * 500ms = 10 seconds max
+
+    while (attempts < maxAttempts) {
+      attempts++;
+      console.log(`📡 Polling attempt ${attempts}/${maxAttempts}`);
+
+      try {
+        // Force refetch user data
+        const { data: refreshedUserData } = await refetchUserData();
+        console.log("👤 Current user data:", refreshedUserData);
+
+        // Check if foundationId now exists
+        if (refreshedUserData?.foundationId) {
+          console.log("✅ User data updated with foundationId:", refreshedUserData.foundationId);
+          return; // Success! User data is updated
+        }
+
+        // Wait 500ms before next attempt
+        console.log("⏳ Foundation ID not found yet, waiting 500ms...");
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      } catch (error) {
+        console.error("❌ Error polling user data:", error);
+        // Continue polling even if there's an error
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+
+    // Max attempts reached - log warning but continue with redirect
+    console.log("⚠️ Max polling attempts reached. Redirecting anyway...");
+  };
 
   /**
    * Generate unique foundation code from name
@@ -120,13 +163,20 @@ export default function RegisterFoundation() {
   const onSubmit = async (data: FoundationFormData) => {
     setIsSubmitting(true);
     try {
+      // Create foundation and wait for completion
       const result = await createFoundationMutation.mutateAsync(data);
-      console.log(data);
       console.log("🎉 Foundation created successfully:", result);
+
+      // Show success message
       toast.success("Yayasan berhasil didaftarkan!");
-      setTimeout(() => {
-        router.push("/dashboard/profile");
-      }, 4000);
+
+      // Wait for user data to be properly updated before redirecting
+      // This prevents race condition where profile page sees no foundationId
+      await waitForUserDataUpdate();
+
+      // Now redirect with confidence that user data has been updated
+      console.log("🔄 User data confirmed updated, redirecting to profile page...");
+      router.push("/dashboard/profile");
     } catch (error) {
       console.error("❌ Error creating foundation:", error);
       toast.error("Gagal mendaftarkan yayasan. Silakan coba lagi.");
