@@ -65,7 +65,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
   try {
     const user = await prisma.userData.findFirst({
       where: { userId: id as string },
-      include: { class: true, major: true, academicYear: true, role: true, user: true },
+      include: { class: true, major: true, academicYear: true, role: true, user: true, foundation: true },
     });
     return NextResponse.json(user);
   } catch (error) {

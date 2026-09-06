@@ -1,4 +1,5 @@
 import { attendanceTypes } from "./attendance-types";
+import { foundationTypes } from "./foundation-types";
 import { majorTypes } from "./majors-types";
 import { PaymentTypes } from "./payment-types";
 import { RoleDataTypes } from "./roles-types";
@@ -35,6 +36,8 @@ export type UserDataTypes = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   tahfidzGroupId?: string | null;
+  foundationId?: String | null;
+  foundation?: foundationTypes | null;
   user?: UserTypes | null;
   academicYear?: AcademicYearTypes | null;
   class?: ClassTypes | null;

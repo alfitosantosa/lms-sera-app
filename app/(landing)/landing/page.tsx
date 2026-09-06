@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 // ─── Brand tokens (from DESIGN.md) ─────────────────────────────────────────
 // primary  #533afd   primary-deep #4434d4   primary-press #2e2b8c
@@ -152,6 +153,10 @@ export default function SeraLandingPage() {
   const handleClickLogin = () => {
     router.push("/auth/sign-in");
   };
+
+  const handleRegisterFoundation = () => {
+    router.push("/landing/register/foundation");
+  };
   return (
     <div className="min-h-screen bg-white font-light text-[#0d253d] antialiased [font-feature-settings:'ss01'_1]">
       {/* ═══════════ NAV ═══════════ */}
@@ -174,7 +179,9 @@ export default function SeraLandingPage() {
             <a href="#" onClick={handleClickLogin} className="text-[15px] text-[#273951] transition-colors hover:text-[#0d253d]">
               Masuk
             </a>
-            <Button className="rounded-full bg-[#533afd] px-5 text-white shadow-sm hover:bg-[#4434d4] active:bg-[#2e2b8c]">Mulai Gratis</Button>
+            <Button onClick={handleRegisterFoundation} className="rounded-full bg-[#533afd] px-5 text-white shadow-sm hover:bg-[#4434d4] active:bg-[#2e2b8c]">
+              Mulai Gratis
+            </Button>
           </div>
 
           {/* Mobile nav */}
@@ -184,18 +191,83 @@ export default function SeraLandingPage() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <div className="mt-10 flex flex-col gap-6">
-                {NAV_LINKS.map((l) => (
-                  <a key={l.href} href={l.href} className="text-base text-[#273951]">
-                    {l.label}
-                  </a>
-                ))}
-                <Separator />
-                <a href="#" className="text-base text-[#273951]">
-                  Masuk
+            <SheetContent side="right" className="w-full p-0 sm:w-80">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-[#e3e8ee] p-6">
+                <a href="#" className="flex items-center gap-2 text-lg font-medium tracking-tight text-[#0d253d]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#533afd]" />
+                  Sera
                 </a>
-                <Button className="rounded-full bg-[#533afd] text-white hover:bg-[#4434d4]">Mulai Gratis</Button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="px-6 py-8">
+                <nav className="space-y-2">
+                  {NAV_LINKS.map((l) => (
+                    <a key={l.href} href={l.href} className="group flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium text-[#273951] transition-all hover:bg-[#f6f9fc] hover:text-[#0d253d] active:bg-[#e3e8ee]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#533afd] opacity-0 transition-opacity group-hover:opacity-100" />
+                      {l.label}
+                    </a>
+                  ))}
+                </nav>
+
+                <Separator className="my-8 bg-[#e3e8ee]" />
+
+                {/* Auth Buttons */}
+                <div className="space-y-4">
+                  <a href="#" onClick={handleClickLogin} className="flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium text-[#273951] transition-all hover:bg-[#f6f9fc] hover:text-[#0d253d]">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#b9b9f9]/50">
+                      <svg className="h-4 w-4 text-[#533afd]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </span>
+                    Masuk ke Akun
+                  </a>
+
+                  <Button className="w-full justify-start gap-3 rounded-xl bg-[#533afd] px-4 py-8 text-left text-white shadow-lg shadow-[#533afd]/20 hover:bg-[#4434d4]">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20">
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                    <div className="text-left p2">
+                      <div className="text-[15px] font-medium">Mulai Gratis</div>
+                      <div className="text-[12px] text-white/70">Tanpa kartu kredit</div>
+                    </div>
+                  </Button>
+                </div>
+
+                <Separator className="my-8 bg-[#e3e8ee]" />
+
+                {/* Quick Stats */}
+                <div className="space-y-4">
+                  <h4 className="text-[13px] font-medium uppercase tracking-wide text-[#64748d]">Platform Terpercaya</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-[20px] font-black text-[#0d253d]">500+</div>
+                      <div className="text-[11px] text-[#64748d]">Sekolah</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-[20px] font-black text-[#0d253d]">1,2M</div>
+                      <div className="text-[11px] text-[#64748d]">Siswa Aktif</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social Proof */}
+                <div className="mt-8 rounded-xl bg-[#f6f9fc] p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="h-8 w-8 rounded-full bg-[#b9b9f9] border-2 border-white flex items-center justify-center">
+                          <span className="text-[10px] font-medium text-[#4434d4]">{String.fromCharCode(64 + i)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div>
+                      <div className="text-[13px] font-medium text-[#0d253d]">Tim siap membantu</div>
+                      <div className="text-[11px] text-[#64748d]">Setup dalam 1 hari kerja</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -207,7 +279,7 @@ export default function SeraLandingPage() {
         <GradientMesh />
 
         <div className="relative z-10 mx-auto max-w-3xl px-6 pt-16 text-center">
-          <Badge className="mb-6 rounded-full border-none bg-[#b9b9f9] px-3 py-1 text-[11px] font-normal uppercase tracking-wide text-[#4434d4] hover:bg-[#b9b9f9]">
+          <Badge className="mb-6 rounded-full border-none bg-[#b9b9f9] px-3 py-1 text-[11px] font-light uppercase tracking-wide text-[#4434d4] hover:bg-[#b9b9f9]">
             <Sparkles className="mr-1.5 h-3 w-3" />
             Platform LMS Sekolah Terbesar
           </Badge>
@@ -221,7 +293,7 @@ export default function SeraLandingPage() {
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg" className="w-full rounded-full bg-[#533afd] px-7 text-white shadow-md shadow-[#533afd]/20 transition-transform hover:-translate-y-0.5 hover:bg-[#4434d4] sm:w-auto">
+            <Button onClick={handleRegisterFoundation} size="lg" className="w-full rounded-full bg-[#533afd] px-7 text-white shadow-md shadow-[#533afd]/20 transition-transform hover:-translate-y-0.5 hover:bg-[#4434d4] sm:w-auto">
               Mulai Uji Coba Gratis
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </Button>

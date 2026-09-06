@@ -35,7 +35,9 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, imageUrl, foundationCode, address, phone } = await request.json();
+    const { name, imageUrl, foundationCode, address, phone, userId } = await request.json();
+
+    // Create the foundation
     const createNewFoundation = await prisma.foundation.create({
       data: {
         name,
@@ -45,7 +47,36 @@ export async function POST(request: NextRequest) {
         phone,
       },
     });
-    return NextResponse.json(createNewFoundation);
+
+    const AssignUserFoundation = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        foundation: {
+          connect: {
+            id: createNewFoundation.id,
+          },
+        },
+      },
+    });
+
+    const getIdRoleAdmin = await prisma.role.findFirst({
+      where: {
+        name: "Admin",
+      },
+    });
+
+    const AssignUserDataFoundation = await prisma.userData.create({
+      data: {
+        name: AssignUserFoundation.name,
+        email: AssignUserFoundation.email,
+        userId: AssignUserFoundation?.id,
+        roleId: getIdRoleAdmin?.id,
+        foundationId: createNewFoundation.id,
+      },
+    });
+    return NextResponse.json({ foundation: createNewFoundation, user: AssignUserFoundation, userData: AssignUserDataFoundation });
   } catch (error) {
     return handlePrismaError(error);
   }
@@ -67,6 +98,19 @@ export async function PUT(request: NextRequest) {
       },
     });
     return NextResponse.json(updateFoundation);
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  const { id } = await request.json();
+
+  try {
+    const deleteFoundation = await prisma.foundation.delete({
+      where: id,
+    });
+    return NextResponse.json(deleteFoundation);
   } catch (error) {
     return handlePrismaError(error);
   }

@@ -141,7 +141,7 @@ export default function SignIn() {
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-xs text-gray-500">
-            &copy; {new Date().getFullYear()} Yayasan {process.env.NEXT_PUBLIC_CLIENT_NAME}. All rights reserved.
+            &copy; {new Date().getFullYear()} {process.env.NEXT_PUBLIC_CLIENT_NAME}. All rights reserved.
           </p>
         </div>
       </div>

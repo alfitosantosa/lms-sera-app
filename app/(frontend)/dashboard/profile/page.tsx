@@ -1,69 +1,118 @@
-// app/page.tsx
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
-import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/authClients";
+import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Shield, User, Mail, Phone, MapPin, Calendar, GraduationCap, Building2, Award, CheckCircle, Key, Users, BookOpen, School } from "lucide-react";
-import { useSession } from "@/lib/authClients";
-import { AuthType } from "@/app/(types)/types/auth-types";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 
-const NoUserDataComponent = ({ authUser }: { authUser: AuthType }) => {
-  return (
-    <div className="">
-      <div className="mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Akun Belum Terhubung</CardTitle>
-            <CardDescription>Akun Better Auth Anda belum terhubung dengan sistem sekolah</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {authUser && (
-              <Alert>
-                <Shield className="h-5 w-5" />
-                <AlertTitle>Informasi Akun</AlertTitle>
-                <AlertDescription>
-                  <p>
-                    <strong>Nama:</strong> {authUser.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {authUser.email}
-                  </p>
-                  <p>
-                    <strong>ID:</strong> <code className="bg-muted px-2 py-1 rounded text-xs">{authUser.id}</code>
-                  </p>
-                  <div className="gap-2 flex">
-                    <div>
-                      <Button variant="default" className="mt-2">
-                        <Key />
-                        Sambungkan Akun
-                      </Button>
-                    </div>
-                    <div>
-                      <Button variant="secondary" className="mt-2">
-                        <Key />
-                        Buat yayasan baru
-                      </Button>
-                    </div>
-                  </div>
-                </AlertDescription>
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+// ═══════════════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════════════
+
+type StatCardVariant = "default" | "success" | "warning" | "destructive";
+
+interface InfoItemProps {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: React.ReactNode;
+}
+
+interface StatCardProps {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string | React.ReactNode;
+  variant?: StatCardVariant;
+}
+
+interface DataTableProps {
+  data: Record<string, any>;
+  title: string;
+  description?: string;
+  Icon?: React.ReactNode;
+}
+
+interface DataRowProps {
+  label: string;
+  value: any;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const VARIANT_STYLES: Record<StatCardVariant, string> = {
+  default: "bg-muted",
+  success: "bg-green-50 border-green-200",
+  warning: "bg-yellow-50 border-yellow-200",
+  destructive: "bg-red-50 border-red-200",
 };
 
-const UserProfileSkeleton = () => (
+const DATE_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const isEmpty = (value: any): boolean => {
+  return value === null || value === undefined || value === "N/A" || (typeof value === "string" && value.trim() === "");
+};
+
+const formatDate = (date: string | Date): string => {
+  const dateObj = date instanceof Date ? date : new Date(date);
+  return dateObj.toLocaleString("id-ID", DATE_FORMAT_OPTIONS);
+};
+
+const formatValue = (val: any): React.ReactNode => {
+  if (typeof val === "boolean") {
+    return <Badge variant={val ? "default" : "secondary"}>{val ? "Yes" : "No"}</Badge>;
+  }
+
+  if (val instanceof Date || (typeof val === "string" && val.includes("T"))) {
+    return formatDate(val);
+  }
+
+  if (Array.isArray(val)) {
+    if (val.length === 0) {
+      return <span className="text-muted-foreground text-sm">Empty array</span>;
+    }
+    return (
+      <div className="flex flex-wrap gap-1">
+        {val.map((item, idx) => (
+          <Badge key={idx} variant="outline" className="text-xs">
+            {String(item)}
+          </Badge>
+        ))}
+      </div>
+    );
+  }
+
+  if (typeof val === "object") {
+    return <pre className="text-xs bg-muted p-2 rounded overflow-x-auto max-w-md">{JSON.stringify(val, null, 2)}</pre>;
+  }
+
+  return <span className="font-mono text-sm">{String(val)}</span>;
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMPONENTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const UserProfileSkeleton = ({ message }: { message?: string }) => (
   <div className="min-h-screen py-8 px-4">
     <div className="max-w-7xl mx-auto space-y-6">
+      {message && <div className="text-center text-sm text-muted-foreground mb-4">{message}</div>}
       <Card>
         <CardHeader>
           <Skeleton className="h-8 w-64" />
@@ -88,31 +137,11 @@ const UserProfileSkeleton = () => (
   </div>
 );
 
-const ErrorComponent = ({ error }: { error: any }) => (
-  <div className="min-h-screen py-20 px-4">
-    <div className="max-w-md mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Error Loading Profile</CardTitle>
-          <CardDescription>{error?.message || "Failed to load user data"}</CardDescription>
-        </CardHeader>
-      </Card>
-    </div>
-  </div>
-);
-
-const StatCard = ({ icon: Icon, label, value, variant = "default" }: { icon: any; label: string; value: string | React.ReactNode; variant?: "default" | "success" | "warning" | "destructive" }) => {
-  if (!value || value === "N/A") return null;
-
-  const variantStyles = {
-    default: "bg-muted",
-    success: "bg-green-50 border-green-200",
-    warning: "bg-yellow-50 border-yellow-200",
-    destructive: "bg-red-50 border-red-200",
-  };
+const StatCard = ({ icon: Icon, label, value, variant = "default" }: StatCardProps) => {
+  if (isEmpty(value)) return null;
 
   return (
-    <Card className={variantStyles[variant]}>
+    <Card className={VARIANT_STYLES[variant]}>
       <CardContent className="pt-6">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg bg-background">
@@ -128,8 +157,8 @@ const StatCard = ({ icon: Icon, label, value, variant = "default" }: { icon: any
   );
 };
 
-const InfoItem = ({ icon: Icon, label, value }: { icon: any; label: string; value: React.ReactNode }) => {
-  if (value === null || value === undefined || value === "N/A" || (typeof value === "string" && value.trim() === "")) return null;
+const InfoItem = ({ icon: Icon, label, value }: InfoItemProps) => {
+  if (isEmpty(value)) return null;
 
   return (
     <div className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
@@ -142,38 +171,8 @@ const InfoItem = ({ icon: Icon, label, value }: { icon: any; label: string; valu
   );
 };
 
-const DataRow = ({ label, value }: { label: string; value: any }) => {
-  if (value === null || value === undefined) return null;
-
-  const formatValue = (val: any): React.ReactNode => {
-    if (typeof val === "boolean") return <Badge variant={val ? "default" : "secondary"}>{val ? "Yes" : "No"}</Badge>;
-    if (val instanceof Date || (typeof val === "string" && !isNaN(Date.parse(val)) && val.includes("T"))) {
-      const date = val instanceof Date ? val : new Date(val);
-      return date.toLocaleString("id-ID", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    }
-    if (Array.isArray(val)) {
-      if (val.length === 0) return <span className="text-muted-foreground text-sm">Empty array</span>;
-      return (
-        <div className="flex flex-wrap gap-1">
-          {val.map((item, idx) => (
-            <Badge key={idx} variant="outline" className="text-xs">
-              {String(item)}
-            </Badge>
-          ))}
-        </div>
-      );
-    }
-    if (typeof val === "object") {
-      return <pre className="text-xs bg-muted p-2 rounded overflow-x-auto max-w-md">{JSON.stringify(val, null, 2)}</pre>;
-    }
-    return <span className="font-mono text-sm">{String(val)}</span>;
-  };
+const DataRow = ({ label, value }: DataRowProps) => {
+  if (isEmpty(value)) return null;
 
   return (
     <TableRow>
@@ -183,10 +182,8 @@ const DataRow = ({ label, value }: { label: string; value: any }) => {
   );
 };
 
-const ObjectSection = ({ title, data, description, icon: Icon }: { title: string; data: any; description?: string; icon?: any }) => {
-  if (!data) return null;
-
-  const entries = Object.entries(data).filter(([_, value]) => value !== null && value !== undefined);
+const DataTable = ({ data, title, description, Icon }: DataTableProps) => {
+  const entries = Object.entries(data).filter(([_, value]) => !isEmpty(value));
 
   if (entries.length === 0) return null;
 
@@ -194,7 +191,7 @@ const ObjectSection = ({ title, data, description, icon: Icon }: { title: string
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          {Icon && <Icon className="h-5 w-5" />}
+          {Icon}
           {title}
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
@@ -212,60 +209,222 @@ const ObjectSection = ({ title, data, description, icon: Icon }: { title: string
   );
 };
 
+const UserHeroSection = ({ user }: { user: any }) => (
+  <Card className="border-2 shadow-lg">
+    <CardHeader className="pb-4">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+        {user?.avatarUrl && (
+          <div className="relative">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-background shadow-xl ring-4 ring-primary/20">
+              <Image src={user.avatarUrl} alt={user?.name || "User Avatar"} width={128} height={128} className="w-full h-full object-cover" priority />
+            </div>
+            {user?.isActive && (
+              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center">
+                <CheckCircle className="h-4 w-4 text-white" />
+              </div>
+            )}
+          </div>
+        )}
+        <div className="flex-1 text-center md:text-left">
+          <CardTitle className="text-3xl md:text-4xl mb-2">{user?.name || "User"}</CardTitle>
+          <CardDescription className="text-lg mb-4">{user?.email}</CardDescription>
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            {user?.role?.name && (
+              <Badge variant="default" className="text-sm px-3 py-1">
+                <Shield className="h-3 w-3 mr-1" />
+                {user.role.name}
+              </Badge>
+            )}
+            {user?.isActive !== undefined && (
+              <Badge variant={user.isActive ? "default" : "destructive"} className="text-sm px-3 py-1">
+                {user.isActive ? "Active" : "Inactive"}
+              </Badge>
+            )}
+          </div>
+        </div>
+      </div>
+    </CardHeader>
+  </Card>
+);
+
+const PersonalInformationCard = ({ data }: { data: any }) => (
+  <Card>
+    <CardHeader>
+      <CardTitle className="flex items-center gap-2">
+        <User className="h-5 w-5" />
+        Personal Information
+      </CardTitle>
+      <CardDescription>Basic personal details and contact information</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <InfoItem icon={Mail} label="Email" value={data.email} />
+        <InfoItem icon={Phone} label="Parent Phone" value={data.parentPhone} />
+        <InfoItem icon={MapPin} label="Address" value={data.address} />
+        <InfoItem icon={Calendar} label="Birth Date" value={data.birthDate ? formatDate(data.birthDate) : null} />
+        <InfoItem icon={MapPin} label="Birth Place" value={data.birthPlace} />
+        <InfoItem icon={User} label="Gender" value={data.gender} />
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const AcademicInformationCard = ({ data }: { data: any }) => (
+  <Card>
+    <CardHeader>
+      <CardTitle className="flex items-center gap-2">
+        <GraduationCap className="h-5 w-5" />
+        Academic Information
+      </CardTitle>
+      <CardDescription>Academic details and enrollment information</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <InfoItem icon={Key} label="NIK" value={data.nik} />
+        <InfoItem icon={Key} label="NISN" value={data.nisn} />
+        <InfoItem icon={Calendar} label="Enrollment Date" value={data.enrollmentDate ? formatDate(data.enrollmentDate) : null} />
+        <InfoItem icon={Calendar} label="Start Date" value={data.startDate ? formatDate(data.startDate) : null} />
+        <InfoItem icon={Calendar} label="End Date" value={data.endDate ? formatDate(data.endDate) : null} />
+        <InfoItem icon={Calendar} label="Graduation Date" value={data.graduationDate ? formatDate(data.graduationDate) : null} />
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const ProfessionalInformationCard = ({ data }: { data: any }) => {
+  if (!data.employeeId && !data.position && !data.relation) return null;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Building2 className="h-5 w-5" />
+          Professional Information
+        </CardTitle>
+        <CardDescription>Work-related details</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <InfoItem icon={Key} label="Employee ID" value={data.employeeId} />
+          <InfoItem icon={Award} label="Position" value={data.position} />
+          <InfoItem icon={Users} label="Relation" value={data.relation} />
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════
+
 export default function Home() {
   const { data: session } = useSession();
-  const { data: user, isPending: userLoading } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
+  const [isSessionReady, setIsSessionReady] = React.useState(false);
+  const { data: user, isPending: userLoading, isError: userError } = useGetUserByIdBetterAuthProfile(session?.user?.id ?? "");
+  const router = useRouter();
+  const [redirecting, setRedirecting] = React.useState(false);
 
-  if (userLoading) return <UserProfileSkeleton />;
-  if (!user || !user.id) return <NoUserDataComponent authUser={session?.user as AuthType} />;
+  console.log("Session:", session);
+  console.log("User data:", user);
+  console.log("User loading:", userLoading);
+  console.log("User error:", userError);
+
+  // Mark session as ready after first render with small delay
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSessionReady(true);
+    }, 100); // Small delay to ensure session is properly loaded
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Redirect logic - only redirect after data is fully loaded and confirmed missing
+  React.useEffect(() => {
+    // Prevent multiple redirects
+    if (redirecting) return;
+
+    // Wait for session to be ready
+    if (!isSessionReady) {
+      console.log("Session not ready yet...");
+      return;
+    }
+
+    // If no session after it's ready, redirect to sign-in
+    // if (!session?.user?.id) {
+    //   console.log("No session found, redirecting to sign-in");
+    //   setRedirecting(true);
+    //   router.push("/auth/sign-in");
+    //   return;
+    // }
+
+    // Wait for user data to finish loading
+    if (userLoading) {
+      console.log("User data still loading...");
+      return;
+    }
+
+    // If there was an error loading user data, redirect to foundation registration
+
+    const getFoundationFromUserData = user?.foundation;
+    if (!getFoundationFromUserData) {
+      console.log("User data error:", userError);
+      setRedirecting(true);
+      router.push("/landing/register/foundation");
+      return;
+    }
+
+    // If user data loaded successfully but no foundationId, redirect to foundation registration
+    if (user && !user.foundationId) {
+      console.log("User has no foundationId, redirecting to foundation registration");
+      setRedirecting(true);
+      router.push("/landing/register/foundation");
+      return;
+    }
+
+    console.log("All checks passed, showing profile");
+  }, [isSessionReady, session, user, userLoading, userError, router, redirecting]);
+
+  // Show loading while session is not ready, user data is loading, or redirecting
+  if (!isSessionReady) {
+    return <UserProfileSkeleton message="Initializing session..." />;
+  }
+
+  if (userLoading) {
+    return <UserProfileSkeleton message="Loading profile data..." />;
+  }
+
+  if (redirecting) {
+    return <UserProfileSkeleton message="Redirecting..." />;
+  }
+
+  // Show loading if no session (will redirect via useEffect)
+  if (!session?.user?.id) {
+    return <UserProfileSkeleton message="Authentication required..." />;
+  }
+
+  // Show loading if user data failed to load (will redirect via useEffect)
+  if (userError) {
+    return <UserProfileSkeleton message="Setting up your account..." />;
+  }
+
+  // Show loading if user is null (shouldn't happen if no error and not loading)
+  if (!user) {
+    return <UserProfileSkeleton message="Loading user data..." />;
+  }
+
+  // If user exists but no foundationId, show skeleton while redirecting
+  if (!user.foundationId) {
+    return <UserProfileSkeleton message="Setting up foundation..." />;
+  }
 
   // Extract nested objects
-  const { class: classData, major, academicYear, role, user: userData, ...mainData } = user;
+  const { class: classData, major, academicYear, role, ...mainData } = user;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background to-muted/20 py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Hero Section */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="pb-4">
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-              {user?.avatarUrl && (
-                <div className="relative">
-                  <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-background shadow-xl ring-4 ring-primary/20">
-                    <Image src={user.avatarUrl} alt={user?.name || "User Avatar"} width={128} height={128} className="w-full h-full object-cover" priority />
-                  </div>
-                  {user?.isActive && (
-                    <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center">
-                      <CheckCircle className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="flex-1 text-center md:text-left">
-                <CardTitle className="text-3xl md:text-4xl mb-2">{user?.name || "User"}</CardTitle>
-                <CardDescription className="text-lg mb-4">{user?.email}</CardDescription>
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  {user?.role?.name && (
-                    <Badge variant="default" className="text-sm px-3 py-1">
-                      <Shield className="h-3 w-3 mr-1" />
-                      {user.role.name}
-                    </Badge>
-                  )}
-                  {/* {user?.status && (
-                    <Badge variant={user.status === "active" ? "default" : "secondary"} className="text-sm px-3 py-1">
-                      {user.status}
-                    </Badge>
-                  )} */}
-                  {user?.isActive !== undefined && (
-                    <Badge variant={user.isActive ? "default" : "destructive"} className="text-sm px-3 py-1">
-                      {user.isActive ? "Active" : "Inactive"}
-                    </Badge>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+        <UserHeroSection user={user} />
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -276,102 +435,13 @@ export default function Home() {
         </div>
 
         {/* Personal Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
-              Personal Information
-            </CardTitle>
-            <CardDescription>Basic personal details and contact information</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <InfoItem icon={Mail} label="Email" value={mainData.email} />
-              <InfoItem icon={Phone} label="Parent Phone" value={mainData.parentPhone} />
-              <InfoItem icon={MapPin} label="Address" value={mainData.address} />
-              <InfoItem icon={Calendar} label="Birth Date" value={mainData.birthDate ? new Date(mainData.birthDate).toLocaleDateString("id-ID") : null} />
-              <InfoItem icon={MapPin} label="Birth Place" value={mainData.birthPlace} />
-              <InfoItem icon={User} label="Gender" value={mainData.gender} />
-            </div>
-          </CardContent>
-        </Card>
+        <PersonalInformationCard data={mainData} />
 
         {/* Academic Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <GraduationCap className="h-5 w-5" />
-              Academic Information
-            </CardTitle>
-            <CardDescription>Academic details and enrollment information</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <InfoItem icon={Key} label="NIK" value={mainData.nik} />
-              <InfoItem icon={Key} label="NISN" value={mainData.nisn} />
-              <InfoItem icon={Calendar} label="Enrollment Date" value={mainData.enrollmentDate ? new Date(mainData.enrollmentDate).toLocaleDateString("id-ID") : null} />
-              <InfoItem icon={Calendar} label="Start Date" value={mainData.startDate ? new Date(mainData.startDate).toLocaleDateString("id-ID") : null} />
-              <InfoItem icon={Calendar} label="End Date" value={mainData.endDate ? new Date(mainData.endDate).toLocaleDateString("id-ID") : null} />
-              <InfoItem icon={Calendar} label="Graduation Date" value={mainData.graduationDate ? new Date(mainData.graduationDate).toLocaleDateString("id-ID") : null} />
-            </div>
-          </CardContent>
-        </Card>
+        <AcademicInformationCard data={mainData} />
 
         {/* Professional Information */}
-        {(mainData.employeeId || mainData.position || mainData.relation) && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5" />
-                Professional Information
-              </CardTitle>
-              <CardDescription>Work-related details</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <InfoItem icon={Key} label="Employee ID" value={mainData.employeeId} />
-                <InfoItem icon={Award} label="Position" value={mainData.position} />
-                <InfoItem icon={Users} label="Relation" value={mainData.relation} />
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* System Information */}
-        {/* <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              System Information
-            </CardTitle>
-            <CardDescription>System IDs and metadata</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableBody>
-                <DataRow label="ID" value={mainData.id} />
-                <DataRow label="User ID" value={mainData.userId} />
-                <DataRow label="Academic Year ID" value={mainData.academicYearId} />
-                <DataRow label="Class ID" value={mainData.classId} />
-                <DataRow label="Major ID" value={mainData.majorId} />
-                <DataRow label="Role ID" value={mainData.roleId} />
-                <DataRow label="Avatar URL" value={mainData.avatarUrl} />
-                <DataRow label="Student IDs" value={mainData.studentIds} />
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card> */}
-
-        {/* Detailed Sections */}
-        {/* <div className="grid md:grid-cols-2 gap-6">
-          <ObjectSection title="Class Details" data={classData} description="Complete class information" icon={School} />
-          <ObjectSection title="Major Details" data={major} description="Complete major information" icon={BookOpen} />
-          <ObjectSection title="Academic Year Details" data={academicYear} description="Academic year information" icon={Calendar} />
-          <ObjectSection title="Role & Permissions" data={role} description="Role details and permissions" icon={Shield} />
-        </div> */}
-
-        {/* Better Auth User */}
-        {/* <ObjectSection title="Better Auth User" data={userData} description="Better Auth user information" icon={User} /> */}
+        <ProfessionalInformationCard data={mainData} />
       </div>
     </div>
   );

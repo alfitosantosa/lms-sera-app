@@ -19,6 +19,7 @@ phone          String
 userData       UserData[]
 major          Major[]
 user           User[]
+@@map("foundation")
 }
 
 model User {
