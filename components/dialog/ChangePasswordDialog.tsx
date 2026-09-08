@@ -1,6 +1,6 @@
 "use client";
 
-import { getErrorMessage } from "@/app/(types)";
+import { getErrorMessage } from "@/app/(frontend)/(types)";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";

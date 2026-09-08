@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { signOut, useSession } from "@/lib/authClients";
 import Logo from "@/public/Logo.svg";
 import { LogOut, User } from "lucide-react";

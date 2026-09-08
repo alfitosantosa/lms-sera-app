@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "app/(frontend)/dashboard/roles/page.tsx.old", "next.config.ts.old", "app/layout.old.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "app/(frontend)/(dashboard)/dashboard/roles/page.tsx.old", "next.config.ts.old", "app/layout.old.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import {
   Sidebar,
   SidebarContent,

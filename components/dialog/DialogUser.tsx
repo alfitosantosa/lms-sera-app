@@ -1,14 +1,14 @@
 "use client";
 
-import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
-import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
-import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
-import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
-import { useBulkDeleteUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
-import { useCreateUser, useDeleteUser, useGetUsers, useUpdateUser } from "@/app/(hooks)/hooks/Users/useUsers";
-import { getErrorMessage, SelectOption, tahfidzGroupTypes } from "@/app/(types)";
+import { useGetAcademicYears } from "@/app/(frontend)/(hooks)/hooks/AcademicYears/useAcademicYear";
+import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
+import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
+import { useGetRoles } from "@/app/(frontend)/(hooks)/hooks/Roles/useRoles";
+import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
+import { useGetBetterAuthWithoutUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
+import { useBulkDeleteUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBulkUsersData";
+import { useCreateUser, useDeleteUser, useGetUsers, useUpdateUser } from "@/app/(frontend)/(hooks)/hooks/Users/useUsers";
+import { getErrorMessage, SelectOption, tahfidzGroupTypes } from "@/app/(frontend)/(types)";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
