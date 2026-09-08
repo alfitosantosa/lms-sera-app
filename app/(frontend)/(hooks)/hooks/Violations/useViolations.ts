@@ -1,4 +1,4 @@
-import { ViolationInput, ViolationTypes } from "@/app/(frontend)/(types)";
+import { ViolationInput, ViolationTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

@@ -2,7 +2,7 @@
 
 import { useCreateMajor, useDeleteMajor, useGetMajors, useUpdateMajor } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { getErrorMessage, majorTypes } from "@/app/(frontend)/(types)";
+import { getErrorMessage, majorTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

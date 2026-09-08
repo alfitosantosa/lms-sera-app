@@ -13,7 +13,7 @@
 // }
 
 import { ScheduleTypes } from "./schedule-types";
-import { UserDataTypes } from "./userData";
+import { UserDataTypes } from "./userData-types";
 
 export type attendanceTypes = {
   id: string;

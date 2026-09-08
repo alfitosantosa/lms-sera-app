@@ -3,7 +3,7 @@
 import { useCreateAccountBank, useDeleteAccountBank, useGetAccountBank, useUpdateAccountBank } from "@/app/(frontend)/(hooks)/hooks/AccountBank/useAccountBank";
 import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AccountBankTypes } from "@/app/(frontend)/(types)/types/accountbank-types";
+import { AccountBankTypes } from "@/app/(types)/types/accountbank-types";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";

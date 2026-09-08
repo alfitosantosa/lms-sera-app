@@ -7,7 +7,7 @@ import { useGetSubjects } from "@/app/(frontend)/(hooks)/hooks/Subjects/useSubje
 import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetTeachers } from "@/app/(frontend)/(hooks)/hooks/Users/useTeachers";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearTypes, ClassDataTypes } from "@/app/(frontend)/(types)";
+import { AcademicYearTypes, ClassDataTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

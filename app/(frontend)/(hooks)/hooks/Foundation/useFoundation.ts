@@ -1,7 +1,7 @@
 "use client";
 
 import { FoundationFormData } from "@/app/(frontend)/(landing)/landing/register/foundation/page";
-import { foundationTypes, FoundationWithCounts, FoundationCreateResponse, FoundationUpdateResponse } from "@/app/(frontend)/(types)/types/foundation-types";
+import { foundationTypes, FoundationWithCounts, FoundationCreateResponse, FoundationUpdateResponse, FoundationAssignUserTypes } from "@/app/(types)/types/foundation-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -107,6 +107,21 @@ export const useDeleteFoundation = () => {
       toast.success("Foundation deleted successfully!");
     },
 
+    onError: (error) => {
+      errorHandlerFrontend(error);
+    },
+  });
+};
+
+export const useFoundationAssignUser = () => {
+  return useMutation({
+    mutationFn: async (data: FoundationAssignUserTypes) => {
+      const response = await apiPost("/api/foundation/assign", data);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("Berhasil Masuk Menggunakan Code Yayasan");
+    },
     onError: (error) => {
       errorHandlerFrontend(error);
     },

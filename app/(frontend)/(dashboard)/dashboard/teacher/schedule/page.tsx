@@ -3,7 +3,7 @@
 import { useAttendanceIsSubmitted } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendanceIsSubmitted";
 import { useGetScheduleByIdAcademicYearActive } from "@/app/(frontend)/(hooks)/hooks/Schedules/useGetScheduleById";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { ScheduleTypes } from "@/app/(frontend)/(types)";
+import { ScheduleTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";

@@ -7,7 +7,7 @@ import { usePaymentsByDate } from "@/app/(frontend)/(hooks)/hooks/Payments/usePa
 import { usePaymentItemsSetPaid, usePaymentItemsUnpaidStudent } from "@/app/(frontend)/(hooks)/hooks/Payments/usePaymentItems";
 import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AccountBankTypes, PaymentData, PaymentItemData, UserDataTypes } from "@/app/(frontend)/(types)";
+import { AccountBankTypes, PaymentData, PaymentItemData, UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import { DatePickerTime } from "@/components/date/datePickerTime";
 import Loading from "@/components/loading";

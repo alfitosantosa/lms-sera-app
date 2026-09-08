@@ -9,7 +9,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
-import { Shield, User, Mail, Phone, MapPin, Calendar, GraduationCap, Building2, Award, CheckCircle, Key, Users, BookOpen, School } from "lucide-react";
+import { Shield, User, Mail, Phone, MapPin, Calendar, GraduationCap, Building2, Award, CheckCircle, Key, Users, BookOpen, School, AlertCircle, UserPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -108,6 +110,154 @@ const formatValue = (val: any): React.ReactNode => {
 // ═══════════════════════════════════════════════════════════════════════════
 // COMPONENTS
 // ═══════════════════════════════════════════════════════════════════════════
+
+// Empty Profile State - When userData doesn't exist
+interface EmptyProfileStateProps {
+  session: any;
+}
+
+const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
+      <div className="max-w-2xl mx-auto space-y-6">
+        {/* Hero Card with Session Info */}
+        <Card className="shadow-xl border-2">
+          <CardHeader className="text-center pb-4">
+            <div className="flex flex-col items-center space-y-4">
+              {/* Profile Photo */}
+              <div className="relative">
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                  {session?.user?.image ?
+                    <Image src={session.user.image} alt={session.user.name || "Profile"} width={128} height={128} className="object-cover w-full h-full" />
+                  : <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                      <User className="h-16 w-16 text-muted-foreground" />
+                    </div>
+                  }
+                </div>
+                {/* Status Badge */}
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                  <Badge variant="secondary" className="shadow-md">
+                    <AlertCircle className="h-3 w-3 mr-1" />
+                    Belum Terdaftar
+                  </Badge>
+                </div>
+              </div>
+
+              {/* User Info */}
+              <div className="space-y-2">
+                <CardTitle className="text-2xl">{session?.user?.name || "Pengguna Baru"}</CardTitle>
+                <CardDescription className="flex items-center justify-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  {session?.user?.email || "Tidak ada email"}
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {/* Info Alert */}
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Akun Belum Terdaftar</AlertTitle>
+              <AlertDescription>Anda sudah login, tetapi belum terdaftar di yayasan manapun. Silakan hubungi administrator atau daftar ke yayasan untuk melengkapi profil Anda.</AlertDescription>
+            </Alert>
+
+            {/* Session Details Card */}
+            <Card className="bg-muted/50">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Key className="h-4 w-4" />
+                  Informasi Session
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <User className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground">Nama</p>
+                    <p className="text-sm font-medium">{session?.user?.name || "Tidak tersedia"}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Mail className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground">Email</p>
+                    <p className="text-sm font-medium break-all">{session?.user?.email || "Tidak tersedia"}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Key className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground">User ID</p>
+                    <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded">{session?.user?.id || "Tidak tersedia"}</p>
+                  </div>
+                </div>
+
+                {session?.user?.emailVerified && (
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Status Email</p>
+                      <Badge variant="default" className="bg-green-500 text-xs">
+                        Terverifikasi
+                      </Badge>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Action Buttons */}
+            {/* <div className="flex flex-col gap-3 pt-4">
+              <Button size="lg" className="w-full" onClick={() => router.push("/landing/register/foundation")}>
+                <UserPlus className="h-5 w-5 mr-2" />
+                Daftar ke Yayasan
+              </Button>
+
+              <Button size="lg" variant="outline" className="w-full" onClick={() => router.push("/dashboard")}>
+                <Building2 className="h-5 w-5 mr-2" />
+                Kembali ke Dashboard
+              </Button>
+            </div> */}
+
+            {/* Help Text */}
+            <div className="text-center pt-4 border-t">
+              <p className="text-sm text-muted-foreground">
+                Butuh bantuan?{" "}
+                <a href="mailto:santosatechid@gmail.com" className="text-primary hover:underline">
+                  Hubungi Administrator
+                </a>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Additional Info Card */}
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="pt-6">
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                  <AlertCircle className="h-6 w-6 text-blue-600" />
+                </div>
+              </div>
+              <div className="flex-1 space-y-2">
+                <h3 className="font-semibold text-blue-900">Langkah Selanjutnya</h3>
+                <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                  <li>Daftar ke yayasan dengan kode yayasan yang valid</li>
+                  <li>Atau hubungi administrator untuk pendaftaran manual</li>
+                  <li>Setelah terdaftar, profil lengkap Anda akan muncul</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
 
 const UserProfileSkeleton = ({ message }: { message?: string }) => (
   <div className="min-h-screen py-8 px-4">
@@ -325,11 +475,6 @@ export default function Home() {
   const router = useRouter();
   const [redirecting, setRedirecting] = React.useState(false);
 
-  console.log("Session:", session);
-  console.log("User data:", user);
-  console.log("User loading:", userLoading);
-  console.log("User error:", userError);
-
   // Mark session as ready after first render with small delay
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -338,7 +483,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Redirect logic - only redirect after data is fully loaded and confirmed missing
+  // Redirect logic - only redirect if no session (not authenticated)
   React.useEffect(() => {
     // Prevent multiple redirects
     if (redirecting) return;
@@ -350,12 +495,12 @@ export default function Home() {
     }
 
     // If no session after it's ready, redirect to sign-in
-    // if (!session?.user?.id) {
-    //   console.log("No session found, redirecting to sign-in");
-    //   setRedirecting(true);
-    //   router.push("/auth/sign-in");
-    //   return;
-    // }
+    if (!session?.user?.id) {
+      console.log("No session found, redirecting to sign-in");
+      setRedirecting(true);
+      router.push("/auth/sign-in");
+      return;
+    }
 
     // Wait for user data to finish loading
     if (userLoading) {
@@ -363,32 +508,10 @@ export default function Home() {
       return;
     }
 
-    // If there was an error loading user data, redirect to foundation registration
-
-    // setTimeout(() => {
-    //   const getFoundationFromUserData = user?.foundation;
-    //   if (!getFoundationFromUserData) {
-    //     console.log("User data error:", userError);
-    //     setRedirecting(true);
-    //     router.push("/landing/register/foundation");
-    //     return;
-    //   }
-    // }, 10000);
-
-    // If user data loaded successfully but no foundationId, redirect to foundation registration
-    const getFoundationFromUserData = user?.foundation;
-    if (!getFoundationFromUserData) {
-      console.log("User has no foundation data, redirecting to foundation registration");
-      setRedirecting(true);
-      // Add a small delay to prevent immediate redirect loops
-      setTimeout(() => {
-        router.push("/landing/register/foundation");
-      }, 1000);
-      return;
-    }
-
-    console.log("All checks passed, showing profile");
-  }, [isSessionReady, session, user, userLoading, userError, router, redirecting]);
+    // Don't auto-redirect if userData doesn't exist
+    // We'll show EmptyProfileState instead
+    console.log("All checks passed, showing profile or empty state");
+  }, [isSessionReady, session, userLoading, router, redirecting]);
 
   // Show loading while session is not ready, user data is loading, or redirecting
   if (!isSessionReady) {
@@ -415,12 +538,16 @@ export default function Home() {
 
   // Show loading if user is null (shouldn't happen if no error and not loading)
   if (!user) {
+    // If we have session but no user data, show EmptyProfileState
+    if (session?.user?.id) {
+      return <EmptyProfileState session={session} />;
+    }
     return <UserProfileSkeleton message="Loading user data..." />;
   }
 
-  // If user exists but no foundation, show skeleton while redirecting
+  // If user exists but no foundation, show EmptyProfileState
   if (!user.foundation) {
-    return <UserProfileSkeleton message="Setting up foundation..." />;
+    return <EmptyProfileState session={session} />;
   }
 
   // Extract nested objects

@@ -1,6 +1,6 @@
 "use client";
 
-import { attendanceTypes } from "@/app/(frontend)/(types)/types/attendance-types";
+import { attendanceTypes } from "@/app/(types)/types/attendance-types";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

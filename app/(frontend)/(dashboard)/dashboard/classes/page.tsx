@@ -4,9 +4,9 @@ import { useGetAcademicYears } from "@/app/(frontend)/(hooks)/hooks/AcademicYear
 import { useCreateClass, useDeleteClass, useGetClasses, useUpdateClass } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
 import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearDataTypes } from "@/app/(frontend)/(types)/types/academicyear-types";
-import { ClassDataTypes, ClassFormValues, classSchemaForm } from "@/app/(frontend)/(types)/types/class-types";
-import { MajorDataTypes } from "@/app/(frontend)/(types)/types/majors-types";
+import { AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
+import { ClassDataTypes, ClassFormValues, classSchemaForm } from "@/app/(types)/types/class-types";
+import { MajorDataTypes } from "@/app/(types)/types/majors-types";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

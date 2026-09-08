@@ -1,4 +1,4 @@
-import { attendanceTypes } from "@/app/(frontend)/(types)/types/attendance-types";
+import { attendanceTypes } from "@/app/(types)/types/attendance-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

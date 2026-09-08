@@ -5,7 +5,7 @@ import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/
 import { useGetBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useBetterAuth";
 import { useGetStudentByIdMajor } from "@/app/(frontend)/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { majorTypes } from "@/app/(frontend)/(types)";
+import { majorTypes } from "@/app/(types)";
 import { BetterAuthUser, DeleteUserBulkDialog, DeleteUserDialog, UserData } from "@/components/dialog/DialogUser";
 import { StudentFormDialog } from "@/components/dialog/DialogUserBendahara";
 import Loading from "@/components/loading";

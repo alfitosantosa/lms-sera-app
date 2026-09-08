@@ -1,5 +1,5 @@
 "use client";
-import { ScheduleTypes } from "@/app/(frontend)/(types)";
+import { ScheduleTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

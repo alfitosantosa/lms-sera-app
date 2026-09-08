@@ -4,7 +4,7 @@ import { useClassByIdUser } from "@/app/(frontend)/(hooks)/hooks/Classes/useClas
 import { useGetSchedulesByIdClass } from "@/app/(frontend)/(hooks)/hooks/Schedules/useScheduleByIdClass";
 import { useGetStudentById } from "@/app/(frontend)/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { ScheduleTypes } from "@/app/(frontend)/(types)/types/schedule-types";
+import { ScheduleTypes } from "@/app/(types)/types/schedule-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";

@@ -8,7 +8,7 @@ import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/
 import { useGetBetterAuthWithoutUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
 import { useBulkDeleteUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBulkUsersData";
 import { useCreateUser, useDeleteUser, useGetUsers, useUpdateUser } from "@/app/(frontend)/(hooks)/hooks/Users/useUsers";
-import { getErrorMessage, SelectOption, tahfidzGroupTypes } from "@/app/(frontend)/(types)";
+import { getErrorMessage, SelectOption, tahfidzGroupTypes } from "@/app/(types)";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

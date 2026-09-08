@@ -1,6 +1,6 @@
 "use client";
 
-import type { BulkTeacherAttendanceInput, CreateTeacherAttendanceInput, TeacherAttendanceRecord, TeacherAttendanceReport, UpdateTeacherAttendanceInput } from "@/app/(frontend)/(types)/types/teacher-attendance-types";
+import type { BulkTeacherAttendanceInput, CreateTeacherAttendanceInput, TeacherAttendanceRecord, TeacherAttendanceReport, UpdateTeacherAttendanceInput } from "@/app/(types)/types/teacher-attendance-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

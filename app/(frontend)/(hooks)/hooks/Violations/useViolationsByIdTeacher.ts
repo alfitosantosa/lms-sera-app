@@ -1,6 +1,6 @@
 "use client";
 
-import { ViolationTypes } from "@/app/(frontend)/(types)";
+import { ViolationTypes } from "@/app/(types)";
 // app/api/violations/student/[id]/route.ts
 
 import { apiGet } from "@/lib/apiClients";

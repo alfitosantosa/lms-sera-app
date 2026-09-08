@@ -1,5 +1,5 @@
 // Central export for all types
-export * from "./types/userData";
+export * from "./types/userData-types";
 export * from "./types/payment-types";
 export * from "./types/payment-items-types";
 export * from "./types/accountbank-types";

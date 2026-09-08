@@ -2,7 +2,7 @@
 
 import { useCreateRole, useDeleteRole, useGetRoles, useUpdateRole } from "@/app/(frontend)/(hooks)/hooks/Roles/useRoles";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { RoleDataTypes, RolesInputData } from "@/app/(frontend)/(types)";
+import { RoleDataTypes, RolesInputData } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

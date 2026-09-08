@@ -2,7 +2,7 @@
 
 import { useCreateTahfidzGroup, useDeleteTahfidzGroup, useGetTahfidzGroup, useUpdateTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { getErrorMessage, TahfidzGrade, TahfidzGradesArray } from "@/app/(frontend)/(types)";
+import { getErrorMessage, TahfidzGrade, TahfidzGradesArray } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

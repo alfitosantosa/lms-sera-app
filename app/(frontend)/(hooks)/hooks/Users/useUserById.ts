@@ -1,6 +1,6 @@
 "use client";
 
-import { UserDataTypes } from "@/app/(frontend)/(types)";
+import { UserDataTypes } from "@/app/(types)";
 // app/api/users/route.ts
 
 import { apiGet } from "@/lib/apiClients";

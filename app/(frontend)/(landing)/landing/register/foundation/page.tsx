@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,12 +20,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 // Hooks
-import { useCreateFoundation } from "@/app/(frontend)/(hooks)/hooks/Foundation/useFoundation";
+import { useCreateFoundation, useFoundationAssignUser } from "@/app/(frontend)/(hooks)/hooks/Foundation/useFoundation";
 import { useGetUserByIdBetterAuthProfile } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 
-// Form Schema
+// Form Schema untuk Daftarkan Yayasan
 const foundationSchema = z.object({
   name: z.string().min(3, "Nama yayasan minimal 3 karakter").max(100, "Nama yayasan maksimal 100 karakter"),
   foundationCode: z
@@ -43,13 +46,28 @@ const foundationSchema = z.object({
   userId: z.string().optional(),
 });
 
+// Form Schema untuk Masuk dengan Code Yayasan
+const foundationCodeSchema = z.object({
+  foundationCode: z
+    .string()
+    .min(3, "Code yayasan minimal 3 karakter")
+    .max(30, "Code yayasan maksimal 30 karakter")
+    .regex(/^[A-Z0-9_-]+$/, "Code hanya boleh huruf besar, angka, underscore, dan strip")
+    .refine((code) => code.includes("_"), {
+      message: "Format code yayasan tidak valid. Contoh: YAYASAN_NUSANTARA_A7B9",
+    }),
+});
+
 export type FoundationFormData = z.infer<typeof foundationSchema>;
+export type FoundationCodeFormData = z.infer<typeof foundationCodeSchema>;
 
 export default function RegisterFoundation() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [uploadingImage, setUploadingImage] = React.useState(false);
+  const [isJoining, setIsJoining] = React.useState(false);
   const createFoundationMutation = useCreateFoundation();
+  const foundationAssignUserMutation = useFoundationAssignUser();
   const session = useSession();
   const userId = session.data?.user.id;
 
@@ -117,6 +135,7 @@ export default function RegisterFoundation() {
     return code;
   };
 
+  // Form untuk Daftarkan Yayasan
   const form = useForm<FoundationFormData>({
     resolver: zodResolver(foundationSchema),
     defaultValues: {
@@ -125,7 +144,15 @@ export default function RegisterFoundation() {
       address: "",
       phone: "",
       imageUrl: "",
-      userId: userId,
+      userId: userId || "",
+    },
+  });
+
+  // Form untuk Masuk dengan Code Yayasan
+  const codeForm = useForm<FoundationCodeFormData>({
+    resolver: zodResolver(foundationCodeSchema),
+    defaultValues: {
+      foundationCode: "",
     },
   });
 
@@ -160,11 +187,28 @@ export default function RegisterFoundation() {
     return () => subscription.unsubscribe();
   }, [form]);
 
+  // Update userId in form when session is available
+  React.useEffect(() => {
+    if (userId) {
+      form.setValue("userId", userId);
+    }
+  }, [userId, form]);
+
   const onSubmit = async (data: FoundationFormData) => {
+    if (!userId) {
+      toast.error("User ID tidak tersedia. Silakan login kembali.");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
+      // Ensure userId is included in the data
+      const dataWithUserId = { ...data, userId };
+
+      console.log(dataWithUserId);
+
       // Create foundation and wait for completion
-      const result = await createFoundationMutation.mutateAsync(data);
+      const result = await createFoundationMutation.mutateAsync(dataWithUserId);
       console.log("🎉 Foundation created successfully:", result);
 
       // Show success message
@@ -185,10 +229,36 @@ export default function RegisterFoundation() {
     }
   };
 
+  const handleInputCodeFoundation = async (data: FoundationCodeFormData) => {
+    if (!userId) {
+      toast.error("User ID tidak tersedia. Silakan login kembali.");
+      router.push("/auth/sign-in");
+      return;
+    }
+
+    setIsJoining(true);
+    try {
+      // Use the mutation defined at component level (not inside this function!)
+      await foundationAssignUserMutation.mutateAsync({
+        userId: userId,
+        foundationCode: data.foundationCode,
+      });
+
+      // Success handling is done in the mutation's onSuccess
+      router.push("/dashboard/profile");
+      console.log("🎉 Successfully joined foundation with code:", data.foundationCode);
+    } catch (error) {
+      console.error("❌ Error joining foundation:", error);
+      // Error handling is done in the mutation's onError
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen">
       {/* Header with Breadcrumb */}
-      <div className="border-b bg-white/80 backdrop-blur-sm">
+      <div className="sticky top-0 border-b bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
             <BreadcrumbList>
@@ -209,10 +279,10 @@ export default function RegisterFoundation() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto w-full max-w-2xl">
           {/* Header Section */}
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ">
               <Building2 className="h-8 w-8 text-blue-600" />
             </div>
             <h1 className="mb-2 text-3xl font-bold tracking-tight">Daftarkan Yayasan</h1>
@@ -223,168 +293,278 @@ export default function RegisterFoundation() {
             </Badge>
           </div>
 
-          {/* Form Card */}
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5" />
-                Informasi Yayasan
-              </CardTitle>
-              <CardDescription>Masukkan detail yayasan yang akan menggunakan sistem ini</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  {/* Foundation Name */}
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <Building2 className="h-4 w-4" />
-                          Nama Yayasan *
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="contoh: Yayasan Pendidikan Nusantara" className="h-11" {...field} />
-                        </FormControl>
-                        <FormDescription>Nama lengkap yayasan yang akan terdaftar di sistem</FormDescription>
-                        <FormMessage />
-                      </FormItem>
+          {/* User Info Section */}
+          {session.data?.user && (
+            <div className="mb-6">
+              <Card className="bg-muted/50">
+                <CardContent className="">
+                  <div className="flex items-center gap-3">
+                    {session.data.user.image && (
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-background shadow-sm">
+                        <Image
+                          src={session.data.user.image}
+                          alt={session.data.user.name || "User Avatar"}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </div>
                     )}
-                  />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Mendaftar sebagai:</p>
+                      <p className="text-lg font-semibold">{session.data.user.name}</p>
+                      <p className="text-sm text-muted-foreground">{session.data.user.email}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
-                  {/* Foundation Code */}
-                  <FormField
-                    control={form.control}
-                    name="foundationCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <Hash className="h-4 w-4" />
-                          Kode Yayasan *
-                          <Badge variant="outline" className="ml-auto text-xs font-normal">
-                            Auto-generated
-                          </Badge>
-                        </FormLabel>
-                        <FormControl>
-                          <Input disabled={true} placeholder="YAYASAN_NUSANTARA_A7B9" className="h-11 font-mono bg-muted cursor-not-allowed" {...field} />
-                        </FormControl>
-                        <FormDescription>Kode unik untuk identifikasi yayasan (dibuat otomatis dari nama + kode random)</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+          <div>
+            <Tabs defaultValue="register" className="w-full">
+              <TabsList className="w-full">
+                <TabsTrigger value="register" className="flex-1">
+                  Daftarkan Yayasan
+                </TabsTrigger>
+                <TabsTrigger value="inputID" className="flex-1">
+                  Masuk Dengan Code Yayasan
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="register">
+                {" "}
+                {/* Form Card */}
+                <Card className="shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Building2 className="h-5 w-5" />
+                      Informasi Yayasan
+                    </CardTitle>
+                    <CardDescription>Masukkan detail yayasan yang akan menggunakan sistem ini</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        {/* Foundation Name */}
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Building2 className="h-4 w-4" />
+                                Nama Yayasan *
+                              </FormLabel>
+                              <FormControl>
+                                <Input placeholder="contoh: Yayasan Pendidikan Nusantara" className="h-11" {...field} />
+                              </FormControl>
+                              <FormDescription>Nama lengkap yayasan yang akan terdaftar di sistem</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                  <Separator />
+                        {/* Foundation Code */}
+                        <FormField
+                          control={form.control}
+                          name="foundationCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Hash className="h-4 w-4" />
+                                Kode Yayasan *
+                                <Badge variant="outline" className="ml-auto text-xs font-normal">
+                                  Auto-generated
+                                </Badge>
+                              </FormLabel>
+                              <FormControl>
+                                <Input disabled={true} placeholder="YAYASAN_NUSANTARA_A7B9" className="h-11 font-mono bg-muted cursor-not-allowed" {...field} />
+                              </FormControl>
+                              <FormDescription>Kode unik untuk identifikasi yayasan (dibuat otomatis dari nama + kode random)</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                  {/* Address */}
-                  <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
-                          Alamat Lengkap *
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Jl. Pendidikan No. 123, Kelurahan Sukamaju, Kecamatan Bandung Utara, Kota Bandung, Jawa Barat 40123" className="min-h-[100px] resize-none" {...field} />
-                        </FormControl>
-                        <FormDescription>Alamat lengkap kantor pusat yayasan</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        <Separator />
 
-                  {/* Phone */}
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <Phone className="h-4 w-4" />
-                          Nomor Telepon *
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="+62 22 1234567 atau 022-1234567" className="h-11" {...field} />
-                        </FormControl>
-                        <FormDescription>Nomor telepon yang dapat dihubungi</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        {/* Address */}
+                        <FormField
+                          control={form.control}
+                          name="address"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4" />
+                                Alamat Lengkap *
+                              </FormLabel>
+                              <FormControl>
+                                <Textarea placeholder="Jl. Pendidikan No. 123, Kelurahan Sukamaju, Kecamatan Bandung Utara, Kota Bandung, Jawa Barat 40123" className="min-h-[100px] resize-none" {...field} />
+                              </FormControl>
+                              <FormDescription>Alamat lengkap kantor pusat yayasan</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                  <Separator />
+                        {/* Phone */}
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Phone className="h-4 w-4" />
+                                Nomor Telepon *
+                              </FormLabel>
+                              <FormControl>
+                                <Input placeholder="+62 22 1234567 atau 022-1234567" className="h-11" {...field} />
+                              </FormControl>
+                              <FormDescription>Nomor telepon yang dapat dihubungi</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                  {/* Image Upload */}
-                  <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <ImageIcon className="h-4 w-4" />
-                          Logo Yayasan (Opsional)
-                        </FormLabel>
-                        <div className="space-y-3">
-                          {/* Current Image Preview */}
-                          {field.value && (
-                            <div className="flex items-center gap-3 rounded-lg border p-3">
-                              <div className="h-12 w-12 overflow-hidden rounded-lg bg-muted">
-                                <img src={field.value} alt="Logo Preview" className="h-full w-full object-cover" />
+                        <Separator />
+
+                        {/* Image Upload */}
+                        <FormField
+                          control={form.control}
+                          name="imageUrl"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <ImageIcon className="h-4 w-4" />
+                                Logo Yayasan (Opsional)
+                              </FormLabel>
+                              <div className="space-y-3">
+                                {/* Current Image Preview */}
+                                {field.value && (
+                                  <div className="flex items-center gap-3 rounded-lg border p-3">
+                                    <div className="h-12 w-12 overflow-hidden rounded-lg bg-muted">
+                                      <img src={field.value} alt="Logo Preview" className="h-full w-full object-cover" />
+                                    </div>
+                                    <div className="flex-1">
+                                      <p className="text-sm font-medium">Logo telah diunggah</p>
+                                      <p className="text-xs text-muted-foreground">Klik tombol di bawah untuk mengubah</p>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Upload Button */}
+                                <div className="flex items-center gap-3">
+                                  <Button type="button" variant="outline" size="sm" disabled={uploadingImage} onClick={() => document.getElementById("image-upload")?.click()}>
+                                    {uploadingImage ?
+                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    : <Upload className="mr-2 h-4 w-4" />}
+                                    {uploadingImage ? "Mengunggah..." : "Pilih Gambar"}
+                                  </Button>
+                                  <FormControl>
+                                    <Input id="image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+                                  </FormControl>
+                                </div>
                               </div>
-                              <div className="flex-1">
-                                <p className="text-sm font-medium">Logo telah diunggah</p>
-                                <p className="text-xs text-muted-foreground">Klik tombol di bawah untuk mengubah</p>
-                              </div>
+                              <FormDescription>Upload logo yayasan (format: JPG, PNG, maksimal 2MB)</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Submit Button */}
+                        <div className="flex flex-col gap-4 pt-4">
+                          {/* DEBUG: Show form values in development */}
+                          {process.env.NODE_ENV === "development" && (
+                            <div className="p-4 bg-muted rounded-lg text-xs">
+                              <p className="font-bold mb-2">🐛 Debug - Form Values:</p>
+                              <pre className="whitespace-pre-wrap">{JSON.stringify(form.watch(), null, 2)}</pre>
                             </div>
                           )}
 
-                          {/* Upload Button */}
-                          <div className="flex items-center gap-3">
-                            <Button type="button" variant="outline" size="sm" disabled={uploadingImage} onClick={() => document.getElementById("image-upload")?.click()}>
-                              {uploadingImage ?
+                          <Button type="submit" size="lg" disabled={isSubmitting} className="h-12 w-full">
+                            {isSubmitting ?
+                              <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              : <Upload className="mr-2 h-4 w-4" />}
-                              {uploadingImage ? "Mengunggah..." : "Pilih Gambar"}
-                            </Button>
-                            <FormControl>
-                              <Input id="image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-                            </FormControl>
-                          </div>
+                                Mendaftarkan Yayasan...
+                              </>
+                            : <>
+                                <CheckCircle2 className="mr-2 h-4 w-4" />
+                                Daftarkan Yayasan
+                              </>
+                            }
+                          </Button>
+
+                          <Alert>
+                            <CheckCircle2 className="h-4 w-4" />
+                            <AlertDescription>Setelah mendaftar, Anda akan dapat login dan mulai menggunakan sistem manajemen sekolah.</AlertDescription>
+                          </Alert>
                         </div>
-                        <FormDescription>Upload logo yayasan (format: JPG, PNG, maksimal 2MB)</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="inputID">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Building2 className="h-5 w-5" />
+                      Masuk dengan Code Yayasan
+                    </CardTitle>
+                    <CardDescription>Masukkan code yayasan yang sudah terdaftar untuk bergabung dengan yayasan tersebut</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Form {...codeForm}>
+                      <form onSubmit={codeForm.handleSubmit(handleInputCodeFoundation)} className="space-y-4">
+                        {/* Foundation Code Input */}
+                        <FormField
+                          control={codeForm.control}
+                          name="foundationCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="flex items-center gap-2">
+                                <Hash className="h-4 w-4" />
+                                Code Yayasan *
+                              </FormLabel>
+                              <FormControl>
+                                <Input placeholder="YAYASAN_NUSANTARA_A7B9" className="h-11 font-mono uppercase" {...field} onChange={(e) => field.onChange(e.target.value.toUpperCase())} />
+                              </FormControl>
+                              <FormDescription>Masukkan code yayasan yang diberikan oleh admin yayasan. Format: NAMA_YAYASAN_KODE (contoh: YAYASAN_NUSANTARA_A7B9)</FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                  {/* Submit Button */}
-                  <div className="flex flex-col gap-4 pt-4">
-                    <Button type="submit" size="lg" disabled={isSubmitting} className="h-12 w-full">
-                      {isSubmitting ?
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Mendaftarkan Yayasan...
-                        </>
-                      : <>
-                          <CheckCircle2 className="mr-2 h-4 w-4" />
-                          Daftarkan Yayasan
-                        </>
-                      }
-                    </Button>
+                        {/* Submit Button */}
+                        <div className="flex flex-col gap-4 pt-2">
+                          <Button type="submit" size="lg" disabled={isJoining} className="h-12 w-full">
+                            {isJoining ?
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Bergabung dengan Yayasan...
+                              </>
+                            : <>
+                                <CheckCircle2 className="mr-2 h-4 w-4" />
+                                Masuk dengan Code Yayasan
+                              </>
+                            }
+                          </Button>
 
-                    <Alert>
-                      <CheckCircle2 className="h-4 w-4" />
-                      <AlertDescription>Setelah mendaftar, Anda akan dapat login dan mulai menggunakan sistem manajemen sekolah.</AlertDescription>
-                    </Alert>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+                          <Alert>
+                            <CheckCircle2 className="h-4 w-4" />
+                            <AlertDescription>Dengan memasukkan code yayasan, Anda akan bergabung dengan yayasan yang sudah terdaftar di sistem.</AlertDescription>
+                          </Alert>
+                        </div>
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
 
           {/* Footer Info */}
           <div className="mt-8 text-center">

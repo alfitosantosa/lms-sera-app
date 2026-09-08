@@ -1,5 +1,5 @@
 "use client";
-import { AccountBankInput, AccountBankTypes } from "@/app/(frontend)/(types)";
+import { AccountBankInput, AccountBankTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

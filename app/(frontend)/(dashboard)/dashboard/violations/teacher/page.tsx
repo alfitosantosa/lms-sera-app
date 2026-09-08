@@ -6,7 +6,7 @@ import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/u
 import { useGetTypeViolations } from "@/app/(frontend)/(hooks)/hooks/Violations/useTypeViolations";
 import { useCreateViolation, useDeleteViolation, useUpdateViolation } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolations";
 import { useGetViolationsByIdTeacher } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolationsByIdTeacher";
-import { ViolationTypes } from "@/app/(frontend)/(types)";
+import { ViolationTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

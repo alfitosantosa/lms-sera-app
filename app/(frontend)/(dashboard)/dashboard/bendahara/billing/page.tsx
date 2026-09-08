@@ -6,7 +6,7 @@ import { usePaymentsItemsByDate } from "@/app/(frontend)/(hooks)/hooks/Payments/
 import { useGetPaymentTypeByIdMajor } from "@/app/(frontend)/(hooks)/hooks/Payments/usePaymentType";
 import { useGetStudentByIdMajor } from "@/app/(frontend)/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(frontend)/(types)";
+import { UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";

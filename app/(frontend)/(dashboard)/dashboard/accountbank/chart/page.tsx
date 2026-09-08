@@ -3,7 +3,7 @@
 import { useAccountBankDashboard } from "@/app/(frontend)/(hooks)/hooks/AccountBank/useAccountBankDashboard";
 import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(frontend)/(types)";
+import { UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";

@@ -1,5 +1,5 @@
 "use client";
-import { PaymentData, PaymentItemData, PaymentItemsInput, SetPaidInput } from "@/app/(frontend)/(types)";
+import { PaymentData, PaymentItemData, PaymentItemsInput, SetPaidInput } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

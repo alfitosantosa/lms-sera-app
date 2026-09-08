@@ -7,7 +7,7 @@ import { useGetRoles } from "@/app/(frontend)/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useBulkCreateUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBulkUsersData";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(frontend)/(types)";
+import { UserDataTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

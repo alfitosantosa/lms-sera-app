@@ -2,7 +2,7 @@
 
 // app/api/users/route.ts
 
-import { UserDataTypes } from "@/app/(frontend)/(types)/types/userData";
+import { UserDataTypes } from "@/app/(types)/types/userData-types";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

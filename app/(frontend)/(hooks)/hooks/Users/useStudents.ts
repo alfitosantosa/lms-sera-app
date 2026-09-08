@@ -1,5 +1,5 @@
 "use client";
-import { UserDataTypes } from "@/app/(frontend)/(types)";
+import { UserDataTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

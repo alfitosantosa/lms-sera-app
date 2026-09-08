@@ -57,3 +57,5 @@ export type FoundationAssignResponse = {
   userEmail: string;
   // Add other fields based on your actual response
 };
+
+export type FoundationAssignUserTypes = { userId: string; foundationCode: string };

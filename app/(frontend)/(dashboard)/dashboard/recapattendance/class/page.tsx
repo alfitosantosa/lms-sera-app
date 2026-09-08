@@ -4,9 +4,9 @@ import { useGetAttendanceByClass } from "@/app/(frontend)/(hooks)/hooks/Attendan
 import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
 import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { attendanceTypes } from "@/app/(frontend)/(types)/types/attendance-types";
-import { ClassDataTypes } from "@/app/(frontend)/(types)/types/class-types";
-import { UserDataTypes } from "@/app/(frontend)/(types)/types/userData";
+import { attendanceTypes } from "@/app/(types)/types/attendance-types";
+import { ClassDataTypes } from "@/app/(types)/types/class-types";
+import { UserDataTypes } from "@/app/(types)/types/userData-types";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

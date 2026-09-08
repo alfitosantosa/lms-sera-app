@@ -1,5 +1,5 @@
 "use client";
-import { AcademicYearDataTypes, AcademicYearInputData, AcademicYearUpdateData } from "@/app/(frontend)/(types)";
+import { AcademicYearDataTypes, AcademicYearInputData, AcademicYearUpdateData } from "@/app/(types)";
 import { CACHE_STRATEGIES } from "@/app/client/providers";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

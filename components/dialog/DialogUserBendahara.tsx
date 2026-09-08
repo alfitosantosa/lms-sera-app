@@ -5,7 +5,7 @@ import { useGetClassByIdMajor } from "@/app/(frontend)/(hooks)/hooks/Classes/use
 import { useGetRoles } from "@/app/(frontend)/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useCreateUser, useUpdateUser } from "@/app/(frontend)/(hooks)/hooks/Users/useUsers";
-import { getErrorMessage } from "@/app/(frontend)/(types)";
+import { getErrorMessage } from "@/app/(types)";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";

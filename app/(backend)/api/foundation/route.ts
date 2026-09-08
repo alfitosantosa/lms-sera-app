@@ -36,7 +36,6 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const { name, imageUrl, foundationCode, address, phone, userId } = await request.json();
-
     // Create the foundation
     const createNewFoundation = await prisma.foundation.create({
       data: {

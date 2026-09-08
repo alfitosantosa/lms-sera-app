@@ -1,5 +1,5 @@
 import { apiGet } from "@/lib/apiClients";
-import { PaymentItemsTypes } from "@/app/(frontend)/(types)";
+import { PaymentItemsTypes } from "@/app/(types)";
 import { useQuery } from "@tanstack/react-query";
 
 export const usePaymentsItemsByDate = ({ fromdate, todate, majorId, status, isPaid, skuType }: { fromdate?: Date; todate?: Date; majorId?: string; status?: string; isPaid?: boolean; skuType?: string }) => {

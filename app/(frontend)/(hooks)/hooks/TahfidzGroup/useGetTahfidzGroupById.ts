@@ -1,5 +1,5 @@
 "use client";
-import { tahfidzGroupTypes } from "@/app/(frontend)/(types)";
+import { tahfidzGroupTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

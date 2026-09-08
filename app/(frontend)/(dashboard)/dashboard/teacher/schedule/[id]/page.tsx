@@ -5,8 +5,8 @@ import { useGetAttendanceByIdSchedule } from "@/app/(frontend)/(hooks)/hooks/Att
 import { useGetSchedules } from "@/app/(frontend)/(hooks)/hooks/Schedules/useSchedules";
 import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(frontend)/(types)";
-import { attendanceTypes } from "@/app/(frontend)/(types)/types/attendance-types";
+import { UserDataTypes } from "@/app/(types)";
+import { attendanceTypes } from "@/app/(types)/types/attendance-types";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";

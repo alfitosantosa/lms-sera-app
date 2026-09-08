@@ -2,8 +2,8 @@
 
 import { useCreateAcademicYear, useDeleteAcademicYear, useGetAcademicYears, useUpdateAcademicYear } from "@/app/(frontend)/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearDataTypes, AcademicYearForm, academicYearSchema } from "@/app/(frontend)/(types)/types/academicyear-types";
-import { UserDataTypes } from "@/app/(frontend)/(types)/types/userData";
+import { AcademicYearDataTypes, AcademicYearForm, academicYearSchema } from "@/app/(types)/types/academicyear-types";
+import { UserDataTypes } from "@/app/(types)/types/userData-types";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
