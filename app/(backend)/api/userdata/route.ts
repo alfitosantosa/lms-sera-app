@@ -81,9 +81,14 @@ function replaceUndefinedWithNull<T>(value: T): T {
   return (value === undefined ? (null as unknown as T) : value) as T;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const foundationId = searchParams.get("foundationId");
   try {
     const users = await prisma.userData.findMany({
+      where: {
+        foundationId: foundationId ?? undefined,
+      },
       include: {
         role: true,
         class: true,
@@ -93,7 +98,7 @@ export async function GET() {
         tahfidzGroup: true,
       },
       orderBy: {
-        name: "asc",
+        updatedAt: "desc",
       },
     });
     return NextResponse.json(users);

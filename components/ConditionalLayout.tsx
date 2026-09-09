@@ -7,11 +7,11 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import InstallButton from "./installButton";
 
-const AUTH_ROUTES = ["/auth/sign-in", "/auth/sign-up", "/auth/register", "/landing"];
+const AUTH_ROUTES = ["/", "/auth/sign-in", "/auth/sign-up", "/auth/register", "/landing"];
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAuthPage = AUTH_ROUTES.some((route) => pathname.startsWith(route));
+  const isAuthPage = AUTH_ROUTES.some((route) => (route === "/" ? pathname === "/" : pathname.startsWith(route)));
 
   if (isAuthPage) {
     // Render tanpa sidebar, navbar, footer - fullscreen bersih

@@ -495,12 +495,12 @@ export default function Home() {
     }
 
     // If no session after it's ready, redirect to sign-in
-    if (!session?.user?.id) {
-      console.log("No session found, redirecting to sign-in");
-      setRedirecting(true);
-      router.push("/auth/sign-in");
-      return;
-    }
+    // if (!session?.user?.id) {
+    //   console.log("No session found, redirecting to sign-in");
+    //   setRedirecting(true);
+    //   router.push("/auth/sign-in");
+    //   return;
+    // }
 
     // Wait for user data to finish loading
     if (userLoading) {

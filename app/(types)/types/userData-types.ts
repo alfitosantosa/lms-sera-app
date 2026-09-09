@@ -36,7 +36,7 @@ export type UserDataTypes = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   tahfidzGroupId?: string | null;
-  foundationId?: String | null;
+  foundationId?: string | null;
   foundation?: foundationTypes | null;
   user?: UserTypes | null;
   academicYear?: AcademicYearTypes | null;

@@ -55,6 +55,7 @@ export type UserData = {
 
   // Teacher fields
   employeeId?: string;
+  foundationId?: string;
   position?: string;
   startDate?: Date;
   endDate?: Date;
@@ -126,6 +127,7 @@ const userSchema = z.object({
 
   studentIds: z.array(z.string()).optional(),
   relation: z.string().optional(),
+  foundationId: z.string().optional(),
 });
 
 type UserFormValues = z.infer<typeof userSchema>;
@@ -404,10 +406,10 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
 }
 
 // Betterauth User Selector Component
-function BetterAuthSelector({ onSelect, selecteduserId, disabled = false }: { onSelect: (betterAuth: BetterAuthUser | null) => void; selecteduserId?: string; disabled?: boolean }) {
+function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled = false }: { onSelect: (betterAuth: BetterAuthUser | null) => void; selecteduserId?: string; disabled?: boolean; foundationId: string }) {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const { data: betterAuthsData, isLoading: betterAuthsLoading } = useGetBetterAuthWithoutUserData();
+  const { data: betterAuthsData, isLoading: betterAuthsLoading } = useGetBetterAuthWithoutUserData(foundationId);
   const betterAuths = (betterAuthsData ?? []) as BetterAuthUser[];
 
   const filteredbetterAuths = React.useMemo(() => {
@@ -504,12 +506,12 @@ function BetterAuthSelector({ onSelect, selecteduserId, disabled = false }: { on
 }
 
 // Create/Edit Dialog Component
-export function UserFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: UserData | null; onSuccess: () => void }) {
+export function UserFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: UserData | null; onSuccess: () => void; foundationId: string }) {
   const createUser = useCreateUser();
   const updateUser = useUpdateUser();
 
   // Fetch data inside the component
-  const { data: users = [], isLoading: userLoading } = useGetUsers();
+  const { data: users = [], isLoading: userLoading } = useGetUsers(foundationId);
   const { data: roles = [], isLoading: rolesLoading } = useGetRoles();
   const { data: classes = [], isLoading: classesLoading } = useGetClasses();
   const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } = useGetTahfidzGroup();
@@ -563,6 +565,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess }: { op
       setValue("position", editData.position || "");
       setValue("studentIds", editData.studentIds || []);
       setValue("relation", editData.relation || "");
+      setValue("foundationId", editData.foundationId || foundationId);
     } else {
       reset({
         status: "active",
@@ -602,6 +605,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess }: { op
         tahfidzGroupId: data.tahfidzGroupId && data.tahfidzGroupId !== "" ? data.tahfidzGroupId : null,
         academicYearId: data.academicYearId && data.academicYearId !== "" ? data.academicYearId : null,
         majorId: data.majorId && data.majorId !== "" ? data.majorId : null,
+        foundationId: foundationId,
       };
 
       // Add role-specific fields
@@ -969,7 +973,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess }: { op
             <h3 className="text-lg font-medium">Informasi Dasar</h3>
 
             {/* Betterauth User Selector */}
-            <BetterAuthSelector onSelect={handlebetterAuthSelect} selecteduserId={selecteduserId} disabled={createUser.isPending || updateUser.isPending} />
+            <BetterAuthSelector foundationId={foundationId} onSelect={handlebetterAuthSelect} selecteduserId={selecteduserId} disabled={createUser.isPending || updateUser.isPending} />
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">

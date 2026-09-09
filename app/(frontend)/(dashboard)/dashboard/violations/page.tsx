@@ -165,12 +165,12 @@ const violationStatuses = [
 ];
 
 // Create/Edit Dialog Component
-function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: ViolationTypes | null; onSuccess: () => void }) {
+function ViolationFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: ViolationTypes | null; onSuccess: () => void; foundationId: string }) {
   const createViolation = useCreateViolation();
   const updateViolation = useUpdateViolation();
   const { data: violationTypes } = useGetTypeViolations();
   const { data: classes } = useGetClasses();
-  const { data: usersData = [], isLoading: usersLoading } = useGetUsers();
+  const { data: usersData = [], isLoading: usersLoading } = useGetUsers(foundationId);
 
   // Filter students from users data (role.name === "Student")
   const students = React.useMemo(() => {
@@ -407,7 +407,7 @@ function DeleteViolationDialog({ open, onOpenChange, violationData, onSuccess }:
 }
 
 // Main DataTable Component
-function ViolationDataTable() {
+function ViolationDataTable({ foundationId }: { foundationId: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -909,9 +909,9 @@ function ViolationDataTable() {
         </div>
 
         {/* Dialogs */}
-        <ViolationFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <ViolationFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} foundationId={foundationId} />
 
-        <ViolationFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedViolation} onSuccess={handleSuccess} />
+        <ViolationFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedViolation} onSuccess={handleSuccess} foundationId={foundationId} />
 
         <DeleteViolationDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} violationData={selectedViolation} onSuccess={handleSuccess} />
       </div>
@@ -925,6 +925,7 @@ export default function UserDataTable() {
 
   const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
+  const foundationId = userData?.foundationId;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -937,6 +938,10 @@ export default function UserDataTable() {
     return null;
   }
 
+  if (!foundationId) {
+    return <Loading />;
+  }
+
   // Render dashboard only after authorization is confirmed
-  return <ViolationDataTable />;
+  return <ViolationDataTable foundationId={foundationId} />;
 }

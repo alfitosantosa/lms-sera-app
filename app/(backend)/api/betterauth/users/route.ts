@@ -1,18 +1,27 @@
 // app/api/clerk-users/route.ts
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Get foundationId from query parameters
+    const { searchParams } = request.nextUrl;
+    const foundationId = searchParams.get("foundationId");
+
+    // Build where clause
+    const whereClause = foundationId ? { foundationId } : {};
+
     const users = await prisma.user.findMany({
       include: {
         userData: {
           include: { role: true },
         },
       },
-      orderBy: { name: "asc" },
+      orderBy: { createdAt: "desc" },
+      where: whereClause,
     });
+
     return NextResponse.json(users);
   } catch (error) {
     return handlePrismaError(error);

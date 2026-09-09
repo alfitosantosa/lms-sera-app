@@ -10,10 +10,20 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { BetterAuthUser } from "./DialogUser";
 
-export function StudentSelectorByIdMajor({ onSelect, selecteduserId, disabled = false }: { onSelect: (betterAuth: BetterAuthUser | null) => void; selecteduserId?: string; disabled?: boolean }) {
+export function StudentSelectorByIdMajor({
+  onSelect,
+  selecteduserId,
+  disabled = false,
+  foundationId,
+}: {
+  onSelect: (betterAuth: BetterAuthUser | null) => void;
+  selecteduserId?: string;
+  disabled?: boolean;
+  foundationId?: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const { data: betterAuths = [], isLoading: betterAuthsLoading } = useGetBetterAuthWithoutUserData();
+  const { data: betterAuths = [], isLoading: betterAuthsLoading } = useGetBetterAuthWithoutUserData(foundationId);
 
   const filteredbetterAuths = React.useMemo(() => {
     if (!searchTerm) return betterAuths;

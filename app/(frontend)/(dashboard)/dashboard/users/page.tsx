@@ -23,7 +23,7 @@ import * as React from "react";
 // Import hooks
 // Import dialog components
 // Dashboard Component - Only rendered after role verification
-function UserDashboard() {
+function UserDashboard({ foundationId }: { foundationId: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -43,7 +43,7 @@ function UserDashboard() {
   const [selectedUser, setSelectedUser] = React.useState<UserData | null>(null);
 
   // Fetch data with proper error handling
-  const { data: usersData = [], isLoading, refetch, error } = useGetUsers();
+  const { data: usersData = [], isLoading, refetch, error } = useGetUsers(foundationId);
   const { data: betterAuthUsers = [] } = useGetBetterAuth();
 
   // Helper function to get betterAuth user info
@@ -667,8 +667,8 @@ function UserDashboard() {
         </div>
       </div>
 
-      <UserFormDialog open={createDialogOpen} onOpenChange={handleCloseCreateDialog} onSuccess={handleSuccess} />
-      <UserFormDialog open={editDialogOpen} onOpenChange={handleCloseEditDialog} editData={selectedUser} onSuccess={handleSuccess} />
+      <UserFormDialog open={createDialogOpen} onOpenChange={handleCloseCreateDialog} onSuccess={handleSuccess} foundationId={foundationId} />
+      <UserFormDialog open={editDialogOpen} onOpenChange={handleCloseEditDialog} editData={selectedUser} onSuccess={handleSuccess} foundationId={foundationId } />
       <DeleteUserDialog open={deleteDialogOpen} onOpenChange={handleCloseDeleteDialog} userData={selectedUser} onSuccess={handleSuccess} />
       <DeleteUserBulkDialog open={deleteBulkDialogOpen} onOpenChange={handleCloseBulkDeleteDialog} userDatas={table.getSelectedRowModel().rows.map((row) => row.original) as UserData[]} onSuccess={handleSuccess} />
     </div>
@@ -682,6 +682,7 @@ export default function UserDataTable() {
 
   const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
+  const foundationId = userData?.foundationId;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -694,6 +695,9 @@ export default function UserDataTable() {
     return null;
   }
 
-  // Render dashboard only after authorization is confirmed
-  return <UserDashboard />;
+  if (!foundationId) {
+    return <Loading />;
+  }
+
+  return <UserDashboard foundationId={foundationId as string} />;
 }

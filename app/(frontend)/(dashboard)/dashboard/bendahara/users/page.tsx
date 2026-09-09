@@ -492,8 +492,8 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl ">Users Menu</div>
-      <Badge>{majorData.name}</Badge>
+      <div className="font-bold text-3xl">Users Menu</div>
+      <Badge className="mt-4">{majorData.name}</Badge>
       <div className="flex items-start justify-between py-4 gap-4 flex-wrap">
         <div className="flex items-center gap-2 flex-wrap">
           <Input placeholder="Cari nama user..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />

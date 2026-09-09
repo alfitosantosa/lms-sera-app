@@ -6,12 +6,12 @@ import { UserDataTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetUsers = () => {
+export const useGetUsers = (foundationId: string) => {
   return useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       try {
-        const res = await apiGet<UserDataTypes[]>("/api/userdata");
+        const res = await apiGet<UserDataTypes[]>("/api/userdata", { params: { foundationId } });
         return res.data;
       } catch (error) {
         console.error(error);

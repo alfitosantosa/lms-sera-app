@@ -31,6 +31,15 @@ function buildUrl(url: string, params?: Record<string, string | number | boolean
 }
 
 /**
+ * Safely parse JSON from response, returns null if body is empty or invalid
+ */
+async function safeJson<T>(response: Response): Promise<T> {
+  const text = await response.text();
+  if (!text) return null as T;
+  return JSON.parse(text);
+}
+
+/**
  * Make a GET request
  */
 export async function apiGet<T = unknown>(url: string, options?: FetchOptions): Promise<ApiResponse<T>> {
@@ -45,7 +54,7 @@ export async function apiGet<T = unknown>(url: string, options?: FetchOptions): 
     ...options,
   });
 
-  const data = await response.json();
+  const data = await safeJson<T>(response);
   return {
     data,
     status: response.status,
@@ -67,7 +76,7 @@ export async function apiPost<T = unknown>(url: string, body?: unknown, options?
     ...options,
   });
 
-  const data = await response.json();
+  const data = await safeJson<T>(response);
   return {
     data,
     status: response.status,
@@ -89,7 +98,7 @@ export async function apiPut<T = unknown>(url: string, body?: unknown, options?:
     ...options,
   });
 
-  const data = await response.json();
+  const data = await safeJson<T>(response);
   return {
     data,
     status: response.status,
@@ -110,7 +119,7 @@ export async function apiDelete<T = unknown>(url: string, options?: FetchOptions
     ...options,
   });
 
-  const data = await response.json();
+  const data = await safeJson<T>(response);
   return {
     data,
     status: response.status,
@@ -132,7 +141,7 @@ export async function apiPatch<T = unknown>(url: string, body?: unknown, options
     ...options,
   });
 
-  const data = await response.json();
+  const data = await safeJson<T>(response);
   return {
     data,
     status: response.status,
