@@ -199,7 +199,7 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>
-                Kelas <span className="text-slate-400 text-xs">(opsional)</span>
+                Kelas <span className="text-muted-foreground text-xs">(opsional)</span>
               </Label>
               <Select value={selectedClassId || "none"} onValueChange={(value) => setValue("classId", value === "none" ? undefined : value)}>
                 <SelectTrigger>
@@ -214,11 +214,11 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
                   ))}
                 </SelectContent>
               </Select>
-              {errors.classId && <p className="text-sm text-red-500">{errors.classId.message}</p>}
+              {errors.classId && <p className="text-sm text-destructive">{errors.classId.message}</p>}
             </div>
             <div className="space-y-2">
               <Label>
-                Kelompok Tahfidz <span className="text-slate-400 text-xs">(opsional)</span>
+                Kelompok Tahfidz <span className="text-muted-foreground text-xs">(opsional)</span>
               </Label>
               <Select value={selectedTahfidzGroupId || "none"} onValueChange={(value) => setValue("tahfidzGroupId", value === "none" ? undefined : value)}>
                 <SelectTrigger>
@@ -233,7 +233,7 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
                   ))}
                 </SelectContent>
               </Select>
-              {errors.tahfidzGroupId && <p className="text-sm text-red-500">{errors.tahfidzGroupId.message}</p>}
+              {errors.tahfidzGroupId && <p className="text-sm text-destructive">{errors.tahfidzGroupId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -250,7 +250,7 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
                   ))}
                 </SelectContent>
               </Select>
-              {errors.subjectId && <p className="text-sm text-red-500">{errors.subjectId.message}</p>}
+              {errors.subjectId && <p className="text-sm text-destructive">{errors.subjectId.message}</p>}
             </div>
           </div>
 
@@ -258,7 +258,7 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
             <div className="space-y-2">
               <Label>Guru</Label>
               <TeacherCombobox teachers={teachers || []} value={selectedTeacherId || ""} onValueChange={(value) => setValue("teacherId", value)} placeholder="Pilih Guru" />
-              {errors.teacherId && <p className="text-sm text-red-500">{errors.teacherId.message}</p>}
+              {errors.teacherId && <p className="text-sm text-destructive">{errors.teacherId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -275,7 +275,7 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
                   ))}
                 </SelectContent>
               </Select>
-              {errors.academicYearId && <p className="text-sm text-red-500">{errors.academicYearId.message}</p>}
+              {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
             </div>
           </div>
 
@@ -294,19 +294,19 @@ function ScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: { open:
                   ))}
                 </SelectContent>
               </Select>
-              {errors.dayOfWeek && <p className="text-sm text-red-500">{errors.dayOfWeek.message}</p>}
+              {errors.dayOfWeek && <p className="text-sm text-destructive">{errors.dayOfWeek.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="startTime">Waktu Mulai</Label>
               <Input id="startTime" type="time" {...register("startTime")} />
-              {errors.startTime && <p className="text-sm text-red-500">{errors.startTime.message}</p>}
+              {errors.startTime && <p className="text-sm text-destructive">{errors.startTime.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="endTime">Waktu Selesai</Label>
               <Input id="endTime" type="time" {...register("endTime")} />
-              {errors.endTime && <p className="text-sm text-red-500">{errors.endTime.message}</p>}
+              {errors.endTime && <p className="text-sm text-destructive">{errors.endTime.message}</p>}
             </div>
           </div>
 
@@ -362,7 +362,7 @@ function DeleteScheduleDialog({ open, onOpenChange, scheduleData, onSuccess }: {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteSchedule.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteSchedule.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteSchedule.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -595,7 +595,7 @@ function ScheduleDataTable() {
                   setSelectedSchedule(scheduleData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -944,7 +944,7 @@ function ScheduleDataTable() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-blue-500" />
+              <Calendar className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Total Jadwal</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{schedules.length}</p>
@@ -953,7 +953,7 @@ function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-green-500" />
+              <Users className="h-5 w-5 text-success" />
               <h3 className="font-semibold">Kelas Aktif</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.classId)).size}</p>
@@ -961,7 +961,7 @@ function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5 text-purple-500" />
+              <BookOpen className="h-5 w-5 text-tertiary" />
               <h3 className="font-semibold">Mata Pelajaran</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.subjectId)).size}</p>
@@ -969,7 +969,7 @@ function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <GraduationCap className="h-5 w-5 text-orange-500" />
+              <GraduationCap className="h-5 w-5 text-caution" />
               <h3 className="font-semibold">Guru Mengajar</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.teacherId)).size}</p>

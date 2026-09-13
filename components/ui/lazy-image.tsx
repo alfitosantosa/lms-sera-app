@@ -47,7 +47,7 @@ export function LazyImage({ src, alt, width = 40, height = 40, className = "", f
 
   return (
     <div ref={imgRef} className={`relative ${className}`}>
-      {!isLoaded && <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-full" />}
+      {!isLoaded && <div className="absolute inset-0 animate-pulse rounded-full bg-accent" />}
       {isInView && (
         <Image
           src={isInView ? src : fallback}

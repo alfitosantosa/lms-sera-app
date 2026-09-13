@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "@/lib/authClients";
+import { CHART_GRID_STROKE, CHART_PALETTE, CHART_SERIES } from "@/lib/charts";
 import { format, subMonths } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { Activity, BarChart2, Building2, CalendarDays, CreditCard, PieChart as PieIcon, Receipt, RefreshCw, TrendingDown, TrendingUp } from "lucide-react";
@@ -45,9 +46,6 @@ const fmtFull = (v: number) =>
   }).format(v);
 
 const fmtNum = (v: number) => new Intl.NumberFormat("id-ID").format(v);
-
-// ─── Color Palette ────────────────────────────────────────────────────────────
-const PALETTE = ["#2563EB", "#7C3AED", "#059669", "#D97706", "#DC2626", "#0891B2", "#65A30D", "#9333EA", "#F59E0B", "#10B981"];
 
 // ─── Custom Tooltip ───────────────────────────────────────────────────────────
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: any[]; label?: string }) {
@@ -84,7 +82,7 @@ function KPICard({ title, value, sub, icon: Icon, trend, color, loading }: { tit
         : <>
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm text-muted-foreground font-medium">{title}</span>
-              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "18" }}>
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)` }}>
                 <Icon className="h-5 w-5" style={{ color }} />
               </div>
             </div>
@@ -93,9 +91,9 @@ function KPICard({ title, value, sub, icon: Icon, trend, color, loading }: { tit
             {trend && (
               <div className="flex items-center gap-1 mt-2">
                 {trend.value >= 0 ?
-                  <TrendingUp className="h-3.5 w-3.5 text-green-600" />
-                : <TrendingDown className="h-3.5 w-3.5 text-red-500" />}
-                <span className={`text-xs font-medium ${trend.value >= 0 ? "text-green-600" : "text-red-500"}`}>
+                  <TrendingUp className="h-3.5 w-3.5 text-success" />
+                : <TrendingDown className="h-3.5 w-3.5 text-destructive" />}
+                <span className={`text-xs font-medium ${trend.value >= 0 ? "text-success" : "text-destructive"}`}>
                   {trend.value >= 0 ? "+" : ""}
                   {trend.value}%
                 </span>
@@ -290,10 +288,10 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
 
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard title="Total Pendapatan" value={isLoading ? "—" : fmt(summary.total)} sub={isLoading ? undefined : `Dalam periode ${dateLabel}`} icon={CreditCard} color="#2563EB" loading={isLoading} />
-        <KPICard title="Total Transaksi" value={isLoading ? "—" : fmtNum(summary.sumTransaction)} sub="Jumlah kwitansi terbuat" icon={Receipt} color="#7C3AED" loading={isLoading} />
-        <KPICard title="Rata-rata / Transaksi" value={isLoading ? "—" : fmt(avgPerTransaction)} sub="Nominal rata-rata per kwitansi" icon={Activity} color="#059669" loading={isLoading} />
-        <KPICard title="Branch Terbesar" value={isLoading ? "—" : (topMajor?.major ?? "-")} sub={topMajor ? fmt(topMajor.total) : undefined} icon={Building2} color="#D97706" loading={isLoading} />
+        <KPICard title="Total Pendapatan" value={isLoading ? "—" : fmt(summary.total)} sub={isLoading ? undefined : `Dalam periode ${dateLabel}`} icon={CreditCard} color={CHART_SERIES.positive} loading={isLoading} />
+        <KPICard title="Total Transaksi" value={isLoading ? "—" : fmtNum(summary.sumTransaction)} sub="Jumlah kwitansi terbuat" icon={Receipt} color={CHART_SERIES.info} loading={isLoading} />
+        <KPICard title="Rata-rata / Transaksi" value={isLoading ? "—" : fmt(avgPerTransaction)} sub="Nominal rata-rata per kwitansi" icon={Activity} color={CHART_PALETTE[1]} loading={isLoading} />
+        <KPICard title="Branch Terbesar" value={isLoading ? "—" : (topMajor?.major ?? "-")} sub={topMajor ? fmt(topMajor.total) : undefined} icon={Building2} color={CHART_SERIES.positive} loading={isLoading} />
       </div>
 
       {/* ── Tabs ── */}
@@ -331,15 +329,15 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                     <AreaChart data={monthlyChartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="gradTotal" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                          <stop offset="5%" stopColor={CHART_SERIES.positive} stopOpacity={0.2} />
+                          <stop offset="95%" stopColor={CHART_SERIES.positive} stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
                       <XAxis dataKey="period" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} width={52} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Area type="monotone" dataKey="Total" stroke="#2563EB" strokeWidth={2.5} fill="url(#gradTotal)" dot={{ r: 3, fill: "#2563EB" }} activeDot={{ r: 5 }} />
+                      <Area type="monotone" dataKey="Total" stroke={CHART_SERIES.positive} strokeWidth={2.5} fill="url(#gradTotal)" dot={{ r: 3, fill: CHART_SERIES.positive }} activeDot={{ r: 5 }} />
                     </AreaChart>
                   </ResponsiveContainer>
                 }
@@ -359,13 +357,13 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                   <EmptyChart message="Tidak ada data" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={monthlyChartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
                       <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={28} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Bar dataKey="Transaksi" fill="#7C3AED" radius={[4, 4, 0, 0]}>
+                      <Bar dataKey="Transaksi" fill={CHART_SERIES.info} radius={[4, 4, 0, 0]}>
                         {monthlyChartData.map((_, i) => (
-                          <Cell key={i} fill={`hsl(${258 + i * 8}, 70%, ${55 + (i % 3) * 5}%)`} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -404,12 +402,12 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                               {row.month} {row.year}
                             </td>
                             <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.sumTransaction)}</td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-blue-600">{fmtFull(row.total)}</td>
+                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-info">{fmtFull(row.total)}</td>
                             <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{fmt(avg)}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
                                 <div className="flex-1 bg-muted rounded-full h-1.5 max-w-[80px]">
-                                  <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+                                  <div className="bg-info-solid h-1.5 rounded-full" style={{ width: `${pct}%` }} />
                                 </div>
                                 <span className="text-xs text-muted-foreground tabular-nums w-8 text-right">{pct}%</span>
                               </div>
@@ -419,10 +417,10 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                       })}
                     </tbody>
                     <tfoot>
-                      <tr className="bg-blue-50 dark:bg-blue-950/30 border-t-2">
+                      <tr className="bg-info-surface border-t-2">
                         <td className="px-4 py-3 font-bold text-sm">Total</td>
                         <td className="px-4 py-3 text-right font-bold tabular-nums">{fmtNum(summary.sumTransaction)}</td>
-                        <td className="px-4 py-3 text-right font-bold tabular-nums text-blue-700">{fmtFull(summary.total)}</td>
+                        <td className="px-4 py-3 text-right font-bold tabular-nums text-info-strong">{fmtFull(summary.total)}</td>
                         <td className="px-4 py-3 text-right font-bold tabular-nums text-muted-foreground">{fmt(avgPerTransaction)}</td>
                         <td className="px-4 py-3" />
                       </tr>
@@ -453,7 +451,7 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                       <PieChart>
                         <Pie data={majorPieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
                           {majorPieData.map((_, i) => (
-                            <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                            <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                           ))}
                         </Pie>
                         <Tooltip formatter={(value: any) => (value ? [fmtFull(Number(value)), "Total"] : ["", ""])} labelFormatter={(name) => name} />
@@ -463,7 +461,7 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                     <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 w-full mt-2">
                       {majorPieData.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-xs">
-                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                           <span className="text-muted-foreground truncate">{d.name}</span>
                         </div>
                       ))}
@@ -486,13 +484,13 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                   <EmptyChart message="Tidak ada data per branch" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={byMajor} layout="vertical" margin={{ top: 0, right: 16, left: 4, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={CHART_GRID_STROKE} />
                       <XAxis type="number" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} />
                       <YAxis dataKey="major" type="category" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={80} />
                       <Tooltip formatter={(v: any) => (v ? [fmtFull(Number(v)), "Total"] : ["", ""])} />
                       <Bar dataKey="total" name="Total" radius={[0, 4, 4, 0]}>
                         {byMajor.map((_, i) => (
-                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -532,19 +530,19 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                               <td className="px-4 py-2.5 text-muted-foreground text-xs">{i + 1}</td>
                               <td className="px-4 py-2.5">
                                 <div className="flex items-center gap-2">
-                                  <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                                  <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                                   <span className="font-medium">{row.major}</span>
                                 </div>
                               </td>
                               <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.sumTransaction)}</td>
-                              <td className="px-4 py-2.5 text-right tabular-nums font-semibold" style={{ color: PALETTE[i % PALETTE.length] }}>
+                              <td className="px-4 py-2.5 text-right tabular-nums font-semibold" style={{ color: CHART_PALETTE[i % CHART_PALETTE.length] }}>
                                 {fmtFull(row.total)}
                               </td>
                               <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{fmt(avg)}</td>
                               <td className="px-4 py-2.5">
                                 <div className="flex items-center gap-2">
                                   <div className="flex-1 bg-muted rounded-full h-1.5 max-w-[80px]">
-                                    <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, backgroundColor: PALETTE[i % PALETTE.length] }} />
+                                    <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                                   </div>
                                   <span className="text-xs text-muted-foreground tabular-nums w-8 text-right">{pct}%</span>
                                 </div>
@@ -576,13 +574,13 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                   <EmptyChart message="Tidak ada data perbandingan" />
                 : <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={multiLineData} margin={{ top: 4, right: 16, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
                       <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} width={52} />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend wrapperStyle={{ fontSize: 10 }} />
                       {majorNames.map((name, i) => (
-                        <Line key={name} type="monotone" dataKey={name} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+                        <Line key={name} type="monotone" dataKey={name} stroke={CHART_PALETTE[i % CHART_PALETTE.length]} strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
                       ))}
                     </LineChart>
                   </ResponsiveContainer>
@@ -602,13 +600,13 @@ function PaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string; isAd
                     <ChartSkeleton />
                   : <ResponsiveContainer width="100%" height={280}>
                       <BarChart data={multiLineData} margin={{ top: 4, right: 16, left: 0, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
                         <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                         <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} width={52} />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend wrapperStyle={{ fontSize: 10 }} />
                         {majorNames.map((name, i) => (
-                          <Bar key={name} dataKey={name} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]} maxBarSize={32} />
+                          <Bar key={name} dataKey={name} fill={CHART_PALETTE[i % CHART_PALETTE.length]} radius={[3, 3, 0, 0]} maxBarSize={32} />
                         ))}
                       </BarChart>
                     </ResponsiveContainer>

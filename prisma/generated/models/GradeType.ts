@@ -39,8 +39,8 @@ export type GradeTypeSumAggregateOutputType = {
 export type GradeTypeMinAggregateOutputType = {
   id: string | null
   name: string | null
-  code: string | null
   description: string | null
+  code: string | null
   weight: number | null
   order: number | null
   isActive: boolean | null
@@ -51,8 +51,8 @@ export type GradeTypeMinAggregateOutputType = {
 export type GradeTypeMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  code: string | null
   description: string | null
+  code: string | null
   weight: number | null
   order: number | null
   isActive: boolean | null
@@ -63,8 +63,8 @@ export type GradeTypeMaxAggregateOutputType = {
 export type GradeTypeCountAggregateOutputType = {
   id: number
   name: number
-  code: number
   description: number
+  code: number
   weight: number
   order: number
   isActive: number
@@ -87,8 +87,8 @@ export type GradeTypeSumAggregateInputType = {
 export type GradeTypeMinAggregateInputType = {
   id?: true
   name?: true
-  code?: true
   description?: true
+  code?: true
   weight?: true
   order?: true
   isActive?: true
@@ -99,8 +99,8 @@ export type GradeTypeMinAggregateInputType = {
 export type GradeTypeMaxAggregateInputType = {
   id?: true
   name?: true
-  code?: true
   description?: true
+  code?: true
   weight?: true
   order?: true
   isActive?: true
@@ -111,8 +111,8 @@ export type GradeTypeMaxAggregateInputType = {
 export type GradeTypeCountAggregateInputType = {
   id?: true
   name?: true
-  code?: true
   description?: true
+  code?: true
   weight?: true
   order?: true
   isActive?: true
@@ -210,8 +210,8 @@ export type GradeTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type GradeTypeGroupByOutputType = {
   id: string
   name: string
-  code: string
   description: string | null
+  code: string
   weight: number
   order: number
   isActive: boolean
@@ -245,8 +245,8 @@ export type GradeTypeWhereInput = {
   NOT?: Prisma.GradeTypeWhereInput | Prisma.GradeTypeWhereInput[]
   id?: Prisma.StringFilter<"GradeType"> | string
   name?: Prisma.StringFilter<"GradeType"> | string
-  code?: Prisma.StringFilter<"GradeType"> | string
   description?: Prisma.StringNullableFilter<"GradeType"> | string | null
+  code?: Prisma.StringFilter<"GradeType"> | string
   weight?: Prisma.IntFilter<"GradeType"> | number
   order?: Prisma.IntFilter<"GradeType"> | number
   isActive?: Prisma.BoolFilter<"GradeType"> | boolean
@@ -260,8 +260,8 @@ export type GradeTypeWhereInput = {
 export type GradeTypeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -293,8 +293,8 @@ export type GradeTypeWhereUniqueInput = Prisma.AtLeast<{
 export type GradeTypeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -313,8 +313,8 @@ export type GradeTypeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.GradeTypeScalarWhereWithAggregatesInput | Prisma.GradeTypeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"GradeType"> | string
   name?: Prisma.StringWithAggregatesFilter<"GradeType"> | string
-  code?: Prisma.StringWithAggregatesFilter<"GradeType"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"GradeType"> | string | null
+  code?: Prisma.StringWithAggregatesFilter<"GradeType"> | string
   weight?: Prisma.IntWithAggregatesFilter<"GradeType"> | number
   order?: Prisma.IntWithAggregatesFilter<"GradeType"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"GradeType"> | boolean
@@ -325,8 +325,8 @@ export type GradeTypeScalarWhereWithAggregatesInput = {
 export type GradeTypeCreateInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -340,8 +340,8 @@ export type GradeTypeCreateInput = {
 export type GradeTypeUncheckedCreateInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -355,8 +355,8 @@ export type GradeTypeUncheckedCreateInput = {
 export type GradeTypeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -370,8 +370,8 @@ export type GradeTypeUpdateInput = {
 export type GradeTypeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -385,8 +385,8 @@ export type GradeTypeUncheckedUpdateInput = {
 export type GradeTypeCreateManyInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -397,8 +397,8 @@ export type GradeTypeCreateManyInput = {
 export type GradeTypeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -409,8 +409,8 @@ export type GradeTypeUpdateManyMutationInput = {
 export type GradeTypeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -421,8 +421,8 @@ export type GradeTypeUncheckedUpdateManyInput = {
 export type GradeTypeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -438,8 +438,8 @@ export type GradeTypeAvgOrderByAggregateInput = {
 export type GradeTypeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -450,8 +450,8 @@ export type GradeTypeMaxOrderByAggregateInput = {
 export type GradeTypeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -521,8 +521,8 @@ export type GradeTypeUpdateOneWithoutAssignmentsNestedInput = {
 export type GradeTypeCreateWithoutGradeConfigurationsInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -535,8 +535,8 @@ export type GradeTypeCreateWithoutGradeConfigurationsInput = {
 export type GradeTypeUncheckedCreateWithoutGradeConfigurationsInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -565,8 +565,8 @@ export type GradeTypeUpdateToOneWithWhereWithoutGradeConfigurationsInput = {
 export type GradeTypeUpdateWithoutGradeConfigurationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -579,8 +579,8 @@ export type GradeTypeUpdateWithoutGradeConfigurationsInput = {
 export type GradeTypeUncheckedUpdateWithoutGradeConfigurationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -593,8 +593,8 @@ export type GradeTypeUncheckedUpdateWithoutGradeConfigurationsInput = {
 export type GradeTypeCreateWithoutGradesInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -607,8 +607,8 @@ export type GradeTypeCreateWithoutGradesInput = {
 export type GradeTypeUncheckedCreateWithoutGradesInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -637,8 +637,8 @@ export type GradeTypeUpdateToOneWithWhereWithoutGradesInput = {
 export type GradeTypeUpdateWithoutGradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -651,8 +651,8 @@ export type GradeTypeUpdateWithoutGradesInput = {
 export type GradeTypeUncheckedUpdateWithoutGradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -665,8 +665,8 @@ export type GradeTypeUncheckedUpdateWithoutGradesInput = {
 export type GradeTypeCreateWithoutAssignmentsInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -679,8 +679,8 @@ export type GradeTypeCreateWithoutAssignmentsInput = {
 export type GradeTypeUncheckedCreateWithoutAssignmentsInput = {
   id?: string
   name: string
-  code: string
   description?: string | null
+  code: string
   weight?: number
   order?: number
   isActive?: boolean
@@ -709,8 +709,8 @@ export type GradeTypeUpdateToOneWithWhereWithoutAssignmentsInput = {
 export type GradeTypeUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -723,8 +723,8 @@ export type GradeTypeUpdateWithoutAssignmentsInput = {
 export type GradeTypeUncheckedUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
   weight?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -786,8 +786,8 @@ export type GradeTypeCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Type
 export type GradeTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  code?: boolean
   description?: boolean
+  code?: boolean
   weight?: boolean
   order?: boolean
   isActive?: boolean
@@ -802,8 +802,8 @@ export type GradeTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type GradeTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  code?: boolean
   description?: boolean
+  code?: boolean
   weight?: boolean
   order?: boolean
   isActive?: boolean
@@ -814,8 +814,8 @@ export type GradeTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type GradeTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  code?: boolean
   description?: boolean
+  code?: boolean
   weight?: boolean
   order?: boolean
   isActive?: boolean
@@ -826,8 +826,8 @@ export type GradeTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type GradeTypeSelectScalar = {
   id?: boolean
   name?: boolean
-  code?: boolean
   description?: boolean
+  code?: boolean
   weight?: boolean
   order?: boolean
   isActive?: boolean
@@ -835,7 +835,7 @@ export type GradeTypeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type GradeTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "description" | "weight" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["gradeType"]>
+export type GradeTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "code" | "weight" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["gradeType"]>
 export type GradeTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignments?: boolean | Prisma.GradeType$assignmentsArgs<ExtArgs>
   gradeConfigurations?: boolean | Prisma.GradeType$gradeConfigurationsArgs<ExtArgs>
@@ -855,8 +855,8 @@ export type $GradeTypePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    code: string
     description: string | null
+    code: string
     weight: number
     order: number
     isActive: boolean
@@ -1290,8 +1290,8 @@ export interface Prisma__GradeTypeClient<T, Null = never, ExtArgs extends runtim
 export interface GradeTypeFieldRefs {
   readonly id: Prisma.FieldRef<"GradeType", 'String'>
   readonly name: Prisma.FieldRef<"GradeType", 'String'>
-  readonly code: Prisma.FieldRef<"GradeType", 'String'>
   readonly description: Prisma.FieldRef<"GradeType", 'String'>
+  readonly code: Prisma.FieldRef<"GradeType", 'String'>
   readonly weight: Prisma.FieldRef<"GradeType", 'Int'>
   readonly order: Prisma.FieldRef<"GradeType", 'Int'>
   readonly isActive: Prisma.FieldRef<"GradeType", 'Boolean'>

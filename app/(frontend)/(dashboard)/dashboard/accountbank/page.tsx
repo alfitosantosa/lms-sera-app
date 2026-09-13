@@ -64,10 +64,10 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Jenis Bank</CardTitle>
-          <Landmark className="h-4 w-4 text-blue-600" />
+          <Landmark className="h-4 w-4 text-info" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-blue-600">{uniqueBanks}</div>
+          <div className="text-2xl font-bold text-info">{uniqueBanks}</div>
           <p className="text-xs text-muted-foreground">Bank berbeda terdaftar</p>
         </CardContent>
       </Card>
@@ -75,10 +75,10 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Branch Terdaftar</CardTitle>
-          <Users className="h-4 w-4 text-purple-600" />
+          <Users className="h-4 w-4 text-tertiary" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-purple-600">{uniqueMajors}</div>
+          <div className="text-2xl font-bold text-tertiary">{uniqueMajors}</div>
           <p className="text-xs text-muted-foreground">Branch memiliki rekening</p>
         </CardContent>
       </Card>
@@ -159,7 +159,7 @@ function AccountBankFormDialog({ open, onOpenChange, editData, onSuccess }: { op
           <div className="space-y-2">
             <Label htmlFor="accountName">Nama Pemilik Rekening</Label>
             <Input id="accountName" placeholder="Masukkan nama pemilik rekening" {...register("accountName")} />
-            {errors.accountName && <p className="text-sm text-red-500">{errors.accountName.message}</p>}
+            {errors.accountName && <p className="text-sm text-destructive">{errors.accountName.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -176,13 +176,13 @@ function AccountBankFormDialog({ open, onOpenChange, editData, onSuccess }: { op
                 ))}
               </SelectContent>
             </Select>
-            {errors.accountBank && <p className="text-sm text-red-500">{errors.accountBank.message}</p>}
+            {errors.accountBank && <p className="text-sm text-destructive">{errors.accountBank.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="accountNumber">Nomor Rekening</Label>
             <Input id="accountNumber" placeholder="Masukkan nomor rekening" {...register("accountNumber")} />
-            {errors.accountNumber && <p className="text-sm text-red-500">{errors.accountNumber.message}</p>}
+            {errors.accountNumber && <p className="text-sm text-destructive">{errors.accountNumber.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -199,7 +199,7 @@ function AccountBankFormDialog({ open, onOpenChange, editData, onSuccess }: { op
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && <p className="text-sm text-red-500">{errors.majorId.message}</p>}
+            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -249,7 +249,7 @@ function DeleteAccountBankDialog({ open, onOpenChange, accountData, onSuccess }:
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteAccountBank.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteAccountBank.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteAccountBank.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -376,7 +376,7 @@ function AccountBankDashboard() {
                   setSelectedAccount(accountData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

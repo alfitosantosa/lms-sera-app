@@ -56,16 +56,16 @@ export type TahfidzRecordData = {
 
 // ─── Grade Badge ──────────────────────────────────────────────────────────────
 const gradeColor: Record<string, string> = {
-  A: "bg-green-600",
-  B: "bg-blue-500",
-  C: "bg-yellow-500",
-  D: "bg-orange-500",
-  E: "bg-red-600",
+  A: "bg-success-solid",
+  B: "bg-info-solid",
+  C: "bg-warning-solid",
+  D: "bg-caution-solid",
+  E: "bg-destructive-solid",
 };
 
 function GradeBadge({ grade }: { grade?: string }) {
   if (!grade) return <span className="text-muted-foreground">-</span>;
-  return <Badge className={`${gradeColor[grade.toUpperCase()] ?? "bg-gray-500"} text-white font-bold`}>{grade}</Badge>;
+  return <Badge className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} text-white font-bold`}>{grade}</Badge>;
 }
 
 // ─── Main DataTable ───────────────────────────────────────────────────────────
@@ -423,7 +423,7 @@ function TahfidzRecordDataTable() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BookOpen className="h-5 w-5 text-blue-500" />
+            <BookOpen className="h-5 w-5 text-info" />
             <h3 className="font-semibold">Total Rekaman</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{totalRecords}</p>
@@ -432,7 +432,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-green-600" />
+            <div className="h-3 w-3 rounded-full bg-success-solid" />
             <h3 className="font-semibold">Nilai A</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => r.original.grade === "A").length}</p>
@@ -440,7 +440,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-yellow-500" />
+            <div className="h-3 w-3 rounded-full bg-warning-solid" />
             <h3 className="font-semibold">Belum Dinilai</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => !r.original.grade).length}</p>
@@ -448,7 +448,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <User className="h-5 w-5 text-purple-500" />
+            <User className="h-5 w-5 text-tertiary" />
             <h3 className="font-semibold">Jumlah Siswa</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{new Set(filteredRows.map((r) => r.original.studentId).filter(Boolean)).size}</p>

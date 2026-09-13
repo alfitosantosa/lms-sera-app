@@ -23,11 +23,11 @@ import { unauthorized } from "next/navigation";
 import { useState } from "react";
 
 const STATUS_CONFIG = {
-  present: { label: "Hadir", bg: "bg-green-100", text: "text-green-800", icon: CheckCircle2 },
-  late: { label: "Terlambat", bg: "bg-orange-100", text: "text-orange-800", icon: Clock },
-  excused: { label: "Izin", bg: "bg-blue-100", text: "text-blue-800", icon: AlertCircle },
-  sick: { label: "Sakit", bg: "bg-yellow-100", text: "text-yellow-800", icon: AlertCircle },
-  absent: { label: "Alfa", bg: "bg-red-100", text: "text-red-800", icon: XCircle },
+  present: { label: "Hadir", bg: "bg-success-chip", text: "text-success-strong", icon: CheckCircle2 },
+  late: { label: "Terlambat", bg: "bg-caution-chip", text: "text-caution-strong", icon: Clock },
+  excused: { label: "Izin", bg: "bg-info-chip", text: "text-info-strong", icon: AlertCircle },
+  sick: { label: "Sakit", bg: "bg-warning-chip", text: "text-warning-strong", icon: AlertCircle },
+  absent: { label: "Alfa", bg: "bg-destructive-chip", text: "text-destructive-strong", icon: XCircle },
 };
 
 function getDefaultStartDate() {
@@ -111,26 +111,26 @@ function RecapAttendanceByClass() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/50">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Rekap Absensi Kelas</h1>
-          <p className="text-gray-600">Lihat rekap kehadiran per kelas dan periode</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Rekap Absensi Kelas</h1>
+          <p className="text-muted-foreground">Lihat rekap kehadiran per kelas dan periode</p>
         </div>
 
         {/* Filter Section */}
         <Card className="shadow-sm">
-          <CardHeader className="border-b bg-gray-50/50">
+          <CardHeader className="border-b bg-muted/50">
             <CardTitle className="text-lg flex items-center gap-2">
-              <Users className="w-5 h-5 text-gray-600" />
+              <Users className="w-5 h-5 text-muted-foreground" />
               Filter Data
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Pilih Kelas</label>
+                <label className="text-sm font-medium text-foreground">Pilih Kelas</label>
                 <Select
                   value={selectedClass?.id || ""}
                   onValueChange={(value) => {
@@ -166,13 +166,13 @@ function RecapAttendanceByClass() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Dari Tanggal</label>
-                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                <label className="text-sm font-medium text-foreground">Dari Tanggal</label>
+                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-info focus:border-transparent" />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Sampai Tanggal</label>
-                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                <label className="text-sm font-medium text-foreground">Sampai Tanggal</label>
+                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-info focus:border-transparent" />
               </div>
             </div>
 
@@ -190,10 +190,10 @@ function RecapAttendanceByClass() {
         {/* Class Info & Statistics */}
         {selectedClass && (
           <>
-            <Card className="shadow-sm border-l-4 border-l-blue-500">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-transparent">
+            <Card className="shadow-sm border-l-4 border-l-info">
+              <CardHeader className="bg-gradient-to-r from-info-surface to-transparent">
                 <CardTitle className="flex items-center gap-2 text-lg">
-                  <Users className="w-5 h-5 text-blue-600" />
+                  <Users className="w-5 h-5 text-info" />
                   {selectedClass.name}
                 </CardTitle>
                 <CardDescription>
@@ -202,23 +202,23 @@ function RecapAttendanceByClass() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200">
-                    <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
-                    <p className="text-sm text-gray-600 mt-1">Total</p>
+                  <div className="bg-muted/50 rounded-lg p-4 text-center border border-border">
+                    <p className="text-3xl font-bold text-foreground">{stats.total}</p>
+                    <p className="text-sm text-muted-foreground mt-1">Total</p>
                   </div>
 
                   {Object.entries(STATUS_CONFIG).map(([key, config]) => {
                     const Icon = config.icon;
                     const count = stats[key as keyof typeof stats];
                     return (
-                      <div key={key} className={`${config.bg} rounded-lg p-4 border border-gray-200`}>
+                      <div key={key} className={`${config.bg} rounded-lg p-4 border border-border`}>
                         <div className="flex flex-col items-center gap-2">
-                          <div className="p-2 bg-white rounded-full">
+                          <div className="p-2 bg-card rounded-full">
                             <Icon className={`w-5 h-5 ${config.text}`} />
                           </div>
                           <div className="text-center">
-                            <p className="text-2xl font-bold text-gray-900">{count}</p>
-                            <p className="text-xs text-gray-700 mt-1">{config.label}</p>
+                            <p className="text-2xl font-bold text-foreground">{count}</p>
+                            <p className="text-xs text-foreground mt-1">{config.label}</p>
                           </div>
                         </div>
                       </div>
@@ -230,11 +230,11 @@ function RecapAttendanceByClass() {
 
             {/* Daily Attendance Details */}
             <Card className="shadow-sm">
-              <CardHeader className="border-b bg-gray-50/50">
+              <CardHeader className="border-b bg-muted/50">
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2 text-lg">
-                      <Calendar className="w-5 h-5 text-gray-600" />
+                      <Calendar className="w-5 h-5 text-muted-foreground" />
                       Detail Absensi Harian
                     </CardTitle>
                     <CardDescription className="mt-1">Kehadiran siswa per tanggal</CardDescription>
@@ -248,24 +248,24 @@ function RecapAttendanceByClass() {
                 {isLoading ?
                   <div className="space-y-4">
                     {[...Array(5)].map((_, i) => (
-                      <div key={i} className="h-24 bg-gray-100 rounded-lg animate-pulse" />
+                      <div key={i} className="h-24 bg-muted rounded-lg animate-pulse" />
                     ))}
                   </div>
                 : paginatedDates.length === 0 ?
                   <div className="py-12 text-center">
-                    <Calendar className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                    <p className="text-gray-500 font-medium">Tidak ada data absensi</p>
-                    <p className="text-sm text-gray-400 mt-1">Silakan pilih periode lain</p>
+                    <Calendar className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground font-medium">Tidak ada data absensi</p>
+                    <p className="text-sm text-muted-foreground mt-1">Silakan pilih periode lain</p>
                   </div>
                 : <div className="space-y-4">
                     {paginatedDates.map((date) => {
                       const dailyAttendances = attendanceByDate[date] || [];
 
                       return (
-                        <div key={date} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="bg-gradient-to-r from-gray-50 to-transparent p-4 border-b">
+                        <div key={date} className="border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="bg-gradient-to-r from-muted/50 to-transparent p-4 border-b">
                             <div className="flex items-center justify-between flex-wrap gap-2">
-                              <h3 className="font-semibold text-gray-900">{format(new Date(date), "EEEE, dd MMMM yyyy", { locale: id })}</h3>
+                              <h3 className="font-semibold text-foreground">{format(new Date(date), "EEEE, dd MMMM yyyy", { locale: id })}</h3>
                               <div className="flex flex-wrap gap-2">
                                 {Object.entries(STATUS_CONFIG).map(([key, config]) => {
                                   const count = dailyAttendances.filter((a: attendanceTypes) => a.status === key).length;
@@ -282,9 +282,9 @@ function RecapAttendanceByClass() {
                             </div>
                           </div>
 
-                          <div className="p-4 bg-white">
+                          <div className="p-4 bg-card">
                             {dailyAttendances.length === 0 ?
-                              <p className="text-sm text-gray-500 text-center py-4">Tidak ada data kehadiran</p>
+                              <p className="text-sm text-muted-foreground text-center py-4">Tidak ada data kehadiran</p>
                             : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                 {dailyAttendances.map((attendance: attendanceTypes) => {
                                   const student = filteredStudents.find((s: UserDataTypes) => s.id === attendance.studentId);
@@ -295,11 +295,11 @@ function RecapAttendanceByClass() {
                                   const Icon = config.icon;
 
                                   return (
-                                    <div key={attendance.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                                    <div key={attendance.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg border border-border hover:bg-muted transition-colors">
                                       <ImageWithFallback src={student?.avatarUrl || DEFAULT_AVATAR} alt={student?.name || "Student"} width={40} height={40} className="rounded-full ring-2 ring-white" fallback={DEFAULT_AVATAR} />
                                       <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-gray-900 truncate">{student?.name || "Unknown Student"}</p>
-                                        <p className="text-xs text-gray-500 truncate">NISN: {student?.nisn || "-"}</p>
+                                        <p className="text-sm font-medium text-foreground truncate">{student?.name || "Unknown Student"}</p>
+                                        <p className="text-xs text-muted-foreground truncate">NISN: {student?.nisn || "-"}</p>
                                       </div>
                                       <Badge className={`${config.bg} ${config.text} border-0 gap-1 flex-shrink-0`}>
                                         <Icon className="w-3 h-3" />
@@ -320,7 +320,7 @@ function RecapAttendanceByClass() {
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="flex items-center justify-between mt-6 pt-6 border-t">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-muted-foreground">
                       Halaman {currentPage + 1} dari {totalPages}
                     </div>
                     <div className="flex items-center gap-2">
@@ -345,9 +345,9 @@ function RecapAttendanceByClass() {
           <Card className="shadow-sm">
             <CardContent className="py-12">
               <div className="text-center">
-                <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Pilih Kelas</h3>
-                <p className="text-gray-500">Silakan pilih kelas untuk melihat rekap absensi</p>
+                <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-medium text-foreground mb-2">Pilih Kelas</h3>
+                <p className="text-muted-foreground">Silakan pilih kelas untuk melihat rekap absensi</p>
               </div>
             </CardContent>
           </Card>

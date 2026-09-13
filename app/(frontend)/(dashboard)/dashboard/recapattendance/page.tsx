@@ -20,11 +20,11 @@ import { unauthorized } from "next/navigation";
 import { useState } from "react";
 
 const STATUS_CONFIG = {
-  present: { label: "Hadir", bg: "bg-green-100", text: "text-green-800", icon: CheckCircle2 },
-  late: { label: "Terlambat", bg: "bg-orange-100", text: "text-orange-800", icon: Clock },
-  excused: { label: "Izin", bg: "bg-blue-100", text: "text-blue-800", icon: AlertCircle },
-  sick: { label: "Sakit", bg: "bg-yellow-100", text: "text-yellow-800", icon: AlertCircle },
-  absent: { label: "Alfa", bg: "bg-red-100", text: "text-red-800", icon: XCircle },
+  present: { label: "Hadir", bg: "bg-success-chip", text: "text-success-strong", icon: CheckCircle2 },
+  late: { label: "Terlambat", bg: "bg-caution-chip", text: "text-caution-strong", icon: Clock },
+  excused: { label: "Izin", bg: "bg-info-chip", text: "text-info-strong", icon: AlertCircle },
+  sick: { label: "Sakit", bg: "bg-warning-chip", text: "text-warning-strong", icon: AlertCircle },
+  absent: { label: "Alfa", bg: "bg-destructive-chip", text: "text-destructive-strong", icon: XCircle },
 };
 
 function getDefaultStartDate() {
@@ -120,7 +120,7 @@ function RecapAttendance() {
       <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 max-w-7xl mx-auto min-h-screen">
         <div className="space-y-1 sm:space-y-2">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Rekap Absensi Siswa</h1>
-          <p className="text-sm sm:text-base text-gray-600">Lihat rekap kehadiran siswa per periode</p>
+          <p className="text-sm sm:text-base text-muted-foreground">Lihat rekap kehadiran siswa per periode</p>
         </div>
 
         {/* Student Selection */}
@@ -131,7 +131,7 @@ function RecapAttendance() {
           <CardContent>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
                 <Input placeholder="Cari nama siswa..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 text-sm" />
               </div>
               <Select
@@ -151,7 +151,7 @@ function RecapAttendance() {
                         <ImageWithFallback src={student.avatarUrl || DEFAULT_AVATAR} alt="User avatar" width={20} height={20} className="rounded-full" fallback={DEFAULT_AVATAR} />
                         <div className="flex flex-col">
                           <span className="truncate">{student.name}</span>
-                          <span className="text-xs text-gray-500 truncate">
+                          <span className="text-xs text-muted-foreground truncate">
                             {student.email} {student.nisn && `• ${student.nisn}`}
                           </span>
                         </div>
@@ -163,12 +163,12 @@ function RecapAttendance() {
             </div>
 
             {selectedStudent && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="mt-4 p-3 bg-info-surface rounded-lg border border-info-border">
                 <div className="flex flex-row items-center gap-3">
                   <ImageWithFallback src={selectedStudent.avatarUrl || DEFAULT_AVATAR} alt="User avatar" width={40} height={40} className="rounded-full" fallback={DEFAULT_AVATAR} />
                   <div>
-                    <p className="text-sm sm:text-base font-semibold text-blue-900">{selectedStudent.name}</p>
-                    <p className="text-xs text-blue-700">
+                    <p className="text-sm sm:text-base font-semibold text-info-strong">{selectedStudent.name}</p>
+                    <p className="text-xs text-info-strong">
                       {selectedStudent.email} {selectedStudent.nisn && `• NISN: ${selectedStudent.nisn}`}
                     </p>
                   </div>
@@ -186,11 +186,11 @@ function RecapAttendance() {
           <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
             <div className="flex-1">
               <label className="text-xs sm:text-sm font-medium block mb-2">Dari Tanggal</label>
-              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm" />
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-xs sm:text-sm" />
             </div>
             <div className="flex-1">
               <label className="text-xs sm:text-sm font-medium block mb-2">Sampai Tanggal</label>
-              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm" />
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-xs sm:text-sm" />
             </div>
           </CardContent>
         </Card>
@@ -201,7 +201,7 @@ function RecapAttendance() {
             <CardContent className="pt-4 sm:pt-6">
               <div className="text-center">
                 <p className="text-xl sm:text-2xl font-bold">{stats.total}</p>
-                <p className="text-xs text-gray-600">Total</p>
+                <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </CardContent>
           </Card>
@@ -217,7 +217,7 @@ function RecapAttendance() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-xl sm:text-2xl font-bold">{count}</p>
-                      <p className="text-xs text-gray-600 truncate">{config.label}</p>
+                      <p className="text-xs text-muted-foreground truncate">{config.label}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -238,8 +238,8 @@ function RecapAttendance() {
               </div>
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                 <div className="flex items-center gap-2 text-sm">
-                  <BarChart3 className="w-5 h-5 text-green-600" />
-                  <span className="font-semibold text-green-600">{presentPercentage}% Kehadiran</span>
+                  <BarChart3 className="w-5 h-5 text-success" />
+                  <span className="font-semibold text-success">{presentPercentage}% Kehadiran</span>
                 </div>
                 {selectedStudent && filteredAttendances.length > 0 && (
                   <div className="flex flex-wrap justify-center items-center gap-2">
@@ -264,16 +264,16 @@ function RecapAttendance() {
             {isLoadingAttendances ?
               <div className="space-y-2 sm:space-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-12 sm:h-14 bg-gray-100 rounded-lg animate-pulse" />
+                  <div key={i} className="h-12 sm:h-14 bg-muted rounded-lg animate-pulse" />
                 ))}
               </div>
             : !selectedStudent ?
-              <div className="py-6 sm:py-8 text-center text-gray-500">
+              <div className="py-6 sm:py-8 text-center text-muted-foreground">
                 <User className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-20" />
                 <p className="text-xs sm:text-sm">Silakan pilih siswa terlebih dahulu</p>
               </div>
             : filteredAttendances.length === 0 ?
-              <div className="py-6 sm:py-8 text-center text-gray-500">
+              <div className="py-6 sm:py-8 text-center text-muted-foreground">
                 <Calendar className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-20" />
                 <p className="text-xs sm:text-sm">Tidak ada data absensi untuk periode ini</p>
               </div>
@@ -285,13 +285,13 @@ function RecapAttendance() {
                     const isExpanded = expandedDate === attendance.id;
 
                     return (
-                      <div key={attendance.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div key={attendance.id} className="border border-border rounded-lg overflow-hidden">
                         {/* Summary Row */}
-                        <div className="p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 transition cursor-pointer" onClick={() => setExpandedDate(isExpanded ? null : attendance.id)}>
+                        <div className="p-3 sm:p-4 bg-muted/50 hover:bg-muted transition cursor-pointer" onClick={() => setExpandedDate(isExpanded ? null : attendance.id)}>
                           <div className="flex items-start sm:items-center justify-between gap-2">
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-xs sm:text-sm">{format(new Date(attendance.date), "EEEE, dd MMMM yyyy", { locale: id })}</p>
-                              <p className="text-xs text-gray-600">
+                              <p className="text-xs text-muted-foreground">
                                 {attendance.schedule?.subject?.name || "Mata Pelajaran"} - {attendance.schedule?.teacher?.name || "Guru"}
                               </p>
                             </div>
@@ -303,8 +303,8 @@ function RecapAttendance() {
                               </Badge>
                               <button className="p-1">
                                 {isExpanded ?
-                                  <ChevronUp className="w-4 h-4 text-gray-500" />
-                                : <ChevronDown className="w-4 h-4 text-gray-500" />}
+                                  <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                                : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                               </button>
                             </div>
                           </div>
@@ -312,39 +312,39 @@ function RecapAttendance() {
 
                         {/* Expanded Details */}
                         {isExpanded && (
-                          <div className="border-t bg-white p-3 sm:p-4 space-y-3">
+                          <div className="border-t bg-card p-3 sm:p-4 space-y-3">
                             <div className="grid grid-cols-2 gap-3">
                               <div>
-                                <p className="text-xs text-gray-600">Mata Pelajaran</p>
+                                <p className="text-xs text-muted-foreground">Mata Pelajaran</p>
                                 <p className="text-sm font-medium">{attendance.schedule?.subject?.name || "-"}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600">Kode</p>
+                                <p className="text-xs text-muted-foreground">Kode</p>
                                 <p className="text-sm font-medium">{attendance.schedule?.subject?.code || "-"}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600">Guru</p>
+                                <p className="text-xs text-muted-foreground">Guru</p>
                                 <p className="text-sm font-medium">{attendance.schedule?.teacher?.name || "-"}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600">Ruangan</p>
+                                <p className="text-xs text-muted-foreground">Ruangan</p>
                                 <p className="text-sm font-medium">{attendance.schedule?.room || "-"}</p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600">Waktu</p>
+                                <p className="text-xs text-muted-foreground">Waktu</p>
                                 <p className="text-sm font-medium">
                                   {attendance.schedule?.startTime || "-"} - {attendance.schedule?.endTime || "-"}
                                 </p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600">Tanggal</p>
+                                <p className="text-xs text-muted-foreground">Tanggal</p>
                                 <p className="text-sm font-medium">{format(new Date(attendance.date), "dd MMMM yyyy", { locale: id })}</p>
                               </div>
                             </div>
 
                             {attendance.notes && (
                               <div className="pt-3 border-t">
-                                <p className="text-xs text-gray-600 mb-1">Catatan</p>
+                                <p className="text-xs text-muted-foreground mb-1">Catatan</p>
                                 <p className="text-sm">{attendance.notes}</p>
                               </div>
                             )}

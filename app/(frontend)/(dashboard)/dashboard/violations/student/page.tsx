@@ -84,15 +84,15 @@ export default function ViolationDataTable() {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-red-600";
+        return "bg-destructive-solid";
       case "resolved":
-        return "bg-green-600";
+        return "bg-success-solid";
       case "pending":
-        return "bg-yellow-600";
+        return "bg-warning-solid";
       case "dismissed":
-        return "bg-gray-600";
+        return "bg-muted-foreground";
       default:
-        return "bg-gray-600";
+        return "bg-muted-foreground";
     }
   };
 
@@ -496,7 +496,7 @@ export default function ViolationDataTable() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <AlertTriangle className="h-5 w-5 text-red-500" />
+                <AlertTriangle className="h-5 w-5 text-destructive" />
                 <h3 className="font-semibold">Total Pelanggaran</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{violations.length}</p>
@@ -505,7 +505,7 @@ export default function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-red-600"></div>
+                <div className="h-3 w-3 rounded-full bg-destructive-solid"></div>
                 <h3 className="font-semibold">Aktif</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "active").length}</p>
@@ -513,7 +513,7 @@ export default function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-green-600"></div>
+                <div className="h-3 w-3 rounded-full bg-success-solid"></div>
                 <h3 className="font-semibold">Selesai</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "resolved").length}</p>
@@ -521,7 +521,7 @@ export default function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-yellow-600"></div>
+                <div className="h-3 w-3 rounded-full bg-warning-solid"></div>
                 <h3 className="font-semibold">Pending</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "pending").length}</p>

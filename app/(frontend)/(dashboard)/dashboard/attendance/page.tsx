@@ -49,11 +49,11 @@ type AttendanceFormValues = z.infer<typeof attendanceSchema>;
 
 // Status mapping
 const STATUS_MAP = {
-  present: { label: "Hadir", color: "bg-green-100 text-green-800", icon: CheckCircle },
-  absent: { label: "Tidak Hadir", color: "bg-red-100 text-red-800", icon: XCircle },
-  late: { label: "Terlambat", color: "bg-yellow-100 text-yellow-800", icon: Clock },
-  excused: { label: "Izin", color: "bg-blue-100 text-blue-800", icon: AlertCircle },
-  sick: { label: "Sakit", color: "bg-purple-100 text-purple-800", icon: AlertCircle },
+  present: { label: "Hadir", color: "bg-success-chip text-success-strong", icon: CheckCircle },
+  absent: { label: "Tidak Hadir", color: "bg-destructive-chip text-destructive-strong", icon: XCircle },
+  late: { label: "Terlambat", color: "bg-warning-chip text-warning-strong", icon: Clock },
+  excused: { label: "Izin", color: "bg-info-chip text-info-strong", icon: AlertCircle },
+  sick: { label: "Sakit", color: "bg-tertiary-chip text-tertiary-strong", icon: AlertCircle },
 };
 
 // Days mapping
@@ -155,7 +155,7 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
                   ))}
                 </SelectContent>
               </Select>
-              {errors.studentId && <p className="text-sm text-red-500">{errors.studentId.message}</p>}
+              {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -172,7 +172,7 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
                   ))}
                 </SelectContent>
               </Select>
-              {errors.scheduleId && <p className="text-sm text-red-500">{errors.scheduleId.message}</p>}
+              {errors.scheduleId && <p className="text-sm text-destructive">{errors.scheduleId.message}</p>}
             </div>
           </div>
 
@@ -194,13 +194,13 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
                   ))}
                 </SelectContent>
               </Select>
-              {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
+              {errors.status && <p className="text-sm text-destructive">{errors.status.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="date">Tanggal</Label>
               <Input id="date" type="date" {...register("date")} />
-              {errors.date && <p className="text-sm text-red-500">{errors.date.message}</p>}
+              {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
             </div>
           </div>
 
@@ -257,7 +257,7 @@ function DeleteAttendanceDialog({ open, onOpenChange, attendanceData, onSuccess 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteAttendance.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteAttendance.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteAttendance.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -566,7 +566,7 @@ function AttendanceDataTable() {
                   setSelectedAttendance(attendanceData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -702,7 +702,7 @@ function AttendanceDataTable() {
 
           <div className="flex items-center gap-2 flex-wrap">
             {selectedRowsCount > 0 && (
-              <Button variant="default" onClick={exportToExcel} className="bg-green-600 hover:bg-green-700">
+              <Button variant="default" onClick={exportToExcel} className="bg-success-solid hover:bg-success-solid/90">
                 <Download className="mr-2 h-4 w-4" />
                 Export Excel ({selectedRowsCount})
               </Button>
@@ -846,7 +846,7 @@ function AttendanceDataTable() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-blue-500" />
+              <CheckCircle className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{stats.total}</p>
@@ -855,37 +855,37 @@ function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-success" />
               <h3 className="font-semibold">Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-green-600">{stats.present}</p>
+            <p className="text-2xl font-bold mt-2 text-success">{stats.present}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.present / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <XCircle className="h-5 w-5 text-red-500" />
+              <XCircle className="h-5 w-5 text-destructive" />
               <h3 className="font-semibold">Tidak Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-red-600">{stats.absent}</p>
+            <p className="text-2xl font-bold mt-2 text-destructive">{stats.absent}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.absent / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-yellow-500" />
+              <Clock className="h-5 w-5 text-warning" />
               <h3 className="font-semibold">Terlambat</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-yellow-600">{stats.late}</p>
+            <p className="text-2xl font-bold mt-2 text-warning">{stats.late}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.late / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-blue-500" />
+              <AlertCircle className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Izin dan sakit</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-blue-600">{stats.excused + stats.sick}</p>
+            <p className="text-2xl font-bold mt-2 text-info">{stats.excused + stats.sick}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round(((stats.excused + stats.sick) / stats.total) * 100)}%` : "0%"}</p>
           </div>
         </div>

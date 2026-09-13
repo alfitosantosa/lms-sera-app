@@ -123,14 +123,14 @@ export default function Navbar() {
   // Not logged in - show navbar with login button
   if (!userData) {
     return (
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <Image src={Logo} alt={`Logo ${process.env.NEXT_PUBLIC_CLIENT_NAME}`} className="h-10 w-10" />
               <div className="hidden md:block">
-                <h1 className="text-xl font-bold text-gray-900">{process.env.NEXT_PUBLIC_CLIENT_NAME}</h1>
-                <p className="text-sm text-gray-500">Sistem Informasi Sekolah</p>
+                <h1 className="text-xl font-bold text-foreground">{process.env.NEXT_PUBLIC_CLIENT_NAME}</h1>
+                <p className="text-sm text-muted-foreground">Sistem Informasi Sekolah</p>
               </div>
             </div>
             <Button variant="outline" onClick={() => router.push("/auth/sign-in")}>
@@ -144,15 +144,15 @@ export default function Navbar() {
 
   // Logged in - show full navbar with avatar and menu
   return (
-    <header className="bg-white shadow-sm border-b">
+    <header className="bg-background shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Image src={Logo} alt={`Logo ${process.env.NEXT_PUBLIC_CLIENT_NAME}`} className="h-10 w-10" />
               <div className="hidden md:block">
-                <h1 className="text-xl font-bold text-gray-900">{process.env.NEXT_PUBLIC_CLIENT_NAME}</h1>
-                <p className="text-sm text-gray-500">Sistem Informasi Sekolah</p>
+                <h1 className="text-xl font-bold text-foreground">{process.env.NEXT_PUBLIC_CLIENT_NAME}</h1>
+                <p className="text-sm text-muted-foreground">Sistem Informasi Sekolah</p>
               </div>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function Navbar() {
                   <span>Profile</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>

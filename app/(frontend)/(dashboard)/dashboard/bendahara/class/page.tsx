@@ -96,13 +96,13 @@ function ClassFormDialog({ id, open, onOpenChange, editData, onSuccess }: { id: 
           <div className="space-y-2">
             <Label htmlFor="name">Nama Kelas</Label>
             <Input id="name" placeholder="Contoh: X IPA 1" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="grade">Tingkat</Label>
             <Input id="grade" type="number" placeholder="10, 11, 12" {...register("grade", { valueAsNumber: true })} />
-            {errors.grade && <p className="text-sm text-red-500">{errors.grade.message}</p>}
+            {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -119,13 +119,13 @@ function ClassFormDialog({ id, open, onOpenChange, editData, onSuccess }: { id: 
                 ))}
               </SelectContent>
             </Select>
-            {errors.academicYearId && <p className="text-sm text-red-500">{errors.academicYearId.message}</p>}
+            {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="capacity">Kapasitas</Label>
             <Input id="capacity" type="number" placeholder="36" {...register("capacity", { valueAsNumber: true })} />
-            {errors.capacity && <p className="text-sm text-red-500">{errors.capacity.message}</p>}
+            {errors.capacity && <p className="text-sm text-destructive">{errors.capacity.message}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -176,10 +176,10 @@ function DeleteClassDialog({ open, onOpenChange, classData, onSuccess }: { open:
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          {/* <AlertDialogAction onClick={handleDelete} disabled={deleteClass.isPending} className="bg-red-600 hover:bg-red-700">
+          {/* <AlertDialogAction onClick={handleDelete} disabled={deleteClass.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteClass.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction> */}
-          <AlertDialogAction onClick={handleDelete} disabled={true} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={true} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteClass.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -320,7 +320,7 @@ function ClassDataTable({ id }: { id: string }) {
                   setSelectedClass(classData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

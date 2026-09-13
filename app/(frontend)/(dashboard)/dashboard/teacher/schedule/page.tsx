@@ -25,7 +25,7 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
   };
 
   const getDayColor = (dayOfWeek: number) => {
-    const colors = ["bg-red-100 text-red-800", "bg-blue-100 text-blue-800", "bg-green-100 text-green-800", "bg-yellow-100 text-yellow-800", "bg-purple-100 text-purple-800", "bg-indigo-100 text-indigo-800", "bg-pink-100 text-pink-800"];
+    const colors = ["bg-destructive-chip text-destructive-strong", "bg-info-chip text-info-strong", "bg-success-chip text-success-strong", "bg-warning-chip text-warning-strong", "bg-tertiary-chip text-tertiary-strong", "bg-info-chip text-info-strong", "bg-tertiary-chip text-tertiary-strong"];
     return colors[dayOfWeek];
   };
 
@@ -59,7 +59,7 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="space-y-2">
-            <CardTitle className="text-xl text-slate-900">{schedule?.subject?.name}</CardTitle>
+            <CardTitle className="text-xl text-foreground">{schedule?.subject?.name}</CardTitle>
             <CardDescription className="text-base">Kode: {schedule?.subject?.code}</CardDescription>
           </div>
           <Badge className={`${getDayColor(schedule.dayOfWeek)} border-0`} variant="secondary">
@@ -72,14 +72,14 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Users className="h-4 w-4 text-slate-500" />
-              <span className="text-slate-700">
+              <Users className="h-4 w-4 text-muted-foreground" />
+              <span className="text-foreground">
                 <span className="font-medium">Kelas:</span> {schedule?.tahfidzGroup?.name ? schedule?.tahfidzGroup?.name : schedule?.class?.name}
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="h-4 w-4 text-slate-500" />
-              <span className="text-slate-700">
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <span className="text-foreground">
                 <span className="font-medium">Ruangan:</span> {schedule.room}
               </span>
             </div>
@@ -87,15 +87,15 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
 
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Clock className="h-4 w-4 text-slate-500" />
-              <span className="text-slate-700">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+              <span className="text-foreground">
                 <span className="font-medium">Waktu:</span> {schedule.startTime} - {schedule.endTime}
               </span>
             </div>
 
             <div className="flex items-center gap-3">
-              <BookOpen className="h-4 w-4 text-slate-500" />
-              <span className="text-slate-700">
+              <BookOpen className="h-4 w-4 text-muted-foreground" />
+              <span className="text-foreground">
                 <span className="font-medium">SKS:</span> {schedule?.subject?.credits}
               </span>
             </div>
@@ -104,12 +104,12 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
 
         <Separator className="my-4" />
 
-        <div className="text-sm text-slate-600">
+        <div className="text-sm text-muted-foreground">
           <span className="font-medium">Tahun Akademik:</span> {schedule?.academicYear?.year}
         </div>
       </CardContent>
 
-      <CardFooter className="bg-slate-50/50 flex items-center gap-2 flex-wrap">
+      <CardFooter className="bg-muted/50 flex items-center gap-2 flex-wrap">
         <Link href={`/dashboard/teacher/schedule/${schedule.id}`} passHref>
           <Button variant="outline" className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
@@ -118,7 +118,7 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
         </Link>
         <Button
           disabled={isButtonDisabled}
-          className={`flex items-center gap-2 ${isButtonDisabled ? "opacity-10 cursor-not-allowed bg-gray-300 text-gray-1000 hover:bg-gray-300" : ""}`}
+          className={`flex items-center gap-2 ${isButtonDisabled ? "opacity-10 cursor-not-allowed bg-muted text-muted-foreground hover:bg-muted" : ""}`}
           onClick={() => {
             if (!isButtonDisabled) {
               if (schedule.tahfidzGroup?.name) {
@@ -193,15 +193,15 @@ function TeacherAttendancePage() {
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 ">
+      <div className="min-h-screen bg-linear-to-br from-muted/40 to-muted/60 ">
         <div className="max-w-7xl mx-auto px-4 py-8">
           {/* Header Section */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <GraduationCap className="h-8 w-8 text-primary" />
-              <h1 className="text-4xl font-bold text-slate-900">Jadwal Mengajar</h1>
+              <h1 className="text-4xl font-bold text-foreground">Jadwal Mengajar</h1>
             </div>
-            <p className="text-slate-600 text-lg">Kelola jadwal dan absensi kelas Anda dengan mudah</p>
+            <p className="text-muted-foreground text-lg">Kelola jadwal dan absensi kelas Anda dengan mudah</p>
           </div>
 
           {/* Filter Section */}
@@ -215,7 +215,7 @@ function TeacherAttendancePage() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4">
-                <label className="text-sm font-medium text-slate-700 min-w-fit">Pilih Hari:</label>
+                <label className="text-sm font-medium text-foreground min-w-fit">Pilih Hari:</label>
                 <Select value={selectedDay} onValueChange={setSelectedDay}>
                   <SelectTrigger className="w-64">
                     <SelectValue placeholder="Pilih hari" />
@@ -247,9 +247,9 @@ function TeacherAttendancePage() {
               {filteredScheduleData.length === 0 ?
                 <Card className="text-center py-12">
                   <CardContent>
-                    <CalendarDays className="mx-auto h-12 w-12 text-slate-400 mb-4" />
-                    <h3 className="text-lg font-medium text-slate-900 mb-2">Tidak ada jadwal</h3>
-                    <p className="text-slate-600">Tidak ada jadwal untuk hari yang dipilih.</p>
+                    <CalendarDays className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-medium text-foreground mb-2">Tidak ada jadwal</h3>
+                    <p className="text-muted-foreground">Tidak ada jadwal untuk hari yang dipilih.</p>
                   </CardContent>
                 </Card>
               : <>

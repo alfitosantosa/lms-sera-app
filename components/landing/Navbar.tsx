@@ -43,21 +43,21 @@ export function Navbar() {
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-[#e3e8ee] bg-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] backdrop-blur-md"
-          : "border-b border-transparent bg-white/60 backdrop-blur-md"
+          ? "border-b border-border bg-background/90 shadow-[0_4px_20px_rgba(13,37,61,0.03)] backdrop-blur-md"
+          : "border-b border-transparent bg-background/60 backdrop-blur-md"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Brand Logo */}
         <Link href="/" className="group flex items-center gap-2.5">
           <span className="relative flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#533afd] opacity-60" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-[#533afd]" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-primary" />
           </span>
-          <span className="text-[20px] font-bold tracking-tight text-[#0d253d] transition-colors group-hover:text-[#533afd]">
+          <span className="text-[20px] font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
             Sera
           </span>
-          <span className="rounded-full bg-[#533afd]/10 px-2 py-0.5 text-[11px] font-semibold text-[#533afd]">
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
             LMS Yayasan
           </span>
         </Link>
@@ -68,7 +68,7 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-[14px] font-medium text-[#273951] transition-colors duration-200 hover:text-[#533afd]"
+              className="text-[14px] font-medium text-secondary-foreground transition-colors duration-200 hover:text-primary"
             >
               {link.label}
             </a>
@@ -80,14 +80,14 @@ export function Navbar() {
           <Button
             variant="ghost"
             onClick={handleNavigateSignIn}
-            className="text-[14px] font-medium text-[#273951] hover:bg-[#f6f9fc] hover:text-[#0d253d]"
+            className="text-[14px] font-medium text-secondary-foreground hover:bg-secondary hover:text-foreground"
           >
             Masuk
           </Button>
 
           <Button
             onClick={handleNavigateRegisterFoundation}
-            className="group relative inline-flex items-center gap-1.5 rounded-full bg-[#533afd] px-5 py-2 text-[14px] font-semibold text-white shadow-sm shadow-[#533afd]/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#4434d4] hover:shadow-md hover:shadow-[#533afd]/35 active:translate-y-0 active:bg-[#2e2b8c]"
+            className="group relative inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2 text-[14px] font-semibold text-white shadow-sm shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-md hover:shadow-primary/35 active:translate-y-0 active:bg-primary-active"
           >
             <span>Daftar Yayasan</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -101,20 +101,20 @@ export function Navbar() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9 rounded-lg border-[#e3e8ee] bg-white/80"
+                className="h-9 w-9 rounded-lg border-border bg-background/80"
                 aria-label="Buka menu navigasi"
               >
-                <Menu className="h-5 w-5 text-[#0d253d]" />
+                <Menu className="h-5 w-5 text-foreground" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-84 p-0 flex flex-col justify-between">
               <div>
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-[#e3e8ee] p-5">
+                <div className="flex items-center justify-between border-b border-border p-5">
                   <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#533afd]" />
-                    <span className="text-lg font-bold text-[#0d253d]">Sera</span>
-                    <span className="rounded bg-[#533afd]/10 px-1.5 py-0.5 text-[10px] font-bold text-[#533afd]">
+                    <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+                    <span className="text-lg font-bold text-foreground">Sera</span>
+                    <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
                       LMS
                     </span>
                   </div>
@@ -127,21 +127,21 @@ export function Navbar() {
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between rounded-lg px-3 py-2.5 text-[15px] font-medium text-[#273951] transition-colors hover:bg-[#f6f9fc] hover:text-[#533afd]"
+                      className="flex items-center justify-between rounded-lg px-3 py-2.5 text-[15px] font-medium text-secondary-foreground transition-colors hover:bg-secondary hover:text-primary"
                     >
                       <span>{link.label}</span>
-                      <ArrowRight className="h-4 w-4 text-[#64748d] opacity-50" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground opacity-50" />
                     </a>
                   ))}
                 </div>
 
-                <Separator className="bg-[#e3e8ee]" />
+                <Separator className="bg-border" />
 
                 {/* Auth Actions */}
                 <div className="p-5 space-y-3">
                   <Button
                     onClick={handleNavigateRegisterFoundation}
-                    className="w-full justify-center gap-2 rounded-full bg-[#533afd] py-5 font-semibold text-white shadow-sm hover:bg-[#4434d4]"
+                    className="w-full justify-center gap-2 rounded-full bg-primary py-5 font-semibold text-white shadow-sm hover:bg-primary-hover"
                   >
                     <span>Daftar Akun Yayasan</span>
                     <ArrowRight className="h-4 w-4" />
@@ -150,7 +150,7 @@ export function Navbar() {
                   <Button
                     variant="outline"
                     onClick={handleNavigateSignIn}
-                    className="w-full justify-center gap-2 rounded-full border-[#e3e8ee] py-5 font-medium text-[#273951] hover:bg-[#f6f9fc]"
+                    className="w-full justify-center gap-2 rounded-full border-border py-5 font-medium text-secondary-foreground hover:bg-secondary"
                   >
                     <LogIn className="h-4 w-4" />
                     <span>Masuk ke Akun</span>
@@ -159,8 +159,8 @@ export function Navbar() {
               </div>
 
               {/* Drawer Footer info */}
-              <div className="border-t border-[#e3e8ee] bg-[#f6f9fc] p-5 text-xs text-[#64748d]">
-                <p className="font-semibold text-[#0d253d]">Yayasan Rahmaniyah Al-Islamy</p>
+              <div className="border-t border-border bg-secondary p-5 text-xs text-muted-foreground">
+                <p className="font-semibold text-foreground">Yayasan Rahmaniyah Al-Islamy</p>
                 <p className="mt-0.5">Sistem Manajemen Sekolah & Multi-Tenant Terpadu</p>
               </div>
             </SheetContent>

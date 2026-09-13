@@ -209,9 +209,9 @@ export const UserDataScalarFieldEnum = {
   name: 'name',
   isActive: 'isActive',
   foundationId: 'foundationId',
+  tahfidzGroupId: 'tahfidzGroupId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  tahfidzGroupId: 'tahfidzGroupId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserDataScalarFieldEnum = (typeof UserDataScalarFieldEnum)[keyof typeof UserDataScalarFieldEnum]
@@ -221,6 +221,7 @@ export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  foundationId: 'foundationId',
   permissions: 'permissions',
   isActive: 'isActive'
 } as const
@@ -233,6 +234,7 @@ export const AcademicYearScalarFieldEnum = {
   year: 'year',
   startDate: 'startDate',
   endDate: 'endDate',
+  foundationId: 'foundationId',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -251,7 +253,9 @@ export const MajorScalarFieldEnum = {
   phone: 'phone',
   adminName: 'adminName',
   signatureUrl: 'signatureUrl',
-  foundationId: 'foundationId'
+  foundationId: 'foundationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type MajorScalarFieldEnum = (typeof MajorScalarFieldEnum)[keyof typeof MajorScalarFieldEnum]
@@ -437,8 +441,9 @@ export const CalendarEventScalarFieldEnum = {
   description: 'description',
   eventDate: 'eventDate',
   eventType: 'eventType',
-  isPublished: 'isPublished',
   academicYearId: 'academicYearId',
+  foundationId: 'foundationId',
+  isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -449,8 +454,8 @@ export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)
 export const GradeTypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  code: 'code',
   description: 'description',
+  code: 'code',
   weight: 'weight',
   order: 'order',
   isActive: 'isActive',
@@ -605,6 +610,7 @@ export const DashboardContentScalarFieldEnum = {
   description: 'description',
   imageUrl: 'imageUrl',
   linkUrl: 'linkUrl',
+  foundationId: 'foundationId',
   order: 'order',
   isActive: 'isActive',
   isPublished: 'isPublished',
@@ -624,13 +630,14 @@ export const AnnouncementScalarFieldEnum = {
   content: 'content',
   imageUrl: 'imageUrl',
   linkUrl: 'linkUrl',
-  isActive: 'isActive',
-  isPublished: 'isPublished',
   startDate: 'startDate',
   endDate: 'endDate',
+  userId: 'userId',
+  foundationId: 'foundationId',
+  isActive: 'isActive',
+  isPublished: 'isPublished',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
@@ -684,6 +691,7 @@ export const TahfidzGroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
   grade: 'grade',
+  majorId: 'majorId',
   capacity: 'capacity',
   isActive: 'isActive'
 } as const

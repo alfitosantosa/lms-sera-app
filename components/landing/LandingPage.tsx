@@ -14,7 +14,7 @@ import { Footer } from "./Footer";
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-[#0d253d] antialiased selection:bg-[#533afd]/20 selection:text-[#533afd]">
+    <div className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-primary/20 selection:text-primary">
       {/* 1. Frosted Navigation Bar */}
       <Navbar />
 

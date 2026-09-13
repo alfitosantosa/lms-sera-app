@@ -24,38 +24,38 @@ import { toast } from "sonner";
 
 const STATUS_CONFIG: StatusConfigMap = {
   hadir: {
-    color: "text-white",
+    color: "text-success",
     label: "Hadir",
-    bg: "bg-green-100",
-    text: "text-green-700",
+    bg: "bg-success-chip",
+    text: "text-success-strong",
     icon: Check,
   },
   sakit: {
-    color: "text-white",
+    color: "text-warning",
     label: "Sakit",
-    bg: "bg-yellow-100",
-    text: "text-yellow-700",
+    bg: "bg-warning-chip",
+    text: "text-warning-strong",
     icon: Activity,
   },
   izin: {
-    color: "text-white",
+    color: "text-info",
     label: "Izin",
-    bg: "bg-blue-100",
-    text: "text-blue-700",
+    bg: "bg-info-chip",
+    text: "text-info-strong",
     icon: FileText,
   },
   alfa: {
-    color: "text-white",
+    color: "text-destructive",
     label: "Alfa",
-    bg: "bg-red-100",
-    text: "text-red-700",
+    bg: "bg-destructive-chip",
+    text: "text-destructive-strong",
     icon: X,
   },
   terlambat: {
-    color: "white",
+    color: "text-caution",
     label: "Terlambat",
-    bg: "bg-orange-100",
-    text: "text-orange-700",
+    bg: "bg-caution-chip",
+    text: "text-caution-strong",
     icon: Clock,
   },
 };
@@ -71,7 +71,7 @@ function TeacherAttendancePage() {
     <div className="">
       <div className="space-y-1 sm:space-y-2">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Absensi Guru</h1>
-        <p className="text-sm sm:text-base text-gray-600">Kelola kehadiran dan lihat laporan absensi guru</p>
+        <p className="text-sm sm:text-base text-muted-foreground">Kelola kehadiran dan lihat laporan absensi guru</p>
       </div>
 
       <Tabs defaultValue="checkin" className="w-full">
@@ -197,14 +197,14 @@ function CheckinTab({ adminId }: CheckinTabProps) {
       {/* Date & Search */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-          <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 hidden sm:block" />
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium" />
-          <span className="text-xs sm:text-sm text-gray-600">{format(new Date(date), "EEEE, dd MMMM yyyy", { locale: id })}</span>
+          <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hidden sm:block" />
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full sm:w-auto px-3 py-2 border border-border rounded-lg text-xs sm:text-sm font-medium" />
+          <span className="text-xs sm:text-sm text-muted-foreground">{format(new Date(date), "EEEE, dd MMMM yyyy", { locale: id })}</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
             <Input placeholder="Cari guru..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 text-sm" />
           </div>
           <Dialog
@@ -233,7 +233,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
               <div className="space-y-4">
                 <div>
                   <label className="text-xs sm:text-sm font-medium block mb-2">Pilih Guru ({selectedTeachers.length})</label>
-                  <div className="border border-gray-300 rounded-lg max-h-40 sm:max-h-48 overflow-y-auto p-2 sm:p-3 space-y-2">
+                  <div className="border border-border rounded-lg max-h-40 sm:max-h-48 overflow-y-auto p-2 sm:p-3 space-y-2">
                     {teachers.map((teacher: any) => (
                       <div key={teacher.id} className="flex items-center gap-2 sm:gap-3">
                         <input
@@ -247,11 +247,11 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                               setSelectedTeachers(selectedTeachers.filter((id) => id !== teacher.id));
                             }
                           }}
-                          className="w-4 h-4 rounded border-gray-300 cursor-pointer shrink-0"
+                          className="w-4 h-4 rounded border-border cursor-pointer shrink-0"
                         />
                         <label htmlFor={`teacher-${teacher.id}`} className="flex-1 cursor-pointer min-w-0">
                           <p className="text-xs sm:text-sm font-medium truncate">{teacher.name}</p>
-                          <p className="text-xs text-gray-600 truncate">{teacher.email}</p>
+                          <p className="text-xs text-muted-foreground truncate">{teacher.email}</p>
                         </label>
                       </div>
                     ))}
@@ -303,7 +303,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xl sm:text-2xl font-bold">{count}</p>
-                    <p className="text-xs text-gray-600 truncate">{config?.label}</p>
+                    <p className="text-xs text-muted-foreground truncate">{config?.label}</p>
                   </div>
                 </div>
               </CardContent>
@@ -322,11 +322,11 @@ function CheckinTab({ adminId }: CheckinTabProps) {
           {isLoading ?
             <div className="space-y-2 sm:space-y-3">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-12 sm:h-14 bg-gray-100 rounded-lg animate-pulse" />
+                <div key={i} className="h-12 sm:h-14 bg-muted rounded-lg animate-pulse" />
               ))}
             </div>
           : attendance.length === 0 ?
-            <div className="py-6 sm:py-8 text-center text-gray-500">
+            <div className="py-6 sm:py-8 text-center text-muted-foreground">
               <Calendar className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-20" />
               <p className="text-xs sm:text-sm">Belum ada absensi untuk tanggal ini</p>
             </div>
@@ -335,15 +335,15 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                 const config = STATUS_CONFIG[record.status];
                 const Icon = config.icon;
                 return (
-                  <div key={record.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition gap-2 sm:gap-0">
+                  <div key={record.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-muted/50 rounded-lg border border-border hover:border-border transition gap-2 sm:gap-0">
                     <div className="min-w-0 flex-1">
                       <p className="font-semibold text-xs sm:text-sm truncate">{record.teacher?.name}</p>
-                      <p className="text-xs text-gray-600 truncate">{record.teacher?.email}</p>
+                      <p className="text-xs text-muted-foreground truncate">{record.teacher?.email}</p>
                     </div>
                     <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 sm:ml-4 shrink-0">
                       {record.checkinTime && (
                         <div className="text-left sm:text-right">
-                          <p className="text-xs text-gray-600">Check-in</p>
+                          <p className="text-xs text-muted-foreground">Check-in</p>
                           <p className="font-mono text-xs sm:text-sm font-semibold">{format(new Date(record.checkinTime), "HH:mm")}</p>
                         </div>
                       )}
@@ -355,7 +355,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                         <Button variant="ghost" size="sm" onClick={() => openEditDialog_(record)} className="h-7 w-7 sm:h-8 sm:w-8 p-0">
                           <Edit2 className="w-3 h-3 sm:w-4 sm:h-4" />
                         </Button>
-                        <Button variant="ghost" size="sm" onClick={() => openDeleteDialog_(record)} className="h-7 w-7 sm:h-8 sm:w-8 p-0 hover:text-red-600">
+                        <Button variant="ghost" size="sm" onClick={() => openDeleteDialog_(record)} className="h-7 w-7 sm:h-8 sm:w-8 p-0 hover:text-destructive">
                           <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                         </Button>
                       </div>
@@ -378,9 +378,9 @@ function CheckinTab({ adminId }: CheckinTabProps) {
 
           {editingRecord && (
             <div className="space-y-4">
-              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-xs sm:text-sm font-semibold text-blue-900">{editingRecord.teacher?.name}</p>
-                <p className="text-xs text-blue-700">{editingRecord.teacher?.email}</p>
+              <div className="p-3 bg-info-surface rounded-lg border border-info-border">
+                <p className="text-xs sm:text-sm font-semibold text-info-strong">{editingRecord.teacher?.name}</p>
+                <p className="text-xs text-info-strong">{editingRecord.teacher?.email}</p>
               </div>
 
               <div>
@@ -421,7 +421,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
           </AlertDialogHeader>
           <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3">
             <AlertDialogCancel className="text-xs sm:text-sm mt-0">Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteSubmit} disabled={isDeletePending} className="bg-red-600 hover:bg-red-700 text-xs sm:text-sm">
+            <AlertDialogAction onClick={handleDeleteSubmit} disabled={isDeletePending} className="bg-destructive-solid hover:bg-destructive-solid/90 text-xs sm:text-sm">
               {isDeletePending ? "Menghapus..." : "Hapus"}
             </AlertDialogAction>
           </div>
@@ -455,11 +455,11 @@ function ReportsTab() {
         <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
           <div className="flex-1">
             <label className="text-xs sm:text-sm font-medium block mb-2">Dari Tanggal</label>
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm" />
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-xs sm:text-sm" />
           </div>
           <div className="flex-1">
             <label className="text-xs sm:text-sm font-medium block mb-2">Sampai Tanggal</label>
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm" />
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-xs sm:text-sm" />
           </div>
           <Button className="text-xs sm:text-sm w-full sm:w-auto">Refresh</Button>
         </CardContent>
@@ -471,39 +471,39 @@ function ReportsTab() {
           <CardContent className="pt-4 sm:pt-6">
             <div className="text-center">
               <p className="text-xl sm:text-2xl font-bold">{totalTeachers}</p>
-              <p className="text-xs text-gray-600">Total Guru</p>
+              <p className="text-xs text-muted-foreground">Total Guru</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 sm:pt-6">
             <div className="text-center">
-              <p className="text-xl sm:text-2xl font-bold text-green-600">{avgPresent}%</p>
-              <p className="text-xs text-gray-600">Rata-rata Hadir</p>
+              <p className="text-xl sm:text-2xl font-bold text-success">{avgPresent}%</p>
+              <p className="text-xs text-muted-foreground">Rata-rata Hadir</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 sm:pt-6">
             <div className="text-center">
-              <p className="text-xl sm:text-2xl font-bold text-yellow-600">{avgSick}%</p>
-              <p className="text-xs text-gray-600">Rata-rata Sakit</p>
+              <p className="text-xl sm:text-2xl font-bold text-warning">{avgSick}%</p>
+              <p className="text-xs text-muted-foreground">Rata-rata Sakit</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 sm:pt-6">
             <div className="text-center">
-              <p className="text-xl sm:text-2xl font-bold text-red-600">{avgAbsent}%</p>
-              <p className="text-xs text-gray-600">Rata-rata Alfa</p>
+              <p className="text-xl sm:text-2xl font-bold text-destructive">{avgAbsent}%</p>
+              <p className="text-xs text-muted-foreground">Rata-rata Alfa</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 sm:pt-6">
             <div className="text-center">
-              <p className="text-xl sm:text-2xl font-bold text-orange-600">{avgLate}%</p>
-              <p className="text-xs text-gray-600">Rata-rata Terlambat</p>
+              <p className="text-xl sm:text-2xl font-bold text-caution">{avgLate}%</p>
+              <p className="text-xs text-muted-foreground">Rata-rata Terlambat</p>
             </div>
           </CardContent>
         </Card>
@@ -573,68 +573,68 @@ function ReportsTab() {
           {isLoading ?
             <div className="space-y-2 sm:space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-12 sm:h-14 bg-gray-100 rounded-lg animate-pulse" />
+                <div key={i} className="h-12 sm:h-14 bg-muted rounded-lg animate-pulse" />
               ))}
             </div>
           : reports.length === 0 ?
-            <div className="py-6 sm:py-8 text-center text-gray-500">
+            <div className="py-6 sm:py-8 text-center text-muted-foreground">
               <BarChart3 className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-20" />
               <p className="text-xs sm:text-sm">Tidak ada data absensi untuk periode ini</p>
             </div>
           : <div className="space-y-2 sm:space-y-3">
               {reports.map((teacher: any) => (
-                <div key={teacher.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={teacher.id} className="border border-border rounded-lg overflow-hidden">
                   {/* Summary Row */}
-                  <div className="p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 transition cursor-pointer" onClick={() => setExpandedTeacher(expandedTeacher === teacher.id ? null : teacher.id)}>
+                  <div className="p-3 sm:p-4 bg-muted/50 hover:bg-muted transition cursor-pointer" onClick={() => setExpandedTeacher(expandedTeacher === teacher.id ? null : teacher.id)}>
                     <div className="flex items-start sm:items-center justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-xs sm:text-sm truncate">{teacher.name}</p>
-                        <p className="text-xs text-gray-600 truncate">{teacher.email}</p>
+                        <p className="text-xs text-muted-foreground truncate">{teacher.email}</p>
                       </div>
 
                       {/* Mobile: Show percentage and toggle */}
                       <div className="flex sm:hidden items-center gap-2 shrink-0">
                         <div className="text-right">
-                          <p className="text-xs text-gray-600">Kehadiran</p>
-                          <span className="font-semibold text-green-600 text-sm">{teacher.statistics?.presentPercentage}%</span>
+                          <p className="text-xs text-muted-foreground">Kehadiran</p>
+                          <span className="font-semibold text-success text-sm">{teacher.statistics?.presentPercentage}%</span>
                         </div>
                         <button className="p-1">
                           {expandedTeacher === teacher.id ?
-                            <ChevronUp className="w-4 h-4 text-gray-500" />
-                          : <ChevronDown className="w-4 h-4 text-gray-500" />}
+                            <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                          : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                         </button>
                       </div>
 
                       {/* Desktop: Show all stats including terlambat */}
                       <div className="hidden sm:flex items-center gap-3 lg:gap-4 ml-4 shrink-0">
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Total Hari</p>
+                          <p className="text-xs text-muted-foreground">Total Hari</p>
                           <p className="font-semibold text-sm">{teacher.statistics?.totalDays || 0}</p>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Hadir</p>
-                          <span className="inline-block px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">{teacher.statistics?.presentDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Hadir</p>
+                          <span className="inline-block px-2 py-1 rounded bg-success-chip text-success-strong text-xs font-semibold">{teacher.statistics?.presentDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Sakit</p>
-                          <span className="inline-block px-2 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold">{teacher.statistics?.sickDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Sakit</p>
+                          <span className="inline-block px-2 py-1 rounded bg-warning-chip text-warning-strong text-xs font-semibold">{teacher.statistics?.sickDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Izin</p>
-                          <span className="inline-block px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold">{teacher.statistics?.leaveDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Izin</p>
+                          <span className="inline-block px-2 py-1 rounded bg-info-chip text-info-strong text-xs font-semibold">{teacher.statistics?.leaveDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Alfa</p>
-                          <span className="inline-block px-2 py-1 rounded bg-red-100 text-red-800 text-xs font-semibold">{teacher.statistics?.absentDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Alfa</p>
+                          <span className="inline-block px-2 py-1 rounded bg-destructive-chip text-destructive-strong text-xs font-semibold">{teacher.statistics?.absentDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Terlambat</p>
-                          <span className="inline-block px-2 py-1 rounded bg-orange-100 text-orange-800 text-xs font-semibold">{teacher.statistics?.lateDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Terlambat</p>
+                          <span className="inline-block px-2 py-1 rounded bg-caution-chip text-caution-strong text-xs font-semibold">{teacher.statistics?.lateDays || 0}</span>
                         </div>
                         <button className="p-1">
                           {expandedTeacher === teacher.id ?
-                            <ChevronUp className="w-4 h-4 text-gray-500" />
-                          : <ChevronDown className="w-4 h-4 text-gray-500" />}
+                            <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                          : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                         </button>
                       </div>
                     </div>
@@ -643,28 +643,28 @@ function ReportsTab() {
                     {expandedTeacher === teacher.id && (
                       <div className="sm:hidden mt-3 pt-3 border-t grid grid-cols-3 gap-2">
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Total</p>
+                          <p className="text-xs text-muted-foreground">Total</p>
                           <p className="font-semibold text-sm">{teacher.statistics?.totalDays || 0}</p>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Hadir</p>
-                          <span className="inline-block px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">{teacher.statistics?.presentDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Hadir</p>
+                          <span className="inline-block px-2 py-1 rounded bg-success-chip text-success-strong text-xs font-semibold">{teacher.statistics?.presentDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Sakit</p>
-                          <span className="inline-block px-2 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-semibold">{teacher.statistics?.sickDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Sakit</p>
+                          <span className="inline-block px-2 py-1 rounded bg-warning-chip text-warning-strong text-xs font-semibold">{teacher.statistics?.sickDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Izin</p>
-                          <span className="inline-block px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold">{teacher.statistics?.leaveDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Izin</p>
+                          <span className="inline-block px-2 py-1 rounded bg-info-chip text-info-strong text-xs font-semibold">{teacher.statistics?.leaveDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Alfa</p>
-                          <span className="inline-block px-2 py-1 rounded bg-red-100 text-red-800 text-xs font-semibold">{teacher.statistics?.absentDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Alfa</p>
+                          <span className="inline-block px-2 py-1 rounded bg-destructive-chip text-destructive-strong text-xs font-semibold">{teacher.statistics?.absentDays || 0}</span>
                         </div>
                         <div className="text-center">
-                          <p className="text-xs text-gray-600">Terlambat</p>
-                          <span className="inline-block px-2 py-1 rounded bg-orange-100 text-orange-800 text-xs font-semibold">{teacher.statistics?.lateDays || 0}</span>
+                          <p className="text-xs text-muted-foreground">Terlambat</p>
+                          <span className="inline-block px-2 py-1 rounded bg-caution-chip text-caution-strong text-xs font-semibold">{teacher.statistics?.lateDays || 0}</span>
                         </div>
                       </div>
                     )}
@@ -672,26 +672,26 @@ function ReportsTab() {
 
                   {/* Detail Attendances */}
                   {expandedTeacher === teacher.id && teacher.attendances && teacher.attendances.length > 0 && (
-                    <div className="border-t bg-white">
+                    <div className="border-t bg-card">
                       <div className="divide-y">
                         {teacher.attendances.map((attendance: any) => {
                           const statusConfig = STATUS_CONFIG[attendance.status as AttendanceStatus];
                           const StatusIcon = statusConfig.icon;
                           return (
-                            <div key={attendance.id} className="p-3 hover:bg-gray-50 transition">
+                            <div key={attendance.id} className="p-3 hover:bg-muted/50 transition">
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-xs font-medium text-gray-600">
+                                  <p className="text-xs font-medium text-muted-foreground">
                                     {format(new Date(attendance.date), "dd MMMM yyyy", {
                                       locale: id,
                                     })}
                                   </p>
-                                  {attendance.notes && <p className="text-xs text-gray-500 mt-1">Catatan: {attendance.notes}</p>}
+                                  {attendance.notes && <p className="text-xs text-muted-foreground mt-1">Catatan: {attendance.notes}</p>}
                                 </div>
                                 <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3">
                                   {attendance.checkinTime && (
                                     <div className="text-left sm:text-right">
-                                      <p className="text-xs text-gray-600">Jam Masuk</p>
+                                      <p className="text-xs text-muted-foreground">Jam Masuk</p>
                                       <p className="font-mono text-xs sm:text-sm font-semibold">{format(new Date(attendance.checkinTime), "HH:mm")}</p>
                                     </div>
                                   )}

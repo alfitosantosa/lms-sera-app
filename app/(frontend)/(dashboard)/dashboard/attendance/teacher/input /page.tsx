@@ -35,10 +35,10 @@ export default function Page() {
 // import Link from "next/link";
 
 // const STATUS_CONFIG: StatusConfigMap = {
-//   hadir: { label: "Hadir", bg: "bg-green-100", text: "text-green-800", icon: CheckCircle2 },
-//   sakit: { label: "Sakit", bg: "bg-yellow-100", text: "text-yellow-800", icon: AlertCircle },
-//   izin: { label: "Izin", bg: "bg-blue-100", text: "text-blue-800", icon: Clock },
-//   alfa: { label: "Alfa", bg: "bg-red-100", text: "text-red-800", icon: AlertCircle },
+//   hadir: { label: "Hadir", bg: "bg-success-chip", text: "text-success-strong", icon: CheckCircle2 },
+//   sakit: { label: "Sakit", bg: "bg-warning-chip", text: "text-warning-strong", icon: AlertCircle },
+//   izin: { label: "Izin", bg: "bg-info-chip", text: "text-info-strong", icon: Clock },
+//   alfa: { label: "Alfa", bg: "bg-destructive-chip", text: "text-destructive-strong", icon: AlertCircle },
 // };
 
 // function CheckinTab({ adminId }: CheckinTabProps) {
@@ -156,7 +156,7 @@ export default function Page() {
 //   };
 
 //   const getStatusColor = (status: AttendanceStatus) => {
-//     return STATUS_CONFIG[status]?.bg || "bg-gray-100";
+//     return STATUS_CONFIG[status]?.bg || "bg-muted";
 //   };
 
 //   return (
@@ -164,14 +164,14 @@ export default function Page() {
 //       {/* Date & Search */}
 //       <div className="flex flex-col gap-3">
 //         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-//           <Calendar className="w-5 h-5 text-gray-500 hidden sm:block" />
-//           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium" />
-//           <span className="text-sm text-gray-600">{formatDate(date)}</span>
+//           <Calendar className="w-5 h-5 text-muted-foreground hidden sm:block" />
+//           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full sm:w-auto px-3 py-2 border border-border rounded-lg text-sm font-medium" />
+//           <span className="text-sm text-muted-foreground">{formatDate(date)}</span>
 //         </div>
 
 //         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
 //           <div className="relative flex-1">
-//             <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+//             <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
 //             <Input placeholder="Cari guru..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 text-sm" />
 //           </div>
 //           <Dialog open={openBulkDialog} onOpenChange={setOpenBulkDialog}>
@@ -191,7 +191,7 @@ export default function Page() {
 //                 {teachers.map((teacher: Teacher) => {
 //                   const teacherAttendance = bulkAttendance[teacher.id];
 //                   return (
-//                     <div key={teacher.id} className="flex flex-wrap items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors gap-3">
+//                     <div key={teacher.id} className="flex flex-wrap items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors gap-3">
 //                       <div className={`w-3 h-3 rounded-xl ${getStatusColor(teacherAttendance?.status || "hadir")}`}></div>
 
 //                       <div className="flex-1">
@@ -199,11 +199,11 @@ export default function Page() {
 //                           <img src={teacher?.avatarUrl || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} alt={teacher.name} className="w-15 h-15 rounded-lg object-cover" />
 //                           <div>
 //                             <p className="font-medium flex items-center gap-3">
-//                               <User className="h-4 w-4 text-gray-400" />
+//                               <User className="h-4 w-4 text-muted-foreground" />
 //                               {teacher.name}
 //                             </p>
 //                             {teacher.position && (
-//                               <p className="text-xs text-gray-500">
+//                               <p className="text-xs text-muted-foreground">
 //                                 <Badge variant="outline" className="px-1 py-0.5">
 //                                   {teacher.position}
 //                                 </Badge>
@@ -266,7 +266,7 @@ export default function Page() {
 //                   </div>
 //                   <div className="min-w-0">
 //                     <p className="text-2xl font-bold">{count}</p>
-//                     <p className="text-xs text-gray-600 truncate">{config.label}</p>
+//                     <p className="text-xs text-muted-foreground truncate">{config.label}</p>
 //                   </div>
 //                 </div>
 //               </CardContent>
@@ -285,11 +285,11 @@ export default function Page() {
 //           {isLoading ? (
 //             <div className="space-y-3">
 //               {[...Array(3)].map((_, i) => (
-//                 <div key={i} className="h-14 bg-gray-100 rounded-lg animate-pulse" />
+//                 <div key={i} className="h-14 bg-muted rounded-lg animate-pulse" />
 //               ))}
 //             </div>
 //           ) : attendance.length === 0 ? (
-//             <div className="py-8 text-center text-gray-500">
+//             <div className="py-8 text-center text-muted-foreground">
 //               <Calendar className="w-12 h-12 mx-auto mb-2 opacity-20" />
 //               <p className="text-sm">Belum ada absensi untuk tanggal ini</p>
 //             </div>
@@ -301,15 +301,15 @@ export default function Page() {
 //                   const config = STATUS_CONFIG[record.status];
 //                   const Icon = config.icon;
 //                   return (
-//                     <div key={record.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition gap-2">
+//                     <div key={record.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-muted/50 rounded-lg border border-border hover:border-border transition gap-2">
 //                       <div className="min-w-0 flex-1">
 //                         <p className="font-semibold text-sm truncate">{record.teacher?.name}</p>
-//                         <p className="text-xs text-gray-600 truncate">{record.teacher?.email}</p>
+//                         <p className="text-xs text-muted-foreground truncate">{record.teacher?.email}</p>
 //                       </div>
 //                       <div className="flex items-center justify-between sm:justify-end gap-3 sm:ml-4 shrink-0">
 //                         {record.checkinTime && (
 //                           <div className="text-right">
-//                             <p className="text-xs text-gray-600">Check-in</p>
+//                             <p className="text-xs text-muted-foreground">Check-in</p>
 //                             <p className="font-mono text-sm font-semibold">{formatTime(record.checkinTime)}</p>
 //                           </div>
 //                         )}
@@ -321,7 +321,7 @@ export default function Page() {
 //                           <Button variant="ghost" size="sm" onClick={() => openEditDialog_(record)} className="h-8 w-8 p-0">
 //                             <Edit2 className="w-4 h-4" />
 //                           </Button>
-//                           <Button variant="ghost" size="sm" onClick={() => openDeleteDialog_(record)} className="h-8 w-8 p-0 hover:text-red-600">
+//                           <Button variant="ghost" size="sm" onClick={() => openDeleteDialog_(record)} className="h-8 w-8 p-0 hover:text-destructive">
 //                             <Trash2 className="w-4 h-4" />
 //                           </Button>
 //                         </div>
@@ -344,9 +344,9 @@ export default function Page() {
 
 //           {editingRecord && (
 //             <div className="space-y-4">
-//               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-//                 <p className="text-sm font-semibold text-blue-900">{editingRecord.teacher?.name}</p>
-//                 <p className="text-xs text-blue-700">{editingRecord.teacher?.email}</p>
+//               <div className="p-3 bg-info-surface rounded-lg border border-info-border">
+//                 <p className="text-sm font-semibold text-info-strong">{editingRecord.teacher?.name}</p>
+//                 <p className="text-xs text-info-strong">{editingRecord.teacher?.email}</p>
 //               </div>
 
 //               <div>
@@ -387,7 +387,7 @@ export default function Page() {
 //           </AlertDialogHeader>
 //           <div className="flex flex-col-reverse sm:flex-row gap-2">
 //             <AlertDialogCancel>Batal</AlertDialogCancel>
-//             <AlertDialogAction onClick={handleDeleteSubmit} disabled={isDeletePending} className="bg-red-600 hover:bg-red-700">
+//             <AlertDialogAction onClick={handleDeleteSubmit} disabled={isDeletePending} className="bg-destructive-solid hover:bg-destructive-solid/90">
 //               {isDeletePending ? "Menghapus..." : "Hapus"}
 //             </AlertDialogAction>
 //           </div>
@@ -428,11 +428,11 @@ export default function Page() {
 //         <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
 //           <div className="flex-1">
 //             <label className="text-sm font-medium block mb-2">Dari Tanggal</label>
-//             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+//             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-sm" />
 //           </div>
 //           <div className="flex-1">
 //             <label className="text-sm font-medium block mb-2">Sampai Tanggal</label>
-//             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+//             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full px-3 py-2 border border-border rounded-lg text-sm" />
 //           </div>
 //           <Button className="w-full sm:w-auto">Refresh</Button>
 //         </CardContent>
@@ -449,7 +449,7 @@ export default function Page() {
 //             <CardContent className="pt-6">
 //               <div className="text-center">
 //                 <p className="text-2xl font-bold">{stat.value}</p>
-//                 <p className="text-xs text-gray-600">{stat.label}</p>
+//                 <p className="text-xs text-muted-foreground">{stat.label}</p>
 //               </div>
 //             </CardContent>
 //           </Card>
@@ -467,25 +467,25 @@ export default function Page() {
 //           {isLoading ? (
 //             <div className="space-y-3">
 //               {[...Array(5)].map((_, i) => (
-//                 <div key={i} className="h-14 bg-gray-100 rounded-lg animate-pulse" />
+//                 <div key={i} className="h-14 bg-muted rounded-lg animate-pulse" />
 //               ))}
 //             </div>
 //           ) : reports.length === 0 ? (
-//             <div className="py-8 text-center text-gray-500">
+//             <div className="py-8 text-center text-muted-foreground">
 //               <BarChart3 className="w-12 h-12 mx-auto mb-2 opacity-20" />
 //               <p className="text-sm">Tidak ada data absensi untuk periode ini</p>
 //             </div>
 //           ) : (
 //             <div className="space-y-3">
 //               {reports.map((teacher: any) => (
-//                 <div key={teacher.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+//                 <div key={teacher.id} className="border border-border rounded-lg p-4 hover:bg-muted/50">
 //                   <div className="flex items-center justify-between">
 //                     <div className="flex-1">
 //                       <p className="font-semibold">{teacher.name}</p>
-//                       <p className="text-sm text-gray-600">{teacher.email}</p>
+//                       <p className="text-sm text-muted-foreground">{teacher.email}</p>
 //                     </div>
 //                     <div className="text-right">
-//                       <span className="font-semibold text-green-600">{teacher.statistics?.presentPercentage}%</span>
+//                       <span className="font-semibold text-success">{teacher.statistics?.presentPercentage}%</span>
 //                     </div>
 //                   </div>
 //                 </div>
@@ -507,7 +507,7 @@ export default function Page() {
 //     <div className="space-y-6 p-6 max-w-7xl mx-auto min-h-screen">
 //       <div className="space-y-2">
 //         <h1 className="text-3xl font-bold tracking-tight">Absensi Guru</h1>
-//         <p className="text-gray-600">Kelola kehadiran dan lihat laporan absensi guru</p>
+//         <p className="text-muted-foreground">Kelola kehadiran dan lihat laporan absensi guru</p>
 //       </div>
 
 //       <Tabs defaultValue="checkin" className="w-full">

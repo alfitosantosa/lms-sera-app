@@ -30,14 +30,7 @@ import { menuGroups } from "@/app/repository/menuGroupsSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -140,25 +133,21 @@ export function AppSidebar() {
   const clientName = process.env.NEXT_PUBLIC_CLIENT_NAME || "Yayasan Rahmaniyah";
 
   return (
-    <Sidebar className="border-r border-[#e3e8ee] bg-white text-[#0d253d]">
+    <Sidebar className="border-r border-border bg-sidebar text-foreground">
       {/* ── Brand & Institution Header ── */}
-      <SidebarHeader className="border-b border-[#e3e8ee] px-5 py-4 bg-white">
+      <SidebarHeader className="border-b border-border px-5 py-4 bg-sidebar">
         <Link href="/" className="group flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#533afd] opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#533afd]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
             </span>
-            <span className="text-[17px] font-extrabold tracking-tight text-[#0d253d] transition-colors group-hover:text-[#533afd]">
-              Sera
-            </span>
-            <span className="rounded-full bg-[#533afd]/10 px-2 py-0.5 text-[10px] font-bold text-[#533afd]">
-              LMS
-            </span>
+            <span className="text-[17px] font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">Sera</span>
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">LMS</span>
           </div>
         </Link>
-        <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-[#64748d] truncate">
-          <Building2 className="h-3 w-3 shrink-0 text-[#533afd]" />
+        <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground truncate">
+          <Building2 className="h-3 w-3 shrink-0 text-primary" />
           <span className="truncate">{clientName}</span>
         </div>
       </SidebarHeader>
@@ -171,9 +160,7 @@ export function AppSidebar() {
 
           return (
             <SidebarGroup key={groupIndex} className="mb-2">
-              <SidebarGroupLabel className="px-3 text-[10px] font-bold uppercase tracking-wider text-[#64748d] mb-1">
-                {group.title}
-              </SidebarGroupLabel>
+              <SidebarGroupLabel className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">{group.title}</SidebarGroupLabel>
 
               <SidebarGroupContent>
                 <SidebarMenu className="space-y-0.5">
@@ -191,29 +178,19 @@ export function AppSidebar() {
                             <CollapsibleTrigger asChild>
                               <SidebarMenuButton
                                 className={`group/btn w-full justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
-                                  isAnySubActive
-                                    ? "bg-[#533afd]/8 text-[#533afd] font-semibold"
-                                    : "text-[#273951] hover:bg-[#f6f9fc] hover:text-[#0d253d]"
+                                  isAnySubActive ? "bg-primary/8 text-primary font-semibold" : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                                 }`}
                               >
                                 <div className="flex items-center gap-2.5">
-                                  {Icon && (
-                                    <Icon
-                                      className={`h-4 w-4 transition-colors ${
-                                        isAnySubActive
-                                          ? "text-[#533afd]"
-                                          : "text-[#64748d] group-hover/btn:text-[#0d253d]"
-                                      }`}
-                                    />
-                                  )}
+                                  {Icon && <Icon className={`h-4 w-4 transition-colors ${isAnySubActive ? "text-primary" : "text-muted-foreground group-hover/btn:text-foreground"}`} />}
                                   <span>{item.title}</span>
                                 </div>
-                                <ChevronRight className="h-3.5 w-3.5 text-[#64748d] transition-transform duration-200 group-data-[state=open]:rotate-90" />
+                                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />
                               </SidebarMenuButton>
                             </CollapsibleTrigger>
 
                             <CollapsibleContent>
-                              <SidebarMenuSub className="ml-4 mt-0.5 space-y-0.5 border-l border-[#e3e8ee] pl-2">
+                              <SidebarMenuSub className="ml-4 mt-0.5 space-y-0.5 border-l border-border pl-2">
                                 {item.items?.map((subItem) => {
                                   const isSubActive = pathname === subItem.url;
                                   return (
@@ -222,11 +199,7 @@ export function AppSidebar() {
                                         asChild
                                         isActive={isSubActive}
                                         onClick={() => router.push(subItem.url)}
-                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${
-                                          isSubActive
-                                            ? "bg-[#533afd] text-white font-semibold shadow-xs"
-                                            : "text-[#64748d] hover:bg-[#f6f9fc] hover:text-[#0d253d]"
-                                        }`}
+                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${isSubActive ? "bg-primary text-white font-semibold shadow-xs" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                                       >
                                         <span>{subItem.title}</span>
                                       </SidebarMenuSubButton>
@@ -247,21 +220,11 @@ export function AppSidebar() {
                           isActive={isActive}
                           onClick={() => router.push(item.url)}
                           className={`group/item w-full rounded-xl px-3 py-2 text-xs font-medium transition-all ${
-                            isActive
-                              ? "bg-[#533afd] text-white font-semibold shadow-sm shadow-[#533afd]/25"
-                              : "text-[#273951] hover:bg-[#f6f9fc] hover:text-[#0d253d]"
+                            isActive ? "bg-primary/8 text-primary font-bold shadow-sm shadow-primary/10" : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                           }`}
                         >
                           <div className="flex items-center gap-2.5">
-                            {Icon && (
-                              <Icon
-                                className={`h-4 w-4 transition-colors ${
-                                  isActive
-                                    ? "text-white"
-                                    : "text-[#64748d] group-hover/item:text-[#0d253d]"
-                                }`}
-                              />
-                            )}
+                            {Icon && <Icon className={`h-4 w-4 transition-colors ${isActive ? "text-primary" : "text-muted-foreground group-hover/item:text-foreground"}`} />}
                             <span>{item.title}</span>
                           </div>
                         </SidebarMenuButton>
@@ -276,60 +239,40 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* ── User Profile Footer ── */}
-      <SidebarFooter className="border-t border-[#e3e8ee] p-3 bg-white">
+      <SidebarFooter className="border-t border-border p-3 bg-sidebar">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all hover:border-[#e3e8ee] hover:bg-[#f6f9fc]">
-              <Avatar className="h-8 w-8 rounded-full border border-[#e3e8ee] bg-[#ebe8ff] text-[#533afd]">
-                {userData?.avatarUrl && (
-                  <Image
-                    width={32}
-                    height={32}
-                    src={userData.avatarUrl}
-                    alt={userData.name || "User"}
-                    className="rounded-full object-cover"
-                  />
-                )}
-                <AvatarFallback className="bg-[#ebe8ff] text-[11px] font-bold text-[#533afd]">
-                  {getUserInitials(userData?.name)}
-                </AvatarFallback>
+            <button className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all hover:border-border hover:bg-secondary">
+              <Avatar className="h-8 w-8 rounded-full border border-border bg-brand-tint text-primary">
+                {userData?.avatarUrl && <Image width={32} height={32} src={userData.avatarUrl} alt={userData.name || "User"} className="rounded-full object-cover" />}
+                <AvatarFallback className="bg-brand-tint text-[11px] font-bold text-primary">{getUserInitials(userData?.name)}</AvatarFallback>
               </Avatar>
 
               <div className="flex flex-1 flex-col min-w-0">
-                <span className="truncate text-xs font-bold text-[#0d253d]">
-                  {userData?.name || "Pengguna"}
-                </span>
-                <span className="truncate text-[10px] text-[#64748d] capitalize">
-                  {userData?.role?.name || "Siswa"}
-                </span>
+                <span className="truncate text-xs font-bold text-foreground">{userData?.name || "Pengguna"}</span>
+                <span className="truncate text-[10px] text-muted-foreground capitalize">{userData?.role?.name || "Siswa"}</span>
               </div>
 
-              <ChevronRight className="h-3.5 w-3.5 text-[#64748d] opacity-60 transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground opacity-60 transition-transform group-hover:translate-x-0.5" />
             </button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" side="right" className="w-56 rounded-xl border-[#e3e8ee] p-1.5 shadow-lg">
-            <DropdownMenuLabel className="px-2 py-1.5 text-xs text-[#64748d]">
+          <DropdownMenuContent align="end" side="right" className="w-56 rounded-xl border-border p-1.5 shadow-lg">
+            <DropdownMenuLabel className="px-2 py-1.5 text-xs text-muted-foreground">
               <div>Akun Terhubung</div>
-              <div className="font-bold text-[#0d253d] truncate">{session?.user?.email || "user@sekolah.com"}</div>
+              <div className="font-bold text-foreground truncate">{session?.user?.email || "user@sekolah.com"}</div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[#e3e8ee]" />
+            <DropdownMenuSeparator className="bg-border" />
 
-            <DropdownMenuItem
-              onClick={() => router.push("/dashboard/profile")}
-              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-[#273951] hover:bg-[#f6f9fc] hover:text-[#533afd]"
-            >
-              <UserIcon className="mr-2 h-4 w-4 text-[#533afd]" />
+            <DropdownMenuItem onClick={() => router.push("/dashboard/profile")} className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-secondary-foreground hover:bg-secondary hover:text-primary">
+              <UserIcon className="mr-2 h-4 w-4 text-primary" />
               <span>Profil Pengguna</span>
             </DropdownMenuItem>
 
-            <DropdownMenuSeparator className="bg-[#e3e8ee]" />
+            <DropdownMenuSeparator className="bg-border" />
 
-            <DropdownMenuItem
-              onClick={handleSignOut}
-              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-[#ea2261] hover:bg-[#fde2e9]"
-            >
-              <LogOut className="mr-2 h-4 w-4 text-[#ea2261]" />
+            <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-destructive hover:bg-destructive-chip">
+              <LogOut className="mr-2 h-4 w-4 text-destructive" />
               <span>Keluar dari Akun</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

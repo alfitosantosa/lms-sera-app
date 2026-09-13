@@ -258,7 +258,7 @@ export default function RegisterFoundation() {
   return (
     <div className="min-h-screen">
       {/* Header with Breadcrumb */}
-      <div className="sticky top-0 border-b bg-white/80 backdrop-blur-sm">
+      <div className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
             <BreadcrumbList>
@@ -283,7 +283,7 @@ export default function RegisterFoundation() {
           {/* Header Section */}
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ">
-              <Building2 className="h-8 w-8 text-blue-600" />
+              <Building2 className="h-8 w-8 text-info" />
             </div>
             <h1 className="mb-2 text-3xl font-bold tracking-tight">Daftarkan Yayasan</h1>
             <p className="text-muted-foreground">Lengkapi informasi yayasan untuk memulai menggunakan sistem manajemen sekolah</p>

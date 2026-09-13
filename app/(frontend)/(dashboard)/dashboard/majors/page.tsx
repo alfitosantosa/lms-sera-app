@@ -146,11 +146,11 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
           {previewUrl ?
             <div className="relative group">
               {/* Tanda tangan ditampilkan dalam kotak persegi panjang landscape */}
-              <div className="w-36 h-20 rounded-md border-2 overflow-hidden bg-white flex items-center justify-center">
+              <div className="w-36 h-20 rounded-md border-2 overflow-hidden bg-card flex items-center justify-center">
                 <Image src={previewUrl} alt="Preview tanda tangan" width={144} height={80} className="object-contain w-full h-full" />
               </div>
               {/* Overlay hover untuk preview fullscreen */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute inset-0 flex items-center justify-center bg-navy/40 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white h-7 w-7 p-0" onClick={() => setShowPreview(true)}>
                   <Eye className="h-4 w-4" />
                 </Button>
@@ -192,7 +192,7 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
             <DialogHeader>
               <DialogTitle>Preview Tanda Tangan</DialogTitle>
             </DialogHeader>
-            <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg min-h-32">
+            <div className="flex items-center justify-center p-4 bg-muted/50 rounded-lg min-h-32">
               <Image src={previewUrl} alt="Preview tanda tangan" className="max-w-full max-h-64 object-contain rounded" width={400} height={200} />
             </div>
             <p className="text-xs text-center text-muted-foreground">Tanda tangan akan muncul di dokumen resmi seperti kwitansi.</p>
@@ -288,10 +288,10 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="code">
-                Kode Branch <span className="text-red-500">*</span>
+                Kode Branch <span className="text-destructive">*</span>
               </Label>
               <Input id="code" placeholder="SMAIT001" {...register("code")} />
-              {errors.code && <p className="text-sm text-red-500">{errors.code.message}</p>}
+              {errors.code && <p className="text-sm text-destructive">{errors.code.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -307,10 +307,10 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
 
           <div className="space-y-2">
             <Label htmlFor="name">
-              Nama Branch <span className="text-red-500">*</span>
+              Nama Branch <span className="text-destructive">*</span>
             </Label>
             <Input id="name" placeholder={`Contoh: SMA IT ${process.env.NEXT_PUBLIC_CLIENT_NAME?.toUpperCase()}`} {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -432,7 +432,7 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
           {majorData.signatureUrl && (
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Tanda Tangan Bendahara</p>
-              <div className="inline-flex p-3 bg-gray-50 rounded-lg border">
+              <div className="inline-flex p-3 bg-muted/50 rounded-lg border">
                 <Image src={majorData.signatureUrl} alt="Tanda tangan bendahara" width={200} height={80} className="object-contain max-h-20" />
               </div>
             </div>
@@ -445,10 +445,10 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
             <p className="text-xs text-muted-foreground uppercase tracking-wide mb-3">Statistik</p>
             <div className="grid grid-cols-4 gap-3">
               {[
-                { label: "Kelas", value: majorData._count?.classes ?? 0, color: "text-blue-600", bg: "bg-blue-50" },
-                { label: "Siswa", value: majorData._count?.students ?? 0, color: "text-green-600", bg: "bg-green-50" },
-                { label: "Mata Pelajaran", value: majorData._count?.subjects ?? 0, color: "text-purple-600", bg: "bg-purple-50" },
-                { label: "Jenis Tagihan", value: majorData._count?.paymenttype ?? 0, color: "text-orange-600", bg: "bg-orange-50" },
+                { label: "Kelas", value: majorData._count?.classes ?? 0, color: "text-info", bg: "bg-info-surface" },
+                { label: "Siswa", value: majorData._count?.students ?? 0, color: "text-success", bg: "bg-success-surface" },
+                { label: "Mata Pelajaran", value: majorData._count?.subjects ?? 0, color: "text-tertiary", bg: "bg-tertiary-surface" },
+                { label: "Jenis Tagihan", value: majorData._count?.paymenttype ?? 0, color: "text-caution", bg: "bg-caution-surface" },
               ].map((stat) => (
                 <div key={stat.label} className={`text-center p-3 rounded-lg ${stat.bg} border`}>
                   <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
@@ -508,7 +508,7 @@ function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open:
                       <li>{majorData._count.subjects} mata pelajaran</li>
                     : null}
                   </ul>
-                  <p className="text-red-600 font-medium text-sm">Menghapus Branch akan menghapus semua data terkait. Tindakan ini tidak dapat dibatalkan.</p>
+                  <p className="text-destructive font-medium text-sm">Menghapus Branch akan menghapus semua data terkait. Tindakan ini tidak dapat dibatalkan.</p>
                 </div>
               : <p>
                   Apakah Anda yakin ingin menghapus branch <strong>{majorData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
@@ -519,7 +519,7 @@ function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open:
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteMajor.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteMajor.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteMajor.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -599,7 +599,7 @@ function MajorDataTable() {
           return <span className="text-xs text-muted-foreground italic">Belum ada</span>;
         }
         return (
-          <div className="w-16 h-8 bg-gray-50 rounded border overflow-hidden flex items-center justify-center">
+          <div className="w-16 h-8 bg-muted/50 rounded border overflow-hidden flex items-center justify-center">
             <Image src={url} alt="Tanda tangan" width={64} height={32} className="object-contain w-full h-full" />
           </div>
         );
@@ -622,10 +622,10 @@ function MajorDataTable() {
         return (
           <div className="text-xs space-y-0.5">
             <div className="flex gap-2">
-              <span className="text-blue-600 font-medium">{m._count?.classes ?? 0}K</span>
-              <span className="text-green-600 font-medium">{m._count?.students ?? 0}S</span>
-              <span className="text-purple-600 font-medium">{m._count?.subjects ?? 0}MP</span>
-              <span className="text-orange-600 font-medium">{m._count?.paymenttype ?? 0}TP</span>
+              <span className="text-info font-medium">{m._count?.classes ?? 0}K</span>
+              <span className="text-success font-medium">{m._count?.students ?? 0}S</span>
+              <span className="text-tertiary font-medium">{m._count?.subjects ?? 0}MP</span>
+              <span className="text-caution font-medium">{m._count?.paymenttype ?? 0}TP</span>
             </div>
             <div className="text-muted-foreground">Kelas · Siswa · MaPel · TiPem</div>
           </div>
@@ -672,7 +672,7 @@ function MajorDataTable() {
                   setSelectedMajor(m);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

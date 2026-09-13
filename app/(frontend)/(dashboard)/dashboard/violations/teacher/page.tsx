@@ -285,7 +285,7 @@ function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
                 </div>
               : <SearchableStudentSelect students={students} value={selectedStudentId} onValueChange={(value) => setValue("studentId", value)} placeholder="Cari nama siswa..." className="w-full" />}
-              {errors.studentId && <p className="text-sm text-red-500">{errors.studentId.message}</p>}
+              {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -302,7 +302,7 @@ function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open
                   ))}
                 </SelectContent>
               </Select>
-              {errors.classId && <p className="text-sm text-red-500">{errors.classId.message}</p>}
+              {errors.classId && <p className="text-sm text-destructive">{errors.classId.message}</p>}
             </div>
           </div>
 
@@ -320,7 +320,7 @@ function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open
                 ))}
               </SelectContent>
             </Select>
-            {errors.violationTypeId && <p className="text-sm text-red-500">{errors.violationTypeId.message}</p>}
+            {errors.violationTypeId && <p className="text-sm text-destructive">{errors.violationTypeId.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -332,13 +332,13 @@ function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open
             <div className="space-y-2">
               <Label htmlFor="reportedBy">Dilaporkan Oleh</Label>
               <Input id="reportedBy" placeholder="Nama guru/staff" {...register("reportedBy")} />
-              {errors.reportedBy && <p className="text-sm text-red-500">{errors.reportedBy.message}</p>}
+              {errors.reportedBy && <p className="text-sm text-destructive">{errors.reportedBy.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="date">Tanggal Kejadian</Label>
               <Input id="date" type="date" {...register("date")} />
-              {errors.date && <p className="text-sm text-red-500">{errors.date.message}</p>}
+              {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
             </div>
           </div>
 
@@ -356,7 +356,7 @@ function ViolationFormDialog({ open, onOpenChange, editData, onSuccess }: { open
                 ))}
               </SelectContent>
             </Select>
-            {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
+            {errors.status && <p className="text-sm text-destructive">{errors.status.message}</p>}
           </div>
 
           {(selectedStatus === "resolved" || editData?.status === "resolved") && (
@@ -417,7 +417,7 @@ function DeleteViolationDialog({ open, onOpenChange, violationData, onSuccess }:
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteViolation.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteViolation.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteViolation.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -468,15 +468,15 @@ function ViolationDataTable() {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-red-600";
+        return "bg-destructive-solid";
       case "resolved":
-        return "bg-green-600";
+        return "bg-success-solid";
       case "pending":
-        return "bg-yellow-600";
+        return "bg-warning-solid";
       case "dismissed":
-        return "bg-gray-600";
+        return "bg-muted-foreground";
       default:
-        return "bg-gray-600";
+        return "bg-muted-foreground";
     }
   };
 
@@ -645,7 +645,7 @@ function ViolationDataTable() {
                   setSelectedViolation(violationData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -905,7 +905,7 @@ function ViolationDataTable() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <AlertTriangle className="h-5 w-5 text-red-500" />
+                <AlertTriangle className="h-5 w-5 text-destructive" />
                 <h3 className="font-semibold">Total Pelanggaran</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{violations.length}</p>
@@ -914,7 +914,7 @@ function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-red-600"></div>
+                <div className="h-3 w-3 rounded-full bg-destructive-solid"></div>
                 <h3 className="font-semibold">Aktif</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "active").length}</p>
@@ -922,7 +922,7 @@ function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-green-600"></div>
+                <div className="h-3 w-3 rounded-full bg-success-solid"></div>
                 <h3 className="font-semibold">Selesai</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "resolved").length}</p>
@@ -930,7 +930,7 @@ function ViolationDataTable() {
 
             <div className="bg-card rounded-lg border p-4">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-yellow-600"></div>
+                <div className="h-3 w-3 rounded-full bg-warning-solid"></div>
                 <h3 className="font-semibold">Pending</h3>
               </div>
               <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.status === "pending").length}</p>

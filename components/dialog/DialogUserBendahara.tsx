@@ -156,7 +156,7 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
           {previewUrl ?
             <div className="relative group">
               <Image src={previewUrl} alt="Avatar preview" width={96} height={96} className="w-24 h-24 rounded-full object-cover border-2" />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute inset-0 flex items-center justify-center bg-navy/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white" onClick={() => setShowPreview(true)}>
                   <Eye className="h-4 w-4" />
                 </Button>
@@ -333,11 +333,11 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* ── Auto-assigned info banner ── */}
-          <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 px-4 py-3">
-            <p className="text-sm font-medium text-blue-700 dark:text-blue-300">Informasi Auto-Assign</p>
-            <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">
-              Role: <span className="font-semibold">Student</span> · Branch: <span className="font-semibold">{majorName ?? majorId}</span>
-              {isEditMode && <span className="ml-2 text-blue-500">· Mode: Edit</span>}
+          <div className="rounded-lg border border-border bg-muted/50 px-4 py-3">
+            <p className="text-sm font-medium text-foreground">Informasi Auto-Assign</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Role: <span className="font-semibold text-foreground">Student</span> · Branch: <span className="font-semibold text-foreground">{majorName ?? majorId}</span>
+              {isEditMode && <span className="ml-2">· Mode: Edit</span>}
             </p>
           </div>
 
@@ -348,24 +348,24 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">
-                  Nama Lengkap <span className="text-red-500">*</span>
+                  Nama Lengkap <span className="text-destructive">*</span>
                 </Label>
                 <Input id="name" placeholder="Masukkan nama lengkap" {...register("name")} />
-                {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">
                   Email <span className="text-muted-foreground text-xs">(opsional)</span>
                 </Label>
                 <Input id="email" type="email" placeholder="siswa@example.com" {...register("email")} />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>
-                  Jenis Kelamin <span className="text-red-500">*</span>
+                  Jenis Kelamin <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(v) => setValue("gender", v)} value={watch("gender")}>
                   <SelectTrigger>
@@ -376,7 +376,7 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                     <SelectItem value="P">Perempuan</SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.gender && <p className="text-sm text-red-500">{errors.gender.message}</p>}
+                {errors.gender && <p className="text-sm text-destructive">{errors.gender.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label>Status</Label>
@@ -401,43 +401,43 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="nisn">
-                  NISN <span className="text-red-500">*</span>
+                  NISN <span className="text-destructive">*</span>
                 </Label>
                 <Input id="nisn" placeholder="1234567890" {...register("nisn")} />
-                {errors.nisn && <p className="text-sm text-red-500">{errors.nisn.message}</p>}
+                {errors.nisn && <p className="text-sm text-destructive">{errors.nisn.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nik">
                   NIK <span className="text-muted-foreground text-xs">(opsional)</span>
                 </Label>
                 <Input id="nik" placeholder="3201234567890123" {...register("nik")} />
-                {errors.nik && <p className="text-sm text-red-500">{errors.nik.message}</p>}
+                {errors.nik && <p className="text-sm text-destructive">{errors.nik.message}</p>}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">
-                  Tempat Lahir <span className="text-red-500">*</span>
+                  Tempat Lahir <span className="text-destructive">*</span>
                 </Label>
                 <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-red-500">{errors.birthPlace.message}</p>}
+                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">
-                  Tanggal Lahir <span className="text-red-500">*</span>
+                  Tanggal Lahir <span className="text-destructive">*</span>
                 </Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-red-500">{errors.birthDate.message}</p>}
+                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="address">
-                Alamat <span className="text-red-500">*</span>
+                Alamat <span className="text-destructive">*</span>
               </Label>
               <Textarea id="address" placeholder="Alamat lengkap siswa" rows={2} {...register("address")} />
-              {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
+              {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -455,7 +455,7 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>
-                  Kelas <span className="text-red-500">*</span>
+                  Kelas <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(v) => setValue("classId", v)} value={watch("classId")} disabled={classesLoading || !majorId}>
                   <SelectTrigger>
@@ -479,13 +479,13 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                     }
                   </SelectContent>
                 </Select>
-                {errors.classId && <p className="text-sm text-red-500">{errors.classId.message}</p>}
+                {errors.classId && <p className="text-sm text-destructive">{errors.classId.message}</p>}
                 {!classesLoading && classes.length > 0 && <p className="text-xs text-muted-foreground">{classes.length} kelas tersedia untuk branch ini</p>}
               </div>
 
               <div className="space-y-2">
                 <Label>
-                  Tahun Akademik <span className="text-red-500">*</span>
+                  Tahun Akademik <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(v) => setValue("academicYearId", v)} value={watch("academicYearId")} disabled={academicYearsLoading}>
                   <SelectTrigger>
@@ -499,7 +499,7 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.academicYearId && <p className="text-sm text-red-500">{errors.academicYearId.message}</p>}
+                {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
               </div>
             </div>
 

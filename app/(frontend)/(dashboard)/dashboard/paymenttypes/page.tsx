@@ -125,11 +125,11 @@ const getColumnLabel = (columnId: string): string => {
 // Badge Components
 // ============================================================================
 
-const StatusBadge = ({ isActive }: { isActive: boolean }) => <Badge className={`text-white ${isActive ? "bg-green-600" : "bg-gray-600"}`}>{isActive ? "Aktif" : "Nonaktif"}</Badge>;
+const StatusBadge = ({ isActive }: { isActive: boolean }) => <Badge className={`text-white ${isActive ? "bg-success-solid" : "bg-muted-foreground"}`}>{isActive ? "Aktif" : "Nonaktif"}</Badge>;
 
-const TypeBadge = ({ isMonthly }: { isMonthly: boolean }) => <Badge className={`text-white ${isMonthly ? "bg-blue-600" : "bg-purple-600"}`}>{isMonthly ? "Bulanan" : "Sekali Bayar"}</Badge>;
+const TypeBadge = ({ isMonthly }: { isMonthly: boolean }) => <Badge className={`text-white ${isMonthly ? "bg-info-solid" : "bg-tertiary-solid"}`}>{isMonthly ? "Bulanan" : "Sekali Bayar"}</Badge>;
 
-const FixedBadge = ({ isFixed }: { isFixed: boolean }) => <Badge className={`text-white ${isFixed ? "bg-blue-500" : "bg-gray-400"}`}>{isFixed ? "Tetap" : "Tidak Tetap"}</Badge>;
+const FixedBadge = ({ isFixed }: { isFixed: boolean }) => <Badge className={`text-white ${isFixed ? "bg-info-solid" : "bg-muted-foreground"}`}>{isFixed ? "Tetap" : "Tidak Tetap"}</Badge>;
 
 // ============================================================================
 // Form Dialog Component
@@ -230,7 +230,7 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
                 }
               </SelectContent>
             </Select>
-            {errors.majorId && <p className="text-sm text-red-500">{errors.majorId.message}</p>}
+            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
           </div>
 
           {/* Owner Selection */}
@@ -248,21 +248,21 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
                 ))}
               </SelectContent>
             </Select>
-            {errors.owner && <p className="text-sm text-red-500">{errors.owner.message}</p>}
+            {errors.owner && <p className="text-sm text-destructive">{errors.owner.message}</p>}
           </div>
 
           {/* Name Input */}
           <div className="space-y-2">
             <Label htmlFor="name">Nama Jenis Pembayaran</Label>
             <Input id="name" placeholder="Contoh: SPP Bulanan" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           {/* Description Input */}
           <div className="space-y-2">
             <Label htmlFor="description">Deskripsi</Label>
             <Textarea id="description" placeholder="Deskripsi detail pembayaran..." rows={3} {...register("description")} />
-            {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
           </div>
 
           {/* Fixed Amount Toggle + Amount Input */}
@@ -277,7 +277,7 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
           <div className="space-y-2">
             <Label htmlFor="amount">Jumlah Pembayaran (Rp)</Label>
             <Input id="amount" type="number" placeholder="0" {...register("amount", { valueAsNumber: true })} />
-            {errors.amount && <p className="text-sm text-red-500">{errors.amount.message}</p>}
+            {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
           </div>
 
           {/* Fixed Quantity Toggle + Quantity Input */}
@@ -292,14 +292,14 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
           <div className="space-y-2">
             <Label htmlFor="quantity">Jumlah Quantity</Label>
             <Input id="quantity" type="number" placeholder="0" {...register("quantity", { valueAsNumber: true })} />
-            {errors.quantity && <p className="text-sm text-red-500">{errors.quantity.message}</p>}
+            {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
           </div>
 
           {/* Subtotal Display */}
           <div className="space-y-2">
             <Label htmlFor="subtotal">Jumlah Subtotal</Label>
             <Input id="subtotal" disabled placeholder="0" {...register("subtotal", { valueAsNumber: true })} />
-            {errors.subtotal && <p className="text-sm text-red-500">{errors.subtotal.message}</p>}
+            {errors.subtotal && <p className="text-sm text-destructive">{errors.subtotal.message}</p>}
           </div>
 
           {/* Monthly Payment Toggle */}
@@ -371,7 +371,7 @@ function DeletePaymentTypeDialog({ open, onOpenChange, paymentTypeData, onSucces
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deletePaymentType.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deletePaymentType.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deletePaymentType.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -504,7 +504,7 @@ const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data:
             <Pencil className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onDelete(row.original)} className="text-red-600">
+          <DropdownMenuItem onClick={() => onDelete(row.original)} className="text-destructive">
             <Trash2 className="mr-2 h-4 w-4" />
             Hapus
           </DropdownMenuItem>

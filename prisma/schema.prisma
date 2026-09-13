@@ -19,6 +19,12 @@ phone          String
 userData       UserData[]
 major          Major[]
 user           User[]
+role           Role[]
+calendarEvent  CalendarEvent[]
+academicYear   AcademicYear[]
+dashboardContent DashboardContent[]
+announcements    Announcement[]
+
 @@map("foundation")
 }
 
@@ -40,7 +46,7 @@ model User {
   sessions      Session[]
   userData      UserData?
 
-
+  @@index([foundationId])
   @@map("user")
 }
 
@@ -122,8 +128,6 @@ model UserData {
   isActive                Boolean                @default(true)
   foundationId            String?
   foundation              Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
-  createdAt               DateTime?              @default(now())
-  updatedAt               DateTime?              @updatedAt
   tahfidzGroupId          String?
   Announcements           Announcement[]
   studentSubmissions      AssignmentSubmission[] @relation("StudentSubmission")
@@ -148,7 +152,10 @@ model UserData {
   tahfidzGroup            TahfidzGroup?          @relation("UserTahfidzGroup", fields: [tahfidzGroupId], references: [id])
   user                    User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   violations              Violation[]            @relation("StudentViolation")
+  createdAt               DateTime?              @default(now())
+  updatedAt               DateTime?              @updatedAt
 
+  @@index([foundationId])
   @@index([academicYearId])
   @@index([classId])
   @@index([majorId])
@@ -163,10 +170,13 @@ model Role {
   id          String     @id @default(cuid())
   name        String     @unique
   description String
+  foundationId String?
+  foundation  Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
   permissions String[]
   isActive    Boolean    @default(true)
   userData    UserData[]
 
+  @@index([foundationId])
   @@map("roles")
 }
 
@@ -175,9 +185,8 @@ model AcademicYear {
   year                String               @unique
   startDate           DateTime
   endDate             DateTime
-  isActive            Boolean              @default(true)
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  foundationId        String?
+  foundation          Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
   calendarEvents      CalendarEvent[]
   classes             Class[]
   gradeConfigurations GradeConfiguration[]
@@ -186,7 +195,10 @@ model AcademicYear {
   schedules           Schedule[]
   students            UserData[]           @relation("UserAcademicYear")
   violationTypes      ViolationType[]
-
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  @@index([foundationId])
   @@map("academic_years")
 }
 
@@ -200,15 +212,18 @@ model Major {
   phone        String?
   adminName    String?
   signatureUrl String?
-  foundationId            String?
-  foundation              Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  foundationId String?
+  foundation   Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
   accountBank  AccountBank[]
   classes      Class[]
   paymenttype  PaymentType[]
   payments     Payment[]
   subjects     Subject[]
   students     UserData[]    @relation("UserMajor")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt   
 
+  @@index([foundationId])
   @@map("majors")
 }
 
@@ -455,20 +470,23 @@ model CalendarEvent {
   description    String?
   eventDate      DateTime
   eventType      String
-  isPublished    Boolean      @default(false)
   academicYearId String
+  foundationId   String
+  foundation     Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  isPublished    Boolean      @default(false)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
 
+  @@index([foundationId])
   @@map("calendar_events")
 }
 
 model GradeType {
   id                  String               @id @default(cuid())
   name                String
-  code                String               @unique
   description         String?
+  code                String               @unique
   weight              Int                  @default(0)
   order               Int                  @default(0)
   isActive            Boolean              @default(true)
@@ -666,6 +684,8 @@ model DashboardContent {
   description String?
   imageUrl    String
   linkUrl     String?
+  foundationId String
+  foundation  Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
   order       Int       @default(0)
   isActive    Boolean   @default(true)
   isPublished Boolean   @default(false)
@@ -674,8 +694,9 @@ model DashboardContent {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   userId      String?
-  user        UserData? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        UserData? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  @@index([foundationId])
   @@map("dashboard_contents")
 }
 
@@ -685,15 +706,18 @@ model Announcement {
   content     String
   imageUrl    String?
   linkUrl     String?
-  isActive    Boolean   @default(true)
-  isPublished Boolean   @default(false)
   startDate   DateTime?
   endDate     DateTime?
+  userId      String?
+  foundationId String
+  foundation  Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
+  isActive    Boolean   @default(true)
+  isPublished Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  userId      String?
   user        UserData? @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  
+  @@index([foundationId])
   @@map("announcements")
 }
 
@@ -749,8 +773,9 @@ model TeacherAttendance {
 
 model TahfidzGroup {
   id        String     @id @default(cuid())
-  name      String     @unique
+  name      String     
   grade     Int
+  majorId   String     
   capacity  Int        @default(40)
   isActive  Boolean    @default(true)
   schedules Schedule[] @relation("TahfidzGroupSchedule")

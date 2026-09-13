@@ -14,8 +14,8 @@ export default function WaPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             {connection?.connection === "success" ?
-              <Wifi className="h-5 w-5 text-green-500" />
-            : <WifiOff className="h-5 w-5 text-red-500" />}
+              <Wifi className="h-5 w-5 text-success" />
+            : <WifiOff className="h-5 w-5 text-destructive" />}
             Connection Status
           </CardTitle>
         </CardHeader>
@@ -40,7 +40,7 @@ export default function WaPage() {
               {connection?.message && (
                 <div className="flex items-center gap-2">
                   <span className="font-medium">Message:</span>
-                  <span className="text-red-500">{connection.message}</span>
+                  <span className="text-destructive">{connection.message}</span>
                 </div>
               )}
             </>

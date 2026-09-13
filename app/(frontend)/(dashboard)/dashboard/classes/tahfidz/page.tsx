@@ -104,19 +104,19 @@ function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { o
           <div className="space-y-2">
             <Label htmlFor="name">Nama Kelompok</Label>
             <Input id="name" placeholder="Contoh: Tahfidz A" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="grade">Tingkat</Label>
             <Input id="grade" type="number" placeholder="10, 11, 12" {...register("grade", { valueAsNumber: true })} />
-            {errors.grade && <p className="text-sm text-red-500">{errors.grade.message}</p>}
+            {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="capacity">Kapasitas</Label>
             <Input id="capacity" type="number" placeholder="40" {...register("capacity", { valueAsNumber: true })} />
-            {errors.capacity && <p className="text-sm text-red-500">{errors.capacity.message}</p>}
+            {errors.capacity && <p className="text-sm text-destructive">{errors.capacity.message}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -165,7 +165,7 @@ function DeleteTahfidzGroupDialog({ open, onOpenChange, tahfidzGroupData, onSucc
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteTahfidzGroup.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteTahfidzGroup.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteTahfidzGroup.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -297,7 +297,7 @@ function TahfidzGroupDataTable() {
                   setSelectedTahfidzGroup(tahfidzGroupData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

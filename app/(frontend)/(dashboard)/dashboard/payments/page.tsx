@@ -40,13 +40,13 @@ import * as z from "zod";
 
 // ─── Status Config ────────────────────────────────────────────────────────────
 const statusConfig: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  paid: { label: "Lunas", className: "bg-green-600 text-white", icon: <BadgeCheck className="h-3 w-3" /> },
-  pending: { label: "Menunggu", className: "bg-yellow-500 text-white", icon: <Clock className="h-3 w-3" /> },
-  overdue: { label: "Terlambat", className: "bg-red-600 text-white", icon: <XCircle className="h-3 w-3" /> },
+  paid: { label: "Lunas", className: "bg-success-solid text-white", icon: <BadgeCheck className="h-3 w-3" /> },
+  pending: { label: "Menunggu", className: "bg-warning-solid text-white", icon: <Clock className="h-3 w-3" /> },
+  overdue: { label: "Terlambat", className: "bg-destructive-solid text-white", icon: <XCircle className="h-3 w-3" /> },
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const cfg = statusConfig[status] ?? { label: status, className: "bg-gray-500 text-white", icon: null };
+  const cfg = statusConfig[status] ?? { label: status, className: "bg-muted-foreground text-background", icon: null };
   return (
     <Badge className={`${cfg.className} flex items-center gap-1 w-fit`}>
       {cfg.icon}
@@ -578,9 +578,9 @@ function PaymentFormDialog({
                 />
               )}
             />
-            {errors.studentId && <p className="text-sm text-red-500">{errors.studentId.message}</p>}
+            {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
             {selectedStudentId && isLoadingUnpaid && <p className="text-sm text-muted-foreground">Memuat tagihan belum dibayar...</p>}
-            {selectedStudentId && !isLoadingUnpaid && unpaidItems.length === 0 && <p className="text-sm text-green-600">✓ Tidak ada tagihan yang belum dibayar</p>}
+            {selectedStudentId && !isLoadingUnpaid && unpaidItems.length === 0 && <p className="text-sm text-success">✓ Tidak ada tagihan yang belum dibayar</p>}
           </div>
 
           {/* Account Bank & Month */}
@@ -605,7 +605,7 @@ function PaymentFormDialog({
                   </Select>
                 )}
               />
-              {errors.accountBankId && <p className="text-sm text-red-500">{errors.accountBankId.message}</p>}
+              {errors.accountBankId && <p className="text-sm text-destructive">{errors.accountBankId.message}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -627,7 +627,7 @@ function PaymentFormDialog({
                     </Select>
                   )}
                 />
-                {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
+                {errors.status && <p className="text-sm text-destructive">{errors.status.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -650,7 +650,7 @@ function PaymentFormDialog({
                     </Select>
                   )}
                 />
-                {errors.month && <p className="text-sm text-red-500">{errors.month.message}</p>}
+                {errors.month && <p className="text-sm text-destructive">{errors.month.message}</p>}
               </div>
             </div>
           </div>
@@ -660,7 +660,7 @@ function PaymentFormDialog({
             <div className="space-y-2">
               <Label htmlFor="paymentDate">Tanggal Bayar</Label>
               <Input id="paymentDate" type="date" {...register("paymentDate")} />
-              {errors.paymentDate && <p className="text-sm text-red-500">{errors.paymentDate.message}</p>}
+              {errors.paymentDate && <p className="text-sm text-destructive">{errors.paymentDate.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="dueDate">
@@ -675,12 +675,12 @@ function PaymentFormDialog({
             <div className="space-y-2">
               <Label htmlFor="receiptNumber">Nomor Kwitansi</Label>
               <Input disabled={true} id="receiptNumber" placeholder="KWT-XXXXXXXX" {...register("receiptNumber")} />
-              {errors.receiptNumber && <p className="text-sm text-red-500">{errors.receiptNumber.message}</p>}
+              {errors.receiptNumber && <p className="text-sm text-destructive">{errors.receiptNumber.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="bankRef">Nomor Ref Bank</Label>
               <Input id="bankRef" placeholder="Contoh: 122237678764" {...register("bankRef")} />
-              {errors.bankRef && <p className="text-sm text-red-500">{errors.bankRef.message}</p>}
+              {errors.bankRef && <p className="text-sm text-destructive">{errors.bankRef.message}</p>}
             </div>
           </div>
 
@@ -704,7 +704,7 @@ function PaymentFormDialog({
                 />
               )}
             />
-            {errors.transferDate && <p className="text-sm text-red-500">{errors.transferDate.message}</p>}
+            {errors.transferDate && <p className="text-sm text-destructive">{errors.transferDate.message}</p>}
           </div>
 
           <Separator />
@@ -718,7 +718,7 @@ function PaymentFormDialog({
               </Label>
             </div>
 
-            {errors.items && typeof errors.items === "object" && "message" in errors.items && <p className="text-sm text-red-500">{(errors.items as { message?: string }).message}</p>}
+            {errors.items && typeof errors.items === "object" && "message" in errors.items && <p className="text-sm text-destructive">{(errors.items as { message?: string }).message}</p>}
 
             {!selectedStudentId && (
               <div className="text-center p-8 border rounded-lg bg-muted/20">
@@ -735,10 +735,10 @@ function PaymentFormDialog({
             )}
 
             {selectedStudentId && !isLoadingUnpaid && fields.length === 0 && (
-              <div className="text-center p-8 border rounded-lg bg-green-50">
-                <BadgeCheck className="h-12 w-12 mx-auto text-green-600 mb-2" />
-                <p className="text-sm font-medium text-green-900">Semua tagihan sudah lunas!</p>
-                <p className="text-xs text-green-700 mt-1">Tidak ada pembayaran yang tertunda</p>
+              <div className="text-center p-8 border rounded-lg bg-success-surface">
+                <BadgeCheck className="h-12 w-12 mx-auto text-success mb-2" />
+                <p className="text-sm font-medium text-success-strong">Semua tagihan sudah lunas!</p>
+                <p className="text-xs text-success-strong mt-1">Tidak ada pembayaran yang tertunda</p>
               </div>
             )}
 
@@ -759,7 +759,7 @@ function PaymentFormDialog({
                     const isSelected = currentItem?.selected ?? true;
 
                     return (
-                      <div key={field.id} className={`grid border p-3 rounded-lg grid-cols-12 gap-2 items-center transition-all ${isSelected ? "bg-blue-50 border-blue-200" : "bg-muted/20 opacity-60"}`}>
+                      <div key={field.id} className={`grid border p-3 rounded-lg grid-cols-12 gap-2 items-center transition-all ${isSelected ? "bg-info-surface border-info-border" : "bg-muted/20 opacity-60"}`}>
                         <div className="col-span-1 flex justify-center">
                           <Checkbox checked={isSelected} onCheckedChange={() => toggleItemSelection(index)} />
                         </div>
@@ -796,7 +796,7 @@ function PaymentFormDialog({
               <div className="space-y-1 text-right min-w-50">
                 <div className="flex justify-between text-sm gap-8">
                   <span className="text-muted-foreground">Total Pembayaran</span>
-                  <span className="font-bold text-lg tabular-nums text-blue-600">{formatRupiah(grandTotal)}</span>
+                  <span className="font-bold text-lg tabular-nums text-info">{formatRupiah(grandTotal)}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {selectedItemsCount} dari {fields.length} item dipilih
@@ -825,33 +825,33 @@ function PaymentFormDialog({
                   className={
                     isTransferEmpty ? ""
                     : isTransferValid ?
-                      "border-green-500 focus-visible:ring-green-500"
-                    : "border-red-500 focus-visible:ring-red-500"
+                      "border-success focus-visible:ring-success"
+                    : "border-destructive focus-visible:ring-destructive"
                   }
                 />
                 {!isTransferEmpty && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {isTransferValid ?
-                      <BadgeCheck className="h-4 w-4 text-green-600" />
-                    : <XCircle className="h-4 w-4 text-red-500" />}
+                      <BadgeCheck className="h-4 w-4 text-success" />
+                    : <XCircle className="h-4 w-4 text-destructive" />}
                   </div>
                 )}
               </div>
 
               {isTransferEmpty && grandTotal > 0 && <p className="text-xs text-muted-foreground">Masukkan jumlah yang ditransfer untuk melanjutkan</p>}
               {isTransferMismatch && (
-                <div className="flex items-center gap-1.5 rounded-lg bg-red-50 border border-red-200 px-3 py-2">
-                  <XCircle className="h-4 w-4 text-red-500 shrink-0" />
-                  <div className="text-xs text-red-700">
+                <div className="flex items-center gap-1.5 rounded-lg bg-destructive-surface border border-destructive-border px-3 py-2">
+                  <XCircle className="h-4 w-4 text-destructive shrink-0" />
+                  <div className="text-xs text-destructive-strong">
                     <span className="font-semibold">Jumlah tidak sesuai.</span> Selisih: <span className="font-semibold tabular-nums">{formatRupiah(Math.abs(grandTotal - totalTransferNum))}</span>{" "}
                     {totalTransferNum < grandTotal ? "(kurang)" : "(lebih)"}
                   </div>
                 </div>
               )}
               {isTransferValid && (
-                <div className="flex items-center gap-1.5 rounded-lg bg-green-50 border border-green-200 px-3 py-2">
-                  <BadgeCheck className="h-4 w-4 text-green-600 shrink-0" />
-                  <p className="text-xs text-green-700 font-medium">Jumlah transfer sesuai · Siap disimpan</p>
+                <div className="flex items-center gap-1.5 rounded-lg bg-success-surface border border-success-border px-3 py-2">
+                  <BadgeCheck className="h-4 w-4 text-success shrink-0" />
+                  <p className="text-xs text-success-strong font-medium">Jumlah transfer sesuai · Siap disimpan</p>
                 </div>
               )}
             </div>
@@ -868,9 +868,9 @@ function PaymentFormDialog({
           <div className="flex items-center justify-between pt-2">
             <div className="text-xs text-muted-foreground">
               {selectedItemsCount === 0 && <span>Pilih minimal 1 item untuk melanjutkan</span>}
-              {selectedItemsCount > 0 && isTransferMismatch && <span className="text-yellow-600">⚠ Jumlah transfer tidak sesuai dengan total</span>}
-              {selectedItemsCount > 0 && isTransferValid && <span className="text-green-600 font-medium">✓ Jumlah transfer sesuai</span>}
-              {selectedItemsCount > 0 && isTransferEmpty && <span className="text-blue-600">ℹ Isi jumlah ditransfer untuk verifikasi</span>}
+              {selectedItemsCount > 0 && isTransferMismatch && <span className="text-warning">⚠ Jumlah transfer tidak sesuai dengan total</span>}
+              {selectedItemsCount > 0 && isTransferValid && <span className="text-success font-medium">✓ Jumlah transfer sesuai</span>}
+              {selectedItemsCount > 0 && isTransferEmpty && <span className="text-info">ℹ Isi jumlah ditransfer untuk verifikasi</span>}
             </div>
 
             <div className="flex gap-2">
@@ -889,7 +889,7 @@ function PaymentFormDialog({
 
           {/* Debug: validation errors (development only) */}
           {process.env.NODE_ENV === "development" && Object.keys(errors).length > 0 && (
-            <div className="text-xs text-red-500 space-y-1 p-3 bg-red-50 rounded border border-red-200">
+            <div className="text-xs text-destructive space-y-1 p-3 bg-destructive-surface rounded border border-destructive-border">
               <p className="font-semibold">❌ Validation Errors:</p>
               {Object.entries(errors).map(([key, error]) => (
                 <p key={key}>
@@ -931,10 +931,10 @@ function DeletePaymentDialog({ open, onOpenChange, paymentData, onSuccess }: { o
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          {/* <AlertDialogAction onClick={handleDelete} disabled={deletePayment.isPending} className="bg-red-600 hover:bg-red-700">
+          {/* <AlertDialogAction onClick={handleDelete} disabled={deletePayment.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deletePayment.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction> */}
-          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deletePayment.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -1216,7 +1216,7 @@ function PaymentDataTable({
                     setSelectedPayment(p);
                     setDeleteDialogOpen(true);
                   }}
-                  className="text-red-600"
+                  className="text-destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
                   Hapus
@@ -1357,7 +1357,7 @@ function PaymentDataTable({
               setIsExporting(false);
             }}
             disabled={isExporting}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-success-solid hover:bg-success-solid/90 text-white"
           >
             <FileText className="mr-2 h-4 w-4" />
             {isExporting ? "Mengexport..." : "Export Excel"}
@@ -1482,7 +1482,7 @@ function PaymentDataTable({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-blue-500" />
+            <CreditCard className="h-5 w-5 text-info" />
             <h3 className="font-semibold">Total Transaksi</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{totalPayments}</p>
@@ -1490,21 +1490,21 @@ function PaymentDataTable({
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BadgeCheck className="h-5 w-5 text-green-600" />
+            <BadgeCheck className="h-5 w-5 text-success" />
             <h3 className="font-semibold">Lunas</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => r.original.status === "paid").length}</p>
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-yellow-500" />
+            <Clock className="h-5 w-5 text-warning" />
             <h3 className="font-semibold">Menunggu</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => r.original.status === "pending").length}</p>
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-purple-500" />
+            <CreditCard className="h-5 w-5 text-tertiary" />
             <h3 className="font-semibold">Total Terbayar</h3>
           </div>
           <p className="text-xl font-bold mt-2 tabular-nums">{formatRupiah(totalPaid)}</p>

@@ -34,11 +34,11 @@ interface Subject {
 
 // Status mapping to match dashboard
 const STATUS_MAP = {
-  present: { label: "Hadir", color: "bg-green-500" },
-  absent: { label: "Tidak Hadir", color: "bg-red-500" },
-  late: { label: "Terlambat", color: "bg-yellow-500" },
-  excused: { label: "Izin", color: "bg-blue-500" },
-  sick: { label: "Sakit", color: "bg-purple-500" },
+  present: { label: "Hadir", color: "bg-success-solid" },
+  absent: { label: "Tidak Hadir", color: "bg-destructive-solid" },
+  late: { label: "Terlambat", color: "bg-warning-solid" },
+  excused: { label: "Izin", color: "bg-info-solid" },
+  sick: { label: "Sakit", color: "bg-tertiary-solid" },
 };
 
 function AttendanceModule() {
@@ -336,7 +336,7 @@ Terima kasih.
   };
 
   const getStatusColor = (status: string) => {
-    return STATUS_MAP[status as keyof typeof STATUS_MAP]?.color || "bg-gray-300";
+    return STATUS_MAP[status as keyof typeof STATUS_MAP]?.color || "bg-muted";
   };
 
   // Get attendance statistics
@@ -373,7 +373,7 @@ Terima kasih.
         <Card>
           <CardHeader>
             <div className="flex items-center space-x-2">
-              <Smartphone className="h-5 w-5 text-blue-600" />
+              <Smartphone className="h-5 w-5 text-info" />
               <div>
                 <CardTitle>Absensi Mobile - Sesi Aktif</CardTitle>
                 <CardDescription>Akses otomatis berdasarkan jadwal guru yang login</CardDescription>
@@ -384,14 +384,14 @@ Terima kasih.
             {isLoadingSchedule || isLoadingClass ?
               <Loading />
             : currentSession ?
-              <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <div className="bg-info-surface p-4 rounded-lg mb-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-semibold flex items-center gap-2">
                       <BookOpen className="h-4 w-4" />
                       {currentSession.subject}
                     </h3>
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
                       <Users className="h-4 w-4" />
                       {currentSession.class}
                     </p>
@@ -405,7 +405,7 @@ Terima kasih.
                         </Badge>
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500"> {currentSession.teacher}</p>
+                    <p className="text-xs text-muted-foreground"> {currentSession.teacher}</p>
                   </div>
                 </div>
               </div>
@@ -415,7 +415,7 @@ Terima kasih.
               {isLoadingClass ?
                 <Loading />
               : classData?.students.map((student) => (
-                  <div key={student.id} className="flex flex-wrap items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors gap-3">
+                  <div key={student.id} className="flex flex-wrap items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors gap-3">
                     <div className={`w-3 h-3 rounded-xl ${getStatusColor(attendanceData[student.id]?.status)}`}></div>
                     <div>
                       <div className="flex flex-wrap items-center w-full gap-2 border rounded-xl p-4">
@@ -428,11 +428,11 @@ Terima kasih.
                         />
                         <div>
                           <p className="font-medium flex items-center gap-3">
-                            <User className="h-4 w-4 text-gray-400" />
+                            <User className="h-4 w-4 text-muted-foreground" />
                             {student.name}
                           </p>
                           {student.nisn && (
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-muted-foreground">
                               <Badge variant="outline" className="px-1 py-0.5">
                                 NISN: {student.nisn}
                               </Badge>
@@ -455,9 +455,9 @@ Terima kasih.
 
             <div className="mt-6 space-y-4">
               {/* WhatsApp Notification Option */}
-              <div className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center space-x-3 p-4 bg-success-surface rounded-lg border border-success-border">
                 <Checkbox id="sendWhatsApp" checked={sendWhatsApp} onCheckedChange={(checked) => setSendWhatsApp(checked as boolean)} />
-                <label htmlFor="sendWhatsApp" className="flex items-center gap-2 text-sm font-medium text-green-800 cursor-pointer">
+                <label htmlFor="sendWhatsApp" className="flex items-center gap-2 text-sm font-medium text-success-strong cursor-pointer">
                   <MessageSquare className="h-4 w-4" />
                   Kirim notifikasi WhatsApp ke orang tua murid
                 </label>
@@ -486,8 +486,8 @@ Terima kasih.
 
                 {/* Show success/error states */}
                 <div className="flex items-center gap-2">
-                  {createAttendanceMutation.isSuccess && <span className="text-green-600 text-sm">✓ Berhasil disimpan</span>}
-                  {createAttendanceMutation.isError && <span className="text-red-600 text-sm">✗ Gagal menyimpan</span>}
+                  {createAttendanceMutation.isSuccess && <span className="text-success text-sm">✓ Berhasil disimpan</span>}
+                  {createAttendanceMutation.isError && <span className="text-destructive text-sm">✗ Gagal menyimpan</span>}
                 </div>
               </div>
             </div>
@@ -508,25 +508,25 @@ Terima kasih.
             {isLoadingClass ?
               <Loading />
             : <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">{stats.present}</div>
-                  <div className="text-sm text-gray-600">Hadir</div>
+                <div className="text-center p-4 bg-success-surface rounded-lg">
+                  <div className="text-2xl font-bold text-success">{stats.present}</div>
+                  <div className="text-sm text-muted-foreground">Hadir</div>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">{stats.excused}</div>
-                  <div className="text-sm text-gray-600">Izin</div>
+                <div className="text-center p-4 bg-info-surface rounded-lg">
+                  <div className="text-2xl font-bold text-info">{stats.excused}</div>
+                  <div className="text-sm text-muted-foreground">Izin</div>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{stats.sick}</div>
-                  <div className="text-sm text-gray-600">Sakit</div>
+                <div className="text-center p-4 bg-tertiary-surface rounded-lg">
+                  <div className="text-2xl font-bold text-tertiary">{stats.sick}</div>
+                  <div className="text-sm text-muted-foreground">Sakit</div>
                 </div>
-                <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                  <div className="text-2xl font-bold text-yellow-600">{stats.late}</div>
-                  <div className="text-sm text-gray-600">Terlambat</div>
+                <div className="text-center p-4 bg-warning-surface rounded-lg">
+                  <div className="text-2xl font-bold text-warning">{stats.late}</div>
+                  <div className="text-sm text-muted-foreground">Terlambat</div>
                 </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg">
-                  <div className="text-2xl font-bold text-red-600">{stats.absent}</div>
-                  <div className="text-sm text-gray-600">Tidak Hadir</div>
+                <div className="text-center p-4 bg-destructive-surface rounded-lg">
+                  <div className="text-2xl font-bold text-destructive">{stats.absent}</div>
+                  <div className="text-sm text-muted-foreground">Tidak Hadir</div>
                 </div>
               </div>
             }
@@ -541,24 +541,24 @@ Terima kasih.
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-info-solid rounded-full mt-2"></div>
                 <div>
                   <p className="text-sm font-medium">1 Sesi = 2 Jam Pelajaran</p>
-                  <p className="text-xs text-gray-500">Absen sekali per sesi</p>
+                  <p className="text-xs text-muted-foreground">Absen sekali per sesi</p>
                 </div>
               </div>
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-success-solid rounded-full mt-2"></div>
                 <div>
                   <p className="text-sm font-medium">Mata Pelajaran Gandeng</p>
-                  <p className="text-xs text-gray-500">Status mengikuti sesi sebelumnya</p>
+                  <p className="text-xs text-muted-foreground">Status mengikuti sesi sebelumnya</p>
                 </div>
               </div>
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-warning-solid rounded-full mt-2"></div>
                 <div>
                   <p className="text-sm font-medium">Koreksi Absensi</p>
-                  <p className="text-xs text-gray-500">1x kesempatan di hari yang sama</p>
+                  <p className="text-xs text-muted-foreground">1x kesempatan di hari yang sama</p>
                 </div>
               </div>
             </CardContent>
@@ -570,17 +570,17 @@ Terima kasih.
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-destructive-solid rounded-full mt-2"></div>
                 <div>
                   <p className="text-sm font-medium">Alfa {">"} 2 Sesi</p>
-                  <p className="text-xs text-gray-500">Notifikasi ke wali murid</p>
+                  <p className="text-xs text-muted-foreground">Notifikasi ke wali murid</p>
                 </div>
               </div>
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-red-600 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-destructive-solid rounded-full mt-2"></div>
                 <div>
                   <p className="text-sm font-medium">Alfa {">"} 3 Hari</p>
-                  <p className="text-xs text-gray-500">Notifikasi ke Waka Kesiswaan</p>
+                  <p className="text-xs text-muted-foreground">Notifikasi ke Waka Kesiswaan</p>
                 </div>
               </div>
             </CardContent>

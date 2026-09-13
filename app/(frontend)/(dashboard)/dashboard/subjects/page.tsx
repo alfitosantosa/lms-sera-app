@@ -130,20 +130,20 @@ function SubjectFormDialog({ open, onOpenChange, editData, onSuccess }: { open: 
             <div className="space-y-2">
               <Label htmlFor="code">Kode Mata Pelajaran</Label>
               <Input id="code" placeholder="Contoh: MTK01" {...register("code")} />
-              {errors.code && <p className="text-sm text-red-500">{errors.code.message}</p>}
+              {errors.code && <p className="text-sm text-destructive">{errors.code.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="credits">SKS</Label>
               <Input id="credits" type="number" min="1" max="10" {...register("credits", { valueAsNumber: true })} />
-              {errors.credits && <p className="text-sm text-red-500">{errors.credits.message}</p>}
+              {errors.credits && <p className="text-sm text-destructive">{errors.credits.message}</p>}
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="name">Nama Mata Pelajaran</Label>
             <Input id="name" placeholder="Contoh: Matematika Dasar" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -217,7 +217,7 @@ function DeleteSubjectDialog({ open, onOpenChange, subjectData, onSuccess }: { o
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteSubject.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteSubject.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteSubject.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -359,7 +359,7 @@ function SubjectDataTable() {
       cell: ({ row }) => {
         const isActive = row.getValue("isActive") as boolean;
         return (
-          <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-green-600" : "bg-gray-600"}>
+          <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-success-solid" : "bg-muted-foreground"}>
             {isActive ? "Aktif" : "Tidak Aktif"}
           </Badge>
         );
@@ -416,7 +416,7 @@ function SubjectDataTable() {
                   setSelectedSubject(subjectData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -681,7 +681,7 @@ function SubjectDataTable() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5 text-blue-500" />
+              <BookOpen className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Total Mata Pelajaran</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{subjects.length}</p>
@@ -690,7 +690,7 @@ function SubjectDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <div className="h-3 w-3 rounded-full bg-green-600"></div>
+              <div className="h-3 w-3 rounded-full bg-success"></div>
               <h3 className="font-semibold">Aktif</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.isActive === true).length}</p>
@@ -698,7 +698,7 @@ function SubjectDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <div className="h-3 w-3 rounded-full bg-gray-600"></div>
+              <div className="h-3 w-3 rounded-full bg-muted-foreground"></div>
               <h3 className="font-semibold">Tidak Aktif</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.filter((row) => row.original.isActive === false).length}</p>
@@ -706,7 +706,7 @@ function SubjectDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Hash className="h-5 w-5 text-purple-500" />
+              <Hash className="h-5 w-5 text-tertiary" />
               <h3 className="font-semibold">Total SKS</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{table.getFilteredRowModel().rows.reduce((total, row) => total + row.original.credits, 0)}</p>

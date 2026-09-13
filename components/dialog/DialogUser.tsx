@@ -355,7 +355,7 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
           {previewUrl ?
             <div className="relative group">
               <Image src={previewUrl} alt="Avatar preview" width={20} height={20} className="w-24 h-24 rounded-full object-cover border-2" />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute inset-0 flex items-center justify-center bg-navy/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white" onClick={() => setShowPreview(true)}>
                   <Eye className="h-4 w-4" />
                 </Button>
@@ -671,12 +671,12 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="nisn">NISN *</Label>
                 <Input id="nisn" placeholder="1234567890" {...register("nisn")} />
-                {errors.nisn && <p className="text-sm text-red-500">{errors.nisn.message}</p>}
+                {errors.nisn && <p className="text-sm text-destructive">{errors.nisn.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nik">NIK *</Label>
                 <Input id="nik" placeholder="3201234567890123" {...register("nik")} />
-                {errors.nik && <p className="text-sm text-red-500">{errors.nik.message}</p>}
+                {errors.nik && <p className="text-sm text-destructive">{errors.nik.message}</p>}
               </div>
             </div>
 
@@ -684,19 +684,19 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
                 <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-red-500">{errors.birthPlace.message}</p>}
+                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-red-500">{errors.birthDate.message}</p>}
+                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="address">Alamat *</Label>
               <Textarea id="address" placeholder="Alamat lengkap siswa" {...register("address")} />
-              {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
+              {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -799,7 +799,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="employeeId">ID Pegawai *</Label>
                 <Input id="employeeId" placeholder="EMP001" {...register("employeeId")} />
-                {errors.employeeId && <p className="text-sm text-red-500">{errors.employeeId.message}</p>}
+                {errors.employeeId && <p className="text-sm text-destructive">{errors.employeeId.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="position">Jabatan</Label>
@@ -811,12 +811,12 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
                 <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-red-500">{errors.birthPlace.message}</p>}
+                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-red-500">{errors.birthDate.message}</p>}
+                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
               </div>
             </div>
 
@@ -824,7 +824,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat *</Label>
                 <Textarea id="address" placeholder="Alamat lengkap guru" {...register("address")} />
-                {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
+                {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. Hanphone</Label>
@@ -856,7 +856,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
                   <SelectItem value="Guardian">Wali</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.relation && <p className="text-sm text-red-500">{errors.relation.message}</p>}
+              {errors.relation && <p className="text-sm text-destructive">{errors.relation.message}</p>}
             </div>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="space-y-2">
@@ -879,7 +879,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="employeeId">ID Pegawai *</Label>
                 <Input id="employeeId" placeholder="EMP001" {...register("employeeId")} />
-                {errors.employeeId && <p className="text-sm text-red-500">{errors.employeeId.message}</p>}
+                {errors.employeeId && <p className="text-sm text-destructive">{errors.employeeId.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="position">Jabatan</Label>
@@ -891,12 +891,12 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
                 <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-red-500">{errors.birthPlace.message}</p>}
+                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-red-500">{errors.birthDate.message}</p>}
+                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
               </div>
             </div>
 
@@ -904,7 +904,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat *</Label>
                 <Textarea id="address" placeholder="Alamat lengkap guru" {...register("address")} />
-                {errors.address && <p className="text-sm text-red-500">{errors.address.message}</p>}
+                {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. Hanphone</Label>
@@ -979,12 +979,12 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               <div className="space-y-2">
                 <Label htmlFor="name">Nama Lengkap *</Label>
                 <Input id="name" placeholder="Masukkan nama lengkap" {...register("name")} />
-                {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" type="email" placeholder="user@example.com" {...register("email")} />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
               </div>
             </div>
 
@@ -1003,7 +1003,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.roleId && <p className="text-sm text-red-500">{errors.roleId.message}</p>}
+                {errors.roleId && <p className="text-sm text-destructive">{errors.roleId.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label>Jenis Kelamin</Label>
@@ -1093,7 +1093,7 @@ export function DeleteUserDialog({ open, onOpenChange, userData, onSuccess }: { 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700" disabled={deleteUser.isPending}>
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive text-white hover:bg-destructive-strong" disabled={deleteUser.isPending}>
             {deleteUser.isPending ? "Loading..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -1162,7 +1162,7 @@ export function DeleteUserBulkDialog({ open, onOpenChange, userDatas, onSuccess 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteUser.isPending}>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700" disabled={deleteUser.isPending || !userDatas || userDatas.length === 0}>
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive text-white hover:bg-destructive-strong" disabled={deleteUser.isPending || !userDatas || userDatas.length === 0}>
             {deleteUser.isPending ? "Menghapus..." : `Hapus ${userDatas?.length || 0} User`}
           </AlertDialogAction>
         </AlertDialogFooter>

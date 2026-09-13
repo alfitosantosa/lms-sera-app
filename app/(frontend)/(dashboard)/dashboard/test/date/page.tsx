@@ -30,8 +30,8 @@ export default function DatePage() {
 
         <div className="flex flex-col gap-2">
             <h2 className="text-lg font-semibold">State Value</h2>
-            <div className="rounded-md bg-slate-950 p-4">
-                <pre className="text-xs text-slate-50 overscroll-x-auto">
+            <div className="rounded-md bg-foreground p-4">
+                <pre className="text-xs text-background overscroll-x-auto">
                     {JSON.stringify(date, null, 2)}
                 </pre>
             </div>

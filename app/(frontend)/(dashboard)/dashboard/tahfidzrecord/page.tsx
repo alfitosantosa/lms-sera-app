@@ -67,16 +67,16 @@ export type TahfidzRecordData = {
 
 // ─── Grade Badge ──────────────────────────────────────────────────────────────
 const gradeColor: Record<string, string> = {
-  A: "bg-green-600",
-  B: "bg-blue-500",
-  C: "bg-yellow-500",
-  D: "bg-orange-500",
-  E: "bg-red-600",
+  A: "bg-success-solid",
+  B: "bg-info-solid",
+  C: "bg-warning-solid",
+  D: "bg-caution-solid",
+  E: "bg-destructive-solid",
 };
 
 function GradeBadge({ grade }: { grade?: string }) {
   if (!grade) return <span className="text-muted-foreground">-</span>;
-  return <Badge className={`${gradeColor[grade.toUpperCase()] ?? "bg-gray-500"} text-white font-bold`}>{grade}</Badge>;
+  return <Badge className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} text-white font-bold`}>{grade}</Badge>;
 }
 
 // ─── Form Schema ──────────────────────────────────────────────────────────────
@@ -216,7 +216,7 @@ function TahfidzFormDialog({
                   ))}
                 </SelectContent>
               </Select>
-              {errors.studentId && <p className="text-sm text-red-500">{errors.studentId.message}</p>}
+              {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -266,13 +266,13 @@ function TahfidzFormDialog({
                   {selectedSurah.revelationPlace} · {selectedSurah.verseCount} ayat
                 </p>
               )}
-              {errors.surahQuranId && <p className="text-sm text-red-500">{errors.surahQuranId.message}</p>}
+              {errors.surahQuranId && <p className="text-sm text-destructive">{errors.surahQuranId.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="date">Tanggal</Label>
               <Input id="date" type="date" {...register("date")} />
-              {errors.date && <p className="text-sm text-red-500">{errors.date.message}</p>}
+              {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
             </div>
           </div>
 
@@ -284,7 +284,7 @@ function TahfidzFormDialog({
                 {selectedSurah && <span className="ml-1 text-xs text-muted-foreground">(maks. {selectedSurah.verseCount})</span>}
               </Label>
               <Input id="startVerse" type="number" min="1" max={selectedSurah?.verseCount} {...register("startVerse", { valueAsNumber: true })} />
-              {errors.startVerse && <p className="text-sm text-red-500">{errors.startVerse.message}</p>}
+              {errors.startVerse && <p className="text-sm text-destructive">{errors.startVerse.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="endVerse">
@@ -292,7 +292,7 @@ function TahfidzFormDialog({
                 {selectedSurah && <span className="ml-1 text-xs text-muted-foreground">(maks. {selectedSurah.verseCount})</span>}
               </Label>
               <Input id="endVerse" type="number" min="1" max={selectedSurah?.verseCount} {...register("endVerse", { valueAsNumber: true })} />
-              {errors.endVerse && <p className="text-sm text-red-500">{errors.endVerse.message}</p>}
+              {errors.endVerse && <p className="text-sm text-destructive">{errors.endVerse.message}</p>}
             </div>
           </div>
 
@@ -367,7 +367,7 @@ function DeleteTahfidzDialog({ open, onOpenChange, recordData, onSuccess }: { op
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteRecord.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteRecord.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteRecord.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -553,7 +553,7 @@ function TahfidzRecordDataTable() {
                   setSelectedRecord(rec);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -760,7 +760,7 @@ function TahfidzRecordDataTable() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BookOpen className="h-5 w-5 text-blue-500" />
+            <BookOpen className="h-5 w-5 text-info" />
             <h3 className="font-semibold">Total Rekaman</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{totalRecords}</p>
@@ -769,7 +769,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-green-600" />
+            <div className="h-3 w-3 rounded-full bg-success" />
             <h3 className="font-semibold">Nilai A</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => r.original.grade === "A").length}</p>
@@ -777,7 +777,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-yellow-500" />
+            <div className="h-3 w-3 rounded-full bg-warning" />
             <h3 className="font-semibold">Belum Dinilai</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => !r.original.grade).length}</p>
@@ -785,7 +785,7 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <User className="h-5 w-5 text-purple-500" />
+            <User className="h-5 w-5 text-tertiary" />
             <h3 className="font-semibold">Jumlah Siswa</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{new Set(filteredRows.map((r) => r.original.studentId).filter(Boolean)).size}</p>

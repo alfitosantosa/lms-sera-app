@@ -110,11 +110,11 @@ const YEARS = Array.from({ length: 5 }, (_, i) => String(currentYear - 2 + i));
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 function PaidBadge({ isPaid }: { isPaid: boolean }) {
   return isPaid ?
-      <Badge className="bg-green-600 text-white flex items-center gap-1 w-fit">
+      <Badge className="bg-success-solid text-white flex items-center gap-1 w-fit">
         <BadgeCheck className="h-3 w-3" />
         Lunas
       </Badge>
-    : <Badge className="bg-yellow-500 text-white flex items-center gap-1 w-fit">
+    : <Badge className="bg-warning-solid text-white flex items-center gap-1 w-fit">
         <Clock className="h-3 w-3" />
         Belum Lunas
       </Badge>;
@@ -122,10 +122,10 @@ function PaidBadge({ isPaid }: { isPaid: boolean }) {
 
 // function ActiveBadge({ isActive }: { isActive: boolean }) {
 //   return isActive ?
-//       <Badge variant="outline" className="text-green-600 border-green-600 text-xs">
+//       <Badge variant="outline" className="text-success border-success text-xs">
 //         Aktif
 //       </Badge>
-//     : <Badge variant="outline" className="text-gray-400 text-xs">
+//     : <Badge variant="outline" className="text-muted-foreground text-xs">
 //         Nonaktif
 //       </Badge>;
 // }
@@ -348,18 +348,18 @@ function SingleItemDialog({
                 />
               )}
             />
-            {errors.studentId && <p className="text-sm text-red-500">{errors.studentId.message}</p>}
+            {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
           </div>
 
           {/* Payment */}
           {unpaidItems.length > 0 && (
-            <div className="space-y-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <Label className="text-sm font-semibold text-blue-900">Tagihan Belum Lunas</Label>
+            <div className="space-y-2 p-3 bg-info-surface rounded-lg border border-info-border">
+              <Label className="text-sm font-semibold text-info-strong">Tagihan Belum Lunas</Label>
               <div className="space-y-1 max-h-40 overflow-y-auto">
                 {unpaidItems.map((item) => (
-                  <div key={item.id} className="text-xs p-2 bg-white rounded border border-blue-100 flex justify-between">
+                  <div key={item.id} className="text-xs p-2 bg-card rounded border border-info-border flex justify-between">
                     <span className="font-medium">{item.name}</span>
-                    <span className="text-blue-600 font-semibold">{formatRupiah(item.subtotal)}</span>
+                    <span className="text-info font-semibold">{formatRupiah(item.subtotal)}</span>
                   </div>
                 ))}
               </div>
@@ -395,14 +395,14 @@ function SingleItemDialog({
                 {selectedPT.description} · {formatRupiah(selectedPT.amount)}
               </p>
             )}
-            {errors.paymentTypeId && <p className="text-sm text-red-500">{errors.paymentTypeId.message}</p>}
+            {errors.paymentTypeId && <p className="text-sm text-destructive">{errors.paymentTypeId.message}</p>}
           </div>
 
           {/* Name */}
           <div className="space-y-2">
             <Label htmlFor="name">Nama Item</Label>
             <Input id="name" placeholder="Nama item tagihan" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           {/* Month & Year */}
@@ -427,7 +427,7 @@ function SingleItemDialog({
                   </Select>
                 )}
               />
-              {errors.month && <p className="text-sm text-red-500">{errors.month.message}</p>}
+              {errors.month && <p className="text-sm text-destructive">{errors.month.message}</p>}
             </div>
             <div className="space-y-2">
               <Label>Tahun</Label>
@@ -449,7 +449,7 @@ function SingleItemDialog({
                   </Select>
                 )}
               />
-              {errors.year && <p className="text-sm text-red-500">{errors.year.message}</p>}
+              {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
             </div>
           </div>
 
@@ -509,7 +509,7 @@ function SingleItemDialog({
 
           {/* Debug: Show current form values */}
           {process.env.NODE_ENV === "development" && (
-            <div className="text-xs space-y-2 p-3 bg-gray-50 rounded border">
+            <div className="text-xs space-y-2 p-3 bg-muted/50 rounded border">
               <p className="font-semibold">Debug Form State:</p>
               <div className="space-y-1">
                 <p>• isValid: {isValid ? "✓ true" : "✗ false"}</p>
@@ -524,7 +524,7 @@ function SingleItemDialog({
 
           {/* Show validation errors */}
           {Object.keys(errors).length > 0 && (
-            <div className="text-xs text-red-500 space-y-1">
+            <div className="text-xs text-destructive space-y-1">
               <p className="font-semibold">Validation errors:</p>
               {Object.entries(errors).map(([key, error]) => (
                 <p key={key}>
@@ -567,7 +567,7 @@ function DeleteItemDialog({ open, onOpenChange, itemData, onSuccess }: { open: b
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteItem.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -887,7 +887,7 @@ function BillingDataTable({
                   setSelectedItem(item);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus
@@ -1086,7 +1086,7 @@ function BillingDataTable({
               setIsExporting(false);
             }}
             disabled={isExporting}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-success-solid hover:bg-success-solid/90 text-white"
           >
             <FileText className="mr-2 h-4 w-4" />
             {isExporting ? "Mengexport..." : "Export Excel"}
@@ -1205,7 +1205,7 @@ function BillingDataTable({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Package className="h-5 w-5 text-blue-500" />
+            <Package className="h-5 w-5 text-info" />
             <h3 className="font-semibold">Total Item</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{totalItems}</p>
@@ -1214,7 +1214,7 @@ function BillingDataTable({
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BadgeCheck className="h-5 w-5 text-green-600" />
+            <BadgeCheck className="h-5 w-5 text-success" />
             <h3 className="font-semibold">Sudah Lunas</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{paidCount}</p>
@@ -1222,7 +1222,7 @@ function BillingDataTable({
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-yellow-500" />
+            <Clock className="h-5 w-5 text-warning" />
             <h3 className="font-semibold">Belum Lunas</h3>
           </div>
           <p className="text-2xl font-bold mt-2">{unpaidCount}</p>
@@ -1230,7 +1230,7 @@ function BillingDataTable({
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-purple-500" />
+            <CreditCard className="h-5 w-5 text-tertiary" />
             <h3 className="font-semibold">Total Subtotal</h3>
           </div>
           <p className="text-lg font-bold mt-2 tabular-nums">{formatRupiah(totalSubtotal)}</p>

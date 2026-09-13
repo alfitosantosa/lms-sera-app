@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Unauthorized() {
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-linear-to-br from-slate-50 to-blue-50 px-4 py-10">
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-linear-to-br from-muted/40 to-info-surface px-4 py-10">
       <div className="max-w-4xl w-full space-y-6">
         {/* Main Alert */}
         <Alert variant="destructive" className="border-destructive/50">
@@ -51,7 +51,7 @@ export default function Unauthorized() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Info className="h-5 w-5 text-blue-600" />
+                  <Info className="h-5 w-5 text-info" />
                   Apa yang Bisa Anda Lakukan?
                 </CardTitle>
                 <CardDescription>Langkah-langkah yang dapat Anda ambil</CardDescription>
@@ -59,15 +59,15 @@ export default function Unauthorized() {
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 mt-1">•</span>
+                    <span className="text-info mt-1">•</span>
                     <span>Kembali ke dashboard utama sesuai role Anda.</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 mt-1">•</span>
+                    <span className="text-info mt-1">•</span>
                     <span>Hubungi admin jika Anda merasa seharusnya punya akses.</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 mt-1">•</span>
+                    <span className="text-info mt-1">•</span>
                     <span>Pastikan Anda login dengan akun yang benar.</span>
                   </li>
                 </ul>

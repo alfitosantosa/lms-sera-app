@@ -40,6 +40,7 @@ export type TahfidzGroupMinAggregateOutputType = {
   id: string | null
   name: string | null
   grade: number | null
+  majorId: string | null
   capacity: number | null
   isActive: boolean | null
 }
@@ -48,6 +49,7 @@ export type TahfidzGroupMaxAggregateOutputType = {
   id: string | null
   name: string | null
   grade: number | null
+  majorId: string | null
   capacity: number | null
   isActive: boolean | null
 }
@@ -56,6 +58,7 @@ export type TahfidzGroupCountAggregateOutputType = {
   id: number
   name: number
   grade: number
+  majorId: number
   capacity: number
   isActive: number
   _all: number
@@ -76,6 +79,7 @@ export type TahfidzGroupMinAggregateInputType = {
   id?: true
   name?: true
   grade?: true
+  majorId?: true
   capacity?: true
   isActive?: true
 }
@@ -84,6 +88,7 @@ export type TahfidzGroupMaxAggregateInputType = {
   id?: true
   name?: true
   grade?: true
+  majorId?: true
   capacity?: true
   isActive?: true
 }
@@ -92,6 +97,7 @@ export type TahfidzGroupCountAggregateInputType = {
   id?: true
   name?: true
   grade?: true
+  majorId?: true
   capacity?: true
   isActive?: true
   _all?: true
@@ -187,6 +193,7 @@ export type TahfidzGroupGroupByOutputType = {
   id: string
   name: string
   grade: number
+  majorId: string
   capacity: number
   isActive: boolean
   _count: TahfidzGroupCountAggregateOutputType | null
@@ -218,6 +225,7 @@ export type TahfidzGroupWhereInput = {
   id?: Prisma.StringFilter<"TahfidzGroup"> | string
   name?: Prisma.StringFilter<"TahfidzGroup"> | string
   grade?: Prisma.IntFilter<"TahfidzGroup"> | number
+  majorId?: Prisma.StringFilter<"TahfidzGroup"> | string
   capacity?: Prisma.IntFilter<"TahfidzGroup"> | number
   isActive?: Prisma.BoolFilter<"TahfidzGroup"> | boolean
   schedules?: Prisma.ScheduleListRelationFilter
@@ -228,6 +236,7 @@ export type TahfidzGroupOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   grade?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   schedules?: Prisma.ScheduleOrderByRelationAggregateInput
@@ -236,21 +245,23 @@ export type TahfidzGroupOrderByWithRelationInput = {
 
 export type TahfidzGroupWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   AND?: Prisma.TahfidzGroupWhereInput | Prisma.TahfidzGroupWhereInput[]
   OR?: Prisma.TahfidzGroupWhereInput[]
   NOT?: Prisma.TahfidzGroupWhereInput | Prisma.TahfidzGroupWhereInput[]
+  name?: Prisma.StringFilter<"TahfidzGroup"> | string
   grade?: Prisma.IntFilter<"TahfidzGroup"> | number
+  majorId?: Prisma.StringFilter<"TahfidzGroup"> | string
   capacity?: Prisma.IntFilter<"TahfidzGroup"> | number
   isActive?: Prisma.BoolFilter<"TahfidzGroup"> | boolean
   schedules?: Prisma.ScheduleListRelationFilter
   students?: Prisma.UserDataListRelationFilter
-}, "id" | "name">
+}, "id">
 
 export type TahfidzGroupOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   grade?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   _count?: Prisma.TahfidzGroupCountOrderByAggregateInput
@@ -267,6 +278,7 @@ export type TahfidzGroupScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"TahfidzGroup"> | string
   name?: Prisma.StringWithAggregatesFilter<"TahfidzGroup"> | string
   grade?: Prisma.IntWithAggregatesFilter<"TahfidzGroup"> | number
+  majorId?: Prisma.StringWithAggregatesFilter<"TahfidzGroup"> | string
   capacity?: Prisma.IntWithAggregatesFilter<"TahfidzGroup"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"TahfidzGroup"> | boolean
 }
@@ -275,6 +287,7 @@ export type TahfidzGroupCreateInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   schedules?: Prisma.ScheduleCreateNestedManyWithoutTahfidzGroupInput
@@ -285,6 +298,7 @@ export type TahfidzGroupUncheckedCreateInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutTahfidzGroupInput
@@ -295,6 +309,7 @@ export type TahfidzGroupUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   schedules?: Prisma.ScheduleUpdateManyWithoutTahfidzGroupNestedInput
@@ -305,6 +320,7 @@ export type TahfidzGroupUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutTahfidzGroupNestedInput
@@ -315,6 +331,7 @@ export type TahfidzGroupCreateManyInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
 }
@@ -323,6 +340,7 @@ export type TahfidzGroupUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -331,6 +349,7 @@ export type TahfidzGroupUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -344,6 +363,7 @@ export type TahfidzGroupCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   grade?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
 }
@@ -357,6 +377,7 @@ export type TahfidzGroupMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   grade?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
 }
@@ -365,6 +386,7 @@ export type TahfidzGroupMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   grade?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
 }
@@ -410,6 +432,7 @@ export type TahfidzGroupCreateWithoutStudentsInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   schedules?: Prisma.ScheduleCreateNestedManyWithoutTahfidzGroupInput
@@ -419,6 +442,7 @@ export type TahfidzGroupUncheckedCreateWithoutStudentsInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutTahfidzGroupInput
@@ -444,6 +468,7 @@ export type TahfidzGroupUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   schedules?: Prisma.ScheduleUpdateManyWithoutTahfidzGroupNestedInput
@@ -453,6 +478,7 @@ export type TahfidzGroupUncheckedUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutTahfidzGroupNestedInput
@@ -462,6 +488,7 @@ export type TahfidzGroupCreateWithoutSchedulesInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   students?: Prisma.UserDataCreateNestedManyWithoutTahfidzGroupInput
@@ -471,6 +498,7 @@ export type TahfidzGroupUncheckedCreateWithoutSchedulesInput = {
   id?: string
   name: string
   grade: number
+  majorId: string
   capacity?: number
   isActive?: boolean
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutTahfidzGroupInput
@@ -496,6 +524,7 @@ export type TahfidzGroupUpdateWithoutSchedulesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   students?: Prisma.UserDataUpdateManyWithoutTahfidzGroupNestedInput
@@ -505,6 +534,7 @@ export type TahfidzGroupUncheckedUpdateWithoutSchedulesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   grade?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   students?: Prisma.UserDataUncheckedUpdateManyWithoutTahfidzGroupNestedInput
@@ -554,6 +584,7 @@ export type TahfidzGroupSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   name?: boolean
   grade?: boolean
+  majorId?: boolean
   capacity?: boolean
   isActive?: boolean
   schedules?: boolean | Prisma.TahfidzGroup$schedulesArgs<ExtArgs>
@@ -565,6 +596,7 @@ export type TahfidzGroupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   name?: boolean
   grade?: boolean
+  majorId?: boolean
   capacity?: boolean
   isActive?: boolean
 }, ExtArgs["result"]["tahfidzGroup"]>
@@ -573,6 +605,7 @@ export type TahfidzGroupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   name?: boolean
   grade?: boolean
+  majorId?: boolean
   capacity?: boolean
   isActive?: boolean
 }, ExtArgs["result"]["tahfidzGroup"]>
@@ -581,11 +614,12 @@ export type TahfidzGroupSelectScalar = {
   id?: boolean
   name?: boolean
   grade?: boolean
+  majorId?: boolean
   capacity?: boolean
   isActive?: boolean
 }
 
-export type TahfidzGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "grade" | "capacity" | "isActive", ExtArgs["result"]["tahfidzGroup"]>
+export type TahfidzGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "grade" | "majorId" | "capacity" | "isActive", ExtArgs["result"]["tahfidzGroup"]>
 export type TahfidzGroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   schedules?: boolean | Prisma.TahfidzGroup$schedulesArgs<ExtArgs>
   students?: boolean | Prisma.TahfidzGroup$studentsArgs<ExtArgs>
@@ -604,6 +638,7 @@ export type $TahfidzGroupPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     name: string
     grade: number
+    majorId: string
     capacity: number
     isActive: boolean
   }, ExtArgs["result"]["tahfidzGroup"]>
@@ -1034,6 +1069,7 @@ export interface TahfidzGroupFieldRefs {
   readonly id: Prisma.FieldRef<"TahfidzGroup", 'String'>
   readonly name: Prisma.FieldRef<"TahfidzGroup", 'String'>
   readonly grade: Prisma.FieldRef<"TahfidzGroup", 'Int'>
+  readonly majorId: Prisma.FieldRef<"TahfidzGroup", 'String'>
   readonly capacity: Prisma.FieldRef<"TahfidzGroup", 'Int'>
   readonly isActive: Prisma.FieldRef<"TahfidzGroup", 'Boolean'>
 }

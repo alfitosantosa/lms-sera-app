@@ -349,7 +349,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
                     setSelectedUser(userData);
                     setDeleteDialogOpen(true);
                   }}
-                  className="text-red-600"
+                  className="text-destructive"
                   disabled={true}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
@@ -480,7 +480,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
   if (error) {
     return (
       <div className="w-full min-h-screen items-center justify-center h-32">
-        <div className="text-center text-red-600">
+        <div className="text-center text-destructive">
           <p>Error loading users: {error.message}</p>
           <Button onClick={() => refetch()} className="mt-2">
             Retry

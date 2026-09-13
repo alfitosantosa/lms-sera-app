@@ -217,17 +217,17 @@ export default function CalendarPage() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
-              <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">Jadwal Reguler</p>
-              <p className="text-2xl font-bold text-blue-700 dark:text-blue-300 mt-1">{schedules.length}</p>
+            <div className="p-4 bg-info-surface rounded-lg border border-info-border">
+              <p className="text-sm text-info font-medium">Jadwal Reguler</p>
+              <p className="text-2xl font-bold text-info-strong mt-1">{schedules.length}</p>
             </div>
-            <div className="p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg border border-orange-200 dark:border-orange-800">
-              <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">Event Khusus</p>
-              <p className="text-2xl font-bold text-orange-700 dark:text-orange-300 mt-1">{specialSchedules.filter((s) => s.isPublished).length}</p>
+            <div className="p-4 bg-caution-surface rounded-lg border border-caution-border">
+              <p className="text-sm text-caution font-medium">Event Khusus</p>
+              <p className="text-2xl font-bold text-caution-strong mt-1">{specialSchedules.filter((s) => s.isPublished).length}</p>
             </div>
-            <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
-              <p className="text-sm text-green-600 dark:text-green-400 font-medium">Total Event</p>
-              <p className="text-2xl font-bold text-green-700 dark:text-green-300 mt-1">{allFeatures.length}</p>
+            <div className="p-4 bg-success-surface rounded-lg border border-success-border">
+              <p className="text-sm text-success font-medium">Total Event</p>
+              <p className="text-2xl font-bold text-success-strong mt-1">{allFeatures.length}</p>
             </div>
           </div>
         </div>

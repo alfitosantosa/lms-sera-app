@@ -118,11 +118,11 @@ _Bagian Keuangan_`;
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 function PaymentStatusBadge({ status }: { status: string }) {
   const cfg: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-    paid: { label: "Lunas", className: "bg-green-600 text-white", icon: <CheckCircle2 className="h-3 w-3" /> },
-    pending: { label: "Menunggu", className: "bg-yellow-500 text-white", icon: <Clock className="h-3 w-3" /> },
-    overdue: { label: "Terlambat", className: "bg-red-600 text-white", icon: <XCircle className="h-3 w-3" /> },
+    paid: { label: "Lunas", className: "bg-success-solid text-white", icon: <CheckCircle2 className="h-3 w-3" /> },
+    pending: { label: "Menunggu", className: "bg-warning-solid text-white", icon: <Clock className="h-3 w-3" /> },
+    overdue: { label: "Terlambat", className: "bg-destructive-solid text-white", icon: <XCircle className="h-3 w-3" /> },
   };
-  const c = cfg[status] ?? { label: status, className: "bg-gray-500 text-white", icon: null };
+  const c = cfg[status] ?? { label: status, className: "bg-muted-foreground text-background", icon: null };
   return (
     <Badge className={`${c.className} flex items-center gap-1 w-fit text-xs`}>
       {c.icon}
@@ -137,7 +137,7 @@ function StudentProfileCard({ student }: { student: Student }) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <User className="h-4 w-4 text-blue-500" />
+          <User className="h-4 w-4 text-info" />
           Profil Siswa
         </CardTitle>
       </CardHeader>
@@ -150,7 +150,7 @@ function StudentProfileCard({ student }: { student: Student }) {
           <div>
             <p className="font-semibold text-base">{student.name}</p>
             <p className="text-xs text-muted-foreground">{student.email ?? "-"}</p>
-            <Badge variant="outline" className={`text-xs mt-1 ${student.status === "active" ? "border-green-500 text-green-600" : "border-gray-400 text-gray-500"}`}>
+            <Badge variant="outline" className={`text-xs mt-1 ${student.status === "active" ? "border-success text-success" : "border-border text-muted-foreground"}`}>
               {student.status === "active" ? "Aktif" : (student.status ?? "-")}
             </Badge>
           </div>
@@ -249,32 +249,32 @@ function SummaryCards({ billingItems, payments }: { billingItems: PaymentItem[];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <Card className="border-red-100">
+      <Card className="border-destructive-border">
         <CardContent className="pt-4 pb-3">
           <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
+            <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
             <p className="text-xs font-medium text-muted-foreground">Belum Lunas</p>
           </div>
-          <p className="text-xl font-bold text-red-600">{unpaidItems.length}</p>
-          <p className="text-xs text-red-500 tabular-nums mt-0.5">{formatRupiah(totalUnpaid)}</p>
+          <p className="text-xl font-bold text-destructive">{unpaidItems.length}</p>
+          <p className="text-xs text-destructive tabular-nums mt-0.5">{formatRupiah(totalUnpaid)}</p>
         </CardContent>
       </Card>
 
-      <Card className="border-green-100">
+      <Card className="border-success-border">
         <CardContent className="pt-4 pb-3">
           <div className="flex items-center gap-2 mb-2">
-            <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
+            <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
             <p className="text-xs font-medium text-muted-foreground">Sudah Lunas</p>
           </div>
-          <p className="text-xl font-bold text-green-600">{paidItems.length}</p>
-          <p className="text-xs text-green-600 tabular-nums mt-0.5">{formatRupiah(totalPaid)}</p>
+          <p className="text-xl font-bold text-success">{paidItems.length}</p>
+          <p className="text-xs text-success tabular-nums mt-0.5">{formatRupiah(totalPaid)}</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardContent className="pt-4 pb-3">
           <div className="flex items-center gap-2 mb-2">
-            <Receipt className="h-4 w-4 text-blue-500 shrink-0" />
+            <Receipt className="h-4 w-4 text-info shrink-0" />
             <p className="text-xs font-medium text-muted-foreground">Total Transaksi</p>
           </div>
           <p className="text-xl font-bold">{payments.length}</p>
@@ -285,10 +285,10 @@ function SummaryCards({ billingItems, payments }: { billingItems: PaymentItem[];
       <Card>
         <CardContent className="pt-4 pb-3">
           <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-4 w-4 text-purple-500 shrink-0" />
+            <TrendingUp className="h-4 w-4 text-tertiary shrink-0" />
             <p className="text-xs font-medium text-muted-foreground">Total Terbayar</p>
           </div>
-          <p className="text-xl font-bold text-purple-600 tabular-nums">{formatRupiah(totalPaid)}</p>
+          <p className="text-xl font-bold text-tertiary tabular-nums">{formatRupiah(totalPaid)}</p>
           <p className="text-xs text-muted-foreground mt-0.5">dari transaksi</p>
         </CardContent>
       </Card>
@@ -344,12 +344,12 @@ function BillingTab({ billingItems, student }: { billingItems: PaymentItem[]; st
           {unpaidItems.length > 0 && (
             <div className="flex gap-2">
               {student.parentPhone ?
-                <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700 text-white gap-1.5 text-xs h-8" onClick={handleWAReminder}>
+                <Button size="sm" variant="default" className="bg-success-solid hover:bg-success-solid/90 text-white gap-1.5 text-xs h-8" onClick={handleWAReminder}>
                   <MessageCircle className="h-3.5 w-3.5" />
                   Reminder WA
                   <span className="opacity-80 text-xs">({student.parentPhone})</span>
                 </Button>
-              : <Button size="sm" variant="outline" className="border-green-500 text-green-600 hover:bg-green-50 gap-1.5 text-xs h-8" onClick={handleWAReminderManual}>
+              : <Button size="sm" variant="outline" className="border-success text-success hover:bg-success-surface gap-1.5 text-xs h-8" onClick={handleWAReminderManual}>
                   <MessageCircle className="h-3.5 w-3.5" />
                   Salin Pesan WA
                 </Button>
@@ -359,15 +359,15 @@ function BillingTab({ billingItems, student }: { billingItems: PaymentItem[]; st
         </div>
 
         {unpaidItems.length === 0 ?
-          <div className="flex flex-col items-center justify-center py-8 border rounded-lg bg-green-50 dark:bg-green-950/20">
-            <CheckCircle2 className="h-10 w-10 text-green-600 mb-2" />
-            <p className="text-sm font-medium text-green-800 dark:text-green-200">Semua tagihan sudah lunas!</p>
+          <div className="flex flex-col items-center justify-center py-8 border rounded-lg bg-success-surface">
+            <CheckCircle2 className="h-10 w-10 text-success mb-2" />
+            <p className="text-sm font-medium text-success-strong">Semua tagihan sudah lunas!</p>
           </div>
         : <div className="space-y-3">
             {/* Total unpaid summary */}
-            <div className="flex items-center justify-between rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 px-4 py-2.5">
-              <span className="text-sm text-red-700 dark:text-red-300 font-medium">Total Tagihan Belum Lunas</span>
-              <span className="font-bold text-red-700 dark:text-red-300 tabular-nums">{formatRupiah(totalUnpaid)}</span>
+            <div className="flex items-center justify-between rounded-lg bg-destructive-surface border border-destructive-border px-4 py-2.5">
+              <span className="text-sm text-destructive-strong font-medium">Total Tagihan Belum Lunas</span>
+              <span className="font-bold text-destructive-strong tabular-nums">{formatRupiah(totalUnpaid)}</span>
             </div>
 
             {/* Grouped by SKU Type */}
@@ -391,7 +391,7 @@ function BillingTab({ billingItems, student }: { billingItems: PaymentItem[]; st
                     </div>
                     <div className="text-right shrink-0 ml-3">
                       <p className="text-sm font-semibold tabular-nums">{formatRupiah(item.subtotal)}</p>
-                      <Badge className="bg-red-100 text-red-700 border-0 text-xs mt-0.5">Belum Lunas</Badge>
+                      <Badge className="bg-destructive-chip text-destructive-strong border-0 text-xs mt-0.5">Belum Lunas</Badge>
                     </div>
                   </div>
                 ))}
@@ -423,7 +423,7 @@ function BillingTab({ billingItems, student }: { billingItems: PaymentItem[]; st
                   </div>
                   <div className="text-right shrink-0 ml-3">
                     <p className="text-sm tabular-nums">{formatRupiah(item.subtotal)}</p>
-                    <Badge className="bg-green-100 text-green-700 border-0 text-xs mt-0.5">Lunas</Badge>
+                    <Badge className="bg-success-chip text-success-strong border-0 text-xs mt-0.5">Lunas</Badge>
                   </div>
                 </div>
               ))}
@@ -451,9 +451,9 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
   return (
     <div className="space-y-3">
       {/* Total summary */}
-      <div className="flex items-center justify-between rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 px-4 py-2.5">
-        <span className="text-sm text-blue-700 font-medium">Total Terbayar ({payments.filter((p) => p.status === "paid").length} transaksi lunas)</span>
-        <span className="font-bold text-blue-700 tabular-nums">{formatRupiah(totalPaid)}</span>
+      <div className="flex items-center justify-between rounded-lg bg-info-surface border border-info-border px-4 py-2.5">
+        <span className="text-sm text-info-strong font-medium">Total Terbayar ({payments.filter((p) => p.status === "paid").length} transaksi lunas)</span>
+        <span className="font-bold text-info-strong tabular-nums">{formatRupiah(totalPaid)}</span>
       </div>
 
       {/* Transaction list */}
@@ -600,7 +600,7 @@ function StudentInformation() {
                 <TabsTrigger value="billing" className="flex-1 gap-1.5">
                   <AlertCircle className="h-3.5 w-3.5" />
                   Tagihan
-                  {billingItems.filter((i) => !i.isPaid).length > 0 && <Badge className="bg-red-500 text-white text-xs h-4 px-1.5 ml-1">{billingItems.filter((i) => !i.isPaid).length}</Badge>}
+                  {billingItems.filter((i) => !i.isPaid).length > 0 && <Badge className="bg-destructive-solid text-white text-xs h-4 px-1.5 ml-1">{billingItems.filter((i) => !i.isPaid).length}</Badge>}
                 </TabsTrigger>
                 <TabsTrigger value="transactions" className="flex-1 gap-1.5">
                   <Receipt className="h-3.5 w-3.5" />

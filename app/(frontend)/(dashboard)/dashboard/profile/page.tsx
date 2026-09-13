@@ -50,9 +50,9 @@ interface DataRowProps {
 
 const VARIANT_STYLES: Record<StatCardVariant, string> = {
   default: "bg-muted",
-  success: "bg-green-50 border-green-200",
-  warning: "bg-yellow-50 border-yellow-200",
-  destructive: "bg-red-50 border-red-200",
+  success: "bg-success-surface border-success-border",
+  warning: "bg-warning-surface border-warning-border",
+  destructive: "bg-destructive-surface border-destructive-border",
 };
 
 const DATE_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
@@ -197,10 +197,10 @@ const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
 
                 {session?.user?.emailVerified && (
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
+                    <CheckCircle className="h-4 w-4 text-success mt-0.5" />
                     <div className="flex-1">
                       <p className="text-xs text-muted-foreground">Status Email</p>
-                      <Badge variant="default" className="bg-green-500 text-xs">
+                      <Badge variant="default" className="bg-success-solid text-xs">
                         Terverifikasi
                       </Badge>
                     </div>
@@ -235,17 +235,17 @@ const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
         </Card>
 
         {/* Additional Info Card */}
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-info-surface border-info-border">
           <CardContent className="pt-6">
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                  <AlertCircle className="h-6 w-6 text-blue-600" />
+                <div className="w-12 h-12 rounded-full bg-info-chip flex items-center justify-center">
+                  <AlertCircle className="h-6 w-6 text-info" />
                 </div>
               </div>
               <div className="flex-1 space-y-2">
-                <h3 className="font-semibold text-blue-900">Langkah Selanjutnya</h3>
-                <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                <h3 className="font-semibold text-info-strong">Langkah Selanjutnya</h3>
+                <ul className="text-sm text-info-strong space-y-1 list-disc list-inside">
                   <li>Daftar ke yayasan dengan kode yayasan yang valid</li>
                   <li>Atau hubungi administrator untuk pendaftaran manual</li>
                   <li>Setelah terdaftar, profil lengkap Anda akan muncul</li>
@@ -369,7 +369,7 @@ const UserHeroSection = ({ user }: { user: any }) => (
               <Image src={user.avatarUrl} alt={user?.name || "User Avatar"} width={128} height={128} className="w-full h-full object-cover" priority />
             </div>
             {user?.isActive && (
-              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center">
+              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-success-solid rounded-full border-4 border-background flex items-center justify-center">
                 <CheckCircle className="h-4 w-4 text-white" />
               </div>
             )}

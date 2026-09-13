@@ -404,11 +404,11 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
 
       {/* ── Success Result Banner ── */}
       {uploadResult && (
-        <div className="flex items-start gap-3 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 p-4">
-          <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
+        <div className="flex items-start gap-3 rounded-lg bg-success-surface border border-success-border p-4">
+          <CheckCircle2 className="h-5 w-5 text-success mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold text-green-800 dark:text-green-200">Upload Berhasil!</p>
-            <p className="text-sm text-green-700 dark:text-green-300 mt-0.5">
+            <p className="font-semibold text-success-strong">Upload Berhasil!</p>
+            <p className="text-sm text-success-strong mt-0.5">
               {uploadResult.count} item tagihan dibuat · {uploadResult.skipped > 0 && `${uploadResult.skipped} dilewati (duplikat) ·`} {uploadResult.total} total baris diproses
             </p>
           </div>
@@ -447,12 +447,12 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
           <div className="text-lg font-semibold">Download Template Excel</div>
         </div>
 
-        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+        <div className="bg-info-surface border border-info-border rounded-lg p-4 mb-4">
           <div className="flex items-start gap-2">
-            <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
-            <div className="text-sm text-blue-900 dark:text-blue-100 space-y-1">
+            <AlertCircle className="h-5 w-5 text-info mt-0.5 shrink-0" />
+            <div className="text-sm text-info-strong space-y-1">
               <p className="font-semibold">Petunjuk Pengisian Template:</p>
-              <ul className="list-disc list-inside space-y-0.5 text-blue-800 dark:text-blue-200">
+              <ul className="list-disc list-inside space-y-0.5 text-info-strong">
                 <li>
                   <strong>Student ID</strong> — ambil dari export Daftar Siswa di Langkah 1
                 </li>
@@ -527,10 +527,10 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
 
           {/* Sheet selector */}
           {availableSheets.length > 1 && (
-            <Card className="p-4 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+            <Card className="p-4 bg-info-surface border-info-border">
               <div className="flex items-center gap-2 mb-3">
-                <Layers className="h-5 w-5 text-blue-600" />
-                <div className="font-semibold text-blue-900 dark:text-blue-100">Pilih Sheet Excel</div>
+                <Layers className="h-5 w-5 text-info" />
+                <div className="font-semibold text-info-strong">Pilih Sheet Excel</div>
                 <Badge variant="secondary" className="text-xs">
                   {availableSheets.length} sheet tersedia
                 </Badge>
@@ -550,7 +550,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-blue-700 dark:text-blue-300 mt-2">ℹ️ File Excel ini memiliki {availableSheets.length} sheet. Pilih sheet yang ingin dibaca untuk melihat preview data.</p>
+              <p className="text-xs text-info-strong mt-2">ℹ️ File Excel ini memiliki {availableSheets.length} sheet. Pilih sheet yang ingin dibaca untuk melihat preview data.</p>
             </Card>
           )}
 
@@ -577,7 +577,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                   <span className="text-muted-foreground">({previewRows.length} baris)</span>
                 </div>
                 <div className="flex gap-2">
-                  {validCount > 0 && <Badge className="bg-green-600 text-white text-xs">{validCount} valid</Badge>}
+                  {validCount > 0 && <Badge className="bg-success-solid text-white text-xs">{validCount} valid</Badge>}
                   {errorCount > 0 && (
                     <Badge variant="destructive" className="text-xs">
                       {errorCount} error
@@ -603,7 +603,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                   </thead>
                   <tbody>
                     {previewRows.map((row) => (
-                      <tr key={row.rowNum} className={`border-b ${row._errors.length > 0 ? "bg-red-50 dark:bg-red-950/20" : "hover:bg-muted/30"}`}>
+                      <tr key={row.rowNum} className={`border-b ${row._errors.length > 0 ? "bg-destructive-surface" : "hover:bg-muted/30"}`}>
                         <td className="p-2 text-muted-foreground">{row.rowNum}</td>
                         <td className="p-2">
                           <div className="font-medium truncate max-w-[140px]">{row._studentName}</div>
@@ -624,7 +624,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                         </td>
                         <td className="p-2 text-center">
                           {row.isPaid ?
-                            <Badge className="bg-green-600 text-white text-xs">Lunas</Badge>
+                            <Badge className="bg-success-solid text-white text-xs">Lunas</Badge>
                           : <Badge variant="outline" className="text-xs">
                               Belum
                             </Badge>
@@ -632,19 +632,19 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                         </td>
                         <td className="p-2">
                           {row._errors.length > 0 ?
-                            <div className="text-red-600 text-xs space-y-0.5">
+                            <div className="text-destructive text-xs space-y-0.5">
                               {row._errors.map((e, i) => (
                                 <div key={i}>⚠ {e}</div>
                               ))}
                             </div>
-                          : <CheckCircle2 className="h-4 w-4 text-green-600" />}
+                          : <CheckCircle2 className="h-4 w-4 text-success" />}
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              {errorCount > 0 && <div className="px-4 py-2 bg-red-50 dark:bg-red-950/20 border-t text-xs text-red-700 dark:text-red-300">⚠ Baris dengan error akan dilewati saat upload. Perbaiki file Excel lalu upload ulang.</div>}
+              {errorCount > 0 && <div className="px-4 py-2 bg-destructive-surface border-t text-xs text-destructive-strong">⚠ Baris dengan error akan dilewati saat upload. Perbaiki file Excel lalu upload ulang.</div>}
             </div>
           )}
 
@@ -665,7 +665,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
         <Card className="p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5 text-purple-500" />
+              <CreditCard className="h-5 w-5 text-tertiary" />
               <div className="text-lg font-bold">Jenis Tagihan</div>
               <Badge variant="secondary">{paymentTypes.length} jenis</Badge>
             </div>
@@ -696,7 +696,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
                     </TableCell>
                     <TableCell>
                       {pt.isMonthly ?
-                        <Badge className="bg-blue-600 text-white text-xs">Bulanan</Badge>
+                        <Badge className="bg-info-solid text-white text-xs">Bulanan</Badge>
                       : <Badge variant="secondary" className="text-xs">
                           Sekali
                         </Badge>
@@ -717,7 +717,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
         {skuTypes.length > 0 && (
           <Card className="p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Info className="h-5 w-5 text-orange-500" />
+              <Info className="h-5 w-5 text-caution" />
               <div className="text-lg font-bold">Daftar SKU Type</div>
             </div>
             <p className="text-sm text-muted-foreground mb-3">
@@ -739,7 +739,7 @@ function UploadBilling({ majorId, majorName }: { majorId: string; majorName?: st
         {/* Month & Year Reference */}
         <Card className="p-4">
           <div className="flex items-center gap-2 mb-3">
-            <Calendar className="h-5 w-5 text-green-500" />
+            <Calendar className="h-5 w-5 text-success" />
             <div className="text-lg font-bold">Referensi Bulan & Tahun</div>
           </div>
           <div className="grid grid-cols-2 gap-6">

@@ -37,17 +37,17 @@ export function Faq() {
   ];
 
   return (
-    <section id="faq" className="bg-[#f6f9fc] py-24 border-t border-[#e3e8ee]">
+    <section id="faq" className="bg-secondary py-24 border-t border-border">
       <div className="mx-auto max-w-3xl px-6">
         {/* Section Header */}
         <div className="text-center">
-          <span className="inline-block rounded-full bg-[#533afd]/10 px-3.5 py-1 text-xs font-semibold text-[#533afd]">
+          <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
             Pertanyaan Umum (FAQ)
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#0d253d] sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
             Semua yang perlu Anda ketahui sebelum mulai.
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-[#64748d]">
+          <p className="mt-3 text-base leading-relaxed text-muted-foreground">
             Jawaban atas pertanyaan umum seputar migrasi data, keamanan multi-tenant, dan
             integrasi penagihan SPP.
           </p>
@@ -60,12 +60,12 @@ export function Faq() {
               <AccordionItem
                 key={idx}
                 value={`faq-${idx}`}
-                className="rounded-xl border border-[#e3e8ee] bg-white px-5 shadow-xs transition-colors data-[state=open]:border-[#533afd]/40 data-[state=open]:shadow-sm"
+                className="rounded-xl border border-border bg-background px-5 shadow-xs transition-colors data-[state=open]:border-primary/40 data-[state=open]:shadow-sm"
               >
-                <AccordionTrigger className="text-left text-sm font-bold text-[#0d253d] hover:text-[#533afd] hover:no-underline py-4">
+                <AccordionTrigger className="text-left text-sm font-bold text-foreground hover:text-primary hover:no-underline py-4">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-xs leading-relaxed text-[#64748d] pb-4">
+                <AccordionContent className="text-xs leading-relaxed text-muted-foreground pb-4">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

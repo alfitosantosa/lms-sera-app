@@ -17,17 +17,17 @@ export function CtaSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#0d253d] py-24 text-center text-white">
+    <section className="relative overflow-hidden bg-navy py-24 text-center text-white">
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 select-none opacity-40">
-        <div className="absolute -left-20 top-0 h-96 w-96 rounded-full bg-[#533afd] blur-[120px]" />
+        <div className="absolute -left-20 top-0 h-96 w-96 rounded-full bg-primary blur-[120px]" />
         <div className="absolute right-0 top-1/3 h-96 w-96 rounded-full bg-[#ea2261] blur-[130px]" />
         <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-[#00d4ff] blur-[120px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl px-6">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 text-xs font-semibold text-[#c9bffb] backdrop-blur-md">
-          <Sparkles className="h-3.5 w-3.5 text-[#533afd]" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 text-xs font-semibold text-brand-accent backdrop-blur-md">
+          <Sparkles className="h-3.5 w-3.5 text-primary" />
           <span>Mulai Transformasi Digital Sekolah</span>
         </div>
 
@@ -45,7 +45,7 @@ export function CtaSection() {
           <Button
             size="lg"
             onClick={handleRegisterFoundation}
-            className="group w-full rounded-full bg-[#533afd] px-8 py-6 text-sm font-semibold text-white shadow-lg shadow-[#533afd]/30 transition-all hover:bg-[#4434d4] sm:w-auto"
+            className="group w-full rounded-full bg-primary px-8 py-6 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:bg-primary-hover sm:w-auto"
           >
             <span>Daftar Akun Yayasan Gratis</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

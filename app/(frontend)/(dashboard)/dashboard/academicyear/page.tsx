@@ -91,19 +91,19 @@ function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess }: { o
           <div className="space-y-2">
             <Label htmlFor="year">Tahun Ajaran</Label>
             <Input id="year" placeholder="Contoh: 2024/2025" {...register("year")} />
-            {errors.year && <p className="text-sm text-red-500">{errors.year.message}</p>}
+            {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="startDate">Tanggal Mulai</Label>
             <Input id="startDate" type="date" {...register("startDate")} />
-            {errors.startDate && <p className="text-sm text-red-500">{errors.startDate.message}</p>}
+            {errors.startDate && <p className="text-sm text-destructive">{errors.startDate.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="endDate">Tanggal Selesai</Label>
             <Input id="endDate" type="date" {...register("endDate")} />
-            {errors.endDate && <p className="text-sm text-red-500">{errors.endDate.message}</p>}
+            {errors.endDate && <p className="text-sm text-destructive">{errors.endDate.message}</p>}
           </div>
 
           <div className="flex items-center space-x-2">
@@ -159,7 +159,7 @@ function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSucc
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteAcademicYear.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteAcademicYear.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteAcademicYear.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -245,7 +245,7 @@ function AcademicYearDataTable() {
       cell: ({ row }) => {
         const isActive = row.getValue("isActive") as boolean;
         return (
-          <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-green-600" : ""}>
+          <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-success-solid" : ""}>
             {isActive ? "Aktif" : "Tidak Aktif"}
           </Badge>
         );
@@ -315,7 +315,7 @@ function AcademicYearDataTable() {
                   setSelectedAcademicYear(academicYearData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

@@ -184,11 +184,11 @@ export default function ParentPage() {
       header: "Status",
       render: (row: any) => {
         const variants: any = {
-          present: { variant: "default", icon: CheckCircle, label: "Hadir", color: "text-green-600" },
-          absent: { variant: "destructive", icon: XCircle, label: "Tidak Hadir", color: "text-red-600" },
-          late: { variant: "secondary", icon: Clock, label: "Terlambat", color: "text-yellow-600" },
-          excused: { variant: "outline", icon: FileText, label: "Izin", color: "text-blue-600" },
-          sick: { variant: "outline", icon: AlertCircle, label: "Sakit", color: "text-blue-600" },
+          present: { variant: "default", icon: CheckCircle, label: "Hadir", color: "text-success" },
+          absent: { variant: "destructive", icon: XCircle, label: "Tidak Hadir", color: "text-destructive" },
+          late: { variant: "secondary", icon: Clock, label: "Terlambat", color: "text-warning" },
+          excused: { variant: "outline", icon: FileText, label: "Izin", color: "text-info" },
+          sick: { variant: "outline", icon: AlertCircle, label: "Sakit", color: "text-info" },
         };
         const config = variants[row.status] || variants.ABSENT;
         const Icon = config.icon;
@@ -247,7 +247,7 @@ export default function ParentPage() {
       header: "Poin",
       render: (row: any) => (
         <div className="flex items-center gap-1 font-semibold">
-          <AlertCircle className="h-4 w-4 text-orange-600" />
+          <AlertCircle className="h-4 w-4 text-caution" />
           {row.violationType?.points || 0}
         </div>
       ),
@@ -417,7 +417,7 @@ export default function ParentPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <CheckCircle className="h-4 w-4 text-success" />
                   Kehadiran
                 </CardTitle>
               </CardHeader>
@@ -430,19 +430,19 @@ export default function ParentPage() {
                   <Progress value={attendanceStats.percentage} className="h-2" />
                   <div className="grid grid-cols-2 gap-2 text-xs mt-4">
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-green-500" />
+                      <div className="h-2 w-2 rounded-full bg-success-solid" />
                       <span>Hadir: {attendanceStats.present}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-red-500" />
+                      <div className="h-2 w-2 rounded-full bg-destructive-solid" />
                       <span>Alpa: {attendanceStats.absent}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-yellow-500" />
+                      <div className="h-2 w-2 rounded-full bg-warning-solid" />
                       <span>Terlambat: {attendanceStats.late}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-blue-500" />
+                      <div className="h-2 w-2 rounded-full bg-info-solid" />
                       <span>Izin: {attendanceStats.excused}</span>
                     </div>
                   </div>
@@ -454,7 +454,7 @@ export default function ParentPage() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-orange-600" />
+                  <AlertTriangle className="h-4 w-4 text-caution" />
                   Pelanggaran
                 </CardTitle>
               </CardHeader>
@@ -530,7 +530,7 @@ export default function ParentPage() {
                     </div>
                   : violationStudent.length === 0 ?
                     <div className="text-center py-12">
-                      <Award className="h-12 w-12 mx-auto text-green-600 mb-4" />
+                      <Award className="h-12 w-12 mx-auto text-success mb-4" />
                       <h3 className="font-semibold text-lg">Tidak Ada Pelanggaran</h3>
                       <p className="text-muted-foreground">{selectedStudent?.name} belum memiliki catatan pelanggaran</p>
                     </div>

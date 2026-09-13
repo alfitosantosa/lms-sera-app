@@ -29,6 +29,7 @@ export type AcademicYearMinAggregateOutputType = {
   year: string | null
   startDate: Date | null
   endDate: Date | null
+  foundationId: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -39,6 +40,7 @@ export type AcademicYearMaxAggregateOutputType = {
   year: string | null
   startDate: Date | null
   endDate: Date | null
+  foundationId: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +51,7 @@ export type AcademicYearCountAggregateOutputType = {
   year: number
   startDate: number
   endDate: number
+  foundationId: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -61,6 +64,7 @@ export type AcademicYearMinAggregateInputType = {
   year?: true
   startDate?: true
   endDate?: true
+  foundationId?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -71,6 +75,7 @@ export type AcademicYearMaxAggregateInputType = {
   year?: true
   startDate?: true
   endDate?: true
+  foundationId?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -81,6 +86,7 @@ export type AcademicYearCountAggregateInputType = {
   year?: true
   startDate?: true
   endDate?: true
+  foundationId?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -164,6 +170,7 @@ export type AcademicYearGroupByOutputType = {
   year: string
   startDate: Date
   endDate: Date
+  foundationId: string | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -195,9 +202,11 @@ export type AcademicYearWhereInput = {
   year?: Prisma.StringFilter<"AcademicYear"> | string
   startDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   endDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  foundationId?: Prisma.StringNullableFilter<"AcademicYear"> | string | null
   isActive?: Prisma.BoolFilter<"AcademicYear"> | boolean
   createdAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   calendarEvents?: Prisma.CalendarEventListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   gradeConfigurations?: Prisma.GradeConfigurationListRelationFilter
@@ -213,9 +222,11 @@ export type AcademicYearOrderByWithRelationInput = {
   year?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   calendarEvents?: Prisma.CalendarEventOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   gradeConfigurations?: Prisma.GradeConfigurationOrderByRelationAggregateInput
@@ -234,9 +245,11 @@ export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AcademicYearWhereInput | Prisma.AcademicYearWhereInput[]
   startDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   endDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  foundationId?: Prisma.StringNullableFilter<"AcademicYear"> | string | null
   isActive?: Prisma.BoolFilter<"AcademicYear"> | boolean
   createdAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   calendarEvents?: Prisma.CalendarEventListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   gradeConfigurations?: Prisma.GradeConfigurationListRelationFilter
@@ -252,6 +265,7 @@ export type AcademicYearOrderByWithAggregationInput = {
   year?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -268,6 +282,7 @@ export type AcademicYearScalarWhereWithAggregatesInput = {
   year?: Prisma.StringWithAggregatesFilter<"AcademicYear"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
+  foundationId?: Prisma.StringNullableWithAggregatesFilter<"AcademicYear"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"AcademicYear"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
@@ -281,6 +296,7 @@ export type AcademicYearCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -296,6 +312,7 @@ export type AcademicYearUncheckedCreateInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -317,6 +334,7 @@ export type AcademicYearUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -332,6 +350,7 @@ export type AcademicYearUncheckedUpdateInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -350,6 +369,7 @@ export type AcademicYearCreateManyInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -370,9 +390,20 @@ export type AcademicYearUncheckedUpdateManyInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AcademicYearListRelationFilter = {
+  every?: Prisma.AcademicYearWhereInput
+  some?: Prisma.AcademicYearWhereInput
+  none?: Prisma.AcademicYearWhereInput
+}
+
+export type AcademicYearOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type AcademicYearNullableScalarRelationFilter = {
@@ -385,6 +416,7 @@ export type AcademicYearCountOrderByAggregateInput = {
   year?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -395,6 +427,7 @@ export type AcademicYearMaxOrderByAggregateInput = {
   year?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -405,6 +438,7 @@ export type AcademicYearMinOrderByAggregateInput = {
   year?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -413,6 +447,48 @@ export type AcademicYearMinOrderByAggregateInput = {
 export type AcademicYearScalarRelationFilter = {
   is?: Prisma.AcademicYearWhereInput
   isNot?: Prisma.AcademicYearWhereInput
+}
+
+export type AcademicYearCreateNestedManyWithoutFoundationInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput> | Prisma.AcademicYearCreateWithoutFoundationInput[] | Prisma.AcademicYearUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutFoundationInput | Prisma.AcademicYearCreateOrConnectWithoutFoundationInput[]
+  createMany?: Prisma.AcademicYearCreateManyFoundationInputEnvelope
+  connect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+}
+
+export type AcademicYearUncheckedCreateNestedManyWithoutFoundationInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput> | Prisma.AcademicYearCreateWithoutFoundationInput[] | Prisma.AcademicYearUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutFoundationInput | Prisma.AcademicYearCreateOrConnectWithoutFoundationInput[]
+  createMany?: Prisma.AcademicYearCreateManyFoundationInputEnvelope
+  connect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+}
+
+export type AcademicYearUpdateManyWithoutFoundationNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput> | Prisma.AcademicYearCreateWithoutFoundationInput[] | Prisma.AcademicYearUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutFoundationInput | Prisma.AcademicYearCreateOrConnectWithoutFoundationInput[]
+  upsert?: Prisma.AcademicYearUpsertWithWhereUniqueWithoutFoundationInput | Prisma.AcademicYearUpsertWithWhereUniqueWithoutFoundationInput[]
+  createMany?: Prisma.AcademicYearCreateManyFoundationInputEnvelope
+  set?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  disconnect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  delete?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  connect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  update?: Prisma.AcademicYearUpdateWithWhereUniqueWithoutFoundationInput | Prisma.AcademicYearUpdateWithWhereUniqueWithoutFoundationInput[]
+  updateMany?: Prisma.AcademicYearUpdateManyWithWhereWithoutFoundationInput | Prisma.AcademicYearUpdateManyWithWhereWithoutFoundationInput[]
+  deleteMany?: Prisma.AcademicYearScalarWhereInput | Prisma.AcademicYearScalarWhereInput[]
+}
+
+export type AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput> | Prisma.AcademicYearCreateWithoutFoundationInput[] | Prisma.AcademicYearUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutFoundationInput | Prisma.AcademicYearCreateOrConnectWithoutFoundationInput[]
+  upsert?: Prisma.AcademicYearUpsertWithWhereUniqueWithoutFoundationInput | Prisma.AcademicYearUpsertWithWhereUniqueWithoutFoundationInput[]
+  createMany?: Prisma.AcademicYearCreateManyFoundationInputEnvelope
+  set?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  disconnect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  delete?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  connect?: Prisma.AcademicYearWhereUniqueInput | Prisma.AcademicYearWhereUniqueInput[]
+  update?: Prisma.AcademicYearUpdateWithWhereUniqueWithoutFoundationInput | Prisma.AcademicYearUpdateWithWhereUniqueWithoutFoundationInput[]
+  updateMany?: Prisma.AcademicYearUpdateManyWithWhereWithoutFoundationInput | Prisma.AcademicYearUpdateManyWithWhereWithoutFoundationInput[]
+  deleteMany?: Prisma.AcademicYearScalarWhereInput | Prisma.AcademicYearScalarWhereInput[]
 }
 
 export type AcademicYearCreateNestedOneWithoutStudentsInput = {
@@ -531,6 +607,82 @@ export type AcademicYearUpdateOneWithoutGradeScalesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicYearUpdateToOneWithWhereWithoutGradeScalesInput, Prisma.AcademicYearUpdateWithoutGradeScalesInput>, Prisma.AcademicYearUncheckedUpdateWithoutGradeScalesInput>
 }
 
+export type AcademicYearCreateWithoutFoundationInput = {
+  id?: string
+  year: string
+  startDate: Date | string
+  endDate: Date | string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
+  classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
+  gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
+  gradeScales?: Prisma.GradeScaleCreateNestedManyWithoutAcademicYearInput
+  reportCards?: Prisma.ReportCardCreateNestedManyWithoutAcademicYearInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutAcademicYearInput
+  students?: Prisma.UserDataCreateNestedManyWithoutAcademicYearInput
+  violationTypes?: Prisma.ViolationTypeCreateNestedManyWithoutAcademicYearInput
+}
+
+export type AcademicYearUncheckedCreateWithoutFoundationInput = {
+  id?: string
+  year: string
+  startDate: Date | string
+  endDate: Date | string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutAcademicYearInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutAcademicYearInput
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutAcademicYearInput
+  gradeScales?: Prisma.GradeScaleUncheckedCreateNestedManyWithoutAcademicYearInput
+  reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutAcademicYearInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutAcademicYearInput
+  students?: Prisma.UserDataUncheckedCreateNestedManyWithoutAcademicYearInput
+  violationTypes?: Prisma.ViolationTypeUncheckedCreateNestedManyWithoutAcademicYearInput
+}
+
+export type AcademicYearCreateOrConnectWithoutFoundationInput = {
+  where: Prisma.AcademicYearWhereUniqueInput
+  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput>
+}
+
+export type AcademicYearCreateManyFoundationInputEnvelope = {
+  data: Prisma.AcademicYearCreateManyFoundationInput | Prisma.AcademicYearCreateManyFoundationInput[]
+  skipDuplicates?: boolean
+}
+
+export type AcademicYearUpsertWithWhereUniqueWithoutFoundationInput = {
+  where: Prisma.AcademicYearWhereUniqueInput
+  update: Prisma.XOR<Prisma.AcademicYearUpdateWithoutFoundationInput, Prisma.AcademicYearUncheckedUpdateWithoutFoundationInput>
+  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutFoundationInput, Prisma.AcademicYearUncheckedCreateWithoutFoundationInput>
+}
+
+export type AcademicYearUpdateWithWhereUniqueWithoutFoundationInput = {
+  where: Prisma.AcademicYearWhereUniqueInput
+  data: Prisma.XOR<Prisma.AcademicYearUpdateWithoutFoundationInput, Prisma.AcademicYearUncheckedUpdateWithoutFoundationInput>
+}
+
+export type AcademicYearUpdateManyWithWhereWithoutFoundationInput = {
+  where: Prisma.AcademicYearScalarWhereInput
+  data: Prisma.XOR<Prisma.AcademicYearUpdateManyMutationInput, Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationInput>
+}
+
+export type AcademicYearScalarWhereInput = {
+  AND?: Prisma.AcademicYearScalarWhereInput | Prisma.AcademicYearScalarWhereInput[]
+  OR?: Prisma.AcademicYearScalarWhereInput[]
+  NOT?: Prisma.AcademicYearScalarWhereInput | Prisma.AcademicYearScalarWhereInput[]
+  id?: Prisma.StringFilter<"AcademicYear"> | string
+  year?: Prisma.StringFilter<"AcademicYear"> | string
+  startDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  endDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  foundationId?: Prisma.StringNullableFilter<"AcademicYear"> | string | null
+  isActive?: Prisma.BoolFilter<"AcademicYear"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
+}
+
 export type AcademicYearCreateWithoutStudentsInput = {
   id?: string
   year: string
@@ -539,6 +691,7 @@ export type AcademicYearCreateWithoutStudentsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -553,6 +706,7 @@ export type AcademicYearUncheckedCreateWithoutStudentsInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -589,6 +743,7 @@ export type AcademicYearUpdateWithoutStudentsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -603,6 +758,7 @@ export type AcademicYearUncheckedUpdateWithoutStudentsInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -623,6 +779,7 @@ export type AcademicYearCreateWithoutClassesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
   gradeScales?: Prisma.GradeScaleCreateNestedManyWithoutAcademicYearInput
@@ -637,6 +794,7 @@ export type AcademicYearUncheckedCreateWithoutClassesInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -673,6 +831,7 @@ export type AcademicYearUpdateWithoutClassesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
   gradeScales?: Prisma.GradeScaleUpdateManyWithoutAcademicYearNestedInput
@@ -687,6 +846,7 @@ export type AcademicYearUncheckedUpdateWithoutClassesInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -707,6 +867,7 @@ export type AcademicYearCreateWithoutSchedulesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -721,6 +882,7 @@ export type AcademicYearUncheckedCreateWithoutSchedulesInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -757,6 +919,7 @@ export type AcademicYearUpdateWithoutSchedulesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -771,6 +934,7 @@ export type AcademicYearUncheckedUpdateWithoutSchedulesInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -791,6 +955,7 @@ export type AcademicYearCreateWithoutViolationTypesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -805,6 +970,7 @@ export type AcademicYearUncheckedCreateWithoutViolationTypesInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -841,6 +1007,7 @@ export type AcademicYearUpdateWithoutViolationTypesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -855,6 +1022,7 @@ export type AcademicYearUncheckedUpdateWithoutViolationTypesInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -875,6 +1043,7 @@ export type AcademicYearCreateWithoutCalendarEventsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
   gradeScales?: Prisma.GradeScaleCreateNestedManyWithoutAcademicYearInput
@@ -889,6 +1058,7 @@ export type AcademicYearUncheckedCreateWithoutCalendarEventsInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -925,6 +1095,7 @@ export type AcademicYearUpdateWithoutCalendarEventsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
   gradeScales?: Prisma.GradeScaleUpdateManyWithoutAcademicYearNestedInput
@@ -939,6 +1110,7 @@ export type AcademicYearUncheckedUpdateWithoutCalendarEventsInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -959,6 +1131,7 @@ export type AcademicYearCreateWithoutGradeConfigurationsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeScales?: Prisma.GradeScaleCreateNestedManyWithoutAcademicYearInput
@@ -973,6 +1146,7 @@ export type AcademicYearUncheckedCreateWithoutGradeConfigurationsInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1009,6 +1183,7 @@ export type AcademicYearUpdateWithoutGradeConfigurationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeScales?: Prisma.GradeScaleUpdateManyWithoutAcademicYearNestedInput
@@ -1023,6 +1198,7 @@ export type AcademicYearUncheckedUpdateWithoutGradeConfigurationsInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1043,6 +1219,7 @@ export type AcademicYearCreateWithoutReportCardsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -1057,6 +1234,7 @@ export type AcademicYearUncheckedCreateWithoutReportCardsInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1093,6 +1271,7 @@ export type AcademicYearUpdateWithoutReportCardsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -1107,6 +1286,7 @@ export type AcademicYearUncheckedUpdateWithoutReportCardsInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1127,6 +1307,7 @@ export type AcademicYearCreateWithoutGradeScalesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutAcademicYearInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutAcademicYearInput
   classes?: Prisma.ClassCreateNestedManyWithoutAcademicYearInput
   gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutAcademicYearInput
@@ -1141,6 +1322,7 @@ export type AcademicYearUncheckedCreateWithoutGradeScalesInput = {
   year: string
   startDate: Date | string
   endDate: Date | string
+  foundationId?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1177,6 +1359,7 @@ export type AcademicYearUpdateWithoutGradeScalesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutAcademicYearNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
   classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
@@ -1191,6 +1374,7 @@ export type AcademicYearUncheckedUpdateWithoutGradeScalesInput = {
   year?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1201,6 +1385,62 @@ export type AcademicYearUncheckedUpdateWithoutGradeScalesInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutAcademicYearNestedInput
   students?: Prisma.UserDataUncheckedUpdateManyWithoutAcademicYearNestedInput
   violationTypes?: Prisma.ViolationTypeUncheckedUpdateManyWithoutAcademicYearNestedInput
+}
+
+export type AcademicYearCreateManyFoundationInput = {
+  id?: string
+  year: string
+  startDate: Date | string
+  endDate: Date | string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AcademicYearUpdateWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutAcademicYearNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutAcademicYearNestedInput
+  gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutAcademicYearNestedInput
+  gradeScales?: Prisma.GradeScaleUpdateManyWithoutAcademicYearNestedInput
+  reportCards?: Prisma.ReportCardUpdateManyWithoutAcademicYearNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutAcademicYearNestedInput
+  students?: Prisma.UserDataUpdateManyWithoutAcademicYearNestedInput
+  violationTypes?: Prisma.ViolationTypeUpdateManyWithoutAcademicYearNestedInput
+}
+
+export type AcademicYearUncheckedUpdateWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutAcademicYearNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutAcademicYearNestedInput
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutAcademicYearNestedInput
+  gradeScales?: Prisma.GradeScaleUncheckedUpdateManyWithoutAcademicYearNestedInput
+  reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutAcademicYearNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutAcademicYearNestedInput
+  students?: Prisma.UserDataUncheckedUpdateManyWithoutAcademicYearNestedInput
+  violationTypes?: Prisma.ViolationTypeUncheckedUpdateManyWithoutAcademicYearNestedInput
+}
+
+export type AcademicYearUncheckedUpdateManyWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1302,9 +1542,11 @@ export type AcademicYearSelect<ExtArgs extends runtime.Types.Extensions.Internal
   year?: boolean
   startDate?: boolean
   endDate?: boolean
+  foundationId?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
   calendarEvents?: boolean | Prisma.AcademicYear$calendarEventsArgs<ExtArgs>
   classes?: boolean | Prisma.AcademicYear$classesArgs<ExtArgs>
   gradeConfigurations?: boolean | Prisma.AcademicYear$gradeConfigurationsArgs<ExtArgs>
@@ -1321,9 +1563,11 @@ export type AcademicYearSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   year?: boolean
   startDate?: boolean
   endDate?: boolean
+  foundationId?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
 }, ExtArgs["result"]["academicYear"]>
 
 export type AcademicYearSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1331,9 +1575,11 @@ export type AcademicYearSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   year?: boolean
   startDate?: boolean
   endDate?: boolean
+  foundationId?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
 }, ExtArgs["result"]["academicYear"]>
 
 export type AcademicYearSelectScalar = {
@@ -1341,13 +1587,15 @@ export type AcademicYearSelectScalar = {
   year?: boolean
   startDate?: boolean
   endDate?: boolean
+  foundationId?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AcademicYearOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "year" | "startDate" | "endDate" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
+export type AcademicYearOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "year" | "startDate" | "endDate" | "foundationId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
 export type AcademicYearInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
   calendarEvents?: boolean | Prisma.AcademicYear$calendarEventsArgs<ExtArgs>
   classes?: boolean | Prisma.AcademicYear$classesArgs<ExtArgs>
   gradeConfigurations?: boolean | Prisma.AcademicYear$gradeConfigurationsArgs<ExtArgs>
@@ -1358,12 +1606,17 @@ export type AcademicYearInclude<ExtArgs extends runtime.Types.Extensions.Interna
   violationTypes?: boolean | Prisma.AcademicYear$violationTypesArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type AcademicYearIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
+}
+export type AcademicYearIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.AcademicYear$foundationArgs<ExtArgs>
+}
 
 export type $AcademicYearPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AcademicYear"
   objects: {
+    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
     classes: Prisma.$ClassPayload<ExtArgs>[]
     gradeConfigurations: Prisma.$GradeConfigurationPayload<ExtArgs>[]
@@ -1378,6 +1631,7 @@ export type $AcademicYearPayload<ExtArgs extends runtime.Types.Extensions.Intern
     year: string
     startDate: Date
     endDate: Date
+    foundationId: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1775,6 +2029,7 @@ readonly fields: AcademicYearFieldRefs;
  */
 export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  foundation<T extends Prisma.AcademicYear$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   calendarEvents<T extends Prisma.AcademicYear$calendarEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.AcademicYear$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gradeConfigurations<T extends Prisma.AcademicYear$gradeConfigurationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$gradeConfigurationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1816,6 +2071,7 @@ export interface AcademicYearFieldRefs {
   readonly year: Prisma.FieldRef<"AcademicYear", 'String'>
   readonly startDate: Prisma.FieldRef<"AcademicYear", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"AcademicYear", 'DateTime'>
+  readonly foundationId: Prisma.FieldRef<"AcademicYear", 'String'>
   readonly isActive: Prisma.FieldRef<"AcademicYear", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"AcademicYear", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AcademicYear", 'DateTime'>
@@ -2073,6 +2329,10 @@ export type AcademicYearCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.AcademicYearCreateManyInput | Prisma.AcademicYearCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AcademicYearIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2143,6 +2403,10 @@ export type AcademicYearUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many AcademicYears to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AcademicYearIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2209,6 +2473,25 @@ export type AcademicYearDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many AcademicYears to delete.
    */
   limit?: number
+}
+
+/**
+ * AcademicYear.foundation
+ */
+export type AcademicYear$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
 }
 
 /**

@@ -11,7 +11,7 @@ const reportCategories = [
     id: "calendar",
     title: "Kalender Pendidikan",
     icon: Calendar,
-    color: "text-blue-600",
+    color: "text-info",
     reports: [
       { name: "Kalender Mingguan", format: ["PDF"], description: "Kalender pendidikan per minggu" },
       { name: "Kalender Tahunan", format: ["PDF"], description: "Kalender pendidikan per tahun" },
@@ -21,28 +21,28 @@ const reportCategories = [
     id: "schedule",
     title: "Jadwal Mata Pelajaran",
     icon: FileText,
-    color: "text-green-600",
+    color: "text-success",
     reports: [{ name: "Jadwal Harian", format: ["PDF"], description: "Jadwal mata pelajaran setiap hari" }],
   },
   {
     id: "students",
     title: "Data Siswa",
     icon: Users,
-    color: "text-purple-600",
+    color: "text-tertiary",
     reports: [{ name: "Data Lengkap Siswa", format: ["Excel", "PDF"], description: "Data siswa sesuai kebutuhan" }],
   },
   {
     id: "teachers",
     title: "Data Guru",
     icon: GraduationCap,
-    color: "text-orange-600",
+    color: "text-caution",
     reports: [{ name: "Data Lengkap Guru", format: ["Excel", "PDF"], description: "Data guru sesuai kebutuhan" }],
   },
   {
     id: "attendance",
     title: "Absensi Siswa",
     icon: ClipboardCheck,
-    color: "text-indigo-600",
+    color: "text-info",
     reports: [
       { name: "Rekap Harian", format: ["Excel", "PDF"], description: "Rekapitulasi absensi harian" },
       { name: "Rekap Mingguan", format: ["Excel", "PDF"], description: "Rekapitulasi absensi mingguan" },
@@ -55,7 +55,7 @@ const reportCategories = [
     id: "violations",
     title: "Pelanggaran Siswa",
     icon: AlertTriangle,
-    color: "text-red-600",
+    color: "text-destructive",
     reports: [
       { name: "Rekap Harian", format: ["PDF"], description: "Rekapitulasi pelanggaran harian" },
       { name: "Rekap Mingguan", format: ["PDF"], description: "Rekapitulasi pelanggaran mingguan" },
@@ -69,7 +69,7 @@ const reportCategories = [
     id: "billing",
     title: "Bayaran/Tagihan",
     icon: CreditCard,
-    color: "text-yellow-600",
+    color: "text-warning",
     reports: [
       { name: "Rekap Harian", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran harian" },
       { name: "Rekap Mingguan", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran mingguan" },
@@ -111,7 +111,7 @@ export default function ReportsModule() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <FileText className="h-6 w-6 text-blue-600" />
+            <FileText className="h-6 w-6 text-info" />
             <span>Sistem Laporan {process.env.NEXT_PUBLIC_CLIENT_NAME}</span>
           </CardTitle>
           <CardDescription>Generate dan download laporan untuk semua modul administrasi sekolah</CardDescription>
@@ -250,7 +250,7 @@ export default function ReportsModule() {
                   <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-semibold">{report.name}</h4>
-                      <p className="text-sm text-gray-600">{report.description}</p>
+                      <p className="text-sm text-muted-foreground">{report.description}</p>
                       <div className="flex space-x-1 mt-2">
                         {report.format.map((format) => (
                           <Badge key={format} variant="outline" className="text-xs">
@@ -263,8 +263,8 @@ export default function ReportsModule() {
                       {report.format.map((format) => (
                         <Button key={format} size="sm" variant="outline" onClick={() => handleDownload(report.name, format)} className="flex items-center space-x-1">
                           {format === "Excel" ?
-                            <FileSpreadsheet className="h-4 w-4 text-green-600" />
-                          : <FileText className="h-4 w-4 text-red-600" />}
+                            <FileSpreadsheet className="h-4 w-4 text-success" />
+                          : <FileText className="h-4 w-4 text-destructive" />}
                           <Download className="h-3 w-3" />
                           <span>{format}</span>
                         </Button>
@@ -283,14 +283,14 @@ export default function ReportsModule() {
                 <CardTitle className="text-lg">Laporan Khusus Pelanggaran</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <div className="bg-warning-surface p-4 rounded-lg border border-warning-border">
                   <div className="flex items-start space-x-3">
-                    <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                    <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-yellow-800">Kartu Pelanggaran Siswa</h4>
-                      <p className="text-sm text-yellow-700 mb-3">Laporan khusus berupa kartu pelanggaran individual untuk setiap siswa dalam format PDF</p>
-                      <Button size="sm" variant="outline" className="border-yellow-300 bg-transparent">
-                        <FileText className="h-4 w-4 mr-2 text-red-600" />
+                      <h4 className="font-semibold text-warning-strong">Kartu Pelanggaran Siswa</h4>
+                      <p className="text-sm text-warning-strong mb-3">Laporan khusus berupa kartu pelanggaran individual untuk setiap siswa dalam format PDF</p>
+                      <Button size="sm" variant="outline" className="border-warning-border bg-transparent">
+                        <FileText className="h-4 w-4 mr-2 text-destructive" />
                         <Download className="h-3 w-3 mr-1" />
                         Download Kartu Pelanggaran
                       </Button>
@@ -308,17 +308,17 @@ export default function ReportsModule() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">127</div>
-                  <div className="text-sm text-gray-600">Laporan Bulan Ini</div>
+                <div className="text-center p-4 bg-info-surface rounded-lg">
+                  <div className="text-2xl font-bold text-info">127</div>
+                  <div className="text-sm text-muted-foreground">Laporan Bulan Ini</div>
                 </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">1,247</div>
-                  <div className="text-sm text-gray-600">Total Download</div>
+                <div className="text-center p-4 bg-success-surface rounded-lg">
+                  <div className="text-2xl font-bold text-success">1,247</div>
+                  <div className="text-sm text-muted-foreground">Total Download</div>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">7</div>
-                  <div className="text-sm text-gray-600">Kategori Laporan</div>
+                <div className="text-center p-4 bg-tertiary-surface rounded-lg">
+                  <div className="text-2xl font-bold text-tertiary">7</div>
+                  <div className="text-sm text-muted-foreground">Kategori Laporan</div>
                 </div>
               </div>
             </CardContent>

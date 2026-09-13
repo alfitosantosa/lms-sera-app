@@ -45,7 +45,7 @@ export function ImageWithFallback({
 
   return (
     <div className={`relative ${className}`}>
-      {isLoading && <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-full" />}
+      {isLoading && <div className="absolute inset-0 animate-pulse rounded-full bg-accent" />}
       <Image
         src={imgSrc}
         alt={alt}

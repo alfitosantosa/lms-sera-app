@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { CHART_GRID_STROKE, CHART_SERIES } from "@/lib/charts";
 import { Activity, AlertCircle, AlertTriangle, BarChart3, BookOpen, CalendarDays, CheckCircle, Clock, MapPin, PieChart as PieChartIcon, RefreshCw, Search, TrendingUp, User, Users, XCircle } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -83,43 +84,43 @@ const STATUS_MAP: Record<
 > = {
   present: {
     label: "Hadir",
-    color: "text-emerald-700",
-    bgColor: "bg-emerald-50",
-    borderColor: "border-emerald-500",
+    color: "text-success-strong",
+    bgColor: "bg-success-surface",
+    borderColor: "border-success",
     icon: CheckCircle,
-    chartColor: "#10B981",
+    chartColor: CHART_SERIES.positive,
   },
   absent: {
     label: "Tidak Hadir",
-    color: "text-red-700",
-    bgColor: "bg-red-50",
-    borderColor: "border-red-500",
+    color: "text-destructive-strong",
+    bgColor: "bg-destructive-surface",
+    borderColor: "border-destructive",
     icon: XCircle,
-    chartColor: "#EF4444",
+    chartColor: CHART_SERIES.negative,
   },
   late: {
     label: "Terlambat",
-    color: "text-amber-700",
-    bgColor: "bg-amber-50",
-    borderColor: "border-amber-500",
+    color: "text-warning-strong",
+    bgColor: "bg-warning-surface",
+    borderColor: "border-warning",
     icon: Clock,
-    chartColor: "#F59E0B",
+    chartColor: CHART_SERIES.warning,
   },
   excused: {
     label: "Izin",
-    color: "text-sky-700",
-    bgColor: "bg-sky-50",
-    borderColor: "border-sky-500",
+    color: "text-info-strong",
+    bgColor: "bg-info-surface",
+    borderColor: "border-info",
     icon: AlertCircle,
-    chartColor: "#06B6D4",
+    chartColor: CHART_SERIES.info,
   },
   sick: {
     label: "Sakit",
-    color: "text-purple-700",
-    bgColor: "bg-purple-50",
-    borderColor: "border-purple-500",
+    color: "text-tertiary-strong",
+    bgColor: "bg-tertiary-surface",
+    borderColor: "border-tertiary",
     icon: AlertCircle,
-    chartColor: "#8B5CF6",
+    chartColor: CHART_SERIES.neutral,
   },
 };
 
@@ -149,7 +150,7 @@ function DashboardSkeleton() {
   return (
     <div className="min-h-screen p-6 max-w-7xl mx-auto space-y-6">
       {/* Header skeleton */}
-      <div className="h-32 rounded-2xl bg-linear-to-r from-blue-600 to-indigo-700 animate-pulse" />
+      <div className="h-32 rounded-2xl bg-linear-to-r from-info to-info animate-pulse" />
 
       {/* Filter skeleton */}
       <div className="h-24 rounded-xl border bg-card animate-pulse" />
@@ -292,9 +293,9 @@ export default function AttendanceDashboardPage() {
     return (
       <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto pt-8">
-          <Alert className="border-red-200 bg-red-50">
-            <AlertTriangle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">Gagal memuat data kehadiran. Silakan coba muat ulang halaman.</AlertDescription>
+          <Alert className="border-destructive-border bg-destructive-surface">
+            <AlertTriangle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-destructive-strong">Gagal memuat data kehadiran. Silakan coba muat ulang halaman.</AlertDescription>
           </Alert>
           <Button className="mt-4" onClick={() => refetch()}>
             <RefreshCw className="h-4 w-4 mr-2" />
@@ -311,39 +312,39 @@ export default function AttendanceDashboardPage() {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* ── Page Header ── */}
-        <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl">
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-info-solid via-info-solid to-info-strong text-white shadow-xl">
           {/* decorative circles */}
-          <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10" />
-          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-white/10" />
+          <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-background/10" />
+          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-background/10" />
 
           <div className="relative px-8 py-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <p className="text-blue-200 text-sm font-medium mb-1 uppercase tracking-wide">Sistem Informasi Sekolah</p>
+                <p className="text-info-chip text-sm font-medium mb-1 uppercase tracking-wide">Sistem Informasi Sekolah</p>
                 <h1 className="text-3xl font-bold tracking-tight">Dashboard Kehadiran</h1>
-                <p className="text-blue-200 text-sm mt-1">Pantau dan analisis kehadiran siswa secara real-time</p>
+                <p className="text-info-chip text-sm mt-1">Pantau dan analisis kehadiran siswa secara real-time</p>
               </div>
 
               <div className="flex items-center gap-3 flex-wrap">
                 {/* Attendance rate pill */}
-                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                  <Activity className="h-5 w-5 text-emerald-300" />
+                <div className="flex items-center gap-2 bg-background/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-background/20">
+                  <Activity className="h-5 w-5 text-success-chip" />
                   <div>
-                    <p className="text-xs text-blue-200">Tingkat Kehadiran</p>
+                    <p className="text-xs text-info-chip">Tingkat Kehadiran</p>
                     <p className="text-xl font-bold">{stats.attendanceRate}%</p>
                   </div>
                 </div>
 
                 {/* Total records pill */}
-                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                  <Users className="h-5 w-5 text-blue-200" />
+                <div className="flex items-center gap-2 bg-background/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-background/20">
+                  <Users className="h-5 w-5 text-info-chip" />
                   <div>
-                    <p className="text-xs text-blue-200">Total Record</p>
+                    <p className="text-xs text-info-chip">Total Record</p>
                     <p className="text-xl font-bold">{stats.total.toLocaleString("id-ID")}</p>
                   </div>
                 </div>
 
-                <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching} className="bg-white/15 border-white/30 text-white hover:bg-white/25">
+                <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching} className="bg-background/15 border-background/30 text-white hover:bg-background/25">
                   <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? "animate-spin" : ""}`} />
                   Refresh
                 </Button>
@@ -491,15 +492,15 @@ export default function AttendanceDashboardPage() {
         {/* ── KPI Cards ── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {/* Total */}
-          <Card className="border-l-4 border-l-slate-400">
+          <Card className="border-l-4 border-l-border">
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">Total</p>
-                  <p className="text-2xl font-bold text-slate-700">{stats.total.toLocaleString("id-ID")}</p>
+                  <p className="text-2xl font-bold text-foreground">{stats.total.toLocaleString("id-ID")}</p>
                 </div>
-                <div className="h-8 w-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                  <Users className="h-4 w-4 text-slate-500" />
+                <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center">
+                  <Users className="h-4 w-4 text-muted-foreground" />
                 </div>
               </div>
             </CardContent>
@@ -539,7 +540,7 @@ export default function AttendanceDashboardPage() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
-                <PieChartIcon className="h-4 w-4 text-blue-600" />
+                <PieChartIcon className="h-4 w-4 text-info" />
                 Distribusi Status
               </CardTitle>
               <CardDescription>Proporsi kehadiran berdasarkan status</CardDescription>
@@ -593,7 +594,7 @@ export default function AttendanceDashboardPage() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
-                <TrendingUp className="h-4 w-4 text-emerald-600" />
+                <TrendingUp className="h-4 w-4 text-success" />
                 Tren Kehadiran Harian
               </CardTitle>
               <CardDescription>Perkembangan kehadiran per hari</CardDescription>
@@ -603,16 +604,16 @@ export default function AttendanceDashboardPage() {
                 <div className="h-72 flex items-center justify-center text-muted-foreground text-sm">Tidak ada data tren untuk periode ini</div>
               : <ResponsiveContainer width="100%" height={240}>
                   <LineChart data={lineData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
                     <XAxis dataKey="date" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                     <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={24} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ fontSize: 10 }} />
-                    <Line type="monotone" dataKey="present" stroke="#10B981" strokeWidth={2} dot={false} name="Hadir" />
-                    <Line type="monotone" dataKey="late" stroke="#F59E0B" strokeWidth={2} dot={false} name="Terlambat" />
-                    <Line type="monotone" dataKey="absent" stroke="#EF4444" strokeWidth={2} dot={false} name="Tidak Hadir" />
-                    <Line type="monotone" dataKey="sick" stroke="#8B5CF6" strokeWidth={2} dot={false} name="Sakit" />
-                    <Line type="monotone" dataKey="excused" stroke="#06B6D4" strokeWidth={2} dot={false} name="Izin" />
+                    <Line type="monotone" dataKey="present" stroke={CHART_SERIES.positive} strokeWidth={2} dot={false} name="Hadir" />
+                    <Line type="monotone" dataKey="late" stroke={CHART_SERIES.warning} strokeWidth={2} dot={false} name="Terlambat" />
+                    <Line type="monotone" dataKey="absent" stroke={CHART_SERIES.negative} strokeWidth={2} dot={false} name="Tidak Hadir" />
+                    <Line type="monotone" dataKey="sick" stroke={CHART_SERIES.neutral} strokeWidth={2} dot={false} name="Sakit" />
+                    <Line type="monotone" dataKey="excused" stroke={CHART_SERIES.info} strokeWidth={2} dot={false} name="Izin" />
                   </LineChart>
                 </ResponsiveContainer>
               }
@@ -624,7 +625,7 @@ export default function AttendanceDashboardPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
-              <BarChart3 className="h-4 w-4 text-purple-600" />
+              <BarChart3 className="h-4 w-4 text-tertiary" />
               Kehadiran per Kelas
             </CardTitle>
             <CardDescription>Perbandingan tingkat kehadiran antar kelas</CardDescription>
@@ -634,16 +635,16 @@ export default function AttendanceDashboardPage() {
               <div className="h-60 flex items-center justify-center text-muted-foreground text-sm">Tidak ada data per kelas untuk periode ini</div>
             : <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={classData} margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
                   <XAxis dataKey="class" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} width={24} />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar dataKey="present" fill="#10B981" name="Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="late" fill="#F59E0B" name="Terlambat" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="absent" fill="#EF4444" name="Tidak Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="sick" fill="#8B5CF6" name="Sakit" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="excused" fill="#06B6D4" name="Izin" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar dataKey="present" fill={CHART_SERIES.positive} name="Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar dataKey="late" fill={CHART_SERIES.warning} name="Terlambat" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar dataKey="absent" fill={CHART_SERIES.negative} name="Tidak Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar dataKey="sick" fill={CHART_SERIES.neutral} name="Sakit" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar dataKey="excused" fill={CHART_SERIES.info} name="Izin" radius={[3, 3, 0, 0]} maxBarSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             }
@@ -656,7 +657,7 @@ export default function AttendanceDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <BookOpen className="h-4 w-4 text-indigo-600" />
+                  <BookOpen className="h-4 w-4 text-info" />
                   Data Kehadiran
                 </CardTitle>
                 <CardDescription className="mt-1">

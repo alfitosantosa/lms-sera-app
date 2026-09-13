@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "@/lib/authClients";
+import { CHART_GRID_STROKE, CHART_PALETTE, CHART_SERIES } from "@/lib/charts";
 import { format, subMonths } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { Activity, AlertTriangle, BarChart2, Building2, CalendarDays, CheckCircle2, ChevronRight, Clock, ListChecks, PieChart as PieIcon, RefreshCw, Users } from "lucide-react";
@@ -95,9 +96,6 @@ const fmtFull = (v: number) =>
 
 const fmtNum = (v: number) => new Intl.NumberFormat("id-ID").format(v);
 
-// ─── Color Palette ──────────────────────────────────────────────────────────
-const PALETTE = ["#DC2626", "#EA580C", "#D97706", "#CA8A04", "#65A30D", "#059669", "#0891B2", "#2563EB", "#7C3AED", "#DB2777"];
-
 // ─── Custom Tooltip ─────────────────────────────────────────────────────────
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: any[]; label?: string }) {
   if (!active || !payload?.length) return null;
@@ -132,7 +130,7 @@ function KPICard({ title, value, sub, icon: Icon, color, loading, badge }: { tit
         : <>
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm text-muted-foreground font-medium">{title}</span>
-              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "18" }}>
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)` }}>
                 <Icon className="h-5 w-5" style={{ color }} />
               </div>
             </div>
@@ -377,16 +375,16 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
           value={isLoading ? "—" : fmt(summary.totalUnpaidAmount)}
           sub={isLoading ? undefined : `${fmtNum(summary.totalUnpaidCount)} item belum lunas`}
           icon={AlertTriangle}
-          color="#DC2626"
+          color={CHART_SERIES.negative}
           loading={isLoading}
         />
-        <KPICard title="Total Terbayar" value={isLoading ? "—" : fmt(summary.totalPaidAmount)} sub={isLoading ? undefined : `${fmtNum(summary.totalPaidCount)} item lunas`} icon={CheckCircle2} color="#059669" loading={isLoading} />
+        <KPICard title="Total Terbayar" value={isLoading ? "—" : fmt(summary.totalPaidAmount)} sub={isLoading ? undefined : `${fmtNum(summary.totalPaidCount)} item lunas`} icon={CheckCircle2} color={CHART_SERIES.positive} loading={isLoading} />
         <KPICard
           title="Collection Rate"
           value={isLoading ? "—" : `${summary.collectionRate}%`}
           sub="Persentase dari total tagihan"
           icon={Activity}
-          color="#2563EB"
+          color={CHART_PALETTE[2]}
           loading={isLoading}
           badge={
             !isLoading ?
@@ -400,7 +398,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
             : undefined
           }
         />
-        <KPICard title="Branch Tunggakan Terbesar" value={isLoading ? "—" : (worstMajor?.major ?? "-")} sub={worstMajor ? fmt(worstMajor.totalUnpaidAmount) : undefined} icon={Building2} color="#EA580C" loading={isLoading} />
+        <KPICard title="Branch Tunggakan Terbesar" value={isLoading ? "—" : (worstMajor?.major ?? "-")} sub={worstMajor ? fmt(worstMajor.totalUnpaidAmount) : undefined} icon={Building2} color={CHART_SERIES.negative} loading={isLoading} />
       </div>
 
       {/* ── Tabs ── */}
@@ -437,21 +435,21 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                     <AreaChart data={monthlyChartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="gradUnpaid" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#DC2626" stopOpacity={0.25} />
-                          <stop offset="95%" stopColor="#DC2626" stopOpacity={0} />
+                          <stop offset="5%" stopColor={CHART_SERIES.negative} stopOpacity={0.25} />
+                          <stop offset="95%" stopColor={CHART_SERIES.negative} stopOpacity={0} />
                         </linearGradient>
                         <linearGradient id="gradPaid" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#059669" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#059669" stopOpacity={0} />
+                          <stop offset="5%" stopColor={CHART_SERIES.positive} stopOpacity={0.2} />
+                          <stop offset="95%" stopColor={CHART_SERIES.positive} stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
                       <XAxis dataKey="period" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} width={52} />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend wrapperStyle={{ fontSize: 10 }} />
-                      <Area type="monotone" dataKey="Tunggakan" stroke="#DC2626" strokeWidth={2.5} fill="url(#gradUnpaid)" dot={{ r: 3, fill: "#DC2626" }} activeDot={{ r: 5 }} />
-                      <Area type="monotone" dataKey="Terbayar" stroke="#059669" strokeWidth={2.5} fill="url(#gradPaid)" dot={{ r: 3, fill: "#059669" }} activeDot={{ r: 5 }} />
+                      <Area type="monotone" dataKey="Tunggakan" stroke={CHART_SERIES.negative} strokeWidth={2.5} fill="url(#gradUnpaid)" dot={{ r: 3, fill: CHART_SERIES.negative }} activeDot={{ r: 5 }} />
+                      <Area type="monotone" dataKey="Terbayar" stroke={CHART_SERIES.positive} strokeWidth={2.5} fill="url(#gradPaid)" dot={{ r: 3, fill: CHART_SERIES.positive }} activeDot={{ r: 5 }} />
                     </AreaChart>
                   </ResponsiveContainer>
                 }
@@ -470,13 +468,13 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                   <EmptyChart message="Tidak ada data" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={monthlyChartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
                       <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={28} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Bar dataKey="Jumlah Tunggakan" fill="#DC2626" radius={[4, 4, 0, 0]}>
+                      <Bar dataKey="Jumlah Tunggakan" fill={CHART_SERIES.info} radius={[4, 4, 0, 0]}>
                         {monthlyChartData.map((_, i) => (
-                          <Cell key={i} fill={`hsl(${0 + i * 6}, 72%, ${50 + (i % 3) * 5}%)`} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -516,12 +514,12 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                           <tr key={i} className={`border-b ${i % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors`}>
                             <td className="px-4 py-2.5 font-medium">{row.skuType}</td>
                             <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.totalUnpaidCount)}</td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-red-600">{fmtFull(row.totalUnpaidAmount)}</td>
+                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">{fmtFull(row.totalUnpaidAmount)}</td>
                             <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{fmtFull(row.totalPaidAmount)}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
                                 <div className="flex-1 bg-muted rounded-full h-1.5 max-w-[100px]">
-                                  <div className="bg-red-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+                                  <div className="bg-destructive-solid h-1.5 rounded-full" style={{ width: `${pct}%` }} />
                                 </div>
                                 <span className="text-xs text-muted-foreground tabular-nums w-8 text-right">{pct}%</span>
                               </div>
@@ -555,7 +553,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                       <PieChart>
                         <Pie data={majorPieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
                           {majorPieData.map((_, i) => (
-                            <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                            <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                           ))}
                         </Pie>
                         <Tooltip formatter={(value: any) => (value ? [fmtFull(Number(value)), "Tunggakan"] : ["", ""])} labelFormatter={(name) => name} />
@@ -564,7 +562,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                     <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 w-full mt-2">
                       {majorPieData.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-xs">
-                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                           <span className="text-muted-foreground truncate">{d.name}</span>
                         </div>
                       ))}
@@ -586,13 +584,13 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                   <EmptyChart message="Tidak ada data per branch" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={byMajor} layout="vertical" margin={{ top: 0, right: 16, left: 4, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={CHART_GRID_STROKE} />
                       <XAxis type="number" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} />
                       <YAxis dataKey="major" type="category" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={80} />
                       <Tooltip formatter={(v: any) => (v ? [fmtFull(Number(v)), "Tunggakan"] : ["", ""])} />
                       <Bar dataKey="totalUnpaidAmount" name="Tunggakan" radius={[0, 4, 4, 0]}>
                         {byMajor.map((_, i) => (
-                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -629,12 +627,12 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                             <td className="px-4 py-2.5 text-muted-foreground text-xs">{i + 1}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
-                                <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                                <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                                 <span className="font-medium">{row.major}</span>
                               </div>
                             </td>
                             <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.totalUnpaidCount)}</td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-red-600">{fmtFull(row.totalUnpaidAmount)}</td>
+                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">{fmtFull(row.totalUnpaidAmount)}</td>
                             <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{fmtFull(row.totalPaidAmount)}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
@@ -659,7 +657,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-base flex items-center gap-2">
-                    <ListChecks className="h-4 w-4 text-red-600" />
+                    <ListChecks className="h-4 w-4 text-destructive" />
                     Top 50 Siswa dengan Tunggakan Terbesar
                   </CardTitle>
                   <CardDescription className="text-xs mt-1">Diurutkan berdasarkan total nominal belum bayar</CardDescription>
@@ -705,7 +703,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                             </Badge>
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(s.totalUnpaidCount)}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-red-600">{fmtFull(s.totalUnpaidAmount)}</td>
+                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">{fmtFull(s.totalUnpaidAmount)}</td>
                           <td className="px-4 py-2.5">
                             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                               <Clock className="h-3 w-3" />
@@ -733,7 +731,7 @@ function UnpaidPaymentDashboard({ userMajorId, isAdmin }: { userMajorId?: string
                       </p>
                     </div>
                     <div className="text-right shrink-0 ml-2">
-                      <p className="text-sm font-bold text-red-600">{fmt(s.totalUnpaidAmount)}</p>
+                      <p className="text-sm font-bold text-destructive">{fmt(s.totalUnpaidAmount)}</p>
                       <ChevronRight className="h-3 w-3 text-muted-foreground ml-auto" />
                     </div>
                   </CardContent>

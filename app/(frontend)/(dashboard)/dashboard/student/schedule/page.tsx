@@ -329,12 +329,12 @@ export default function ScheduleDataTable() {
         {/* student data  */}
 
         {studentData && (
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mb-6 p-4 bg-info-surface rounded-lg border border-info-border">
             <div className="flex items-center gap-3">
-              <Users className="h-6 w-6 text-blue-600" />
+              <Users className="h-6 w-6 text-info" />
               <div>
-                <h2 className="text-xl font-semibold text-blue-900">{studentData.name}</h2>
-                {studentData.email && <p className="text-sm text-blue-700">{studentData.email}</p>}
+                <h2 className="text-xl font-semibold text-info-strong">{studentData.name}</h2>
+                {studentData.email && <p className="text-sm text-info-strong">{studentData.email}</p>}
               </div>
             </div>
           </div>
@@ -521,7 +521,7 @@ export default function ScheduleDataTable() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-blue-500" />
+              <Calendar className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Total Jadwal</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{schedules.length}</p>
@@ -530,7 +530,7 @@ export default function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-green-500" />
+              <Users className="h-5 w-5 text-success" />
               <h3 className="font-semibold">Kelas Aktif</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.classId)).size}</p>
@@ -538,7 +538,7 @@ export default function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5 text-purple-500" />
+              <BookOpen className="h-5 w-5 text-tertiary" />
               <h3 className="font-semibold">Mata Pelajaran</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.subjectId)).size}</p>
@@ -546,7 +546,7 @@ export default function ScheduleDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <GraduationCap className="h-5 w-5 text-orange-500" />
+              <GraduationCap className="h-5 w-5 text-caution" />
               <h3 className="font-semibold">Guru Mengajar</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{new Set(table.getFilteredRowModel().rows.map((row) => row.original.teacherId)).size}</p>

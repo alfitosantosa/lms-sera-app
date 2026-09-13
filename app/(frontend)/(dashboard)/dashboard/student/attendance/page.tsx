@@ -55,11 +55,11 @@ export type AttendanceData = {
 
 // Status mapping
 const STATUS_MAP = {
-  present: { label: "Hadir", color: "bg-green-100 text-green-800", icon: CheckCircle },
-  absent: { label: "Tidak Hadir", color: "bg-red-100 text-red-800", icon: XCircle },
-  late: { label: "Terlambat", color: "bg-yellow-100 text-yellow-800", icon: Clock },
-  excused: { label: "Izin", color: "bg-blue-100 text-blue-800", icon: AlertCircle },
-  sick: { label: "Sakit", color: "bg-purple-100 text-purple-800", icon: AlertCircle },
+  present: { label: "Hadir", color: "bg-success-chip text-success-strong", icon: CheckCircle },
+  absent: { label: "Tidak Hadir", color: "bg-destructive-chip text-destructive-strong", icon: XCircle },
+  late: { label: "Terlambat", color: "bg-warning-chip text-warning-strong", icon: Clock },
+  excused: { label: "Izin", color: "bg-info-chip text-info-strong", icon: AlertCircle },
+  sick: { label: "Sakit", color: "bg-tertiary-chip text-tertiary-strong", icon: AlertCircle },
 };
 
 // Days mapping
@@ -250,7 +250,7 @@ export default function AttendanceDataTable() {
         return (
           <div className="space-y-1">
             <div className="font-medium flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-blue-500" />
+              <BookOpen className="h-4 w-4 text-info" />
               {schedule.subject?.name}
               {schedule.subject?.code && (
                 <Badge variant="outline" className="text-xs">
@@ -295,7 +295,7 @@ export default function AttendanceDataTable() {
         return (
           <div className="space-y-1">
             <div className="font-medium flex items-center gap-2">
-              <GraduationCap className="h-4 w-4 text-green-500" />
+              <GraduationCap className="h-4 w-4 text-success" />
               {schedule.subject.name}
             </div>
             {schedule.subject.code && (
@@ -436,13 +436,13 @@ export default function AttendanceDataTable() {
       <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen">
         <div className="font-bold text-3xl mb-2">Data Kehadiran Siswa</div>
         {studentData && (
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mb-6 p-4 bg-info-surface rounded-lg border border-info-border">
             <div className="flex items-center gap-3">
-              <Users className="h-6 w-6 text-blue-600" />
+              <Users className="h-6 w-6 text-info" />
               <div>
-                <h2 className="text-xl font-semibold text-blue-900">{studentData.name}</h2>
-                {studentData.email && <p className="text-sm text-blue-700">{studentData.email}</p>}
-                {studentData.id && <p className="text-sm text-blue-700">NIS: {studentData.nisn}</p>}
+                <h2 className="text-xl font-semibold text-info-strong">{studentData.name}</h2>
+                {studentData.email && <p className="text-sm text-info-strong">{studentData.email}</p>}
+                {studentData.id && <p className="text-sm text-info-strong">NIS: {studentData.nisn}</p>}
               </div>
             </div>
           </div>
@@ -692,7 +692,7 @@ export default function AttendanceDataTable() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-blue-500" />
+              <CheckCircle className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
             <p className="text-2xl font-bold mt-2">{stats.total}</p>
@@ -701,37 +701,37 @@ export default function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-success" />
               <h3 className="font-semibold">Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-green-600">{stats.present}</p>
+            <p className="text-2xl font-bold mt-2 text-success">{stats.present}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.present / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <XCircle className="h-5 w-5 text-red-500" />
+              <XCircle className="h-5 w-5 text-destructive" />
               <h3 className="font-semibold">Tidak Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-red-600">{stats.absent}</p>
+            <p className="text-2xl font-bold mt-2 text-destructive">{stats.absent}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.absent / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-yellow-500" />
+              <Clock className="h-5 w-5 text-warning" />
               <h3 className="font-semibold">Terlambat</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-yellow-600">{stats.late}</p>
+            <p className="text-2xl font-bold mt-2 text-warning">{stats.late}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.late / stats.total) * 100)}%` : "0%"}</p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-blue-500" />
+              <AlertCircle className="h-5 w-5 text-info" />
               <h3 className="font-semibold">Izin dan sakit</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-blue-600">{stats.excused + stats.sick}</p>
+            <p className="text-2xl font-bold mt-2 text-info">{stats.excused + stats.sick}</p>
             <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round(((stats.excused + stats.sick) / stats.total) * 100)}%` : "0%"}</p>
           </div>
         </div>

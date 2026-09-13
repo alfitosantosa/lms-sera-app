@@ -59,12 +59,12 @@ type SpecialScheduleFormValues = z.infer<typeof specialScheduleSchema>;
 
 // Event types
 const EVENT_TYPES = [
-  { value: "HOLIDAY", label: "Libur", color: "bg-red-100 text-red-800" },
-  { value: "EXAM", label: "Ujian", color: "bg-orange-100 text-orange-800" },
-  { value: "EVENT", label: "Acara Sekolah", color: "bg-blue-100 text-blue-800" },
-  { value: "MEETING", label: "Rapat", color: "bg-green-100 text-green-800" },
-  { value: "TRAINING", label: "Pelatihan", color: "bg-purple-100 text-purple-800" },
-  { value: "OTHER", label: "Lainnya", color: "bg-gray-100 text-gray-800" },
+  { value: "HOLIDAY", label: "Libur", color: "bg-destructive-chip text-destructive-strong" },
+  { value: "EXAM", label: "Ujian", color: "bg-caution-chip text-caution-strong" },
+  { value: "EVENT", label: "Acara Sekolah", color: "bg-info-chip text-info-strong" },
+  { value: "MEETING", label: "Rapat", color: "bg-success-chip text-success-strong" },
+  { value: "TRAINING", label: "Pelatihan", color: "bg-tertiary-chip text-tertiary-strong" },
+  { value: "OTHER", label: "Lainnya", color: "bg-muted text-foreground" },
 ];
 
 // Mock toast function (replace with your actual toast implementation)
@@ -147,7 +147,7 @@ function SpecialScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: 
           <div className="space-y-2">
             <Label htmlFor="title">Judul Acara</Label>
             <Input id="title" placeholder="Contoh: Ujian Tengah Semester" {...register("title")} />
-            {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -168,13 +168,13 @@ function SpecialScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: 
                   ))}
                 </SelectContent>
               </Select>
-              {errors.eventType && <p className="text-sm text-red-500">{errors.eventType.message}</p>}
+              {errors.eventType && <p className="text-sm text-destructive">{errors.eventType.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="eventDate">Tanggal Acara</Label>
               <Input id="eventDate" type="date" {...register("eventDate")} />
-              {errors.eventDate && <p className="text-sm text-red-500">{errors.eventDate.message}</p>}
+              {errors.eventDate && <p className="text-sm text-destructive">{errors.eventDate.message}</p>}
             </div>
           </div>
 
@@ -192,7 +192,7 @@ function SpecialScheduleFormDialog({ open, onOpenChange, editData, onSuccess }: 
                 ))}
               </SelectContent>
             </Select>
-            {errors.academicYearId && <p className="text-sm text-red-500">{errors.academicYearId.message}</p>}
+            {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -254,7 +254,7 @@ function DeleteSpecialScheduleDialog({ open, onOpenChange, specialScheduleData, 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteSpecialSchedule.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteSpecialSchedule.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteSpecialSchedule.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -469,7 +469,7 @@ function SpecialScheduleDataTable() {
                   setSelectedSpecialSchedule(specialScheduleData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

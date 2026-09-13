@@ -384,10 +384,10 @@ function UploadUsers() {
 
           <div className="space-y-4">
             {/* Instructions */}
-            <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="bg-info-surface p-4 rounded-lg border border-info-border">
               <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
-                <div className="text-sm text-blue-900 dark:text-blue-100">
+                <AlertCircle className="h-5 w-5 text-info mt-0.5" />
+                <div className="text-sm text-info-strong">
                   <p className="font-semibold mb-1">Petunjuk Upload:</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>Download template terlebih dahulu</li>

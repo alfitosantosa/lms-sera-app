@@ -133,10 +133,10 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Lunas</CardTitle>
-          <CheckCircle className="h-4 w-4 text-green-600" />
+          <CheckCircle className="h-4 w-4 text-success" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-green-600">{paidPayments}</div>
+          <div className="text-2xl font-bold text-success">{paidPayments}</div>
           <p className="text-xs text-muted-foreground">{formatCurrency(totalRevenue)}</p>
         </CardContent>
       </Card>
@@ -144,10 +144,10 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Belum Lunas</CardTitle>
-          <Clock className="h-4 w-4 text-yellow-600" />
+          <Clock className="h-4 w-4 text-warning" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-yellow-600">{pendingPayments}</div>
+          <div className="text-2xl font-bold text-warning">{pendingPayments}</div>
           <p className="text-xs text-muted-foreground">Menunggu pembayaran</p>
         </CardContent>
       </Card>
@@ -155,10 +155,10 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Terlambat</CardTitle>
-          <XCircle className="h-4 w-4 text-red-600" />
+          <XCircle className="h-4 w-4 text-destructive" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-red-600">{overduePayments}</div>
+          <div className="text-2xl font-bold text-destructive">{overduePayments}</div>
           <p className="text-xs text-muted-foreground">Melewati jatuh tempo</p>
         </CardContent>
       </Card>
@@ -346,10 +346,10 @@ function MidtransPaymentDialog({
                   {paymentData ?
                     <Badge
                       className={`text-white ${
-                        paymentData.status === "paid" ? "bg-green-600"
-                        : paymentData.status === "pending" ? "bg-yellow-600"
-                        : paymentData.status === "overdue" ? "bg-red-600"
-                        : "bg-gray-600"
+                        paymentData.status === "paid" ? "bg-success-solid"
+                        : paymentData.status === "pending" ? "bg-warning-solid"
+                        : paymentData.status === "overdue" ? "bg-destructive-solid"
+                        : "bg-muted-foreground"
                       }`}
                     >
                       {paymentData.status === "paid" ?
@@ -384,7 +384,7 @@ function MidtransPaymentDialog({
             >
               {isProcessing ? "Memproses..." : "Bayar dengan Midtrans"}
             </Button>
-          : <p className="text-red-600 mt-4">Tidak dapat memproses pembayaran karena data tidak lengkap.</p>}
+          : <p className="text-destructive mt-4">Tidak dapat memproses pembayaran karena data tidak lengkap.</p>}
         </div>
       </DialogContent>
     </Dialog>
@@ -427,15 +427,15 @@ function PaymentDashboard({ userId }: { userId: string }) {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "paid":
-        return "bg-green-600";
+        return "bg-success-solid";
       case "pending":
-        return "bg-yellow-600";
+        return "bg-warning-solid";
       case "overdue":
-        return "bg-red-600";
+        return "bg-destructive-solid";
       case "cancelled":
-        return "bg-gray-600";
+        return "bg-muted-foreground";
       default:
-        return "bg-blue-600";
+        return "bg-info-solid";
     }
   };
 

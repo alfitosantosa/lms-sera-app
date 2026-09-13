@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "@/lib/authClients";
+import { CHART_GRID_STROKE, CHART_PALETTE, CHART_SERIES } from "@/lib/charts";
 import { format, subMonths } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { Activity, ArrowDownToLine, BarChart2, Building2, CalendarDays, ChevronRight, CreditCard, Landmark, ListChecks, PieChart as PieIcon, RefreshCw, Wallet } from "lucide-react";
@@ -105,8 +106,6 @@ const fmtFull = (v: number) =>
 
 const fmtNum = (v: number) => new Intl.NumberFormat("id-ID").format(v);
 
-const PALETTE = ["#2563EB", "#059669", "#D97706", "#7C3AED", "#DB2777", "#0891B2", "#DC2626", "#65A30D", "#CA8A04", "#EA580C"];
-
 // ─── Custom Tooltip ─────────────────────────────────────────────────────────
 interface TooltipPayloadItem {
   name?: string;
@@ -149,7 +148,7 @@ function KPICard({ title, value, sub, icon: Icon, color, loading, badge }: { tit
         : <>
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm text-muted-foreground font-medium">{title}</span>
-              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "18" }}>
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)` }}>
                 <Icon className="h-5 w-5" style={{ color }} />
               </div>
             </div>
@@ -356,15 +355,15 @@ function AccountBankBalanceDashboard({
 
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard title="Total Saldo Masuk" value={isLoading ? "—" : fmt(summary.totalRevenue)} sub={isLoading ? undefined : `${fmtNum(summary.totalTransaction)} transaksi`} icon={ArrowDownToLine} color="#059669" loading={isLoading} />
-        <KPICard title="Jumlah Rekening" value={isLoading ? "—" : fmtNum(summary.totalAccountBanks)} sub="Rekening bank terdaftar" icon={Landmark} color="#2563EB" loading={isLoading} />
-        <KPICard title="Rata-rata per Rekening" value={isLoading ? "—" : fmt(avgPerAccount)} sub="Saldo masuk rata-rata per rekening" icon={Wallet} color="#7C3AED" loading={isLoading} />
+        <KPICard title="Total Saldo Masuk" value={isLoading ? "—" : fmt(summary.totalRevenue)} sub={isLoading ? undefined : `${fmtNum(summary.totalTransaction)} transaksi`} icon={ArrowDownToLine} color={CHART_SERIES.positive} loading={isLoading} />
+        <KPICard title="Jumlah Rekening" value={isLoading ? "—" : fmtNum(summary.totalAccountBanks)} sub="Rekening bank terdaftar" icon={Landmark} color={CHART_SERIES.info} loading={isLoading} />
+        <KPICard title="Rata-rata per Rekening" value={isLoading ? "—" : fmt(avgPerAccount)} sub="Saldo masuk rata-rata per rekening" icon={Wallet} color={CHART_PALETTE[1]} loading={isLoading} />
         <KPICard
           title="Collection Rate"
           value={isLoading ? "—" : `${summary.collectionRate}%`}
           sub="Persentase tagihan terbayar"
           icon={Activity}
-          color="#0891B2"
+          color={CHART_PALETTE[2]}
           loading={isLoading}
           badge={
             !isLoading ?
@@ -414,16 +413,16 @@ function AccountBankBalanceDashboard({
                     <AreaChart data={revenueChartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="gradRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#059669" stopOpacity={0.25} />
-                          <stop offset="95%" stopColor="#059669" stopOpacity={0} />
+                          <stop offset="5%" stopColor={CHART_SERIES.positive} stopOpacity={0.25} />
+                          <stop offset="95%" stopColor={CHART_SERIES.positive} stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
                       <XAxis dataKey="period" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} width={52} />
                       <Tooltip content={<CustomTooltip payload={[]} />} />
                       <Legend wrapperStyle={{ fontSize: 10 }} />
-                      <Area type="monotone" dataKey="Saldo Masuk" stroke="#059669" strokeWidth={2.5} fill="url(#gradRevenue)" dot={{ r: 3, fill: "#059669" }} activeDot={{ r: 5 }} />
+                      <Area type="monotone" dataKey="Saldo Masuk" stroke={CHART_SERIES.positive} strokeWidth={2.5} fill="url(#gradRevenue)" dot={{ r: 3, fill: CHART_SERIES.positive }} activeDot={{ r: 5 }} />
                     </AreaChart>
                   </ResponsiveContainer>
                 }
@@ -442,13 +441,13 @@ function AccountBankBalanceDashboard({
                   <EmptyChart message="Tidak ada data" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={revenueChartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
                       <XAxis dataKey="period" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={28} />
                       <Tooltip content={<CustomTooltip payload={[]} />} />
-                      <Bar dataKey="Jumlah Transaksi" fill="#2563EB" radius={[4, 4, 0, 0]}>
+                      <Bar dataKey="Jumlah Transaksi" fill={CHART_SERIES.info} radius={[4, 4, 0, 0]}>
                         {revenueChartData.map((_, i) => (
-                          <Cell key={i} fill={`hsl(${210 + i * 4}, 70%, ${45 + (i % 3) * 5}%)`} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -462,7 +461,7 @@ function AccountBankBalanceDashboard({
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
-                <ListChecks className="h-4 w-4 text-emerald-600" />
+                <ListChecks className="h-4 w-4 text-success" />
                 Top Rekening dengan Saldo Masuk Terbesar
               </CardTitle>
               <CardDescription className="text-xs">Diurutkan berdasarkan total saldo masuk pada periode ini</CardDescription>
@@ -504,11 +503,11 @@ function AccountBankBalanceDashboard({
                             </Badge>
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(a.totalTransaction)}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-emerald-600">{fmtFull(a.totalRevenue)}</td>
+                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-success">{fmtFull(a.totalRevenue)}</td>
                           <td className="px-4 py-2.5">
                             <div className="flex items-center gap-2">
                               <div className="flex-1 bg-muted rounded-full h-1.5 max-w-[100px]">
-                                <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${a.percentage}%` }} />
+                                <div className="bg-success-solid h-1.5 rounded-full" style={{ width: `${a.percentage}%` }} />
                               </div>
                               <span className="text-xs text-muted-foreground tabular-nums w-9 text-right">{a.percentage}%</span>
                             </div>
@@ -541,7 +540,7 @@ function AccountBankBalanceDashboard({
                       <PieChart>
                         <Pie data={bankPieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
                           {bankPieData.map((_, i) => (
-                            <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                            <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                           ))}
                         </Pie>
                         <Tooltip formatter={(value) => (value ? [fmtFull(Number(value)), "Saldo Masuk"] : ["", ""])} labelFormatter={(name) => name} />
@@ -550,7 +549,7 @@ function AccountBankBalanceDashboard({
                     <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 w-full mt-2">
                       {bankPieData.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-xs">
-                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                          <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                           <span className="text-muted-foreground truncate">
                             {d.name} <span className="text-muted-foreground/60">({d.accounts})</span>
                           </span>
@@ -574,14 +573,14 @@ function AccountBankBalanceDashboard({
                   <EmptyChart message="Tidak ada data per bank" />
                 : <ResponsiveContainer width="100%" height={260}>
                     <BarChart data={byBankGroup} layout="vertical" margin={{ top: 0, right: 16, left: 4, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={CHART_GRID_STROKE} />
                       <XAxis type="number" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={(v) => fmt(v).replace("Rp", "").trim()} />
                       <YAxis dataKey="bankName" type="category" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={80} />
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       <Tooltip formatter={(v: any) => (v ? [fmtFull(Number(v)), "Saldo Masuk"] : ["", ""])} />
                       <Bar dataKey="totalRevenue" name="Saldo Masuk" radius={[0, 4, 4, 0]}>
                         {byBankGroup.map((_, i) => (
-                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                          <Cell key={i} fill={CHART_PALETTE[i % CHART_PALETTE.length]} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -618,13 +617,13 @@ function AccountBankBalanceDashboard({
                             <td className="px-4 py-2.5 text-muted-foreground text-xs">{i + 1}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
-                                <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+                                <span className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CHART_PALETTE[i % CHART_PALETTE.length] }} />
                                 <span className="font-medium">{row.bankName}</span>
                               </div>
                             </td>
                             <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.totalAccounts)}</td>
                             <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(row.totalTransaction)}</td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-emerald-600">{fmtFull(row.totalRevenue)}</td>
+                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-success">{fmtFull(row.totalRevenue)}</td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
                                 <Progress value={row.collectionRate} className="h-1.5 max-w-[100px]" />
@@ -648,7 +647,7 @@ function AccountBankBalanceDashboard({
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-base flex items-center gap-2">
-                    <CreditCard className="h-4 w-4 text-blue-600" />
+                    <CreditCard className="h-4 w-4 text-info" />
                     Detail Semua Rekening
                   </CardTitle>
                   <CardDescription className="text-xs mt-1">Saldo masuk dan collection rate per rekening bank</CardDescription>
@@ -685,7 +684,7 @@ function AccountBankBalanceDashboard({
                     </thead>
                     <tbody>
                       {accountDetails.map((acc, i) => (
-                        <tr key={acc.id} className={`border-b ${i % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors ${acc.id === topAccount?.id ? "bg-emerald-50/50" : ""}`}>
+                        <tr key={acc.id} className={`border-b ${i % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors ${acc.id === topAccount?.id ? "bg-success-surface/50" : ""}`}>
                           <td className="px-4 py-2.5 text-muted-foreground text-xs">{i + 1}</td>
                           <td className="px-4 py-2.5 font-medium">{acc.accountName}</td>
                           <td className="px-4 py-2.5 text-muted-foreground">{acc.accountBank}</td>
@@ -697,7 +696,7 @@ function AccountBankBalanceDashboard({
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">{fmtNum(acc.totalTransaction)}</td>
                           <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{fmtFull(acc.avgTransactionAmount)}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-emerald-600">{fmtFull(acc.totalRevenue)}</td>
+                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-success">{fmtFull(acc.totalRevenue)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -719,7 +718,7 @@ function AccountBankBalanceDashboard({
                       </p>
                     </div>
                     <div className="text-right shrink-0 ml-2">
-                      <p className="text-sm font-bold text-emerald-600">{fmt(acc.totalRevenue)}</p>
+                      <p className="text-sm font-bold text-success">{fmt(acc.totalRevenue)}</p>
                       <ChevronRight className="h-3 w-3 text-muted-foreground ml-auto" />
                     </div>
                   </CardContent>

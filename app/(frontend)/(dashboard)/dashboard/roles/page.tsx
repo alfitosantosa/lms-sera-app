@@ -248,13 +248,13 @@ function RoleFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boo
           <div className="space-y-2">
             <Label htmlFor="name">Nama Role</Label>
             <Input id="name" placeholder="Contoh: Admin, User, Manager" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="description">Deskripsi (Opsional)</Label>
             <Textarea id="description" placeholder="Deskripsi role dan tanggung jawabnya..." {...register("description")} />
-            {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
           </div>
 
           <div className="flex items-center space-x-2">
@@ -313,13 +313,13 @@ function DeleteRoleDialog({ open, onOpenChange, roleData, onSuccess }: { open: b
           <AlertDialogTitle>Hapus Role</AlertDialogTitle>
           <AlertDialogDescription>
             Apakah Anda yakin ingin menghapus role <strong>{roleData?.name}</strong>?
-            {roleData?._count?.userData && roleData._count.userData > 0 && <span className="block mt-2 text-amber-600">Peringatan: Role ini sedang digunakan oleh {roleData._count.userData} user.</span>}
+            {roleData?._count?.userData && roleData._count.userData > 0 && <span className="block mt-2 text-warning">Peringatan: Role ini sedang digunakan oleh {roleData._count.userData} user.</span>}
             Tindakan ini tidak dapat dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteRole.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteRole.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteRole.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -465,7 +465,7 @@ function RoleDataTable() {
                   setSelectedRole(roleData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

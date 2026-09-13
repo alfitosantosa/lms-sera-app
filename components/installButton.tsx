@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Definisi tipe data untuk event instalasi browser
@@ -56,9 +57,10 @@ export default function InstallButton() {
   return (
     <Button
       onClick={handleInstallClick}
-      className="fixed bottom-8 right-8 z-50 bg-black text-white border-2 border-black px-6 py-3 font-mono text-sm uppercase tracking-widest shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-white hover:text-black transition-all duration-300"
+      className="fixed bottom-6 right-6 z-50 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover active:translate-y-0 active:bg-primary-active"
     >
-      [+] Install App
+      <Download className="h-4 w-4" />
+      <span>Pasang Aplikasi</span>
     </Button>
   );
 }

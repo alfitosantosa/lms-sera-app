@@ -126,19 +126,19 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
           <div className="space-y-2">
             <Label htmlFor="name">Nama Pelanggaran</Label>
             <Input id="name" placeholder="Contoh: Terlambat Masuk Sekolah" {...register("name")} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="description">Deskripsi</Label>
             <Textarea id="description" placeholder="Deskripsi detail pelanggaran..." rows={3} {...register("description")} />
-            {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="points">Poin Pelanggaran</Label>
             <Input id="points" type="number" placeholder="5" {...register("points", { valueAsNumber: true })} />
-            {errors.points && <p className="text-sm text-red-500">{errors.points.message}</p>}
+            {errors.points && <p className="text-sm text-destructive">{errors.points.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -155,7 +155,7 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
                 ))}
               </SelectContent>
             </Select>
-            {errors.category && <p className="text-sm text-red-500">{errors.category.message}</p>}
+            {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -172,7 +172,7 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
                 ))}
               </SelectContent>
             </Select>
-            {errors.academicYearId && <p className="text-sm text-red-500">{errors.academicYearId.message}</p>}
+            {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -221,7 +221,7 @@ function DeleteViolationTypeDialog({ open, onOpenChange, violationTypeData, onSu
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteViolationType.isPending} className="bg-red-600 hover:bg-red-700">
+          <AlertDialogAction onClick={handleDelete} disabled={deleteViolationType.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
             {deleteViolationType.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -252,17 +252,17 @@ function ViolationTypeDataTable() {
   const getCategoryBadgeColor = (category: string) => {
     switch (category) {
       case "KEDISIPLINAN":
-        return "bg-blue-600";
+        return "bg-info-solid";
       case "AKADEMIK":
-        return "bg-green-600";
+        return "bg-success-solid";
       case "SOSIAL":
-        return "bg-purple-600";
+        return "bg-tertiary-solid";
       case "KETERTIBAN":
-        return "bg-orange-600";
+        return "bg-caution-solid";
       case "MORAL":
-        return "bg-red-600";
+        return "bg-destructive-solid";
       default:
-        return "bg-gray-600";
+        return "bg-muted-foreground";
     }
   };
 
@@ -272,10 +272,10 @@ function ViolationTypeDataTable() {
   };
 
   const getPointsBadgeColor = (points: number) => {
-    if (points <= 10) return "bg-green-600";
-    if (points <= 25) return "bg-yellow-600";
-    if (points <= 50) return "bg-orange-600";
-    return "bg-red-600";
+    if (points <= 10) return "bg-success-solid";
+    if (points <= 25) return "bg-warning-solid";
+    if (points <= 50) return "bg-caution-solid";
+    return "bg-destructive-solid";
   };
 
   const columns: ColumnDef<ViolationTypeData>[] = [
@@ -377,7 +377,7 @@ function ViolationTypeDataTable() {
                   setSelectedViolationType(violationTypeData);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Hapus

@@ -107,35 +107,37 @@ const PH = 595;
 const PH_MARGIN = 20; // horizontal page margin
 
 const C = {
-  // Navy palette — formal
-  navy: "#0F2D4A",
-  navyMid: "#1A4570",
-  navyLt: "#2260A0",
-  navyFade: "#EBF2FA",
+  // Navy palette — formal, mirrors --navy from app/globals.css.
+  // react-pdf cannot resolve CSS variables, so these are the design system's
+  // values expressed as literals. See DESIGN.md §1.
+  navy: "#0a2540",
+  navyMid: "#12385c",
+  navyLt: "#1f5380",
+  navyFade: "#eef3fa",
 
-  // Text
-  ink: "#111827",
-  sub: "#374151",
-  muted: "#6B7280",
-  faint: "#9CA3AF",
+  // Text — --foreground / --secondary-foreground / --muted-foreground
+  ink: "#0d253d",
+  sub: "#273951",
+  muted: "#64748d",
+  faint: "#94a3b8",
 
-  // Surface
+  // Surface — --card / --secondary / --border
   white: "#FFFFFF",
-  offWhite: "#F8FAFC",
-  stripe: "#F1F5F9",
-  border: "#CBD5E1",
-  borderLt: "#E2E8F0",
+  offWhite: "#F6F9FC",
+  stripe: "#F6F9FC",
+  border: "#D7DEE8",
+  borderLt: "#E3E8EE",
 
-  // Status
-  green: "#065F46",
-  greenBg: "#ECFDF5",
-  amber: "#92400E",
-  amberBg: "#FFFBEB",
-  red: "#991B1B",
-  redBg: "#FEF2F2",
+  // Status — chip text tones from DESIGN.md §1
+  green: "#0a7a4a",
+  greenBg: "#d3f5e4",
+  amber: "#92400e",
+  amberBg: "#fef3c7",
+  red: "#c81e4f",
+  redBg: "#fde2e9",
 
-  // Gold accent line
-  gold: "#2260A0",
+  // Accent rule under the letterhead (brand)
+  gold: "#533afd",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

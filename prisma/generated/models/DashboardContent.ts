@@ -40,6 +40,7 @@ export type DashboardContentMinAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   linkUrl: string | null
+  foundationId: string | null
   order: number | null
   isActive: boolean | null
   isPublished: boolean | null
@@ -56,6 +57,7 @@ export type DashboardContentMaxAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   linkUrl: string | null
+  foundationId: string | null
   order: number | null
   isActive: boolean | null
   isPublished: boolean | null
@@ -72,6 +74,7 @@ export type DashboardContentCountAggregateOutputType = {
   description: number
   imageUrl: number
   linkUrl: number
+  foundationId: number
   order: number
   isActive: number
   isPublished: number
@@ -98,6 +101,7 @@ export type DashboardContentMinAggregateInputType = {
   description?: true
   imageUrl?: true
   linkUrl?: true
+  foundationId?: true
   order?: true
   isActive?: true
   isPublished?: true
@@ -114,6 +118,7 @@ export type DashboardContentMaxAggregateInputType = {
   description?: true
   imageUrl?: true
   linkUrl?: true
+  foundationId?: true
   order?: true
   isActive?: true
   isPublished?: true
@@ -130,6 +135,7 @@ export type DashboardContentCountAggregateInputType = {
   description?: true
   imageUrl?: true
   linkUrl?: true
+  foundationId?: true
   order?: true
   isActive?: true
   isPublished?: true
@@ -233,6 +239,7 @@ export type DashboardContentGroupByOutputType = {
   description: string | null
   imageUrl: string
   linkUrl: string | null
+  foundationId: string
   order: number
   isActive: boolean
   isPublished: boolean
@@ -272,6 +279,7 @@ export type DashboardContentWhereInput = {
   description?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
   imageUrl?: Prisma.StringFilter<"DashboardContent"> | string
   linkUrl?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  foundationId?: Prisma.StringFilter<"DashboardContent"> | string
   order?: Prisma.IntFilter<"DashboardContent"> | number
   isActive?: Prisma.BoolFilter<"DashboardContent"> | boolean
   isPublished?: Prisma.BoolFilter<"DashboardContent"> | boolean
@@ -280,6 +288,7 @@ export type DashboardContentWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
 
@@ -289,6 +298,7 @@ export type DashboardContentOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   linkUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -297,6 +307,7 @@ export type DashboardContentOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   user?: Prisma.UserDataOrderByWithRelationInput
 }
 
@@ -309,6 +320,7 @@ export type DashboardContentWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
   imageUrl?: Prisma.StringFilter<"DashboardContent"> | string
   linkUrl?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  foundationId?: Prisma.StringFilter<"DashboardContent"> | string
   order?: Prisma.IntFilter<"DashboardContent"> | number
   isActive?: Prisma.BoolFilter<"DashboardContent"> | boolean
   isPublished?: Prisma.BoolFilter<"DashboardContent"> | boolean
@@ -317,6 +329,7 @@ export type DashboardContentWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id">
 
@@ -326,6 +339,7 @@ export type DashboardContentOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   linkUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -350,6 +364,7 @@ export type DashboardContentScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"DashboardContent"> | string | null
   imageUrl?: Prisma.StringWithAggregatesFilter<"DashboardContent"> | string
   linkUrl?: Prisma.StringNullableWithAggregatesFilter<"DashboardContent"> | string | null
+  foundationId?: Prisma.StringWithAggregatesFilter<"DashboardContent"> | string
   order?: Prisma.IntWithAggregatesFilter<"DashboardContent"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"DashboardContent"> | boolean
   isPublished?: Prisma.BoolWithAggregatesFilter<"DashboardContent"> | boolean
@@ -373,6 +388,7 @@ export type DashboardContentCreateInput = {
   endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
   user?: Prisma.UserDataCreateNestedOneWithoutDashboardContentsInput
 }
 
@@ -382,6 +398,7 @@ export type DashboardContentUncheckedCreateInput = {
   description?: string | null
   imageUrl: string
   linkUrl?: string | null
+  foundationId: string
   order?: number
   isActive?: boolean
   isPublished?: boolean
@@ -405,6 +422,7 @@ export type DashboardContentUpdateInput = {
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutDashboardContentNestedInput
   user?: Prisma.UserDataUpdateOneWithoutDashboardContentsNestedInput
 }
 
@@ -414,6 +432,7 @@ export type DashboardContentUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -430,6 +449,7 @@ export type DashboardContentCreateManyInput = {
   description?: string | null
   imageUrl: string
   linkUrl?: string | null
+  foundationId: string
   order?: number
   isActive?: boolean
   isPublished?: boolean
@@ -461,6 +481,7 @@ export type DashboardContentUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -487,6 +508,7 @@ export type DashboardContentCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   linkUrl?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -507,6 +529,7 @@ export type DashboardContentMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   linkUrl?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -523,6 +546,7 @@ export type DashboardContentMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   linkUrl?: Prisma.SortOrder
+  foundationId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -535,6 +559,48 @@ export type DashboardContentMinOrderByAggregateInput = {
 
 export type DashboardContentSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
+}
+
+export type DashboardContentCreateNestedManyWithoutFoundationInput = {
+  create?: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput> | Prisma.DashboardContentCreateWithoutFoundationInput[] | Prisma.DashboardContentUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.DashboardContentCreateOrConnectWithoutFoundationInput | Prisma.DashboardContentCreateOrConnectWithoutFoundationInput[]
+  createMany?: Prisma.DashboardContentCreateManyFoundationInputEnvelope
+  connect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+}
+
+export type DashboardContentUncheckedCreateNestedManyWithoutFoundationInput = {
+  create?: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput> | Prisma.DashboardContentCreateWithoutFoundationInput[] | Prisma.DashboardContentUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.DashboardContentCreateOrConnectWithoutFoundationInput | Prisma.DashboardContentCreateOrConnectWithoutFoundationInput[]
+  createMany?: Prisma.DashboardContentCreateManyFoundationInputEnvelope
+  connect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+}
+
+export type DashboardContentUpdateManyWithoutFoundationNestedInput = {
+  create?: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput> | Prisma.DashboardContentCreateWithoutFoundationInput[] | Prisma.DashboardContentUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.DashboardContentCreateOrConnectWithoutFoundationInput | Prisma.DashboardContentCreateOrConnectWithoutFoundationInput[]
+  upsert?: Prisma.DashboardContentUpsertWithWhereUniqueWithoutFoundationInput | Prisma.DashboardContentUpsertWithWhereUniqueWithoutFoundationInput[]
+  createMany?: Prisma.DashboardContentCreateManyFoundationInputEnvelope
+  set?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  disconnect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  delete?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  connect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  update?: Prisma.DashboardContentUpdateWithWhereUniqueWithoutFoundationInput | Prisma.DashboardContentUpdateWithWhereUniqueWithoutFoundationInput[]
+  updateMany?: Prisma.DashboardContentUpdateManyWithWhereWithoutFoundationInput | Prisma.DashboardContentUpdateManyWithWhereWithoutFoundationInput[]
+  deleteMany?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
+}
+
+export type DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput = {
+  create?: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput> | Prisma.DashboardContentCreateWithoutFoundationInput[] | Prisma.DashboardContentUncheckedCreateWithoutFoundationInput[]
+  connectOrCreate?: Prisma.DashboardContentCreateOrConnectWithoutFoundationInput | Prisma.DashboardContentCreateOrConnectWithoutFoundationInput[]
+  upsert?: Prisma.DashboardContentUpsertWithWhereUniqueWithoutFoundationInput | Prisma.DashboardContentUpsertWithWhereUniqueWithoutFoundationInput[]
+  createMany?: Prisma.DashboardContentCreateManyFoundationInputEnvelope
+  set?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  disconnect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  delete?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  connect?: Prisma.DashboardContentWhereUniqueInput | Prisma.DashboardContentWhereUniqueInput[]
+  update?: Prisma.DashboardContentUpdateWithWhereUniqueWithoutFoundationInput | Prisma.DashboardContentUpdateWithWhereUniqueWithoutFoundationInput[]
+  updateMany?: Prisma.DashboardContentUpdateManyWithWhereWithoutFoundationInput | Prisma.DashboardContentUpdateManyWithWhereWithoutFoundationInput[]
+  deleteMany?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
 }
 
 export type DashboardContentCreateNestedManyWithoutUserInput = {
@@ -579,6 +645,84 @@ export type DashboardContentUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
 }
 
+export type DashboardContentCreateWithoutFoundationInput = {
+  id?: string
+  title: string
+  description?: string | null
+  imageUrl: string
+  linkUrl?: string | null
+  order?: number
+  isActive?: boolean
+  isPublished?: boolean
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserDataCreateNestedOneWithoutDashboardContentsInput
+}
+
+export type DashboardContentUncheckedCreateWithoutFoundationInput = {
+  id?: string
+  title: string
+  description?: string | null
+  imageUrl: string
+  linkUrl?: string | null
+  order?: number
+  isActive?: boolean
+  isPublished?: boolean
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: string | null
+}
+
+export type DashboardContentCreateOrConnectWithoutFoundationInput = {
+  where: Prisma.DashboardContentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput>
+}
+
+export type DashboardContentCreateManyFoundationInputEnvelope = {
+  data: Prisma.DashboardContentCreateManyFoundationInput | Prisma.DashboardContentCreateManyFoundationInput[]
+  skipDuplicates?: boolean
+}
+
+export type DashboardContentUpsertWithWhereUniqueWithoutFoundationInput = {
+  where: Prisma.DashboardContentWhereUniqueInput
+  update: Prisma.XOR<Prisma.DashboardContentUpdateWithoutFoundationInput, Prisma.DashboardContentUncheckedUpdateWithoutFoundationInput>
+  create: Prisma.XOR<Prisma.DashboardContentCreateWithoutFoundationInput, Prisma.DashboardContentUncheckedCreateWithoutFoundationInput>
+}
+
+export type DashboardContentUpdateWithWhereUniqueWithoutFoundationInput = {
+  where: Prisma.DashboardContentWhereUniqueInput
+  data: Prisma.XOR<Prisma.DashboardContentUpdateWithoutFoundationInput, Prisma.DashboardContentUncheckedUpdateWithoutFoundationInput>
+}
+
+export type DashboardContentUpdateManyWithWhereWithoutFoundationInput = {
+  where: Prisma.DashboardContentScalarWhereInput
+  data: Prisma.XOR<Prisma.DashboardContentUpdateManyMutationInput, Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationInput>
+}
+
+export type DashboardContentScalarWhereInput = {
+  AND?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
+  OR?: Prisma.DashboardContentScalarWhereInput[]
+  NOT?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
+  id?: Prisma.StringFilter<"DashboardContent"> | string
+  title?: Prisma.StringFilter<"DashboardContent"> | string
+  description?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  imageUrl?: Prisma.StringFilter<"DashboardContent"> | string
+  linkUrl?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+  foundationId?: Prisma.StringFilter<"DashboardContent"> | string
+  order?: Prisma.IntFilter<"DashboardContent"> | number
+  isActive?: Prisma.BoolFilter<"DashboardContent"> | boolean
+  isPublished?: Prisma.BoolFilter<"DashboardContent"> | boolean
+  startDate?: Prisma.DateTimeNullableFilter<"DashboardContent"> | Date | string | null
+  endDate?: Prisma.DateTimeNullableFilter<"DashboardContent"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
+  userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+}
+
 export type DashboardContentCreateWithoutUserInput = {
   id?: string
   title: string
@@ -592,6 +736,7 @@ export type DashboardContentCreateWithoutUserInput = {
   endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foundation?: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
 }
 
 export type DashboardContentUncheckedCreateWithoutUserInput = {
@@ -600,6 +745,7 @@ export type DashboardContentUncheckedCreateWithoutUserInput = {
   description?: string | null
   imageUrl: string
   linkUrl?: string | null
+  foundationId: string
   order?: number
   isActive?: boolean
   isPublished?: boolean
@@ -635,23 +781,68 @@ export type DashboardContentUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.DashboardContentUpdateManyMutationInput, Prisma.DashboardContentUncheckedUpdateManyWithoutUserInput>
 }
 
-export type DashboardContentScalarWhereInput = {
-  AND?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
-  OR?: Prisma.DashboardContentScalarWhereInput[]
-  NOT?: Prisma.DashboardContentScalarWhereInput | Prisma.DashboardContentScalarWhereInput[]
-  id?: Prisma.StringFilter<"DashboardContent"> | string
-  title?: Prisma.StringFilter<"DashboardContent"> | string
-  description?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
-  imageUrl?: Prisma.StringFilter<"DashboardContent"> | string
-  linkUrl?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
-  order?: Prisma.IntFilter<"DashboardContent"> | number
-  isActive?: Prisma.BoolFilter<"DashboardContent"> | boolean
-  isPublished?: Prisma.BoolFilter<"DashboardContent"> | boolean
-  startDate?: Prisma.DateTimeNullableFilter<"DashboardContent"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"DashboardContent"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
-  userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
+export type DashboardContentCreateManyFoundationInput = {
+  id?: string
+  title: string
+  description?: string | null
+  imageUrl: string
+  linkUrl?: string | null
+  order?: number
+  isActive?: boolean
+  isPublished?: boolean
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId?: string | null
+}
+
+export type DashboardContentUpdateWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserDataUpdateOneWithoutDashboardContentsNestedInput
+}
+
+export type DashboardContentUncheckedUpdateWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type DashboardContentUncheckedUpdateManyWithoutFoundationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DashboardContentCreateManyUserInput = {
@@ -660,6 +851,7 @@ export type DashboardContentCreateManyUserInput = {
   description?: string | null
   imageUrl: string
   linkUrl?: string | null
+  foundationId: string
   order?: number
   isActive?: boolean
   isPublished?: boolean
@@ -682,6 +874,7 @@ export type DashboardContentUpdateWithoutUserInput = {
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneWithoutDashboardContentNestedInput
 }
 
 export type DashboardContentUncheckedUpdateWithoutUserInput = {
@@ -690,6 +883,7 @@ export type DashboardContentUncheckedUpdateWithoutUserInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -705,6 +899,7 @@ export type DashboardContentUncheckedUpdateManyWithoutUserInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   linkUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -722,6 +917,7 @@ export type DashboardContentSelect<ExtArgs extends runtime.Types.Extensions.Inte
   description?: boolean
   imageUrl?: boolean
   linkUrl?: boolean
+  foundationId?: boolean
   order?: boolean
   isActive?: boolean
   isPublished?: boolean
@@ -730,6 +926,7 @@ export type DashboardContentSelect<ExtArgs extends runtime.Types.Extensions.Inte
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -739,6 +936,7 @@ export type DashboardContentSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   description?: boolean
   imageUrl?: boolean
   linkUrl?: boolean
+  foundationId?: boolean
   order?: boolean
   isActive?: boolean
   isPublished?: boolean
@@ -747,6 +945,7 @@ export type DashboardContentSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -756,6 +955,7 @@ export type DashboardContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   description?: boolean
   imageUrl?: boolean
   linkUrl?: boolean
+  foundationId?: boolean
   order?: boolean
   isActive?: boolean
   isPublished?: boolean
@@ -764,6 +964,7 @@ export type DashboardContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -773,6 +974,7 @@ export type DashboardContentSelectScalar = {
   description?: boolean
   imageUrl?: boolean
   linkUrl?: boolean
+  foundationId?: boolean
   order?: boolean
   isActive?: boolean
   isPublished?: boolean
@@ -783,20 +985,24 @@ export type DashboardContentSelectScalar = {
   userId?: boolean
 }
 
-export type DashboardContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "linkUrl" | "order" | "isActive" | "isPublished" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["dashboardContent"]>
+export type DashboardContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "linkUrl" | "foundationId" | "order" | "isActive" | "isPublished" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["dashboardContent"]>
 export type DashboardContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 export type DashboardContentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 export type DashboardContentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 
 export type $DashboardContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DashboardContent"
   objects: {
+    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     user: Prisma.$UserDataPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -805,6 +1011,7 @@ export type $DashboardContentPayload<ExtArgs extends runtime.Types.Extensions.In
     description: string | null
     imageUrl: string
     linkUrl: string | null
+    foundationId: string
     order: number
     isActive: boolean
     isPublished: boolean
@@ -1207,6 +1414,7 @@ readonly fields: DashboardContentFieldRefs;
  */
 export interface Prisma__DashboardContentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  foundation<T extends Prisma.DashboardContent$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DashboardContent$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.DashboardContent$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DashboardContent$userArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1242,6 +1450,7 @@ export interface DashboardContentFieldRefs {
   readonly description: Prisma.FieldRef<"DashboardContent", 'String'>
   readonly imageUrl: Prisma.FieldRef<"DashboardContent", 'String'>
   readonly linkUrl: Prisma.FieldRef<"DashboardContent", 'String'>
+  readonly foundationId: Prisma.FieldRef<"DashboardContent", 'String'>
   readonly order: Prisma.FieldRef<"DashboardContent", 'Int'>
   readonly isActive: Prisma.FieldRef<"DashboardContent", 'Boolean'>
   readonly isPublished: Prisma.FieldRef<"DashboardContent", 'Boolean'>
@@ -1648,6 +1857,25 @@ export type DashboardContentDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many DashboardContents to delete.
    */
   limit?: number
+}
+
+/**
+ * DashboardContent.foundation
+ */
+export type DashboardContent$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
 }
 
 /**

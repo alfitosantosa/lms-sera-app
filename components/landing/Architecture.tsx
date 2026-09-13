@@ -40,21 +40,21 @@ export function Architecture() {
   ];
 
   return (
-    <section id="arsitektur" className="relative overflow-hidden bg-[#0a2540] py-24 text-white">
+    <section id="arsitektur" className="relative overflow-hidden bg-navy py-24 text-white">
       {/* Background ambient glow */}
-      <div className="pointer-events-none absolute -top-40 left-1/3 h-[500px] w-[500px] rounded-full bg-[#533afd]/20 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-40 left-1/3 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-40 right-10 h-[500px] w-[500px] rounded-full bg-[#00d4ff]/15 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-[#533afd]/30 px-3.5 py-1 text-xs font-semibold text-[#c9bffb]">
+          <span className="inline-block rounded-full bg-primary/30 px-3.5 py-1 text-xs font-semibold text-brand-accent">
             Arsitektur &amp; Keamanan
           </span>
           <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
             Dibangun untuk Yayasan dengan Skala Multi-Sekolah.
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-[#adbdcc]">
+          <p className="mt-3 text-base leading-relaxed text-navy-muted">
             Satu platform terpadu dengan isolasi data tingkat database untuk tiap sekolah di bawah
             naungan yayasan — tanpa risiko data saling tertukar atau bocor.
           </p>
@@ -70,13 +70,13 @@ export function Architecture() {
                 Isolasi Data Tingkat Tenant (ORM Layer)
               </h3>
             </div>
-            <p className="text-sm leading-relaxed text-[#adbdcc]">
+            <p className="text-sm leading-relaxed text-navy-muted">
               Setiap sekolah memiliki identifier <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-[#00d4ff]">tenantId</code> unik pada setiap tabel operasional. Dikelola di level ORM &amp; query builder, sehingga kebocoran data antar sekolah dicegah langsung dari desain sistem.
             </p>
 
             <Card className="rounded-2xl border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
               <CardContent className="space-y-3 p-0">
-                <div className="flex items-center justify-between text-xs text-[#adbdcc] pb-2 border-b border-white/10">
+                <div className="flex items-center justify-between text-xs text-navy-muted pb-2 border-b border-white/10">
                   <span>Unit Sekolah Aktif</span>
                   <span>Status Isolasi</span>
                 </div>
@@ -86,10 +86,10 @@ export function Architecture() {
                     className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] p-3 text-xs"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Building2 className="h-4 w-4 text-[#533afd]" />
+                      <Building2 className="h-4 w-4 text-primary" />
                       <div>
                         <div className="font-semibold text-white">{t.name}</div>
-                        <div className="text-[11px] text-[#adbdcc]">{t.count} • {t.id}</div>
+                        <div className="text-[11px] text-navy-muted">{t.count} • {t.id}</div>
                       </div>
                     </div>
                     <Badge className="border-none bg-[#00d924]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#a5d6a7]">
@@ -100,7 +100,7 @@ export function Architecture() {
               </CardContent>
             </Card>
 
-            <div className="flex flex-wrap gap-4 text-xs text-[#adbdcc]">
+            <div className="flex flex-wrap gap-4 text-xs text-navy-muted">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-[#00d4ff]" />
                 Enkripsi data saat istirahat (AES-256)
@@ -114,13 +114,13 @@ export function Architecture() {
 
           {/* Right Column: RBAC Hierarchy */}
           <div className="space-y-6">
-            <div className="flex items-center gap-2 text-[#7b46ff]">
+            <div className="flex items-center gap-2 text-brand-accent">
               <Key className="h-5 w-5" />
               <h3 className="text-xl font-bold text-white">
                 Hierarki Hak Akses Berjenjang (RBAC)
               </h3>
             </div>
-            <p className="text-sm leading-relaxed text-[#adbdcc]">
+            <p className="text-sm leading-relaxed text-navy-muted">
               Setiap pengguna hanya dapat melihat dan memodifikasi data yang relevan dengan peran masing-masing, diautentikasi aman melalui session Better Auth.
             </p>
 
@@ -135,7 +135,7 @@ export function Architecture() {
                   </span>
                   <div>
                     <h4 className="text-sm font-bold text-white">{r.name}</h4>
-                    <p className="mt-0.5 text-xs leading-relaxed text-[#adbdcc]">
+                    <p className="mt-0.5 text-xs leading-relaxed text-navy-muted">
                       {r.desc}
                     </p>
                   </div>
