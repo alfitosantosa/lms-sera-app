@@ -239,10 +239,11 @@ export type AcademicYearOrderByWithRelationInput = {
 
 export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  year?: string
+  foundationId_year?: Prisma.AcademicYearFoundationIdYearCompoundUniqueInput
   AND?: Prisma.AcademicYearWhereInput | Prisma.AcademicYearWhereInput[]
   OR?: Prisma.AcademicYearWhereInput[]
   NOT?: Prisma.AcademicYearWhereInput | Prisma.AcademicYearWhereInput[]
+  year?: Prisma.StringFilter<"AcademicYear"> | string
   startDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   endDate?: Prisma.DateTimeFilter<"AcademicYear"> | Date | string
   foundationId?: Prisma.StringNullableFilter<"AcademicYear"> | string | null
@@ -258,7 +259,7 @@ export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
   schedules?: Prisma.ScheduleListRelationFilter
   students?: Prisma.UserDataListRelationFilter
   violationTypes?: Prisma.ViolationTypeListRelationFilter
-}, "id" | "year">
+}, "id" | "foundationId_year">
 
 export type AcademicYearOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -409,6 +410,11 @@ export type AcademicYearOrderByRelationAggregateInput = {
 export type AcademicYearNullableScalarRelationFilter = {
   is?: Prisma.AcademicYearWhereInput | null
   isNot?: Prisma.AcademicYearWhereInput | null
+}
+
+export type AcademicYearFoundationIdYearCompoundUniqueInput = {
+  foundationId: string
+  year: string
 }
 
 export type AcademicYearCountOrderByAggregateInput = {

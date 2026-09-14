@@ -219,12 +219,12 @@ export type FoundationOrderByWithRelationInput = {
 
 export type FoundationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  foundationCode?: string
   AND?: Prisma.FoundationWhereInput | Prisma.FoundationWhereInput[]
   OR?: Prisma.FoundationWhereInput[]
   NOT?: Prisma.FoundationWhereInput | Prisma.FoundationWhereInput[]
   name?: Prisma.StringFilter<"Foundation"> | string
   imageUrl?: Prisma.StringFilter<"Foundation"> | string
-  foundationCode?: Prisma.StringFilter<"Foundation"> | string
   address?: Prisma.StringFilter<"Foundation"> | string
   phone?: Prisma.StringFilter<"Foundation"> | string
   userData?: Prisma.UserDataListRelationFilter
@@ -235,7 +235,7 @@ export type FoundationWhereUniqueInput = Prisma.AtLeast<{
   academicYear?: Prisma.AcademicYearListRelationFilter
   dashboardContent?: Prisma.DashboardContentListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
-}, "id" | "id">
+}, "id" | "id" | "foundationCode">
 
 export type FoundationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

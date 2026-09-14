@@ -16,11 +16,17 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   try {
     const majors = await prisma.major.findMany({
+      where: { foundationId: t.foundationId },
       include: {
         _count: {
           select: {
@@ -46,6 +52,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { code, name, description, isActive, phone, address, adminName, signatureUrl } = await request.json();
     if (!code || !name) {
@@ -63,6 +72,7 @@ export async function POST(request: NextRequest) {
         signatureUrl,
         isActive: isActive !== undefined ? isActive : true,
         // Default to true if not provided
+        foundationId: t.foundationId,
       },
     });
 
@@ -74,10 +84,23 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, code, name, description, isActive, phone, address, adminName, signatureUrl } = await request.json();
     if (!id || !code || !name) {
       return NextResponse.json({ error: "ID, code, and name are required" }, { status: 400 });
+    }
+
+    // Pastikan major milik yayasan pemanggil
+    const owned = await prisma.major.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const updatedMajor = await prisma.major.update({
@@ -103,10 +126,23 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    // Pastikan major milik yayasan pemanggil
+    const owned = await prisma.major.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const deletedMajor = await prisma.major.delete({

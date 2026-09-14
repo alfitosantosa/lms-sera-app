@@ -11,13 +11,19 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     // ✅ Optimized: Use select to drop unused createdAt/updatedAt
     // Fields used: id, name, description, isActive, permissions, _count.userData
+    // Role bawaan/sistem (foundationId NULL) tetap ditampilkan.
     const roles = await prisma.role.findMany({
+      where: { OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
       select: {
         id: true,
         name: true,
@@ -36,6 +42,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { name, description, permissions } = await request.json();
     if (!name) {
@@ -46,6 +55,8 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         description,
+        // foundationId selalu dari sesi, bukan dari body
+        foundationId: t.foundationId,
         permissions: {
           set: permissions || [],
         },
@@ -60,10 +71,23 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, name, description, permissions, isActive } = await request.json();
     if (!id || !name) {
       return NextResponse.json({ error: "ID and name are required" }, { status: 400 });
+    }
+
+    // Role milik yayasan ini boleh diubah; role bersama (foundationId NULL)
+    // juga boleh, karena body tidak pernah dipakai untuk mengubah foundationId.
+    const owned = await prisma.role.findFirst({
+      where: { id, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const updatedRole = await prisma.role.update({
@@ -85,10 +109,22 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    // Role bersama (foundationId NULL) tidak boleh dihapus dari yayasan lain
+    const owned = await prisma.role.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const deletedRole = await prisma.role.delete({

@@ -20,16 +20,21 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { resolveFoundation } from "@/lib/tenant";
+import { NextRequest, NextResponse } from "next/server";
 
 //use params for get id
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const schedules = await prisma.schedule.findMany({
       where: {
         academicYear: {
           isActive: true,
+          foundationId: t.foundationId,
         },
       },
       include: { class: true, subject: true, teacher: true, academicYear: true, tahfidzGroup: true },

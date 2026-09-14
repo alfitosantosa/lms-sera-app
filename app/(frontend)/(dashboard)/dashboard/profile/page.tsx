@@ -117,6 +117,7 @@ interface EmptyProfileStateProps {
 }
 
 const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -210,7 +211,7 @@ const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
             </Card>
 
             {/* Action Buttons */}
-            {/* <div className="flex flex-col gap-3 pt-4">
+             <div className="flex flex-col gap-3 pt-4">
               <Button size="lg" className="w-full" onClick={() => router.push("/landing/register/foundation")}>
                 <UserPlus className="h-5 w-5 mr-2" />
                 Daftar ke Yayasan
@@ -220,7 +221,7 @@ const EmptyProfileState = ({ session }: EmptyProfileStateProps) => {
                 <Building2 className="h-5 w-5 mr-2" />
                 Kembali ke Dashboard
               </Button>
-            </div> */}
+            </div> 
 
             {/* Help Text */}
             <div className="text-center pt-4 border-t">

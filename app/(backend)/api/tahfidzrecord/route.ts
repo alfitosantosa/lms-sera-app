@@ -19,11 +19,16 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const tahfidzRecords = await prisma.tahfidzRecord.findMany({
+      where: { student: { foundationId: t.foundationId } },
       include: {
         student: true,
         teacher: true,
@@ -38,8 +43,29 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { studentId, teacherId, surahQuranId, startVerse, endVerse, grade, date, notes } = await request.json();
+
+    // Pastikan siswa & guru (bila ada) milik yayasan ini
+    const [ownedStudent, ownedTeacher] = await Promise.all([
+      studentId
+        ? prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } })
+        : null,
+      teacherId
+        ? prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } })
+        : null,
+    ]);
+
+    if (studentId && !ownedStudent) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+    if (teacherId && !ownedTeacher) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     const newRecord = await prisma.tahfidzRecord.create({
       data: {
         studentId,
@@ -59,8 +85,30 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const data = await request.json();
+
+    // Pastikan data milik yayasan ini, sekaligus validasi siswa & guru barunya
+    const [owned, ownedStudent, ownedTeacher] = await Promise.all([
+      prisma.tahfidzRecord.findFirst({
+        where: { id: data.id, student: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
+      data.studentId
+        ? prisma.userData.findFirst({ where: { id: data.studentId, foundationId: t.foundationId }, select: { id: true } })
+        : null,
+      data.teacherId
+        ? prisma.userData.findFirst({ where: { id: data.teacherId, foundationId: t.foundationId }, select: { id: true } })
+        : null,
+    ]);
+
+    if (!owned || (data.studentId && !ownedStudent) || (data.teacherId && !ownedTeacher)) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     const updatedRecord = await prisma.tahfidzRecord.update({
       where: { id: data.id },
       data: {
@@ -81,8 +129,21 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const data = await request.json();
+
+    const owned = await prisma.tahfidzRecord.findFirst({
+      where: { id: data.id, student: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     const deletedRecord = await prisma.tahfidzRecord.delete({
       where: { id: data.id },
     });

@@ -59,6 +59,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 function replaceUndefinedWithNull<T>(value: T): T {
@@ -81,13 +82,55 @@ function replaceUndefinedWithNull<T>(value: T): T {
   return (value === undefined ? (null as unknown as T) : value) as T;
 }
 
+type TenantRefs = {
+  userId?: string | null;
+  roleId?: string | null;
+  majorId?: string | null;
+  classId?: string | null;
+  academicYearId?: string | null;
+  tahfidzGroupId?: string | null;
+};
+
+// Verifikasi setiap FK dari body memang milik yayasan pemanggil.
+// Role bersama (foundationId NULL) tetap diizinkan karena ikut tampil di daftar role.
+async function refsOwnedByFoundation(data: TenantRefs, foundationId: string): Promise<boolean> {
+  const { userId, roleId, majorId, classId, academicYearId, tahfidzGroupId } = data;
+
+  // TahfidzGroup tidak punya relasi ke Major (hanya majorId), jadi scope-nya lewat major yayasan ini
+  const tenantMajorIds =
+    tahfidzGroupId ?
+      (
+        await prisma.major.findMany({
+          where: { foundationId },
+          select: { id: true },
+        })
+      ).map((major) => major.id)
+    : [];
+
+  const [user, role, major, kelas, academicYear, tahfidzGroup] = await Promise.all([
+    userId ? prisma.user.findFirst({ where: { id: userId, foundationId }, select: { id: true } }) : true,
+    roleId ?
+      prisma.role.findFirst({ where: { id: roleId, OR: [{ foundationId }, { foundationId: null }] }, select: { id: true } })
+    : true,
+    majorId ? prisma.major.findFirst({ where: { id: majorId, foundationId }, select: { id: true } }) : true,
+    classId ? prisma.class.findFirst({ where: { id: classId, major: { foundationId } }, select: { id: true } }) : true,
+    academicYearId ? prisma.academicYear.findFirst({ where: { id: academicYearId, foundationId }, select: { id: true } }) : true,
+    tahfidzGroupId ?
+      prisma.tahfidzGroup.findFirst({ where: { id: tahfidzGroupId, majorId: { in: tenantMajorIds } }, select: { id: true } })
+    : true,
+  ]);
+
+  return Boolean(user && role && major && kelas && academicYear && tahfidzGroup);
+}
+
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const foundationId = searchParams.get("foundationId");
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const users = await prisma.userData.findMany({
       where: {
-        foundationId: foundationId ?? undefined,
+        foundationId: t.foundationId,
       },
       include: {
         role: true,
@@ -108,13 +151,23 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { name, email, roleId, ...rest } = await request.json();
     if (!name || !roleId) {
       return NextResponse.json({ error: "Name and role are required" }, { status: 400 });
     }
 
-    const data = replaceUndefinedWithNull({ name, email, roleId, ...rest });
+    if (!(await refsOwnedByFoundation({ roleId, ...rest }, t.foundationId))) {
+      return tenantForbidden("Data referensi tidak ditemukan di yayasan ini");
+    }
+
+    // foundationId dari body dibuang, distempel dari sesi
+    delete rest.foundationId;
+
+    const data = replaceUndefinedWithNull({ name, email, roleId, ...rest, foundationId: t.foundationId });
 
     const newUser = await prisma.userData.create({
       data,
@@ -127,11 +180,29 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, name, email, roleId, ...restData } = await request.json();
     if (!id || !name || !roleId) {
       return NextResponse.json({ error: "ID, name, and role are required" }, { status: 400 });
     }
+
+    const owned = await prisma.userData.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
+    if (!(await refsOwnedByFoundation({ roleId, ...restData }, t.foundationId))) {
+      return tenantForbidden("Data referensi tidak ditemukan di yayasan ini");
+    }
+
+    // foundationId dari body dibuang: klien tidak boleh memindah yayasan
+    delete restData.foundationId;
 
     const data = replaceUndefinedWithNull({ name, email, roleId, ...restData });
 
@@ -146,10 +217,21 @@ export async function PUT(request: NextRequest) {
   }
 }
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const owned = await prisma.userData.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const deletedUser = await prisma.userData.delete({

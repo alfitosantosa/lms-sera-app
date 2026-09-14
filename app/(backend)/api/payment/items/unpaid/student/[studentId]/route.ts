@@ -1,7 +1,12 @@
-import { prisma } from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ studentId: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ studentId: string }> }) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   const { studentId } = await params;
 
   if (!studentId) {
@@ -10,7 +15,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ studen
 
   try {
     const payments = await prisma.paymentItems.findMany({
-      where: { studentId: studentId, isPaid: false },
+      where: { studentId: studentId, isPaid: false, student: { foundationId: t.foundationId } },
       include: {
         student: true,
       },

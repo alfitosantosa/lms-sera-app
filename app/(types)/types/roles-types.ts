@@ -4,6 +4,7 @@ export interface RoleDataTypes {
   description?: string;
   permissions?: string[];
   isActive: boolean;
+  foundationId?: string;
   createdAt?: string;
   updatedAt?: string;
   _count?: {
@@ -17,6 +18,7 @@ export interface RolesInputData {
   description?: string;
   permissions?: string[];
   isActive: boolean;
+  foundationId?: string;
   createdAt: string;
   updatedAt: string;
   _count?: {

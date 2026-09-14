@@ -3,6 +3,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { Prisma } from "@/prisma/generated/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -103,9 +104,10 @@ function parseAndValidateDate(fromdate: string | null, todate: string | null): {
   return { startDate, endDate };
 }
 
-function buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId }: { startDate: Date; endDate: Date; majorId?: string; accountBankId?: string }): Prisma.PaymentWhereInput {
+function buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId, foundationId }: { startDate: Date; endDate: Date; majorId?: string; accountBankId?: string; foundationId: string }): Prisma.PaymentWhereInput {
   return {
     createdAt: { gte: startDate, lte: endDate },
+    major: { foundationId },
     ...(majorId && { majorId }),
     ...(accountBankId && { accountBankId }),
   };
@@ -133,6 +135,10 @@ function monthLabel(year: string, month: string): string {
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
+  const explicit = searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   const fromdate = searchParams.get("fromdate");
   const todate = searchParams.get("todate");
   const majorId = searchParams.get("majorId") ?? undefined;
@@ -150,6 +156,9 @@ export async function GET(request: NextRequest) {
     const [allAccountBanks, payments, unpaidPaymentItems, allPaymentItems] = await Promise.all([
       // Semua account bank (tidak di-filter tanggal — ini adalah master data)
       prisma.accountBank.findMany({
+        where: {
+          majors: { foundationId: t.foundationId },
+        },
         include: {
           majors: { select: { id: true, name: true } },
           _count: {
@@ -161,7 +170,7 @@ export async function GET(request: NextRequest) {
 
       // Payment dalam rentang tanggal, di-group nanti di JS
       prisma.payment.findMany({
-        where: buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId }),
+        where: buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId, foundationId: t.foundationId }),
         select: {
           id: true,
           amount: true,
@@ -197,11 +206,9 @@ export async function GET(request: NextRequest) {
         where: {
           createdAt: { gte: startDate, lte: endDate },
           isPaid: false,
-          ...(majorId && {
-            student: { majorId },
-          }),
+          student: { ...(majorId && { majorId }), foundationId: t.foundationId },
           ...(accountBankId && {
-            payment: { accountBankId },
+            payment: { accountBankId, accountBank: { majors: { foundationId: t.foundationId } } },
           }),
         },
         select: {
@@ -224,8 +231,8 @@ export async function GET(request: NextRequest) {
       prisma.paymentItems.findMany({
         where: {
           createdAt: { gte: startDate, lte: endDate },
-          ...(majorId && { student: { majorId } }),
-          ...(accountBankId && { payment: { accountBankId } }),
+          student: { ...(majorId && { majorId }), foundationId: t.foundationId },
+          ...(accountBankId && { payment: { accountBankId, accountBank: { majors: { foundationId: t.foundationId } } } }),
         },
         select: {
           id: true,
@@ -397,7 +404,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result, {
       headers: {
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "Cache-Control": "private, s-maxage=60, stale-while-revalidate=120",
       },
     });
   } catch (error) {

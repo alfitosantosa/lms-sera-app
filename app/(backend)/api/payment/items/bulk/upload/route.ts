@@ -22,6 +22,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 interface PaymentItemsInput {
@@ -38,6 +39,9 @@ interface PaymentItemsInput {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const body: PaymentItemsInput[] = await request.json();
 
@@ -107,9 +111,9 @@ export async function POST(request: NextRequest) {
     const studentIds = [...new Set(body.map((item) => item.studentId))];
     const paymentTypeIds = [...new Set(body.map((item) => item.paymentTypeId))];
 
-    // Validate all students exist
+    // Validate all students exist (di yayasan ini)
     const existingStudents = await prisma.userData.findMany({
-      where: { id: { in: studentIds } },
+      where: { id: { in: studentIds }, foundationId: t.foundationId },
       select: { id: true },
     });
     const existingStudentIds = new Set(existingStudents.map((s) => s.id));
@@ -119,9 +123,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Student tidak ditemukan: ${missingStudents.join(", ")}` }, { status: 400 });
     }
 
-    // Validate all payment types exist
+    // Validate all payment types exist (di yayasan ini)
     const existingPaymentTypes = await prisma.paymentType.findMany({
-      where: { id: { in: paymentTypeIds } },
+      where: { id: { in: paymentTypeIds }, major: { foundationId: t.foundationId } },
       select: { id: true },
     });
     const existingPaymentTypeIds = new Set(existingPaymentTypes.map((pt) => pt.id));
@@ -169,6 +173,10 @@ export async function POST(request: NextRequest) {
 
 // Optional: GET endpoint untuk fetch payment items
 export async function GET(request: NextRequest) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   try {
     const { searchParams } = new URL(request.url);
     const studentId = searchParams.get("studentId");
@@ -177,7 +185,9 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") ?? "100");
     const offset = parseInt(searchParams.get("offset") ?? "0");
 
-    const where: Record<string, string> = {};
+    const where: Record<string, unknown> = {
+      student: { foundationId: t.foundationId },
+    };
 
     if (studentId) where.studentId = studentId;
     if (month) where.month = month;

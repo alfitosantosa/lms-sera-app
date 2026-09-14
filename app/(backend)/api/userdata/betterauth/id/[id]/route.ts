@@ -58,15 +58,24 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string | undefined }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string | undefined }> }) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   const { id } = await params;
   try {
     const user = await prisma.userData.findFirst({
-      where: { userId: id as string },
+      where: { userId: id as string, foundationId: t.foundationId },
       include: { class: true, major: true, academicYear: true, role: true, user: true, foundation: true },
     });
+
+    if (!user) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     return NextResponse.json(user);
   } catch (error) {
     return handlePrismaError(error);

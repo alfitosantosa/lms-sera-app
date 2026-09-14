@@ -1,14 +1,18 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  const t = await resolveFoundation(req, new URL(req.url).searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const { searchParams } = new URL(req.url);
     const date = searchParams.get("date");
     const teacherId = searchParams.get("teacherId");
 
-    const whereClause: Record<string, unknown> = {};
+    const whereClause: Record<string, unknown> = { teacher: { foundationId: t.foundationId } };
 
     if (date) {
       const targetDate = new Date(date);
@@ -58,6 +62,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const t = await resolveFoundation(req);
+  if (!t.ok) return t.response;
+
   try {
     const body = await req.json();
     const { teacherId, date, status, notes, createdBy, checkinTime } = body;
@@ -66,6 +73,13 @@ export async function POST(req: NextRequest) {
     if (!teacherId || !date || !createdBy) {
       return NextResponse.json({ error: "Missing required fields: teacherId, date, createdBy" }, { status: 400 });
     }
+
+    // Pastikan guru dan pembuat absensi milik yayasan pemanggil
+    const [teacher, creator] = await Promise.all([
+      prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.userData.findFirst({ where: { id: createdBy, foundationId: t.foundationId }, select: { id: true } }),
+    ]);
+    if (!teacher || !creator) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     // Check if attendance already exists for this teacher on this date (once per day constraint)
     const attendanceDate = new Date(date);
@@ -121,6 +135,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const t = await resolveFoundation(req);
+  if (!t.ok) return t.response;
+
   try {
     const body = await req.json();
     const { id, status, notes, checkoutTime } = body;
@@ -128,6 +145,13 @@ export async function PUT(req: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: "Missing attendance ID" }, { status: 400 });
     }
+
+    // Verifikasi kepemilikan baris
+    const owned = await prisma.teacherAttendance.findFirst({
+      where: { id, teacher: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const attendance = await prisma.teacherAttendance.update({
       where: { id },
@@ -164,6 +188,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   // Baca dari query parameter, bukan dari body
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
@@ -173,6 +200,13 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
+    // Verifikasi kepemilikan baris
+    const owned = await prisma.teacherAttendance.findFirst({
+      where: { id, teacher: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+
     const attendance = await prisma.teacherAttendance.delete({
       where: { id },
     });

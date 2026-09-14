@@ -20,16 +20,26 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, receiptNumber } = await request.json();
 
-    //check receiptNumber in db
+    const owned = await prisma.payment.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
+    //check receiptNumber in db
+    // penomoran resi dicek global karena kolom receiptNumber unik global
     const checkReceipt = await prisma.payment.findFirst({
-      where: receiptNumber,
+      where: { receiptNumber },
     });
 
     if (!checkReceipt) {

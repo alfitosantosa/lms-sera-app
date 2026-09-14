@@ -271,10 +271,11 @@ export type MajorOrderByWithRelationInput = {
 
 export type MajorWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
+  foundationId_code?: Prisma.MajorFoundationIdCodeCompoundUniqueInput
   AND?: Prisma.MajorWhereInput | Prisma.MajorWhereInput[]
   OR?: Prisma.MajorWhereInput[]
   NOT?: Prisma.MajorWhereInput | Prisma.MajorWhereInput[]
+  code?: Prisma.StringFilter<"Major"> | string
   name?: Prisma.StringFilter<"Major"> | string
   description?: Prisma.StringNullableFilter<"Major"> | string | null
   isActive?: Prisma.BoolFilter<"Major"> | boolean
@@ -292,7 +293,7 @@ export type MajorWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
   students?: Prisma.UserDataListRelationFilter
-}, "id" | "code">
+}, "id" | "foundationId_code">
 
 export type MajorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -471,6 +472,11 @@ export type MajorOrderByRelationAggregateInput = {
 export type MajorNullableScalarRelationFilter = {
   is?: Prisma.MajorWhereInput | null
   isNot?: Prisma.MajorWhereInput | null
+}
+
+export type MajorFoundationIdCodeCompoundUniqueInput = {
+  foundationId: string
+  code: string
 }
 
 export type MajorCountOrderByAggregateInput = {

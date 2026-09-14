@@ -1,6 +1,7 @@
 "use server";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 //filter by date
@@ -11,6 +12,10 @@ export async function GET(request: NextRequest) {
   const status = request.nextUrl.searchParams.get("status");
   const isPaidParam = request.nextUrl.searchParams.get("isPaid");
   const skuType = request.nextUrl.searchParams.get("skuType");
+
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
 
   if (!fromdate || !todate) {
     return NextResponse.json({ error: "Missing fromdate or todate query parameters" }, { status: 400 });
@@ -39,12 +44,11 @@ export async function GET(request: NextRequest) {
       };
     }
 
-    // Filter by majorId through student relation if provided
-    if (majorId) {
-      whereClause.student = {
-        majorId: majorId,
-      };
-    }
+    // Filter tenant + majorId melalui relasi student
+    whereClause.student = {
+      foundationId: t.foundationId,
+      ...(majorId ? { majorId: majorId } : {}),
+    };
 
     // Filter by skuType if provided (skuType is a field in paymentType and take skuType)
     if (skuType) {

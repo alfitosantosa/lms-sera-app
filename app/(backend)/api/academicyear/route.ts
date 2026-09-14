@@ -17,12 +17,18 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   try {
     // ✅ Optimized: Drop unused createdAt/updatedAt, keep all accessed fields and _count
     const academicYears = await prisma.academicYear.findMany({
+      where: { foundationId: t.foundationId },
       select: {
         id: true,
         year: true,
@@ -40,6 +46,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { year, startDate, endDate, isActive } = await request.json();
     if (!year || !startDate || !endDate) {
@@ -52,6 +61,7 @@ export async function POST(request: NextRequest) {
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         isActive: isActive !== undefined ? isActive : false, // Default to false if not provided
+        foundationId: t.foundationId,
       },
     });
 
@@ -62,10 +72,23 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, year, startDate, endDate, isActive } = await request.json();
     if (!id || !year || !startDate || !endDate) {
       return NextResponse.json({ error: "ID, year, startDate, and endDate are required" }, { status: 400 });
+    }
+
+    // Pastikan tahun ajaran milik yayasan pemanggil
+    const owned = await prisma.academicYear.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const updatedAcademicYear = await prisma.academicYear.update({
@@ -85,10 +108,23 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    // Pastikan tahun ajaran milik yayasan pemanggil
+    const owned = await prisma.academicYear.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const deletedAcademicYear = await prisma.academicYear.delete({

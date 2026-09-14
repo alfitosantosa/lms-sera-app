@@ -19,11 +19,16 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const violations = await prisma.violation.findMany({
+      where: { student: { foundationId: t.foundationId } },
       include: {
         student: {
           select: {
@@ -53,9 +58,26 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   const { studentId, violationTypeId, classId, description, status, reportedBy, date, resolutionDate, resolutionNotes } = await request.json();
 
   try {
+    // Pastikan siswa, kelas, dan jenis pelanggaran milik yayasan ini
+    const [ownedStudent, ownedClass, ownedViolationType] = await Promise.all([
+      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.violationType.findFirst({
+        where: { id: violationTypeId, academicYear: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
+    ]);
+
+    if (!ownedStudent || !ownedClass || !ownedViolationType) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     const violation = await prisma.violation.create({
       data: {
         studentId,
@@ -77,8 +99,26 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, studentId, violationTypeId, classId, description, status, reportedBy, date, resolutionDate, resolutionNotes } = await request.json();
+
+    // Pastikan data milik yayasan ini, sekaligus validasi relasi barunya
+    const [owned, ownedStudent, ownedClass, ownedViolationType] = await Promise.all([
+      prisma.violation.findFirst({ where: { id, student: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.violationType.findFirst({
+        where: { id: violationTypeId, academicYear: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
+    ]);
+
+    if (!owned || !ownedStudent || !ownedClass || !ownedViolationType) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
 
     const violation = await prisma.violation.update({
       where: { id },
@@ -102,8 +142,20 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
+
+    const owned = await prisma.violation.findFirst({
+      where: { id, student: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
 
     const violation = await prisma.violation.delete({
       where: { id },

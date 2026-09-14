@@ -13,7 +13,7 @@ model Foundation {
 id             String @id @unique @default(cuid())
 name           String
 imageUrl       String 
-foundationCode String
+foundationCode String @unique
 address        String 
 phone          String
 userData       UserData[]
@@ -168,7 +168,7 @@ model UserData {
 
 model Role {
   id          String     @id @default(cuid())
-  name        String     @unique
+  name        String
   description String
   foundationId String?
   foundation  Foundation? @relation(fields:[foundationId],references:[id], onDelete: SetNull )
@@ -176,13 +176,14 @@ model Role {
   isActive    Boolean    @default(true)
   userData    UserData[]
 
+  @@unique([foundationId, name])
   @@index([foundationId])
   @@map("roles")
 }
 
 model AcademicYear {
   id                  String               @id @default(cuid())
-  year                String               @unique
+  year                String
   startDate           DateTime
   endDate             DateTime
   foundationId        String?
@@ -198,13 +199,14 @@ model AcademicYear {
   isActive            Boolean              @default(true)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
+  @@unique([foundationId, year])
   @@index([foundationId])
   @@map("academic_years")
 }
 
 model Major {
   id           String        @id @default(cuid())
-  code         String        @unique
+  code         String
   name         String
   description  String?
   isActive     Boolean       @default(true)
@@ -223,6 +225,7 @@ model Major {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt   
 
+  @@unique([foundationId, code])
   @@index([foundationId])
   @@map("majors")
 }
@@ -250,7 +253,7 @@ model Class {
 
 model Subject {
   id                  String               @id @default(cuid())
-  code                String               @unique
+  code                String
   name                String
   description         String?
   majorId             String?
@@ -263,6 +266,7 @@ model Subject {
   schedules           Schedule[]
   major               Major?               @relation(fields: [majorId], references: [id])
 
+  @@unique([majorId, code])
   @@map("subjects")
 }
 

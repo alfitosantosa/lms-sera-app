@@ -1,8 +1,12 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  const t = await resolveFoundation(req);
+  if (!t.ok) return t.response;
+
   try {
     const body = await req.json();
     const { teacherIds, date, status, notes, createdBy, checkinTime } = body;
@@ -14,6 +18,21 @@ export async function POST(req: NextRequest) {
 
     if (!date || !createdBy) {
       return NextResponse.json({ error: "Missing required fields: date, createdBy" }, { status: 400 });
+    }
+
+    // Pastikan seluruh guru dan pembuat absensi milik yayasan pemanggil
+    const [teachers, creator] = await Promise.all([
+      prisma.userData.findMany({
+        where: { id: { in: teacherIds }, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.userData.findFirst({
+        where: { id: createdBy, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+    ]);
+    if (!creator || teachers.length !== new Set(teacherIds).size) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const attendanceDate = new Date(date);

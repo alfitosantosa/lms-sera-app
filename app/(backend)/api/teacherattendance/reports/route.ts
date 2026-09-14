@@ -1,14 +1,18 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  const t = await resolveFoundation(req, new URL(req.url).searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const { searchParams } = new URL(req.url);
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
 
-    const whereClause: Record<string, unknown> = {};
+    const whereClause: Record<string, unknown> = { teacher: { foundationId: t.foundationId } };
 
     if (startDate && endDate) {
       whereClause.date = {
@@ -20,6 +24,7 @@ export async function GET(req: NextRequest) {
     // Get all teachers (UserData with schedules)
     const teachers = await prisma.userData.findMany({
       where: {
+        foundationId: t.foundationId,
         schedules: {
           some: {},
         },

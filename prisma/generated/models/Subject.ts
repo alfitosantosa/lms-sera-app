@@ -258,10 +258,11 @@ export type SubjectOrderByWithRelationInput = {
 
 export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
+  majorId_code?: Prisma.SubjectMajorIdCodeCompoundUniqueInput
   AND?: Prisma.SubjectWhereInput | Prisma.SubjectWhereInput[]
   OR?: Prisma.SubjectWhereInput[]
   NOT?: Prisma.SubjectWhereInput | Prisma.SubjectWhereInput[]
+  code?: Prisma.StringFilter<"Subject"> | string
   name?: Prisma.StringFilter<"Subject"> | string
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   majorId?: Prisma.StringNullableFilter<"Subject"> | string | null
@@ -273,7 +274,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   reportCards?: Prisma.ReportCardListRelationFilter
   schedules?: Prisma.ScheduleListRelationFilter
   major?: Prisma.XOR<Prisma.MajorNullableScalarRelationFilter, Prisma.MajorWhereInput> | null
-}, "id" | "code">
+}, "id" | "majorId_code">
 
 export type SubjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -400,6 +401,11 @@ export type SubjectListRelationFilter = {
 
 export type SubjectOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type SubjectMajorIdCodeCompoundUniqueInput = {
+  majorId: string
+  code: string
 }
 
 export type SubjectCountOrderByAggregateInput = {

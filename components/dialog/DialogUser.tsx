@@ -605,7 +605,8 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
         tahfidzGroupId: data.tahfidzGroupId && data.tahfidzGroupId !== "" ? data.tahfidzGroupId : null,
         academicYearId: data.academicYearId && data.academicYearId !== "" ? data.academicYearId : null,
         majorId: data.majorId && data.majorId !== "" ? data.majorId : null,
-        foundationId: foundationId,
+        // Branch (major) sudah membawa yayasan; foundationId hanya diisi bila baris tanpa branch
+        foundationId: data.majorId && data.majorId !== "" ? null : foundationId,
       };
 
       // Add role-specific fields

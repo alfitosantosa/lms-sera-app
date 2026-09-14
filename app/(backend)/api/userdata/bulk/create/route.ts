@@ -1,5 +1,6 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 function replaceUndefinedWithNull<T>(value: T): T {
@@ -23,6 +24,9 @@ function replaceUndefinedWithNull<T>(value: T): T {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const body = await request.json();
     const { users } = body;
@@ -103,6 +107,8 @@ export async function POST(request: NextRequest) {
         relation: user.relation || null,
         avatarUrl: user.avatarUrl || null,
         studentIds: user.studentIds || [],
+        // foundationId selalu dari sesi, bukan dari body
+        foundationId: t.foundationId,
       };
 
       return replaceUndefinedWithNull(userData);
@@ -117,31 +123,49 @@ export async function POST(request: NextRequest) {
 
     const majorIds = cleanedUsers.map((u) => u.majorId).filter((id): id is string => id !== null);
 
-    // ✅ NOTE: tahfidzGroupId is OPTIONAL - can be null/empty, no validation needed
+    const tahfidzGroupIds = cleanedUsers.map((u) => u.tahfidzGroupId).filter((id): id is string => id !== null);
 
-    // Check if referenced records exist
-    const [roles, academicYears, classes, majors] = await Promise.all([
+    // TahfidzGroup tidak punya relasi ke Major (hanya majorId), jadi scope-nya lewat major yayasan ini
+    const tenantMajorIds =
+      tahfidzGroupIds.length > 0 ?
+        (
+          await prisma.major.findMany({
+            where: { foundationId: t.foundationId },
+            select: { id: true },
+          })
+        ).map((major) => major.id)
+      : [];
+
+    // Check if referenced records exist dan memang milik yayasan pemanggil
+    const [roles, academicYears, classes, majors, tahfidzGroups] = await Promise.all([
       roleIds.length > 0 ?
         prisma.role.findMany({
-          where: { id: { in: roleIds } },
+          // role bersama (foundationId NULL) tetap valid karena ikut tampil di daftar role
+          where: { id: { in: roleIds }, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
           select: { id: true },
         })
       : [],
       academicYearIds.length > 0 ?
         prisma.academicYear.findMany({
-          where: { id: { in: academicYearIds } },
+          where: { id: { in: academicYearIds }, foundationId: t.foundationId },
           select: { id: true },
         })
       : [],
       classIds.length > 0 ?
         prisma.class.findMany({
-          where: { id: { in: classIds } },
+          where: { id: { in: classIds }, major: { foundationId: t.foundationId } },
           select: { id: true },
         })
       : [],
       majorIds.length > 0 ?
         prisma.major.findMany({
-          where: { id: { in: majorIds } },
+          where: { id: { in: majorIds }, foundationId: t.foundationId },
+          select: { id: true },
+        })
+      : [],
+      tahfidzGroupIds.length > 0 ?
+        prisma.tahfidzGroup.findMany({
+          where: { id: { in: tahfidzGroupIds }, majorId: { in: tenantMajorIds } },
           select: { id: true },
         })
       : [],
@@ -152,23 +176,33 @@ export async function POST(request: NextRequest) {
     const foundAcademicYearIds = new Set(academicYears.map((a) => a.id));
     const foundClassIds = new Set(classes.map((c) => c.id));
     const foundMajorIds = new Set(majors.map((m) => m.id));
+    const foundTahfidzGroupIds = new Set(tahfidzGroups.map((g) => g.id));
 
     const invalidRoles = roleIds.filter((id) => !foundRoleIds.has(id));
     const invalidAcademicYears = academicYearIds.filter((id) => !foundAcademicYearIds.has(id));
     const invalidClasses = classIds.filter((id) => !foundClassIds.has(id));
     const invalidMajors = majorIds.filter((id) => !foundMajorIds.has(id));
+    const invalidTahfidzGroups = tahfidzGroupIds.filter((id) => !foundTahfidzGroupIds.has(id));
 
-    if (invalidRoles.length > 0 || invalidAcademicYears.length > 0 || invalidClasses.length > 0 || invalidMajors.length > 0) {
+    if (
+      invalidRoles.length > 0 ||
+      invalidAcademicYears.length > 0 ||
+      invalidClasses.length > 0 ||
+      invalidMajors.length > 0 ||
+      invalidTahfidzGroups.length > 0
+    ) {
       console.log("[Bulk Create] Foreign key validation failed:", {
         invalidRoles: { count: invalidRoles.length, ids: invalidRoles.slice(0, 3) },
         invalidAcademicYears: { count: invalidAcademicYears.length, ids: invalidAcademicYears.slice(0, 3) },
         invalidClasses: { count: invalidClasses.length, ids: invalidClasses.slice(0, 3) },
         invalidMajors: { count: invalidMajors.length, ids: invalidMajors.slice(0, 3) },
+        invalidTahfidzGroups: { count: invalidTahfidzGroups.length, ids: invalidTahfidzGroups.slice(0, 3) },
         availableRecords: {
           roles: foundRoleIds.size,
           academicYears: foundAcademicYearIds.size,
           classes: foundClassIds.size,
           majors: foundMajorIds.size,
+          tahfidzGroups: foundTahfidzGroupIds.size,
         },
       });
       return NextResponse.json(
@@ -179,12 +213,17 @@ export async function POST(request: NextRequest) {
             invalidAcademicYears: invalidAcademicYears.length > 0 ? { count: invalidAcademicYears.length, samples: invalidAcademicYears.slice(0, 3) } : undefined,
             invalidClasses: invalidClasses.length > 0 ? { count: invalidClasses.length, samples: invalidClasses.slice(0, 3) } : undefined,
             invalidMajors: invalidMajors.length > 0 ? { count: invalidMajors.length, samples: invalidMajors.slice(0, 3) } : undefined,
+            invalidTahfidzGroups:
+              invalidTahfidzGroups.length > 0 ?
+                { count: invalidTahfidzGroups.length, samples: invalidTahfidzGroups.slice(0, 3) }
+              : undefined,
           },
           availableRecords: {
             roles: foundRoleIds.size,
             academicYears: foundAcademicYearIds.size,
             classes: foundClassIds.size,
             majors: foundMajorIds.size,
+            tahfidzGroups: foundTahfidzGroupIds.size,
           },
           suggestion: "Verify that all IDs in your Excel file match the available options shown in the tables on the upload page. Note: tahfidzGroupId is optional and can be left empty.",
         },

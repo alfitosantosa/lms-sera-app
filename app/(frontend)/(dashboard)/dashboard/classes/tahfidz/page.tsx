@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
 import { useCreateTahfidzGroup, useDeleteTahfidzGroup, useGetTahfidzGroup, useUpdateTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { getErrorMessage, TahfidzGrade, TahfidzGradesArray } from "@/app/(types)";
@@ -12,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +31,7 @@ export type TahfidzGroupData = {
   id: string;
   name: string;
   grade: number;
+  majorId?: string;
   capacity: number;
   isActive: boolean;
   _count?: {
@@ -40,6 +43,7 @@ export type TahfidzGroupData = {
 const tahfidzGroupSchema = z.object({
   name: z.string().min(1, "Nama kelompok tahfidz wajib diisi"),
   grade: z.number().min(1, "Tingkat minimal 1").max(12, "Tingkat maksimal 12"),
+  majorId: z.string().min(1, "Jurusan wajib dipilih"),
   capacity: z.number().min(1, "Kapasitas minimal 1").max(50, "Kapasitas maksimal 50"),
 });
 
@@ -49,29 +53,37 @@ type TahfidzGroupFormValues = z.infer<typeof tahfidzGroupSchema>;
 function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: TahfidzGroupData | null; onSuccess: () => void }) {
   const createTahfidzGroup = useCreateTahfidzGroup();
   const updateTahfidzGroup = useUpdateTahfidzGroup();
+  const { data: majors } = useGetMajors();
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
     reset,
   } = useForm<TahfidzGroupFormValues>({
     resolver: zodResolver(tahfidzGroupSchema),
     defaultValues: {
       capacity: 40,
+      majorId: "",
     },
   });
+
+  const selectedMajorId = watch("majorId");
 
   React.useEffect(() => {
     if (editData) {
       reset({
         name: editData.name,
         grade: editData.grade,
+        majorId: editData.majorId ?? "",
         capacity: editData.capacity,
       });
     } else {
       reset({
         capacity: 40,
+        majorId: "",
       });
     }
   }, [editData, reset]);
@@ -111,6 +123,23 @@ function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { o
             <Label htmlFor="grade">Tingkat</Label>
             <Input id="grade" type="number" placeholder="10, 11, 12" {...register("grade", { valueAsNumber: true })} />
             {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label>Jurusan</Label>
+            <Select value={selectedMajorId} onValueChange={(value) => setValue("majorId", value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Pilih Jurusan" />
+              </SelectTrigger>
+              <SelectContent>
+                {majors?.map((major) => (
+                  <SelectItem key={major.id} value={major.id}>
+                    {major.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
           </div>
 
           <div className="space-y-2">

@@ -203,17 +203,18 @@ export type RoleOrderByWithRelationInput = {
 
 export type RoleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
+  foundationId_name?: Prisma.RoleFoundationIdNameCompoundUniqueInput
   AND?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
   OR?: Prisma.RoleWhereInput[]
   NOT?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
+  name?: Prisma.StringFilter<"Role"> | string
   description?: Prisma.StringFilter<"Role"> | string
   foundationId?: Prisma.StringNullableFilter<"Role"> | string | null
   permissions?: Prisma.StringNullableListFilter<"Role">
   isActive?: Prisma.BoolFilter<"Role"> | boolean
   foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   userData?: Prisma.UserDataListRelationFilter
-}, "id" | "name">
+}, "id" | "foundationId_name">
 
 export type RoleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -318,6 +319,11 @@ export type RoleOrderByRelationAggregateInput = {
 export type RoleNullableScalarRelationFilter = {
   is?: Prisma.RoleWhereInput | null
   isNot?: Prisma.RoleWhereInput | null
+}
+
+export type RoleFoundationIdNameCompoundUniqueInput = {
+  foundationId: string
+  name: string
 }
 
 export type RoleCountOrderByAggregateInput = {

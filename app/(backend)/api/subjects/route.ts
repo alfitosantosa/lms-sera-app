@@ -14,11 +14,17 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   try {
     const subjects = await prisma.subject.findMany({
+      where: { major: { foundationId: t.foundationId } },
       include: { major: true },
       orderBy: { name: "asc" },
     });
@@ -29,8 +35,24 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { code, name, description, majorId, credits } = await request.json();
+
+    // Pastikan major milik yayasan pemanggil
+    if (majorId) {
+      const ownedMajor = await prisma.major.findFirst({
+        where: { id: majorId, foundationId: t.foundationId },
+        select: { id: true },
+      });
+
+      if (!ownedMajor) {
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      }
+    }
+
     const subject = await prisma.subject.create({
       data: {
         code,
@@ -46,8 +68,34 @@ export async function POST(request: NextRequest) {
   }
 }
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, code, name, description, majorId, credits } = await request.json();
+
+    // Pastikan subject milik yayasan pemanggil
+    const ownedSubject = await prisma.subject.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+
+    if (!ownedSubject) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
+    // Pastikan major tujuan (bila diisi) milik yayasan pemanggil
+    if (majorId) {
+      const ownedMajor = await prisma.major.findFirst({
+        where: { id: majorId, foundationId: t.foundationId },
+        select: { id: true },
+      });
+
+      if (!ownedMajor) {
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      }
+    }
+
     const subject = await prisma.subject.update({
       where: { id },
       data: {
@@ -65,8 +113,22 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
+
+    // Pastikan subject milik yayasan pemanggil
+    const ownedSubject = await prisma.subject.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+
+    if (!ownedSubject) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     await prisma.subject.delete({
       where: { id },
     });

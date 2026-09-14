@@ -56,16 +56,25 @@
 //   @@map("users")
 // }
 
-import { prisma } from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   const { id } = await params;
   try {
-    const user = await prisma.userData.findUnique({
-      where: { id: id },
+    const user = await prisma.userData.findFirst({
+      where: { id, foundationId: t.foundationId },
       include: { class: true, major: true, academicYear: true, role: true, user: true },
     });
+
+    if (!user) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     return NextResponse.json(user);
   } catch (error) {
     console.error("Error fetching user:", error);

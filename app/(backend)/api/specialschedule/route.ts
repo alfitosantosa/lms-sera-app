@@ -15,13 +15,18 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     // ✅ Optimized: Select only accessed fields from academicYear relation
     // Fields used: id, title, description, eventDate, eventType, isPublished, academicYearId, createdAt, updatedAt, academicYear.year, academicYear.semester
     const specialSchedules = await prisma.calendarEvent.findMany({
+      where: { foundationId: t.foundationId },
       select: {
         id: true,
         title: true,
@@ -44,10 +49,21 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { title, description, eventDate, eventType, academicYearId, isPublished } = await request.json();
+
+    // Pastikan tahun ajaran milik yayasan pemanggil
+    const ownedAcademicYear = await prisma.academicYear.findFirst({
+      where: { id: academicYearId, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!ownedAcademicYear) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+
     const specialSchedule = await prisma.calendarEvent.create({
-      data: { title, description, eventDate, eventType, academicYearId, isPublished },
+      data: { title, description, eventDate, eventType, academicYearId, isPublished, foundationId: t.foundationId },
     });
     return NextResponse.json(specialSchedule);
   } catch (error) {
@@ -56,8 +72,19 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, title, description, eventDate, eventType, academicYearId, isPublished } = await request.json();
+
+    // Pastikan baris & tahun ajaran baru milik yayasan pemanggil
+    const [owned, ownedAcademicYear] = await Promise.all([
+      prisma.calendarEvent.findFirst({ where: { id, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.academicYear.findFirst({ where: { id: academicYearId, foundationId: t.foundationId }, select: { id: true } }),
+    ]);
+    if (!owned || !ownedAcademicYear) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+
     const specialSchedule = await prisma.calendarEvent.update({
       where: { id },
       data: { title, description, eventDate, eventType, academicYearId, isPublished },
@@ -69,8 +96,18 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
+
+    const owned = await prisma.calendarEvent.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+
     const specialSchedule = await prisma.calendarEvent.delete({ where: { id } });
     return NextResponse.json(specialSchedule);
   } catch (error) {

@@ -25,7 +25,7 @@ export type typeData = {
   name: string;
 };
 
-function UploadUsers() {
+function UploadUsers({ foundationId }: { foundationId?: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [previewData, setPreviewData] = useState<any[]>([]);
@@ -189,6 +189,9 @@ function UploadUsers() {
             classId: row[11]?.toString() || null,
             tahfidzGroupId: row[12]?.toString() || null,
             majorId: row[13]?.toString() || null,
+
+            // Tanpa branch (major) yayasan harus dikirim eksplisit; kalau ada branch, cukup majorId
+            foundationId: row[13]?.toString() ? null : foundationId,
 
             // Dates
             enrollmentDate: parseDate(row[14]),
@@ -605,6 +608,7 @@ export default function UserDataTable() {
 
   const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
+  const foundationId = userData?.foundationId;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -620,5 +624,5 @@ export default function UserDataTable() {
   }
 
   // Render dashboard only after authorization is confirmed
-  return <UploadUsers />;
+  return <UploadUsers foundationId={foundationId as string} />;
 }

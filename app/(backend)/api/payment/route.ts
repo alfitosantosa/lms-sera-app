@@ -33,6 +33,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 // export async function GET() {
@@ -113,8 +114,22 @@ import { NextRequest, NextResponse } from "next/server";
 // }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { studentId, amount, dueDate, status, notes, paymentDate, receiptNumber, accountBankId, majorId, month, bendaharaId, bankRef, transferDate } = await request.json();
+
+    const [student, major, accountBank, bendahara] = await Promise.all([
+      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.accountBank.findFirst({ where: { id: accountBankId, majors: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.userData.findFirst({ where: { id: bendaharaId, foundationId: t.foundationId }, select: { id: true } }),
+    ]);
+
+    if (!student || !major || !accountBank || !bendahara) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
 
     const newPayment = await prisma.payment.create({
       data: {
@@ -147,8 +162,27 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id, studentId, amount, dueDate, status, notes, paymentDate, receiptNumber, accountBankId, majorId, month, bankRef, transferDate } = await request.json();
+
+    const owned = await prisma.payment.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+
+    const [student, major, accountBank] = await Promise.all([
+      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.accountBank.findFirst({ where: { id: accountBankId, majors: { foundationId: t.foundationId } }, select: { id: true } }),
+    ]);
+
+    if (!student || !major || !accountBank) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
 
     const updatedPayment = await prisma.payment.update({
       where: { id },
@@ -180,11 +214,20 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
+
+    const owned = await prisma.payment.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+    if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     // First, delete payment transaction if exists
     // await prisma.paymentTransaction.deleteMany({

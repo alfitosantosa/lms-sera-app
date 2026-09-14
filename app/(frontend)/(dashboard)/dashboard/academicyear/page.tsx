@@ -26,7 +26,7 @@ import { toast } from "sonner";
 
 // Import hooks
 // Create/Edit Dialog Component
-function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: AcademicYearDataTypes | null; onSuccess: () => void }) {
+function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: AcademicYearDataTypes | null; onSuccess: () => void; foundationId?: string }) {
   const createAcademicYear = useCreateAcademicYear();
   const updateAcademicYear = useUpdateAcademicYear();
 
@@ -68,7 +68,7 @@ function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess }: { o
         });
         toast.success("Tahun ajaran berhasil diperbarui!");
       } else {
-        await createAcademicYear.mutateAsync(data);
+        await createAcademicYear.mutateAsync({ ...data, foundationId });
         toast.success("Tahun ajaran berhasil dibuat!");
       }
       reset();
@@ -169,7 +169,7 @@ function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSucc
 }
 
 // Main DataTable Component
-function AcademicYearDataTable() {
+function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -446,7 +446,7 @@ function AcademicYearDataTable() {
         </div>
 
         {/* Dialogs */}
-        <AcademicYearFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <AcademicYearFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} foundationId={foundationId} />
 
         <AcademicYearFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedAcademicYear} onSuccess={handleSuccess} />
 
@@ -462,6 +462,7 @@ export default function UserDataTable() {
 
   const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
   const userRole = (userData as UserDataTypes)?.role?.name;
+  const foundationId = userData?.foundationId;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -475,5 +476,5 @@ export default function UserDataTable() {
   }
 
   // Render dashboard only after authorization is confirmed
-  return <AcademicYearDataTable />;
+  return <AcademicYearDataTable foundationId={foundationId as string} />;
 }

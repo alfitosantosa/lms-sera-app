@@ -20,11 +20,15 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 //use params for get id
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   const { id } = await params;
   try {
     const schedules = await prisma.schedule.findMany({
@@ -32,6 +36,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
         teacherId: id,
         academicYear: {
           isActive: true,
+          foundationId: t.foundationId,
         },
       },
       include: { class: true, subject: true, teacher: true, academicYear: true, tahfidzGroup: true },

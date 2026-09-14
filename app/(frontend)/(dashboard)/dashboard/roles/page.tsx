@@ -161,7 +161,7 @@ const availablePermissions = [
 ];
 
 // Create/Edit Dialog Component
-function RoleFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: RoleDataTypes | null; onSuccess: () => void }) {
+function RoleFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: RoleDataTypes | null; onSuccess: () => void; foundationId?: string }) {
   const createRole = useCreateRole();
   const updateRole = useUpdateRole();
   const [selectedPermissions, setSelectedPermissions] = React.useState<string[]>([]);
@@ -225,6 +225,7 @@ function RoleFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boo
       const now = new Date().toISOString();
       const createData: RolesInputData = {
         ...submitData,
+        foundationId,
         createdAt: now,
         updatedAt: now,
       };
@@ -329,7 +330,7 @@ function DeleteRoleDialog({ open, onOpenChange, roleData, onSuccess }: { open: b
 }
 
 // Main DataTable Component
-function RoleDataTable() {
+function RoleDataTable({ foundationId }: { foundationId?: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -582,9 +583,9 @@ function RoleDataTable() {
         </div>
 
         {/* Dialogs */}
-        <RoleFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <RoleFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} foundationId={foundationId} />
 
-        <RoleFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedRole} onSuccess={handleSuccess} />
+        <RoleFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedRole} onSuccess={handleSuccess} foundationId={foundationId} />
 
         <DeleteRoleDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} roleData={selectedRole} onSuccess={handleSuccess} />
       </div>
@@ -598,6 +599,7 @@ export default function UserDataTable() {
 
   const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
+  const foundationId = userData?.foundationId;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -611,5 +613,5 @@ export default function UserDataTable() {
   // }
 
   // Render dashboard only after authorization is confirmed
-  return <RoleDataTable />;
+  return <RoleDataTable foundationId={foundationId as string} />;
 }

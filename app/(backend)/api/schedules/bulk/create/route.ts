@@ -20,9 +20,13 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { schedules } = await request.json();
 
@@ -47,6 +51,23 @@ export async function POST(request: NextRequest) {
         };
       },
     );
+
+    // Pastikan seluruh relasi yang dipakai milik yayasan pemanggil
+    const classIds = [...new Set(validatedSchedules.map((s) => s.classId))];
+    const subjectIds = [...new Set(validatedSchedules.map((s) => s.subjectId))];
+    const teacherIds = [...new Set(validatedSchedules.map((s) => s.teacherId))];
+    const academicYearIds = [...new Set(validatedSchedules.map((s) => s.academicYearId))];
+
+    const [classCount, subjectCount, teacherCount, academicYearCount] = await Promise.all([
+      prisma.class.count({ where: { id: { in: classIds }, major: { foundationId: t.foundationId } } }),
+      prisma.subject.count({ where: { id: { in: subjectIds }, major: { foundationId: t.foundationId } } }),
+      prisma.userData.count({ where: { id: { in: teacherIds }, foundationId: t.foundationId } }),
+      prisma.academicYear.count({ where: { id: { in: academicYearIds }, foundationId: t.foundationId } }),
+    ]);
+
+    if (classCount !== classIds.length || subjectCount !== subjectIds.length || teacherCount !== teacherIds.length || academicYearCount !== academicYearIds.length) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
 
     const result = await prisma.schedule.createMany({
       data: validatedSchedules,

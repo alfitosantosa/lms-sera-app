@@ -7,6 +7,7 @@ export interface AcademicYearTypes {
   startDate: Date | string;
   endDate: Date | string;
   isActive: boolean;
+  foundationId?: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   // Relations

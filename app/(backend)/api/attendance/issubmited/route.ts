@@ -1,8 +1,12 @@
 "use server";
 import { prisma } from '@/lib/prisma';
+import { resolveFoundation } from '@/lib/tenant';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
+    const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+    if (!t.ok) return t.response;
+
     const { searchParams } = new URL(request.url);
     const date = searchParams.get("date");
     const scheduleId = searchParams.get("scheduleId");
@@ -24,6 +28,7 @@ export async function GET(request: NextRequest) {
                 lte: endOfDay,
             },
             scheduleId: scheduleId,
+            schedule: { academicYear: { foundationId: t.foundationId } },
         },
     });
 

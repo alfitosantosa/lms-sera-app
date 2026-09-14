@@ -1,9 +1,13 @@
 "use server";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
   const majorId = request.nextUrl.searchParams.get("majorId");
@@ -25,6 +29,7 @@ export async function GET(request: NextRequest) {
           gte: startDate,
           lte: endDate,
         },
+        major: { foundationId: t.foundationId },
         ...(majorId && { majorId }),
       },
       include: {

@@ -25,9 +25,13 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { name, skuType, paymentTypeId, month, year, isPaid, isMonthly, isActive, isFixedAmount, isFixedQuantity, quantity, amount, subtotal, classId } = await request.json();
 
@@ -35,11 +39,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "name, paymentTypeId, month, year, quantity, amount, and subtotal are required" }, { status: 400 });
     }
 
+    // Pastikan jenis pembayaran milik yayasan ini
+    const ownedPaymentType = await prisma.paymentType.findFirst({
+      where: { id: paymentTypeId, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
+
+    if (!ownedPaymentType) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
     let students;
 
     if (classId === "all") {
       students = await prisma.userData.findMany({
         where: {
+          foundationId: t.foundationId,
           role: {
             name: "Student",
           },
@@ -49,6 +64,7 @@ export async function POST(request: NextRequest) {
       students = await prisma.userData.findMany({
         where: {
           classId: classId,
+          foundationId: t.foundationId,
           role: {
             name: "Student",
           },

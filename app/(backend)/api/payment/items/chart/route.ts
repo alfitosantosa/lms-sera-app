@@ -3,6 +3,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { Prisma } from "@/prisma/generated/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -93,18 +94,17 @@ function parseAndValidateDate(fromdate: string | null, todate: string | null): {
 }
 
 // Buat where clause yang type-safe menggunakan Prisma.PaymentItemsWhereInput
-function buildWhereClause({ startDate, endDate, majorId, skuType, isPaid }: { startDate: Date; endDate: Date; majorId?: string; skuType?: string; isPaid?: boolean }): Prisma.PaymentItemsWhereInput {
+function buildWhereClause({ startDate, endDate, foundationId, majorId, skuType, isPaid }: { startDate: Date; endDate: Date; foundationId: string; majorId?: string; skuType?: string; isPaid?: boolean }): Prisma.PaymentItemsWhereInput {
   return {
     createdAt: {
       gte: startDate,
       lte: endDate,
     },
-    // Filter majorId melalui relasi student
-    ...(majorId && {
-      student: {
-        majorId,
-      },
-    }),
+    // Filter tenant + majorId melalui relasi student
+    student: {
+      foundationId,
+      ...(majorId ? { majorId } : {}),
+    },
     // Filter skuType melalui relasi PaymentType
     ...(skuType && {
       PaymentType: {
@@ -144,6 +144,10 @@ export async function GET(request: NextRequest) {
   }
   const { startDate, endDate } = dateResult;
 
+  const explicit = searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   try {
     // ── 2. Query: fokus isPaid (default false) ──────────────────────────
     // Best practice: dua query terpisah untuk unpaid & paid
@@ -154,6 +158,7 @@ export async function GET(request: NextRequest) {
         where: buildWhereClause({
           startDate,
           endDate,
+          foundationId: t.foundationId,
           majorId,
           skuType,
           isPaid: false,
@@ -180,6 +185,7 @@ export async function GET(request: NextRequest) {
         where: buildWhereClause({
           startDate,
           endDate,
+          foundationId: t.foundationId,
           majorId,
           isPaid: true,
           skuType,
@@ -331,8 +337,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result, {
       headers: {
-        // Cache 60 detik di edge, stale-while-revalidate 120 detik
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        // Cache 60 detik, stale-while-revalidate 120 detik (private: response tenant-scoped)
+        "Cache-Control": "private, max-age=60, stale-while-revalidate=120",
       },
     });
   } catch (error) {

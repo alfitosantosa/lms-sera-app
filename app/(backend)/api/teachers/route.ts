@@ -58,9 +58,13 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     // ✅ Optimized: Use select to fetch only fields accessed by consumers
     // Fields used: id, name, email, position (per workflow mapping)
@@ -76,6 +80,7 @@ export async function GET() {
         academicYearId: true,
       },
       where: {
+        foundationId: t.foundationId,
         role: {
           name: {
             in: ["Teacher", "Head Of School"],
@@ -90,10 +95,24 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
-    const { name, email, roleId, ...rest } = await request.json();
+    // foundationId dari body dibuang, selalu di-stamp dari sesi
+    const { name, email, roleId, foundationId: _foundationId, ...rest } = await request.json();
     if (!name || !roleId) {
       return NextResponse.json({ error: "Name and role are required" }, { status: 400 });
+    }
+
+    // Pastikan role yang dikirim milik yayasan ini
+    // (role bersama ber-foundationId NULL tetap diizinkan karena ikut tampil di daftar role)
+    const ownedRole = await prisma.role.findFirst({
+      where: { id: roleId, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      select: { id: true },
+    });
+    if (!ownedRole) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const newUser = await prisma.user.create({
@@ -102,6 +121,7 @@ export async function POST(request: NextRequest) {
         email,
         roleId,
         ...rest,
+        foundationId: t.foundationId,
       },
     });
 
@@ -112,10 +132,31 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
-    const { id, name, email, roleId, ...rest } = await request.json();
+    const { id, name, email, roleId, foundationId: _foundationId, ...rest } = await request.json();
     if (!id || !name || !roleId) {
       return NextResponse.json({ error: "ID, name, and role are required" }, { status: 400 });
+    }
+
+    const owned = await prisma.userData.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    }
+
+    // Pastikan role baru tetap milik yayasan ini
+    // (role bersama ber-foundationId NULL tetap diizinkan karena ikut tampil di daftar role)
+    const ownedRole = await prisma.role.findFirst({
+      where: { id: roleId, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      select: { id: true },
+    });
+    if (!ownedRole) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const updatedUser = await prisma.userData.update({
@@ -125,6 +166,8 @@ export async function PUT(request: NextRequest) {
         email,
         roleId,
         ...rest,
+        // stamp ulang agar data tidak bisa dipindah ke yayasan lain
+        foundationId: t.foundationId,
       },
     });
 
@@ -134,10 +177,21 @@ export async function PUT(request: NextRequest) {
   }
 }
 export async function DELETE(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const { id } = await request.json();
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const owned = await prisma.userData.findFirst({
+      where: { id, foundationId: t.foundationId },
+      select: { id: true },
+    });
+    if (!owned) {
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const deletedUser = await prisma.userData.delete({

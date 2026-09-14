@@ -19,14 +19,18 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   const { id } = await params;
 
   try {
     const violations = await prisma.violation.findMany({
-      where: { studentId: id },
+      where: { studentId: id, student: { foundationId: t.foundationId } },
       include: {
         violationType: true,
         class: true,

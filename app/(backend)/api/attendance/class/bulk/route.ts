@@ -1,8 +1,12 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  if (!t.ok) return t.response;
+
   try {
     const { searchParams } = new URL(request.url);
     const classId = searchParams.get("classId");
@@ -19,6 +23,7 @@ export async function GET(request: NextRequest) {
       classStudents = await prisma.userData.findMany({
         where: {
           classId: { not: null },
+          foundationId: t.foundationId,
         },
         select: {
           id: true,
@@ -32,6 +37,7 @@ export async function GET(request: NextRequest) {
       classStudents = await prisma.userData.findMany({
         where: {
           classId: classId,
+          foundationId: t.foundationId,
         },
         select: {
           id: true,
@@ -53,6 +59,7 @@ export async function GET(request: NextRequest) {
         studentId: {
           in: classStudents.map((s) => s.id),
         },
+        schedule: { academicYear: { foundationId: t.foundationId } },
         date: {
           gte: new Date(startDate),
           lte: end,
@@ -79,9 +86,10 @@ export async function GET(request: NextRequest) {
         name: "Semua Kelas",
       };
     } else {
-      classInfo = await prisma.class.findUnique({
+      classInfo = await prisma.class.findFirst({
         where: {
           id: classId,
+          major: { foundationId: t.foundationId },
         },
         select: {
           id: true,

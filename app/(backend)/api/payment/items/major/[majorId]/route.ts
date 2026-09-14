@@ -1,8 +1,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
+import { resolveFoundation } from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ majorId: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ majorId: string }> }) {
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
+
   const { majorId } = await params;
 
   if (!majorId) {
@@ -14,6 +19,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ majorI
       where: {
         student: {
           majorId: majorId,
+          foundationId: t.foundationId,
         },
       },
       include: {

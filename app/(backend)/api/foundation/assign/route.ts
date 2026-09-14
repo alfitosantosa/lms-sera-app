@@ -1,26 +1,50 @@
+import { auth } from "@/lib/auth";
+import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
-import { NextRequest } from "next/server";
+import { tenantUnauthorized } from "@/lib/tenant";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { userId, foundationCode } = await request.json();
-  console.log(userId);
-  console.log(foundationCode);
+  try {
+    // User yang belum punya yayasan memang belum punya foundationId, jadi cukup cek sesi.
+    const session = await auth.api.getSession({ headers: request.headers });
+    const userId = session?.user?.id;
+    if (!userId) return tenantUnauthorized();
 
-  const getFoundationId = await prisma.foundation.findFirst({
-    where: {
-      foundationCode: foundationCode,
-    },
-  });
+    // `userId` dari body diabaikan, selalu pakai user dari sesi.
+    const { foundationCode } = await request.json();
 
-  const foundationId = getFoundationId?.id;
+    const foundation = await prisma.foundation.findUnique({
+      where: {
+        foundationCode: foundationCode,
+      },
+    });
 
-  const AssignUserFoundation = await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      foundationId: foundationId,
-    },
-  });
-  return Response.json({ AssignUserFoundation });
+    if (!foundation) {
+      return NextResponse.json({ error: "Kode yayasan tidak ditemukan" }, { status: 404 });
+    }
+
+    const AssignUserFoundation = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        foundationId: foundation.id,
+      },
+    });
+
+    // Dashboard membaca userData.foundationId, jadi ikut diisi bila userData-nya sudah ada.
+    await prisma.userData.updateMany({
+      where: {
+        userId: userId,
+      },
+      data: {
+        foundationId: foundation.id,
+      },
+    });
+
+    return NextResponse.json({ AssignUserFoundation, foundationId: foundation.id });
+  } catch (error) {
+    return handlePrismaError(error);
+  }
 }
