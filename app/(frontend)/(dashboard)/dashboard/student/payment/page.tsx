@@ -1,22 +1,69 @@
 "use client";
 
-import { useBulkSendWhatsApp } from "@/app/(frontend)/(hooks)/hooks/BotWA/useBotWA";
-import { useCreateSnapMidtransTransaction, useMidtransCheckStatusOderId, useUpdateMidtransSuccessTransaction } from "@/app/(frontend)/(hooks)/hooks/Midtrans/useMidtrans";
-import { useGetPaymentByStudentId } from "@/app/(frontend)/(hooks)/hooks/Payments/usePayment";
-import { useUpdatePaymentTransaction } from "@/app/(frontend)/(hooks)/hooks/Payments/usePaymentTransaction";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBulkSendWhatsApp } from "@/app/(hooks)/hooks/BotWA/useBotWA";
+import {
+  useCreateSnapMidtransTransaction,
+  useMidtransCheckStatusOderId,
+  useUpdateMidtransSuccessTransaction,
+} from "@/app/(hooks)/hooks/Midtrans/useMidtrans";
+import { useGetPaymentByStudentId } from "@/app/(hooks)/hooks/Payments/usePayment";
+import { useUpdatePaymentTransaction } from "@/app/(hooks)/hooks/Payments/usePaymentTransaction";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, CheckCircle, Clock, DollarSign, MoreHorizontal, XCircle } from "lucide-react";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  MoreHorizontal,
+  XCircle,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import Script from "next/script";
 import * as React from "react";
@@ -101,13 +148,21 @@ const paymentStatuses = [
 ];
 
 // Statistics Card Component
-function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData, "status"> & { amount: number | string }> }) {
+function StatisticsCards({
+  payments,
+}: {
+  payments: Array<
+    Pick<StudentPaymentData, "status"> & { amount: number | string }
+  >;
+}) {
   const totalPayments = payments.length;
   const paidPayments = payments.filter((p) => p.status === "paid").length;
   const pendingPayments = payments.filter((p) => p.status === "pending").length;
   const overduePayments = payments.filter((p) => p.status === "overdue").length;
 
-  const totalRevenue = payments.filter((p) => p.status === "paid").reduce((sum, p) => sum + Number(p.amount), 0);
+  const totalRevenue = payments
+    .filter((p) => p.status === "paid")
+    .reduce((sum, p) => sum + Number(p.amount), 0);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -121,12 +176,16 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Pembayaran</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Total Pembayaran
+          </CardTitle>
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalPayments}</div>
-          <p className="text-xs text-muted-foreground">Total transaksi pembayaran</p>
+          <p className="text-xs text-muted-foreground">
+            Total transaksi pembayaran
+          </p>
         </CardContent>
       </Card>
 
@@ -137,7 +196,9 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-success">{paidPayments}</div>
-          <p className="text-xs text-muted-foreground">{formatCurrency(totalRevenue)}</p>
+          <p className="text-xs text-muted-foreground">
+            {formatCurrency(totalRevenue)}
+          </p>
         </CardContent>
       </Card>
 
@@ -147,7 +208,9 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
           <Clock className="h-4 w-4 text-warning" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-warning">{pendingPayments}</div>
+          <div className="text-2xl font-bold text-warning">
+            {pendingPayments}
+          </div>
           <p className="text-xs text-muted-foreground">Menunggu pembayaran</p>
         </CardContent>
       </Card>
@@ -158,7 +221,9 @@ function StatisticsCards({ payments }: { payments: Array<Pick<StudentPaymentData
           <XCircle className="h-4 w-4 text-destructive" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-destructive">{overduePayments}</div>
+          <div className="text-2xl font-bold text-destructive">
+            {overduePayments}
+          </div>
           <p className="text-xs text-muted-foreground">Melewati jatuh tempo</p>
         </CardContent>
       </Card>
@@ -322,7 +387,9 @@ function MidtransPaymentDialog({
               </TableRow>
               <TableRow>
                 <TableCell>ID Pembayaran</TableCell>
-                <TableCell>{paymentData?.paymentTransaction?.transactionId || "-"}</TableCell>
+                <TableCell>
+                  {paymentData?.paymentTransaction?.transactionId || "-"}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Nama Siswa</TableCell>
@@ -334,46 +401,68 @@ function MidtransPaymentDialog({
               </TableRow>
               <TableRow>
                 <TableCell>Jumlah</TableCell>
-                <TableCell>{paymentData ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(paymentData.amount) : "-"}</TableCell>
+                <TableCell>
+                  {paymentData
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0,
+                      }).format(paymentData.amount)
+                    : "-"}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Jatuh Tempo</TableCell>
-                <TableCell>{paymentData?.dueDate ? new Date(paymentData.dueDate).toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" }) : "-"}</TableCell>
+                <TableCell>
+                  {paymentData?.dueDate
+                    ? new Date(paymentData.dueDate).toLocaleDateString(
+                        "id-ID",
+                        { day: "2-digit", month: "short", year: "numeric" },
+                      )
+                    : "-"}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Status</TableCell>
                 <TableCell>
-                  {paymentData ?
+                  {paymentData ? (
                     <Badge
                       className={`text-white ${
-                        paymentData.status === "paid" ? "bg-success-solid"
-                        : paymentData.status === "pending" ? "bg-warning-solid"
-                        : paymentData.status === "overdue" ? "bg-destructive-solid"
-                        : "bg-muted-foreground"
+                        paymentData.status === "paid"
+                          ? "bg-success-solid"
+                          : paymentData.status === "pending"
+                            ? "bg-warning-solid"
+                            : paymentData.status === "overdue"
+                              ? "bg-destructive-solid"
+                              : "bg-muted-foreground"
                       }`}
                     >
-                      {paymentData.status === "paid" ?
-                        "Lunas"
-                      : paymentData.status === "pending" ?
-                        "Belum Lunas"
-                      : paymentData.status === "overdue" ?
-                        "Terlambat"
-                      : "-"}
+                      {paymentData.status === "paid"
+                        ? "Lunas"
+                        : paymentData.status === "pending"
+                          ? "Belum Lunas"
+                          : paymentData.status === "overdue"
+                            ? "Terlambat"
+                            : "-"}
                     </Badge>
-                  : "-"}
+                  ) : (
+                    "-"
+                  )}
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Pembayaran Via</TableCell>
-                <TableCell>{paymentData?.paymentTransaction?.paymentType || "-"}</TableCell>
+                <TableCell>
+                  {paymentData?.paymentTransaction?.paymentType || "-"}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
-          {paymentData && paymentData.status === "paid" ?
+          {paymentData && paymentData.status === "paid" ? (
             <Button disabled={true} className=" mt-4">
               Pembayaran sudah lunas
             </Button>
-          : paymentData ?
+          ) : paymentData ? (
             <Button
               className="mt-4"
               onClick={() => {
@@ -384,7 +473,11 @@ function MidtransPaymentDialog({
             >
               {isProcessing ? "Memproses..." : "Bayar dengan Midtrans"}
             </Button>
-          : <p className="text-destructive mt-4">Tidak dapat memproses pembayaran karena data tidak lengkap.</p>}
+          ) : (
+            <p className="text-destructive mt-4">
+              Tidak dapat memproses pembayaran karena data tidak lengkap.
+            </p>
+          )}
         </div>
       </DialogContent>
     </Dialog>
@@ -394,15 +487,23 @@ function MidtransPaymentDialog({
 // Main DataTable Component
 function PaymentDashboard({ userId }: { userId: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Dialog states
   const [midtransDialogOpen, setMidtransDialogOpen] = React.useState(false);
-  const [selectedPayment, setSelectedPayment] = React.useState<StudentPaymentData | null>(null);
+  const [selectedPayment, setSelectedPayment] =
+    React.useState<StudentPaymentData | null>(null);
 
-  const { data: payments = [], isLoading, refetch } = useGetPaymentByStudentId(userId);
+  const {
+    data: payments = [],
+    isLoading,
+    refetch,
+  } = useGetPaymentByStudentId(userId);
 
   const handleSuccess = () => {
     refetch();
@@ -447,28 +548,52 @@ function PaymentDashboard({ userId }: { userId: string }) {
   const columns: ColumnDef<StudentPaymentData>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "receiptNumber",
       header: "No. Kwitansi",
-      cell: ({ row }) => <div className="font-medium">{row.getValue("receiptNumber") || "-"}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row.getValue("receiptNumber") || "-"}
+        </div>
+      ),
     },
     {
       accessorKey: "student",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Nama Siswa
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        const student = row.getValue("student") as StudentPaymentData["student"];
+        const student = row.getValue(
+          "student",
+        ) as StudentPaymentData["student"];
         return <div className="font-medium">{student?.name || "-"}</div>;
       },
     },
@@ -476,7 +601,9 @@ function PaymentDashboard({ userId }: { userId: string }) {
       accessorKey: "paymentType",
       header: "Jenis Pembayaran",
       cell: ({ row }) => {
-        const paymentType = row.getValue("paymentType") as StudentPaymentData["paymentType"];
+        const paymentType = row.getValue(
+          "paymentType",
+        ) as StudentPaymentData["paymentType"];
         return <div>{paymentType?.name || "-"}</div>;
       },
     },
@@ -484,7 +611,10 @@ function PaymentDashboard({ userId }: { userId: string }) {
       accessorKey: "amount",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Jumlah
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -499,7 +629,10 @@ function PaymentDashboard({ userId }: { userId: string }) {
       accessorKey: "paymentDate",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tgl Bayar
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -522,7 +655,10 @@ function PaymentDashboard({ userId }: { userId: string }) {
       accessorKey: "status",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Status
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -530,7 +666,11 @@ function PaymentDashboard({ userId }: { userId: string }) {
       },
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
-        return <Badge className={`text-white ${getStatusBadgeColor(status)}`}>{getStatusLabel(status)}</Badge>;
+        return (
+          <Badge className={`text-white ${getStatusBadgeColor(status)}`}>
+            {getStatusLabel(status)}
+          </Badge>
+        );
       },
     },
     {
@@ -558,7 +698,11 @@ function PaymentDashboard({ userId }: { userId: string }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(paymentData.id)}>Copy ID Pembayaran</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(paymentData.id)}
+              >
+                Copy ID Pembayaran
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -604,7 +748,9 @@ function PaymentDashboard({ userId }: { userId: string }) {
       <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen">
         <div className="mb-6">
           <h1 className="font-bold text-3xl mb-2">Dashboard Pembayaran</h1>
-          <p className="text-muted-foreground">Kelola pembayaran SPP dan pembayaran sekolah lainnya</p>
+          <p className="text-muted-foreground">
+            Kelola pembayaran SPP dan pembayaran sekolah lainnya
+          </p>
         </div>
 
         {/* Statistics Cards */}
@@ -614,9 +760,14 @@ function PaymentDashboard({ userId }: { userId: string }) {
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
               <Select
-                value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
+                value={
+                  (table.getColumn("status")?.getFilterValue() as string) ??
+                  "all"
+                }
                 onValueChange={(value) => {
-                  table.getColumn("status")?.setFilterValue(value === "all" ? "" : value);
+                  table
+                    .getColumn("status")
+                    ?.setFilterValue(value === "all" ? "" : value);
                 }}
               >
                 <SelectTrigger className="w-45">
@@ -634,45 +785,77 @@ function PaymentDashboard({ userId }: { userId: string }) {
             </div>
           </div>
 
-          <div className="rounded-md border w-max-7xl">
+          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
                     })}
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ?
+                {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
                       ))}
                     </TableRow>
                   ))
-                : <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
                       Tidak ada data pembayaran.
                     </TableCell>
                   </TableRow>
-                }
+                )}
               </TableBody>
             </Table>
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
             <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+              {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+              {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -680,7 +863,12 @@ function PaymentDashboard({ userId }: { userId: string }) {
         </div>
 
         {/* Dialogs */}
-        <MidtransPaymentDialog open={midtransDialogOpen} onOpenChange={setMidtransDialogOpen} paymentData={selectedPayment} onSuccess={handleSuccess} />
+        <MidtransPaymentDialog
+          open={midtransDialogOpen}
+          onOpenChange={setMidtransDialogOpen}
+          paymentData={selectedPayment}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -690,7 +878,8 @@ export default function PaymentDashboardPage() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
   const userDataId = userData?.id;
 
@@ -707,13 +896,20 @@ export default function PaymentDashboardPage() {
     }
   }
 
-  const snapURL = new URL(process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL || "https://app.midtrans.com/snap/snap.js");
+  const snapURL = new URL(
+    process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL ||
+      "https://app.midtrans.com/snap/snap.js",
+  );
 
   // Render dashboard only after authorization is confirmed
   return (
     <>
       {/* Load Midtrans Snap script */}
-      <Script src={snapURL.toString()} data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY} strategy="afterInteractive" />
+      <Script
+        src={snapURL.toString()}
+        data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+        strategy="afterInteractive"
+      />
       <PaymentDashboard userId={userDataId as string} />
     </>
   );

@@ -1,7 +1,7 @@
 "use client";
-import { useAttendanceIsSubmitted } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendanceIsSubmitted";
-import { useGetScheduleAcademicYearActive } from "@/app/(frontend)/(hooks)/hooks/Schedules/useSchedules";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useAttendanceIsSubmitted } from "@/app/(hooks)/hooks/Attendances/useAttendanceIsSubmitted";
+import { useGetScheduleAcademicYearActive } from "@/app/(hooks)/hooks/Schedules/useSchedules";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";

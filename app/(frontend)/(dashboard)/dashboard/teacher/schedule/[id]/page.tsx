@@ -1,10 +1,10 @@
 "use client";
 
-import { useCreateAttendance, useDeleteAttendance, useUpdateAttendance } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendance";
-import { useGetAttendanceByIdSchedule } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendanceByIdShcedule";
-import { useGetSchedules } from "@/app/(frontend)/(hooks)/hooks/Schedules/useSchedules";
-import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useCreateAttendance, useDeleteAttendance, useUpdateAttendance } from "@/app/(hooks)/hooks/Attendances/useAttendance";
+import { useGetAttendanceByIdSchedule } from "@/app/(hooks)/hooks/Attendances/useAttendanceByIdShcedule";
+import { useGetSchedules } from "@/app/(hooks)/hooks/Schedules/useSchedules";
+import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { UserDataTypes } from "@/app/(types)";
 import { attendanceTypes } from "@/app/(types)/types/attendance-types";
 import Loading from "@/components/loading";

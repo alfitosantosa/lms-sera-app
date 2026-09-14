@@ -1,6 +1,6 @@
 "use client";
 
-import { useAttendanceByDate } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendanceByDate";
+import { useAttendanceByDate } from "@/app/(hooks)/hooks/Attendances/useAttendanceByDate";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";

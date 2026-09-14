@@ -1,8 +1,8 @@
 "use client";
 
-import { useBulkCreateTeacherAttendance, useDeleteTeacherAttendance, useGetTeacherAttendance, useGetTeacherAttendanceReports, useUpdateTeacherAttendance } from "@/app/(frontend)/(hooks)/hooks/TeacherAttendance/useTeacherAttendance";
-import { useGetTeachers } from "@/app/(frontend)/(hooks)/hooks/Users/useTeachers";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBulkCreateTeacherAttendance, useDeleteTeacherAttendance, useGetTeacherAttendance, useGetTeacherAttendanceReports, useUpdateTeacherAttendance } from "@/app/(hooks)/hooks/TeacherAttendance/useTeacherAttendance";
+import { useGetTeachers } from "@/app/(hooks)/hooks/Users/useTeachers";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import type { AttendanceStats, AttendanceStatus, CheckinTabProps, StatusConfigMap, TeacherAttendanceRecord } from "@/app/(types)/types/teacher-attendance-types";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";

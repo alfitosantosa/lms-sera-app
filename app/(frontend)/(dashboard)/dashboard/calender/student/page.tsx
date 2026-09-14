@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetSchedulesByStudent } from "@/app/(frontend)/(hooks)/hooks/Schedules/useSchedules";
-import { useGetSpecialSchedules } from "@/app/(frontend)/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetSchedulesByStudent } from "@/app/(hooks)/hooks/Schedules/useSchedules";
+import { useGetSpecialSchedules } from "@/app/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { CalendarBody, CalendarDate, CalendarDatePagination, CalendarDatePicker, CalendarHeader, CalendarItem, CalendarMonthPicker, CalendarProvider, CalendarYearPicker } from "@/components/ui/kibo-ui/calendar";
 import { useSession } from "@/lib/authClients";
@@ -189,7 +189,7 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="w-max-7xl mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Info */}
         <div className="mb-6 space-y-4">
           <div>

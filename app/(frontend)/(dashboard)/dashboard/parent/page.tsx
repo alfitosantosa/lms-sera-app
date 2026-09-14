@@ -1,8 +1,8 @@
 "use client";
-import { useGetAttendanceByIdStudent } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendaceByIdStudent";
-import { useGetStudentsByIds } from "@/app/(frontend)/(hooks)/hooks/Users/useStudentByIds";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useGetViolationsByIdStudent } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolationsByIdStudent";
+import { useGetAttendanceByIdStudent } from "@/app/(hooks)/hooks/Attendances/useAttendaceByIdStudent";
+import { useGetStudentsByIds } from "@/app/(hooks)/hooks/Users/useStudentByIds";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetViolationsByIdStudent } from "@/app/(hooks)/hooks/Violations/useViolationsByIdStudent";
 import Loading from "@/components/loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

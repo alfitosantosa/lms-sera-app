@@ -1,10 +1,10 @@
 "use client";
 
-import { useCreateAttendanceBulk } from "@/app/(frontend)/(hooks)/hooks/Attendances/useBulkAttendance";
-import { useBulkSendWhatsApp } from "@/app/(frontend)/(hooks)/hooks/BotWA/useBotWA";
-import { useGetScheduleById } from "@/app/(frontend)/(hooks)/hooks/Schedules/useGetScheduleById";
-import { useGetTahfidzGroupById } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useGetTahfidzGroupById";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useCreateAttendanceBulk } from "@/app/(hooks)/hooks/Attendances/useBulkAttendance";
+import { useBulkSendWhatsApp } from "@/app/(hooks)/hooks/BotWA/useBotWA";
+import { useGetScheduleById } from "@/app/(hooks)/hooks/Schedules/useGetScheduleById";
+import { useGetTahfidzGroupById } from "@/app/(hooks)/hooks/TahfidzGroup/useGetTahfidzGroupById";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";

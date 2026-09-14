@@ -1,9 +1,9 @@
 "use client";
 
-import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
-import { useGetStudentById } from "@/app/(frontend)/(hooks)/hooks/Users/useGetStudentById";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useGetViolationsByIdStudent } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolationsByIdStudent";
+import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetStudentById } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetViolationsByIdStudent } from "@/app/(hooks)/hooks/Violations/useViolationsByIdStudent";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
-import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useGetTypeViolations } from "@/app/(frontend)/(hooks)/hooks/Violations/useTypeViolations";
-import { useCreateViolation, useDeleteViolation, useUpdateViolation } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolations";
-import { useGetViolationsByIdTeacher } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolationsByIdTeacher";
+import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetTypeViolations } from "@/app/(hooks)/hooks/Violations/useTypeViolations";
+import { useCreateViolation, useDeleteViolation, useUpdateViolation } from "@/app/(hooks)/hooks/Violations/useViolations";
+import { useGetViolationsByIdTeacher } from "@/app/(hooks)/hooks/Violations/useViolationsByIdTeacher";
 import { ViolationTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";

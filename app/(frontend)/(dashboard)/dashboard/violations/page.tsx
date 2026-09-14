@@ -1,10 +1,10 @@
 "use client";
 
-import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
-import { useGetUsers } from "@/app/(frontend)/(hooks)/hooks/Users/useUsers";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useGetTypeViolations } from "@/app/(frontend)/(hooks)/hooks/Violations/useTypeViolations";
-import { useCreateViolation, useDeleteViolation, useGetViolations, useUpdateViolation } from "@/app/(frontend)/(hooks)/hooks/Violations/useViolations";
+import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetUsers } from "@/app/(hooks)/hooks/Users/useUsers";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetTypeViolations } from "@/app/(hooks)/hooks/Violations/useTypeViolations";
+import { useCreateViolation, useDeleteViolation, useGetViolations, useUpdateViolation } from "@/app/(hooks)/hooks/Violations/useViolations";
 import { ClassDataTypes, UserDataTypes } from "@/app/(types)";
 import { ViolationTypes, ViolationInput } from "@/app/(types)/types/violation-types";
 import Loading from "@/components/loading";

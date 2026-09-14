@@ -1,9 +1,9 @@
 "use client";
 
-import { useClassByIdUser } from "@/app/(frontend)/(hooks)/hooks/Classes/useClassByIdUser";
-import { useGetSchedulesByIdClass } from "@/app/(frontend)/(hooks)/hooks/Schedules/useScheduleByIdClass";
-import { useGetStudentById } from "@/app/(frontend)/(hooks)/hooks/Users/useGetStudentById";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useClassByIdUser } from "@/app/(hooks)/hooks/Classes/useClassByIdUser";
+import { useGetSchedulesByIdClass } from "@/app/(hooks)/hooks/Schedules/useScheduleByIdClass";
+import { useGetStudentById } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { ScheduleTypes } from "@/app/(types)/types/schedule-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

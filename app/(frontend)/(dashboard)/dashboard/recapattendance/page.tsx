@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetAttendanceByIdStudent } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendaceByIdStudent";
-import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetAttendanceByIdStudent } from "@/app/(hooks)/hooks/Attendances/useAttendaceByIdStudent";
+import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -1,9 +1,9 @@
 "use client";
 
-import { useGetAttendanceByClass } from "@/app/(frontend)/(hooks)/hooks/Attendances/useAttendanceByClass";
-import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
-import { useGetStudents } from "@/app/(frontend)/(hooks)/hooks/Users/useStudents";
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetAttendanceByClass } from "@/app/(hooks)/hooks/Attendances/useAttendanceByClass";
+import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { attendanceTypes } from "@/app/(types)/types/attendance-types";
 import { ClassDataTypes } from "@/app/(types)/types/class-types";
 import { UserDataTypes } from "@/app/(types)/types/userData-types";
