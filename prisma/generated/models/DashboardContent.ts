@@ -288,7 +288,7 @@ export type DashboardContentWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
 
@@ -329,7 +329,7 @@ export type DashboardContentWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DashboardContent"> | Date | string
   userId?: Prisma.StringNullableFilter<"DashboardContent"> | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id">
 
@@ -388,7 +388,7 @@ export type DashboardContentCreateInput = {
   endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
   user?: Prisma.UserDataCreateNestedOneWithoutDashboardContentsInput
 }
 
@@ -422,7 +422,7 @@ export type DashboardContentUpdateInput = {
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutDashboardContentNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDashboardContentNestedInput
   user?: Prisma.UserDataUpdateOneWithoutDashboardContentsNestedInput
 }
 
@@ -736,7 +736,7 @@ export type DashboardContentCreateWithoutUserInput = {
   endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDashboardContentInput
 }
 
 export type DashboardContentUncheckedCreateWithoutUserInput = {
@@ -874,7 +874,7 @@ export type DashboardContentUpdateWithoutUserInput = {
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutDashboardContentNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDashboardContentNestedInput
 }
 
 export type DashboardContentUncheckedUpdateWithoutUserInput = {
@@ -926,7 +926,7 @@ export type DashboardContentSelect<ExtArgs extends runtime.Types.Extensions.Inte
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -945,7 +945,7 @@ export type DashboardContentSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -964,7 +964,7 @@ export type DashboardContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardContent"]>
 
@@ -987,22 +987,22 @@ export type DashboardContentSelectScalar = {
 
 export type DashboardContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "linkUrl" | "foundationId" | "order" | "isActive" | "isPublished" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["dashboardContent"]>
 export type DashboardContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 export type DashboardContentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 export type DashboardContentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.DashboardContent$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.DashboardContent$userArgs<ExtArgs>
 }
 
 export type $DashboardContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DashboardContent"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
+    foundation: Prisma.$FoundationPayload<ExtArgs>
     user: Prisma.$UserDataPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1414,7 +1414,7 @@ readonly fields: DashboardContentFieldRefs;
  */
 export interface Prisma__DashboardContentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.DashboardContent$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DashboardContent$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.DashboardContent$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DashboardContent$userArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1857,25 +1857,6 @@ export type DashboardContentDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many DashboardContents to delete.
    */
   limit?: number
-}
-
-/**
- * DashboardContent.foundation
- */
-export type DashboardContent$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
 }
 
 /**

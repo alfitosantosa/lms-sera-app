@@ -2,16 +2,32 @@
 
 import { AppSidebar } from "@/components/appSidebar";
 import Footer from "@/components/footer";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import React from "react";
 import InstallButton from "./installButton";
 
-const AUTH_ROUTES = ["/", "/auth/sign-in", "/auth/sign-up", "/auth/register", "/landing"];
+const AUTH_ROUTES = [
+  "/",
+  "/auth/sign-in",
+  "/auth/sign-up",
+  "/auth/register",
+  "/landing",
+];
 
-export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
+export default function ConditionalLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
-  const isAuthPage = AUTH_ROUTES.some((route) => (route === "/" ? pathname === "/" : pathname.startsWith(route)));
+  const isAuthPage = AUTH_ROUTES.some((route) =>
+    route === "/" ? pathname === "/" : pathname.startsWith(route),
+  );
 
   if (isAuthPage) {
     // Render tanpa sidebar, navbar, footer - fullscreen bersih
@@ -23,7 +39,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="flex flex-col min-h-screen">
-        <header className="sticky top-0 z-10 flex h-18 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4 md:px-6">
+        <header className="sticky py-7 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4 md:px-6">
           <SidebarTrigger className="" />
           <div className="flex-1" />
         </header>

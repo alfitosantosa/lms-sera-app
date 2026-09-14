@@ -378,7 +378,6 @@ export type UserDataWhereInput = {
   tahfidzGroupId?: Prisma.StringNullableFilter<"UserData"> | string | null
   createdAt?: Prisma.DateTimeNullableFilter<"UserData"> | Date | string | null
   updatedAt?: Prisma.DateTimeNullableFilter<"UserData"> | Date | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   Announcements?: Prisma.AnnouncementListRelationFilter
   studentSubmissions?: Prisma.AssignmentSubmissionListRelationFilter
   teacherAssignments?: Prisma.AssignmentListRelationFilter
@@ -397,6 +396,7 @@ export type UserDataWhereInput = {
   teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
   class?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   major?: Prisma.XOR<Prisma.MajorNullableScalarRelationFilter, Prisma.MajorWhereInput> | null
   role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
   tahfidzGroup?: Prisma.XOR<Prisma.TahfidzGroupNullableScalarRelationFilter, Prisma.TahfidzGroupWhereInput> | null
@@ -435,7 +435,6 @@ export type UserDataOrderByWithRelationInput = {
   tahfidzGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   Announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
   studentSubmissions?: Prisma.AssignmentSubmissionOrderByRelationAggregateInput
   teacherAssignments?: Prisma.AssignmentOrderByRelationAggregateInput
@@ -454,6 +453,7 @@ export type UserDataOrderByWithRelationInput = {
   teacherAttendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
   academicYear?: Prisma.AcademicYearOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   major?: Prisma.MajorOrderByWithRelationInput
   role?: Prisma.RoleOrderByWithRelationInput
   tahfidzGroup?: Prisma.TahfidzGroupOrderByWithRelationInput
@@ -495,7 +495,6 @@ export type UserDataWhereUniqueInput = Prisma.AtLeast<{
   tahfidzGroupId?: Prisma.StringNullableFilter<"UserData"> | string | null
   createdAt?: Prisma.DateTimeNullableFilter<"UserData"> | Date | string | null
   updatedAt?: Prisma.DateTimeNullableFilter<"UserData"> | Date | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   Announcements?: Prisma.AnnouncementListRelationFilter
   studentSubmissions?: Prisma.AssignmentSubmissionListRelationFilter
   teacherAssignments?: Prisma.AssignmentListRelationFilter
@@ -514,6 +513,7 @@ export type UserDataWhereUniqueInput = Prisma.AtLeast<{
   teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
   class?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   major?: Prisma.XOR<Prisma.MajorNullableScalarRelationFilter, Prisma.MajorWhereInput> | null
   role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
   tahfidzGroup?: Prisma.XOR<Prisma.TahfidzGroupNullableScalarRelationFilter, Prisma.TahfidzGroupWhereInput> | null
@@ -617,7 +617,6 @@ export type UserDataCreateInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -636,6 +635,7 @@ export type UserDataCreateInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -717,7 +717,6 @@ export type UserDataUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -736,6 +735,7 @@ export type UserDataUpdateInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -1733,7 +1733,6 @@ export type UserDataCreateWithoutUserInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -1752,6 +1751,7 @@ export type UserDataCreateWithoutUserInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -1847,7 +1847,6 @@ export type UserDataUpdateWithoutUserInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -1866,6 +1865,7 @@ export type UserDataUpdateWithoutUserInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -1945,7 +1945,6 @@ export type UserDataCreateWithoutRoleInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -1964,6 +1963,7 @@ export type UserDataCreateWithoutRoleInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
   user?: Prisma.UserCreateNestedOneWithoutUserDataInput
@@ -2069,7 +2069,6 @@ export type UserDataCreateWithoutAcademicYearInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2087,6 +2086,7 @@ export type UserDataCreateWithoutAcademicYearInput = {
   createdAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutCreatedByUserInput
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -2193,7 +2193,6 @@ export type UserDataCreateWithoutMajorInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2212,6 +2211,7 @@ export type UserDataCreateWithoutMajorInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
   user?: Prisma.UserCreateNestedOneWithoutUserDataInput
@@ -2317,7 +2317,6 @@ export type UserDataCreateWithoutClassInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2335,6 +2334,7 @@ export type UserDataCreateWithoutClassInput = {
   createdAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutCreatedByUserInput
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -2441,7 +2441,6 @@ export type UserDataCreateWithoutSchedulesInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2459,6 +2458,7 @@ export type UserDataCreateWithoutSchedulesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -2555,7 +2555,6 @@ export type UserDataUpdateWithoutSchedulesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -2573,6 +2572,7 @@ export type UserDataUpdateWithoutSchedulesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -2653,7 +2653,6 @@ export type UserDataCreateWithoutAttendancesInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2671,6 +2670,7 @@ export type UserDataCreateWithoutAttendancesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -2767,7 +2767,6 @@ export type UserDataUpdateWithoutAttendancesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -2785,6 +2784,7 @@ export type UserDataUpdateWithoutAttendancesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -2865,7 +2865,6 @@ export type UserDataCreateWithoutViolationsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -2884,6 +2883,7 @@ export type UserDataCreateWithoutViolationsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -2979,7 +2979,6 @@ export type UserDataUpdateWithoutViolationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -2998,6 +2997,7 @@ export type UserDataUpdateWithoutViolationsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -3077,7 +3077,6 @@ export type UserDataCreateWithoutPaymentItemsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -3095,6 +3094,7 @@ export type UserDataCreateWithoutPaymentItemsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -3191,7 +3191,6 @@ export type UserDataUpdateWithoutPaymentItemsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -3209,6 +3208,7 @@ export type UserDataUpdateWithoutPaymentItemsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -3289,7 +3289,6 @@ export type UserDataCreateWithoutPaymentCreatedInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -3307,6 +3306,7 @@ export type UserDataCreateWithoutPaymentCreatedInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -3392,7 +3392,6 @@ export type UserDataCreateWithoutPaymentsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -3410,6 +3409,7 @@ export type UserDataCreateWithoutPaymentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -3506,7 +3506,6 @@ export type UserDataUpdateWithoutPaymentCreatedInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -3524,6 +3523,7 @@ export type UserDataUpdateWithoutPaymentCreatedInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -3615,7 +3615,6 @@ export type UserDataUpdateWithoutPaymentsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -3633,6 +3632,7 @@ export type UserDataUpdateWithoutPaymentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -3713,7 +3713,6 @@ export type UserDataCreateWithoutGradesInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -3731,6 +3730,7 @@ export type UserDataCreateWithoutGradesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -3827,7 +3827,6 @@ export type UserDataUpdateWithoutGradesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -3845,6 +3844,7 @@ export type UserDataUpdateWithoutGradesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -3925,7 +3925,6 @@ export type UserDataCreateWithoutReportCardsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -3943,6 +3942,7 @@ export type UserDataCreateWithoutReportCardsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -4039,7 +4039,6 @@ export type UserDataUpdateWithoutReportCardsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -4057,6 +4056,7 @@ export type UserDataUpdateWithoutReportCardsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -4137,7 +4137,6 @@ export type UserDataCreateWithoutTeacherAssignmentsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -4155,6 +4154,7 @@ export type UserDataCreateWithoutTeacherAssignmentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -4251,7 +4251,6 @@ export type UserDataUpdateWithoutTeacherAssignmentsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -4269,6 +4268,7 @@ export type UserDataUpdateWithoutTeacherAssignmentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -4349,7 +4349,6 @@ export type UserDataCreateWithoutStudentSubmissionsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -4367,6 +4366,7 @@ export type UserDataCreateWithoutStudentSubmissionsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -4463,7 +4463,6 @@ export type UserDataUpdateWithoutStudentSubmissionsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -4481,6 +4480,7 @@ export type UserDataUpdateWithoutStudentSubmissionsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -4561,7 +4561,6 @@ export type UserDataCreateWithoutNotificationsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -4579,6 +4578,7 @@ export type UserDataCreateWithoutNotificationsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -4675,7 +4675,6 @@ export type UserDataUpdateWithoutNotificationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -4693,6 +4692,7 @@ export type UserDataUpdateWithoutNotificationsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -4773,7 +4773,6 @@ export type UserDataCreateWithoutDashboardContentsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -4791,6 +4790,7 @@ export type UserDataCreateWithoutDashboardContentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -4887,7 +4887,6 @@ export type UserDataUpdateWithoutDashboardContentsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -4905,6 +4904,7 @@ export type UserDataUpdateWithoutDashboardContentsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -4985,7 +4985,6 @@ export type UserDataCreateWithoutAnnouncementsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -5003,6 +5002,7 @@ export type UserDataCreateWithoutAnnouncementsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -5099,7 +5099,6 @@ export type UserDataUpdateWithoutAnnouncementsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -5117,6 +5116,7 @@ export type UserDataUpdateWithoutAnnouncementsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -5197,7 +5197,6 @@ export type UserDataCreateWithoutTahfidzRecordsInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -5215,6 +5214,7 @@ export type UserDataCreateWithoutTahfidzRecordsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -5300,7 +5300,6 @@ export type UserDataCreateWithoutTahfidzRecordsAsTeacherInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -5318,6 +5317,7 @@ export type UserDataCreateWithoutTahfidzRecordsAsTeacherInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -5414,7 +5414,6 @@ export type UserDataUpdateWithoutTahfidzRecordsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -5432,6 +5431,7 @@ export type UserDataUpdateWithoutTahfidzRecordsInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -5523,7 +5523,6 @@ export type UserDataUpdateWithoutTahfidzRecordsAsTeacherInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -5541,6 +5540,7 @@ export type UserDataUpdateWithoutTahfidzRecordsAsTeacherInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -5621,7 +5621,6 @@ export type UserDataCreateWithoutCreatedAttendancesInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -5639,6 +5638,7 @@ export type UserDataCreateWithoutCreatedAttendancesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -5724,7 +5724,6 @@ export type UserDataCreateWithoutTeacherAttendancesInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -5742,6 +5741,7 @@ export type UserDataCreateWithoutTeacherAttendancesInput = {
   createdAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutCreatedByUserInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
@@ -5838,7 +5838,6 @@ export type UserDataUpdateWithoutCreatedAttendancesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -5856,6 +5855,7 @@ export type UserDataUpdateWithoutCreatedAttendancesInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -5947,7 +5947,6 @@ export type UserDataUpdateWithoutTeacherAttendancesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -5965,6 +5964,7 @@ export type UserDataUpdateWithoutTeacherAttendancesInput = {
   createdAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutCreatedByUserNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -6045,7 +6045,6 @@ export type UserDataCreateWithoutTahfidzGroupInput = {
   isActive?: boolean
   createdAt?: Date | string | null
   updatedAt?: Date | string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
   studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
   teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
@@ -6064,6 +6063,7 @@ export type UserDataCreateWithoutTahfidzGroupInput = {
   teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
   major?: Prisma.MajorCreateNestedOneWithoutStudentsInput
   role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
   user?: Prisma.UserCreateNestedOneWithoutUserDataInput
@@ -6363,7 +6363,6 @@ export type UserDataUpdateWithoutRoleInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -6382,6 +6381,7 @@ export type UserDataUpdateWithoutRoleInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
   user?: Prisma.UserUpdateOneWithoutUserDataNestedInput
@@ -6525,7 +6525,6 @@ export type UserDataUpdateWithoutAcademicYearInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -6543,6 +6542,7 @@ export type UserDataUpdateWithoutAcademicYearInput = {
   createdAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutCreatedByUserNestedInput
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -6687,7 +6687,6 @@ export type UserDataUpdateWithoutMajorInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -6706,6 +6705,7 @@ export type UserDataUpdateWithoutMajorInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
   user?: Prisma.UserUpdateOneWithoutUserDataNestedInput
@@ -6849,7 +6849,6 @@ export type UserDataUpdateWithoutClassInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -6867,6 +6866,7 @@ export type UserDataUpdateWithoutClassInput = {
   createdAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutCreatedByUserNestedInput
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
@@ -7011,7 +7011,6 @@ export type UserDataUpdateWithoutTahfidzGroupInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
   studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
   teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
@@ -7030,6 +7029,7 @@ export type UserDataUpdateWithoutTahfidzGroupInput = {
   teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
   major?: Prisma.MajorUpdateOneWithoutStudentsNestedInput
   role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
   user?: Prisma.UserUpdateOneWithoutUserDataNestedInput
@@ -7323,7 +7323,6 @@ export type UserDataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tahfidzGroupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   Announcements?: boolean | Prisma.UserData$AnnouncementsArgs<ExtArgs>
   studentSubmissions?: boolean | Prisma.UserData$studentSubmissionsArgs<ExtArgs>
   teacherAssignments?: boolean | Prisma.UserData$teacherAssignmentsArgs<ExtArgs>
@@ -7342,6 +7341,7 @@ export type UserDataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   teacherAttendances?: boolean | Prisma.UserData$teacherAttendancesArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
@@ -7381,9 +7381,9 @@ export type UserDataSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tahfidzGroupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
@@ -7421,9 +7421,9 @@ export type UserDataSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tahfidzGroupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
@@ -7465,7 +7465,6 @@ export type UserDataSelectScalar = {
 
 export type UserDataOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "academicYearId" | "address" | "avatarUrl" | "birthDate" | "birthPlace" | "classId" | "employeeId" | "endDate" | "enrollmentDate" | "gender" | "graduationDate" | "majorId" | "nik" | "nisn" | "parentPhone" | "position" | "relation" | "roleId" | "startDate" | "status" | "studentIds" | "email" | "name" | "isActive" | "foundationId" | "tahfidzGroupId" | "createdAt" | "updatedAt", ExtArgs["result"]["userData"]>
 export type UserDataInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   Announcements?: boolean | Prisma.UserData$AnnouncementsArgs<ExtArgs>
   studentSubmissions?: boolean | Prisma.UserData$studentSubmissionsArgs<ExtArgs>
   teacherAssignments?: boolean | Prisma.UserData$teacherAssignmentsArgs<ExtArgs>
@@ -7484,6 +7483,7 @@ export type UserDataInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   teacherAttendances?: boolean | Prisma.UserData$teacherAttendancesArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
@@ -7492,18 +7492,18 @@ export type UserDataInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.UserDataCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserDataIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
   user?: boolean | Prisma.UserData$userArgs<ExtArgs>
 }
 export type UserDataIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.UserData$academicYearArgs<ExtArgs>
   class?: boolean | Prisma.UserData$classArgs<ExtArgs>
+  foundation?: boolean | Prisma.UserData$foundationArgs<ExtArgs>
   major?: boolean | Prisma.UserData$majorArgs<ExtArgs>
   role?: boolean | Prisma.UserData$roleArgs<ExtArgs>
   tahfidzGroup?: boolean | Prisma.UserData$tahfidzGroupArgs<ExtArgs>
@@ -7513,7 +7513,6 @@ export type UserDataIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $UserDataPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserData"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     Announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
     studentSubmissions: Prisma.$AssignmentSubmissionPayload<ExtArgs>[]
     teacherAssignments: Prisma.$AssignmentPayload<ExtArgs>[]
@@ -7532,6 +7531,7 @@ export type $UserDataPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     teacherAttendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
     academicYear: Prisma.$AcademicYearPayload<ExtArgs> | null
     class: Prisma.$ClassPayload<ExtArgs> | null
+    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     major: Prisma.$MajorPayload<ExtArgs> | null
     role: Prisma.$RolePayload<ExtArgs> | null
     tahfidzGroup: Prisma.$TahfidzGroupPayload<ExtArgs> | null
@@ -7963,7 +7963,6 @@ readonly fields: UserDataFieldRefs;
  */
 export interface Prisma__UserDataClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.UserData$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   Announcements<T extends Prisma.UserData$AnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$AnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studentSubmissions<T extends Prisma.UserData$studentSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$studentSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   teacherAssignments<T extends Prisma.UserData$teacherAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$teacherAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7982,6 +7981,7 @@ export interface Prisma__UserDataClient<T, Null = never, ExtArgs extends runtime
   teacherAttendances<T extends Prisma.UserData$teacherAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$teacherAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   academicYear<T extends Prisma.UserData$academicYearArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$academicYearArgs<ExtArgs>>): Prisma.Prisma__AcademicYearClient<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   class<T extends Prisma.UserData$classArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$classArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.UserData$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   major<T extends Prisma.UserData$majorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$majorArgs<ExtArgs>>): Prisma.Prisma__MajorClient<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   role<T extends Prisma.UserData$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$roleArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tahfidzGroup<T extends Prisma.UserData$tahfidzGroupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$tahfidzGroupArgs<ExtArgs>>): Prisma.Prisma__TahfidzGroupClient<runtime.Types.Result.GetResult<Prisma.$TahfidzGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -8447,25 +8447,6 @@ export type UserDataDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * UserData.foundation
- */
-export type UserData$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
-}
-
-/**
  * UserData.Announcements
  */
 export type UserData$AnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8885,6 +8866,25 @@ export type UserData$classArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ClassInclude<ExtArgs> | null
   where?: Prisma.ClassWhereInput
+}
+
+/**
+ * UserData.foundation
+ */
+export type UserData$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
 }
 
 /**

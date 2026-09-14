@@ -5,6 +5,7 @@ import { Navbar } from "./Navbar";
 import { Hero } from "./Hero";
 import { SocialProof } from "./SocialProof";
 import { Features } from "./Features";
+import { HowItWorks } from "./HowItWorks";
 import { Architecture } from "./Architecture";
 import { FinanceSection } from "./FinanceSection";
 import { Pricing } from "./Pricing";
@@ -28,7 +29,10 @@ export function LandingPage() {
         {/* 4. Core Features Bento Grid */}
         <Features />
 
-        {/* 5. Deep Navy Multi-Tenant Architecture & RBAC */}
+        {/* 5. How Each Module Works (Automation Flows) */}
+        <HowItWorks />
+
+        {/* 6. Deep Navy Multi-Tenant & Role Access */}
         <Architecture />
 
         {/* 6. Finance & Midtrans SPP Billing Showcase */}

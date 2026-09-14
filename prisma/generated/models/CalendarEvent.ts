@@ -222,8 +222,8 @@ export type CalendarEventWhereInput = {
   isPublished?: Prisma.BoolFilter<"CalendarEvent"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CalendarEvent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CalendarEvent"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
 }
 
 export type CalendarEventOrderByWithRelationInput = {
@@ -237,8 +237,8 @@ export type CalendarEventOrderByWithRelationInput = {
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   academicYear?: Prisma.AcademicYearOrderByWithRelationInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
 }
 
 export type CalendarEventWhereUniqueInput = Prisma.AtLeast<{
@@ -255,8 +255,8 @@ export type CalendarEventWhereUniqueInput = Prisma.AtLeast<{
   isPublished?: Prisma.BoolFilter<"CalendarEvent"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CalendarEvent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CalendarEvent"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
 }, "id">
 
 export type CalendarEventOrderByWithAggregationInput = {
@@ -300,8 +300,8 @@ export type CalendarEventCreateInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutCalendarEventInput
   academicYear: Prisma.AcademicYearCreateNestedOneWithoutCalendarEventsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutCalendarEventInput
 }
 
 export type CalendarEventUncheckedCreateInput = {
@@ -326,8 +326,8 @@ export type CalendarEventUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutCalendarEventNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutCalendarEventsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutCalendarEventNestedInput
 }
 
 export type CalendarEventUncheckedUpdateInput = {
@@ -588,7 +588,7 @@ export type CalendarEventCreateWithoutAcademicYearInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutCalendarEventInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutCalendarEventInput
 }
 
 export type CalendarEventUncheckedCreateWithoutAcademicYearInput = {
@@ -698,7 +698,7 @@ export type CalendarEventUpdateWithoutAcademicYearInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutCalendarEventNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutCalendarEventNestedInput
 }
 
 export type CalendarEventUncheckedUpdateWithoutAcademicYearInput = {
@@ -738,8 +738,8 @@ export type CalendarEventSelect<ExtArgs extends runtime.Types.Extensions.Interna
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["calendarEvent"]>
 
 export type CalendarEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -753,8 +753,8 @@ export type CalendarEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["calendarEvent"]>
 
 export type CalendarEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -768,8 +768,8 @@ export type CalendarEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["calendarEvent"]>
 
 export type CalendarEventSelectScalar = {
@@ -787,23 +787,23 @@ export type CalendarEventSelectScalar = {
 
 export type CalendarEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "eventDate" | "eventType" | "academicYearId" | "foundationId" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["calendarEvent"]>
 export type CalendarEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }
 export type CalendarEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }
 export type CalendarEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.CalendarEvent$foundationArgs<ExtArgs>
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }
 
 export type $CalendarEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CalendarEvent"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     academicYear: Prisma.$AcademicYearPayload<ExtArgs>
+    foundation: Prisma.$FoundationPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1210,8 +1210,8 @@ readonly fields: CalendarEventFieldRefs;
  */
 export interface Prisma__CalendarEventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.CalendarEvent$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CalendarEvent$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   academicYear<T extends Prisma.AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYearDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicYearClient<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1649,25 +1649,6 @@ export type CalendarEventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many CalendarEvents to delete.
    */
   limit?: number
-}
-
-/**
- * CalendarEvent.foundation
- */
-export type CalendarEvent$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
 }
 
 /**

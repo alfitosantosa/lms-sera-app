@@ -20,8 +20,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 // Hooks
-import { useCreateFoundation, useFoundationAssignUser } from "@/app/(frontend)/(hooks)/hooks/Foundation/useFoundation";
-import { useGetUserByIdBetterAuthProfile } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useCreateFoundation, useFoundationAssignUser } from "@/app/(hooks)/hooks/Foundation/useFoundation";
+import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

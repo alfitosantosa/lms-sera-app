@@ -25,12 +25,23 @@ import {
   Users,
 } from "lucide-react";
 
-import { useGetUserByIdBetterAuth } from "@/app/(frontend)/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { menuGroups } from "@/app/repository/menuGroupsSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -79,23 +90,62 @@ export function AppSidebar() {
   const { data: session } = useSession();
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
-  const userRole = userData?.role?.name?.toLowerCase() || "student";
+  const userRole = userData?.role?.name || "student";
+  const userRoleLower = userRole.toLowerCase();
   const permissions = userData?.role?.permissions || [];
 
-  // Map role names to menu groups
+  // Map role names to menu group keys (menuGroups uses lowercase keys)
   const getRoleMenuKey = (role: string): string => {
-    if (role.includes("admin")) return "admin";
-    if (role.includes("bendahara")) return "bendahara";
-    if (role.includes("teacher") || role.includes("guru")) return "teacher";
-    if (role.includes("parent") || role.includes("orang tua")) return "parent";
+    const r = role.toLowerCase();
+    if (r.includes("admin") || r.includes("yayasan")) return "admin";
+    if (r.includes("bendahara") || r.includes("treasurer")) return "treasurer";
+    if (
+      r.includes("teacher") ||
+      r.includes("head of school") ||
+      r.includes("guru") ||
+      r.includes("kepala sekolah")
+    )
+      return "teacher";
+    if (r.includes("parent") || r.includes("orang tua")) return "parent";
     return "student";
   };
 
   const roleMenuKey = getRoleMenuKey(userRole);
   const currentMenuGroups = menuGroups[roleMenuKey] || menuGroups.student;
 
+  // Debug logging (remove in production)
+  React.useEffect(() => {
+    if (userData?.role) {
+      console.log("🔍 Sidebar Debug:", {
+        originalRole: userData.role.name,
+        userRole,
+        userRoleLower,
+        roleMenuKey,
+        hasMenuGroup: !!menuGroups[roleMenuKey],
+        menuGroupsAvailable: Object.keys(menuGroups),
+        permissionsCount: permissions.length,
+      });
+    }
+  }, [
+    userData?.role,
+    userRole,
+    userRoleLower,
+    roleMenuKey,
+    permissions.length,
+  ]);
+
   // Filter menu items based on permissions
   const filterMenuByPermissions = (items: MenuItem[]): MenuItem[] => {
+    // Admin, Yayasan, and Treasurer roles see ALL menus (bypass permission filtering)
+    if (
+      userRoleLower.includes("admin") ||
+      userRoleLower.includes("yayasan") ||
+      userRoleLower.includes("treasurer") ||
+      userRoleLower.includes("bendahara")
+    ) {
+      return items;
+    }
+
     return items
       .filter((item) => {
         if (item.items) {
@@ -130,7 +180,7 @@ export function AppSidebar() {
     router.push("/auth/sign-in");
   };
 
-  const clientName = process.env.NEXT_PUBLIC_CLIENT_NAME || "Yayasan Rahmaniyah";
+  const clientName = "Sera App";
 
   return (
     <Sidebar className="border-r border-border bg-sidebar text-foreground">
@@ -142,8 +192,12 @@ export function AppSidebar() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
             </span>
-            <span className="text-[17px] font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">Sera</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">LMS</span>
+            <span className="text-[17px] font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              Sera
+            </span>
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
+              LMS
+            </span>
           </div>
         </Link>
         <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground truncate">
@@ -160,7 +214,9 @@ export function AppSidebar() {
 
           return (
             <SidebarGroup key={groupIndex} className="mb-2">
-              <SidebarGroupLabel className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">{group.title}</SidebarGroupLabel>
+              <SidebarGroupLabel className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                {group.title}
+              </SidebarGroupLabel>
 
               <SidebarGroupContent>
                 <SidebarMenu className="space-y-0.5">
@@ -170,19 +226,30 @@ export function AppSidebar() {
                     const hasSubItems = item.items && item.items.length > 0;
 
                     if (hasSubItems) {
-                      const isAnySubActive = item.items?.some((sub) => pathname === sub.url);
+                      const isAnySubActive = item.items?.some(
+                        (sub) => pathname === sub.url,
+                      );
 
                       return (
-                        <Collapsible key={item.url} defaultOpen={isAnySubActive}>
+                        <Collapsible
+                          key={item.url}
+                          defaultOpen={isAnySubActive}
+                        >
                           <SidebarMenuItem>
                             <CollapsibleTrigger asChild>
                               <SidebarMenuButton
                                 className={`group/btn w-full justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
-                                  isAnySubActive ? "bg-primary/8 text-primary font-semibold" : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
+                                  isAnySubActive
+                                    ? "bg-primary/8 text-primary font-semibold"
+                                    : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                                 }`}
                               >
                                 <div className="flex items-center gap-2.5">
-                                  {Icon && <Icon className={`h-4 w-4 transition-colors ${isAnySubActive ? "text-primary" : "text-muted-foreground group-hover/btn:text-foreground"}`} />}
+                                  {Icon && (
+                                    <Icon
+                                      className={`h-4 w-4 transition-colors ${isAnySubActive ? "text-primary" : "text-muted-foreground group-hover/btn:text-foreground"}`}
+                                    />
+                                  )}
                                   <span>{item.title}</span>
                                 </div>
                                 <ChevronRight className="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />
@@ -220,11 +287,17 @@ export function AppSidebar() {
                           isActive={isActive}
                           onClick={() => router.push(item.url)}
                           className={`group/item w-full rounded-xl px-3 py-2 text-xs font-medium transition-all ${
-                            isActive ? "bg-primary/8 text-primary font-bold shadow-sm shadow-primary/10" : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
+                            isActive
+                              ? "bg-primary/8 text-primary font-bold shadow-sm shadow-primary/10"
+                              : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                           }`}
                         >
                           <div className="flex items-center gap-2.5">
-                            {Icon && <Icon className={`h-4 w-4 transition-colors ${isActive ? "text-primary" : "text-muted-foreground group-hover/item:text-foreground"}`} />}
+                            {Icon && (
+                              <Icon
+                                className={`h-4 w-4 transition-colors ${isActive ? "text-primary" : "text-muted-foreground group-hover/item:text-foreground"}`}
+                              />
+                            )}
                             <span>{item.title}</span>
                           </div>
                         </SidebarMenuButton>
@@ -244,34 +317,60 @@ export function AppSidebar() {
           <DropdownMenuTrigger asChild>
             <button className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all hover:border-border hover:bg-secondary">
               <Avatar className="h-8 w-8 rounded-full border border-border bg-brand-tint text-primary">
-                {userData?.avatarUrl && <Image width={32} height={32} src={userData.avatarUrl} alt={userData.name || "User"} className="rounded-full object-cover" />}
-                <AvatarFallback className="bg-brand-tint text-[11px] font-bold text-primary">{getUserInitials(userData?.name)}</AvatarFallback>
+                {userData?.avatarUrl && (
+                  <Image
+                    width={32}
+                    height={32}
+                    src={userData.avatarUrl}
+                    alt={userData.name || "User"}
+                    className="rounded-full object-cover"
+                  />
+                )}
+                <AvatarFallback className="bg-brand-tint text-[11px] font-bold text-primary">
+                  {getUserInitials(userData?.name)}
+                </AvatarFallback>
               </Avatar>
 
               <div className="flex flex-1 flex-col min-w-0">
-                <span className="truncate text-xs font-bold text-foreground">{userData?.name || "Pengguna"}</span>
-                <span className="truncate text-[10px] text-muted-foreground capitalize">{userData?.role?.name || "Siswa"}</span>
+                <span className="truncate text-xs font-bold text-foreground">
+                  {userData?.name || "Pengguna"}
+                </span>
+                <span className="truncate text-[10px] text-muted-foreground capitalize">
+                  {userData?.role?.name || "Siswa"}
+                </span>
               </div>
 
               <ChevronRight className="h-3.5 w-3.5 text-muted-foreground opacity-60 transition-transform group-hover:translate-x-0.5" />
             </button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" side="right" className="w-56 rounded-xl border-border p-1.5 shadow-lg">
+          <DropdownMenuContent
+            align="end"
+            side="right"
+            className="w-56 rounded-xl border-border p-1.5 shadow-lg"
+          >
             <DropdownMenuLabel className="px-2 py-1.5 text-xs text-muted-foreground">
               <div>Akun Terhubung</div>
-              <div className="font-bold text-foreground truncate">{session?.user?.email || "user@sekolah.com"}</div>
+              <div className="font-bold text-foreground truncate">
+                {session?.user?.email || "user@sekolah.com"}
+              </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border" />
 
-            <DropdownMenuItem onClick={() => router.push("/dashboard/profile")} className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-secondary-foreground hover:bg-secondary hover:text-primary">
+            <DropdownMenuItem
+              onClick={() => router.push("/dashboard/profile")}
+              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-secondary-foreground hover:bg-secondary hover:text-primary"
+            >
               <UserIcon className="mr-2 h-4 w-4 text-primary" />
               <span>Profil Pengguna</span>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator className="bg-border" />
 
-            <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-destructive hover:bg-destructive-chip">
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-destructive hover:bg-destructive-chip"
+            >
               <LogOut className="mr-2 h-4 w-4 text-destructive" />
               <span>Keluar dari Akun</span>
             </DropdownMenuItem>

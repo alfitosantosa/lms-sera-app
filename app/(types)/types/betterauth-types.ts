@@ -45,17 +45,17 @@
 //             "name": "Bendahara",
 //             "description": "",
 //             "permissions": [
-//                 "/dashboard/bendahara/users",
-//                 "/dashboard/bendahara/paymenttype",
-//                 "/dashboard/bendahara/class",
-//                 "/dashboard/bendahara/payment",
-//                 "/dashboard/bendahara/billing",
-//                 "/dashboard/bendahara/billing/upload",
-//                 "/dashboard/bendahara/users/upload",
-//                 "/dashboard/bendahara/studentinformation",
-//                 "/dashboard/payments/chart",
-//                 "/dashboard/billing/chart",
-//                 "/dashboard/accountbank/chart"
+//                 "/dashboard/treasurer/users",
+//                 "/dashboard/treasurer/paymenttype",
+//                 "/dashboard/treasurer/class",
+//                 "/dashboard/treasurer/payment",
+//                 "/dashboard/treasurer/billing",
+//                 "/dashboard/treasurer/billing/upload",
+//                 "/dashboard/treasurer/users/upload",
+//                 "/dashboard/treasurer/studentinformation",
+//                 "/dashboard/admin/finance/payments/chart",
+//                 "/dashboard/admin/finance/billing/chart",
+//                 "/dashboard/admin/finance/accountbank/chart"
 //             ],
 //             "isActive": true
 //         }
@@ -74,7 +74,15 @@ export type betterauthUser = {
   banReason: string | null;
   banned: boolean;
   role: string;
-  userData: {
+  foundationId?: string | null;
+  foundation?: {
+    id: string;
+    name: string;
+    code: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  userData?: {
     id: string;
     userId: string;
     academicYearId: string | null;
@@ -104,6 +112,14 @@ export type betterauthUser = {
     createdAt: string;
     updatedAt: string;
     tahfidzGroupId: string | null;
+    foundationId?: string | null;
+    foundation?: {
+      id: string;
+      name: string;
+      code: string;
+      createdAt: string;
+      updatedAt: string;
+    } | null;
     role: {
       id: string;
       name: string;
@@ -111,7 +127,7 @@ export type betterauthUser = {
       permissions: string[];
       isActive: boolean;
     };
-  };
+  } | null;
 };
 export type permissionType = {
   permission: string;

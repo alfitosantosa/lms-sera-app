@@ -1,5 +1,5 @@
 "use client";
-import { SpecialScheduleData } from "@/app/(frontend)/(dashboard)/dashboard/specialschedule/page";
+import { SpecialScheduleData } from "@/app/(frontend)/(dashboard)/dashboard/admin/academic/specialschedule/page";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

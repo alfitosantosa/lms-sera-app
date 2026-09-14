@@ -5,37 +5,32 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function Architecture() {
   const tenants = [
-    { name: "SMK IT Rahmaniyah", id: "tenant_0312", count: "510 Siswa", status: "Terisolasi" },
-    { name: "SMA Rahmaniyah Al-Islamy", id: "tenant_0231", count: "420 Siswa", status: "Terisolasi" },
-    { name: "SMP Cendekia Al-Islamy", id: "tenant_0198", count: "380 Siswa", status: "Terisolasi" },
-    { name: "SD Islam Terpadu Harapan", id: "tenant_0074", count: "290 Siswa", status: "Terisolasi" },
+    { name: "SMK IT Rahmaniyah", count: "510 siswa · SMK" },
+    { name: "SMA Rahmaniyah Al-Islamy", count: "420 siswa · SMA" },
+    { name: "SMP Cendekia Al-Islamy", count: "380 siswa · SMP" },
+    { name: "SD Islam Terpadu Harapan", count: "290 siswa · SD" },
   ];
 
   const roles = [
     {
-      tier: "01",
-      name: "Super Admin Yayasan",
-      desc: "Melihat laporan konsolidasi seluruh unit sekolah, arus kas yayasan, dan konfigurasi multi-tenant.",
+      name: "Pengurus Yayasan",
+      desc: "Melihat laporan gabungan seluruh sekolah, arus kas yayasan, dan pengaturan semua unit sekolah.",
     },
     {
-      tier: "02",
       name: "Kepala Sekolah & Staf TU",
-      desc: "Mengatur kurikulum sekolah lokal, data siswa, jadwal guru, dan penerbitan e-rapor.",
+      desc: "Mengatur kurikulum, data siswa, jadwal guru, dan penerbitan e-rapor di sekolahnya.",
     },
     {
-      tier: "03",
       name: "Guru & Wali Kelas",
       desc: "Presensi harian siswa, input nilai tugas & ujian, catatan pelanggaran, dan setoran tahfidz.",
     },
     {
-      tier: "04",
       name: "Siswa",
-      desc: "Akses jadwal pelajaran, tugas harian, status kehadiran, dan kartu ujian digital.",
+      desc: "Melihat jadwal pelajaran, tugas harian, status kehadiran, dan kartu ujian digital.",
     },
     {
-      tier: "05",
       name: "Orang Tua / Wali Murid",
-      desc: "Menerima notifikasi WhatsApp kehadiran, memantau nilai, dan membayar SPP via payment gateway.",
+      desc: "Menerima notifikasi WhatsApp kehadiran, memantau nilai, dan membayar SPP secara online.",
     },
   ];
 
@@ -49,14 +44,14 @@ export function Architecture() {
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-block rounded-full bg-primary/30 px-3.5 py-1 text-xs font-semibold text-brand-accent">
-            Arsitektur &amp; Keamanan
+            Privasi &amp; Keamanan Data
           </span>
           <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
-            Dibangun untuk Yayasan dengan Skala Multi-Sekolah.
+            Satu platform untuk seluruh sekolah di bawah yayasan Anda.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-navy-muted">
-            Satu platform terpadu dengan isolasi data tingkat database untuk tiap sekolah di bawah
-            naungan yayasan — tanpa risiko data saling tertukar atau bocor.
+            Setiap sekolah punya ruang data sendiri yang terkunci rapat — siswa, keuangan, dan rapor
+            tidak pernah tertukar antar sekolah.
           </p>
         </div>
 
@@ -67,18 +62,19 @@ export function Architecture() {
             <div className="flex items-center gap-2 text-[#00d4ff]">
               <Lock className="h-5 w-5" />
               <h3 className="text-xl font-bold text-white">
-                Isolasi Data Tingkat Tenant (ORM Layer)
+                Data Setiap Sekolah Terpisah Rapat
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-navy-muted">
-              Setiap sekolah memiliki identifier <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-[#00d4ff]">tenantId</code> unik pada setiap tabel operasional. Dikelola di level ORM &amp; query builder, sehingga kebocoran data antar sekolah dicegah langsung dari desain sistem.
+              Setiap sekolah punya ruang datanya sendiri di dalam sistem. Data sekolah yang satu tidak
+              bisa dilihat atau tercampur dengan sekolah yang lain — sudah terjamin sejak dari desainnya.
             </p>
 
             <Card className="rounded-2xl border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
               <CardContent className="space-y-3 p-0">
                 <div className="flex items-center justify-between text-xs text-navy-muted pb-2 border-b border-white/10">
                   <span>Unit Sekolah Aktif</span>
-                  <span>Status Isolasi</span>
+                  <span>Status Data</span>
                 </div>
                 {tenants.map((t, idx) => (
                   <div
@@ -89,11 +85,11 @@ export function Architecture() {
                       <Building2 className="h-4 w-4 text-primary" />
                       <div>
                         <div className="font-semibold text-white">{t.name}</div>
-                        <div className="text-[11px] text-navy-muted">{t.count} • {t.id}</div>
+                        <div className="text-[11px] text-navy-muted">{t.count}</div>
                       </div>
                     </div>
                     <Badge className="border-none bg-[#00d924]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#a5d6a7]">
-                      {t.status}
+                      Terkunci
                     </Badge>
                   </div>
                 ))}
@@ -103,7 +99,7 @@ export function Architecture() {
             <div className="flex flex-wrap gap-4 text-xs text-navy-muted">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-[#00d4ff]" />
-                Enkripsi data saat istirahat (AES-256)
+                Data terenkripsi &amp; aman
               </div>
               <div className="flex items-center gap-1.5">
                 <Database className="h-4 w-4 text-[#00d4ff]" />
@@ -112,16 +108,17 @@ export function Architecture() {
             </div>
           </div>
 
-          {/* Right Column: RBAC Hierarchy */}
+          {/* Right Column: Role Hierarchy */}
           <div className="space-y-6">
             <div className="flex items-center gap-2 text-brand-accent">
               <Key className="h-5 w-5" />
               <h3 className="text-xl font-bold text-white">
-                Hierarki Hak Akses Berjenjang (RBAC)
+                Hak Akses Sesuai Peran
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-navy-muted">
-              Setiap pengguna hanya dapat melihat dan memodifikasi data yang relevan dengan peran masing-masing, diautentikasi aman melalui session Better Auth.
+              Setiap pengguna hanya melihat data sesuai perannya — dari pengurus yayasan, kepala sekolah,
+              guru, hingga orang tua — secara aman.
             </p>
 
             <div className="space-y-3">
@@ -130,9 +127,6 @@ export function Architecture() {
                   key={idx}
                   className="flex items-start gap-3.5 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 transition-colors hover:bg-white/[0.06]"
                 >
-                  <span className="font-mono text-xs font-bold text-[#00d4ff]">
-                    {r.tier}
-                  </span>
                   <div>
                     <h4 className="text-sm font-bold text-white">{r.name}</h4>
                     <p className="mt-0.5 text-xs leading-relaxed text-navy-muted">

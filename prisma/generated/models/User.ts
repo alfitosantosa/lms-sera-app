@@ -238,9 +238,9 @@ export type UserWhereInput = {
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   role?: Prisma.StringNullableFilter<"User"> | string | null
   foundationId?: Prisma.StringNullableFilter<"User"> | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   userData?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
 
@@ -257,9 +257,9 @@ export type UserOrderByWithRelationInput = {
   banned?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   foundationId?: Prisma.SortOrderInput | Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   userData?: Prisma.UserDataOrderByWithRelationInput
 }
 
@@ -279,9 +279,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   role?: Prisma.StringNullableFilter<"User"> | string | null
   foundationId?: Prisma.StringNullableFilter<"User"> | string | null
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   userData?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id" | "id" | "email">
 
@@ -333,9 +333,9 @@ export type UserCreateInput = {
   banReason?: string | null
   banned?: boolean | null
   role?: string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   userData?: Prisma.UserDataCreateNestedOneWithoutUserInput
 }
 
@@ -369,9 +369,9 @@ export type UserUpdateInput = {
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   userData?: Prisma.UserDataUpdateOneWithoutUserNestedInput
 }
 
@@ -698,8 +698,8 @@ export type UserCreateWithoutSessionsInput = {
   banReason?: string | null
   banned?: boolean | null
   role?: string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   userData?: Prisma.UserDataCreateNestedOneWithoutUserInput
 }
 
@@ -748,8 +748,8 @@ export type UserUpdateWithoutSessionsInput = {
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   userData?: Prisma.UserDataUpdateOneWithoutUserNestedInput
 }
 
@@ -782,8 +782,8 @@ export type UserCreateWithoutAccountsInput = {
   banReason?: string | null
   banned?: boolean | null
   role?: string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   userData?: Prisma.UserDataCreateNestedOneWithoutUserInput
 }
 
@@ -832,8 +832,8 @@ export type UserUpdateWithoutAccountsInput = {
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   userData?: Prisma.UserDataUpdateOneWithoutUserNestedInput
 }
 
@@ -866,9 +866,9 @@ export type UserCreateWithoutUserDataInput = {
   banReason?: string | null
   banned?: boolean | null
   role?: string | null
-  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserDataInput = {
@@ -916,9 +916,9 @@ export type UserUpdateWithoutUserDataInput = {
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserDataInput = {
@@ -1053,9 +1053,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   banned?: boolean
   role?: boolean
   foundationId?: boolean
-  foundation?: boolean | Prisma.User$foundationArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  foundation?: boolean | Prisma.User$foundationArgs<ExtArgs>
   userData?: boolean | Prisma.User$userDataArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1109,9 +1109,9 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "banExpires" | "banReason" | "banned" | "role" | "foundationId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.User$foundationArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  foundation?: boolean | Prisma.User$foundationArgs<ExtArgs>
   userData?: boolean | Prisma.User$userDataArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1125,9 +1125,9 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
+    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     userData: Prisma.$UserDataPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1537,9 +1537,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.User$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  foundation<T extends Prisma.User$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   userData<T extends Prisma.User$userDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userDataArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1983,25 +1983,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.foundation
- */
-export type User$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
-}
-
-/**
  * User.accounts
  */
 export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2047,6 +2028,25 @@ export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
+ * User.foundation
+ */
+export type User$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
 }
 
 /**

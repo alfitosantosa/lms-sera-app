@@ -1,6 +1,6 @@
 "use client";
 import { betterauthUser } from "@/app/(types)/types/betterauth-types";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet, apiPost } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetBetterAuth = () => {
@@ -9,6 +9,23 @@ export const useGetBetterAuth = () => {
     queryFn: async () => {
       try {
         const res = await apiGet<betterauthUser[]>("/api/betterauth/users");
+        return res.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+};
+
+export const useGetBetterAuthById = (userId: String) => {
+  return useQuery({
+    queryKey: ["betterauth-by-id", userId],
+    queryFn: async () => {
+      try {
+        const res = await apiPost<betterauthUser[]>(
+          "/api/betterauth/users",
+          userId,
+        );
         return res.data;
       } catch (error) {
         console.error(error);

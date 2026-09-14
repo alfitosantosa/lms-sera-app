@@ -104,6 +104,44 @@ export function FinanceSection() {
             </Card>
           </div>
         </div>
+
+        {/* Payment Flow Diagram */}
+        <div className="mt-14 rounded-2xl border border-border bg-background p-6 sm:p-8">
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-foreground sm:text-2xl">
+              Alur Pembayaran SPP Online
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Dari tagihan terbit sampai kuitansi diterima orang tua — semuanya otomatis.
+            </p>
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { icon: Receipt, title: "Tagihan Terbit", desc: "Tagihan SPP dibuat otomatis & notif WhatsApp terkirim ke orang tua" },
+              { icon: Wallet, title: "Bayar Online", desc: "Orang tua membayar via Virtual Account atau QRIS bank pilihan" },
+              { icon: CreditCard, title: "Verifikasi Midtrans", desc: "Payment gateway Midtrans memverifikasi pembayaran secara resmi" },
+              { icon: CheckCircle2, title: "Tercatat Lunas", desc: "Sistem mencatat lunas otomatis & memperbarui rekap kas yayasan" },
+              { icon: QrCode, title: "Kuitansi PDF", desc: "Kuitansi resmi ber-QR code terbit & terkirim ke WhatsApp orang tua" },
+            ].map((step, idx) => (
+              <div key={idx} className="relative">
+                <div className="flex h-full flex-col items-center rounded-xl border border-border bg-secondary/40 p-4 text-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <div className="mt-3 text-xs font-bold text-foreground">
+                    <span className="mr-1 text-primary">{idx + 1}.</span>
+                    {step.title}
+                  </div>
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">{step.desc}</p>
+                </div>
+                {idx < 4 && (
+                  <ArrowRight className="absolute -right-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-muted-foreground/50 lg:block" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

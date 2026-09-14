@@ -1,4 +1,19 @@
-import { AlertTriangle, BarChart3, Building2, Calendar, ClipboardCheck, CreditCard, FileText, GraduationCap, Home, LayoutDashboard, MessageSquare, Settings, Upload, Users } from "lucide-react";
+import {
+  AlertTriangle,
+  BarChart3,
+  Building2,
+  Calendar,
+  ClipboardCheck,
+  CreditCard,
+  FileText,
+  GraduationCap,
+  Home,
+  LayoutDashboard,
+  MessageSquare,
+  Settings,
+  Upload,
+  Users,
+} from "lucide-react";
 
 // Icon mapping
 const iconMap: Record<string, React.ElementType> = {
@@ -40,7 +55,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       title: "Utama",
       items: [
         { title: "Home", url: "/", icon: "home" },
-        { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -54,44 +68,43 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "BetterAuth",
-          url: "/dashboard/betterauth",
+          url: "/dashboard/admin/master/betterauth",
           icon: "settings",
         },
         {
           title: "Roles",
-          url: "/dashboard/roles",
+          url: "/dashboard/admin/master/roles",
           icon: "settings",
         },
         {
           title: "Users",
-          url: "/dashboard/users",
+          url: "/dashboard/admin/master/users",
           icon: "users",
         },
         {
           title: "Tahun Ajaran",
-          url: "/dashboard/academicyear",
+          url: "/dashboard/admin/master/academicyear",
           icon: "academic",
         },
         {
           title: "Branch",
-          url: "/dashboard/majors",
+          url: "/dashboard/admin/master/majors",
           icon: "academic",
         },
         {
           title: "Kelas",
-          url: "/dashboard/classes",
+          url: "/dashboard/admin/master/classes",
           icon: "academic",
           items: [
             {
-              title: "Tahfidz Group",
-              url: "/dashboard/classes/tahfidz",
+              title: "Kelas",
+              url: "/dashboard/admin/master/classes",
+            },
+            {
+              title: "Grup Tahfidz",
+              url: "/dashboard/admin/master/classes/tahfidz",
             },
           ],
-        },
-        {
-          title: "Mata Pelajaran",
-          url: "/dashboard/subjects",
-          icon: "academic",
         },
       ],
     },
@@ -100,13 +113,13 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       title: "Akademik",
       items: [
         {
-          title: "Jadwal",
-          url: "/dashboard/schedules",
-          icon: "calendar",
+          title: "Mata Pelajaran",
+          url: "/dashboard/admin/master/subjects",
+          icon: "academic",
         },
         {
-          title: "Jadwal Khusus",
-          url: "/dashboard/specialschedule",
+          title: "Jadwal",
+          url: "/dashboard/admin/academic/schedules",
           icon: "calendar",
         },
         {
@@ -121,34 +134,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           ],
         },
         {
-          title: "Setoran Tahfidz",
-          url: "/dashboard/tahfidzrecord",
-          icon: "academic",
-        },
-        {
-          title: "Kalender",
-          url: "/dashboard/calender",
-          icon: "calendar",
-          items: [
-            {
-              title: "Guru",
-              url: "/dashboard/calender/teacher",
-            },
-            {
-              title: "Siswa",
-              url: "/dashboard/calender/student",
-            },
-            {
-              title: "List Guru",
-              url: "/dashboard/calender/list/teacher",
-            },
-            {
-              title: "List Siswa",
-              url: "/dashboard/calender/list/student",
-            },
-          ],
-        },
-        {
           title: "Rekap Absensi",
           url: "/dashboard/recapattendance",
           icon: "attendance",
@@ -159,6 +144,16 @@ export const menuGroups: Record<string, MenuGroup[]> = {
             },
           ],
         },
+        {
+          title: "Jadwal Khusus",
+          url: "/dashboard/admin/academic/specialschedule",
+          icon: "calendar",
+        },
+        {
+          title: "Setoran Tahfidz",
+          url: "/dashboard/admin/academic/tahfidzrecord",
+          icon: "academic",
+        },
       ],
     },
 
@@ -167,7 +162,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Jenis Pelanggaran",
-          url: "/dashboard/typeviolations",
+          url: "/dashboard/admin/discipline/typeviolations",
           icon: "violation",
         },
         {
@@ -183,27 +178,27 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Jenis Tagihan",
-          url: "/dashboard/paymenttypes",
+          url: "/dashboard/admin/finance/paymenttypes",
           icon: "payment",
         },
         {
           title: "Tagihan",
-          url: "/dashboard/billing",
+          url: "/dashboard/admin/finance/billing",
           icon: "file",
         },
         {
           title: "Transaksi",
-          url: "/dashboard/payments",
+          url: "/dashboard/admin/finance/payments",
           icon: "payment",
         },
         {
           title: "Account Bank",
-          url: "/dashboard/accountbank",
+          url: "/dashboard/admin/finance/accountbank",
           icon: "bank",
         },
         {
           title: "Informasi Siswa",
-          url: "/dashboard/studentinformation",
+          url: "/dashboard/admin/finance/studentinformation",
           icon: "users",
         },
       ],
@@ -213,18 +208,23 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       title: "Dashboard",
       items: [
         {
+          title: "Dashboard Absensi",
+          url: "/dashboard",
+          icon: "chart",
+        },
+        {
           title: "Dashboard Transaksi",
-          url: "/dashboard/payments/chart",
+          url: "/dashboard/admin/finance/payments/chart",
           icon: "chart",
         },
         {
           title: "Dashboard Tagihan",
-          url: "/dashboard/billing/chart",
+          url: "/dashboard/admin/finance/billing/chart",
           icon: "chart",
         },
         {
           title: "Dashboard Saldo",
-          url: "/dashboard/accountbank/chart",
+          url: "/dashboard/admin/finance/accountbank/chart",
           icon: "chart",
         },
       ],
@@ -235,17 +235,17 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Upload Users",
-          url: "/dashboard/upload/users",
+          url: "/dashboard/admin/utility/upload/users",
           icon: "upload",
         },
         {
           title: "Upload Jadwal",
-          url: "/dashboard/upload/schedules",
+          url: "/dashboard/admin/utility/upload/schedules",
           icon: "upload",
         },
         {
           title: "Botwa",
-          url: "/dashboard/botwa",
+          url: "/dashboard/admin/utility/botwa",
           icon: "bot",
         },
       ],
@@ -253,14 +253,13 @@ export const menuGroups: Record<string, MenuGroup[]> = {
   ],
 
   // =====================================================
-  // BENDAHARA
+  // TREASURER
   // =====================================================
-  bendahara: [
+  treasurer: [
     {
       title: "Utama",
       items: [
         { title: "Home", url: "/", icon: "home" },
-        { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -274,17 +273,17 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Dashboard Transaksi",
-          url: "/dashboard/payments/chart",
+          url: "/dashboard/admin/finance/payments/chart",
           icon: "chart",
         },
         {
           title: "Dashboard Tagihan",
-          url: "/dashboard/billing/chart",
+          url: "/dashboard/admin/finance/billing/chart",
           icon: "chart",
         },
         {
           title: "Dashboard Saldo",
-          url: "/dashboard/accountbank/chart",
+          url: "/dashboard/admin/finance/accountbank/chart",
           icon: "chart",
         },
       ],
@@ -294,33 +293,33 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       title: "Keuangan",
       items: [
         {
-          title: "Data Transaksi",
-          url: "/dashboard/bendahara/payment",
+          title: "Jenis Tagihan",
+          url: "/dashboard/treasurer/paymenttype",
           icon: "payment",
         },
         {
           title: "Data Tagihan",
-          url: "/dashboard/bendahara/billing",
+          url: "/dashboard/treasurer/billing",
           icon: "file",
         },
         {
-          title: "Jenis Tagihan",
-          url: "/dashboard/bendahara/paymenttype",
+          title: "Data Transaksi",
+          url: "/dashboard/treasurer/payment",
           icon: "payment",
         },
         {
-          title: "Data Siswa",
-          url: "/dashboard/bendahara/users",
-          icon: "users",
-        },
-        {
           title: "Data Kelas",
-          url: "/dashboard/bendahara/class",
+          url: "/dashboard/treasurer/class",
           icon: "academic",
         },
         {
+          title: "Data Siswa",
+          url: "/dashboard/treasurer/users",
+          icon: "users",
+        },
+        {
           title: "Informasi Siswa",
-          url: "/dashboard/bendahara/studentinformation",
+          url: "/dashboard/treasurer/studentinformation",
           icon: "users",
         },
       ],
@@ -331,12 +330,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Upload Tagihan",
-          url: "/dashboard/bendahara/billing/upload",
+          url: "/dashboard/treasurer/billing/upload",
           icon: "upload",
         },
         {
           title: "Upload Siswa",
-          url: "/dashboard/bendahara/users/upload",
+          url: "/dashboard/treasurer/users/upload",
           icon: "upload",
         },
       ],

@@ -3,6 +3,7 @@ export * from "./Navbar";
 export * from "./Hero";
 export * from "./SocialProof";
 export * from "./Features";
+export * from "./HowItWorks";
 export * from "./Architecture";
 export * from "./FinanceSection";
 export * from "./Pricing";

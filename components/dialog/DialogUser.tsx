@@ -1,22 +1,51 @@
 "use client";
 
-import { useGetAcademicYears } from "@/app/(frontend)/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClasses } from "@/app/(frontend)/(hooks)/hooks/Classes/useClass";
-import { useGetMajors } from "@/app/(frontend)/(hooks)/hooks/Majors/useMajors";
-import { useGetRoles } from "@/app/(frontend)/(hooks)/hooks/Roles/useRoles";
-import { useGetTahfidzGroup } from "@/app/(frontend)/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
-import { useGetBetterAuthWithoutUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
-import { useBulkDeleteUserData } from "@/app/(frontend)/(hooks)/hooks/Users/useBulkUsersData";
-import { useCreateUser, useDeleteUser, useGetUsers, useUpdateUser } from "@/app/(frontend)/(hooks)/hooks/Users/useUsers";
-import { getErrorMessage, SelectOption, tahfidzGroupTypes } from "@/app/(types)";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
+import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
+import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
+import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
+import { useBulkDeleteUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
+import {
+  useCreateUser,
+  useDeleteUser,
+  useGetUsers,
+  useUpdateUser,
+} from "@/app/(hooks)/hooks/Users/useUsers";
+import {
+  getErrorMessage,
+  SelectOption,
+  tahfidzGroupTypes,
+} from "@/app/(types)";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, Search, Upload, User, X } from "lucide-react";
@@ -97,7 +126,10 @@ export type BetterAuthUser = {
 
 // Form schema
 const userSchema = z.object({
-  name: z.string().min(1, "Nama wajib diisi").max(100, "Nama maksimal 100 karakter"),
+  name: z
+    .string()
+    .min(1, "Nama wajib diisi")
+    .max(100, "Nama maksimal 100 karakter"),
   email: z
     .string()
     .optional()
@@ -133,7 +165,17 @@ const userSchema = z.object({
 type UserFormValues = z.infer<typeof userSchema>;
 
 // Student Selector Component for Parent
-function StudentSelector({ students, selectedStudentIds = [], onSelectionChange, disabled = false }: { students: UserData[]; selectedStudentIds?: string[]; onSelectionChange: (studentIds: string[]) => void; disabled?: boolean }) {
+function StudentSelector({
+  students,
+  selectedStudentIds = [],
+  onSelectionChange,
+  disabled = false,
+}: {
+  students: UserData[];
+  selectedStudentIds?: string[];
+  onSelectionChange: (studentIds: string[]) => void;
+  disabled?: boolean;
+}) {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
 
@@ -144,12 +186,18 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
       const name = student.name.toLowerCase();
       const nisn = student.nisn?.toLowerCase() || "";
       const className = student.class?.name?.toLowerCase() || "";
-      return name.includes(searchTerm.toLowerCase()) || nisn.includes(searchTerm.toLowerCase()) || className.includes(searchTerm.toLowerCase());
+      return (
+        name.includes(searchTerm.toLowerCase()) ||
+        nisn.includes(searchTerm.toLowerCase()) ||
+        className.includes(searchTerm.toLowerCase())
+      );
     });
   }, [students, searchTerm]);
 
   const selectedStudents = React.useMemo(() => {
-    return students.filter((student) => selectedStudentIds.includes(student.id));
+    return students.filter((student) =>
+      selectedStudentIds.includes(student.id),
+    );
   }, [students, selectedStudentIds]);
 
   const toggleStudent = (studentId: string) => {
@@ -172,14 +220,22 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
       {selectedStudents.length > 0 && (
         <div className="flex flex-wrap gap-2 p-3 border rounded-md bg-muted/30">
           {selectedStudents.map((student) => (
-            <Badge key={student.id} variant="secondary" className="flex items-center gap-2 py-1.5 px-3">
+            <Badge
+              key={student.id}
+              variant="secondary"
+              className="flex items-center gap-2 py-1.5 px-3"
+            >
               <div className="flex flex-col items-start">
                 <span className="font-medium">{student.name}</span>
                 <span className="text-xs text-muted-foreground">
                   NISN: {student.nisn} • {student.class?.name || "Tanpa Kelas"}
                 </span>
               </div>
-              <Button onClick={() => removeStudent(student.id)} disabled={disabled} className="ml-1 hover:bg-destructive/20 rounded-full p-0.5">
+              <Button
+                onClick={() => removeStudent(student.id)}
+                disabled={disabled}
+                className="ml-1 hover:bg-destructive/20 rounded-full p-0.5"
+              >
                 <X className="h-3 w-3" />
               </Button>
             </Badge>
@@ -188,9 +244,17 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
       )}
 
       {/* Select Button */}
-      <Button type="button" variant="outline" onClick={() => setOpen(true)} disabled={disabled} className="w-full justify-start">
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => setOpen(true)}
+        disabled={disabled}
+        className="w-full justify-start"
+      >
         <Search className="h-4 w-4 mr-2" />
-        {selectedStudents.length === 0 ? "Pilih Siswa" : `${selectedStudents.length} siswa dipilih`}
+        {selectedStudents.length === 0
+          ? "Pilih Siswa"
+          : `${selectedStudents.length} siswa dipilih`}
       </Button>
 
       {/* Student Selection Dialog */}
@@ -204,16 +268,33 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
             {/* Search Input */}
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Cari nama, NISN, atau kelas..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-8" />
+              <Input
+                placeholder="Cari nama, NISN, atau kelas..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
             </div>
 
             {/* Student List */}
             <div className="max-h-96 overflow-y-auto space-y-2 border rounded-md p-2">
-              {filteredStudents.length === 0 ?
-                <div className="text-center p-8 text-muted-foreground">{searchTerm ? "Tidak ada siswa yang cocok dengan pencarian" : "Tidak ada siswa tersedia"}</div>
-              : filteredStudents.map((student) => (
-                  <div key={student.id} className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer" onClick={() => toggleStudent(student.id)}>
-                    <Checkbox checked={selectedStudentIds.includes(student.id)} onCheckedChange={() => toggleStudent(student.id)} />
+              {filteredStudents.length === 0 ? (
+                <div className="text-center p-8 text-muted-foreground">
+                  {searchTerm
+                    ? "Tidak ada siswa yang cocok dengan pencarian"
+                    : "Tidak ada siswa tersedia"}
+                </div>
+              ) : (
+                filteredStudents.map((student) => (
+                  <div
+                    key={student.id}
+                    className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer"
+                    onClick={() => toggleStudent(student.id)}
+                  >
+                    <Checkbox
+                      checked={selectedStudentIds.includes(student.id)}
+                      onCheckedChange={() => toggleStudent(student.id)}
+                    />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium">{student.name}</p>
                       <div className="flex gap-2 mt-1">
@@ -232,14 +313,20 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
                     </div>
                   </div>
                 ))
-              }
+              )}
             </div>
 
             {/* Footer with count */}
             <div className="flex items-center justify-between pt-2 border-t">
-              <p className="text-sm text-muted-foreground">{selectedStudentIds.length} siswa dipilih</p>
+              <p className="text-sm text-muted-foreground">
+                {selectedStudentIds.length} siswa dipilih
+              </p>
               <div className="flex gap-2">
-                <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
                   Selesai
                 </Button>
               </div>
@@ -252,8 +339,18 @@ function StudentSelector({ students, selectedStudentIds = [], onSelectionChange,
 }
 
 // Avatar Upload Component with Preview
-function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: { currentAvatarUrl?: string; onUploadSuccess: (url: string) => void; disabled?: boolean }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(currentAvatarUrl || null);
+function AvatarUpload({
+  currentAvatarUrl,
+  onUploadSuccess,
+  disabled = false,
+}: {
+  currentAvatarUrl?: string;
+  onUploadSuccess: (url: string) => void;
+  disabled?: boolean;
+}) {
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+    currentAvatarUrl || null,
+  );
   const [isUploading, setIsUploading] = React.useState(false);
   const [showPreview, setShowPreview] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -352,39 +449,74 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
       <div className="flex gap-4 items-start">
         {/* Preview */}
         <div className="relative">
-          {previewUrl ?
+          {previewUrl ? (
             <div className="relative group">
-              <Image src={previewUrl} alt="Avatar preview" width={20} height={20} className="w-24 h-24 rounded-full object-cover border-2" />
+              <Image
+                src={previewUrl}
+                alt="Avatar preview"
+                width={20}
+                height={20}
+                className="w-24 h-24 rounded-full object-cover border-2"
+              />
               <div className="absolute inset-0 flex items-center justify-center bg-navy/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white" onClick={() => setShowPreview(true)}>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="text-white hover:text-white"
+                  onClick={() => setShowPreview(true)}
+                >
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
             </div>
-          : <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center border-2 border-dashed">
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center border-2 border-dashed">
               <User className="h-10 w-10 text-muted-foreground" />
             </div>
-          }
+          )}
         </div>
 
         {/* Upload Controls */}
         <div className="flex-1 space-y-2">
-          <Input ref={fileInputRef} id="picture" type="file" accept="image/*" onChange={handleFileChange} disabled={disabled || isUploading} />
+          <Input
+            ref={fileInputRef}
+            id="picture"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={disabled || isUploading}
+          />
 
           <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={handleUpload} disabled={disabled || isUploading || !fileInputRef.current?.files?.[0]} className="flex-1">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleUpload}
+              disabled={
+                disabled || isUploading || !fileInputRef.current?.files?.[0]
+              }
+              className="flex-1"
+            >
               <Upload className="h-4 w-4 mr-2" />
               {isUploading ? "Mengunggah..." : "Upload Avatar"}
             </Button>
 
             {previewUrl && (
-              <Button type="button" variant="outline" onClick={handleRemove} disabled={disabled || isUploading}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleRemove}
+                disabled={disabled || isUploading}
+              >
                 <X className="h-4 w-4" />
               </Button>
             )}
           </div>
 
-          <p className="text-xs text-muted-foreground">Format: JPG, PNG, GIF. Maksimal 5MB.</p>
+          <p className="text-xs text-muted-foreground">
+            Format: JPG, PNG, GIF. Maksimal 5MB.
+          </p>
         </div>
       </div>
 
@@ -396,7 +528,13 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
               <DialogTitle>Preview Avatar</DialogTitle>
             </DialogHeader>
             <div className="flex items-center justify-center p-4">
-              <Image src={previewUrl} alt="Avatar preview" className="max-w-full max-h-[70vh] rounded-lg" width={500} height={500} />
+              <Image
+                src={previewUrl}
+                alt="Avatar preview"
+                className="max-w-full max-h-[70vh] rounded-lg"
+                width={500}
+                height={500}
+              />
             </div>
           </DialogContent>
         </Dialog>
@@ -406,10 +544,21 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
 }
 
 // Betterauth User Selector Component
-function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled = false }: { onSelect: (betterAuth: BetterAuthUser | null) => void; selecteduserId?: string; disabled?: boolean; foundationId: string }) {
+function BetterAuthSelector({
+  foundationId,
+  onSelect,
+  selecteduserId,
+  disabled = false,
+}: {
+  onSelect: (betterAuth: BetterAuthUser | null) => void;
+  selecteduserId?: string;
+  disabled?: boolean;
+  foundationId: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const { data: betterAuthsData, isLoading: betterAuthsLoading } = useGetBetterAuthWithoutUserData(foundationId);
+  const { data: betterAuthsData, isLoading: betterAuthsLoading } =
+    useGetBetterAuthWithoutUserData(foundationId);
   const betterAuths = (betterAuthsData ?? []) as BetterAuthUser[];
 
   const filteredbetterAuths = React.useMemo(() => {
@@ -418,13 +567,18 @@ function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled =
     return betterAuths.filter((user: BetterAuthUser) => {
       const fullName = `${user.name}`.toLowerCase();
       const email = user?.email?.toLowerCase() || "";
-      return fullName.includes(searchTerm.toLowerCase()) || email.includes(searchTerm.toLowerCase());
+      return (
+        fullName.includes(searchTerm.toLowerCase()) ||
+        email.includes(searchTerm.toLowerCase())
+      );
     });
   }, [betterAuths, searchTerm]);
 
   const selectedUser = React.useMemo(() => {
     if (!selecteduserId) return null;
-    return betterAuths.find((user: BetterAuthUser) => user.id === selecteduserId);
+    return betterAuths.find(
+      (user: BetterAuthUser) => user.id === selecteduserId,
+    );
   }, [betterAuths, selecteduserId]);
 
   const handleSelect = (betterAuth: BetterAuthUser) => {
@@ -442,15 +596,27 @@ function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled =
     <div className="space-y-2">
       <Label>Betterauth User (Opsional)</Label>
       <div className="flex gap-2">
-        <Button type="button" variant="outline" onClick={() => setOpen(true)} disabled={disabled || betterAuthsLoading} className="flex-1 justify-start">
-          {betterAuthsLoading ?
-            "Loading..."
-          : selectedUser ?
-            `${selectedUser.name} (${selectedUser.email})`
-          : "Pilih Betterauth User"}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setOpen(true)}
+          disabled={disabled || betterAuthsLoading}
+          className="flex-1 justify-start"
+        >
+          {betterAuthsLoading
+            ? "Loading..."
+            : selectedUser
+              ? `${selectedUser.name} (${selectedUser.email})`
+              : "Pilih Betterauth User"}
         </Button>
         {selectedUser && (
-          <Button type="button" variant="outline" size="sm" onClick={handleClear} disabled={disabled}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            disabled={disabled}
+          >
             Clear
           </Button>
         )}
@@ -465,29 +631,54 @@ function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled =
           <div className="space-y-4">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Cari nama atau email..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-8" />
+              <Input
+                placeholder="Cari nama atau email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
             </div>
 
             <div className="max-h-96 overflow-y-auto space-y-2">
-              {betterAuthsLoading ?
+              {betterAuthsLoading ? (
                 <div className="flex items-center justify-center p-8">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                 </div>
-              : filteredbetterAuths.length === 0 ?
-                <div className="text-center p-8 text-muted-foreground">{searchTerm ? "Tidak ada user yang cocok dengan pencarian" : "Tidak ada Betterauth user tersedia"}</div>
-              : filteredbetterAuths.map((user: BetterAuthUser) => (
-                  <div key={user.id} className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer" onClick={() => handleSelect(user)}>
+              ) : filteredbetterAuths.length === 0 ? (
+                <div className="text-center p-8 text-muted-foreground">
+                  {searchTerm
+                    ? "Tidak ada user yang cocok dengan pencarian"
+                    : "Tidak ada Betterauth user tersedia"}
+                </div>
+              ) : (
+                filteredbetterAuths.map((user: BetterAuthUser) => (
+                  <div
+                    key={user.id}
+                    className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer"
+                    onClick={() => handleSelect(user)}
+                  >
                     <div className="flex">
-                      {user.image ?
-                        <Image src={user.image} alt={`${user.name}`} width={20} height={20} className="h-10 w-10 rounded-full" />
-                      : <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                      {user.image ? (
+                        <Image
+                          src={user.image}
+                          alt={`${user.name}`}
+                          width={20}
+                          height={20}
+                          className="h-10 w-10 rounded-full"
+                        />
+                      ) : (
+                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
                           <User className="h-5 w-5" />
                         </div>
-                      }
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{user.name}</p>
-                      <p className="text-sm text-muted-foreground truncate">{user.email || "No email"}</p>
+                      <p className="text-sm font-medium truncate">
+                        {user.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground truncate">
+                        {user.email || "No email"}
+                      </p>
                     </div>
                     {selecteduserId === user.id && (
                       <div className="flex">
@@ -496,7 +687,7 @@ function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled =
                     )}
                   </div>
                 ))
-              }
+              )}
             </div>
           </div>
         </DialogContent>
@@ -506,16 +697,31 @@ function BetterAuthSelector({ foundationId, onSelect, selecteduserId, disabled =
 }
 
 // Create/Edit Dialog Component
-export function UserFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: UserData | null; onSuccess: () => void; foundationId: string }) {
+export function UserFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+  foundationId,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: UserData | null;
+  onSuccess: () => void;
+  foundationId: string;
+}) {
   const createUser = useCreateUser();
   const updateUser = useUpdateUser();
 
   // Fetch data inside the component
-  const { data: users = [], isLoading: userLoading } = useGetUsers(foundationId);
+  const { data: users = [], isLoading: userLoading } =
+    useGetUsers(foundationId);
   const { data: roles = [], isLoading: rolesLoading } = useGetRoles();
   const { data: classes = [], isLoading: classesLoading } = useGetClasses();
-  const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } = useGetTahfidzGroup();
-  const { data: academicYears = [], isLoading: academicYearsLoading } = useGetAcademicYears();
+  const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } =
+    useGetTahfidzGroup();
+  const { data: academicYears = [], isLoading: academicYearsLoading } =
+    useGetAcademicYears();
   const { data: majors = [], isLoading: majorsLoading } = useGetMajors();
 
   const students = React.useMemo(() => {
@@ -552,7 +758,12 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
       setValue("avatarUrl", editData.avatarUrl || "");
       setValue("nisn", editData.nisn || "");
       setValue("birthPlace", editData.birthPlace || "");
-      setValue("birthDate", editData.birthDate ? new Date(editData.birthDate).toISOString().split("T")[0] : "");
+      setValue(
+        "birthDate",
+        editData.birthDate
+          ? new Date(editData.birthDate).toISOString().split("T")[0]
+          : "",
+      );
       setValue("nik", editData.nik || "");
       setValue("address", editData.address || "");
       setValue("classId", editData.classId || "");
@@ -602,8 +813,14 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
         status: data.status,
         // Ubah string kosong ke null supaya backend tahu ini tidak ada nilai
         classId: data.classId && data.classId !== "" ? data.classId : null,
-        tahfidzGroupId: data.tahfidzGroupId && data.tahfidzGroupId !== "" ? data.tahfidzGroupId : null,
-        academicYearId: data.academicYearId && data.academicYearId !== "" ? data.academicYearId : null,
+        tahfidzGroupId:
+          data.tahfidzGroupId && data.tahfidzGroupId !== ""
+            ? data.tahfidzGroupId
+            : null,
+        academicYearId:
+          data.academicYearId && data.academicYearId !== ""
+            ? data.academicYearId
+            : null,
         majorId: data.majorId && data.majorId !== "" ? data.majorId : null,
         // Branch (major) sudah membawa yayasan; foundationId hanya diisi bila baris tanpa branch
         foundationId: data.majorId && data.majorId !== "" ? null : foundationId,
@@ -629,7 +846,7 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
         submitData.relation = data.relation || null;
         submitData.address = data.address || null;
         submitData.parentPhone = data.parentPhone || null;
-      } else if (selectedRole?.name.trim() === "Bendahara") {
+      } else if (selectedRole?.name.trim() === "Treasurer") {
         submitData.employeeId = data.employeeId || null;
         submitData.address = data.address || null;
         submitData.parentPhone = data.parentPhone || null;
@@ -671,75 +888,129 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="nisn">NISN *</Label>
-                <Input id="nisn" placeholder="1234567890" {...register("nisn")} />
-                {errors.nisn && <p className="text-sm text-destructive">{errors.nisn.message}</p>}
+                <Input
+                  id="nisn"
+                  placeholder="1234567890"
+                  {...register("nisn")}
+                />
+                {errors.nisn && (
+                  <p className="text-sm text-destructive">
+                    {errors.nisn.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nik">NIK *</Label>
-                <Input id="nik" placeholder="3201234567890123" {...register("nik")} />
-                {errors.nik && <p className="text-sm text-destructive">{errors.nik.message}</p>}
+                <Input
+                  id="nik"
+                  placeholder="3201234567890123"
+                  {...register("nik")}
+                />
+                {errors.nik && (
+                  <p className="text-sm text-destructive">
+                    {errors.nik.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
-                <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
+                <Input
+                  id="birthPlace"
+                  placeholder="Jakarta"
+                  {...register("birthPlace")}
+                />
+                {errors.birthPlace && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthPlace.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
+                {errors.birthDate && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthDate.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="address">Alamat *</Label>
-              <Textarea id="address" placeholder="Alamat lengkap siswa" {...register("address")} />
-              {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
+              <Textarea
+                id="address"
+                placeholder="Alamat lengkap siswa"
+                {...register("address")}
+              />
+              {errors.address && (
+                <p className="text-sm text-destructive">
+                  {errors.address.message}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Kelas</Label>
-                <Select onValueChange={(value) => setValue("classId", value === "none" ? undefined : value)} value={watch("classId") || "none"}>
+                <Select
+                  onValueChange={(value) =>
+                    setValue("classId", value === "none" ? undefined : value)
+                  }
+                  value={watch("classId") || "none"}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih kelas" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">— Tidak ada —</SelectItem>
-                    {classesLoading ?
+                    {classesLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
-                    : classes.map((cls: SelectOption) => (
+                    ) : (
+                      classes.map((cls: SelectOption) => (
                         <SelectItem key={cls.id} value={cls.id}>
                           {cls.name}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Kelompok Tahfidz</Label>
-                <Select onValueChange={(value) => setValue("tahfidzGroupId", value === "none" ? undefined : value)} value={watch("tahfidzGroupId") || "none"}>
+                <Select
+                  onValueChange={(value) =>
+                    setValue(
+                      "tahfidzGroupId",
+                      value === "none" ? undefined : value,
+                    )
+                  }
+                  value={watch("tahfidzGroupId") || "none"}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih kelompok tahfidz" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">— Tidak ada —</SelectItem>
-                    {tahfidzGroupsLoading ?
+                    {tahfidzGroupsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
-                    : tahfidzGroups.map((tahfidzGroup) => (
-                        <SelectItem key={tahfidzGroup.id} value={tahfidzGroup.id}>
+                    ) : (
+                      tahfidzGroups.map((tahfidzGroup) => (
+                        <SelectItem
+                          key={tahfidzGroup.id}
+                          value={tahfidzGroup.id}
+                        >
                           {tahfidzGroup.name}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -747,47 +1018,59 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Branch *</Label>
-                <Select onValueChange={(value) => setValue("majorId", value)} value={watch("majorId")}>
+                <Select
+                  onValueChange={(value) => setValue("majorId", value)}
+                  value={watch("majorId")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Branch" />
                   </SelectTrigger>
                   <SelectContent>
-                    {majorsLoading ?
+                    {majorsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
-                    : majors.map((major) => (
+                    ) : (
+                      majors.map((major) => (
                         <SelectItem key={major.id} value={major.id}>
                           {major.name}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Tahun Akademik *</Label>
-                <Select onValueChange={(value) => setValue("academicYearId", value)} value={watch("academicYearId")}>
+                <Select
+                  onValueChange={(value) => setValue("academicYearId", value)}
+                  value={watch("academicYearId")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih tahun akademik" />
                   </SelectTrigger>
                   <SelectContent>
-                    {academicYearsLoading ?
+                    {academicYearsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
-                    : academicYears.map((year: any) => (
+                    ) : (
+                      academicYears.map((year: any) => (
                         <SelectItem key={year.id} value={year.id}>
                           {year.year}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. HP Orang Tua</Label>
-                <Input id="parentPhone" placeholder="08123456789" {...register("parentPhone")} />
+                <Input
+                  id="parentPhone"
+                  placeholder="08123456789"
+                  {...register("parentPhone")}
+                />
               </div>
             </div>
           </>
@@ -799,37 +1082,73 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="employeeId">ID Pegawai *</Label>
-                <Input id="employeeId" placeholder="EMP001" {...register("employeeId")} />
-                {errors.employeeId && <p className="text-sm text-destructive">{errors.employeeId.message}</p>}
+                <Input
+                  id="employeeId"
+                  placeholder="EMP001"
+                  {...register("employeeId")}
+                />
+                {errors.employeeId && (
+                  <p className="text-sm text-destructive">
+                    {errors.employeeId.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="position">Jabatan</Label>
-                <Input id="position" placeholder="Guru Matematika" {...register("position")} />
+                <Input
+                  id="position"
+                  placeholder="Guru Matematika"
+                  {...register("position")}
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
-                <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
+                <Input
+                  id="birthPlace"
+                  placeholder="Jakarta"
+                  {...register("birthPlace")}
+                />
+                {errors.birthPlace && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthPlace.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
+                {errors.birthDate && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthDate.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat *</Label>
-                <Textarea id="address" placeholder="Alamat lengkap guru" {...register("address")} />
-                {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
+                <Textarea
+                  id="address"
+                  placeholder="Alamat lengkap guru"
+                  {...register("address")}
+                />
+                {errors.address && (
+                  <p className="text-sm text-destructive">
+                    {errors.address.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. Hanphone</Label>
-                <Input id="parentPhone" placeholder="08123456789" {...register("parentPhone")} />
+                <Input
+                  id="parentPhone"
+                  placeholder="08123456789"
+                  {...register("parentPhone")}
+                />
               </div>
             </div>
           </>
@@ -839,15 +1158,27 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
         return (
           <>
             {/* Student Selection for Parent */}
-            {userLoading ?
+            {userLoading ? (
               <div className="flex items-center justify-center h-20 border rounded-md">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
               </div>
-            : <StudentSelector students={students as UserData[]} selectedStudentIds={selectedStudentIds} onSelectionChange={(studentIds) => setValue("studentIds", studentIds)} disabled={createUser.isPending || updateUser.isPending} />}
+            ) : (
+              <StudentSelector
+                students={students as UserData[]}
+                selectedStudentIds={selectedStudentIds}
+                onSelectionChange={(studentIds) =>
+                  setValue("studentIds", studentIds)
+                }
+                disabled={createUser.isPending || updateUser.isPending}
+              />
+            )}
 
             <div className="space-y-2">
               <Label>Hubungan *</Label>
-              <Select onValueChange={(value) => setValue("relation", value)} value={watch("relation")}>
+              <Select
+                onValueChange={(value) => setValue("relation", value)}
+                value={watch("relation")}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih hubungan" />
                 </SelectTrigger>
@@ -857,17 +1188,29 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
                   <SelectItem value="Guardian">Wali</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.relation && <p className="text-sm text-destructive">{errors.relation.message}</p>}
+              {errors.relation && (
+                <p className="text-sm text-destructive">
+                  {errors.relation.message}
+                </p>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat</Label>
-                <Textarea id="address" placeholder="Alamat lengkap orang tua/wali" {...register("address")} />
+                <Textarea
+                  id="address"
+                  placeholder="Alamat lengkap orang tua/wali"
+                  {...register("address")}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. Hanphone</Label>
-                <Input id="parentPhone" placeholder="08123456789" {...register("parentPhone")} />
+                <Input
+                  id="parentPhone"
+                  placeholder="08123456789"
+                  {...register("parentPhone")}
+                />
               </div>
             </div>
           </>
@@ -879,57 +1222,97 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="employeeId">ID Pegawai *</Label>
-                <Input id="employeeId" placeholder="EMP001" {...register("employeeId")} />
-                {errors.employeeId && <p className="text-sm text-destructive">{errors.employeeId.message}</p>}
+                <Input
+                  id="employeeId"
+                  placeholder="EMP001"
+                  {...register("employeeId")}
+                />
+                {errors.employeeId && (
+                  <p className="text-sm text-destructive">
+                    {errors.employeeId.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="position">Jabatan</Label>
-                <Input id="position" placeholder="Guru Matematika" {...register("position")} />
+                <Input
+                  id="position"
+                  placeholder="Guru Matematika"
+                  {...register("position")}
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="birthPlace">Tempat Lahir *</Label>
-                <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
+                <Input
+                  id="birthPlace"
+                  placeholder="Jakarta"
+                  {...register("birthPlace")}
+                />
+                {errors.birthPlace && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthPlace.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
+                {errors.birthDate && (
+                  <p className="text-sm text-destructive">
+                    {errors.birthDate.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat *</Label>
-                <Textarea id="address" placeholder="Alamat lengkap guru" {...register("address")} />
-                {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
+                <Textarea
+                  id="address"
+                  placeholder="Alamat lengkap guru"
+                  {...register("address")}
+                />
+                {errors.address && (
+                  <p className="text-sm text-destructive">
+                    {errors.address.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="parentPhone">No. Hanphone</Label>
-                <Input id="parentPhone" placeholder="08123456789" {...register("parentPhone")} />
+                <Input
+                  id="parentPhone"
+                  placeholder="08123456789"
+                  {...register("parentPhone")}
+                />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Branch *</Label>
-                <Select onValueChange={(value) => setValue("majorId", value)} value={watch("majorId")}>
+                <Select
+                  onValueChange={(value) => setValue("majorId", value)}
+                  value={watch("majorId")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Branch" />
                   </SelectTrigger>
                   <SelectContent>
-                    {majorsLoading ?
+                    {majorsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
-                    : majors.map((major) => (
+                    ) : (
+                      majors.map((major) => (
                         <SelectItem key={major.id} value={major.id}>
                           {major.name}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -948,12 +1331,16 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editData ? "Edit User" : "Tambah User Baru"}</DialogTitle>
+            <DialogTitle>
+              {editData ? "Edit User" : "Tambah User Baru"}
+            </DialogTitle>
           </DialogHeader>
           <div className="flex items-center justify-center h-32">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-2 text-sm text-muted-foreground">Memuat data...</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Memuat data...
+              </p>
             </div>
           </div>
         </DialogContent>
@@ -965,7 +1352,9 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit User" : "Tambah User Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit User" : "Tambah User Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -974,25 +1363,50 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
             <h3 className="text-lg font-medium">Informasi Dasar</h3>
 
             {/* Betterauth User Selector */}
-            <BetterAuthSelector foundationId={foundationId} onSelect={handlebetterAuthSelect} selecteduserId={selecteduserId} disabled={createUser.isPending || updateUser.isPending} />
+            <BetterAuthSelector
+              foundationId={foundationId}
+              onSelect={handlebetterAuthSelect}
+              selecteduserId={selecteduserId}
+              disabled={createUser.isPending || updateUser.isPending}
+            />
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nama Lengkap *</Label>
-                <Input id="name" placeholder="Masukkan nama lengkap" {...register("name")} />
-                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+                <Input
+                  id="name"
+                  placeholder="Masukkan nama lengkap"
+                  {...register("name")}
+                />
+                {errors.name && (
+                  <p className="text-sm text-destructive">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="user@example.com" {...register("email")} />
-                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="user@example.com"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Role *</Label>
-                <Select onValueChange={(value) => setValue("roleId", value)} value={watch("roleId")}>
+                <Select
+                  onValueChange={(value) => setValue("roleId", value)}
+                  value={watch("roleId")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih role" />
                   </SelectTrigger>
@@ -1004,11 +1418,18 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.roleId && <p className="text-sm text-destructive">{errors.roleId.message}</p>}
+                {errors.roleId && (
+                  <p className="text-sm text-destructive">
+                    {errors.roleId.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Jenis Kelamin</Label>
-                <Select onValueChange={(value) => setValue("gender", value)} value={watch("gender")}>
+                <Select
+                  onValueChange={(value) => setValue("gender", value)}
+                  value={watch("gender")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih jenis kelamin" />
                   </SelectTrigger>
@@ -1020,7 +1441,10 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
               </div>
               <div className="space-y-2">
                 <Label>Status *</Label>
-                <Select onValueChange={(value) => setValue("status", value)} value={watch("status")}>
+                <Select
+                  onValueChange={(value) => setValue("status", value)}
+                  value={watch("status")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih status" />
                   </SelectTrigger>
@@ -1037,27 +1461,41 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
           {/* Avatar Upload Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Foto Profil</h3>
-            <AvatarUpload currentAvatarUrl={watch("avatarUrl")} onUploadSuccess={handleAvatarUpload} disabled={createUser.isPending || updateUser.isPending} />
+            <AvatarUpload
+              currentAvatarUrl={watch("avatarUrl")}
+              onUploadSuccess={handleAvatarUpload}
+              disabled={createUser.isPending || updateUser.isPending}
+            />
           </div>
 
           {/* Role-specific fields */}
           {selectedRole && (
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Informasi {selectedRole.name}</h3>
+              <h3 className="text-lg font-medium">
+                Informasi {selectedRole.name}
+              </h3>
               {renderRoleSpecificFields()}
             </div>
           )}
 
           <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={createUser.isPending || updateUser.isPending}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={createUser.isPending || updateUser.isPending}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createUser.isPending || updateUser.isPending}>
-              {createUser.isPending || updateUser.isPending ?
-                "Loading..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={createUser.isPending || updateUser.isPending}
+            >
+              {createUser.isPending || updateUser.isPending
+                ? "Loading..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -1067,7 +1505,17 @@ export function UserFormDialog({ open, onOpenChange, editData, onSuccess, founda
 }
 
 // Delete Confirmation Dialog
-export function DeleteUserDialog({ open, onOpenChange, userData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; userData: UserData | null; onSuccess: () => void }) {
+export function DeleteUserDialog({
+  open,
+  onOpenChange,
+  userData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  userData: UserData | null;
+  onSuccess: () => void;
+}) {
   const deleteUser = useDeleteUser();
 
   const handleDelete = async () => {
@@ -1089,12 +1537,18 @@ export function DeleteUserDialog({ open, onOpenChange, userData, onSuccess }: { 
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus User</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus user <strong>{userData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus user{" "}
+            <strong>{userData?.name}</strong>? Tindakan ini tidak dapat
+            dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-destructive text-white hover:bg-destructive-strong" disabled={deleteUser.isPending}>
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="bg-destructive text-white hover:bg-destructive-strong"
+            disabled={deleteUser.isPending}
+          >
             {deleteUser.isPending ? "Loading..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -1104,7 +1558,17 @@ export function DeleteUserDialog({ open, onOpenChange, userData, onSuccess }: { 
 }
 
 /// Delete Bulk Confirmation Dialog
-export function DeleteUserBulkDialog({ open, onOpenChange, userDatas, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; userDatas: UserData[]; onSuccess: () => void }) {
+export function DeleteUserBulkDialog({
+  open,
+  onOpenChange,
+  userDatas,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  userDatas: UserData[];
+  onSuccess: () => void;
+}) {
   const deleteUser = useBulkDeleteUserData();
 
   const handleDelete = async () => {
@@ -1127,31 +1591,52 @@ export function DeleteUserBulkDialog({ open, onOpenChange, userDatas, onSuccess 
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Hapus {userDatas?.length || 0} User</AlertDialogTitle>
+          <AlertDialogTitle>
+            Hapus {userDatas?.length || 0} User
+          </AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div className="space-y-3">
-              <p className="text-sm">Apakah Anda yakin ingin menghapus user berikut? Tindakan ini tidak dapat dibatalkan.</p>
+              <p className="text-sm">
+                Apakah Anda yakin ingin menghapus user berikut? Tindakan ini
+                tidak dapat dibatalkan.
+              </p>
 
               {userDatas && userDatas.length > 0 && (
                 <div className="max-h-60 overflow-y-auto space-y-2 rounded-md border p-3 bg-muted/30">
                   {userDatas.map((data) => (
-                    <div key={data.id} className="flex items-center gap-3 p-2 rounded-md bg-background border">
-                      {data.avatarUrl ?
-                        <Image src={data.avatarUrl} alt={data.name} width={32} height={32} className="w-8 h-8 rounded-full object-cover" />
-                      : <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                    <div
+                      key={data.id}
+                      className="flex items-center gap-3 p-2 rounded-md bg-background border"
+                    >
+                      {data.avatarUrl ? (
+                        <Image
+                          src={data.avatarUrl}
+                          alt={data.name}
+                          width={32}
+                          height={32}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                           <User className="h-4 w-4 text-muted-foreground" />
                         </div>
-                      }
+                      )}
 
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{data.name}</p>
+                        <p className="text-sm font-medium truncate">
+                          {data.name}
+                        </p>
                         <div className="flex gap-2 mt-0.5">
                           {data.role && (
                             <Badge variant="outline" className="text-xs">
                               {data.role.name}
                             </Badge>
                           )}
-                          {data.email && <span className="text-xs text-muted-foreground truncate">{data.email}</span>}
+                          {data.email && (
+                            <span className="text-xs text-muted-foreground truncate">
+                              {data.email}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1162,9 +1647,19 @@ export function DeleteUserBulkDialog({ open, onOpenChange, userDatas, onSuccess 
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={deleteUser.isPending}>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-destructive text-white hover:bg-destructive-strong" disabled={deleteUser.isPending || !userDatas || userDatas.length === 0}>
-            {deleteUser.isPending ? "Menghapus..." : `Hapus ${userDatas?.length || 0} User`}
+          <AlertDialogCancel disabled={deleteUser.isPending}>
+            Batal
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="bg-destructive text-white hover:bg-destructive-strong"
+            disabled={
+              deleteUser.isPending || !userDatas || userDatas.length === 0
+            }
+          >
+            {deleteUser.isPending
+              ? "Menghapus..."
+              : `Hapus ${userDatas?.length || 0} User`}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

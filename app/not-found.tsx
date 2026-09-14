@@ -16,8 +16,8 @@ export default function NotFound() {
           Halaman ini tidak ada.
         </h1>
         <p className="mt-3 text-base leading-relaxed text-foreground/80">
-          Alamatnya mungkin salah ketik, atau halaman sudah dipindahkan. Kembali ke dasbor untuk
-          melanjutkan pekerjaan Anda.
+          Alamatnya mungkin salah ketik, atau halaman sudah dipindahkan. Kembali
+          ke dasbor untuk melanjutkan pekerjaan Anda.
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -27,7 +27,11 @@ export default function NotFound() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="outline" className="w-full rounded-full border-border px-6 sm:w-auto">
+          <Button
+            asChild
+            variant="outline"
+            className="w-full rounded-full border-border px-6 sm:w-auto"
+          >
             <Link href="/">Halaman Utama</Link>
           </Button>
         </div>

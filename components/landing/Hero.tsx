@@ -417,9 +417,9 @@ export function Hero() {
 
                   <div className="mt-4 space-y-2">
                     {[
-                      { id: "smk-it", name: "SMK IT Rahmaniyah", code: "tenant_smk_01" },
-                      { id: "sma", name: "SMA Rahmaniyah", code: "tenant_sma_02" },
-                      { id: "smp", name: "SMP Rahmaniyah", code: "tenant_smp_03" },
+                      { id: "smk-it", name: "SMK IT Rahmaniyah", desc: "510 siswa · 3 jurusan" },
+                      { id: "sma", name: "SMA Rahmaniyah", desc: "420 siswa · 2 jurusan" },
+                      { id: "smp", name: "SMP Rahmaniyah", desc: "380 siswa · 2 jurusan" },
                     ].map((school) => (
                       <button
                         key={school.id}
@@ -433,7 +433,7 @@ export function Hero() {
                       >
                         <div>
                           <div>{school.name}</div>
-                          <div className="font-mono text-[10px] text-muted-foreground">{school.code}</div>
+                          <div className="text-[10px] text-muted-foreground">{school.desc}</div>
                         </div>
                         <ChevronRight className="h-4 w-4" />
                       </button>
@@ -445,38 +445,27 @@ export function Hero() {
                   <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                     <div className="flex items-center gap-2">
                       <Lock className="h-3.5 w-3.5 text-primary" />
-                      <span className="font-mono text-xs text-white/80">
-                        schema-tenant-isolation.ts
+                      <span className="text-xs font-semibold text-white">
+                        Data {selectedSchool === "smk-it" ? "SMK IT Rahmaniyah" : selectedSchool === "sma" ? "SMA Rahmaniyah" : "SMP Rahmaniyah"}
                       </span>
                     </div>
                     <Badge className="border-none bg-primary/30 text-[10px] text-brand-accent">
-                      ORM Isolation Active
+                      Terkunci &amp; Terpisah
                     </Badge>
                   </div>
 
-                  <pre className="mt-3 overflow-x-auto font-mono text-[11px] leading-[1.8] text-white/80">
-                    <span className="text-white/40">// Middleware memastikan query terkunci pada sekolah aktif</span>
-                    {"\n"}
-                    <span className="text-[#f96bee]">const</span> students ={" "}
-                    <span className="text-[#00d4ff]">await</span> prisma.userData.findMany({"{"}
-                    {"\n"}  where: {"{"}
-                    {"\n"}    foundationId:{" "}
-                    <span className="text-[#a5d6a7]">&quot;yayasan_rahmaniyah&quot;</span>,
-                    {"\n"}    schoolId:{" "}
-                    <span className="text-[#ffb86c]">
-                      &quot;{selectedSchool === "smk-it" ? "tenant_smk_01" : selectedSchool === "sma" ? "tenant_sma_02" : "tenant_smp_03"}&quot;
-                    </span>
-                    {"\n"}  {"}"},
-                    {"\n"}  include: {"{"} class: <span className="text-[#f96bee]">true</span>, paymentBills: <span className="text-[#f96bee]">true</span> {"}"}
-                    {"\n"}{"}"});
-                  </pre>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                    {["Data Siswa & Presensi", "Tagihan SPP", "E-Rapor", "Hafalan Tahfidz"].map((item) => (
+                      <div key={item} className="flex items-center gap-2 rounded-lg bg-white/5 p-2.5 text-white/80">
+                        <ShieldCheck className="h-4 w-4 flex-shrink-0 text-[#00d924]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
 
-                  <div className="mt-4 flex items-center justify-between rounded-lg bg-white/5 p-2.5 text-xs text-white/70">
-                    <span className="flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4 text-[#00d924]" />
-                      Zero cross-tenant data leakage guarantee
-                    </span>
-                    <span className="font-mono text-[11px] text-[#00d4ff]">PostgreSQL RLS Ready</span>
+                  <div className="mt-4 flex items-center gap-2 rounded-lg bg-white/5 p-2.5 text-xs text-white/70">
+                    <ShieldCheck className="h-4 w-4 flex-shrink-0 text-[#00d924]" />
+                    <span>Hanya warga sekolah ini yang bisa melihat datanya — tidak pernah tertukar dengan sekolah lain.</span>
                   </div>
                 </div>
               </div>

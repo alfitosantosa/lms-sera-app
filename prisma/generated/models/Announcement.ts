@@ -246,7 +246,7 @@ export type AnnouncementWhereInput = {
   isPublished?: Prisma.BoolFilter<"Announcement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
 
@@ -285,7 +285,7 @@ export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
   isPublished?: Prisma.BoolFilter<"Announcement"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   user?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id">
 
@@ -339,7 +339,7 @@ export type AnnouncementCreateInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutAnnouncementsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutAnnouncementsInput
   user?: Prisma.UserDataCreateNestedOneWithoutAnnouncementsInput
 }
 
@@ -371,7 +371,7 @@ export type AnnouncementUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutAnnouncementsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAnnouncementsNestedInput
   user?: Prisma.UserDataUpdateOneWithoutAnnouncementsNestedInput
 }
 
@@ -666,7 +666,7 @@ export type AnnouncementCreateWithoutUserInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutAnnouncementsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutAnnouncementsInput
 }
 
 export type AnnouncementUncheckedCreateWithoutUserInput = {
@@ -797,7 +797,7 @@ export type AnnouncementUpdateWithoutUserInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutAnnouncementsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAnnouncementsNestedInput
 }
 
 export type AnnouncementUncheckedUpdateWithoutUserInput = {
@@ -846,7 +846,7 @@ export type AnnouncementSelect<ExtArgs extends runtime.Types.Extensions.Internal
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
@@ -864,7 +864,7 @@ export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
@@ -882,7 +882,7 @@ export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
@@ -904,22 +904,22 @@ export type AnnouncementSelectScalar = {
 
 export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "imageUrl" | "linkUrl" | "startDate" | "endDate" | "userId" | "foundationId" | "isActive" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
 export type AnnouncementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }
 export type AnnouncementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }
 export type AnnouncementIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.Announcement$foundationArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Announcement$userArgs<ExtArgs>
 }
 
 export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Announcement"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
+    foundation: Prisma.$FoundationPayload<ExtArgs>
     user: Prisma.$UserDataPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1330,7 +1330,7 @@ readonly fields: AnnouncementFieldRefs;
  */
 export interface Prisma__AnnouncementClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.Announcement$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Announcement$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.Announcement$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Announcement$userArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1772,25 +1772,6 @@ export type AnnouncementDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Announcements to delete.
    */
   limit?: number
-}
-
-/**
- * Announcement.foundation
- */
-export type Announcement$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
 }
 
 /**

@@ -238,9 +238,9 @@ export type MajorWhereInput = {
   foundationId?: Prisma.StringNullableFilter<"Major"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Major"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Major"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   accountBank?: Prisma.AccountBankListRelationFilter
   classes?: Prisma.ClassListRelationFilter
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   paymenttype?: Prisma.PaymentTypeListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -260,9 +260,9 @@ export type MajorOrderByWithRelationInput = {
   foundationId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   accountBank?: Prisma.AccountBankOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   paymenttype?: Prisma.PaymentTypeOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
@@ -286,9 +286,9 @@ export type MajorWhereUniqueInput = Prisma.AtLeast<{
   foundationId?: Prisma.StringNullableFilter<"Major"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Major"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Major"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   accountBank?: Prisma.AccountBankListRelationFilter
   classes?: Prisma.ClassListRelationFilter
+  foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
   paymenttype?: Prisma.PaymentTypeListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -343,9 +343,9 @@ export type MajorCreateInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
@@ -385,9 +385,9 @@ export type MajorUpdateInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
@@ -755,9 +755,9 @@ export type MajorCreateWithoutStudentsInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
@@ -811,9 +811,9 @@ export type MajorUpdateWithoutStudentsInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
@@ -851,8 +851,8 @@ export type MajorCreateWithoutClassesInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
@@ -907,8 +907,8 @@ export type MajorUpdateWithoutClassesInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
@@ -947,9 +947,9 @@ export type MajorCreateWithoutSubjectsInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   students?: Prisma.UserDataCreateNestedManyWithoutMajorInput
@@ -1003,9 +1003,9 @@ export type MajorUpdateWithoutSubjectsInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   students?: Prisma.UserDataUpdateManyWithoutMajorNestedInput
@@ -1043,9 +1043,9 @@ export type MajorCreateWithoutPaymenttypeInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
   students?: Prisma.UserDataCreateNestedManyWithoutMajorInput
@@ -1099,9 +1099,9 @@ export type MajorUpdateWithoutPaymenttypeInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
   students?: Prisma.UserDataUpdateManyWithoutMajorNestedInput
@@ -1139,9 +1139,9 @@ export type MajorCreateWithoutPaymentsInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutMajorsInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
   students?: Prisma.UserDataCreateNestedManyWithoutMajorInput
@@ -1195,9 +1195,9 @@ export type MajorUpdateWithoutPaymentsInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   accountBank?: Prisma.AccountBankUpdateManyWithoutMajorsNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
   students?: Prisma.UserDataUpdateManyWithoutMajorNestedInput
@@ -1235,8 +1235,8 @@ export type MajorCreateWithoutAccountBankInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutMajorInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutMajorInput
   payments?: Prisma.PaymentCreateNestedManyWithoutMajorInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutMajorInput
@@ -1291,8 +1291,8 @@ export type MajorUpdateWithoutAccountBankInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutMajorNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutMajorNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutMajorNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutMajorNestedInput
@@ -1476,9 +1476,9 @@ export type MajorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   foundationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.Major$foundationArgs<ExtArgs>
   accountBank?: boolean | Prisma.Major$accountBankArgs<ExtArgs>
   classes?: boolean | Prisma.Major$classesArgs<ExtArgs>
+  foundation?: boolean | Prisma.Major$foundationArgs<ExtArgs>
   paymenttype?: boolean | Prisma.Major$paymenttypeArgs<ExtArgs>
   payments?: boolean | Prisma.Major$paymentsArgs<ExtArgs>
   subjects?: boolean | Prisma.Major$subjectsArgs<ExtArgs>
@@ -1535,9 +1535,9 @@ export type MajorSelectScalar = {
 
 export type MajorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "isActive" | "address" | "phone" | "adminName" | "signatureUrl" | "foundationId" | "createdAt" | "updatedAt", ExtArgs["result"]["major"]>
 export type MajorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.Major$foundationArgs<ExtArgs>
   accountBank?: boolean | Prisma.Major$accountBankArgs<ExtArgs>
   classes?: boolean | Prisma.Major$classesArgs<ExtArgs>
+  foundation?: boolean | Prisma.Major$foundationArgs<ExtArgs>
   paymenttype?: boolean | Prisma.Major$paymenttypeArgs<ExtArgs>
   payments?: boolean | Prisma.Major$paymentsArgs<ExtArgs>
   subjects?: boolean | Prisma.Major$subjectsArgs<ExtArgs>
@@ -1554,9 +1554,9 @@ export type MajorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $MajorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Major"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     accountBank: Prisma.$AccountBankPayload<ExtArgs>[]
     classes: Prisma.$ClassPayload<ExtArgs>[]
+    foundation: Prisma.$FoundationPayload<ExtArgs> | null
     paymenttype: Prisma.$PaymentTypePayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
@@ -1969,9 +1969,9 @@ readonly fields: MajorFieldRefs;
  */
 export interface Prisma__MajorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.Major$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   accountBank<T extends Prisma.Major$accountBankArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$accountBankArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountBankPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.Major$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  foundation<T extends Prisma.Major$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   paymenttype<T extends Prisma.Major$paymenttypeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$paymenttypeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Major$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Major$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2418,25 +2418,6 @@ export type MajorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Major.foundation
- */
-export type Major$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
-}
-
-/**
  * Major.accountBank
  */
 export type Major$accountBankArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2482,6 +2463,25 @@ export type Major$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ClassScalarFieldEnum | Prisma.ClassScalarFieldEnum[]
+}
+
+/**
+ * Major.foundation
+ */
+export type Major$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
 }
 
 /**

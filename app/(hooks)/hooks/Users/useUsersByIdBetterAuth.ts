@@ -10,7 +10,9 @@ export const useGetUserByIdBetterAuth = (id: string) => {
   return useQuery<UserDataTypes | null>({
     queryKey: ["users", id],
     queryFn: async () => {
-      const response = await apiGet<UserDataTypes>(`/api/userdata/betterauth/id/${id}`);
+      const response = await apiGet<UserDataTypes>(
+        `/api/userdata/betterauth/id/${id}`,
+      );
       return response?.data || null;
     },
     staleTime: 1000 * 60 * 10, // 10 minutes
@@ -26,7 +28,9 @@ export const useGetUserByIdBetterAuthProfile = (id: string) => {
         if (!id) {
           throw new Error("User ID is required");
         }
-        const response = await apiGet<UserDataTypes>(`/api/userdata/betterauth/id/${id}`);
+        const response = await apiGet<UserDataTypes>(
+          `/api/userdata/betterauth/id/${id}`,
+        );
         return response?.data || null;
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -35,7 +39,10 @@ export const useGetUserByIdBetterAuthProfile = (id: string) => {
     },
     retry: (failureCount, error) => {
       // Don't retry if it's a 404 (user not found)
-      if (error?.message?.includes("404") || error?.message?.includes("not found")) {
+      if (
+        error?.message?.includes("404") ||
+        error?.message?.includes("not found")
+      ) {
         return false;
       }
       return failureCount < 2;
