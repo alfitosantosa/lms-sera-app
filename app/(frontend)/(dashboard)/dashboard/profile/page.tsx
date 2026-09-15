@@ -41,6 +41,7 @@ import {
   GoalIcon,
   Landmark,
   Globe,
+  GraduationCapIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -261,8 +262,8 @@ const EmptyProfileState = ({
   userBetterAuth,
 }: EmptyProfileStateProps) => {
   const router = useRouter();
-  const hasFoundation =
-    userBetterAuth?.foundation || userBetterAuth?.foundationId;
+  const hasFoundation = userBetterAuth?.foundation?.name;
+  console.log("foundation", hasFoundation);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
@@ -351,11 +352,11 @@ const EmptyProfileState = ({
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <User className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <GraduationCapIcon className="h-4 w-4 text-muted-foreground" />
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground">Yayasan</p>
                     <p className="text-sm font-medium">
-                      {hasFoundation?.name || "Tidak tersedia"}
+                      {hasFoundation || "Tidak tersedia"}
                     </p>
                   </div>
                 </div>
@@ -455,6 +456,29 @@ const EmptyProfileState = ({
             </div>
           </CardContent>
         </Card>
+
+        {/* Additional Info Card */}
+        {/* <Card className="bg-info-surface border-info-border">
+          <CardContent className="pt-6">
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-info-chip flex items-center justify-center">
+                  <AlertCircle className="h-6 w-6 text-info" />
+                </div>
+              </div>
+              <div className="flex-1 space-y-2">
+                <h3 className="font-semibold text-info-strong">
+                  Langkah Selanjutnya
+                </h3>
+                <ul className="text-sm text-info-strong space-y-1 list-disc list-inside">
+                  <li>Daftar ke yayasan dengan kode yayasan yang valid</li>
+                  <li>Atau hubungi administrator untuk pendaftaran manual</li>
+                  <li>Setelah terdaftar, profil lengkap Anda akan muncul</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card> */}
       </div>
     </div>
   );
@@ -715,16 +739,22 @@ const FoundationInformationCard = ({ foundation }: { foundation: any }) => {
 
 export default function Home() {
   const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   const {
     data: user,
     isPending: userLoading,
     isError: userError,
-  } = useGetUserByIdBetterAuthProfile(session?.user?.id ?? "");
+  } = useGetUserByIdBetterAuthProfile(userId ?? "");
+
+  const { data: userBetterAuth, isPending: userBetterAuthLoading } =
+    useGetBetterAuthById(userId);
+
   const [isMounted, setIsMounted] = React.useState(false);
 
-  const userId = session?.user.id;
-
-  const { data: userBetterAuth } = useGetBetterAuthById(userId as string);
+  console.log("userid", userId);
+  console.log("userData", user);
+  console.log("user betterauth", userBetterAuth);
 
   // Only track if component is mounted on client
   React.useEffect(() => {
@@ -736,14 +766,14 @@ export default function Home() {
     return <UserProfileSkeleton message="Loading..." />;
   }
 
-  // After mounted, handle loading states
-  if (userLoading) {
-    return <UserProfileSkeleton message="Loading profile data..." />;
-  }
-
   // Show loading if no session
   if (!session?.user?.id) {
     return <UserProfileSkeleton message="Authentication required..." />;
+  }
+
+  // After mounted, handle loading states (wait for both queries to complete)
+  if (userLoading || userBetterAuthLoading) {
+    return <UserProfileSkeleton message="Loading profile data..." />;
   }
 
   // Show loading if user data failed to load
@@ -751,19 +781,29 @@ export default function Home() {
     return <UserProfileSkeleton message="Setting up your account..." />;
   }
 
-  // If we have session but no user data, show EmptyProfileState
-  if (!user) {
+  // CASE 1: User NOT have foundation id AND NOT have userData
+  // Tampilkan button untuk mendaftar di /landing/register/foundation
+  if (!userBetterAuth?.foundationId && !userBetterAuth?.userData) {
     return (
       <EmptyProfileState session={session} userBetterAuth={userBetterAuth} />
     );
   }
 
-  // If user exists but no foundation, show EmptyProfileState
-  if (!user.foundation) {
+  // CASE 2: User HAVE foundation id BUT NOT have userData
+  // Tampilkan untuk menunggu di-assign oleh admin
+  if (userBetterAuth?.foundationId && !userBetterAuth?.userData) {
     return (
       <EmptyProfileState session={session} userBetterAuth={userBetterAuth} />
     );
   }
+
+  // If user data is still loading/null after all foundation checks
+  if (!user) {
+    return <UserProfileSkeleton message="Loading user data..." />;
+  }
+
+  // CASE 3: User HAVE foundation id AND HAVE userData
+  // Tampilkan semua data profil lengkap (continue rendering below)
 
   // Extract nested objects
   const {

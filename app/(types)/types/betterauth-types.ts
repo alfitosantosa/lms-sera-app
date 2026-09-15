@@ -78,9 +78,10 @@ export type betterauthUser = {
   foundation?: {
     id: string;
     name: string;
-    code: string;
-    createdAt: string;
-    updatedAt: string;
+    foundationCode: string;
+    imageUrl: string;
+    address: string;
+    phone: string;
   } | null;
   userData?: {
     id: string;
@@ -116,9 +117,10 @@ export type betterauthUser = {
     foundation?: {
       id: string;
       name: string;
-      code: string;
-      createdAt: string;
-      updatedAt: string;
+      foundationCode: string;
+      imageUrl: string;
+      address: string;
+      phone: string;
     } | null;
     role: {
       id: string;

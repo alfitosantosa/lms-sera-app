@@ -70,11 +70,11 @@ interface AcademicYearTypes {
   isActive: boolean;
 }
 
-interface ClassTypes {
+type ClassTypes = {
   id: string;
   name: string;
   grade: number;
-}
+};
 
 interface MajorTypes {
   id: string;

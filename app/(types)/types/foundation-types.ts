@@ -1,25 +1,35 @@
 // model Foundation {
-// id             String @id @unique
+// id             String @id @unique @default(cuid())
 // name           String
 // imageUrl       String
-// foundationCode String
+// foundationCode String @unique
 // address        String
 // phone          String
-// userData       UserData[]
+// academicYear   AcademicYear[]
+// announcements  Announcement[]
+// calendarEvent  CalendarEvent[]
+// dashboardContent DashboardContent[]
 // major          Major[]
+// role           Role[]
 // user           User[]
+// userData       UserData[]
 // }
 
 export type foundationTypes = {
-  id?: string;
-  name?: string;
-  imageUrl?: string;
-  foundationCode?: string;
-  address?: string;
-  phone?: string;
+  id: string;
+  name: string;
+  imageUrl: string;
+  foundationCode: string;
+  address: string;
+  phone: string;
   userData?: object[];
   major?: object[];
   user?: object[];
+  academicYear?: object[];
+  announcements?: object[];
+  calendarEvent?: object[];
+  dashboardContent?: object[];
+  role?: object[];
 };
 
 // Response type for GET /api/foundation (with counts)
@@ -58,4 +68,7 @@ export type FoundationAssignResponse = {
   // Add other fields based on your actual response
 };
 
-export type FoundationAssignUserTypes = { userId: string; foundationCode: string };
+export type FoundationAssignUserTypes = {
+  userId: string;
+  foundationCode: string;
+};

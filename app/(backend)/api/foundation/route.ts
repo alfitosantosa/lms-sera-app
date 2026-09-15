@@ -13,11 +13,18 @@
 import { auth } from "@/lib/auth";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
-import { resolveFoundation, tenantForbidden, tenantUnauthorized } from "@/lib/tenant";
+import {
+  resolveFoundation,
+  tenantForbidden,
+  tenantUnauthorized,
+} from "@/lib/tenant";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -47,7 +54,8 @@ export async function POST(request: NextRequest) {
     if (!userId) return tenantUnauthorized();
 
     // `userId` dari body diabaikan, selalu pakai user dari sesi.
-    const { name, imageUrl, foundationCode, address, phone } = await request.json();
+    const { name, imageUrl, foundationCode, address, phone } =
+      await request.json();
     // Create the foundation
     const createNewFoundation = await prisma.foundation.create({
       data: {
@@ -73,21 +81,48 @@ export async function POST(request: NextRequest) {
     });
 
     // Role Admin wajib milik yayasan baru, bukan role milik yayasan lain.
-    const getIdRoleAdmin =
+    const CreateRole =
       (await prisma.role.findFirst({
         where: {
           name: "Admin",
           foundationId: createNewFoundation.id,
         },
       })) ??
-      (await prisma.role.create({
-        data: {
-          name: "Admin",
-          description: "Administrator yayasan",
-          permissions: [],
-          foundationId: createNewFoundation.id,
-        },
+      (await prisma.role.createMany({
+        data: [
+          {
+            name: "Admin",
+            description: "Administrator Yayasan",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
+          {
+            name: "Treasurer",
+            description: "Bendahara",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
+          {
+            name: "Teacher",
+            description: "Guru",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
+          {
+            name: "Student",
+            description: "Murid",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
+        ],
       }));
+
+    const getIdRoleAdmin = await prisma.role.findFirst({
+      where: {
+        name: "Admin",
+        foundationId: createNewFoundation.id,
+      },
+    });
 
     const AssignUserDataFoundation = await prisma.userData.create({
       data: {
@@ -98,7 +133,11 @@ export async function POST(request: NextRequest) {
         foundationId: createNewFoundation.id,
       },
     });
-    return NextResponse.json({ foundation: createNewFoundation, user: AssignUserFoundation, userData: AssignUserDataFoundation });
+    return NextResponse.json({
+      foundation: createNewFoundation,
+      user: AssignUserFoundation,
+      userData: AssignUserDataFoundation,
+    });
   } catch (error) {
     return handlePrismaError(error);
   }
@@ -108,10 +147,12 @@ export async function PUT(request: NextRequest) {
   const t = await resolveFoundation(request);
   if (!t.ok) return t.response;
 
-  const { id, name, imageUrl, foundationCode, address, phone } = await request.json();
+  const { id, name, imageUrl, foundationCode, address, phone } =
+    await request.json();
   try {
     // Hanya yayasan milik pemanggil yang boleh diubah.
-    if (id !== t.foundationId) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (id !== t.foundationId)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const updateFoundation = await prisma.foundation.update({
       where: {
@@ -139,7 +180,8 @@ export async function DELETE(request: NextRequest) {
 
   try {
     // Hanya yayasan milik pemanggil yang boleh dihapus.
-    if (id !== t.foundationId) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (id !== t.foundationId)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const deleteFoundation = await prisma.foundation.delete({
       where: { id },

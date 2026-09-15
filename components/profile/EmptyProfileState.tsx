@@ -5,7 +5,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   User,
@@ -22,10 +28,21 @@ interface EmptyProfileStateProps {
   userBetterAuth?: any;
 }
 
-export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileStateProps) => {
+export const EmptyProfileState = ({
+  session,
+  userBetterAuth,
+}: EmptyProfileStateProps) => {
   const router = useRouter();
-  const hasFoundation = userBetterAuth?.foundation || userBetterAuth?.foundationId;
-  
+
+  // Tentukan kondisi berdasarkan foundationId dan userData
+  const isWaitingForAdminId = !!userBetterAuth?.foundationId;
+  const hasUserData = !!userBetterAuth?.userData;
+
+  // CASE 1: No foundation + No userData = Belum terdaftar, harus daftar
+  // CASE 2: Has foundation + No userData = Sudah terdaftar, menunggu admin assign
+  const isWaitingForAdmin = isWaitingForAdminId && !hasUserData;
+  const needsRegistration = !isWaitingForAdminId && !hasUserData;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -39,7 +56,9 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   {session?.user?.image || userBetterAuth?.image ? (
                     <Image
                       src={session.user?.image || userBetterAuth?.image}
-                      alt={session.user?.name || userBetterAuth?.name || "Profile"}
+                      alt={
+                        session.user?.name || userBetterAuth?.name || "Profile"
+                      }
                       width={128}
                       height={128}
                       className="object-cover w-full h-full"
@@ -52,9 +71,14 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                 </div>
                 {/* Status Badge */}
                 <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                  <Badge variant={hasFoundation ? "default" : "secondary"} className="shadow-md">
+                  <Badge
+                    variant={isWaitingForAdmin ? "default" : "secondary"}
+                    className="shadow-md"
+                  >
                     <AlertCircle className="h-3 w-3 mr-1" />
-                    {hasFoundation ? "Menunggu Aktivasi" : "Belum Terdaftar"}
+                    {isWaitingForAdmin
+                      ? "Menunggu Aktivasi"
+                      : "Belum Terdaftar"}
                   </Badge>
                 </div>
               </div>
@@ -62,11 +86,15 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
               {/* User Info */}
               <div className="space-y-2">
                 <CardTitle className="text-2xl">
-                  {session?.user?.name || userBetterAuth?.name || "Pengguna Baru"}
+                  {session?.user?.name ||
+                    userBetterAuth?.name ||
+                    "Pengguna Baru"}
                 </CardTitle>
                 <CardDescription className="flex items-center justify-center gap-2">
                   <Mail className="h-4 w-4" />
-                  {session?.user?.email || userBetterAuth?.email || "Tidak ada email"}
+                  {session?.user?.email ||
+                    userBetterAuth?.email ||
+                    "Tidak ada email"}
                 </CardDescription>
               </div>
             </div>
@@ -74,20 +102,22 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
 
           <CardContent className="space-y-6">
             {/* Info Alert */}
-            <Alert variant={hasFoundation ? "default" : "destructive"}>
+            <Alert variant={isWaitingForAdmin ? "default" : "destructive"}>
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>
-                {hasFoundation ? "Menunggu Aktivasi Akun" : "Akun Belum Terdaftar"}
+                {isWaitingForAdmin
+                  ? "Menunggu Aktivasi Akun"
+                  : "Akun Belum Terdaftar"}
               </AlertTitle>
               <AlertDescription>
-                {hasFoundation
+                {isWaitingForAdmin
                   ? "Anda sudah terdaftar di yayasan, tetapi profil Anda belum diaktifkan oleh administrator. Silakan hubungi administrator untuk melengkapi data profil Anda."
                   : "Anda sudah login, tetapi belum terdaftar di yayasan manapun. Silakan hubungi administrator atau daftar ke yayasan untuk melengkapi profil Anda."}
               </AlertDescription>
             </Alert>
 
             {/* Foundation Info Card (if exists) */}
-            {hasFoundation && (
+            {isWaitingForAdmin && (
               <Card className="bg-success-surface border-success-border">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2 text-success-strong">
@@ -99,7 +129,9 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex items-start gap-3">
                     <Building2 className="h-4 w-4 text-success mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Nama Yayasan</p>
+                      <p className="text-xs text-muted-foreground">
+                        Nama Yayasan
+                      </p>
                       <p className="text-sm font-medium text-success-strong">
                         {userBetterAuth?.foundation?.name || "Loading..."}
                       </p>
@@ -109,9 +141,11 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex items-start gap-3">
                     <Key className="h-4 w-4 text-success mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Kode Yayasan</p>
+                      <p className="text-xs text-muted-foreground">
+                        Kode Yayasan
+                      </p>
                       <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded text-success-strong">
-                        {userBetterAuth?.foundation?.code || "N/A"}
+                        {userBetterAuth?.foundation?.foundationCode || "N/A"}
                       </p>
                     </div>
                   </div>
@@ -119,8 +153,13 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-4 w-4 text-success mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Status Keanggotaan</p>
-                      <Badge variant="default" className="bg-warning-solid text-xs">
+                      <p className="text-xs text-muted-foreground">
+                        Status Keanggotaan
+                      </p>
+                      <Badge
+                        variant="default"
+                        className="bg-warning-solid text-xs"
+                      >
                         Menunggu Aktivasi
                       </Badge>
                     </div>
@@ -143,7 +182,9 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground">Nama</p>
                     <p className="text-sm font-medium">
-                      {session?.user?.name || userBetterAuth?.name || "Tidak tersedia"}
+                      {session?.user?.name ||
+                        userBetterAuth?.name ||
+                        "Tidak tersedia"}
                     </p>
                   </div>
                 </div>
@@ -153,7 +194,9 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground">Email</p>
                     <p className="text-sm font-medium break-all">
-                      {session?.user?.email || userBetterAuth?.email || "Tidak tersedia"}
+                      {session?.user?.email ||
+                        userBetterAuth?.email ||
+                        "Tidak tersedia"}
                     </p>
                   </div>
                 </div>
@@ -163,17 +206,25 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground">User ID</p>
                     <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded">
-                      {session?.user?.id || userBetterAuth?.id || "Tidak tersedia"}
+                      {session?.user?.id ||
+                        userBetterAuth?.id ||
+                        "Tidak tersedia"}
                     </p>
                   </div>
                 </div>
 
-                {(session?.user?.emailVerified || userBetterAuth?.emailVerified) && (
+                {(session?.user?.emailVerified ||
+                  userBetterAuth?.emailVerified) && (
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-4 w-4 text-success mt-0.5" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Status Email</p>
-                      <Badge variant="default" className="bg-success-solid text-xs">
+                      <p className="text-xs text-muted-foreground">
+                        Status Email
+                      </p>
+                      <Badge
+                        variant="default"
+                        className="bg-success-solid text-xs"
+                      >
                         Terverifikasi
                       </Badge>
                     </div>
@@ -184,7 +235,7 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 pt-4">
-              {!hasFoundation && (
+              {!isWaitingForAdmin && (
                 <Button
                   size="lg"
                   className="w-full"
@@ -235,17 +286,25 @@ export const EmptyProfileState = ({ session, userBetterAuth }: EmptyProfileState
                   Langkah Selanjutnya
                 </h3>
                 <ul className="text-sm text-info-strong space-y-1 list-disc list-inside">
-                  {hasFoundation ? (
+                  {isWaitingForAdmin ? (
                     <>
-                      <li>Hubungi administrator yayasan Anda untuk aktivasi akun</li>
+                      <li>
+                        Hubungi administrator yayasan Anda untuk aktivasi akun
+                      </li>
                       <li>Administrator akan melengkapi data profil Anda</li>
-                      <li>Setelah diaktifkan, profil lengkap Anda akan muncul</li>
+                      <li>
+                        Setelah diaktifkan, profil lengkap Anda akan muncul
+                      </li>
                     </>
                   ) : (
                     <>
                       <li>Daftar ke yayasan dengan kode yayasan yang valid</li>
-                      <li>Atau hubungi administrator untuk pendaftaran manual</li>
-                      <li>Setelah terdaftar, profil lengkap Anda akan muncul</li>
+                      <li>
+                        Atau hubungi administrator untuk pendaftaran manual
+                      </li>
+                      <li>
+                        Setelah terdaftar, profil lengkap Anda akan muncul
+                      </li>
                     </>
                   )}
                 </ul>

@@ -17,19 +17,19 @@ export const useGetBetterAuth = () => {
   });
 };
 
-export const useGetBetterAuthById = (userId: String) => {
+export const useGetBetterAuthById = (userId: string | undefined) => {
   return useQuery({
     queryKey: ["betterauth-by-id", userId],
     queryFn: async () => {
       try {
-        const res = await apiPost<betterauthUser[]>(
-          "/api/betterauth/users",
+        const res = await apiPost<betterauthUser>("/api/betterauth/users", {
           userId,
-        );
+        });
         return res.data;
       } catch (error) {
         console.error(error);
       }
     },
+    enabled: !!userId, // Only fetch when userId is available
   });
 };
