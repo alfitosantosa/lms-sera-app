@@ -1,12 +1,20 @@
 import * as React from "react";
-import { Lock, ShieldCheck, Database, Server, Building2, Key, Users } from "lucide-react";
+import {
+  Lock,
+  ShieldCheck,
+  Database,
+  Server,
+  Building2,
+  Key,
+  Users,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function Architecture() {
   const tenants = [
-    { name: "SMK IT Rahmaniyah", count: "510 siswa · SMK" },
-    { name: "SMA Rahmaniyah Al-Islamy", count: "420 siswa · SMA" },
+    { name: "SMK IT Santosa", count: "510 siswa · SMK" },
+    { name: "SMA Santosa Al-Islamy", count: "420 siswa · SMA" },
     { name: "SMP Cendekia Al-Islamy", count: "380 siswa · SMP" },
     { name: "SD Islam Terpadu Harapan", count: "290 siswa · SD" },
   ];
@@ -35,7 +43,10 @@ export function Architecture() {
   ];
 
   return (
-    <section id="arsitektur" className="relative overflow-hidden bg-navy py-24 text-white">
+    <section
+      id="arsitektur"
+      className="relative overflow-hidden bg-navy py-24 text-white"
+    >
       {/* Background ambient glow */}
       <div className="pointer-events-none absolute -top-40 left-1/3 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-40 right-10 h-[500px] w-[500px] rounded-full bg-[#00d4ff]/15 blur-[120px]" />
@@ -50,8 +61,8 @@ export function Architecture() {
             Satu platform untuk seluruh sekolah di bawah yayasan Anda.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-navy-muted">
-            Setiap sekolah punya ruang data sendiri yang terkunci rapat — siswa, keuangan, dan rapor
-            tidak pernah tertukar antar sekolah.
+            Setiap sekolah punya ruang data sendiri yang terkunci rapat — siswa,
+            keuangan, dan rapor tidak pernah tertukar antar sekolah.
           </p>
         </div>
 
@@ -66,8 +77,9 @@ export function Architecture() {
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-navy-muted">
-              Setiap sekolah punya ruang datanya sendiri di dalam sistem. Data sekolah yang satu tidak
-              bisa dilihat atau tercampur dengan sekolah yang lain — sudah terjamin sejak dari desainnya.
+              Setiap sekolah punya ruang datanya sendiri di dalam sistem. Data
+              sekolah yang satu tidak bisa dilihat atau tercampur dengan sekolah
+              yang lain — sudah terjamin sejak dari desainnya.
             </p>
 
             <Card className="rounded-2xl border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
@@ -85,7 +97,9 @@ export function Architecture() {
                       <Building2 className="h-4 w-4 text-primary" />
                       <div>
                         <div className="font-semibold text-white">{t.name}</div>
-                        <div className="text-[11px] text-navy-muted">{t.count}</div>
+                        <div className="text-[11px] text-navy-muted">
+                          {t.count}
+                        </div>
                       </div>
                     </div>
                     <Badge className="border-none bg-[#00d924]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#a5d6a7]">
@@ -117,8 +131,8 @@ export function Architecture() {
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-navy-muted">
-              Setiap pengguna hanya melihat data sesuai perannya — dari pengurus yayasan, kepala sekolah,
-              guru, hingga orang tua — secara aman.
+              Setiap pengguna hanya melihat data sesuai perannya — dari pengurus
+              yayasan, kepala sekolah, guru, hingga orang tua — secara aman.
             </p>
 
             <div className="space-y-3">

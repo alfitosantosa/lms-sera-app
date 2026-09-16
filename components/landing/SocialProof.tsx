@@ -1,21 +1,56 @@
-import * as React from "react";
-import { Building2, Award, Users, CheckCircle, Shield } from "lucide-react";
+import { Building2 } from "lucide-react";
 
 export function SocialProof() {
   const schools = [
-    { name: "Yayasan Rahmaniyah Al-Islamy", type: "Pusat Yayasan", location: "Bogor" },
-    { name: "SMK IT Rahmaniyah", type: "Vokasi & TI", location: "Depok" },
-    { name: "SMA Nusantara 1", type: "Sekolah Menengah Atas", location: "Jakarta" },
-    { name: "SMP Cendekia Al-Islamy", type: "Sekolah Menengah Pertama", location: "Bogor" },
-    { name: "SD Islam Terpadu Harapan", type: "Sekolah Dasar", location: "Tangerang" },
-    { name: "Pesantren Modern Al-Hikmah", type: "Pondok Pesantren", location: "Jawa Barat" },
+    {
+      name: "Yayasan Santosa Al-Islamy",
+      type: "Pusat Yayasan",
+      location: "Bogor",
+    },
+    { name: "SMK IT Santosa", type: "Vokasi & TI", location: "Depok" },
+    {
+      name: "SMA Nusantara 1",
+      type: "Sekolah Menengah Atas",
+      location: "Jakarta",
+    },
+    {
+      name: "SMP Cendekia Al-Islamy",
+      type: "Sekolah Menengah Pertama",
+      location: "Bogor",
+    },
+    {
+      name: "SD Islam Terpadu Harapan",
+      type: "Sekolah Dasar",
+      location: "Tangerang",
+    },
+    {
+      name: "Pesantren Modern Al-Hikmah",
+      type: "Pondok Pesantren",
+      location: "Jawa Barat",
+    },
   ];
 
   const stats = [
-    { value: "500+", label: "Sekolah & Madrasah", desc: "Menggunakan Sera setiap hari" },
-    { value: "1,2 Juta", label: "Siswa & Guru Aktif", desc: "Tercatat dalam sistem" },
-    { value: "99,9%", label: "Uptime Sistem SLA", desc: "Keandalan cloud enterprise" },
-    { value: "Rp 120M+", label: "Transaksi SPP Online", desc: "Terproses otomatis via Midtrans" },
+    {
+      value: "500+",
+      label: "Sekolah & Madrasah",
+      desc: "Menggunakan Sera setiap hari",
+    },
+    {
+      value: "1,2 Juta",
+      label: "Siswa & Guru Aktif",
+      desc: "Tercatat dalam sistem",
+    },
+    {
+      value: "99,9%",
+      label: "Uptime Sistem SLA",
+      desc: "Keandalan cloud enterprise",
+    },
+    {
+      value: "Rp 120M+",
+      label: "Transaksi SPP Online",
+      desc: "Terproses otomatis via Midtrans",
+    },
   ];
 
   return (
@@ -35,7 +70,9 @@ export function SocialProof() {
             >
               <Building2 className="h-3.5 w-3.5 text-primary" />
               <span className="font-semibold text-foreground">{s.name}</span>
-              <span className="text-[11px] text-muted-foreground">• {s.type}</span>
+              <span className="text-[11px] text-muted-foreground">
+                • {s.type}
+              </span>
             </div>
           ))}
         </div>
@@ -50,8 +87,12 @@ export function SocialProof() {
               <div className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl [font-feature-settings:'tnum'_1]">
                 {stat.value}
               </div>
-              <div className="mt-1.5 text-sm font-semibold text-secondary-foreground">{stat.label}</div>
-              <p className="mt-0.5 text-xs text-muted-foreground">{stat.desc}</p>
+              <div className="mt-1.5 text-sm font-semibold text-secondary-foreground">
+                {stat.label}
+              </div>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {stat.desc}
+              </p>
             </div>
           ))}
         </div>

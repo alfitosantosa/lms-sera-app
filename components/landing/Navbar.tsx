@@ -3,7 +3,14 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, ArrowRight, Sparkles, Building2, Shield, LogIn } from "lucide-react";
+import {
+  Menu,
+  ArrowRight,
+  Sparkles,
+  Building2,
+  Shield,
+  LogIn,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -36,7 +43,7 @@ export function Navbar() {
 
   const handleNavigateRegisterFoundation = () => {
     setMobileOpen(false);
-    router.push("/landing/register/foundation");
+    router.push("/auth/sign-in");
   };
 
   return (
@@ -107,13 +114,18 @@ export function Navbar() {
                 <Menu className="h-5 w-5 text-foreground" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-84 p-0 flex flex-col justify-between">
+            <SheetContent
+              side="right"
+              className="w-full sm:w-84 p-0 flex flex-col justify-between"
+            >
               <div>
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-border p-5">
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-                    <span className="text-lg font-bold text-foreground">Sera</span>
+                    <span className="text-lg font-bold text-foreground">
+                      Sera
+                    </span>
                     <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
                       LMS
                     </span>
@@ -160,8 +172,12 @@ export function Navbar() {
 
               {/* Drawer Footer info */}
               <div className="border-t border-border bg-secondary p-5 text-xs text-muted-foreground">
-                <p className="font-semibold text-foreground">Yayasan Rahmaniyah Al-Islamy</p>
-                <p className="mt-0.5">Sistem Manajemen Sekolah & Multi-Tenant Terpadu</p>
+                <p className="font-semibold text-foreground">
+                  PT Santosa Tech Indonesia
+                </p>
+                <p className="mt-0.5">
+                  Sistem Manajemen Sekolah & Multi-Tenant Terpadu
+                </p>
               </div>
             </SheetContent>
           </Sheet>

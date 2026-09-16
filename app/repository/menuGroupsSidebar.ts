@@ -128,6 +128,10 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "attendance",
           items: [
             {
+              title: "Absensi",
+              url: "/dashboard/attendance",
+            },
+            {
               title: "Backup Absensi Admin",
               url: "/dashboard/admin/attendance",
             },

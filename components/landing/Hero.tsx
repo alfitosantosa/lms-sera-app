@@ -30,10 +30,6 @@ export function Hero() {
   const [selectedSchool, setSelectedSchool] = React.useState<string>("smk-it");
   const router = useRouter();
 
-  const handleRegisterFoundation = () => {
-    router.push("/landing/register/foundation");
-  };
-
   const handleSignIn = () => {
     router.push("/auth/sign-in");
   };
@@ -70,14 +66,15 @@ export function Hero() {
 
         {/* Subtitle */}
         <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-foreground/80 sm:text-[18px]">
-          Sera menyatukan presensi harian, penilaian e-rapor, penagihan SPP online via Midtrans, dan
-          notifikasi WhatsApp orang tua dalam satu platform multi-tenant yang aman dan cepat.
+          Sera menyatukan presensi harian, penilaian e-rapor, penagihan SPP
+          online via Midtrans, dan notifikasi WhatsApp orang tua dalam satu
+          platform multi-tenant yang aman dan cepat.
         </p>
 
         {/* CTA Buttons */}
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
           <Button
-            onClick={handleRegisterFoundation}
+            onClick={handleSignIn}
             size="lg"
             className="group w-full rounded-full bg-primary px-8 py-6 text-[15px] font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/35 sm:w-auto"
           >
@@ -127,7 +124,7 @@ export function Hero() {
             </div>
 
             {/* Segmented Control */}
-            <div className="flex rounded-lg bg-secondary p-1 text-xs font-medium text-foreground/80">
+            <div className="flex flex-wrap justify-center rounded-lg bg-secondary p-1 text-xs font-medium text-foreground/80">
               <button
                 type="button"
                 onClick={() => setActiveTab("keuangan")}
@@ -202,7 +199,10 @@ export function Hero() {
                   {/* Micro Chart */}
                   <div className="mt-4 flex h-18 items-end gap-2">
                     {[45, 60, 55, 78, 85, 95].map((val, idx) => (
-                      <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                      <div
+                        key={idx}
+                        className="flex-1 flex flex-col items-center gap-1"
+                      >
                         <div
                           className="w-full rounded-t-sm bg-gradient-to-t from-primary to-brand-accent transition-all duration-500"
                           style={{ height: `${val}%` }}
@@ -269,8 +269,12 @@ export function Hero() {
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <div className="font-semibold text-foreground">{tx.name}</div>
-                            <div className="text-[11px] text-muted-foreground">{tx.class} • {tx.method}</div>
+                            <div className="font-semibold text-foreground">
+                              {tx.name}
+                            </div>
+                            <div className="text-[11px] text-muted-foreground">
+                              {tx.class} • {tx.method}
+                            </div>
                           </div>
                         </div>
 
@@ -299,12 +303,16 @@ export function Hero() {
             {activeTab === "presensi" && (
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <div className="rounded-xl border border-border bg-secondary/50 p-4">
-                  <div className="text-xs font-semibold text-foreground">Tingkat Kehadiran Hari Ini</div>
+                  <div className="text-xs font-semibold text-foreground">
+                    Tingkat Kehadiran Hari Ini
+                  </div>
                   <div className="mt-3 flex items-baseline gap-2">
                     <span className="text-3xl font-black text-foreground [font-feature-settings:'tnum'_1]">
                       98.4%
                     </span>
-                    <span className="text-xs text-success font-semibold">Tepat Waktu</span>
+                    <span className="text-xs text-success font-semibold">
+                      Tepat Waktu
+                    </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
                     1.248 hadir • 12 izin • 6 sakit • 2 alfa
@@ -313,7 +321,9 @@ export function Hero() {
                   <div className="mt-5 space-y-2 text-xs">
                     <div className="flex items-center justify-between text-muted-foreground">
                       <span>Check-in Guru</span>
-                      <span className="font-semibold text-foreground">64 / 64 (100%)</span>
+                      <span className="font-semibold text-foreground">
+                        64 / 64 (100%)
+                      </span>
                     </div>
                     <div className="h-1.5 w-full rounded-full bg-border">
                       <div className="h-full rounded-full bg-success w-full" />
@@ -321,7 +331,9 @@ export function Hero() {
 
                     <div className="flex items-center justify-between text-muted-foreground pt-2">
                       <span>Notifikasi WA Orang Tua</span>
-                      <span className="font-semibold text-primary">100% Terkirim</span>
+                      <span className="font-semibold text-primary">
+                        100% Terkirim
+                      </span>
                     </div>
                     <div className="h-1.5 w-full rounded-full bg-border">
                       <div className="h-full rounded-full bg-primary w-full" />
@@ -334,7 +346,9 @@ export function Hero() {
                     <div className="text-xs font-semibold text-foreground">
                       Log Presensi Siswa Realtime
                     </div>
-                    <span className="text-[11px] text-muted-foreground">Pembaruan otomatis</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      Pembaruan otomatis
+                    </span>
                   </div>
 
                   <div className="space-y-2">
@@ -377,14 +391,22 @@ export function Hero() {
                             <Clock className="h-3.5 w-3.5" />
                           </div>
                           <div>
-                            <span className="font-semibold text-foreground">{row.name}</span>
-                            <span className="text-muted-foreground ml-1.5">({row.class})</span>
-                            <div className="text-[11px] text-muted-foreground">{row.waStatus}</div>
+                            <span className="font-semibold text-foreground">
+                              {row.name}
+                            </span>
+                            <span className="text-muted-foreground ml-1.5">
+                              ({row.class})
+                            </span>
+                            <div className="text-[11px] text-muted-foreground">
+                              {row.waStatus}
+                            </div>
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <span className="font-mono text-xs text-foreground">{row.time}</span>
+                          <span className="font-mono text-xs text-foreground">
+                            {row.time}
+                          </span>
                           <div>
                             <Badge
                               className={`rounded-full border-none px-2 py-0 text-[10px] font-semibold ${
@@ -417,9 +439,21 @@ export function Hero() {
 
                   <div className="mt-4 space-y-2">
                     {[
-                      { id: "smk-it", name: "SMK IT Rahmaniyah", desc: "510 siswa · 3 jurusan" },
-                      { id: "sma", name: "SMA Rahmaniyah", desc: "420 siswa · 2 jurusan" },
-                      { id: "smp", name: "SMP Rahmaniyah", desc: "380 siswa · 2 jurusan" },
+                      {
+                        id: "smk-it",
+                        name: "SMK IT Santosa",
+                        desc: "510 siswa · 3 jurusan",
+                      },
+                      {
+                        id: "sma",
+                        name: "SMA Santosa",
+                        desc: "420 siswa · 2 jurusan",
+                      },
+                      {
+                        id: "smp",
+                        name: "SMP Santosa",
+                        desc: "380 siswa · 2 jurusan",
+                      },
                     ].map((school) => (
                       <button
                         key={school.id}
@@ -433,7 +467,9 @@ export function Hero() {
                       >
                         <div>
                           <div>{school.name}</div>
-                          <div className="text-[10px] text-muted-foreground">{school.desc}</div>
+                          <div className="text-[10px] text-muted-foreground">
+                            {school.desc}
+                          </div>
                         </div>
                         <ChevronRight className="h-4 w-4" />
                       </button>
@@ -446,7 +482,12 @@ export function Hero() {
                     <div className="flex items-center gap-2">
                       <Lock className="h-3.5 w-3.5 text-primary" />
                       <span className="text-xs font-semibold text-white">
-                        Data {selectedSchool === "smk-it" ? "SMK IT Rahmaniyah" : selectedSchool === "sma" ? "SMA Rahmaniyah" : "SMP Rahmaniyah"}
+                        Data{" "}
+                        {selectedSchool === "smk-it"
+                          ? "SMK IT Santosa"
+                          : selectedSchool === "sma"
+                            ? "SMA Santosa"
+                            : "SMP Santosa"}
                       </span>
                     </div>
                     <Badge className="border-none bg-primary/30 text-[10px] text-brand-accent">
@@ -455,8 +496,16 @@ export function Hero() {
                   </div>
 
                   <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                    {["Data Siswa & Presensi", "Tagihan SPP", "E-Rapor", "Hafalan Tahfidz"].map((item) => (
-                      <div key={item} className="flex items-center gap-2 rounded-lg bg-white/5 p-2.5 text-white/80">
+                    {[
+                      "Data Siswa & Presensi",
+                      "Tagihan SPP",
+                      "E-Rapor",
+                      "Hafalan Tahfidz",
+                    ].map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-2 rounded-lg bg-white/5 p-2.5 text-white/80"
+                      >
                         <ShieldCheck className="h-4 w-4 flex-shrink-0 text-[#00d924]" />
                         <span>{item}</span>
                       </div>
@@ -465,7 +514,10 @@ export function Hero() {
 
                   <div className="mt-4 flex items-center gap-2 rounded-lg bg-white/5 p-2.5 text-xs text-white/70">
                     <ShieldCheck className="h-4 w-4 flex-shrink-0 text-[#00d924]" />
-                    <span>Hanya warga sekolah ini yang bisa melihat datanya — tidak pernah tertukar dengan sekolah lain.</span>
+                    <span>
+                      Hanya warga sekolah ini yang bisa melihat datanya — tidak
+                      pernah tertukar dengan sekolah lain.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -479,21 +531,34 @@ export function Hero() {
                     Integrasi WhatsApp Otomatis
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Terhubung dengan Evolution API. Orang tua menerima notifikasi instan tanpa perlu install aplikasi.
+                    Terhubung dengan Evolution API. Orang tua menerima
+                    notifikasi instan tanpa perlu install aplikasi.
                   </p>
 
                   <div className="mt-4 space-y-2.5 text-xs">
                     <div className="rounded-lg bg-background p-3 border border-border">
-                      <div className="font-semibold text-foreground">Presensi Harian</div>
-                      <div className="text-[11px] text-muted-foreground">Kirim otomatis saat siswa tap kartu / check-in</div>
+                      <div className="font-semibold text-foreground">
+                        Presensi Harian
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Kirim otomatis saat siswa tap kartu / check-in
+                      </div>
                     </div>
                     <div className="rounded-lg bg-background p-3 border border-border">
-                      <div className="font-semibold text-foreground">Kuitansi SPP</div>
-                      <div className="text-[11px] text-muted-foreground">PDF kuitansi resmi langsung ke nomor ortu</div>
+                      <div className="font-semibold text-foreground">
+                        Kuitansi SPP
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        PDF kuitansi resmi langsung ke nomor ortu
+                      </div>
                     </div>
                     <div className="rounded-lg bg-background p-3 border border-border">
-                      <div className="font-semibold text-foreground">Mutaba&apos;ah & Tahfidz</div>
-                      <div className="text-[11px] text-muted-foreground">Laporan setoran juz & surah mingguan</div>
+                      <div className="font-semibold text-foreground">
+                        Mutaba&apos;ah & Tahfidz
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Laporan setoran juz & surah mingguan
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -506,34 +571,47 @@ export function Hero() {
                     </Avatar>
                     <div>
                       <div className="flex items-center gap-1.5 text-xs font-bold">
-                        <span>LMS Rahmaniyah Al-Islamy (Bot)</span>
+                        <span>LMS Santosa Al-Islamy (Bot)</span>
                         <CheckCircle2 className="h-3.5 w-3.5 text-[#25d366] fill-white" />
                       </div>
-                      <div className="text-[10px] text-white/80">Akun WhatsApp Bisnis Terverifikasi</div>
+                      <div className="text-[10px] text-white/80">
+                        Akun WhatsApp Bisnis Terverifikasi
+                      </div>
                     </div>
                   </div>
 
                   {/* WA Messages */}
                   <div className="space-y-3 p-3 text-xs">
                     <div className="max-w-[85%] rounded-lg rounded-tl-none bg-background p-3 text-foreground shadow-sm">
-                      <p className="font-semibold text-[#075e54]">Notifikasi Presensi Sekolah</p>
-                      <p className="mt-1">
-                        Assalamu&apos;alaikum Bpk/Ibu, ananda <strong>Ahmad Fajar (XII RPL 1)</strong> telah
-                        melakukan presensi MASUK di sekolah pada pukul <strong>06:48 WIB</strong> (Tepat Waktu).
+                      <p className="font-semibold text-[#075e54]">
+                        Notifikasi Presensi Sekolah
                       </p>
-                      <p className="mt-1 text-[10px] text-right text-muted-foreground">06:48 ✓✓</p>
+                      <p className="mt-1">
+                        Assalamu&apos;alaikum Bpk/Ibu, ananda{" "}
+                        <strong>Ahmad Fajar (XII RPL 1)</strong> telah melakukan
+                        presensi MASUK di sekolah pada pukul{" "}
+                        <strong>06:48 WIB</strong> (Tepat Waktu).
+                      </p>
+                      <p className="mt-1 text-[10px] text-right text-muted-foreground">
+                        06:48 ✓✓
+                      </p>
                     </div>
 
                     <div className="max-w-[85%] rounded-lg rounded-tl-none bg-background p-3 text-foreground shadow-sm">
-                      <p className="font-semibold text-[#075e54]">Bukti Pembayaran SPP Online</p>
+                      <p className="font-semibold text-[#075e54]">
+                        Bukti Pembayaran SPP Online
+                      </p>
                       <p className="mt-1">
-                        Terima kasih, pembayaran SPP Bulan September sebesar <strong>Rp 450.000</strong> telah
-                        berhasil diverifikasi via <strong>Virtual Account BCA</strong>.
+                        Terima kasih, pembayaran SPP Bulan September sebesar{" "}
+                        <strong>Rp 450.000</strong> telah berhasil diverifikasi
+                        via <strong>Virtual Account BCA</strong>.
                       </p>
                       <p className="mt-2 text-primary font-medium underline">
                         Unduh Kuitansi PDF Resmi (#INV-2026-0909)
                       </p>
-                      <p className="mt-1 text-[10px] text-right text-muted-foreground">08:15 ✓✓</p>
+                      <p className="mt-1 text-[10px] text-right text-muted-foreground">
+                        08:15 ✓✓
+                      </p>
                     </div>
                   </div>
                 </div>
