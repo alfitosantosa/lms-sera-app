@@ -1,5 +1,10 @@
 "use client";
-import { PaymentData, PaymentItemData, PaymentItemsInput, SetPaidInput } from "@/app/(types)";
+import {
+  type PaymentData,
+  type PaymentItemData,
+  type PaymentItemsInput,
+  type SetPaidInput,
+} from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -84,7 +89,9 @@ export const useGetPaymentByStudentId = (studentId: string) => {
   return useQuery({
     queryKey: ["payment-by-id", studentId],
     queryFn: async () => {
-      const res = await apiGet<PaymentData[]>(`/api/payment/student/${studentId}`);
+      const res = await apiGet<PaymentData[]>(
+        `/api/payment/student/${studentId}`,
+      );
       return res.data;
     },
     enabled: !!studentId,
@@ -95,7 +102,9 @@ export const usePaymentItemsUnpaidStudent = (studentId: string) => {
   return useQuery({
     queryKey: ["unpaid-students", studentId],
     queryFn: async () => {
-      const res = await apiGet<PaymentItemData[]>(`/api/payment/items/unpaid/student/${studentId}`);
+      const res = await apiGet<PaymentItemData[]>(
+        `/api/payment/items/unpaid/student/${studentId}`,
+      );
       return res.data ?? [];
     },
     enabled: !!studentId,
@@ -106,7 +115,9 @@ export const usePaymentItemsByMajorId = (majorId: string) => {
   return useQuery({
     queryKey: ["payment-by-id-major", majorId],
     queryFn: async () => {
-      const res = await apiGet<PaymentItemData[]>(`/api/payment/items/major/${majorId}`);
+      const res = await apiGet<PaymentItemData[]>(
+        `/api/payment/items/major/${majorId}`,
+      );
       return res.data;
     },
     enabled: !!majorId,
@@ -148,18 +159,25 @@ export const usePaymentItemsByStudentId = (id: string) => {
   return useQuery({
     queryKey: ["payment-by-id-student", id],
     queryFn: async () => {
-      const res = await apiGet<PaymentItemData[]>(`/api/payment/items/student/${id}`);
+      const res = await apiGet<PaymentItemData[]>(
+        `/api/payment/items/student/${id}`,
+      );
       return res.data;
     },
     enabled: !!id,
   });
 };
 
-export const usePaymentItemsByFilterDate = (startDate: string, endDate: string) => {
+export const usePaymentItemsByFilterDate = (
+  startDate: string,
+  endDate: string,
+) => {
   return useQuery({
     queryKey: ["payment-items-filter-date", startDate, endDate],
     queryFn: async () => {
-      const res = await apiGet<PaymentItemData[]>(`/api/payment/items/filter/date?start_date=${startDate}&end_date=${endDate}`);
+      const res = await apiGet<PaymentItemData[]>(
+        `/api/payment/items/filter/date?start_date=${startDate}&end_date=${endDate}`,
+      );
       return res.data;
     },
   });

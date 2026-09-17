@@ -28,8 +28,15 @@ export interface ApiError {
 }
 
 // Type guard to check if an error has a message property
-export function isErrorWithMessage(error: unknown): error is { message: string } {
-  return typeof error === "object" && error !== null && "message" in error && typeof (error as Record<string, unknown>).message === "string";
+export function isErrorWithMessage(
+  error: unknown,
+): error is { message: string } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof (error as Record<string, unknown>).message === "string"
+  );
 }
 
 // Helper function to extract error message from unknown error

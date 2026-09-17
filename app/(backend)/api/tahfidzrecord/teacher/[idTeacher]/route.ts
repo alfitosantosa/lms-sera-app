@@ -1,10 +1,16 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ idTeacher: string }> }) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ idTeacher: string }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const { idTeacher } = await params;

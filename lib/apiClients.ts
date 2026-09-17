@@ -18,7 +18,10 @@ interface ApiResponse<T = unknown> {
 /**
  * Build URL with query parameters
  */
-function buildUrl(url: string, params?: Record<string, string | number | boolean>): string {
+function buildUrl(
+  url: string,
+  params?: Record<string, string | number | boolean>,
+): string {
   if (!params) return url;
 
   const searchParams = new URLSearchParams();
@@ -42,7 +45,10 @@ async function safeJson<T>(response: Response): Promise<T> {
 /**
  * Make a GET request
  */
-export async function apiGet<T = unknown>(url: string, options?: FetchOptions): Promise<ApiResponse<T>> {
+export async function apiGet<T = unknown>(
+  url: string,
+  options?: FetchOptions,
+): Promise<ApiResponse<T>> {
   const fullUrl = buildUrl(url, options?.params);
 
   const response = await fetch(fullUrl, {
@@ -65,7 +71,11 @@ export async function apiGet<T = unknown>(url: string, options?: FetchOptions): 
 /**
  * Make a POST request
  */
-export async function apiPost<T = unknown>(url: string, body?: unknown, options?: FetchOptions): Promise<ApiResponse<T>> {
+export async function apiPost<T = unknown>(
+  url: string,
+  body?: unknown,
+  options?: FetchOptions,
+): Promise<ApiResponse<T>> {
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -87,7 +97,11 @@ export async function apiPost<T = unknown>(url: string, body?: unknown, options?
 /**
  * Make a PUT request
  */
-export async function apiPut<T = unknown>(url: string, body?: unknown, options?: FetchOptions): Promise<ApiResponse<T>> {
+export async function apiPut<T = unknown>(
+  url: string,
+  body?: unknown,
+  options?: FetchOptions,
+): Promise<ApiResponse<T>> {
   const response = await fetch(url, {
     method: "PUT",
     headers: {
@@ -109,7 +123,10 @@ export async function apiPut<T = unknown>(url: string, body?: unknown, options?:
 /**
  * Make a DELETE request
  */
-export async function apiDelete<T = unknown>(url: string, options?: FetchOptions): Promise<ApiResponse<T>> {
+export async function apiDelete<T = unknown>(
+  url: string,
+  options?: FetchOptions,
+): Promise<ApiResponse<T>> {
   const response = await fetch(url, {
     method: "DELETE",
     headers: {
@@ -130,7 +147,11 @@ export async function apiDelete<T = unknown>(url: string, options?: FetchOptions
 /**
  * Make a PATCH request
  */
-export async function apiPatch<T = unknown>(url: string, body?: unknown, options?: FetchOptions): Promise<ApiResponse<T>> {
+export async function apiPatch<T = unknown>(
+  url: string,
+  body?: unknown,
+  options?: FetchOptions,
+): Promise<ApiResponse<T>> {
   const response = await fetch(url, {
     method: "PATCH",
     headers: {

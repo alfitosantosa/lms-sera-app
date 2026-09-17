@@ -1,6 +1,6 @@
 "use client";
 
-import { ScheduleTypes } from "@/app/(types)";
+import { type ScheduleTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,7 +24,9 @@ export const useGetScheduleByIdTeacher = (id: string) => {
     queryKey: ["schedules"],
     queryFn: async () => {
       try {
-        const res = await apiGet<ScheduleTypes[]>(`/api/schedules/teacher/${id}`);
+        const res = await apiGet<ScheduleTypes[]>(
+          `/api/schedules/teacher/${id}`,
+        );
         return res.data;
       } catch (error) {
         console.error(error);
@@ -39,7 +41,9 @@ export const useGetScheduleByIdAcademicYearActive = (id: string) => {
     queryKey: ["schedules"],
     queryFn: async () => {
       try {
-        const res = await apiGet<ScheduleTypes[]>(`/api/schedules/active/teacher/${id}`);
+        const res = await apiGet<ScheduleTypes[]>(
+          `/api/schedules/active/teacher/${id}`,
+        );
         return res.data;
       } catch (error) {
         console.error(error);

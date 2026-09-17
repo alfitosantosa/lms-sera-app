@@ -8,10 +8,10 @@ import {
 } from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
+import { type AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
 import {
-  ClassDataTypes,
-  ClassFormValues,
+  type ClassDataTypes,
+  type ClassFormValues,
   classSchemaForm,
 } from "@/app/(types)/types/class-types";
 import Loading from "@/components/loading";
@@ -63,16 +63,16 @@ import {
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -177,7 +177,7 @@ function ClassFormDialog({
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+              <p className="text-destructive text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -190,7 +190,7 @@ function ClassFormDialog({
               {...register("grade", { valueAsNumber: true })}
             />
             {errors.grade && (
-              <p className="text-sm text-destructive">{errors.grade.message}</p>
+              <p className="text-destructive text-sm">{errors.grade.message}</p>
             )}
           </div>
 
@@ -212,7 +212,7 @@ function ClassFormDialog({
               </SelectContent>
             </Select>
             {errors.academicYearId && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.academicYearId.message}
               </p>
             )}
@@ -227,7 +227,7 @@ function ClassFormDialog({
               {...register("capacity", { valueAsNumber: true })}
             />
             {errors.capacity && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.capacity.message}
               </p>
             )}
@@ -529,10 +529,10 @@ function ClassDataTable({ id }: { id: string }) {
   return (
     <>
       <div>
-        <div className="font-bold text-3xl">Data Kelas </div>
-        <div className=" mx-auto">
+        <div className="text-3xl font-bold">Data Kelas </div>
+        <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+            <div className="flex flex-wrap items-center space-x-2 gap-y-2">
               <Input
                 placeholder="Cari nama kelas..."
                 value={
@@ -665,7 +665,7 @@ function ClassDataTable({ id }: { id: string }) {
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex-1 text-sm">
               {table.getFilteredSelectedRowModel().rows.length} dari{" "}
               {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>

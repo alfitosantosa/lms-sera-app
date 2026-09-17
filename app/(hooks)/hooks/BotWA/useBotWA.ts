@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 // Types
 interface Recipient {
@@ -78,10 +78,10 @@ export const useSendToParents = () => {
   const sendToParentPhones = async (
     students: { name: string; parentPhone?: string | null }[],
     message: string,
-    delayMs?: number
+    delayMs?: number,
   ) => {
     const validStudents = students.filter(
-      (s) => s.parentPhone && s.parentPhone.trim() !== ""
+      (s) => s.parentPhone && s.parentPhone.trim() !== "",
     );
 
     if (validStudents.length === 0) {

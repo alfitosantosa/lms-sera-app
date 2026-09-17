@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export async function proxy(request: NextRequest) {
@@ -16,7 +16,10 @@ export async function proxy(request: NextRequest) {
     // Check if this is an API route
     if (pathname.startsWith("/api")) {
       // Return 401 Unauthorized for API routes
-      return NextResponse.json({ error: "Unauthorized", message: "Authentication required" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized", message: "Authentication required" },
+        { status: 401 },
+      );
     }
 
     // Redirect to sign-in for dashboard routes

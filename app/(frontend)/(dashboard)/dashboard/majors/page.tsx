@@ -7,7 +7,7 @@ import {
   useUpdateMajor,
 } from "@/app/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { getErrorMessage, majorTypes } from "@/app/(types)";
+import { getErrorMessage } from "@/app/(types)";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -53,16 +53,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -215,28 +215,28 @@ function SignatureUpload({
         <span className="text-muted-foreground text-xs">(opsional)</span>
       </Label>
 
-      <div className="flex gap-4 items-start">
+      <div className="flex items-start gap-4">
         {/* Preview area */}
         <div className="relative shrink-0">
           {previewUrl ? (
-            <div className="relative group">
+            <div className="group relative">
               {/* Tanda tangan ditampilkan dalam kotak persegi panjang landscape */}
-              <div className="w-36 h-20 rounded-md border-2 overflow-hidden bg-card flex items-center justify-center">
+              <div className="bg-card flex h-20 w-36 items-center justify-center overflow-hidden rounded-md border-2">
                 <Image
                   src={previewUrl}
                   alt="Preview tanda tangan"
                   width={144}
                   height={80}
-                  className="object-contain w-full h-full"
+                  className="h-full w-full object-contain"
                 />
               </div>
               {/* Overlay hover untuk preview fullscreen */}
-              <div className="absolute inset-0 flex items-center justify-center bg-navy/40 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-navy/40 absolute inset-0 flex items-center justify-center rounded-md opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
                   type="button"
                   size="sm"
                   variant="ghost"
-                  className="text-white hover:text-white h-7 w-7 p-0"
+                  className="h-7 w-7 p-0 text-white hover:text-white"
                   onClick={() => setShowPreview(true)}
                 >
                   <Eye className="h-4 w-4" />
@@ -245,9 +245,9 @@ function SignatureUpload({
             </div>
           ) : (
             /* Placeholder ketika belum ada tanda tangan */
-            <div className="w-36 h-20 rounded-md bg-muted flex flex-col items-center justify-center border-2 border-dashed gap-1">
-              <PenLine className="h-6 w-6 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">Belum ada</span>
+            <div className="bg-muted flex h-20 w-36 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed">
+              <PenLine className="text-muted-foreground h-6 w-6" />
+              <span className="text-muted-foreground text-xs">Belum ada</span>
             </div>
           )}
         </div>
@@ -272,7 +272,7 @@ function SignatureUpload({
               }
               className="flex-1"
             >
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               {isUploading ? "Mengunggah..." : "Upload Tanda Tangan"}
             </Button>
 
@@ -289,7 +289,7 @@ function SignatureUpload({
             )}
           </div>
 
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Disarankan: latar belakang putih/transparan. Format JPG, PNG. Maks.
             5MB.
           </p>
@@ -303,16 +303,16 @@ function SignatureUpload({
             <DialogHeader>
               <DialogTitle>Preview Tanda Tangan</DialogTitle>
             </DialogHeader>
-            <div className="flex items-center justify-center p-4 bg-muted/50 rounded-lg min-h-32">
+            <div className="bg-muted/50 flex min-h-32 items-center justify-center rounded-lg p-4">
               <Image
                 src={previewUrl}
                 alt="Preview tanda tangan"
-                className="max-w-full max-h-64 object-contain rounded"
+                className="max-h-64 max-w-full rounded object-contain"
                 width={400}
                 height={200}
               />
             </div>
-            <p className="text-xs text-center text-muted-foreground">
+            <p className="text-muted-foreground text-center text-xs">
               Tanda tangan akan muncul di dokumen resmi seperti kwitansi.
             </p>
           </DialogContent>
@@ -407,7 +407,7 @@ function MajorFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData ? "Edit Branch" : "Tambah Branch Baru"}
@@ -423,7 +423,7 @@ function MajorFormDialog({
               </Label>
               <Input id="code" placeholder="SMAIT001" {...register("code")} />
               {errors.code && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.code.message}
                 </p>
               )}
@@ -431,7 +431,7 @@ function MajorFormDialog({
 
             <div className="space-y-2">
               <Label>Status</Label>
-              <div className="flex items-center gap-2 h-10">
+              <div className="flex h-10 items-center gap-2">
                 <Switch
                   id="isActive"
                   checked={isActive}
@@ -457,7 +457,7 @@ function MajorFormDialog({
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+              <p className="text-destructive text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -568,7 +568,7 @@ function MajorDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Detail Branch</DialogTitle>
         </DialogHeader>
@@ -577,13 +577,13 @@ function MajorDetailDialog({
           {/* Header info */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Kode Branch
               </p>
-              <p className="font-mono font-bold text-lg">{majorData.code}</p>
+              <p className="font-mono text-lg font-bold">{majorData.code}</p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Status
               </p>
               <Badge
@@ -596,15 +596,15 @@ function MajorDetailDialog({
           </div>
 
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+            <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
               Nama Branch
             </p>
-            <p className="font-semibold text-base">{majorData.name}</p>
+            <p className="text-base font-semibold">{majorData.name}</p>
           </div>
 
           {majorData.description && (
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Deskripsi
               </p>
               <p className="text-sm">{majorData.description}</p>
@@ -614,7 +614,7 @@ function MajorDetailDialog({
           <div className="grid grid-cols-2 gap-4">
             {majorData.address && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Alamat
                 </p>
                 <p className="text-sm">{majorData.address}</p>
@@ -622,7 +622,7 @@ function MajorDetailDialog({
             )}
             {majorData.phone && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Telepon
                 </p>
                 <p className="text-sm">{majorData.phone}</p>
@@ -630,7 +630,7 @@ function MajorDetailDialog({
             )}
             {majorData.adminName && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Bendahara
                 </p>
                 <p className="text-sm font-medium">{majorData.adminName}</p>
@@ -641,16 +641,16 @@ function MajorDetailDialog({
           {/* Tanda tangan preview */}
           {majorData.signatureUrl && (
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
+              <p className="text-muted-foreground mb-2 text-xs tracking-wide uppercase">
                 Tanda Tangan Bendahara
               </p>
-              <div className="inline-flex p-3 bg-muted/50 rounded-lg border">
+              <div className="bg-muted/50 inline-flex rounded-lg border p-3">
                 <Image
                   src={majorData.signatureUrl}
                   alt="Tanda tangan bendahara"
                   width={200}
                   height={80}
-                  className="object-contain max-h-20"
+                  className="max-h-20 object-contain"
                 />
               </div>
             </div>
@@ -660,7 +660,7 @@ function MajorDetailDialog({
 
           {/* Statistik */}
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-3">
+            <p className="text-muted-foreground mb-3 text-xs tracking-wide uppercase">
               Statistik
             </p>
             <div className="grid grid-cols-4 gap-3">
@@ -692,12 +692,12 @@ function MajorDetailDialog({
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className={`text-center p-3 rounded-lg ${stat.bg} border`}
+                  className={`rounded-lg p-3 text-center ${stat.bg} border`}
                 >
                   <div className={`text-2xl font-bold ${stat.color}`}>
                     {stat.value}
                   </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">
+                  <div className="text-muted-foreground mt-0.5 text-xs">
                     {stat.label}
                   </div>
                 </div>
@@ -759,7 +759,7 @@ function DeleteMajorDialog({
                     Branch <strong>{majorData?.name}</strong> memiliki data
                     terkait:
                   </p>
-                  <ul className="list-disc list-inside text-sm space-y-1 text-muted-foreground">
+                  <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
                     {majorData?._count?.classes ? (
                       <li>{majorData._count.classes} kelas</li>
                     ) : null}
@@ -770,7 +770,7 @@ function DeleteMajorDialog({
                       <li>{majorData._count.subjects} mata pelajaran</li>
                     ) : null}
                   </ul>
-                  <p className="text-destructive font-medium text-sm">
+                  <p className="text-destructive text-sm font-medium">
                     Menghapus Branch akan menghapus semua data terkait. Tindakan
                     ini tidak dapat dibatalkan.
                   </p>
@@ -855,7 +855,7 @@ function MajorDataTable() {
         </Button>
       ),
       cell: ({ row }) => (
-        <div className="font-mono font-medium text-sm">
+        <div className="font-mono text-sm font-medium">
           {row.getValue("code")}
         </div>
       ),
@@ -878,7 +878,7 @@ function MajorDataTable() {
       accessorKey: "description",
       header: "Deskripsi",
       cell: ({ row }) => (
-        <div className="max-w-[180px] truncate text-sm text-muted-foreground">
+        <div className="text-muted-foreground max-w-[180px] truncate text-sm">
           {(row.getValue("description") as string) || "-"}
         </div>
       ),
@@ -887,7 +887,7 @@ function MajorDataTable() {
       accessorKey: "address",
       header: "Alamat",
       cell: ({ row }) => (
-        <div className="max-w-[160px] truncate text-sm text-muted-foreground">
+        <div className="text-muted-foreground max-w-[160px] truncate text-sm">
           {(row.getValue("address") as string) || "-"}
         </div>
       ),
@@ -896,7 +896,7 @@ function MajorDataTable() {
       accessorKey: "phone",
       header: "Telepon",
       cell: ({ row }) => (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-sm">
           {(row.getValue("phone") as string) || "-"}
         </div>
       ),
@@ -905,7 +905,7 @@ function MajorDataTable() {
       accessorKey: "adminName",
       header: "Treasurer",
       cell: ({ row }) => (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-sm">
           {(row.getValue("adminName") as string) || "-"}
         </div>
       ),
@@ -917,19 +917,19 @@ function MajorDataTable() {
         const url = row.getValue("signatureUrl") as string;
         if (!url) {
           return (
-            <span className="text-xs text-muted-foreground italic">
+            <span className="text-muted-foreground text-xs italic">
               Belum ada
             </span>
           );
         }
         return (
-          <div className="w-16 h-8 bg-muted/50 rounded border overflow-hidden flex items-center justify-center">
+          <div className="bg-muted/50 flex h-8 w-16 items-center justify-center overflow-hidden rounded border">
             <Image
               src={url}
               alt="Tanda tangan"
               width={64}
               height={32}
-              className="object-contain w-full h-full"
+              className="h-full w-full object-contain"
             />
           </div>
         );
@@ -961,7 +961,7 @@ function MajorDataTable() {
       cell: ({ row }) => {
         const m = row.original;
         return (
-          <div className="text-xs space-y-0.5">
+          <div className="space-y-0.5 text-xs">
             <div className="flex gap-2">
               <span className="text-info font-medium">
                 {m._count?.classes ?? 0}K
@@ -1057,11 +1057,11 @@ function MajorDataTable() {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl">Branch</div>
+      <div className="text-3xl font-bold">Branch</div>
 
       <div className="flex items-center justify-between py-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder="Cari nama atau kode Branch..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -1144,7 +1144,7 @@ function MajorDataTable() {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center text-muted-foreground"
+                  className="text-muted-foreground h-24 text-center"
                 >
                   Tidak ada data Branch.
                 </TableCell>
@@ -1155,7 +1155,7 @@ function MajorDataTable() {
       </div>
 
       <div className="flex items-center justify-between py-4">
-        <div className="text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>

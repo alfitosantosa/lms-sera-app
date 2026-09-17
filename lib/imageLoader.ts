@@ -1,7 +1,12 @@
-export const DEFAULT_AVATAR = "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png";
+export const DEFAULT_AVATAR =
+  "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png";
 
 export const isExternalImage = (url: string): boolean => {
-  return url.includes("file.santosatechid.cloud") || url.includes("santosatechid.cloud") || (!url.startsWith("/") && !url.startsWith("data:"));
+  return (
+    url.includes("file.santosatechid.cloud") ||
+    url.includes("santosatechid.cloud") ||
+    (!url.startsWith("/") && !url.startsWith("data:"))
+  );
 };
 
 export const getSafeImageUrl = (url?: string | null): string => {

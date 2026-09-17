@@ -11,8 +11,8 @@
 //   @@index([grade])
 //   @@map("tahfidz_groups")
 // }
-import { ScheduleTypes } from "./schedule-types";
-import { UserDataTypes } from "./userData-types";
+import { type ScheduleTypes } from "./schedule-types";
+import { type UserDataTypes } from "./userData-types";
 
 export interface tahfidzGroupTypes {
   id: string;

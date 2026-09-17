@@ -8,14 +8,14 @@ export default function NotFound() {
     <div className="relative flex min-h-[60vh] w-full flex-col items-center justify-center overflow-hidden px-6 py-16 text-center">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 left-1/2 h-[360px] w-[560px] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px] select-none"
+        className="bg-primary/15 pointer-events-none absolute -top-24 left-1/2 h-[360px] w-[560px] -translate-x-1/2 rounded-full blur-[120px] select-none"
       />
 
       <div className="relative z-10 max-w-md">
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">
           Halaman ini tidak ada.
         </h1>
-        <p className="mt-3 text-base leading-relaxed text-foreground/80">
+        <p className="text-foreground/80 mt-3 text-base leading-relaxed">
           Alamatnya mungkin salah ketik, atau halaman sudah dipindahkan. Kembali
           ke dasbor untuk melanjutkan pekerjaan Anda.
         </p>
@@ -30,7 +30,7 @@ export default function NotFound() {
           <Button
             asChild
             variant="outline"
-            className="w-full rounded-full border-border px-6 sm:w-auto"
+            className="border-border w-full rounded-full px-6 sm:w-auto"
           >
             <Link href="/">Halaman Utama</Link>
           </Button>

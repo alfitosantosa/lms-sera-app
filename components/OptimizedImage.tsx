@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import Image, { ImageProps } from "next/image";
+import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
 
 interface OptimizedImageProps extends Omit<ImageProps, "onLoadingComplete"> {
@@ -58,7 +58,7 @@ export default function OptimizedImage({
 
   return (
     <div className={containerClassName}>
-      {isLoading && <Skeleton className="w-full h-full" />}
+      {isLoading && <Skeleton className="h-full w-full" />}
       <Image
         {...props}
         src={src}

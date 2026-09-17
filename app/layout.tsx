@@ -24,7 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: `${process.env.NEXT_PUBLIC_CLIENT_NAME} App`,
+  title: `${process.env.NEXT_PUBLIC_CLIENT_NAME}`,
   description: `Aplikasi portal utama ${process.env.NEXT_PUBLIC_CLIENT_NAME}`,
   manifest: "/manifest.json",
   icons: {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: `${process.env.NEXT_PUBLIC_CLIENT_NAME} App`,
+    title: `${process.env.NEXT_PUBLIC_CLIENT_NAME}`,
   },
 };
 

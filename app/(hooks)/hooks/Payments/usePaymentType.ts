@@ -1,5 +1,5 @@
 "use client";
-import { PaymentTypeInput, PaymentTypeTypes } from "@/app/(types)";
+import { type PaymentTypeInput, type PaymentTypeTypes } from "@/app/(types)";
 import { CACHE_STRATEGIES } from "@/app/client/providers";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -74,7 +74,9 @@ export const useGetPaymentTypeByIdMajor = (id: string) => {
   return useQuery({
     queryKey: ["paymentType", id],
     queryFn: async () => {
-      const res = await apiGet<PaymentTypeTypes[]>(`/api/paymenttype/major/${id}`);
+      const res = await apiGet<PaymentTypeTypes[]>(
+        `/api/paymenttype/major/${id}`,
+      );
       return res.data;
     },
   });

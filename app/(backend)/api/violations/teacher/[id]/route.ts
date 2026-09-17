@@ -20,10 +20,16 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const { id } = await params;
@@ -41,11 +47,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     const schedules = await prisma.schedule.findMany({
       where: { teacherId: id },
-      include: { class: true, subject: true, teacher: true, academicYear: true },
+      include: {
+        class: true,
+        subject: true,
+        teacher: true,
+        academicYear: true,
+      },
     });
 
     // Get all classIds from the teacher's schedules
-    const classIds = schedules.map((schedule) => schedule.classId).filter((id): id is string => id !== null);
+    const classIds = schedules
+      .map((schedule) => schedule.classId)
+      .filter((id): id is string => id !== null);
 
     // Fetch violations for those classes
     const violationsFromIdTeacher = await prisma.violation.findMany({

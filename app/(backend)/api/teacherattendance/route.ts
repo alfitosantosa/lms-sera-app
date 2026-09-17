@@ -1,10 +1,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const t = await resolveFoundation(req, new URL(req.url).searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    req,
+    new URL(req.url).searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -12,7 +15,9 @@ export async function GET(req: NextRequest) {
     const date = searchParams.get("date");
     const teacherId = searchParams.get("teacherId");
 
-    const whereClause: Record<string, unknown> = { teacher: { foundationId: t.foundationId } };
+    const whereClause: Record<string, unknown> = {
+      teacher: { foundationId: t.foundationId },
+    };
 
     if (date) {
       const targetDate = new Date(date);
@@ -71,15 +76,25 @@ export async function POST(req: NextRequest) {
 
     // Validate required fields
     if (!teacherId || !date || !createdBy) {
-      return NextResponse.json({ error: "Missing required fields: teacherId, date, createdBy" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields: teacherId, date, createdBy" },
+        { status: 400 },
+      );
     }
 
     // Pastikan guru dan pembuat absensi milik yayasan pemanggil
     const [teacher, creator] = await Promise.all([
-      prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.userData.findFirst({ where: { id: createdBy, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.userData.findFirst({
+        where: { id: teacherId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.userData.findFirst({
+        where: { id: createdBy, foundationId: t.foundationId },
+        select: { id: true },
+      }),
     ]);
-    if (!teacher || !creator) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (!teacher || !creator)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     // Check if attendance already exists for this teacher on this date (once per day constraint)
     const attendanceDate = new Date(date);
@@ -95,7 +110,10 @@ export async function POST(req: NextRequest) {
     });
 
     if (existingAttendance) {
-      return NextResponse.json({ error: "Attendance already recorded for this teacher today" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Attendance already recorded for this teacher today" },
+        { status: 409 },
+      );
     }
 
     const attendance = await prisma.teacherAttendance.create({
@@ -143,7 +161,10 @@ export async function PUT(req: NextRequest) {
     const { id, status, notes, checkoutTime } = body;
 
     if (!id) {
-      return NextResponse.json({ error: "Missing attendance ID" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing attendance ID" },
+        { status: 400 },
+      );
     }
 
     // Verifikasi kepemilikan baris

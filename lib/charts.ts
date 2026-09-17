@@ -7,7 +7,10 @@
  */
 
 /** Categorical ramp for multi-series charts, in priority order. */
-export const CHART_PALETTE = Array.from({ length: 10 }, (_, i) => `var(--chart-${i + 1})`);
+export const CHART_PALETTE = Array.from(
+  { length: 10 },
+  (_, i) => `var(--chart-${i + 1})`,
+);
 
 /** Chart grid lines and axis strokes are chrome, never a data hue. */
 export const CHART_GRID_STROKE = "var(--border)";

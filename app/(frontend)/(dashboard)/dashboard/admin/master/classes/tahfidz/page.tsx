@@ -1,24 +1,87 @@
 "use client";
 
 import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
-import { useCreateTahfidzGroup, useDeleteTahfidzGroup, useGetTahfidzGroup, useUpdateTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
+import {
+  useCreateTahfidzGroup,
+  useDeleteTahfidzGroup,
+  useGetTahfidzGroup,
+  useUpdateTahfidzGroup,
+} from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { getErrorMessage, TahfidzGrade, TahfidzGradesArray } from "@/app/(types)";
+import {
+  getErrorMessage,
+  type TahfidzGrade,
+  type TahfidzGradesArray,
+} from "@/app/(types)";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash2, X } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+  X,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -44,13 +107,26 @@ const tahfidzGroupSchema = z.object({
   name: z.string().min(1, "Nama kelompok tahfidz wajib diisi"),
   grade: z.number().min(1, "Tingkat minimal 1").max(12, "Tingkat maksimal 12"),
   majorId: z.string().min(1, "Jurusan wajib dipilih"),
-  capacity: z.number().min(1, "Kapasitas minimal 1").max(50, "Kapasitas maksimal 50"),
+  capacity: z
+    .number()
+    .min(1, "Kapasitas minimal 1")
+    .max(50, "Kapasitas maksimal 50"),
 });
 
 type TahfidzGroupFormValues = z.infer<typeof tahfidzGroupSchema>;
 
 // Create/Edit Dialog Component
-function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: TahfidzGroupData | null; onSuccess: () => void }) {
+function TahfidzGroupFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: TahfidzGroupData | null;
+  onSuccess: () => void;
+}) {
   const createTahfidzGroup = useCreateTahfidzGroup();
   const updateTahfidzGroup = useUpdateTahfidzGroup();
   const { data: majors } = useGetMajors();
@@ -109,25 +185,45 @@ function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { o
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Kelompok Tahfidz" : "Tambah Kelompok Tahfidz Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData
+              ? "Edit Kelompok Tahfidz"
+              : "Tambah Kelompok Tahfidz Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nama Kelompok</Label>
-            <Input id="name" placeholder="Contoh: Tahfidz A" {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              placeholder="Contoh: Tahfidz A"
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="grade">Tingkat</Label>
-            <Input id="grade" type="number" placeholder="10, 11, 12" {...register("grade", { valueAsNumber: true })} />
-            {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
+            <Input
+              id="grade"
+              type="number"
+              placeholder="10, 11, 12"
+              {...register("grade", { valueAsNumber: true })}
+            />
+            {errors.grade && (
+              <p className="text-destructive text-sm">{errors.grade.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label>Jurusan</Label>
-            <Select value={selectedMajorId} onValueChange={(value) => setValue("majorId", value)}>
+            <Select
+              value={selectedMajorId}
+              onValueChange={(value) => setValue("majorId", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jurusan" />
               </SelectTrigger>
@@ -139,25 +235,47 @@ function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { o
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
+            {errors.majorId && (
+              <p className="text-destructive text-sm">
+                {errors.majorId.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="capacity">Kapasitas</Label>
-            <Input id="capacity" type="number" placeholder="40" {...register("capacity", { valueAsNumber: true })} />
-            {errors.capacity && <p className="text-sm text-destructive">{errors.capacity.message}</p>}
+            <Input
+              id="capacity"
+              type="number"
+              placeholder="40"
+              {...register("capacity", { valueAsNumber: true })}
+            />
+            {errors.capacity && (
+              <p className="text-destructive text-sm">
+                {errors.capacity.message}
+              </p>
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createTahfidzGroup.isPending || updateTahfidzGroup.isPending}>
-              {createTahfidzGroup.isPending || updateTahfidzGroup.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={
+                createTahfidzGroup.isPending || updateTahfidzGroup.isPending
+              }
+            >
+              {createTahfidzGroup.isPending || updateTahfidzGroup.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -167,7 +285,17 @@ function TahfidzGroupFormDialog({ open, onOpenChange, editData, onSuccess }: { o
 }
 
 // Delete Confirmation Dialog
-function DeleteTahfidzGroupDialog({ open, onOpenChange, tahfidzGroupData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; tahfidzGroupData: TahfidzGroupData | null; onSuccess: () => void }) {
+function DeleteTahfidzGroupDialog({
+  open,
+  onOpenChange,
+  tahfidzGroupData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  tahfidzGroupData: TahfidzGroupData | null;
+  onSuccess: () => void;
+}) {
   const deleteTahfidzGroup = useDeleteTahfidzGroup();
 
   const handleDelete = async () => {
@@ -189,12 +317,18 @@ function DeleteTahfidzGroupDialog({ open, onOpenChange, tahfidzGroupData, onSucc
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Kelompok Tahfidz</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus kelompok tahfidz <strong>{tahfidzGroupData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus kelompok tahfidz{" "}
+            <strong>{tahfidzGroupData?.name}</strong>? Tindakan ini tidak dapat
+            dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteTahfidzGroup.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteTahfidzGroup.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteTahfidzGroup.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -206,15 +340,19 @@ function DeleteTahfidzGroupDialog({ open, onOpenChange, tahfidzGroupData, onSucc
 // Main DataTable Component
 function TahfidzGroupDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedTahfidzGroup, setSelectedTahfidzGroup] = React.useState<TahfidzGroupData | null>(null);
+  const [selectedTahfidzGroup, setSelectedTahfidzGroup] =
+    React.useState<TahfidzGroupData | null>(null);
 
   // Filter states
   const [gradeFilter, setGradeFilter] = React.useState<string>("all");
@@ -228,8 +366,23 @@ function TahfidzGroupDataTable() {
   const columns: ColumnDef<TahfidzGroupData>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -237,19 +390,27 @@ function TahfidzGroupDataTable() {
       accessorKey: "name",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Nama Kelompok
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
-      cell: ({ row }) => <div className="font-medium">{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("name")}</div>
+      ),
     },
     {
       accessorKey: "grade",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tingkat
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -269,7 +430,10 @@ function TahfidzGroupDataTable() {
       accessorKey: "capacity",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Kapasitas
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -291,7 +455,11 @@ function TahfidzGroupDataTable() {
       header: "Status",
       cell: ({ row }) => {
         const isActive = row.getValue("isActive") as boolean;
-        return <Badge variant={isActive ? "default" : "secondary"}>{isActive ? "Aktif" : "Tidak Aktif"}</Badge>;
+        return (
+          <Badge variant={isActive ? "default" : "secondary"}>
+            {isActive ? "Aktif" : "Tidak Aktif"}
+          </Badge>
+        );
       },
     },
     {
@@ -310,7 +478,13 @@ function TahfidzGroupDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(tahfidzGroupData.id)}>Copy ID Kelompok</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(tahfidzGroupData.id)
+                }
+              >
+                Copy ID Kelompok
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -371,22 +545,33 @@ function TahfidzGroupDataTable() {
   }
 
   // Get unique grades for filter
-  const uniqueGrades: TahfidzGradesArray = Array.from(new Set(tahfidzGroups.map((group: TahfidzGroupData) => group.grade))).sort() as TahfidzGradesArray;
+  const uniqueGrades: TahfidzGradesArray = Array.from(
+    new Set(tahfidzGroups.map((group: TahfidzGroupData) => group.grade)),
+  ).sort() as TahfidzGradesArray;
 
   return (
     <>
       <div className="">
-        <div className="font-bold text-3xl mb-6">Kelompok Tahfidz</div>
+        <div className="mb-6 text-3xl font-bold">Kelompok Tahfidz</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-2 flex-wrap gap-y-2">
-              <Input placeholder="Cari nama kelompok..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />
+            <div className="flex flex-wrap items-center space-x-2 gap-y-2">
+              <Input
+                placeholder="Cari nama kelompok..."
+                value={
+                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("name")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
 
               {/* Grade Filter */}
               <select
                 value={gradeFilter}
                 onChange={(e) => setGradeFilter(e.target.value)}
-                className="flex h-10 w-[180px] items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-10 w-[180px] items-center justify-between rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="all">Semua Tingkat</option>
                 {uniqueGrades.map((grade: TahfidzGrade) => (
@@ -425,7 +610,14 @@ function TahfidzGroupDataTable() {
                     .filter((column) => column.getCanHide())
                     .map((column) => {
                       return (
-                        <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
                           {column.id}
                         </DropdownMenuCheckboxItem>
                       );
@@ -446,39 +638,71 @@ function TahfidzGroupDataTable() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
                     })}
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ?
+                {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
                       ))}
                     </TableRow>
                   ))
-                : <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
                       Tidak ada data kelompok tahfidz.
                     </TableCell>
                   </TableRow>
-                }
+                )}
               </TableBody>
             </Table>
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+            <div className="text-muted-foreground flex-1 text-sm">
+              {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+              {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -486,11 +710,25 @@ function TahfidzGroupDataTable() {
         </div>
 
         {/* Dialogs */}
-        <TahfidzGroupFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <TahfidzGroupFormDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          onSuccess={handleSuccess}
+        />
 
-        <TahfidzGroupFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedTahfidzGroup} onSuccess={handleSuccess} />
+        <TahfidzGroupFormDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editData={selectedTahfidzGroup}
+          onSuccess={handleSuccess}
+        />
 
-        <DeleteTahfidzGroupDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} tahfidzGroupData={selectedTahfidzGroup} onSuccess={handleSuccess} />
+        <DeleteTahfidzGroupDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          tahfidzGroupData={selectedTahfidzGroup}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -500,7 +738,8 @@ export default function TahfidzGroupPage() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

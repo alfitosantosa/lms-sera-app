@@ -20,10 +20,16 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ studentId: string }> }) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ studentId: string }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const { studentId } = await params;
@@ -34,7 +40,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   try {
     const tahfidzRecords = await prisma.tahfidzRecord.findMany({
-      where: { studentId: studentId, student: { foundationId: t.foundationId } },
+      where: {
+        studentId: studentId,
+        student: { foundationId: t.foundationId },
+      },
       include: {
         student: true,
         teacher: true,

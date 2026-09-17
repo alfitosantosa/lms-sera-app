@@ -1,5 +1,5 @@
-import { majorTypes } from "./majors-types";
-import { PaymentTypes } from "./payment-types";
+import { type majorTypes } from "./majors-types";
+import { type PaymentTypes } from "./payment-types";
 
 // Account Bank Types
 export interface AccountBankTypes {

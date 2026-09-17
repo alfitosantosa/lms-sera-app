@@ -8,26 +8,39 @@ export default function WaPage() {
   const { data: connection, isLoading, isError } = useGetConnectionBotWa();
 
   return (
-    <div className="min-h-screen w-full max-w-7xl mx-auto my-8 p-6">
-      <div className="font-bold text-3xl mb-3">WhatsApp Bot Connection Status</div>
+    <div className="mx-auto my-8 min-h-screen w-full max-w-7xl p-6">
+      <div className="mb-3 text-3xl font-bold">
+        WhatsApp Bot Connection Status
+      </div>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            {connection?.connection === "success" ?
-              <Wifi className="h-5 w-5 text-success" />
-            : <WifiOff className="h-5 w-5 text-destructive" />}
+            {connection?.connection === "success" ? (
+              <Wifi className="text-success h-5 w-5" />
+            ) : (
+              <WifiOff className="text-destructive h-5 w-5" />
+            )}
             Connection Status
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          {isLoading ?
+          {isLoading ? (
             <div className="animate-pulse">Loading...</div>
-          : isError ?
+          ) : isError ? (
             <Badge variant="destructive">Error connecting</Badge>
-          : <>
+          ) : (
+            <>
               <div className="flex items-center gap-2">
                 <span className="font-medium">Status:</span>
-                <Badge variant={connection?.connection === "success" ? "default" : "destructive"}>{connection?.connection || "Unknown"}</Badge>
+                <Badge
+                  variant={
+                    connection?.connection === "success"
+                      ? "default"
+                      : "destructive"
+                  }
+                >
+                  {connection?.connection || "Unknown"}
+                </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium">Instance:</span>
@@ -44,7 +57,7 @@ export default function WaPage() {
                 </div>
               )}
             </>
-          }
+          )}
         </CardContent>
       </Card>
     </div>

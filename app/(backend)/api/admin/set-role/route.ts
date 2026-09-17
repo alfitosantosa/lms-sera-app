@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   // Yayasan pemanggil (sekaligus memastikan ada sesi).
@@ -15,7 +15,10 @@ export async function POST(request: NextRequest) {
   });
 
   if (session?.user?.role !== "admin") {
-    return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Unauthorized - Admin access required" },
+      { status: 403 },
+    );
   }
 
   try {
@@ -23,20 +26,29 @@ export async function POST(request: NextRequest) {
     const { userId, role } = await request.json();
 
     if (!userId || !role) {
-      return NextResponse.json({ error: "Missing required fields: userId and role" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields: userId and role" },
+        { status: 400 },
+      );
     }
 
     // Validate role
     const validRoles = ["user", "admin", "teacher", "student", "parent"];
     if (!validRoles.includes(role)) {
-      return NextResponse.json({ error: `Invalid role. Must be one of: ${validRoles.join(", ")}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Invalid role. Must be one of: ${validRoles.join(", ")}` },
+        { status: 400 },
+      );
     }
 
     // Target harus milik yayasan pemanggil (lewat user.foundationId atau userData.foundationId).
     const owned = await prisma.user.findFirst({
       where: {
         id: userId,
-        OR: [{ foundationId: t.foundationId }, { userData: { foundationId: t.foundationId } }],
+        OR: [
+          { foundationId: t.foundationId },
+          { userData: { foundationId: t.foundationId } },
+        ],
       },
       select: { id: true },
     });

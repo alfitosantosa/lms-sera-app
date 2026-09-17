@@ -1,4 +1,4 @@
-import { ViolationTypeTypes } from "@/app/(types)";
+import { type ViolationTypeTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -7,7 +7,9 @@ export const useGetTypeViolations = () => {
     queryKey: ["typeViolations"],
     queryFn: async () => {
       try {
-        const response = await apiGet<ViolationTypeTypes[]>("/api/typeviolations");
+        const response = await apiGet<ViolationTypeTypes[]>(
+          "/api/typeviolations",
+        );
         return response.data;
       } catch (error) {
         console.error(error);

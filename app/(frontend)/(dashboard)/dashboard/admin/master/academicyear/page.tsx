@@ -1,24 +1,80 @@
 "use client";
 
-import { useCreateAcademicYear, useDeleteAcademicYear, useGetAcademicYears, useUpdateAcademicYear } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
+import {
+  useCreateAcademicYear,
+  useDeleteAcademicYear,
+  useGetAcademicYears,
+  useUpdateAcademicYear,
+} from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearDataTypes, AcademicYearForm, academicYearSchema } from "@/app/(types)/types/academicyear-types";
-import { UserDataTypes } from "@/app/(types)/types/userData-types";
+import {
+  type AcademicYearDataTypes,
+  type AcademicYearForm,
+  academicYearSchema,
+} from "@/app/(types)/types/academicyear-types";
+import { type UserDataTypes } from "@/app/(types)/types/userData-types";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -26,7 +82,19 @@ import { toast } from "sonner";
 
 // Import hooks
 // Create/Edit Dialog Component
-function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess, foundationId }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: AcademicYearDataTypes | null; onSuccess: () => void; foundationId?: string }) {
+function AcademicYearFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+  foundationId,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: AcademicYearDataTypes | null;
+  onSuccess: () => void;
+  foundationId?: string;
+}) {
   const createAcademicYear = useCreateAcademicYear();
   const updateAcademicYear = useUpdateAcademicYear();
 
@@ -75,7 +143,8 @@ function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess, found
       onOpenChange(false);
       onSuccess();
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+      const errorMessage =
+        error instanceof Error ? error.message : "Terjadi kesalahan";
       toast.error(errorMessage);
     }
   };
@@ -84,43 +153,72 @@ function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess, found
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Tahun Ajaran" : "Tambah Tahun Ajaran Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit Tahun Ajaran" : "Tambah Tahun Ajaran Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="year">Tahun Ajaran</Label>
-            <Input id="year" placeholder="Contoh: 2024/2025" {...register("year")} />
-            {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
+            <Input
+              id="year"
+              placeholder="Contoh: 2024/2025"
+              {...register("year")}
+            />
+            {errors.year && (
+              <p className="text-destructive text-sm">{errors.year.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="startDate">Tanggal Mulai</Label>
             <Input id="startDate" type="date" {...register("startDate")} />
-            {errors.startDate && <p className="text-sm text-destructive">{errors.startDate.message}</p>}
+            {errors.startDate && (
+              <p className="text-destructive text-sm">
+                {errors.startDate.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="endDate">Tanggal Selesai</Label>
             <Input id="endDate" type="date" {...register("endDate")} />
-            {errors.endDate && <p className="text-sm text-destructive">{errors.endDate.message}</p>}
+            {errors.endDate && (
+              <p className="text-destructive text-sm">
+                {errors.endDate.message}
+              </p>
+            )}
           </div>
 
           <div className="flex items-center space-x-2">
-            <Switch id="isActive" checked={isActiveValue} onCheckedChange={(checked) => setValue("isActive", checked)} />
+            <Switch
+              id="isActive"
+              checked={isActiveValue}
+              onCheckedChange={(checked) => setValue("isActive", checked)}
+            />
             <Label htmlFor="isActive">Aktif</Label>
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createAcademicYear.isPending || updateAcademicYear.isPending}>
-              {createAcademicYear.isPending || updateAcademicYear.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={
+                createAcademicYear.isPending || updateAcademicYear.isPending
+              }
+            >
+              {createAcademicYear.isPending || updateAcademicYear.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -130,7 +228,17 @@ function AcademicYearFormDialog({ open, onOpenChange, editData, onSuccess, found
 }
 
 // Delete Confirmation Dialog
-function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; academicYearData: AcademicYearDataTypes | null; onSuccess: () => void }) {
+function DeleteAcademicYearDialog({
+  open,
+  onOpenChange,
+  academicYearData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  academicYearData: AcademicYearDataTypes | null;
+  onSuccess: () => void;
+}) {
   const deleteAcademicYear = useDeleteAcademicYear();
 
   const handleDelete = async () => {
@@ -143,7 +251,8 @@ function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSucc
       onOpenChange(false);
       onSuccess();
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+      const errorMessage =
+        error instanceof Error ? error.message : "Terjadi kesalahan";
       toast.error(errorMessage);
     }
   };
@@ -154,12 +263,18 @@ function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSucc
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Tahun Ajaran</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus tahun ajaran <strong>{academicYearData?.year}</strong>? Tindakan ini tidak dapat dibatalkan dan akan mempengaruhi semua data terkait.
+            Apakah Anda yakin ingin menghapus tahun ajaran{" "}
+            <strong>{academicYearData?.year}</strong>? Tindakan ini tidak dapat
+            dibatalkan dan akan mempengaruhi semua data terkait.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteAcademicYear.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteAcademicYear.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteAcademicYear.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -171,17 +286,25 @@ function DeleteAcademicYearDialog({ open, onOpenChange, academicYearData, onSucc
 // Main DataTable Component
 function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedAcademicYear, setSelectedAcademicYear] = React.useState<AcademicYearDataTypes | null>(null);
+  const [selectedAcademicYear, setSelectedAcademicYear] =
+    React.useState<AcademicYearDataTypes | null>(null);
 
-  const { data: academicYears = [], isLoading, refetch } = useGetAcademicYears();
+  const {
+    data: academicYears = [],
+    isLoading,
+    refetch,
+  } = useGetAcademicYears();
 
   const handleSuccess = () => {
     refetch();
@@ -198,8 +321,23 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
   const columns: ColumnDef<AcademicYearDataTypes>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -207,19 +345,27 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
       accessorKey: "year",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tahun Ajaran
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
-      cell: ({ row }) => <div className="font-medium">{row.getValue("year")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("year")}</div>
+      ),
     },
     {
       accessorKey: "startDate",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tanggal Mulai
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -231,7 +377,10 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
       accessorKey: "endDate",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tanggal Selesai
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -245,7 +394,10 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
       cell: ({ row }) => {
         const isActive = row.getValue("isActive") as boolean;
         return (
-          <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-success-solid" : ""}>
+          <Badge
+            variant={isActive ? "default" : "secondary"}
+            className={isActive ? "bg-success-solid" : ""}
+          >
             {isActive ? "Aktif" : "Tidak Aktif"}
           </Badge>
         );
@@ -299,7 +451,13 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(academicYearData.id)}>Copy ID Tahun Ajaran</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(academicYearData.id)
+                }
+              >
+                Copy ID Tahun Ajaran
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -353,11 +511,20 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
   return (
     <>
       <div>
-        <div className="font-bold text-3xl">Tahun Ajaran</div>
+        <div className="text-3xl font-bold">Tahun Ajaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
-              <Input placeholder="Cari tahun ajaran..." value={(table.getColumn("year")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("year")?.setFilterValue(event.target.value)} className="max-w-sm" />
+              <Input
+                placeholder="Cari tahun ajaran..."
+                value={
+                  (table.getColumn("year")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("year")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
             </div>
 
             <div className="flex items-center space-x-2">
@@ -373,20 +540,27 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
                     .filter((column) => column.getCanHide())
                     .map((column) => {
                       return (
-                        <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
-                          {column.id === "year" ?
-                            "Tahun Ajaran"
-                          : column.id === "startDate" ?
-                            "Tanggal Mulai"
-                          : column.id === "endDate" ?
-                            "Tanggal Selesai"
-                          : column.id === "isActive" ?
-                            "Status"
-                          : column.id === "classes" ?
-                            "Jumlah Kelas"
-                          : column.id === "students" ?
-                            "Jumlah Siswa"
-                          : column.id}
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id === "year"
+                            ? "Tahun Ajaran"
+                            : column.id === "startDate"
+                              ? "Tanggal Mulai"
+                              : column.id === "endDate"
+                                ? "Tanggal Selesai"
+                                : column.id === "isActive"
+                                  ? "Status"
+                                  : column.id === "classes"
+                                    ? "Jumlah Kelas"
+                                    : column.id === "students"
+                                      ? "Jumlah Siswa"
+                                      : column.id}
                         </DropdownMenuCheckboxItem>
                       );
                     })}
@@ -406,39 +580,71 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
                     })}
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ?
+                {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
                       ))}
                     </TableRow>
                   ))
-                : <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
                       Tidak ada data tahun ajaran.
                     </TableCell>
                   </TableRow>
-                }
+                )}
               </TableBody>
             </Table>
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+            <div className="text-muted-foreground flex-1 text-sm">
+              {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+              {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -446,11 +652,26 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
         </div>
 
         {/* Dialogs */}
-        <AcademicYearFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} foundationId={foundationId} />
+        <AcademicYearFormDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          onSuccess={handleSuccess}
+          foundationId={foundationId}
+        />
 
-        <AcademicYearFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedAcademicYear} onSuccess={handleSuccess} />
+        <AcademicYearFormDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editData={selectedAcademicYear}
+          onSuccess={handleSuccess}
+        />
 
-        <DeleteAcademicYearDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} academicYearData={selectedAcademicYear} onSuccess={handleSuccess} />
+        <DeleteAcademicYearDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          academicYearData={selectedAcademicYear}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -460,7 +681,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = (userData as UserDataTypes)?.role?.name;
   const foundationId = userData?.foundationId;
 

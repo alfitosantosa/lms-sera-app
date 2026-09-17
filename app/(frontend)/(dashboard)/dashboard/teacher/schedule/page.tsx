@@ -3,29 +3,67 @@
 import { useAttendanceIsSubmitted } from "@/app/(hooks)/hooks/Attendances/useAttendanceIsSubmitted";
 import { useGetScheduleByIdAcademicYearActive } from "@/app/(hooks)/hooks/Schedules/useGetScheduleById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { ScheduleTypes } from "@/app/(types)";
+import { type ScheduleTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/lib/authClients";
-import { BookOpen, CalendarDays, Clock, Eye, GraduationCap, MapPin, Plus, Users } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  Clock,
+  Eye,
+  GraduationCap,
+  MapPin,
+  Plus,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { unauthorized } from "next/navigation";
 import React, { useState } from "react";
 
 const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
   const getDayName = (dayOfWeek: number) => {
-    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const days = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+    ];
     return days[dayOfWeek];
   };
 
   const getDayColor = (dayOfWeek: number) => {
-    const colors = ["bg-destructive-chip text-destructive-strong", "bg-info-chip text-info-strong", "bg-success-chip text-success-strong", "bg-warning-chip text-warning-strong", "bg-tertiary-chip text-tertiary-strong", "bg-info-chip text-info-strong", "bg-tertiary-chip text-tertiary-strong"];
+    const colors = [
+      "bg-destructive-chip text-destructive-strong",
+      "bg-info-chip text-info-strong",
+      "bg-success-chip text-success-strong",
+      "bg-warning-chip text-warning-strong",
+      "bg-tertiary-chip text-tertiary-strong",
+      "bg-info-chip text-info-strong",
+      "bg-tertiary-chip text-tertiary-strong",
+    ];
     return colors[dayOfWeek];
   };
 
@@ -38,47 +76,60 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
   const todayDate = new Date().toISOString().split("T")[0];
 
   // Call the hook for each schedule
-  const { data: isSubmitted, isLoading: isLoadingIsSubmitted } = useAttendanceIsSubmitted({
-    date: todayDate,
-    scheduleId: schedule.id,
-  });
+  const { data: isSubmitted, isLoading: isLoadingIsSubmitted } =
+    useAttendanceIsSubmitted({
+      date: todayDate,
+      scheduleId: schedule.id,
+    });
 
   if (isLoadingIsSubmitted) {
     return <Loading />;
   }
 
-  const isButtonDisabled = isSubmitted === true || !isTodaySchedule(schedule.dayOfWeek);
+  const isButtonDisabled =
+    isSubmitted === true || !isTodaySchedule(schedule.dayOfWeek);
 
-  const getButtonText =
-    isSubmitted ? "Sudah Diabsen"
-    : !isTodaySchedule(schedule.dayOfWeek) ? "Bukan Hari Ini"
-    : "Buat Absensi";
+  const getButtonText = isSubmitted
+    ? "Sudah Diabsen"
+    : !isTodaySchedule(schedule.dayOfWeek)
+      ? "Bukan Hari Ini"
+      : "Buat Absensi";
 
   return (
-    <Card className="hover:shadow-lg transition-shadow duration-200">
+    <Card className="transition-shadow duration-200 hover:shadow-lg">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="space-y-2">
-            <CardTitle className="text-xl text-foreground">{schedule?.subject?.name}</CardTitle>
-            <CardDescription className="text-base">Kode: {schedule?.subject?.code}</CardDescription>
+            <CardTitle className="text-foreground text-xl">
+              {schedule?.subject?.name}
+            </CardTitle>
+            <CardDescription className="text-base">
+              Kode: {schedule?.subject?.code}
+            </CardDescription>
           </div>
-          <Badge className={`${getDayColor(schedule.dayOfWeek)} border-0`} variant="secondary">
+          <Badge
+            className={`${getDayColor(schedule.dayOfWeek)} border-0`}
+            variant="secondary"
+          >
             {getDayName(schedule.dayOfWeek)}
           </Badge>
         </div>
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Users className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
-                <span className="font-medium">Kelas:</span> {schedule?.tahfidzGroup?.name ? schedule?.tahfidzGroup?.name : schedule?.class?.name}
+                <span className="font-medium">Kelas:</span>{" "}
+                {schedule?.tahfidzGroup?.name
+                  ? schedule?.tahfidzGroup?.name
+                  : schedule?.class?.name}
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <MapPin className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
                 <span className="font-medium">Ruangan:</span> {schedule.room}
               </span>
@@ -87,16 +138,18 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
 
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
-                <span className="font-medium">Waktu:</span> {schedule.startTime} - {schedule.endTime}
+                <span className="font-medium">Waktu:</span> {schedule.startTime}{" "}
+                - {schedule.endTime}
               </span>
             </div>
 
             <div className="flex items-center gap-3">
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
+              <BookOpen className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
-                <span className="font-medium">SKS:</span> {schedule?.subject?.credits}
+                <span className="font-medium">SKS:</span>{" "}
+                {schedule?.subject?.credits}
               </span>
             </div>
           </div>
@@ -104,12 +157,13 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
 
         <Separator className="my-4" />
 
-        <div className="text-sm text-muted-foreground">
-          <span className="font-medium">Tahun Akademik:</span> {schedule?.academicYear?.year}
+        <div className="text-muted-foreground text-sm">
+          <span className="font-medium">Tahun Akademik:</span>{" "}
+          {schedule?.academicYear?.year}
         </div>
       </CardContent>
 
-      <CardFooter className="bg-muted/50 flex items-center gap-2 flex-wrap">
+      <CardFooter className="bg-muted/50 flex flex-wrap items-center gap-2">
         <Link href={`/dashboard/teacher/schedule/${schedule.id}`} passHref>
           <Button variant="outline" className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
@@ -118,7 +172,7 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
         </Link>
         <Button
           disabled={isButtonDisabled}
-          className={`flex items-center gap-2 ${isButtonDisabled ? "opacity-10 cursor-not-allowed bg-muted text-muted-foreground hover:bg-muted" : ""}`}
+          className={`flex items-center gap-2 ${isButtonDisabled ? "bg-muted text-muted-foreground hover:bg-muted cursor-not-allowed opacity-10" : ""}`}
           onClick={() => {
             if (!isButtonDisabled) {
               if (schedule.tahfidzGroup?.name) {
@@ -133,7 +187,10 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
           {getButtonText}
         </Button>
         {(schedule.tahfidzGroupId || schedule.tahfidzGroup?.id) && (
-          <Link href={`/dashboard/teacher/tahfidzrecord/${schedule.tahfidzGroupId ?? schedule.tahfidzGroup?.id}`} passHref>
+          <Link
+            href={`/dashboard/teacher/tahfidzrecord/${schedule.tahfidzGroupId ?? schedule.tahfidzGroup?.id}`}
+            passHref
+          >
             <Button variant="outline" className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
               Setoran Hafalan
@@ -156,7 +213,11 @@ function TeacherAttendancePage() {
 
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
-  const { data: scheduleData = [], isLoading: isLoadingSchedule, error: scheduleError } = useGetScheduleByIdAcademicYearActive(userData?.id ?? "");
+  const {
+    data: scheduleData = [],
+    isLoading: isLoadingSchedule,
+    error: scheduleError,
+  } = useGetScheduleByIdAcademicYearActive(userData?.id ?? "");
 
   const dayOptions = [
     { value: "all", label: "Semua Hari" },
@@ -169,7 +230,14 @@ function TeacherAttendancePage() {
     { value: "6", label: "Sabtu" },
   ];
   //filtered base on hour entry student at start time
-  const filteredScheduleData = selectedDay === "all" ? scheduleData : scheduleData.filter((schedule: ScheduleTypes) => schedule.dayOfWeek.toString() === selectedDay && schedule.startTime === schedule.startTime);
+  const filteredScheduleData =
+    selectedDay === "all"
+      ? scheduleData
+      : scheduleData.filter(
+          (schedule: ScheduleTypes) =>
+            schedule.dayOfWeek.toString() === selectedDay &&
+            schedule.startTime === schedule.startTime,
+        );
 
   const ScheduleCardSkeleton = () => (
     <Card>
@@ -186,22 +254,26 @@ function TeacherAttendancePage() {
       </CardContent>
       <CardFooter>
         <Skeleton className="h-10 w-32" />
-        <Skeleton className="h-10 w-40 ml-2" />
+        <Skeleton className="ml-2 h-10 w-40" />
       </CardFooter>
     </Card>
   );
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-br from-muted/40 to-muted/60 ">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+        <div className="mx-auto max-w-7xl px-4 py-8">
           {/* Header Section */}
           <div className="mb-8">
-            <div className="flex items-center gap-2 mb-2">
-              <GraduationCap className="h-8 w-8 text-primary" />
-              <h1 className="text-4xl font-bold text-foreground">Jadwal Mengajar</h1>
+            <div className="mb-2 flex items-center gap-2">
+              <GraduationCap className="text-primary h-8 w-8" />
+              <h1 className="text-foreground text-4xl font-bold">
+                Jadwal Mengajar
+              </h1>
             </div>
-            <p className="text-muted-foreground text-lg">Kelola jadwal dan absensi kelas Anda dengan mudah</p>
+            <p className="text-muted-foreground text-lg">
+              Kelola jadwal dan absensi kelas Anda dengan mudah
+            </p>
           </div>
 
           {/* Filter Section */}
@@ -211,11 +283,15 @@ function TeacherAttendancePage() {
                 <CalendarDays className="h-5 w-5" />
                 Filter Jadwal
               </CardTitle>
-              <CardDescription>Pilih hari untuk melihat jadwal spesifik</CardDescription>
+              <CardDescription>
+                Pilih hari untuk melihat jadwal spesifik
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4">
-                <label className="text-sm font-medium text-foreground min-w-fit">Pilih Hari:</label>
+                <label className="text-foreground min-w-fit text-sm font-medium">
+                  Pilih Hari:
+                </label>
                 <Select value={selectedDay} onValueChange={setSelectedDay}>
                   <SelectTrigger className="w-64">
                     <SelectValue placeholder="Pilih hari" />
@@ -233,28 +309,37 @@ function TeacherAttendancePage() {
           </Card>
 
           {/* Content Section */}
-          {isLoadingSchedule ?
+          {isLoadingSchedule ? (
             <div className="space-y-6">
               {[1, 2, 3].map((i) => (
                 <ScheduleCardSkeleton key={i} />
               ))}
             </div>
-          : scheduleError ?
+          ) : scheduleError ? (
             <Alert variant="destructive">
-              <AlertDescription>Terjadi kesalahan saat memuat jadwal: {(scheduleError as Error).message}</AlertDescription>
+              <AlertDescription>
+                Terjadi kesalahan saat memuat jadwal:{" "}
+                {(scheduleError as Error).message}
+              </AlertDescription>
             </Alert>
-          : <div className="space-y-6">
-              {filteredScheduleData.length === 0 ?
-                <Card className="text-center py-12">
+          ) : (
+            <div className="space-y-6">
+              {filteredScheduleData.length === 0 ? (
+                <Card className="py-12 text-center">
                   <CardContent>
-                    <CalendarDays className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                    <h3 className="text-lg font-medium text-foreground mb-2">Tidak ada jadwal</h3>
-                    <p className="text-muted-foreground">Tidak ada jadwal untuk hari yang dipilih.</p>
+                    <CalendarDays className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+                    <h3 className="text-foreground mb-2 text-lg font-medium">
+                      Tidak ada jadwal
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Tidak ada jadwal untuk hari yang dipilih.
+                    </p>
                   </CardContent>
                 </Card>
-              : <>
+              ) : (
+                <>
                   {/* Summary Badge */}
-                  <div className="flex items-center gap-2 mb-4">
+                  <div className="mb-4 flex items-center gap-2">
                     <Badge variant="secondary" className="px-3 py-1">
                       {filteredScheduleData.length} Jadwal Ditemukan
                     </Badge>
@@ -265,9 +350,9 @@ function TeacherAttendancePage() {
                     <ScheduleCard key={schedule.id} schedule={schedule} />
                   ))}
                 </>
-              }
+              )}
             </div>
-          }
+          )}
         </div>
       </div>
     </>
@@ -278,7 +363,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

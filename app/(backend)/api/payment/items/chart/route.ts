@@ -4,8 +4,8 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { Prisma } from "@/prisma/generated/client";
-import { NextRequest, NextResponse } from "next/server";
+import { type Prisma } from "@/prisma/generated/client";
+import { type NextRequest, NextResponse } from "next/server";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -70,7 +70,10 @@ type DashboardResult = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function parseAndValidateDate(fromdate: string | null, todate: string | null): { startDate: Date; endDate: Date } | { error: string } {
+function parseAndValidateDate(
+  fromdate: string | null,
+  todate: string | null,
+): { startDate: Date; endDate: Date } | { error: string } {
   if (!fromdate || !todate) {
     return { error: "Parameter fromdate dan todate wajib diisi" };
   }
@@ -94,7 +97,21 @@ function parseAndValidateDate(fromdate: string | null, todate: string | null): {
 }
 
 // Buat where clause yang type-safe menggunakan Prisma.PaymentItemsWhereInput
-function buildWhereClause({ startDate, endDate, foundationId, majorId, skuType, isPaid }: { startDate: Date; endDate: Date; foundationId: string; majorId?: string; skuType?: string; isPaid?: boolean }): Prisma.PaymentItemsWhereInput {
+function buildWhereClause({
+  startDate,
+  endDate,
+  foundationId,
+  majorId,
+  skuType,
+  isPaid,
+}: {
+  startDate: Date;
+  endDate: Date;
+  foundationId: string;
+  majorId?: string;
+  skuType?: string;
+  isPaid?: boolean;
+}): Prisma.PaymentItemsWhereInput {
   return {
     createdAt: {
       gte: startDate,
@@ -117,7 +134,10 @@ function buildWhereClause({ startDate, endDate, foundationId, majorId, skuType, 
 }
 
 // Group utility
-function groupBy<T, K extends string | number>(arr: T[], keyFn: (item: T) => K): Map<K, T[]> {
+function groupBy<T, K extends string | number>(
+  arr: T[],
+  keyFn: (item: T) => K,
+): Map<K, T[]> {
   return arr.reduce((map, item) => {
     const key = keyFn(item);
     const group = map.get(key) ?? [];
@@ -208,8 +228,14 @@ export async function GET(request: NextRequest) {
     ]);
 
     // ── 3. Summary ──────────────────────────────────────────────────────
-    const totalUnpaidAmount = unpaidItems.reduce((sum, i) => sum + Number(i.subtotal ?? 0), 0);
-    const totalPaidAmount = paidItems.reduce((sum, i) => sum + Number(i.subtotal ?? 0), 0);
+    const totalUnpaidAmount = unpaidItems.reduce(
+      (sum, i) => sum + Number(i.subtotal ?? 0),
+      0,
+    );
+    const totalPaidAmount = paidItems.reduce(
+      (sum, i) => sum + Number(i.subtotal ?? 0),
+      0,
+    );
     const totalAll = totalUnpaidAmount + totalPaidAmount;
 
     const summary: SummaryResult = {
@@ -217,18 +243,42 @@ export async function GET(request: NextRequest) {
       totalUnpaidCount: unpaidItems.length,
       totalPaidAmount,
       totalPaidCount: paidItems.length,
-      collectionRate: totalAll > 0 ? Math.round((totalPaidAmount / totalAll) * 100 * 10) / 10 : 0,
+      collectionRate:
+        totalAll > 0
+          ? Math.round((totalPaidAmount / totalAll) * 100 * 10) / 10
+          : 0,
     };
 
     // ── 4. Monthly grouping ─────────────────────────────────────────────
     // Group unpaid by year-month (berdasarkan field month/year di record,
     // bukan createdAt — ini lebih akurat untuk tagihan bulanan)
-    const unpaidByYearMonth = groupBy(unpaidItems, (i) => `${i.year}-${String(i.month).padStart(2, "0")}`);
-    const paidByYearMonth = groupBy(paidItems, (i) => `${i.year}-${String(i.month).padStart(2, "0")}`);
+    const unpaidByYearMonth = groupBy(
+      unpaidItems,
+      (i) => `${i.year}-${String(i.month).padStart(2, "0")}`,
+    );
+    const paidByYearMonth = groupBy(
+      paidItems,
+      (i) => `${i.year}-${String(i.month).padStart(2, "0")}`,
+    );
 
-    const allMonthKeys = Array.from(new Set([...unpaidByYearMonth.keys(), ...paidByYearMonth.keys()])).sort(); // sort ascending by year-month key
+    const allMonthKeys = Array.from(
+      new Set([...unpaidByYearMonth.keys(), ...paidByYearMonth.keys()]),
+    ).sort(); // sort ascending by year-month key
 
-    const MONTH_NAMES = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    const MONTH_NAMES = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
 
     const monthly: MonthlyData[] = allMonthKeys.map((key) => {
       const [year, monthNum] = key.split("-");
@@ -239,7 +289,10 @@ export async function GET(request: NextRequest) {
       return {
         year,
         month: monthName,
-        totalUnpaidAmount: unpaid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0),
+        totalUnpaidAmount: unpaid.reduce(
+          (s, i) => s + Number(i.subtotal ?? 0),
+          0,
+        ),
         totalUnpaidCount: unpaid.length,
         totalPaidAmount: paid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0),
         totalPaidCount: paid.length,
@@ -256,10 +309,18 @@ export async function GET(request: NextRequest) {
       }));
 
     // ── 5. By Major ─────────────────────────────────────────────────────
-    const unpaidByMajorMap = groupBy(unpaidItems, (i) => i.student?.major?.id ?? "unknown");
-    const paidByMajorMap = groupBy(paidItems, (i) => i.student?.major?.id ?? "unknown");
+    const unpaidByMajorMap = groupBy(
+      unpaidItems,
+      (i) => i.student?.major?.id ?? "unknown",
+    );
+    const paidByMajorMap = groupBy(
+      paidItems,
+      (i) => i.student?.major?.id ?? "unknown",
+    );
 
-    const allMajorIds = Array.from(new Set([...unpaidByMajorMap.keys(), ...paidByMajorMap.keys()]));
+    const allMajorIds = Array.from(
+      new Set([...unpaidByMajorMap.keys(), ...paidByMajorMap.keys()]),
+    );
 
     const byMajor: ByMajorData[] = allMajorIds
       .map((mId) => {
@@ -277,16 +338,25 @@ export async function GET(request: NextRequest) {
           totalUnpaidCount: unpaid.length,
           totalPaidAmount: pAmount,
           totalPaidCount: paid.length,
-          collectionRate: total > 0 ? Math.round((pAmount / total) * 100 * 10) / 10 : 0,
+          collectionRate:
+            total > 0 ? Math.round((pAmount / total) * 100 * 10) / 10 : 0,
         };
       })
       .sort((a, b) => b.totalUnpaidAmount - a.totalUnpaidAmount);
 
     // ── 6. By SKU Type ──────────────────────────────────────────────────
-    const unpaidBySkuMap = groupBy(unpaidItems, (i) => i.PaymentType?.owner ?? i.skuType ?? "unknown");
-    const paidBySkuMap = groupBy(paidItems, (i) => i.PaymentType?.owner ?? i.skuType ?? "unknown");
+    const unpaidBySkuMap = groupBy(
+      unpaidItems,
+      (i) => i.PaymentType?.owner ?? i.skuType ?? "unknown",
+    );
+    const paidBySkuMap = groupBy(
+      paidItems,
+      (i) => i.PaymentType?.owner ?? i.skuType ?? "unknown",
+    );
 
-    const allSkuKeys = Array.from(new Set([...unpaidBySkuMap.keys(), ...paidBySkuMap.keys()]));
+    const allSkuKeys = Array.from(
+      new Set([...unpaidBySkuMap.keys(), ...paidBySkuMap.keys()]),
+    );
 
     const bySkuType: BySkuTypeData[] = allSkuKeys
       .map((sku) => {
@@ -294,9 +364,15 @@ export async function GET(request: NextRequest) {
         const paid = paidBySkuMap.get(sku) ?? [];
         return {
           skuType: sku,
-          totalUnpaidAmount: unpaid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0),
+          totalUnpaidAmount: unpaid.reduce(
+            (s, i) => s + Number(i.subtotal ?? 0),
+            0,
+          ),
           totalUnpaidCount: unpaid.length,
-          totalPaidAmount: paid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0),
+          totalPaidAmount: paid.reduce(
+            (s, i) => s + Number(i.subtotal ?? 0),
+            0,
+          ),
           totalPaidCount: paid.length,
         };
       })
@@ -304,9 +380,14 @@ export async function GET(request: NextRequest) {
 
     // ── 7. Top unpaid students ──────────────────────────────────────────
     // Group unpaid by studentId, agregasi total tunggakan
-    const unpaidByStudentMap = groupBy(unpaidItems, (i) => i.student?.id ?? "unknown");
+    const unpaidByStudentMap = groupBy(
+      unpaidItems,
+      (i) => i.student?.id ?? "unknown",
+    );
 
-    const topUnpaidStudents: ByStudentData[] = Array.from(unpaidByStudentMap.entries())
+    const topUnpaidStudents: ByStudentData[] = Array.from(
+      unpaidByStudentMap.entries(),
+    )
       .map(([studentId, items]) => {
         const student = items[0]?.student;
         // Cari tagihan paling lama (asc sudah di-sort di query)
@@ -316,7 +397,10 @@ export async function GET(request: NextRequest) {
           studentName: student?.name ?? "-",
           className: student?.class?.name ?? "-",
           majorName: student?.major?.name ?? "-",
-          totalUnpaidAmount: items.reduce((s, i) => s + Number(i.subtotal ?? 0), 0),
+          totalUnpaidAmount: items.reduce(
+            (s, i) => s + Number(i.subtotal ?? 0),
+            0,
+          ),
           totalUnpaidCount: items.length,
           oldestUnpaidMonth: oldest?.month?.toString() ?? "-",
           oldestUnpaidYear: oldest?.year?.toString() ?? "-",

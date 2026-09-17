@@ -1,5 +1,5 @@
 "use client";
-import { ClassDataTypes } from "@/app/(types)";
+import { type ClassDataTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -36,7 +36,9 @@ export const useCreateClass = () => {
     },
     onError: (error: any) => {
       console.error("Error creating class:", error);
-      throw new Error(error?.response?.data?.message || "Failed to create class");
+      throw new Error(
+        error?.response?.data?.message || "Failed to create class",
+      );
     },
   });
 };
@@ -53,7 +55,9 @@ export const useUpdateClass = () => {
     },
     onError: (error: any) => {
       console.error("Error updating class:", error);
-      throw new Error(error?.response?.data?.message || "Failed to update class");
+      throw new Error(
+        error?.response?.data?.message || "Failed to update class",
+      );
     },
   });
 };
@@ -75,7 +79,9 @@ export const useDeleteClass = () => {
     },
     onError: (error: any) => {
       console.error("Error deleting class:", error);
-      throw new Error(error?.response?.data?.message || "Failed to delete class");
+      throw new Error(
+        error?.response?.data?.message || "Failed to delete class",
+      );
     },
   });
 };

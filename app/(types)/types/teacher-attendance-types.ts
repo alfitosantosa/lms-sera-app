@@ -4,11 +4,7 @@
  */
 
 export type AttendanceStatus =
-  | "hadir"
-  | "sakit"
-  | "izin"
-  | "alfa"
-  | "terlambat";
+  "hadir" | "sakit" | "izin" | "alfa" | "terlambat";
 
 export interface Teacher {
   id: string;

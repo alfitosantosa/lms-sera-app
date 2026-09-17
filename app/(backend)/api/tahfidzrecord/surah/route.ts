@@ -11,7 +11,7 @@
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -21,7 +21,10 @@ export async function GET() {
     return NextResponse.json(surahs);
   } catch (error) {
     console.error("Error fetching surahs:", error);
-    return NextResponse.json({ error: "Failed to fetch surahs" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch surahs" },
+      { status: 500 },
+    );
   }
 }
 
@@ -30,7 +33,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     if (!Array.isArray(body.data)) {
-      return NextResponse.json({ error: "data must be an array" }, { status: 400 });
+      return NextResponse.json(
+        { error: "data must be an array" },
+        { status: 400 },
+      );
     }
 
     const newSurah = await prisma.surahQuran.createMany({

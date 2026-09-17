@@ -1,7 +1,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const t = await resolveFoundation(req);
@@ -13,11 +13,17 @@ export async function POST(req: NextRequest) {
 
     // Validate required fields
     if (!teacherIds || !Array.isArray(teacherIds) || teacherIds.length === 0) {
-      return NextResponse.json({ error: "Missing or invalid teacherIds array" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing or invalid teacherIds array" },
+        { status: 400 },
+      );
     }
 
     if (!date || !createdBy) {
-      return NextResponse.json({ error: "Missing required fields: date, createdBy" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields: date, createdBy" },
+        { status: 400 },
+      );
     }
 
     // Pastikan seluruh guru dan pembuat absensi milik yayasan pemanggil
@@ -48,10 +54,18 @@ export async function POST(req: NextRequest) {
     });
 
     const existingTeacherIds = existingAttendances.map((a) => a.teacherId);
-    const newTeacherIds = teacherIds.filter((id: string) => !existingTeacherIds.includes(id));
+    const newTeacherIds = teacherIds.filter(
+      (id: string) => !existingTeacherIds.includes(id),
+    );
 
     if (newTeacherIds.length === 0) {
-      return NextResponse.json({ error: "All selected teachers already have attendance recorded for this date" }, { status: 409 });
+      return NextResponse.json(
+        {
+          error:
+            "All selected teachers already have attendance recorded for this date",
+        },
+        { status: 409 },
+      );
     }
 
     // Create bulk attendance records

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from "next/server";
 
 function formatPhoneNumber(phone: string): string {
   // Remove all non-numeric characters
@@ -22,35 +22,50 @@ export async function POST(request: NextRequest) {
   const EVO_APIKEY = process.env.NEXT_PUBLIC_EVO_APIKEY;
   const EVO_INSTANCE = process.env.NEXT_PUBLIC_EVO_INSTANCE || "fajarsentosa";
   if (!EVO_URL || !EVO_APIKEY || !EVO_INSTANCE) {
-    return NextResponse.json({ success: false, error: "Evolution API configuration missing" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: "Evolution API configuration missing" },
+      { status: 500 },
+    );
   }
 
   const { number, text } = await request.json();
 
   if (!number || !text) {
-    return NextResponse.json({ success: false, error: "Number and text are required" }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: "Number and text are required" },
+      { status: 400 },
+    );
   }
 
   try {
-    const response = await fetch(`${EVO_URL}/message/sendText/${EVO_INSTANCE}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: EVO_APIKEY,
+    const response = await fetch(
+      `${EVO_URL}/message/sendText/${EVO_INSTANCE}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: EVO_APIKEY,
+        },
+        body: JSON.stringify({
+          number: formatPhoneNumber(number),
+          text: text,
+        }),
       },
-      body: JSON.stringify({
-        number: formatPhoneNumber(number),
-        text: text,
-      }),
-    });
+    );
 
     if (!response.ok) {
-      return NextResponse.json({ success: false, error: `API error: ${response.statusText}` }, { status: response.status });
+      return NextResponse.json(
+        { success: false, error: `API error: ${response.statusText}` },
+        { status: response.status },
+      );
     }
 
     const data = await response.json();
     return NextResponse.json({ success: true, messageId: data.messageId });
   } catch (error) {
-    return NextResponse.json({ success: false, error: (error as Error).message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: (error as Error).message },
+      { status: 500 },
+    );
   }
 }

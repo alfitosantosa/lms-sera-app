@@ -18,7 +18,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -35,7 +35,14 @@ export async function GET(request: NextRequest) {
         startDate: true,
         endDate: true,
         isActive: true,
-        _count: { select: { students: true, schedules: true, calendarEvents: true, classes: true } },
+        _count: {
+          select: {
+            students: true,
+            schedules: true,
+            calendarEvents: true,
+            classes: true,
+          },
+        },
       },
       orderBy: { startDate: "asc" },
     });
@@ -52,7 +59,10 @@ export async function POST(request: NextRequest) {
   try {
     const { year, startDate, endDate, isActive } = await request.json();
     if (!year || !startDate || !endDate) {
-      return NextResponse.json({ error: "Year, startDate, and endDate are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Year, startDate, and endDate are required" },
+        { status: 400 },
+      );
     }
 
     const newAcademicYear = await prisma.academicYear.create({
@@ -78,7 +88,10 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, year, startDate, endDate, isActive } = await request.json();
     if (!id || !year || !startDate || !endDate) {
-      return NextResponse.json({ error: "ID, year, startDate, and endDate are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, year, startDate, and endDate are required" },
+        { status: 400 },
+      );
     }
 
     // Pastikan tahun ajaran milik yayasan pemanggil

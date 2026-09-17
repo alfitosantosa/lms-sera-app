@@ -59,16 +59,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
@@ -142,7 +142,7 @@ function GradeBadge({ grade }: { grade?: string }) {
   if (!grade) return <span className="text-muted-foreground">-</span>;
   return (
     <Badge
-      className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} text-white font-bold`}
+      className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} font-bold text-white`}
     >
       {grade}
     </Badge>
@@ -282,7 +282,7 @@ function TahfidzFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData ? "Edit Rekaman Tahfidz" : "Tambah Rekaman Tahfidz Baru"}
@@ -310,7 +310,7 @@ function TahfidzFormDialog({
                 </SelectContent>
               </Select>
               {errors.studentId && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.studentId.message}
                 </p>
               )}
@@ -356,13 +356,13 @@ function TahfidzFormDialog({
                 </SelectContent>
               </Select>
               {selectedSurah && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {selectedSurah.revelationPlace} · {selectedSurah.verseCount}{" "}
                   ayat
                 </p>
               )}
               {errors.surahQuranId && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.surahQuranId.message}
                 </p>
               )}
@@ -372,7 +372,7 @@ function TahfidzFormDialog({
               <Label htmlFor="date">Tanggal</Label>
               <Input id="date" type="date" {...register("date")} />
               {errors.date && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.date.message}
                 </p>
               )}
@@ -385,7 +385,7 @@ function TahfidzFormDialog({
               <Label htmlFor="startVerse">
                 Ayat Awal
                 {selectedSurah && (
-                  <span className="ml-1 text-xs text-muted-foreground">
+                  <span className="text-muted-foreground ml-1 text-xs">
                     (maks. {selectedSurah.verseCount})
                   </span>
                 )}
@@ -398,7 +398,7 @@ function TahfidzFormDialog({
                 {...register("startVerse", { valueAsNumber: true })}
               />
               {errors.startVerse && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.startVerse.message}
                 </p>
               )}
@@ -407,7 +407,7 @@ function TahfidzFormDialog({
               <Label htmlFor="endVerse">
                 Ayat Akhir
                 {selectedSurah && (
-                  <span className="ml-1 text-xs text-muted-foreground">
+                  <span className="text-muted-foreground ml-1 text-xs">
                     (maks. {selectedSurah.verseCount})
                   </span>
                 )}
@@ -420,7 +420,7 @@ function TahfidzFormDialog({
                 {...register("endVerse", { valueAsNumber: true })}
               />
               {errors.endVerse && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.endVerse.message}
                 </p>
               )}
@@ -690,7 +690,7 @@ function TahfidzRecordDataTable() {
             {surah ? (
               <>
                 <div className="font-medium">{surah.name}</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="text-muted-foreground text-xs">
                   {surah.nameLatin}
                 </div>
               </>
@@ -699,7 +699,7 @@ function TahfidzRecordDataTable() {
             )}
             {row.original.startVerse != null &&
               row.original.endVerse != null && (
-                <div className="text-xs text-muted-foreground mt-0.5">
+                <div className="text-muted-foreground mt-0.5 text-xs">
                   Ayat {row.original.startVerse} – {row.original.endVerse}
                 </div>
               )}
@@ -769,7 +769,7 @@ function TahfidzRecordDataTable() {
         const notes = row.getValue("notes") as string;
         return (
           <div
-            className="max-w-xs truncate text-muted-foreground"
+            className="text-muted-foreground max-w-xs truncate"
             title={notes}
           >
             {notes || "-"}
@@ -869,13 +869,13 @@ function TahfidzRecordDataTable() {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-6">Data Rekaman Tahfidz</div>
+      <div className="mb-6 text-3xl font-bold">Data Rekaman Tahfidz</div>
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between py-4 flex-wrap gap-y-3">
-        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
+        <div className="flex flex-wrap items-center space-x-2 gap-y-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
             <Input
               placeholder="Cari surah, siswa, guru..."
               value={globalFilter ?? ""}
@@ -948,8 +948,8 @@ function TahfidzRecordDataTable() {
 
       {/* Active filter badges */}
       {(globalFilter || gradeFilter !== "all") && (
-        <div className="flex items-center space-x-2 py-2 flex-wrap gap-y-1">
-          <span className="text-sm text-muted-foreground">Filter aktif:</span>
+        <div className="flex flex-wrap items-center space-x-2 gap-y-1 py-2">
+          <span className="text-muted-foreground text-sm">Filter aktif:</span>
           {globalFilter && (
             <Badge variant="secondary" className="gap-1">
               Pencarian: {globalFilter}
@@ -972,7 +972,7 @@ function TahfidzRecordDataTable() {
       )}
 
       {/* Table */}
-      <div className="rounded-md border w-full overflow-hidden">
+      <div className="w-full overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -1014,7 +1014,7 @@ function TahfidzRecordDataTable() {
                   className="h-24 text-center"
                 >
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <FileText className="h-8 w-8 text-muted-foreground" />
+                    <FileText className="text-muted-foreground h-8 w-8" />
                     <p className="text-muted-foreground">
                       {globalFilter || gradeFilter !== "all"
                         ? "Tidak ada data yang sesuai dengan filter."
@@ -1043,7 +1043,7 @@ function TahfidzRecordDataTable() {
 
       {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {filteredRows.length} baris dipilih.
           {filteredRows.length !== totalRecords && (
@@ -1077,15 +1077,15 @@ function TahfidzRecordDataTable() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BookOpen className="h-5 w-5 text-info" />
+            <BookOpen className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Rekaman</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{totalRecords}</p>
+          <p className="mt-2 text-2xl font-bold">{totalRecords}</p>
           {filteredRows.length !== totalRecords && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
             </p>
           )}
@@ -1093,30 +1093,30 @@ function TahfidzRecordDataTable() {
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-success-solid" />
+            <div className="bg-success-solid h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Nilai A</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="mt-2 text-2xl font-bold">
             {filteredRows.filter((r) => r.original.grade === "A").length}
           </p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-warning-solid" />
+            <div className="bg-warning-solid h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Belum Dinilai</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="mt-2 text-2xl font-bold">
             {filteredRows.filter((r) => !r.original.grade).length}
           </p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <User className="h-5 w-5 text-tertiary" />
+            <User className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Jumlah Siswa</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="mt-2 text-2xl font-bold">
             {
               new Set(
                 filteredRows.map((r) => r.original.studentId).filter(Boolean),

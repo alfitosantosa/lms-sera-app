@@ -1,9 +1,13 @@
 "use client";
 
-import { UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/app/(types)";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown, Search, X } from "lucide-react";
@@ -18,13 +22,24 @@ interface TeacherComboboxProps {
   className?: string;
 }
 
-export function TeacherCombobox({ teachers, value, onValueChange, placeholder = "Pilih guru...", disabled = false, className }: TeacherComboboxProps) {
+export function TeacherCombobox({
+  teachers,
+  value,
+  onValueChange,
+  placeholder = "Pilih guru...",
+  disabled = false,
+  className,
+}: TeacherComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const filteredTeachers = React.useMemo(() => {
     if (!searchTerm) return teachers;
-    return teachers.filter((teacher) => teacher.name?.toLowerCase().includes(searchTerm.toLowerCase()) || teacher.email?.toLowerCase().includes(searchTerm.toLowerCase()));
+    return teachers.filter(
+      (teacher) =>
+        teacher.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        teacher.email?.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
   }, [teachers, searchTerm]);
 
   const selectedTeacher = React.useMemo(() => {
@@ -47,17 +62,38 @@ export function TeacherCombobox({ teachers, value, onValueChange, placeholder = 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className={cn("w-full justify-between h-auto min-h-10 px-3 py-2", !selectedTeacher && "text-muted-foreground", className)} disabled={disabled}>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn(
+            "h-auto min-h-10 w-full justify-between px-3 py-2",
+            !selectedTeacher && "text-muted-foreground",
+            className,
+          )}
+          disabled={disabled}
+        >
           <div className="flex flex-1 items-center gap-2 overflow-hidden">
-            {selectedTeacher ?
-              <div className="flex flex-col items-start flex-1 min-w-0">
-                <span className="font-medium truncate w-full">{selectedTeacher.name}</span>
-                <span className="text-xs text-muted-foreground truncate w-full">{selectedTeacher.position}</span>
+            {selectedTeacher ? (
+              <div className="flex min-w-0 flex-1 flex-col items-start">
+                <span className="w-full truncate font-medium">
+                  {selectedTeacher.name}
+                </span>
+                <span className="text-muted-foreground w-full truncate text-xs">
+                  {selectedTeacher.position}
+                </span>
               </div>
-            : <span className="truncate">{placeholder}</span>}
+            ) : (
+              <span className="truncate">{placeholder}</span>
+            )}
           </div>
-          <div className="flex items-center gap-1 ml-2">
-            {selectedTeacher && !disabled && <X className="h-4 w-4 opacity-50 hover:opacity-100 cursor-pointer" onClick={handleClear} />}
+          <div className="ml-2 flex items-center gap-1">
+            {selectedTeacher && !disabled && (
+              <X
+                className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100"
+                onClick={handleClear}
+              />
+            )}
             <ChevronDown className="h-4 w-4 opacity-50" />
           </div>
         </Button>
@@ -67,24 +103,50 @@ export function TeacherCombobox({ teachers, value, onValueChange, placeholder = 
           {/* Search Input */}
           <div className="flex items-center border-b px-3 py-2">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-            <Input placeholder="Cari nama guru..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0" />
+            <Input
+              placeholder="Cari nama guru..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            />
           </div>
 
           {/* Teacher List */}
           <ScrollArea className="h-[300px]">
             <div className="p-2">
-              {filteredTeachers.length === 0 ?
-                <div className="py-6 text-center text-sm text-muted-foreground">{searchTerm ? "Tidak ada guru yang ditemukan" : "Tidak ada data guru"}</div>
-              : filteredTeachers.map((teacher) => (
-                  <div key={teacher.id} onClick={() => handleSelect(teacher)} className={cn("flex items-center justify-between w-full gap-2 px-2 py-3 rounded-md cursor-pointer hover:bg-accent", value === teacher.id && "bg-accent")}>
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <span className="font-medium truncate">{teacher.name}</span>
-                      <span className="text-xs text-muted-foreground truncate">{teacher.position}</span>
+              {filteredTeachers.length === 0 ? (
+                <div className="text-muted-foreground py-6 text-center text-sm">
+                  {searchTerm
+                    ? "Tidak ada guru yang ditemukan"
+                    : "Tidak ada data guru"}
+                </div>
+              ) : (
+                filteredTeachers.map((teacher) => (
+                  <div
+                    key={teacher.id}
+                    onClick={() => handleSelect(teacher)}
+                    className={cn(
+                      "hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-2 rounded-md px-2 py-3",
+                      value === teacher.id && "bg-accent",
+                    )}
+                  >
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate font-medium">
+                        {teacher.name}
+                      </span>
+                      <span className="text-muted-foreground truncate text-xs">
+                        {teacher.position}
+                      </span>
                     </div>
-                    <Check className={cn("h-4 w-4 shrink-0", value === teacher.id ? "opacity-100" : "opacity-0")} />
+                    <Check
+                      className={cn(
+                        "h-4 w-4 shrink-0",
+                        value === teacher.id ? "opacity-100" : "opacity-0",
+                      )}
+                    />
                   </div>
                 ))
-              }
+              )}
             </div>
           </ScrollArea>
         </div>

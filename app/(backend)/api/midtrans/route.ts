@@ -1,4 +1,4 @@
-import midtransClient from 'midtrans-client';
+import midtransClient from "midtrans-client";
 
 export async function POST(request: Request) {
   try {
@@ -18,6 +18,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error creating Midtrans transaction:", error);
-    return new Response(JSON.stringify({ error: "Failed to create transaction" }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: "Failed to create transaction" }),
+      { status: 500 },
+    );
   }
 }

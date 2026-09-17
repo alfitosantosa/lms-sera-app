@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from "next/server";
 
 // Type definitions
 interface BulkSendRequest {
@@ -29,17 +29,17 @@ interface BulkSendResponse {
 function formatPhoneNumber(phone: string): string {
   // Remove all non-numeric characters
   let cleaned = phone.replace(/\D/g, "");
-  
+
   // If starts with 0, replace with 62 (Indonesia)
   if (cleaned.startsWith("0")) {
     cleaned = "62" + cleaned.substring(1);
   }
-  
+
   // If doesn't start with country code, add 62
   if (!cleaned.startsWith("62")) {
     cleaned = "62" + cleaned;
   }
-  
+
   return cleaned;
 }
 
@@ -49,7 +49,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // Send single message to Evolution API
 async function sendWhatsAppMessage(
   number: string,
-  text: string
+  text: string,
 ): Promise<{ success: boolean; messageId?: string; error?: string }> {
   const EVO_URL = process.env.NEXT_PUBLIC_EVO_URL;
   const EVO_APIKEY = process.env.NEXT_PUBLIC_EVO_APIKEY;
@@ -72,23 +72,26 @@ async function sendWhatsAppMessage(
           number: formatPhoneNumber(number),
           text: text,
         }),
-      }
+      },
     );
 
     if (!response.ok) {
       const errorData = await response.text();
-      return { success: false, error: `API Error: ${response.status} - ${errorData}` };
+      return {
+        success: false,
+        error: `API Error: ${response.status} - ${errorData}`,
+      };
     }
 
     const data = await response.json();
-    return { 
-      success: true, 
-      messageId: data?.key?.id || data?.id || "sent" 
+    return {
+      success: true,
+      messageId: data?.key?.id || data?.id || "sent",
     };
   } catch (error) {
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : "Unknown error" 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
@@ -102,7 +105,7 @@ export async function GET() {
   if (!EVO_URL || !EVO_APIKEY) {
     return NextResponse.json(
       { connection: "error", message: "Evolution API configuration missing" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -114,13 +117,13 @@ export async function GET() {
         headers: {
           apikey: EVO_APIKEY,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       return NextResponse.json(
         { connection: "error", message: "Failed to check connection" },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -132,11 +135,11 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { 
-        connection: "error", 
-        message: error instanceof Error ? error.message : "Unknown error" 
+      {
+        connection: "error",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -147,17 +150,25 @@ export async function POST(request: NextRequest) {
     const body: BulkSendRequest = await request.json();
 
     // Validate request
-    if (!body.recipients || !Array.isArray(body.recipients) || body.recipients.length === 0) {
+    if (
+      !body.recipients ||
+      !Array.isArray(body.recipients) ||
+      body.recipients.length === 0
+    ) {
       return NextResponse.json(
         { error: "Recipients array is required and must not be empty" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    if (!body.message || typeof body.message !== "string" || body.message.trim() === "") {
+    if (
+      !body.message ||
+      typeof body.message !== "string" ||
+      body.message.trim() === ""
+    ) {
       return NextResponse.json(
         { error: "Message is required and must not be empty" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -165,7 +176,7 @@ export async function POST(request: NextRequest) {
     if (body.recipients.length > 100) {
       return NextResponse.json(
         { error: "Maximum 100 recipients per request" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -190,11 +201,17 @@ export async function POST(request: NextRequest) {
       // Personalize message if name is provided
       let personalizedMessage = body.message;
       if (recipient.name) {
-        personalizedMessage = personalizedMessage.replace(/\{name\}/gi, recipient.name);
+        personalizedMessage = personalizedMessage.replace(
+          /\{name\}/gi,
+          recipient.name,
+        );
       }
 
       // Send message
-      const result = await sendWhatsAppMessage(recipient.number, personalizedMessage);
+      const result = await sendWhatsAppMessage(
+        recipient.number,
+        personalizedMessage,
+      );
 
       results.push({
         number: recipient.number,
@@ -222,14 +239,19 @@ export async function POST(request: NextRequest) {
       results,
     };
 
-    return NextResponse.json(response, { 
-      status: totalFailed === body.recipients.length ? 500 : 200 
+    return NextResponse.json(response, {
+      status: totalFailed === body.recipients.length ? 500 : 200,
     });
   } catch (error) {
     console.error("Bulk send error:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to process bulk send" },
-      { status: 500 }
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to process bulk send",
+      },
+      { status: 500 },
     );
   }
 }

@@ -1,6 +1,12 @@
 "use client";
 
-import type { BulkTeacherAttendanceInput, CreateTeacherAttendanceInput, TeacherAttendanceRecord, TeacherAttendanceReport, UpdateTeacherAttendanceInput } from "@/app/(types)/types/teacher-attendance-types";
+import type {
+  BulkTeacherAttendanceInput,
+  CreateTeacherAttendanceInput,
+  TeacherAttendanceRecord,
+  TeacherAttendanceReport,
+  UpdateTeacherAttendanceInput,
+} from "@/app/(types)/types/teacher-attendance-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -12,7 +18,9 @@ export const useGetTeacherAttendance = (date?: string, teacherId?: string) => {
   return useQuery({
     queryKey: ["teacherAttendance", date, teacherId],
     queryFn: async () => {
-      const response = await apiGet(`/api/teacherattendance${params.toString() ? `?${params}` : ""}`);
+      const response = await apiGet(
+        `/api/teacherattendance${params.toString() ? `?${params}` : ""}`,
+      );
       return response.data as TeacherAttendanceRecord[];
     },
   });
@@ -46,7 +54,10 @@ export const useUpdateTeacherAttendance = () => {
   });
 };
 
-export const useGetTeacherAttendanceReports = (startDate?: string, endDate?: string) => {
+export const useGetTeacherAttendanceReports = (
+  startDate?: string,
+  endDate?: string,
+) => {
   const params = new URLSearchParams();
   if (startDate) params.append("startDate", startDate);
   if (endDate) params.append("endDate", endDate);
@@ -54,7 +65,9 @@ export const useGetTeacherAttendanceReports = (startDate?: string, endDate?: str
   return useQuery({
     queryKey: ["teacherAttendanceReports", startDate, endDate],
     queryFn: async () => {
-      const response = await apiGet(`/api/teacherattendance/reports${params.toString() ? `?${params}` : ""}`);
+      const response = await apiGet(
+        `/api/teacherattendance/reports${params.toString() ? `?${params}` : ""}`,
+      );
       return response.data as TeacherAttendanceReport[];
     },
   });

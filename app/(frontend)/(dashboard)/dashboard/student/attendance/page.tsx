@@ -32,16 +32,16 @@ import {
 } from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   AlertCircle,
@@ -342,7 +342,7 @@ export default function AttendanceDataTable() {
               "Nama tidak tersedia"}
           </div>
           {(row.original.student?.email || studentData?.email) && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               {row.original.student?.email || studentData?.email}
             </div>
           )}
@@ -361,8 +361,8 @@ export default function AttendanceDataTable() {
 
         return (
           <div className="space-y-1">
-            <div className="font-medium flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-info" />
+            <div className="flex items-center gap-2 font-medium">
+              <BookOpen className="text-info h-4 w-4" />
               {schedule.subject?.name}
               {schedule.subject?.code && (
                 <Badge variant="outline" className="text-xs">
@@ -370,10 +370,10 @@ export default function AttendanceDataTable() {
                 </Badge>
               )}
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               {schedule.class?.name} • {schedule.teacher?.name}
             </div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               {DAYS_MAP[schedule.dayOfWeek as keyof typeof DAYS_MAP]}{" "}
               {schedule.startTime}-{schedule.endTime}
               {schedule.room && ` • ${schedule.room}`}
@@ -407,8 +407,8 @@ export default function AttendanceDataTable() {
 
         return (
           <div className="space-y-1">
-            <div className="font-medium flex items-center gap-2">
-              <GraduationCap className="h-4 w-4 text-success" />
+            <div className="flex items-center gap-2 font-medium">
+              <GraduationCap className="text-success h-4 w-4" />
               {schedule.subject.name}
             </div>
             {schedule.subject.code && (
@@ -461,7 +461,7 @@ export default function AttendanceDataTable() {
         return (
           <div className="max-w-[200px]">
             {notes ? (
-              <div className="text-sm truncate" title={notes}>
+              <div className="truncate text-sm" title={notes}>
                 {notes}
               </div>
             ) : (
@@ -553,23 +553,23 @@ export default function AttendanceDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen">
-        <div className="font-bold text-3xl mb-2">Data Kehadiran Siswa</div>
+      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
+        <div className="mb-2 text-3xl font-bold">Data Kehadiran Siswa</div>
         {studentData && (
-          <div className="mb-6 p-4 bg-info-surface rounded-lg border border-info-border">
+          <div className="bg-info-surface border-info-border mb-6 rounded-lg border p-4">
             <div className="flex items-center gap-3">
-              <Users className="h-6 w-6 text-info" />
+              <Users className="text-info h-6 w-6" />
               <div>
-                <h2 className="text-xl font-semibold text-info-strong">
+                <h2 className="text-info-strong text-xl font-semibold">
                   {studentData.name}
                 </h2>
                 {studentData.email && (
-                  <p className="text-sm text-info-strong">
+                  <p className="text-info-strong text-sm">
                     {studentData.email}
                   </p>
                 )}
                 {studentData.id && (
-                  <p className="text-sm text-info-strong">
+                  <p className="text-info-strong text-sm">
                     NIS: {studentData.nisn}
                   </p>
                 )}
@@ -579,10 +579,10 @@ export default function AttendanceDataTable() {
         )}
 
         <div className="flex items-center justify-between py-4">
-          <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+          <div className="flex flex-wrap items-center space-x-2 gap-y-2">
             {/* Global Search */}
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
               <Input
                 placeholder="Cari mata pelajaran, kelas, atau catatan..."
                 value={globalFilter ?? ""}
@@ -623,7 +623,7 @@ export default function AttendanceDataTable() {
                       <GraduationCap className="h-4 w-4" />
                       <span>{subject.name}</span>
                       {subject.code && (
-                        <Badge variant="outline" className="text-xs ml-1">
+                        <Badge variant="outline" className="ml-1 text-xs">
                           {subject.code}
                         </Badge>
                       )}
@@ -740,7 +740,7 @@ export default function AttendanceDataTable() {
           subjectFilter !== "all" ||
           dateFilter) && (
           <div className="flex items-center space-x-2 py-2">
-            <span className="text-sm text-muted-foreground">Filter aktif:</span>
+            <span className="text-muted-foreground text-sm">Filter aktif:</span>
             {globalFilter && (
               <Badge variant="secondary" className="gap-1">
                 Pencarian: {globalFilter}
@@ -792,7 +792,7 @@ export default function AttendanceDataTable() {
           </div>
         )}
 
-        <div className="rounded-md border w-full overflow-hidden">
+        <div className="w-full overflow-hidden rounded-md border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -836,7 +836,7 @@ export default function AttendanceDataTable() {
                     className="h-24 text-center"
                   >
                     <div className="flex flex-col items-center justify-center space-y-2">
-                      <CheckCircle className="h-8 w-8 text-muted-foreground" />
+                      <CheckCircle className="text-muted-foreground h-8 w-8" />
                       <p className="text-muted-foreground">
                         {globalFilter ||
                         statusFilter !== "all" ||
@@ -875,7 +875,7 @@ export default function AttendanceDataTable() {
         </div>
 
         <div className="flex items-center justify-between space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex-1 text-sm">
             {table.getFilteredSelectedRowModel().rows.length} dari{" "}
             {table.getFilteredRowModel().rows.length} baris dipilih.
             {table.getFilteredRowModel().rows.length !== attendances.length && (
@@ -911,15 +911,15 @@ export default function AttendanceDataTable() {
         </div>
 
         {/* Summary Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-info" />
+              <CheckCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
-            <p className="text-2xl font-bold mt-2">{stats.total}</p>
+            <p className="mt-2 text-2xl font-bold">{stats.total}</p>
             {table.getFilteredRowModel().rows.length !== attendances.length && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 ({table.getFilteredRowModel().rows.length} terfilter)
               </p>
             )}
@@ -927,13 +927,13 @@ export default function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-success" />
+              <CheckCircle className="text-success h-5 w-5" />
               <h3 className="font-semibold">Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-success">
+            <p className="text-success mt-2 text-2xl font-bold">
               {stats.present}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {stats.total > 0
                 ? `${Math.round((stats.present / stats.total) * 100)}%`
                 : "0%"}
@@ -942,13 +942,13 @@ export default function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <XCircle className="h-5 w-5 text-destructive" />
+              <XCircle className="text-destructive h-5 w-5" />
               <h3 className="font-semibold">Tidak Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-destructive">
+            <p className="text-destructive mt-2 text-2xl font-bold">
               {stats.absent}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {stats.total > 0
                 ? `${Math.round((stats.absent / stats.total) * 100)}%`
                 : "0%"}
@@ -957,11 +957,11 @@ export default function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-warning" />
+              <Clock className="text-warning h-5 w-5" />
               <h3 className="font-semibold">Terlambat</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-warning">{stats.late}</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-warning mt-2 text-2xl font-bold">{stats.late}</p>
+            <p className="text-muted-foreground text-sm">
               {stats.total > 0
                 ? `${Math.round((stats.late / stats.total) * 100)}%`
                 : "0%"}
@@ -970,13 +970,13 @@ export default function AttendanceDataTable() {
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-info" />
+              <AlertCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Izin dan sakit</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-info">
+            <p className="text-info mt-2 text-2xl font-bold">
               {stats.excused + stats.sick}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {stats.total > 0
                 ? `${Math.round(((stats.excused + stats.sick) / stats.total) * 100)}%`
                 : "0%"}

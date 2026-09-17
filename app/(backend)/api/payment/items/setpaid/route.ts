@@ -22,7 +22,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const t = await resolveFoundation(request);
@@ -33,14 +33,24 @@ export async function POST(request: NextRequest) {
     const { paymentItemsIds, paymentId } = body;
 
     // Validate input
-    if (!paymentItemsIds || !Array.isArray(paymentItemsIds) || paymentItemsIds.length === 0) {
-      return NextResponse.json({ error: "paymentItemsIds must be a non-empty array" }, { status: 400 });
+    if (
+      !paymentItemsIds ||
+      !Array.isArray(paymentItemsIds) ||
+      paymentItemsIds.length === 0
+    ) {
+      return NextResponse.json(
+        { error: "paymentItemsIds must be a non-empty array" },
+        { status: 400 },
+      );
     }
 
     // Pastikan seluruh paymentItems (dan payment tujuan) milik yayasan ini
     const [ownedCount, ownedPayment] = await Promise.all([
       prisma.paymentItems.count({
-        where: { id: { in: paymentItemsIds }, student: { foundationId: t.foundationId } },
+        where: {
+          id: { in: paymentItemsIds },
+          student: { foundationId: t.foundationId },
+        },
       }),
       paymentId
         ? prisma.payment.findFirst({

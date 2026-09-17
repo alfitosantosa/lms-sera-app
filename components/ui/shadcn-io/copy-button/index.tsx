@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, CopyIcon } from "lucide-react";
-import { AnimatePresence, HTMLMotionProps, motion } from "motion/react";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import * as React from "react";
 
 const buttonVariants = cva(
@@ -11,12 +11,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        default:
+          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         muted: "bg-muted text-muted-foreground",
-        destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        destructive:
+          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        outline:
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
       },
       size: {
         default: "size-8 rounded-lg [&_svg]:size-4",
@@ -41,7 +46,18 @@ type CopyButtonProps = Omit<HTMLMotionProps<"button">, "children" | "onCopy"> &
     onCopyChange?: (isCopied: boolean) => void;
   };
 
-function CopyButton({ content, className, size, variant, delay = 3000, onClick, onCopy, isCopied, onCopyChange, ...props }: CopyButtonProps) {
+function CopyButton({
+  content,
+  className,
+  size,
+  variant,
+  delay = 3000,
+  onClick,
+  onCopy,
+  isCopied,
+  onCopyChange,
+  ...props
+}: CopyButtonProps) {
   const [localIsCopied, setLocalIsCopied] = React.useState(isCopied ?? false);
   const Icon = localIsCopied ? CheckIcon : CopyIcon;
 
@@ -78,9 +94,23 @@ function CopyButton({ content, className, size, variant, delay = 3000, onClick, 
   );
 
   return (
-    <motion.button data-slot="copy-button" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={cn(buttonVariants({ variant, size }), className)} onClick={handleCopy} {...props}>
+    <motion.button
+      data-slot="copy-button"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className={cn(buttonVariants({ variant, size }), className)}
+      onClick={handleCopy}
+      {...props}
+    >
       <AnimatePresence mode="wait">
-        <motion.span key={localIsCopied ? "check" : "copy"} data-slot="copy-button-icon" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
+        <motion.span
+          key={localIsCopied ? "check" : "copy"}
+          data-slot="copy-button-icon"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.15 }}
+        >
           <Icon />
         </motion.span>
       </AnimatePresence>

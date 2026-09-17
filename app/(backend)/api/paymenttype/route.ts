@@ -25,7 +25,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -52,9 +52,25 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { name, owner, description, amount, quantity, subtotal, isMonthly, isActive, isFixedAmount, isFixedQuantity, majorId, skuType } = await request.json();
+    const {
+      name,
+      owner,
+      description,
+      amount,
+      quantity,
+      subtotal,
+      isMonthly,
+      isActive,
+      isFixedAmount,
+      isFixedQuantity,
+      majorId,
+      skuType,
+    } = await request.json();
 
-    const major = await prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } });
+    const major = await prisma.major.findFirst({
+      where: { id: majorId, foundationId: t.foundationId },
+      select: { id: true },
+    });
     if (!major) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const newPaymentType = await prisma.paymentType.create({
@@ -66,10 +82,18 @@ export async function POST(request: NextRequest) {
         amount: parseFloat(amount),
         quantity: parseFloat(quantity),
         subtotal: parseFloat(subtotal),
-        isMonthly: typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
-        isActive: typeof isActive === "boolean" ? isActive : isActive === "true",
-        isFixedAmount: typeof isFixedAmount === "boolean" ? isFixedAmount : isFixedAmount === "true",
-        isFixedQuantity: typeof isFixedQuantity === "boolean" ? isFixedQuantity : isFixedQuantity === "true",
+        isMonthly:
+          typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
+        isActive:
+          typeof isActive === "boolean" ? isActive : isActive === "true",
+        isFixedAmount:
+          typeof isFixedAmount === "boolean"
+            ? isFixedAmount
+            : isFixedAmount === "true",
+        isFixedQuantity:
+          typeof isFixedQuantity === "boolean"
+            ? isFixedQuantity
+            : isFixedQuantity === "true",
         owner,
       },
       include: {
@@ -80,7 +104,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newPaymentType);
   } catch (error) {
     console.error("Error creating payment type:", error);
-    return NextResponse.json({ error: "Failed to create payment type" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create payment type" },
+      { status: 500 },
+    );
   }
 }
 
@@ -89,13 +116,33 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, owner, description, amount, quantity, subtotal, isMonthly, isActive, isFixedAmount, isFixedQuantity, majorId } = await request.json();
+    const {
+      id,
+      name,
+      owner,
+      description,
+      amount,
+      quantity,
+      subtotal,
+      isMonthly,
+      isActive,
+      isFixedAmount,
+      isFixedQuantity,
+      majorId,
+    } = await request.json();
 
     const [owned, major] = await Promise.all([
-      prisma.paymentType.findFirst({ where: { id, major: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.paymentType.findFirst({
+        where: { id, major: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
+      prisma.major.findFirst({
+        where: { id: majorId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
     ]);
-    if (!owned || !major) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (!owned || !major)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const updatedPaymentType = await prisma.paymentType.update({
       where: { id },
@@ -107,10 +154,18 @@ export async function PUT(request: NextRequest) {
         amount: parseFloat(amount),
         quantity: parseFloat(quantity),
         subtotal: parseFloat(subtotal),
-        isMonthly: typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
-        isActive: typeof isActive === "boolean" ? isActive : isActive === "true",
-        isFixedAmount: typeof isFixedAmount === "boolean" ? isFixedAmount : isFixedAmount === "true",
-        isFixedQuantity: typeof isFixedQuantity === "boolean" ? isFixedQuantity : isFixedQuantity === "true",
+        isMonthly:
+          typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
+        isActive:
+          typeof isActive === "boolean" ? isActive : isActive === "true",
+        isFixedAmount:
+          typeof isFixedAmount === "boolean"
+            ? isFixedAmount
+            : isFixedAmount === "true",
+        isFixedQuantity:
+          typeof isFixedQuantity === "boolean"
+            ? isFixedQuantity
+            : isFixedQuantity === "true",
       },
       include: {
         major: true,
@@ -120,7 +175,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(updatedPaymentType);
   } catch (error) {
     console.error("Error updating payment type:", error);
-    return NextResponse.json({ error: "Failed to update payment type" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update payment type" },
+      { status: 500 },
+    );
   }
 }
 
@@ -134,7 +192,10 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    const owned = await prisma.paymentType.findFirst({ where: { id, major: { foundationId: t.foundationId } }, select: { id: true } });
+    const owned = await prisma.paymentType.findFirst({
+      where: { id, major: { foundationId: t.foundationId } },
+      select: { id: true },
+    });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     await prisma.paymentType.delete({
@@ -144,6 +205,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "Payment type deleted successfully" });
   } catch (error) {
     console.error("Error deleting payment type:", error);
-    return NextResponse.json({ error: "Failed to delete payment type" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete payment type" },
+      { status: 500 },
+    );
   }
 }

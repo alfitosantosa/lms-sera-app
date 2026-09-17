@@ -1,5 +1,5 @@
 "use client";
-import { betterauthUser } from "@/app/(types)/types/betterauth-types";
+import { type betterauthUser } from "@/app/(types)/types/betterauth-types";
 import { apiGet, apiPost } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

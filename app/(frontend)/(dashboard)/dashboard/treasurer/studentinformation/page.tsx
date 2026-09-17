@@ -171,7 +171,7 @@ function PaymentStatusBadge({ status }: { status: string }) {
     icon: null,
   };
   return (
-    <Badge className={`${c.className} flex items-center gap-1 w-fit text-xs`}>
+    <Badge className={`${c.className} flex w-fit items-center gap-1 text-xs`}>
       {c.icon}
       {c.label}
     </Badge>
@@ -184,26 +184,26 @@ function StudentProfileCard({ student }: { student: Student }) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <User className="h-4 w-4 text-info" />
+          <User className="text-info h-4 w-4" />
           Profil Siswa
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {/* Avatar & Name */}
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/40">
-          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-            <span className="text-lg font-bold text-primary">
+        <div className="bg-muted/40 flex items-center gap-3 rounded-lg p-3">
+          <div className="bg-primary/10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full">
+            <span className="text-primary text-lg font-bold">
               {student.name?.charAt(0)?.toUpperCase() ?? "?"}
             </span>
           </div>
           <div>
-            <p className="font-semibold text-base">{student.name}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-base font-semibold">{student.name}</p>
+            <p className="text-muted-foreground text-xs">
               {student.email ?? "-"}
             </p>
             <Badge
               variant="outline"
-              className={`text-xs mt-1 ${student.status === "active" ? "border-success text-success" : "border-border text-muted-foreground"}`}
+              className={`mt-1 text-xs ${student.status === "active" ? "border-success text-success" : "border-border text-muted-foreground"}`}
             >
               {student.status === "active" ? "Aktif" : (student.status ?? "-")}
             </Badge>
@@ -212,14 +212,14 @@ function StudentProfileCard({ student }: { student: Student }) {
 
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-muted-foreground flex items-center gap-1 text-xs">
               <Hash className="h-3 w-3" />
               NISN
             </p>
-            <p className="font-medium font-mono">{student.nisn ?? "-"}</p>
+            <p className="font-mono font-medium">{student.nisn ?? "-"}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-muted-foreground flex items-center gap-1 text-xs">
               <User className="h-3 w-3" />
               Jenis Kelamin
             </p>
@@ -232,28 +232,28 @@ function StudentProfileCard({ student }: { student: Student }) {
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-muted-foreground flex items-center gap-1 text-xs">
               <Calendar className="h-3 w-3" />
               Tgl Lahir
             </p>
-            <p className="font-medium text-xs">
+            <p className="text-xs font-medium">
               {student.birthPlace ? `${student.birthPlace}, ` : ""}
               {formatDate(student.birthDate)}
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-muted-foreground flex items-center gap-1 text-xs">
               <Phone className="h-3 w-3" />
               No. HP Ortu
             </p>
             <p className="font-medium">{student.parentPhone ?? "-"}</p>
           </div>
-          <div className="space-y-1 col-span-2">
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+          <div className="col-span-2 space-y-1">
+            <p className="text-muted-foreground flex items-center gap-1 text-xs">
               <MapPin className="h-3 w-3" />
               Alamat
             </p>
-            <p className="font-medium text-xs">{student.address ?? "-"}</p>
+            <p className="text-xs font-medium">{student.address ?? "-"}</p>
           </div>
         </div>
 
@@ -261,38 +261,38 @@ function StudentProfileCard({ student }: { student: Student }) {
 
         <div className="grid grid-cols-1 gap-2 text-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <span className="text-muted-foreground flex items-center gap-1 text-xs">
               <GraduationCap className="h-3 w-3" />
               Kelas
             </span>
-            <span className="font-medium text-xs">
+            <span className="text-xs font-medium">
               {student.class?.name ?? "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <span className="text-muted-foreground flex items-center gap-1 text-xs">
               <Building2 className="h-3 w-3" />
               Branch
             </span>
-            <span className="font-medium text-xs">
+            <span className="text-xs font-medium">
               {student.major?.name ?? "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <span className="text-muted-foreground flex items-center gap-1 text-xs">
               <BookOpen className="h-3 w-3" />
               Tahun Akademik
             </span>
-            <span className="font-medium text-xs">
+            <span className="text-xs font-medium">
               {student.academicYear?.year ?? "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <span className="text-muted-foreground flex items-center gap-1 text-xs">
               <Calendar className="h-3 w-3" />
               Tgl Masuk
             </span>
-            <span className="font-medium text-xs">
+            <span className="text-xs font-medium">
               {formatDate(student.enrollmentDate)}
             </span>
           </div>
@@ -321,19 +321,19 @@ function SummaryCards({
     .reduce((s, p) => s + parseFloat(p.amount || "0"), 0);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
       <Card className="border-destructive-border">
         <CardContent className="pt-4 pb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
-            <p className="text-xs font-medium text-muted-foreground">
+          <div className="mb-2 flex items-center gap-2">
+            <AlertCircle className="text-destructive h-4 w-4 shrink-0" />
+            <p className="text-muted-foreground text-xs font-medium">
               Belum Lunas
             </p>
           </div>
-          <p className="text-xl font-bold text-destructive">
+          <p className="text-destructive text-xl font-bold">
             {unpaidItems.length}
           </p>
-          <p className="text-xs text-destructive tabular-nums mt-0.5">
+          <p className="text-destructive mt-0.5 text-xs tabular-nums">
             {formatRupiah(totalUnpaid)}
           </p>
         </CardContent>
@@ -341,14 +341,14 @@ function SummaryCards({
 
       <Card className="border-success-border">
         <CardContent className="pt-4 pb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
-            <p className="text-xs font-medium text-muted-foreground">
+          <div className="mb-2 flex items-center gap-2">
+            <CheckCircle2 className="text-success h-4 w-4 shrink-0" />
+            <p className="text-muted-foreground text-xs font-medium">
               Sudah Lunas
             </p>
           </div>
-          <p className="text-xl font-bold text-success">{paidItems.length}</p>
-          <p className="text-xs text-success tabular-nums mt-0.5">
+          <p className="text-success text-xl font-bold">{paidItems.length}</p>
+          <p className="text-success mt-0.5 text-xs tabular-nums">
             {formatRupiah(totalPaid)}
           </p>
         </CardContent>
@@ -356,29 +356,29 @@ function SummaryCards({
 
       <Card>
         <CardContent className="pt-4 pb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <Receipt className="h-4 w-4 text-info shrink-0" />
-            <p className="text-xs font-medium text-muted-foreground">
+          <div className="mb-2 flex items-center gap-2">
+            <Receipt className="text-info h-4 w-4 shrink-0" />
+            <p className="text-muted-foreground text-xs font-medium">
               Total Transaksi
             </p>
           </div>
           <p className="text-xl font-bold">{payments.length}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">pembayaran</p>
+          <p className="text-muted-foreground mt-0.5 text-xs">pembayaran</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardContent className="pt-4 pb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="h-4 w-4 text-tertiary shrink-0" />
-            <p className="text-xs font-medium text-muted-foreground">
+          <div className="mb-2 flex items-center gap-2">
+            <TrendingUp className="text-tertiary h-4 w-4 shrink-0" />
+            <p className="text-muted-foreground text-xs font-medium">
               Total Terbayar
             </p>
           </div>
-          <p className="text-xl font-bold text-tertiary tabular-nums">
+          <p className="text-tertiary text-xl font-bold tabular-nums">
             {formatRupiah(totalPaid)}
           </p>
-          <p className="text-xs text-muted-foreground mt-0.5">dari transaksi</p>
+          <p className="text-muted-foreground mt-0.5 text-xs">dari transaksi</p>
         </CardContent>
       </Card>
     </div>
@@ -430,7 +430,7 @@ function BillingTab({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-sm">Tagihan Belum Lunas</h3>
+            <h3 className="text-sm font-semibold">Tagihan Belum Lunas</h3>
             {unpaidItems.length > 0 && (
               <Badge variant="destructive" className="text-xs">
                 {unpaidItems.length} item
@@ -445,12 +445,12 @@ function BillingTab({
                 <Button
                   size="sm"
                   variant="default"
-                  className="bg-success-solid hover:bg-success-solid/90 text-white gap-1.5 text-xs h-8"
+                  className="bg-success-solid hover:bg-success-solid/90 h-8 gap-1.5 text-xs text-white"
                   onClick={handleWAReminder}
                 >
                   <MessageCircle className="h-3.5 w-3.5" />
                   Reminder WA
-                  <span className="opacity-80 text-xs">
+                  <span className="text-xs opacity-80">
                     ({student.parentPhone})
                   </span>
                 </Button>
@@ -458,7 +458,7 @@ function BillingTab({
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-success text-success hover:bg-success-surface gap-1.5 text-xs h-8"
+                  className="border-success text-success hover:bg-success-surface h-8 gap-1.5 text-xs"
                   onClick={handleWAReminderManual}
                 >
                   <MessageCircle className="h-3.5 w-3.5" />
@@ -470,20 +470,20 @@ function BillingTab({
         </div>
 
         {unpaidItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-8 border rounded-lg bg-success-surface">
-            <CheckCircle2 className="h-10 w-10 text-success mb-2" />
-            <p className="text-sm font-medium text-success-strong">
+          <div className="bg-success-surface flex flex-col items-center justify-center rounded-lg border py-8">
+            <CheckCircle2 className="text-success mb-2 h-10 w-10" />
+            <p className="text-success-strong text-sm font-medium">
               Semua tagihan sudah lunas!
             </p>
           </div>
         ) : (
           <div className="space-y-3">
             {/* Total unpaid summary */}
-            <div className="flex items-center justify-between rounded-lg bg-destructive-surface border border-destructive-border px-4 py-2.5">
-              <span className="text-sm text-destructive-strong font-medium">
+            <div className="bg-destructive-surface border-destructive-border flex items-center justify-between rounded-lg border px-4 py-2.5">
+              <span className="text-destructive-strong text-sm font-medium">
                 Total Tagihan Belum Lunas
               </span>
-              <span className="font-bold text-destructive-strong tabular-nums">
+              <span className="text-destructive-strong font-bold tabular-nums">
                 {formatRupiah(totalUnpaid)}
               </span>
             </div>
@@ -495,7 +495,7 @@ function BillingTab({
                   <Badge variant="outline" className="text-xs">
                     {skuType}
                   </Badge>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-muted-foreground text-xs">
                     {items.length} tagihan ·{" "}
                     {formatRupiah(
                       items.reduce(
@@ -508,21 +508,21 @@ function BillingTab({
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between rounded-lg border bg-card px-3 py-2.5 hover:bg-muted/30 transition-colors"
+                    className="bg-card hover:bg-muted/30 flex items-center justify-between rounded-lg border px-3 py-2.5 transition-colors"
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">
                         {item.name}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Bulan {item.month}/{item.year} · Qty: {item.quantity}
                       </p>
                     </div>
-                    <div className="text-right shrink-0 ml-3">
+                    <div className="ml-3 shrink-0 text-right">
                       <p className="text-sm font-semibold tabular-nums">
                         {formatRupiah(item.subtotal)}
                       </p>
-                      <Badge className="bg-destructive-chip text-destructive-strong border-0 text-xs mt-0.5">
+                      <Badge className="bg-destructive-chip text-destructive-strong mt-0.5 border-0 text-xs">
                         Belum Lunas
                       </Badge>
                     </div>
@@ -540,28 +540,28 @@ function BillingTab({
           <Separator />
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-sm">Tagihan Sudah Lunas</h3>
+              <h3 className="text-sm font-semibold">Tagihan Sudah Lunas</h3>
               <Badge variant="secondary" className="text-xs">
                 {paidItems.length} item
               </Badge>
             </div>
-            <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+            <div className="max-h-64 space-y-1.5 overflow-y-auto pr-1">
               {paidItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between rounded-lg border bg-muted/20 px-3 py-2 opacity-70"
+                  className="bg-muted/20 flex items-center justify-between rounded-lg border px-3 py-2 opacity-70"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">{item.name}</p>
+                    <p className="text-muted-foreground text-xs">
                       Bulan {item.month}/{item.year} · {item.skuType}
                     </p>
                   </div>
-                  <div className="text-right shrink-0 ml-3">
+                  <div className="ml-3 shrink-0 text-right">
                     <p className="text-sm tabular-nums">
                       {formatRupiah(item.subtotal)}
                     </p>
-                    <Badge className="bg-success-chip text-success-strong border-0 text-xs mt-0.5">
+                    <Badge className="bg-success-chip text-success-strong mt-0.5 border-0 text-xs">
                       Lunas
                     </Badge>
                   </div>
@@ -583,9 +583,9 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
 
   if (payments.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-10 border rounded-lg bg-muted/20">
-        <Receipt className="h-10 w-10 text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground">
+      <div className="bg-muted/20 flex flex-col items-center justify-center rounded-lg border py-10">
+        <Receipt className="text-muted-foreground mb-2 h-10 w-10" />
+        <p className="text-muted-foreground text-sm">
           Belum ada riwayat transaksi
         </p>
       </div>
@@ -595,18 +595,18 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
   return (
     <div className="space-y-3">
       {/* Total summary */}
-      <div className="flex items-center justify-between rounded-lg bg-info-surface border border-info-border px-4 py-2.5">
-        <span className="text-sm text-info-strong font-medium">
+      <div className="bg-info-surface border-info-border flex items-center justify-between rounded-lg border px-4 py-2.5">
+        <span className="text-info-strong text-sm font-medium">
           Total Terbayar ({payments.filter((p) => p.status === "paid").length}{" "}
           transaksi lunas)
         </span>
-        <span className="font-bold text-info-strong tabular-nums">
+        <span className="text-info-strong font-bold tabular-nums">
           {formatRupiah(totalPaid)}
         </span>
       </div>
 
       {/* Transaction list */}
-      <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+      <div className="max-h-[500px] space-y-2 overflow-y-auto pr-1">
         {payments
           .slice()
           .sort(
@@ -616,11 +616,11 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
           .map((payment) => (
             <div
               key={payment.id}
-              className="rounded-lg border bg-card px-4 py-3 hover:bg-muted/30 transition-colors"
+              className="bg-card hover:bg-muted/30 rounded-lg border px-4 py-3 transition-colors"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
                     <p className="font-mono text-sm font-semibold">
                       {payment.receiptNumber}
                     </p>
@@ -629,27 +629,27 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
                       {payment.month}
                     </Badge>
                   </div>
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5">
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                  <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
+                    <span className="text-muted-foreground flex items-center gap-1 text-xs">
                       <Calendar className="h-3 w-3" />
                       {formatDate(payment.paymentDate)}
                     </span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                    <span className="text-muted-foreground flex items-center gap-1 text-xs">
                       <CreditCard className="h-3 w-3" />
                       Ref: {payment.bankRef || "-"}
                     </span>
                   </div>
                   {payment.notes && (
-                    <p className="text-xs text-muted-foreground mt-1 italic">
+                    <p className="text-muted-foreground mt-1 text-xs italic">
                       {payment.notes}
                     </p>
                   )}
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="font-bold text-base tabular-nums">
+                <div className="shrink-0 text-right">
+                  <p className="text-base font-bold tabular-nums">
                     {formatRupiah(payment.amount)}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {formatDate(payment.createdAt)}
                   </p>
                 </div>
@@ -665,11 +665,11 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
-        <User className="h-8 w-8 text-muted-foreground" />
+      <div className="bg-muted mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+        <User className="text-muted-foreground h-8 w-8" />
       </div>
-      <h3 className="font-semibold text-base mb-1">Pilih Siswa</h3>
-      <p className="text-sm text-muted-foreground max-w-xs">
+      <h3 className="mb-1 text-base font-semibold">Pilih Siswa</h3>
+      <p className="text-muted-foreground max-w-xs text-sm">
         Gunakan pencarian di atas untuk memilih siswa dan melihat informasi
         tagihan serta riwayat pembayaran.
       </p>
@@ -734,10 +734,10 @@ function StudentInformation({
     <div className="space-y-6">
       {/* ── Page Header ── */}
       <div>
-        <h1 className="font-bold text-3xl">Informasi Siswa</h1>
-        <p className="text-muted-foreground text-sm mt-1">
+        <h1 className="text-3xl font-bold">Informasi Siswa</h1>
+        <p className="text-muted-foreground mt-1 text-sm">
           Branch:{" "}
-          <span className="font-medium text-foreground">
+          <span className="text-foreground font-medium">
             {userDataMajor.name}
           </span>
           {" · "}
@@ -748,11 +748,11 @@ function StudentInformation({
       {/* ── Search ── */}
       <Card>
         <CardContent className="pt-4 pb-4">
-          <Label className="text-sm font-medium mb-2 block">
+          <Label className="mb-2 block text-sm font-medium">
             Cari & Pilih Siswa
           </Label>
           {isLoadingStudents ? (
-            <div className="h-10 bg-muted animate-pulse rounded-md" />
+            <div className="bg-muted h-10 animate-pulse rounded-md" />
           ) : (
             <StudentCombobox
               students={allStudents as any[]}
@@ -769,15 +769,15 @@ function StudentInformation({
         <EmptyState />
       ) : isLoadingDetail ? (
         <div className="flex items-center justify-center py-16">
-          <div className="text-center space-y-2">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
-            <p className="text-sm text-muted-foreground">
+          <div className="space-y-2 text-center">
+            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2" />
+            <p className="text-muted-foreground text-sm">
               Memuat data siswa...
             </p>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* ── Left: Profile Card ── */}
           <div className="lg:col-span-1">
             {selectedStudent && (
@@ -786,7 +786,7 @@ function StudentInformation({
           </div>
 
           {/* ── Right: Tabs ── */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             {/* Summary Cards */}
             <SummaryCards billingItems={billingItems} payments={payments} />
 
@@ -797,7 +797,7 @@ function StudentInformation({
                   <AlertCircle className="h-3.5 w-3.5" />
                   Tagihan
                   {billingItems.filter((i) => !i.isPaid).length > 0 && (
-                    <Badge className="bg-destructive-solid text-white text-xs h-4 px-1.5 ml-1">
+                    <Badge className="bg-destructive-solid ml-1 h-4 px-1.5 text-xs text-white">
                       {billingItems.filter((i) => !i.isPaid).length}
                     </Badge>
                   )}
@@ -808,7 +808,7 @@ function StudentInformation({
                   {payments.length > 0 && (
                     <Badge
                       variant="secondary"
-                      className="text-xs h-4 px-1.5 ml-1"
+                      className="ml-1 h-4 px-1.5 text-xs"
                     >
                       {payments.length}
                     </Badge>
@@ -857,11 +857,11 @@ export default function StudentInformationPage() {
 
   if (!userDataMajor) {
     return (
-      <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-2">
-          <AlertCircle className="h-10 w-10 text-destructive mx-auto" />
+      <div className="mx-auto my-8 flex min-h-screen max-w-7xl items-center justify-center p-6">
+        <div className="space-y-2 text-center">
+          <AlertCircle className="text-destructive mx-auto h-10 w-10" />
           <p className="font-semibold">Branch belum dikonfigurasi</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Bendahara belum memiliki branch yang ditugaskan. Hubungi
             administrator.
           </p>
@@ -881,7 +881,7 @@ function Label({
 }: React.LabelHTMLAttributes<HTMLLabelElement> & { className?: string }) {
   return (
     <label
-      className={`text-sm font-medium leading-none ${className ?? ""}`}
+      className={`text-sm leading-none font-medium ${className ?? ""}`}
       {...props}
     >
       {children}

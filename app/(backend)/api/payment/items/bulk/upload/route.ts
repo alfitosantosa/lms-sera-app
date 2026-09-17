@@ -23,7 +23,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 interface PaymentItemsInput {
   studentId: string;
@@ -47,11 +47,24 @@ export async function POST(request: NextRequest) {
 
     // Validate input is array and not empty
     if (!Array.isArray(body) || body.length === 0) {
-      return NextResponse.json({ error: "Body harus berupa array dan tidak boleh kosong" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Body harus berupa array dan tidak boleh kosong" },
+        { status: 400 },
+      );
     }
 
     // Validate required fields per item
-    const requiredFields = ["studentId", "paymentTypeId", "quantity", "amount", "subtotal", "month", "year", "name", "skuType"] as const;
+    const requiredFields = [
+      "studentId",
+      "paymentTypeId",
+      "quantity",
+      "amount",
+      "subtotal",
+      "month",
+      "year",
+      "name",
+      "skuType",
+    ] as const;
 
     const validationErrors: Array<{ index: number; message: string }> = [];
 
@@ -104,7 +117,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (validationErrors.length > 0) {
-      return NextResponse.json({ error: "Validation errors", details: validationErrors }, { status: 400 });
+      return NextResponse.json(
+        { error: "Validation errors", details: validationErrors },
+        { status: 400 },
+      );
     }
 
     // Get all unique studentIds and paymentTypeIds for batch validation
@@ -118,19 +134,31 @@ export async function POST(request: NextRequest) {
     });
     const existingStudentIds = new Set(existingStudents.map((s) => s.id));
 
-    const missingStudents = studentIds.filter((id) => !existingStudentIds.has(id));
+    const missingStudents = studentIds.filter(
+      (id) => !existingStudentIds.has(id),
+    );
     if (missingStudents.length > 0) {
-      return NextResponse.json({ error: `Student tidak ditemukan: ${missingStudents.join(", ")}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Student tidak ditemukan: ${missingStudents.join(", ")}` },
+        { status: 400 },
+      );
     }
 
     // Validate all payment types exist (di yayasan ini)
     const existingPaymentTypes = await prisma.paymentType.findMany({
-      where: { id: { in: paymentTypeIds }, major: { foundationId: t.foundationId } },
+      where: {
+        id: { in: paymentTypeIds },
+        major: { foundationId: t.foundationId },
+      },
       select: { id: true },
     });
-    const existingPaymentTypeIds = new Set(existingPaymentTypes.map((pt) => pt.id));
+    const existingPaymentTypeIds = new Set(
+      existingPaymentTypes.map((pt) => pt.id),
+    );
 
-    const missingPaymentTypes = paymentTypeIds.filter((id) => !existingPaymentTypeIds.has(id));
+    const missingPaymentTypes = paymentTypeIds.filter(
+      (id) => !existingPaymentTypeIds.has(id),
+    );
     if (missingPaymentTypes.length > 0) {
       return NextResponse.json(
         {

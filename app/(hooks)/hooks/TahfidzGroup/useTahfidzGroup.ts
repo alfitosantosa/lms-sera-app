@@ -1,5 +1,9 @@
 "use client";
-import { CreateTahfidzGroupInput, TahfidzGroupData, UpdateTahfidzGroupInput } from "@/app/(types)/types/tahfidzgroup-types";
+import {
+  type CreateTahfidzGroupInput,
+  type TahfidzGroupData,
+  type UpdateTahfidzGroupInput,
+} from "@/app/(types)/types/tahfidzgroup-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

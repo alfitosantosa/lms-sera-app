@@ -1,7 +1,7 @@
 {
-  "name": "Santosatechid POS App",
-  "short_name": "Santosatechid POS",
-  "description": "Aplikasi portal utama Santosatechid POS",
+  "name": "Sera App",
+  "short_name": "Sera App",
+  "description": "Aplikasi portal utama Sera App",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

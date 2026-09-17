@@ -45,16 +45,16 @@ import {
 } from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -173,17 +173,17 @@ function StatisticsCards({
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+    <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Total Pembayaran
           </CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          <DollarSign className="text-muted-foreground h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalPayments}</div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Total transaksi pembayaran
           </p>
         </CardContent>
@@ -192,11 +192,11 @@ function StatisticsCards({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Lunas</CardTitle>
-          <CheckCircle className="h-4 w-4 text-success" />
+          <CheckCircle className="text-success h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-success">{paidPayments}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="text-success text-2xl font-bold">{paidPayments}</div>
+          <p className="text-muted-foreground text-xs">
             {formatCurrency(totalRevenue)}
           </p>
         </CardContent>
@@ -205,26 +205,26 @@ function StatisticsCards({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Belum Lunas</CardTitle>
-          <Clock className="h-4 w-4 text-warning" />
+          <Clock className="text-warning h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-warning">
+          <div className="text-warning text-2xl font-bold">
             {pendingPayments}
           </div>
-          <p className="text-xs text-muted-foreground">Menunggu pembayaran</p>
+          <p className="text-muted-foreground text-xs">Menunggu pembayaran</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Terlambat</CardTitle>
-          <XCircle className="h-4 w-4 text-destructive" />
+          <XCircle className="text-destructive h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-destructive">
+          <div className="text-destructive text-2xl font-bold">
             {overduePayments}
           </div>
-          <p className="text-xs text-muted-foreground">Melewati jatuh tempo</p>
+          <p className="text-muted-foreground text-xs">Melewati jatuh tempo</p>
         </CardContent>
       </Card>
     </div>
@@ -377,9 +377,9 @@ function MidtransPaymentDialog({
         <DialogHeader>
           <DialogTitle>Pembayaran Midtrans</DialogTitle>
         </DialogHeader>
-        <div className="grid mb-4">
+        <div className="mb-4 grid">
           <div className="font-bold">Detail Tagihan</div>
-          <Table className="w-full mt-2">
+          <Table className="mt-2 w-full">
             <TableBody>
               <TableRow>
                 <TableCell>No Kwitansi</TableCell>
@@ -459,7 +459,7 @@ function MidtransPaymentDialog({
             </TableBody>
           </Table>
           {paymentData && paymentData.status === "paid" ? (
-            <Button disabled={true} className=" mt-4">
+            <Button disabled={true} className="mt-4">
               Pembayaran sudah lunas
             </Button>
           ) : paymentData ? (
@@ -745,9 +745,9 @@ function PaymentDashboard({ userId }: { userId: string }) {
 
   return (
     <>
-      <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen">
+      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
         <div className="mb-6">
-          <h1 className="font-bold text-3xl mb-2">Dashboard Pembayaran</h1>
+          <h1 className="mb-2 text-3xl font-bold">Dashboard Pembayaran</h1>
           <p className="text-muted-foreground">
             Kelola pembayaran SPP dan pembayaran sekolah lainnya
           </p>
@@ -837,7 +837,7 @@ function PaymentDashboard({ userId }: { userId: string }) {
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex-1 text-sm">
               {table.getFilteredSelectedRowModel().rows.length} dari{" "}
               {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>

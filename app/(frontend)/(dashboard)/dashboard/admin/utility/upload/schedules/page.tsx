@@ -11,7 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/ui/shadcn-io/copy-button";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { AlertCircle, Download, FileText, Upload, X } from "lucide-react";
 import { unauthorized } from "next/navigation";
@@ -39,7 +47,9 @@ function UploadSchedules() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      const excelFiles = newFiles.filter((file) => file.name.endsWith(".xlsx") || file.name.endsWith(".xls"));
+      const excelFiles = newFiles.filter(
+        (file) => file.name.endsWith(".xlsx") || file.name.endsWith(".xls"),
+      );
 
       if (excelFiles.length !== newFiles.length) {
         toast.error("Hanya file Excel (.xlsx atau .xls) yang diperbolehkan");
@@ -52,7 +62,9 @@ function UploadSchedules() {
         try {
           // Dynamically import read-excel-file only on client side
           if (typeof window === "undefined") {
-            throw new Error("This function can only be called on the client side");
+            throw new Error(
+              "This function can only be called on the client side",
+            );
           }
           const readXlsxFile = (await import("read-excel-file")).default;
           const rows = await readXlsxFile(excelFiles[0]);
@@ -124,21 +136,34 @@ function UploadSchedules() {
             room: row[7]?.toString() || "",
 
             // Status
-            isActive: row[8] === "true" || row[8] === true || row[8] === 1 || true,
+            isActive:
+              row[8] === "true" || row[8] === true || row[8] === 1 || true,
           };
 
           // Validate required fields and data integrity
-          if (scheduleData.classId && scheduleData.subjectId && scheduleData.teacherId && scheduleData.academicYearId) {
+          if (
+            scheduleData.classId &&
+            scheduleData.subjectId &&
+            scheduleData.teacherId &&
+            scheduleData.academicYearId
+          ) {
             // Validate day of week range (1-7)
             if (scheduleData.dayOfWeek < 1 || scheduleData.dayOfWeek > 7) {
-              console.warn(`Invalid day of week: ${scheduleData.dayOfWeek} for schedule with classId: ${scheduleData.classId}`);
+              console.warn(
+                `Invalid day of week: ${scheduleData.dayOfWeek} for schedule with classId: ${scheduleData.classId}`,
+              );
               continue;
             }
 
             // Validate time format (HH:MM)
             const timeRegex = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/;
-            if (!timeRegex.test(scheduleData.startTime) || !timeRegex.test(scheduleData.endTime)) {
-              console.warn(`Invalid time format for schedule with classId: ${scheduleData.classId}`);
+            if (
+              !timeRegex.test(scheduleData.startTime) ||
+              !timeRegex.test(scheduleData.endTime)
+            ) {
+              console.warn(
+                `Invalid time format for schedule with classId: ${scheduleData.classId}`,
+              );
               continue;
             }
 
@@ -154,13 +179,17 @@ function UploadSchedules() {
       }
 
       // Send bulk create request
-      const result = (await bulkCreateMutation.mutateAsync({ schedules: allSchedules })) as {
+      const result = (await bulkCreateMutation.mutateAsync({
+        schedules: allSchedules,
+      })) as {
         created?: number;
         total?: number;
       };
 
       if (result?.created) {
-        toast.success(`Berhasil upload ${result.created} dari ${result.total} jadwal`);
+        toast.success(
+          `Berhasil upload ${result.created} dari ${result.total} jadwal`,
+        );
       } else {
         toast.warning("Tidak ada jadwal baru yang ditambahkan");
       }
@@ -168,7 +197,9 @@ function UploadSchedules() {
       setPreviewData([]);
 
       // Reset file input
-      const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+      const fileInput = document.getElementById(
+        "file-upload",
+      ) as HTMLInputElement;
       if (fileInput) fileInput.value = "";
     } catch (error: any) {
       console.error("Upload error:", error);
@@ -199,11 +230,41 @@ function UploadSchedules() {
       // Create worksheet data
       const wsData = [
         // Header row
-        ["Class ID*", "Subject ID*", "Teacher ID*", "Academic Year ID*", "Day of Week*", "Start Time*", "End Time*", "Room", "Is Active"],
+        [
+          "Class ID*",
+          "Subject ID*",
+          "Teacher ID*",
+          "Academic Year ID*",
+          "Day of Week*",
+          "Start Time*",
+          "End Time*",
+          "Room",
+          "Is Active",
+        ],
         // Example row 1
-        [classData[0]?.id || "class-id-here", subjectsData[0]?.id || "subject-id-here", teachersData[0]?.id || "teacher-id-here", academicYearData[0]?.id || "academic-year-id", "1", "07:00", "08:20", "Kelas X TSM A", "true"],
+        [
+          classData[0]?.id || "class-id-here",
+          subjectsData[0]?.id || "subject-id-here",
+          teachersData[0]?.id || "teacher-id-here",
+          academicYearData[0]?.id || "academic-year-id",
+          "1",
+          "07:00",
+          "08:20",
+          "Kelas X TSM A",
+          "true",
+        ],
         // Example row 2
-        [classData[0]?.id || "class-id-here", subjectsData[0]?.id || "subject-id-here", teachersData[0]?.id || "teacher-id-here", academicYearData[0]?.id || "academic-year-id", "2", "08:30", "09:50", "Kelas X TSM B", "true"],
+        [
+          classData[0]?.id || "class-id-here",
+          subjectsData[0]?.id || "subject-id-here",
+          teachersData[0]?.id || "teacher-id-here",
+          academicYearData[0]?.id || "academic-year-id",
+          "2",
+          "08:30",
+          "09:50",
+          "Kelas X TSM B",
+          "true",
+        ],
       ];
 
       // Create workbook and worksheet
@@ -238,50 +299,82 @@ function UploadSchedules() {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-3">Upload Page</div>
+      <div className="mb-3 text-3xl font-bold">Upload Page</div>
 
       <div className="mb-6">
         <Card className="p-6">
-          <div className="text-xl font-semibold mb-4">Upload Files</div>
+          <div className="mb-4 text-xl font-semibold">Upload Files</div>
 
           <div className="space-y-4">
             {/* Instructions */}
-            <div className="bg-info-surface p-4 rounded-lg border border-info-border">
+            <div className="bg-info-surface border-info-border rounded-lg border p-4">
               <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-info mt-0.5" />
-                <div className="text-sm text-info-strong">
-                  <p className="font-semibold mb-1">Petunjuk Upload:</p>
-                  <ul className="list-disc list-inside space-y-1">
+                <AlertCircle className="text-info mt-0.5 h-5 w-5" />
+                <div className="text-info-strong text-sm">
+                  <p className="mb-1 font-semibold">Petunjuk Upload:</p>
+                  <ul className="list-inside list-disc space-y-1">
                     <li>Download template terlebih dahulu</li>
                     <li>Isi data sesuai kolom yang tersedia</li>
-                    <li>Field yang wajib diisi: Class ID, Subject ID, Teacher ID, Academic Year ID, Day of Week, Start Time, End Time</li>
-                    <li>Day of Week: 1 (Senin), 2 (Selasa), 3 (Rabu), 4 (Kamis), 5 (Jumat), 6 (Sabtu), 7 (Minggu)</li>
+                    <li>
+                      Field yang wajib diisi: Class ID, Subject ID, Teacher ID,
+                      Academic Year ID, Day of Week, Start Time, End Time
+                    </li>
+                    <li>
+                      Day of Week: 1 (Senin), 2 (Selasa), 3 (Rabu), 4 (Kamis), 5
+                      (Jumat), 6 (Sabtu), 7 (Minggu)
+                    </li>
                     <li>Format waktu: HH:MM (contoh: 07:00 atau 08:30)</li>
                     <li>Room: Nama ruangan kelas (opsional)</li>
                     <li>Is Active: true atau false</li>
-                    <li>Pastikan semua ID yang dimasukkan sudah ada di sistem</li>
-                    <li>Data yang tidak valid akan dilewati dan tidak diupload</li>
+                    <li>
+                      Pastikan semua ID yang dimasukkan sudah ada di sistem
+                    </li>
+                    <li>
+                      Data yang tidak valid akan dilewati dan tidak diupload
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
 
             <div>
-              <Input className="bg-background" id="file-upload" multiple onChange={handleFileChange} type="file" accept=".xlsx,.xls" />
-              <p className="text-sm text-muted-foreground mt-2">Format: .xlsx atau .xls | Maksimal file yang dapat di-upload sekaligus</p>
+              <Input
+                className="bg-background"
+                id="file-upload"
+                multiple
+                onChange={handleFileChange}
+                type="file"
+                accept=".xlsx,.xls"
+              />
+              <p className="text-muted-foreground mt-2 text-sm">
+                Format: .xlsx atau .xls | Maksimal file yang dapat di-upload
+                sekaligus
+              </p>
             </div>
 
             {files.length > 0 && (
               <div className="space-y-2">
                 <p className="text-sm font-semibold">File yang dipilih:</p>
                 {files.map((file, index) => (
-                  <div className="flex items-center justify-between rounded-md border p-2" key={index}>
+                  <div
+                    className="flex items-center justify-between rounded-md border p-2"
+                    key={index}
+                  >
                     <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <FileText className="text-muted-foreground h-4 w-4" />
                       <span className="text-sm">{file.name}</span>
-                      <span className="text-muted-foreground text-xs">({(file.size / 1024).toFixed(1)} KB)</span>
+                      <span className="text-muted-foreground text-xs">
+                        ({(file.size / 1024).toFixed(1)} KB)
+                      </span>
                     </div>
-                    <Button className="h-6 w-6" onClick={() => removeFile(index)} size="icon" type="button" variant="ghost" disabled={isUploading}>
+                    <Button
+                      className="h-6 w-6"
+                      onClick={() => removeFile(index)}
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                      disabled={isUploading}
+                    >
                       <X className="h-3 w-3" />
                     </Button>
                   </div>
@@ -290,25 +383,33 @@ function UploadSchedules() {
             )}
 
             {previewData.length > 0 && (
-              <div className="border rounded-lg p-4">
-                <p className="text-sm font-semibold mb-2">Preview Data (5 baris pertama):</p>
+              <div className="rounded-lg border p-4">
+                <p className="mb-2 text-sm font-semibold">
+                  Preview Data (5 baris pertama):
+                </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left p-2">Class ID</th>
-                        <th className="text-left p-2">Subject ID</th>
-                        <th className="text-left p-2">Teacher ID</th>
-                        <th className="text-left p-2">Day</th>
-                        <th className="text-left p-2">Start Time</th>
+                        <th className="p-2 text-left">Class ID</th>
+                        <th className="p-2 text-left">Subject ID</th>
+                        <th className="p-2 text-left">Teacher ID</th>
+                        <th className="p-2 text-left">Day</th>
+                        <th className="p-2 text-left">Start Time</th>
                       </tr>
                     </thead>
                     <tbody>
                       {previewData.map((row, idx) => (
                         <tr key={idx} className="border-b">
-                          <td className="p-2 font-mono text-xs">{row.classId}</td>
-                          <td className="p-2 font-mono text-xs">{row.subjectId}</td>
-                          <td className="p-2 font-mono text-xs">{row.teacherId}</td>
+                          <td className="p-2 font-mono text-xs">
+                            {row.classId}
+                          </td>
+                          <td className="p-2 font-mono text-xs">
+                            {row.subjectId}
+                          </td>
+                          <td className="p-2 font-mono text-xs">
+                            {row.teacherId}
+                          </td>
                           <td className="p-2">{row.dayOfWeek}</td>
                           <td className="p-2">{row.startTime}</td>
                         </tr>
@@ -321,13 +422,18 @@ function UploadSchedules() {
 
             <div className="flex gap-2">
               <Button onClick={downloadTemplate} variant="outline">
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="mr-2 h-4 w-4" />
                 Download Template
               </Button>
 
-              <Button onClick={handleUpload} disabled={files.length === 0 || isUploading}>
-                <Upload className="h-4 w-4 mr-2" />
-                {isUploading ? "Uploading..." : `Upload ${files.length > 0 ? `(${files.length} file)` : ""}`}
+              <Button
+                onClick={handleUpload}
+                disabled={files.length === 0 || isUploading}
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                {isUploading
+                  ? "Uploading..."
+                  : `Upload ${files.length > 0 ? `(${files.length} file)` : ""}`}
               </Button>
             </div>
           </div>
@@ -336,9 +442,11 @@ function UploadSchedules() {
 
       <div className="grid gap-6">
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Guru</div>
+          <div className="mb-2 text-xl font-bold">Data Guru</div>
           <Table>
-            <TableCaption>Semua Data Guru - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Guru - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -354,7 +462,11 @@ function UploadSchedules() {
                   <TableCell>{data.position}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton onClick={() => toast.success("ID berhasil dicopy")} variant="secondary" content={data.id} />
+                    <CopyButton
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      variant="secondary"
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -363,9 +475,11 @@ function UploadSchedules() {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Mata Pelajaran</div>
+          <div className="mb-2 text-xl font-bold">Data Mata Pelajaran</div>
           <Table>
-            <TableCaption>Semua Data Mata Pelajaran - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Mata Pelajaran - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Code</TableHead>
@@ -381,7 +495,11 @@ function UploadSchedules() {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -390,9 +508,11 @@ function UploadSchedules() {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Tahun Akademik</div>
+          <div className="mb-2 text-xl font-bold">Data Tahun Akademik</div>
           <Table>
-            <TableCaption>Semua Data Tahun Akademik - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Tahun Akademik - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Year</TableHead>
@@ -406,7 +526,11 @@ function UploadSchedules() {
                   <TableCell>{data.year}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -415,9 +539,11 @@ function UploadSchedules() {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Kelas</div>
+          <div className="mb-2 text-xl font-bold">Data Kelas</div>
           <Table>
-            <TableCaption>Semua Data Kelas - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Kelas - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -431,7 +557,11 @@ function UploadSchedules() {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -447,7 +577,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

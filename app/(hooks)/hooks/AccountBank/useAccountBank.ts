@@ -1,5 +1,5 @@
 "use client";
-import { AccountBankInput, AccountBankTypes } from "@/app/(types)";
+import { type AccountBankInput, type AccountBankTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -62,7 +62,9 @@ export const useGetAccountBankByIdMajor = (majorId: string) => {
   return useQuery({
     queryKey: ["accountbank-by-id-major", majorId],
     queryFn: async () => {
-      const res = await apiGet<AccountBankTypes[]>(`/api/accountbank/major/${majorId}`);
+      const res = await apiGet<AccountBankTypes[]>(
+        `/api/accountbank/major/${majorId}`,
+      );
       return res.data;
     },
   });

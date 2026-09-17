@@ -4,8 +4,8 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { Prisma } from "@/prisma/generated/client";
-import { NextRequest, NextResponse } from "next/server";
+import { type Prisma } from "@/prisma/generated/client";
+import { type NextRequest, NextResponse } from "next/server";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -82,7 +82,10 @@ type DashboardResult = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function parseAndValidateDate(fromdate: string | null, todate: string | null): { startDate: Date; endDate: Date } | { error: string } {
+function parseAndValidateDate(
+  fromdate: string | null,
+  todate: string | null,
+): { startDate: Date; endDate: Date } | { error: string } {
   if (!fromdate || !todate) {
     return { error: "Parameter fromdate dan todate wajib diisi" };
   }
@@ -104,7 +107,19 @@ function parseAndValidateDate(fromdate: string | null, todate: string | null): {
   return { startDate, endDate };
 }
 
-function buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId, foundationId }: { startDate: Date; endDate: Date; majorId?: string; accountBankId?: string; foundationId: string }): Prisma.PaymentWhereInput {
+function buildPaymentWhereClause({
+  startDate,
+  endDate,
+  majorId,
+  accountBankId,
+  foundationId,
+}: {
+  startDate: Date;
+  endDate: Date;
+  majorId?: string;
+  accountBankId?: string;
+  foundationId: string;
+}): Prisma.PaymentWhereInput {
   return {
     createdAt: { gte: startDate, lte: endDate },
     major: { foundationId },
@@ -113,7 +128,10 @@ function buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId, f
   };
 }
 
-function groupBy<T, K extends string>(arr: T[], keyFn: (item: T) => K): Map<K, T[]> {
+function groupBy<T, K extends string>(
+  arr: T[],
+  keyFn: (item: T) => K,
+): Map<K, T[]> {
   return arr.reduce((map, item) => {
     const key = keyFn(item);
     const existing = map.get(key) ?? [];
@@ -123,7 +141,20 @@ function groupBy<T, K extends string>(arr: T[], keyFn: (item: T) => K): Map<K, T
   }, new Map<K, T[]>());
 }
 
-const MONTH_NAMES = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+const MONTH_NAMES = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
 
 function monthLabel(year: string, month: string): string {
   const m = parseInt(month);
@@ -153,106 +184,135 @@ export async function GET(request: NextRequest) {
 
   try {
     // ── 2. Parallel queries ───────────────────────────────────────────────
-    const [allAccountBanks, payments, unpaidPaymentItems, allPaymentItems] = await Promise.all([
-      // Semua account bank (tidak di-filter tanggal — ini adalah master data)
-      prisma.accountBank.findMany({
-        where: {
-          majors: { foundationId: t.foundationId },
-        },
-        include: {
-          majors: { select: { id: true, name: true } },
-          _count: {
-            select: { payments: true },
+    const [allAccountBanks, payments, unpaidPaymentItems, allPaymentItems] =
+      await Promise.all([
+        // Semua account bank (tidak di-filter tanggal — ini adalah master data)
+        prisma.accountBank.findMany({
+          where: {
+            majors: { foundationId: t.foundationId },
           },
-        },
-        orderBy: { accountName: "asc" },
-      }),
-
-      // Payment dalam rentang tanggal, di-group nanti di JS
-      prisma.payment.findMany({
-        where: buildPaymentWhereClause({ startDate, endDate, majorId, accountBankId, foundationId: t.foundationId }),
-        select: {
-          id: true,
-          amount: true,
-          status: true,
-          createdAt: true,
-          accountBankId: true,
-          accountBank: {
-            select: {
-              id: true,
-              accountName: true,
-              accountBank: true,
-              accountNumber: true,
-              majorId: true,
-              majors: { select: { id: true, name: true } },
+          include: {
+            majors: { select: { id: true, name: true } },
+            _count: {
+              select: { payments: true },
             },
           },
-          paymentItems: {
-            select: {
-              id: true,
-              isPaid: true,
-              subtotal: true,
-              amount: true,
-              month: true,
-              year: true,
-            },
-          },
-        },
-        orderBy: { createdAt: "asc" },
-      }),
+          orderBy: { accountName: "asc" },
+        }),
 
-      // Unpaid payment items dalam rentang tanggal
-      prisma.paymentItems.findMany({
-        where: {
-          createdAt: { gte: startDate, lte: endDate },
-          isPaid: false,
-          student: { ...(majorId && { majorId }), foundationId: t.foundationId },
-          ...(accountBankId && {
-            payment: { accountBankId, accountBank: { majors: { foundationId: t.foundationId } } },
+        // Payment dalam rentang tanggal, di-group nanti di JS
+        prisma.payment.findMany({
+          where: buildPaymentWhereClause({
+            startDate,
+            endDate,
+            majorId,
+            accountBankId,
+            foundationId: t.foundationId,
           }),
-        },
-        select: {
-          id: true,
-          subtotal: true,
-          month: true,
-          year: true,
-          payment: {
-            select: {
-              accountBankId: true,
-              accountBank: {
-                select: { id: true, accountName: true, accountBank: true },
+          select: {
+            id: true,
+            amount: true,
+            status: true,
+            createdAt: true,
+            accountBankId: true,
+            accountBank: {
+              select: {
+                id: true,
+                accountName: true,
+                accountBank: true,
+                accountNumber: true,
+                majorId: true,
+                majors: { select: { id: true, name: true } },
+              },
+            },
+            paymentItems: {
+              select: {
+                id: true,
+                isPaid: true,
+                subtotal: true,
+                amount: true,
+                month: true,
+                year: true,
               },
             },
           },
-        },
-      }),
+          orderBy: { createdAt: "asc" },
+        }),
 
-      // Semua payment items (paid + unpaid) untuk collection rate
-      prisma.paymentItems.findMany({
-        where: {
-          createdAt: { gte: startDate, lte: endDate },
-          student: { ...(majorId && { majorId }), foundationId: t.foundationId },
-          ...(accountBankId && { payment: { accountBankId, accountBank: { majors: { foundationId: t.foundationId } } } }),
-        },
-        select: {
-          id: true,
-          isPaid: true,
-          subtotal: true,
-          payment: {
-            select: { accountBankId: true },
+        // Unpaid payment items dalam rentang tanggal
+        prisma.paymentItems.findMany({
+          where: {
+            createdAt: { gte: startDate, lte: endDate },
+            isPaid: false,
+            student: {
+              ...(majorId && { majorId }),
+              foundationId: t.foundationId,
+            },
+            ...(accountBankId && {
+              payment: {
+                accountBankId,
+                accountBank: { majors: { foundationId: t.foundationId } },
+              },
+            }),
           },
-        },
-      }),
-    ]);
+          select: {
+            id: true,
+            subtotal: true,
+            month: true,
+            year: true,
+            payment: {
+              select: {
+                accountBankId: true,
+                accountBank: {
+                  select: { id: true, accountName: true, accountBank: true },
+                },
+              },
+            },
+          },
+        }),
+
+        // Semua payment items (paid + unpaid) untuk collection rate
+        prisma.paymentItems.findMany({
+          where: {
+            createdAt: { gte: startDate, lte: endDate },
+            student: {
+              ...(majorId && { majorId }),
+              foundationId: t.foundationId,
+            },
+            ...(accountBankId && {
+              payment: {
+                accountBankId,
+                accountBank: { majors: { foundationId: t.foundationId } },
+              },
+            }),
+          },
+          select: {
+            id: true,
+            isPaid: true,
+            subtotal: true,
+            payment: {
+              select: { accountBankId: true },
+            },
+          },
+        }),
+      ]);
 
     // ── 3. Aggregate payment data ────────────────────────────────────────
-    const totalRevenue = payments.reduce((s, p) => s + Number(p.amount ?? 0), 0);
+    const totalRevenue = payments.reduce(
+      (s, p) => s + Number(p.amount ?? 0),
+      0,
+    );
     const totalTransaction = payments.length;
     const allItemsCount = allPaymentItems.length;
     const unpaidItemsCount = unpaidPaymentItems.length;
 
-    const totalPaidAmount = allPaymentItems.filter((i) => i.isPaid).reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
-    const totalUnpaidAmount = unpaidPaymentItems.reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
+    const totalPaidAmount = allPaymentItems
+      .filter((i) => i.isPaid)
+      .reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
+    const totalUnpaidAmount = unpaidPaymentItems.reduce(
+      (s, i) => s + Number(i.subtotal ?? 0),
+      0,
+    );
     const totalAllAmount = totalPaidAmount + totalUnpaidAmount;
 
     // ── 4. Summary ──────────────────────────────────────────────────────
@@ -265,13 +325,22 @@ export async function GET(request: NextRequest) {
       totalPaymentItems: allItemsCount,
       totalUnpaidItems: unpaidItemsCount,
       totalUnpaidAmount,
-      collectionRate: totalAllAmount > 0 ? Math.round((totalPaidAmount / totalAllAmount) * 1000) / 10 : 0,
+      collectionRate:
+        totalAllAmount > 0
+          ? Math.round((totalPaidAmount / totalAllAmount) * 1000) / 10
+          : 0,
     };
 
     // ── 5. Per account bank detail ───────────────────────────────────────
     const paymentsByAccount = groupBy(payments, (p) => p.accountBankId ?? "");
-    const unpaidByAccount = groupBy(unpaidPaymentItems, (i) => i.payment?.accountBankId ?? "");
-    const allItemsByAccount = groupBy(allPaymentItems, (i) => i.payment?.accountBankId ?? "");
+    const unpaidByAccount = groupBy(
+      unpaidPaymentItems,
+      (i) => i.payment?.accountBankId ?? "",
+    );
+    const allItemsByAccount = groupBy(
+      allPaymentItems,
+      (i) => i.payment?.accountBankId ?? "",
+    );
 
     const accountDetails: AccountBankDetail[] = allAccountBanks
       .filter((acct) => {
@@ -284,9 +353,17 @@ export async function GET(request: NextRequest) {
         const acctUnpaid = unpaidByAccount.get(acct.id) ?? [];
         const acctAllItems = allItemsByAccount.get(acct.id) ?? [];
 
-        const revenue = acctPayments.reduce((s, p) => s + Number(p.amount ?? 0), 0);
-        const unpaidAmt = acctUnpaid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
-        const paidAmt = acctAllItems.filter((i) => i.isPaid).reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
+        const revenue = acctPayments.reduce(
+          (s, p) => s + Number(p.amount ?? 0),
+          0,
+        );
+        const unpaidAmt = acctUnpaid.reduce(
+          (s, i) => s + Number(i.subtotal ?? 0),
+          0,
+        );
+        const paidAmt = acctAllItems
+          .filter((i) => i.isPaid)
+          .reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
         const totalAmt = paidAmt + unpaidAmt;
 
         return {
@@ -301,8 +378,12 @@ export async function GET(request: NextRequest) {
           totalPaymentItems: acctAllItems.length,
           totalUnpaidItems: acctUnpaid.length,
           totalUnpaidAmount: unpaidAmt,
-          collectionRate: totalAmt > 0 ? Math.round((paidAmt / totalAmt) * 1000) / 10 : 0,
-          avgTransactionAmount: acctPayments.length > 0 ? Math.round(revenue / acctPayments.length) : 0,
+          collectionRate:
+            totalAmt > 0 ? Math.round((paidAmt / totalAmt) * 1000) / 10 : 0,
+          avgTransactionAmount:
+            acctPayments.length > 0
+              ? Math.round(revenue / acctPayments.length)
+              : 0,
         };
       })
       .sort((a, b) => b.totalRevenue - a.totalRevenue);
@@ -314,7 +395,10 @@ export async function GET(request: NextRequest) {
       .map(([bankName, accounts]) => {
         const rev = accounts.reduce((s, a) => s + a.totalRevenue, 0);
         const trx = accounts.reduce((s, a) => s + a.totalTransaction, 0);
-        const paid = accounts.reduce((s, a) => s + a.totalRevenue - a.totalUnpaidAmount, 0);
+        const paid = accounts.reduce(
+          (s, a) => s + a.totalRevenue - a.totalUnpaidAmount,
+          0,
+        );
         const unpd = accounts.reduce((s, a) => s + a.totalUnpaidAmount, 0);
         const tot = paid + unpd;
         return {
@@ -335,7 +419,9 @@ export async function GET(request: NextRequest) {
       return `${y}-${m}`;
     });
 
-    const revenueMonthly: RevenueMonthly[] = Array.from(paymentsByMonth.entries())
+    const revenueMonthly: RevenueMonthly[] = Array.from(
+      paymentsByMonth.entries(),
+    )
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([key, items]) => {
         const [year, month] = key.split("-");
@@ -358,7 +444,13 @@ export async function GET(request: NextRequest) {
       const acct = payment.accountBank;
       if (!acct) return;
 
-      const existing = monthlyByAccount.find((r) => r.accountName === acct.accountName && r.accountBank === acct.accountBank && r.year === year && r.month === month);
+      const existing = monthlyByAccount.find(
+        (r) =>
+          r.accountName === acct.accountName &&
+          r.accountBank === acct.accountBank &&
+          r.year === year &&
+          r.month === month,
+      );
 
       if (existing) {
         existing.totalRevenue += Number(payment.amount ?? 0);
@@ -375,7 +467,9 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    monthlyByAccount.sort((a, b) => `${a.year}-${a.month}`.localeCompare(`${b.year}-${b.month}`));
+    monthlyByAccount.sort((a, b) =>
+      `${a.year}-${a.month}`.localeCompare(`${b.year}-${b.month}`),
+    );
 
     // ── 9. Top accounts ──────────────────────────────────────────────────
     const topAccounts = accountDetails
@@ -389,7 +483,10 @@ export async function GET(request: NextRequest) {
         majorName: a.major?.name ?? "-",
         totalRevenue: a.totalRevenue,
         totalTransaction: a.totalTransaction,
-        percentage: totalRevenue > 0 ? Math.round((a.totalRevenue / totalRevenue) * 1000) / 10 : 0,
+        percentage:
+          totalRevenue > 0
+            ? Math.round((a.totalRevenue / totalRevenue) * 1000) / 10
+            : 0,
       }));
 
     // ── 10. Response ─────────────────────────────────────────────────────

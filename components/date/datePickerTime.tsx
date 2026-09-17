@@ -1,13 +1,17 @@
 "use client";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { format } from 'date-fns';
-import { ChevronDownIcon } from 'lucide-react';
-import * as React from 'react';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { ChevronDownIcon } from "lucide-react";
+import * as React from "react";
 
 interface DatePickerTimeProps {
   value?: Date;
@@ -18,10 +22,21 @@ interface DatePickerTimeProps {
   disabled?: boolean;
 }
 
-export function DatePickerTime({ value, onChange, dateLabel = "Date", timeLabel = "Time", placeholder = "Select date", disabled = false }: DatePickerTimeProps) {
+export function DatePickerTime({
+  value,
+  onChange,
+  dateLabel = "Date",
+  timeLabel = "Time",
+  placeholder = "Select date",
+  disabled = false,
+}: DatePickerTimeProps) {
   const [open, setOpen] = React.useState(false);
-  const [internalDate, setInternalDate] = React.useState<Date | undefined>(value);
-  const [time, setTime] = React.useState<string>(value ? format(value, "HH:mm:ss") : "10:30:00");
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(
+    value,
+  );
+  const [time, setTime] = React.useState<string>(
+    value ? format(value, "HH:mm:ss") : "10:30:00",
+  );
 
   // Sync internal date with external value
   React.useEffect(() => {
@@ -70,13 +85,25 @@ export function DatePickerTime({ value, onChange, dateLabel = "Date", timeLabel 
         <FieldLabel htmlFor="date-picker">{dateLabel}</FieldLabel>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" id="date-picker" className="w-40 justify-between font-normal" disabled={disabled}>
+            <Button
+              variant="outline"
+              id="date-picker"
+              className="w-40 justify-between font-normal"
+              disabled={disabled}
+            >
               {internalDate ? format(internalDate, "PPP") : placeholder}
               <ChevronDownIcon data-icon="inline-end" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-            <Calendar mode="single" selected={internalDate} captionLayout="dropdown" defaultMonth={internalDate} onSelect={handleDateSelect} disabled={disabled} />
+            <Calendar
+              mode="single"
+              selected={internalDate}
+              captionLayout="dropdown"
+              defaultMonth={internalDate}
+              onSelect={handleDateSelect}
+              disabled={disabled}
+            />
           </PopoverContent>
         </Popover>
       </Field>
@@ -89,7 +116,7 @@ export function DatePickerTime({ value, onChange, dateLabel = "Date", timeLabel 
           value={time}
           onChange={handleTimeChange}
           disabled={disabled}
-          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
         />
       </Field>
     </FieldGroup>

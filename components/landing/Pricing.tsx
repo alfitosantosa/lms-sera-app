@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -74,23 +74,23 @@ export function Pricing() {
   ];
 
   return (
-    <section id="harga" className="py-24 bg-background">
+    <section id="harga" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
+          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
             Paket &amp; Investasi
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
             Harga transparan yang tumbuh bersama skala sekolah Anda.
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-            Dihitung per siswa aktif per bulan. Tanpa biaya lisensi server tersembunyi, dan Anda
-            bebas mengupgrade paket kapan saja.
+          <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+            Dihitung per siswa aktif per bulan. Tanpa biaya lisensi server
+            tersembunyi, dan Anda bebas mengupgrade paket kapan saja.
           </p>
 
           {/* Billing Toggle */}
-          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-border bg-secondary p-1.5 text-xs font-medium">
+          <div className="border-border bg-secondary mt-8 inline-flex items-center gap-3 rounded-full border p-1.5 text-xs font-medium">
             <button
               type="button"
               onClick={() => setIsAnnual(false)}
@@ -107,7 +107,7 @@ export function Pricing() {
               onClick={() => setIsAnnual(true)}
               className={`flex items-center gap-1.5 rounded-full px-4 py-2 transition-all ${
                 isAnnual
-                  ? "bg-primary text-white font-bold shadow-xs"
+                  ? "bg-primary font-bold text-white shadow-xs"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -129,13 +129,13 @@ export function Pricing() {
                 key={idx}
                 className={`relative flex flex-col justify-between rounded-2xl p-7 transition-all duration-300 ${
                   p.featured
-                    ? "border-2 border-primary bg-navy text-white shadow-xl lg:-translate-y-2"
-                    : "border border-border bg-background text-foreground hover:border-primary/30 hover:shadow-lg"
+                    ? "border-primary bg-navy border-2 text-white shadow-xl lg:-translate-y-2"
+                    : "border-border bg-background text-foreground hover:border-primary/30 border hover:shadow-lg"
                 }`}
               >
                 {p.featured && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <Badge className="border-none bg-primary px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-sm">
+                    <Badge className="bg-primary border-none px-3.5 py-1 text-xs font-bold tracking-wider text-white uppercase shadow-sm">
                       <Sparkles className="mr-1 h-3 w-3" /> Paling Populer
                     </Badge>
                   </div>
@@ -151,9 +151,9 @@ export function Pricing() {
                     {p.desc}
                   </p>
 
-                  <div className="my-6 border-y border-dashed border-border/40 py-4">
+                  <div className="border-border/40 my-6 border-y border-dashed py-4">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black [font-feature-settings:'tnum'_1]">
+                      <span className="[font-feature-settings:'tnum'_1] text-3xl font-black">
                         {price}
                       </span>
                     </div>
@@ -175,7 +175,13 @@ export function Pricing() {
                             p.featured ? "text-[#00d4ff]" : "text-primary"
                           }`}
                         />
-                        <span className={p.featured ? "text-navy-foreground" : "text-secondary-foreground"}>
+                        <span
+                          className={
+                            p.featured
+                              ? "text-navy-foreground"
+                              : "text-secondary-foreground"
+                          }
+                        >
                           {feat}
                         </span>
                       </li>
@@ -186,8 +192,8 @@ export function Pricing() {
                     onClick={handleSelectPlan}
                     className={`w-full rounded-full py-5 text-sm font-semibold transition-all ${
                       p.featured
-                        ? "bg-primary text-white shadow-md hover:bg-primary-hover"
-                        : "border border-primary bg-background text-primary hover:bg-primary/10"
+                        ? "bg-primary hover:bg-primary-hover text-white shadow-md"
+                        : "border-primary bg-background text-primary hover:bg-primary/10 border"
                     }`}
                   >
                     {p.cta}

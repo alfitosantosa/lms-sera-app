@@ -1,9 +1,9 @@
-import { attendanceTypes } from "./attendance-types";
-import { foundationTypes } from "./foundation-types";
-import { majorTypes } from "./majors-types";
-import { PaymentTypes } from "./payment-types";
-import { RoleDataTypes } from "./roles-types";
-import { ViolationTypes } from "./violation-types";
+import { type attendanceTypes } from "./attendance-types";
+import { type foundationTypes } from "./foundation-types";
+import { type majorTypes } from "./majors-types";
+import { type PaymentTypes } from "./payment-types";
+import { type RoleDataTypes } from "./roles-types";
+import { type ViolationTypes } from "./violation-types";
 
 // User Data Types
 export type UserDataTypes = {

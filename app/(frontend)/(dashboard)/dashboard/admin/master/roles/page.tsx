@@ -7,7 +7,7 @@ import {
   useUpdateRole,
 } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { RoleDataTypes, RolesInputData } from "@/app/(types)";
+import { type RoleDataTypes, type RolesInputData } from "@/app/(types)";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -51,16 +51,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -72,7 +72,6 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
-import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -380,7 +379,7 @@ function RoleFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData ? "Edit Role" : "Tambah Role Baru"}
@@ -396,7 +395,7 @@ function RoleFormDialog({
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+              <p className="text-destructive text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -408,7 +407,7 @@ function RoleFormDialog({
               {...register("description")}
             />
             {errors.description && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.description.message}
               </p>
             )}
@@ -425,7 +424,7 @@ function RoleFormDialog({
 
           <div className="space-y-3">
             <Label>Permissions</Label>
-            <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto border rounded-lg p-3">
+            <div className="grid max-h-60 grid-cols-2 gap-2 overflow-y-auto rounded-lg border p-3">
               {availablePermissions.map((permission) => (
                 <div
                   key={permission.id}
@@ -502,7 +501,7 @@ function DeleteRoleDialog({
             Apakah Anda yakin ingin menghapus role{" "}
             <strong>{roleData?.name}</strong>?
             {roleData?._count?.userData && roleData._count.userData > 0 && (
-              <span className="block mt-2 text-warning">
+              <span className="text-warning mt-2 block">
                 Peringatan: Role ini sedang digunakan oleh{" "}
                 {roleData._count.userData} user.
               </span>
@@ -737,7 +736,7 @@ function RoleDataTable({ foundationId }: { foundationId?: string }) {
   return (
     <>
       <div className="">
-        <div className="font-bold text-3xl">Roles Menu</div>
+        <div className="text-3xl font-bold">Roles Menu</div>
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-2">
             <Input
@@ -787,7 +786,7 @@ function RoleDataTable({ foundationId }: { foundationId?: string }) {
           </div>
         </div>
 
-        <div className="rounded-md border ">
+        <div className="rounded-md border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -839,7 +838,7 @@ function RoleDataTable({ foundationId }: { foundationId?: string }) {
         </div>
 
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex-1 text-sm">
             {table.getFilteredSelectedRowModel().rows.length} dari{" "}
             {table.getFilteredRowModel().rows.length} baris dipilih.
           </div>

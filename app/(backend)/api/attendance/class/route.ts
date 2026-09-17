@@ -1,10 +1,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -14,7 +17,10 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get("endDate");
 
     if (!classId || !startDate || !endDate) {
-      return NextResponse.json({ error: "Missing required parameters: classId, startDate, endDate" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required parameters: classId, startDate, endDate" },
+        { status: 400 },
+      );
     }
 
     // Get students in class

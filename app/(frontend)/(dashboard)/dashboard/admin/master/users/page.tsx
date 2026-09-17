@@ -5,18 +5,62 @@ import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzG
 import { useGetBetterAuth } from "@/app/(hooks)/hooks/Users/useBetterAuth";
 import { useGetUsers } from "@/app/(hooks)/hooks/Users/useUsers";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import unauthorized from "@/app/unauthorized";
-import { BetterAuthUser, DeleteUserBulkDialog, DeleteUserDialog, UserData, UserFormDialog } from "@/components/dialog/DialogUser";
+import {
+  type BetterAuthUser,
+  DeleteUserBulkDialog,
+  DeleteUserDialog,
+  type UserData,
+  UserFormDialog,
+} from "@/components/dialog/DialogUser";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, BookOpen, ChevronDown, GraduationCap, Image as ImageIcon, Mail, MoreHorizontal, Pencil, Plus, Shield, Trash2, User } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  BookOpen,
+  ChevronDown,
+  GraduationCap,
+  Image as ImageIcon,
+  Mail,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Shield,
+  Trash2,
+  User,
+} from "lucide-react";
 import Image from "next/image";
 import * as React from "react";
 
@@ -25,15 +69,24 @@ import * as React from "react";
 // Dashboard Component - Only rendered after role verification
 function UserDashboard({ foundationId }: { foundationId: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Filter selections
   const [roleSelection, setRoleSelection] = React.useState<string | null>(null);
-  const [classSelection, setClassSelection] = React.useState<string | null>(null);
-  const [tahfidzGroupSelection, setTahfidzGroupSelection] = React.useState<string | null>(null);
-  const [majorSelection, setMajorSelection] = React.useState<string | null>(null);
+  const [classSelection, setClassSelection] = React.useState<string | null>(
+    null,
+  );
+  const [tahfidzGroupSelection, setTahfidzGroupSelection] = React.useState<
+    string | null
+  >(null);
+  const [majorSelection, setMajorSelection] = React.useState<string | null>(
+    null,
+  );
 
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
@@ -43,7 +96,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   const [selectedUser, setSelectedUser] = React.useState<UserData | null>(null);
 
   // Fetch data with proper error handling
-  const { data: usersData = [], isLoading, refetch, error } = useGetUsers(foundationId);
+  const {
+    data: usersData = [],
+    isLoading,
+    refetch,
+    error,
+  } = useGetUsers(foundationId);
   const { data: betterAuthUsers = [] } = useGetBetterAuth();
 
   // Helper function to get betterAuth user info
@@ -56,19 +114,26 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
 
   // Get unique values for filters
   const uniqueRoles = React.useMemo(() => {
-    return Array.from(new Set(usersData.map((user) => user.role?.name).filter(Boolean)));
+    return Array.from(
+      new Set(usersData.map((user) => user.role?.name).filter(Boolean)),
+    );
   }, [usersData]);
 
   const uniqueClasses = React.useMemo(() => {
-    return Array.from(new Set(usersData.map((user) => user.class?.name).filter(Boolean)));
+    return Array.from(
+      new Set(usersData.map((user) => user.class?.name).filter(Boolean)),
+    );
   }, [usersData]);
 
   const { data: classesData, isLoading: isLoadingClasses } = useGetClasses();
 
-  const { data: tahfidzGroupsData, isLoading: isLoadingTahfidzGroups } = useGetTahfidzGroup();
+  const { data: tahfidzGroupsData, isLoading: isLoadingTahfidzGroups } =
+    useGetTahfidzGroup();
 
   const uniqueMajors = React.useMemo(() => {
-    return Array.from(new Set(usersData.map((user) => user.major?.name).filter(Boolean)));
+    return Array.from(
+      new Set(usersData.map((user) => user.major?.name).filter(Boolean)),
+    );
   }, [usersData]);
 
   // Define columns with useMemo to prevent recreation
@@ -76,8 +141,25 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     () => [
       {
         id: "select",
-        header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-        cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
         enableSorting: false,
         enableHiding: false,
       },
@@ -85,7 +167,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "avatarUrl",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <ImageIcon className="mr-2 h-4 w-4" />
               Avatar
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -93,15 +180,30 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
           );
         },
         cell: ({ row }) => {
-          const avatarUrl = row.original.avatarUrl || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png";
-          return <Image src={avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover" width={40} height={40} />;
+          const avatarUrl =
+            row.original.avatarUrl ||
+            "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png";
+          return (
+            <Image
+              src={avatarUrl}
+              alt="Avatar"
+              className="h-10 w-10 rounded-full object-cover"
+              width={40}
+              height={40}
+            />
+          );
         },
       },
       {
         accessorKey: "name",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <User className="mr-2 h-4 w-4" />
               Name
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -114,7 +216,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "role",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <Shield className="mr-2 h-4 w-4" />
               Role
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -146,7 +253,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "email",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <Mail className="mr-2 h-4 w-4" />
               Email
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -162,7 +274,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "class",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <BookOpen className="mr-2 h-4 w-4" />
               Kelas
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -191,7 +308,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "tahfidzGroup",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <BookOpen className="mr-2 h-4 w-4" />
               Tahfidz Group
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -220,7 +342,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "major",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               <GraduationCap className="mr-2 h-4 w-4" />
               Branch
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -249,7 +376,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         accessorKey: "status",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               Status
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
@@ -283,14 +415,23 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
             }
           };
 
-          return <Badge variant={getStatusVariant(status)}>{getStatusLabel(status)}</Badge>;
+          return (
+            <Badge variant={getStatusVariant(status)}>
+              {getStatusLabel(status)}
+            </Badge>
+          );
         },
       },
       {
         accessorKey: "userId",
         header: ({ column }) => {
           return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
               BetterAuth
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
@@ -334,8 +475,18 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => navigator.clipboard.writeText(userData.id)}>Copy ID User</DropdownMenuItem>
-                {userData.id && <DropdownMenuItem onClick={() => navigator.clipboard.writeText(userData.id!)}>Copy User ID</DropdownMenuItem>}
+                <DropdownMenuItem
+                  onClick={() => navigator.clipboard.writeText(userData.id)}
+                >
+                  Copy ID User
+                </DropdownMenuItem>
+                {userData.id && (
+                  <DropdownMenuItem
+                    onClick={() => navigator.clipboard.writeText(userData.id!)}
+                  >
+                    Copy User ID
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => {
@@ -362,7 +513,12 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         },
       },
     ],
-    [getBetterAuthUserInfo, setSelectedUser, setEditDialogOpen, setDeleteDialogOpen],
+    [
+      getBetterAuthUserInfo,
+      setSelectedUser,
+      setEditDialogOpen,
+      setDeleteDialogOpen,
+    ],
   );
 
   // Initialize table
@@ -480,8 +636,8 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   // Error state
   if (error) {
     return (
-      <div className="w-full min-h-screen items-center justify-center h-32">
-        <div className="text-center text-destructive">
+      <div className="h-32 min-h-screen w-full items-center justify-center">
+        <div className="text-destructive text-center">
           <p>Error loading users: {error.message}</p>
           <Button onClick={() => refetch()} className="mt-2">
             Retry
@@ -493,11 +649,18 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl ">Users Menu</div>
+      <div className="text-3xl font-bold">Users Menu</div>
 
-      <div className="flex items-start justify-between py-4 gap-4 flex-wrap">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Input placeholder="Cari nama user..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />
+      <div className="flex flex-wrap items-start justify-between gap-4 py-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            placeholder="Cari nama user..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -507,10 +670,15 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleRoleFilter(null)}>Semua Role</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleRoleFilter(null)}>
+                Semua Role
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {uniqueRoles.map((roleName) => (
-                <DropdownMenuItem key={String(roleName)} onClick={() => handleRoleFilter(roleName as string)}>
+                <DropdownMenuItem
+                  key={String(roleName)}
+                  onClick={() => handleRoleFilter(roleName as string)}
+                >
                   {roleName as string}
                 </DropdownMenuItem>
               ))}
@@ -525,10 +693,15 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleClassFilter(null)}>Semua Kelas</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleClassFilter(null)}>
+                Semua Kelas
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {classesData?.map((className: any) => (
-                <DropdownMenuItem key={String(className?.name)} onClick={() => handleClassFilter(className?.name as string)}>
+                <DropdownMenuItem
+                  key={String(className?.name)}
+                  onClick={() => handleClassFilter(className?.name as string)}
+                >
                   {className?.name as string}
                 </DropdownMenuItem>
               ))}
@@ -543,10 +716,17 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleTahfidzGroupFilter(null)}>Semua Tahfidz Group</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleTahfidzGroupFilter(null)}>
+                Semua Tahfidz Group
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {tahfidzGroupsData?.map((tahfidzGroupName: any) => (
-                <DropdownMenuItem key={String(tahfidzGroupName?.name)} onClick={() => handleTahfidzGroupFilter(tahfidzGroupName?.name as string)}>
+                <DropdownMenuItem
+                  key={String(tahfidzGroupName?.name)}
+                  onClick={() =>
+                    handleTahfidzGroupFilter(tahfidzGroupName?.name as string)
+                  }
+                >
                   {tahfidzGroupName?.name as string}
                 </DropdownMenuItem>
               ))}
@@ -561,10 +741,15 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleMajorFilter(null)}>Semua Branch</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleMajorFilter(null)}>
+                Semua Branch
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {uniqueMajors.map((majorName) => (
-                <DropdownMenuItem key={String(majorName)} onClick={() => handleMajorFilter(majorName as string)}>
+                <DropdownMenuItem
+                  key={String(majorName)}
+                  onClick={() => handleMajorFilter(majorName as string)}
+                >
                   {majorName as string}
                 </DropdownMenuItem>
               ))}
@@ -601,7 +786,14 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
                   };
 
                   return (
-                    <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
                       {getColumnLabel(column.id)}
                     </DropdownMenuCheckboxItem>
                   );
@@ -610,7 +802,11 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
           </DropdownMenu>
 
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
-            <Button variant="destructive" onClick={handleBulkDeleteClick} className="flex items-center gap-2">
+            <Button
+              variant="destructive"
+              onClick={handleBulkDeleteClick}
+              className="flex items-center gap-2"
+            >
               <Trash2 className="h-4 w-4" />
               Hapus {table.getFilteredSelectedRowModel().rows.length} User
             </Button>
@@ -629,48 +825,105 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ?
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
-            : <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Tidak ada data user.
                 </TableCell>
               </TableRow>
-            }
+            )}
           </TableBody>
         </Table>
       </div>
 
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+          {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>
         <div className="space-x-2">
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
             Sebelumnya
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Selanjutnya
           </Button>
         </div>
       </div>
 
-      <UserFormDialog open={createDialogOpen} onOpenChange={handleCloseCreateDialog} onSuccess={handleSuccess} foundationId={foundationId} />
-      <UserFormDialog open={editDialogOpen} onOpenChange={handleCloseEditDialog} editData={selectedUser} onSuccess={handleSuccess} foundationId={foundationId } />
-      <DeleteUserDialog open={deleteDialogOpen} onOpenChange={handleCloseDeleteDialog} userData={selectedUser} onSuccess={handleSuccess} />
-      <DeleteUserBulkDialog open={deleteBulkDialogOpen} onOpenChange={handleCloseBulkDeleteDialog} userDatas={table.getSelectedRowModel().rows.map((row) => row.original) as UserData[]} onSuccess={handleSuccess} />
+      <UserFormDialog
+        open={createDialogOpen}
+        onOpenChange={handleCloseCreateDialog}
+        onSuccess={handleSuccess}
+        foundationId={foundationId}
+      />
+      <UserFormDialog
+        open={editDialogOpen}
+        onOpenChange={handleCloseEditDialog}
+        editData={selectedUser}
+        onSuccess={handleSuccess}
+        foundationId={foundationId}
+      />
+      <DeleteUserDialog
+        open={deleteDialogOpen}
+        onOpenChange={handleCloseDeleteDialog}
+        userData={selectedUser}
+        onSuccess={handleSuccess}
+      />
+      <DeleteUserBulkDialog
+        open={deleteBulkDialogOpen}
+        onOpenChange={handleCloseBulkDeleteDialog}
+        userDatas={
+          table
+            .getSelectedRowModel()
+            .rows.map((row) => row.original) as UserData[]
+        }
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }
@@ -680,7 +933,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
   const foundationId = userData?.foundationId;
 

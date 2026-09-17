@@ -54,10 +54,10 @@ export function SocialProof() {
   ];
 
   return (
-    <section className="relative border-y border-border bg-secondary py-14">
+    <section className="border-border bg-secondary relative border-y py-14">
       <div className="mx-auto max-w-6xl px-6">
         {/* Header */}
-        <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <p className="text-muted-foreground text-center text-xs font-semibold tracking-wider uppercase">
           Dipercaya oleh Yayasan Pendidikan & Sekolah Terkemuka
         </p>
 
@@ -66,11 +66,11 @@ export function SocialProof() {
           {schools.map((s, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-secondary-foreground shadow-xs transition-all hover:border-primary/30 hover:shadow-sm"
+              className="border-border bg-background text-secondary-foreground hover:border-primary/30 flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium shadow-xs transition-all hover:shadow-sm"
             >
-              <Building2 className="h-3.5 w-3.5 text-primary" />
-              <span className="font-semibold text-foreground">{s.name}</span>
-              <span className="text-[11px] text-muted-foreground">
+              <Building2 className="text-primary h-3.5 w-3.5" />
+              <span className="text-foreground font-semibold">{s.name}</span>
+              <span className="text-muted-foreground text-[11px]">
                 • {s.type}
               </span>
             </div>
@@ -82,15 +82,15 @@ export function SocialProof() {
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-border bg-background p-5 text-center shadow-xs transition-transform hover:-translate-y-0.5"
+              className="border-border bg-background rounded-xl border p-5 text-center shadow-xs transition-transform hover:-translate-y-0.5"
             >
-              <div className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl [font-feature-settings:'tnum'_1]">
+              <div className="text-foreground [font-feature-settings:'tnum'_1] text-3xl font-extrabold tracking-tight sm:text-4xl">
                 {stat.value}
               </div>
-              <div className="mt-1.5 text-sm font-semibold text-secondary-foreground">
+              <div className="text-secondary-foreground mt-1.5 text-sm font-semibold">
                 {stat.label}
               </div>
-              <p className="mt-0.5 text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 {stat.desc}
               </p>
             </div>

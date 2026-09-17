@@ -19,7 +19,6 @@ import {
   LogOut,
   MessageSquare,
   Settings,
-  Shield,
   Upload,
   User as UserIcon,
   Users,
@@ -28,7 +27,6 @@ import {
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { menuGroups } from "@/app/repository/menuGroupsSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import {
   Collapsible,
   CollapsibleContent,
@@ -183,38 +181,38 @@ export function AppSidebar() {
   const clientName = "Sera App";
 
   return (
-    <Sidebar className="border-r border-border bg-sidebar text-foreground">
+    <Sidebar className="border-border bg-sidebar text-foreground border-r">
       {/* ── Brand & Institution Header ── */}
-      <SidebarHeader className="border-b border-border px-5 py-4 bg-sidebar">
+      <SidebarHeader className="border-border bg-sidebar border-b px-5 py-4">
         <Link href="/" className="group flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
+              <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" />
+              <span className="bg-primary relative inline-flex h-2.5 w-2.5 rounded-full" />
             </span>
-            <span className="text-[17px] font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            <span className="text-foreground group-hover:text-primary text-[17px] font-extrabold tracking-tight transition-colors">
               Sera
             </span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
+            <span className="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-[10px] font-bold">
               LMS
             </span>
           </div>
         </Link>
-        <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground truncate">
-          <Building2 className="h-3 w-3 shrink-0 text-primary" />
+        <div className="text-muted-foreground mt-1 flex items-center gap-1.5 truncate text-[11px] font-medium">
+          <Building2 className="text-primary h-3 w-3 shrink-0" />
           <span className="truncate">{clientName}</span>
         </div>
       </SidebarHeader>
 
       {/* ── Menu Navigation Content ── */}
-      <SidebarContent className="px-3 py-3 overflow-y-auto scrollbar-thin">
+      <SidebarContent className="scrollbar-thin overflow-y-auto px-3 py-3">
         {currentMenuGroups.map((group, groupIndex) => {
           const filteredItems = filterMenuByPermissions(group.items);
           if (filteredItems.length === 0) return null;
 
           return (
             <SidebarGroup key={groupIndex} className="mb-2">
-              <SidebarGroupLabel className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+              <SidebarGroupLabel className="text-muted-foreground mb-1 px-3 text-[10px] font-bold tracking-wider uppercase">
                 {group.title}
               </SidebarGroupLabel>
 
@@ -252,12 +250,12 @@ export function AppSidebar() {
                                   )}
                                   <span>{item.title}</span>
                                 </div>
-                                <ChevronRight className="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />
+                                <ChevronRight className="text-muted-foreground h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
                               </SidebarMenuButton>
                             </CollapsibleTrigger>
 
                             <CollapsibleContent>
-                              <SidebarMenuSub className="ml-4 mt-0.5 space-y-0.5 border-l border-border pl-2">
+                              <SidebarMenuSub className="border-border mt-0.5 ml-4 space-y-0.5 border-l pl-2">
                                 {item.items?.map((subItem) => {
                                   const isSubActive = pathname === subItem.url;
                                   return (
@@ -266,7 +264,7 @@ export function AppSidebar() {
                                         asChild
                                         isActive={isSubActive}
                                         onClick={() => router.push(subItem.url)}
-                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${isSubActive ? "bg-primary text-white font-semibold shadow-xs" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${isSubActive ? "bg-primary font-semibold text-white shadow-xs" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                                       >
                                         <span>{subItem.title}</span>
                                       </SidebarMenuSubButton>
@@ -288,7 +286,7 @@ export function AppSidebar() {
                           onClick={() => router.push(item.url)}
                           className={`group/item w-full rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                             isActive
-                              ? "bg-primary/8 text-primary font-bold shadow-sm shadow-primary/10"
+                              ? "bg-primary/8 text-primary shadow-primary/10 font-bold shadow-sm"
                               : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                           }`}
                         >
@@ -312,11 +310,11 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* ── User Profile Footer ── */}
-      <SidebarFooter className="border-t border-border p-3 bg-sidebar">
+      <SidebarFooter className="border-border bg-sidebar border-t p-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="group flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all hover:border-border hover:bg-secondary">
-              <Avatar className="h-8 w-8 rounded-full border border-border bg-brand-tint text-primary">
+            <button className="group hover:border-border hover:bg-secondary flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all">
+              <Avatar className="border-border bg-brand-tint text-primary h-8 w-8 rounded-full border">
                 {userData?.avatarUrl && (
                   <Image
                     width={32}
@@ -326,32 +324,32 @@ export function AppSidebar() {
                     className="rounded-full object-cover"
                   />
                 )}
-                <AvatarFallback className="bg-brand-tint text-[11px] font-bold text-primary">
+                <AvatarFallback className="bg-brand-tint text-primary text-[11px] font-bold">
                   {getUserInitials(userData?.name)}
                 </AvatarFallback>
               </Avatar>
 
-              <div className="flex flex-1 flex-col min-w-0">
-                <span className="truncate text-xs font-bold text-foreground">
+              <div className="flex min-w-0 flex-1 flex-col">
+                <span className="text-foreground truncate text-xs font-bold">
                   {userData?.name || "Pengguna"}
                 </span>
-                <span className="truncate text-[10px] text-muted-foreground capitalize">
+                <span className="text-muted-foreground truncate text-[10px] capitalize">
                   {userData?.role?.name || "Siswa"}
                 </span>
               </div>
 
-              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground opacity-60 transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="text-muted-foreground h-3.5 w-3.5 opacity-60 transition-transform group-hover:translate-x-0.5" />
             </button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
             align="end"
             side="right"
-            className="w-56 rounded-xl border-border p-1.5 shadow-lg"
+            className="border-border w-56 rounded-xl p-1.5 shadow-lg"
           >
-            <DropdownMenuLabel className="px-2 py-1.5 text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-muted-foreground px-2 py-1.5 text-xs">
               <div>Akun Terhubung</div>
-              <div className="font-bold text-foreground truncate">
+              <div className="text-foreground truncate font-bold">
                 {session?.user?.email || "user@sekolah.com"}
               </div>
             </DropdownMenuLabel>
@@ -359,9 +357,9 @@ export function AppSidebar() {
 
             <DropdownMenuItem
               onClick={() => router.push("/dashboard/profile")}
-              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-secondary-foreground hover:bg-secondary hover:text-primary"
+              className="text-secondary-foreground hover:bg-secondary hover:text-primary cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium"
             >
-              <UserIcon className="mr-2 h-4 w-4 text-primary" />
+              <UserIcon className="text-primary mr-2 h-4 w-4" />
               <span>Profil Pengguna</span>
             </DropdownMenuItem>
 
@@ -369,9 +367,9 @@ export function AppSidebar() {
 
             <DropdownMenuItem
               onClick={handleSignOut}
-              className="cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium text-destructive hover:bg-destructive-chip"
+              className="text-destructive hover:bg-destructive-chip cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium"
             >
-              <LogOut className="mr-2 h-4 w-4 text-destructive" />
+              <LogOut className="text-destructive mr-2 h-4 w-4" />
               <span>Keluar dari Akun</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

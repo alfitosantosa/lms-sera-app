@@ -1,5 +1,5 @@
 "use client";
-import { UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

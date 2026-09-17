@@ -18,7 +18,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const t = await resolveFoundation(request);
@@ -28,8 +28,12 @@ export async function POST(request: NextRequest) {
 
   try {
     // Pastikan seluruh siswa dan jadwal milik yayasan pemanggil
-    const studentIds = attendances.map((a: { studentId: string }) => a.studentId);
-    const scheduleIds = attendances.map((a: { scheduleId: string }) => a.scheduleId);
+    const studentIds = attendances.map(
+      (a: { studentId: string }) => a.studentId,
+    );
+    const scheduleIds = attendances.map(
+      (a: { scheduleId: string }) => a.scheduleId,
+    );
 
     const [students, schedules] = await Promise.all([
       prisma.userData.findMany({
@@ -37,11 +41,17 @@ export async function POST(request: NextRequest) {
         select: { id: true },
       }),
       prisma.schedule.findMany({
-        where: { id: { in: scheduleIds }, academicYear: { foundationId: t.foundationId } },
+        where: {
+          id: { in: scheduleIds },
+          academicYear: { foundationId: t.foundationId },
+        },
         select: { id: true },
       }),
     ]);
-    if (students.length !== new Set(studentIds).size || schedules.length !== new Set(scheduleIds).size) {
+    if (
+      students.length !== new Set(studentIds).size ||
+      schedules.length !== new Set(scheduleIds).size
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -72,7 +82,8 @@ export async function PUT(request: NextRequest) {
       },
       select: { id: true },
     });
-    if (owned.length !== new Set(ids).size) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (owned.length !== new Set(ids).size)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     // Verifikasi parent baru bila ikut diubah
     const studentIds = attendances
@@ -88,21 +99,28 @@ export async function PUT(request: NextRequest) {
         select: { id: true },
       }),
       prisma.schedule.findMany({
-        where: { id: { in: scheduleIds }, academicYear: { foundationId: t.foundationId } },
+        where: {
+          id: { in: scheduleIds },
+          academicYear: { foundationId: t.foundationId },
+        },
         select: { id: true },
       }),
     ]);
-    if (students.length !== new Set(studentIds).size || schedules.length !== new Set(scheduleIds).size) {
+    if (
+      students.length !== new Set(studentIds).size ||
+      schedules.length !== new Set(scheduleIds).size
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
-    const updatePromises = attendances.map((attendance: { id: string; [key: string]: unknown }) =>
-      prisma.attendance.update({
-        where: {
-          id: attendance.id,
-        },
-        data: attendance,
-      }),
+    const updatePromises = attendances.map(
+      (attendance: { id: string; [key: string]: unknown }) =>
+        prisma.attendance.update({
+          where: {
+            id: attendance.id,
+          },
+          data: attendance,
+        }),
     );
     const updatedAttendances = await Promise.all(updatePromises);
     return NextResponse.json(updatedAttendances);

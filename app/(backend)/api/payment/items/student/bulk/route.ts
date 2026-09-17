@@ -26,17 +26,46 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const t = await resolveFoundation(request);
   if (!t.ok) return t.response;
 
   try {
-    const { name, skuType, paymentTypeId, month, year, isPaid, isMonthly, isActive, isFixedAmount, isFixedQuantity, quantity, amount, subtotal, classId } = await request.json();
+    const {
+      name,
+      skuType,
+      paymentTypeId,
+      month,
+      year,
+      isPaid,
+      isMonthly,
+      isActive,
+      isFixedAmount,
+      isFixedQuantity,
+      quantity,
+      amount,
+      subtotal,
+      classId,
+    } = await request.json();
 
-    if (!name || !paymentTypeId || !month || !year || !quantity || !amount || !subtotal) {
-      return NextResponse.json({ error: "name, paymentTypeId, month, year, quantity, amount, and subtotal are required" }, { status: 400 });
+    if (
+      !name ||
+      !paymentTypeId ||
+      !month ||
+      !year ||
+      !quantity ||
+      !amount ||
+      !subtotal
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "name, paymentTypeId, month, year, quantity, amount, and subtotal are required",
+        },
+        { status: 400 },
+      );
     }
 
     // Pastikan jenis pembayaran milik yayasan ini
@@ -80,10 +109,18 @@ export async function POST(request: NextRequest) {
         month,
         year,
         isPaid: typeof isPaid === "boolean" ? isPaid : isPaid === "true",
-        isMonthly: typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
-        isActive: typeof isActive === "boolean" ? isActive : isActive === "true",
-        isFixedAmount: typeof isFixedAmount === "boolean" ? isFixedAmount : isFixedAmount === "true",
-        isFixedQuantity: typeof isFixedQuantity === "boolean" ? isFixedQuantity : isFixedQuantity === "true",
+        isMonthly:
+          typeof isMonthly === "boolean" ? isMonthly : isMonthly === "true",
+        isActive:
+          typeof isActive === "boolean" ? isActive : isActive === "true",
+        isFixedAmount:
+          typeof isFixedAmount === "boolean"
+            ? isFixedAmount
+            : isFixedAmount === "true",
+        isFixedQuantity:
+          typeof isFixedQuantity === "boolean"
+            ? isFixedQuantity
+            : isFixedQuantity === "true",
         quantity: parseInt(quantity),
         amount: parseInt(amount),
         subtotal: parseInt(subtotal),

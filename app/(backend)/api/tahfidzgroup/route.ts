@@ -15,15 +15,21 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
     // TahfidzGroup hanya menyimpan majorId (tanpa relasi), jadi scope lewat daftar major yayasan
-    const majors = await prisma.major.findMany({ where: { foundationId: t.foundationId }, select: { id: true } });
+    const majors = await prisma.major.findMany({
+      where: { foundationId: t.foundationId },
+      select: { id: true },
+    });
     const majorIds = majors.map((major) => major.id);
 
     // ✅ Optimized: Explicit select for clarity and future-proofing
@@ -54,10 +60,16 @@ export async function POST(request: NextRequest) {
   try {
     const { name, grade, capacity, majorId } = await request.json();
     if (!name || !grade) {
-      return NextResponse.json({ error: "Name, grade, and capacity are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name, grade, and capacity are required" },
+        { status: 400 },
+      );
     }
     if (!majorId) {
-      return NextResponse.json({ error: "Major (majorId) wajib diisi" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Major (majorId) wajib diisi" },
+        { status: 400 },
+      );
     }
 
     // Pastikan major milik yayasan ini
@@ -92,14 +104,23 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, name, grade, capacity, majorId } = await request.json();
     if (!id || !name || !grade) {
-      return NextResponse.json({ error: "ID, name, grade, and capacity are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, name, grade, and capacity are required" },
+        { status: 400 },
+      );
     }
 
     // Kepemilikan grup & major tujuan sama-sama harus milik yayasan ini
-    const owned = await prisma.tahfidzGroup.findFirst({ where: { id }, select: { id: true, majorId: true } });
+    const owned = await prisma.tahfidzGroup.findFirst({
+      where: { id },
+      select: { id: true, majorId: true },
+    });
     const targetMajorId = majorId ?? owned?.majorId;
     const ownedMajor = targetMajorId
-      ? await prisma.major.findFirst({ where: { id: targetMajorId, foundationId: t.foundationId }, select: { id: true } })
+      ? await prisma.major.findFirst({
+          where: { id: targetMajorId, foundationId: t.foundationId },
+          select: { id: true },
+        })
       : null;
 
     if (!owned || !ownedMajor) {
@@ -132,9 +153,15 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    const owned = await prisma.tahfidzGroup.findFirst({ where: { id }, select: { id: true, majorId: true } });
+    const owned = await prisma.tahfidzGroup.findFirst({
+      where: { id },
+      select: { id: true, majorId: true },
+    });
     const ownedMajor = owned
-      ? await prisma.major.findFirst({ where: { id: owned.majorId, foundationId: t.foundationId }, select: { id: true } })
+      ? await prisma.major.findFirst({
+          where: { id: owned.majorId, foundationId: t.foundationId },
+          select: { id: true },
+        })
       : null;
 
     if (!owned || !ownedMajor) {

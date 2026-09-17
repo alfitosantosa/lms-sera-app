@@ -33,10 +33,16 @@ export type ClassDataTypes = z.infer<typeof ClassSchema>;
 
 export const classSchemaForm = z.object({
   name: z.string().min(1, "Nama kelas wajib diisi"),
-  grade: z.number().min(1, "Tingkat kelas minimal 1").max(12, "Tingkat kelas maksimal 12"),
+  grade: z
+    .number()
+    .min(1, "Tingkat kelas minimal 1")
+    .max(12, "Tingkat kelas maksimal 12"),
   majorId: z.string().min(1, "Jurusan wajib dipilih"),
   academicYearId: z.string().min(1, "Tahun ajaran wajib dipilih"),
-  capacity: z.number().min(1, "Kapasitas minimal 1").max(50, "Kapasitas maksimal 50"),
+  capacity: z
+    .number()
+    .min(1, "Kapasitas minimal 1")
+    .max(50, "Kapasitas maksimal 50"),
 });
 
 export type ClassFormValues = z.infer<typeof classSchemaForm>;

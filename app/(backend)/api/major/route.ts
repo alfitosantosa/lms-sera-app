@@ -17,7 +17,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -56,9 +56,21 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { code, name, description, isActive, phone, address, adminName, signatureUrl } = await request.json();
+    const {
+      code,
+      name,
+      description,
+      isActive,
+      phone,
+      address,
+      adminName,
+      signatureUrl,
+    } = await request.json();
     if (!code || !name) {
-      return NextResponse.json({ error: "Code and name are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Code and name are required" },
+        { status: 400 },
+      );
     }
 
     const newMajor = await prisma.major.create({
@@ -79,7 +91,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newMajor, { status: 201 });
   } catch (error) {
     console.error("Error creating major:", error);
-    return NextResponse.json({ error: "Failed to create major" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create major" },
+      { status: 500 },
+    );
   }
 }
 
@@ -88,9 +103,22 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, code, name, description, isActive, phone, address, adminName, signatureUrl } = await request.json();
+    const {
+      id,
+      code,
+      name,
+      description,
+      isActive,
+      phone,
+      address,
+      adminName,
+      signatureUrl,
+    } = await request.json();
     if (!id || !code || !name) {
-      return NextResponse.json({ error: "ID, code, and name are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, code, and name are required" },
+        { status: 400 },
+      );
     }
 
     // Pastikan major milik yayasan pemanggil
@@ -121,7 +149,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(updatedMajor, { status: 200 });
   } catch (error) {
     console.error("Error updating major:", error);
-    return NextResponse.json({ error: "Failed to update major" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update major" },
+      { status: 500 },
+    );
   }
 }
 
@@ -152,6 +183,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(deletedMajor, { status: 200 });
   } catch (error) {
     console.error("Error deleting major:", error);
-    return NextResponse.json({ error: "Failed to delete major" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete major" },
+      { status: 500 },
+    );
   }
 }

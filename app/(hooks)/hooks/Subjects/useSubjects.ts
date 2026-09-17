@@ -1,5 +1,8 @@
 "use client";
-import { SubjectTypes, SubjectInput } from "@/app/(types)/types/subject-types";
+import {
+  type SubjectTypes,
+  type SubjectInput,
+} from "@/app/(types)/types/subject-types";
 import { CACHE_STRATEGIES } from "@/app/client/providers";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

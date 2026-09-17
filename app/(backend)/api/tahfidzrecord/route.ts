@@ -20,10 +20,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -47,15 +50,30 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { studentId, teacherId, surahQuranId, startVerse, endVerse, grade, date, notes } = await request.json();
+    const {
+      studentId,
+      teacherId,
+      surahQuranId,
+      startVerse,
+      endVerse,
+      grade,
+      date,
+      notes,
+    } = await request.json();
 
     // Pastikan siswa & guru (bila ada) milik yayasan ini
     const [ownedStudent, ownedTeacher] = await Promise.all([
       studentId
-        ? prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } })
+        ? prisma.userData.findFirst({
+            where: { id: studentId, foundationId: t.foundationId },
+            select: { id: true },
+          })
         : null,
       teacherId
-        ? prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } })
+        ? prisma.userData.findFirst({
+            where: { id: teacherId, foundationId: t.foundationId },
+            select: { id: true },
+          })
         : null,
     ]);
 
@@ -98,14 +116,24 @@ export async function PUT(request: NextRequest) {
         select: { id: true },
       }),
       data.studentId
-        ? prisma.userData.findFirst({ where: { id: data.studentId, foundationId: t.foundationId }, select: { id: true } })
+        ? prisma.userData.findFirst({
+            where: { id: data.studentId, foundationId: t.foundationId },
+            select: { id: true },
+          })
         : null,
       data.teacherId
-        ? prisma.userData.findFirst({ where: { id: data.teacherId, foundationId: t.foundationId }, select: { id: true } })
+        ? prisma.userData.findFirst({
+            where: { id: data.teacherId, foundationId: t.foundationId },
+            select: { id: true },
+          })
         : null,
     ]);
 
-    if (!owned || (data.studentId && !ownedStudent) || (data.teacherId && !ownedTeacher)) {
+    if (
+      !owned ||
+      (data.studentId && !ownedStudent) ||
+      (data.teacherId && !ownedTeacher)
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 

@@ -59,17 +59,30 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string | undefined }> }) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string | undefined }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const { id } = await params;
   try {
     const user = await prisma.userData.findFirst({
       where: { userId: id as string, foundationId: t.foundationId },
-      include: { class: true, major: true, academicYear: true, role: true, user: true, foundation: true },
+      include: {
+        class: true,
+        major: true,
+        academicYear: true,
+        role: true,
+        user: true,
+        foundation: true,
+      },
     });
 
     if (!user) {

@@ -1,10 +1,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const t = await resolveFoundation(req, new URL(req.url).searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    req,
+    new URL(req.url).searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -12,7 +15,9 @@ export async function GET(req: NextRequest) {
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
 
-    const whereClause: Record<string, unknown> = { teacher: { foundationId: t.foundationId } };
+    const whereClause: Record<string, unknown> = {
+      teacher: { foundationId: t.foundationId },
+    };
 
     if (startDate && endDate) {
       whereClause.date = {
@@ -60,7 +65,9 @@ export async function GET(req: NextRequest) {
       const sickDays = attendance.filter((a) => a.status === "sakit").length;
       const leaveDays = attendance.filter((a) => a.status === "izin").length;
       const absentDays = attendance.filter((a) => a.status === "alfa").length;
-      const lateDays = attendance.filter((a) => a.status === "terlambat").length;
+      const lateDays = attendance.filter(
+        (a) => a.status === "terlambat",
+      ).length;
 
       return {
         id: teacher.id,
@@ -77,7 +84,8 @@ export async function GET(req: NextRequest) {
           leaveDays,
           absentDays,
           lateDays,
-          presentPercentage: totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(2) : "0",
+          presentPercentage:
+            totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(2) : "0",
         },
       };
     });

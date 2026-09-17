@@ -1,6 +1,19 @@
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
-const MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+const MONTHS = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
 
 type PaymentItemData = {
   student?: {
@@ -26,7 +39,10 @@ type PaymentItemData = {
 };
 
 // ─── Export Excel Function ────────────────────────────────────────────────────
-export async function exportToExcelBilling(data: PaymentItemData[], filename: string = "Data_Tagihan.xlsx") {
+export async function exportToExcelBilling(
+  data: PaymentItemData[],
+  filename: string = "Data_Tagihan.xlsx",
+) {
   try {
     const XLSX = await import("xlsx");
 
@@ -72,7 +88,8 @@ export async function exportToExcelBilling(data: PaymentItemData[], filename: st
     XLSX.writeFile(wb, filename);
     toast.success("Data berhasil diexport ke Excel!");
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     toast.error("Gagal mengexport data: " + errorMessage);
   }
 }

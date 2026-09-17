@@ -15,10 +15,10 @@ import {
 import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import {
-  AccountBankTypes,
-  PaymentData,
-  PaymentItemData,
-  UserDataTypes,
+  type AccountBankTypes,
+  type PaymentData,
+  type PaymentItemData,
+  type UserDataTypes,
 } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import { DatePickerTime } from "@/components/date/datePickerTime";
@@ -76,16 +76,16 @@ import { useSession } from "@/lib/authClients";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
@@ -112,7 +112,7 @@ import {
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
-import { DateRange } from "react-day-picker";
+import { type DateRange } from "react-day-picker";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -146,7 +146,7 @@ function StatusBadge({ status }: { status: string }) {
     icon: null,
   };
   return (
-    <Badge className={`${cfg.className} flex items-center gap-1 w-fit`}>
+    <Badge className={`${cfg.className} flex w-fit items-center gap-1`}>
       {cfg.icon}
       {cfg.label}
     </Badge>
@@ -369,21 +369,21 @@ type PaymentFormValues = z.infer<typeof paymentSchema>;
 function ExpandedItemsRow({ items }: { items: PaymentItemData[] }) {
   if (!items?.length) {
     return (
-      <div className="px-8 py-3 text-sm text-muted-foreground">
+      <div className="text-muted-foreground px-8 py-3 text-sm">
         Tidak ada item pembayaran.
       </div>
     );
   }
   return (
-    <div className="px-8 py-3 bg-muted/20">
+    <div className="bg-muted/20 px-8 py-3">
       <table className="w-full text-sm">
         <thead>
-          <tr className="text-xs text-muted-foreground border-b">
-            <th className="text-left pb-2 font-medium">Jenis Pembayaran</th>
-            <th className="text-center pb-2 font-medium">Bulan/Tahun</th>
-            <th className="text-right pb-2 font-medium">Nominal</th>
-            <th className="text-center pb-2 font-medium">Qty</th>
-            <th className="text-right pb-2 font-medium">Subtotal</th>
+          <tr className="text-muted-foreground border-b text-xs">
+            <th className="pb-2 text-left font-medium">Jenis Pembayaran</th>
+            <th className="pb-2 text-center font-medium">Bulan/Tahun</th>
+            <th className="pb-2 text-right font-medium">Nominal</th>
+            <th className="pb-2 text-center font-medium">Qty</th>
+            <th className="pb-2 text-right font-medium">Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -701,7 +701,7 @@ function PaymentFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[92vh] overflow-y-auto">
+      <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData ? "Edit Pembayaran" : "Tambah Pembayaran Baru"}
@@ -737,19 +737,19 @@ function PaymentFormDialog({
               )}
             />
             {errors.studentId && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.studentId.message}
               </p>
             )}
             {selectedStudentId && isLoadingUnpaid && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Memuat tagihan belum dibayar...
               </p>
             )}
             {selectedStudentId &&
               !isLoadingUnpaid &&
               unpaidItems.length === 0 && (
-                <p className="text-sm text-success">
+                <p className="text-success text-sm">
                   ✓ Tidak ada tagihan yang belum dibayar
                 </p>
               )}
@@ -778,7 +778,7 @@ function PaymentFormDialog({
                 )}
               />
               {errors.accountBankId && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.accountBankId.message}
                 </p>
               )}
@@ -804,7 +804,7 @@ function PaymentFormDialog({
                   )}
                 />
                 {errors.status && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.status.message}
                   </p>
                 )}
@@ -831,7 +831,7 @@ function PaymentFormDialog({
                   )}
                 />
                 {errors.month && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.month.message}
                   </p>
                 )}
@@ -849,7 +849,7 @@ function PaymentFormDialog({
                 {...register("paymentDate")}
               />
               {errors.paymentDate && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.paymentDate.message}
                 </p>
               )}
@@ -857,7 +857,7 @@ function PaymentFormDialog({
             <div className="space-y-2">
               <Label htmlFor="dueDate">
                 Jatuh Tempo{" "}
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   (opsional)
                 </span>
               </Label>
@@ -876,7 +876,7 @@ function PaymentFormDialog({
                 {...register("receiptNumber")}
               />
               {errors.receiptNumber && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.receiptNumber.message}
                 </p>
               )}
@@ -889,7 +889,7 @@ function PaymentFormDialog({
                 {...register("bankRef")}
               />
               {errors.bankRef && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.bankRef.message}
                 </p>
               )}
@@ -900,7 +900,7 @@ function PaymentFormDialog({
           <div className="space-y-2">
             <Label>
               Tanggal & Waktu Transfer{" "}
-              <span className="text-xs text-muted-foreground">(opsional)</span>
+              <span className="text-muted-foreground text-xs">(opsional)</span>
             </Label>
             <Controller
               name="transferDate"
@@ -918,7 +918,7 @@ function PaymentFormDialog({
               )}
             />
             {errors.transferDate && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.transferDate.message}
               </p>
             )}
@@ -932,7 +932,7 @@ function PaymentFormDialog({
               <Label className="text-base font-semibold">
                 Item Pembayaran Belum Lunas
                 {selectedItemsCount > 0 && (
-                  <span className="ml-2 text-sm font-normal text-muted-foreground">
+                  <span className="text-muted-foreground ml-2 text-sm font-normal">
                     ({selectedItemsCount} item dipilih)
                   </span>
                 )}
@@ -942,36 +942,36 @@ function PaymentFormDialog({
             {errors.items &&
               typeof errors.items === "object" &&
               "message" in errors.items && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {(errors.items as { message?: string }).message}
                 </p>
               )}
 
             {!selectedStudentId && (
-              <div className="text-center p-8 border rounded-lg bg-muted/20">
-                <User className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
-                <p className="text-sm text-muted-foreground">
+              <div className="bg-muted/20 rounded-lg border p-8 text-center">
+                <User className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
+                <p className="text-muted-foreground text-sm">
                   Pilih siswa terlebih dahulu untuk melihat tagihan
                 </p>
               </div>
             )}
 
             {selectedStudentId && isLoadingUnpaid && (
-              <div className="text-center p-8 border rounded-lg">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">
+              <div className="rounded-lg border p-8 text-center">
+                <div className="border-primary mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2" />
+                <p className="text-muted-foreground text-sm">
                   Memuat tagihan...
                 </p>
               </div>
             )}
 
             {selectedStudentId && !isLoadingUnpaid && fields.length === 0 && (
-              <div className="text-center p-8 border rounded-lg bg-success-surface">
-                <BadgeCheck className="h-12 w-12 mx-auto text-success mb-2" />
-                <p className="text-sm font-medium text-success-strong">
+              <div className="bg-success-surface rounded-lg border p-8 text-center">
+                <BadgeCheck className="text-success mx-auto mb-2 h-12 w-12" />
+                <p className="text-success-strong text-sm font-medium">
                   Semua tagihan sudah lunas!
                 </p>
-                <p className="text-xs text-success-strong mt-1">
+                <p className="text-success-strong mt-1 text-xs">
                   Tidak ada pembayaran yang tertunda
                 </p>
               </div>
@@ -979,7 +979,7 @@ function PaymentFormDialog({
 
             {fields.length > 0 && (
               <>
-                <div className="grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-1">
+                <div className="text-muted-foreground grid grid-cols-12 gap-2 px-1 text-xs font-medium">
                   <div className="col-span-1 text-center">Pilih</div>
                   <div className="col-span-3">Jenis Transaksi</div>
                   <div className="col-span-2 text-center">Bulan/Tahun</div>
@@ -996,7 +996,7 @@ function PaymentFormDialog({
                     return (
                       <div
                         key={field.id}
-                        className={`grid border p-3 rounded-lg grid-cols-12 gap-2 items-center transition-all ${isSelected ? "bg-info-surface border-info-border" : "bg-muted/20 opacity-60"}`}
+                        className={`grid grid-cols-12 items-center gap-2 rounded-lg border p-3 transition-all ${isSelected ? "bg-info-surface border-info-border" : "bg-muted/20 opacity-60"}`}
                       >
                         <div className="col-span-1 flex justify-center">
                           <Checkbox
@@ -1042,16 +1042,16 @@ function PaymentFormDialog({
           {/* Grand Total */}
           {selectedItemsCount > 0 && (
             <div className="flex justify-end">
-              <div className="space-y-1 text-right min-w-50">
-                <div className="flex justify-between text-sm gap-8">
+              <div className="min-w-50 space-y-1 text-right">
+                <div className="flex justify-between gap-8 text-sm">
                   <span className="text-muted-foreground">
                     Total Pembayaran
                   </span>
-                  <span className="font-bold text-lg tabular-nums text-info">
+                  <span className="text-info text-lg font-bold tabular-nums">
                     {formatRupiah(grandTotal)}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {selectedItemsCount} dari {fields.length} item dipilih
                 </p>
               </div>
@@ -1063,7 +1063,7 @@ function PaymentFormDialog({
             <div className="space-y-2">
               <Label htmlFor="totalTransfer">
                 Jumlah Ditransfer{" "}
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   (opsional - untuk verifikasi)
                 </span>
               </Label>
@@ -1087,25 +1087,25 @@ function PaymentFormDialog({
                   }
                 />
                 {!isTransferEmpty && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <div className="absolute top-1/2 right-3 -translate-y-1/2">
                     {isTransferValid ? (
-                      <BadgeCheck className="h-4 w-4 text-success" />
+                      <BadgeCheck className="text-success h-4 w-4" />
                     ) : (
-                      <XCircle className="h-4 w-4 text-destructive" />
+                      <XCircle className="text-destructive h-4 w-4" />
                     )}
                   </div>
                 )}
               </div>
 
               {isTransferEmpty && grandTotal > 0 && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Masukkan jumlah yang ditransfer untuk melanjutkan
                 </p>
               )}
               {isTransferMismatch && (
-                <div className="flex items-center gap-1.5 rounded-lg bg-destructive-surface border border-destructive-border px-3 py-2">
-                  <XCircle className="h-4 w-4 text-destructive shrink-0" />
-                  <div className="text-xs text-destructive-strong">
+                <div className="bg-destructive-surface border-destructive-border flex items-center gap-1.5 rounded-lg border px-3 py-2">
+                  <XCircle className="text-destructive h-4 w-4 shrink-0" />
+                  <div className="text-destructive-strong text-xs">
                     <span className="font-semibold">Jumlah tidak sesuai.</span>{" "}
                     Selisih:{" "}
                     <span className="font-semibold tabular-nums">
@@ -1116,9 +1116,9 @@ function PaymentFormDialog({
                 </div>
               )}
               {isTransferValid && (
-                <div className="flex items-center gap-1.5 rounded-lg bg-success-surface border border-success-border px-3 py-2">
-                  <BadgeCheck className="h-4 w-4 text-success shrink-0" />
-                  <p className="text-xs text-success-strong font-medium">
+                <div className="bg-success-surface border-success-border flex items-center gap-1.5 rounded-lg border px-3 py-2">
+                  <BadgeCheck className="text-success h-4 w-4 shrink-0" />
+                  <p className="text-success-strong text-xs font-medium">
                     Jumlah transfer sesuai · Siap disimpan
                   </p>
                 </div>
@@ -1130,7 +1130,7 @@ function PaymentFormDialog({
           <div className="space-y-2">
             <Label htmlFor="notes">
               Catatan{" "}
-              <span className="text-xs text-muted-foreground">(opsional)</span>
+              <span className="text-muted-foreground text-xs">(opsional)</span>
             </Label>
             <Textarea
               id="notes"
@@ -1141,7 +1141,7 @@ function PaymentFormDialog({
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               {selectedItemsCount === 0 && (
                 <span>Pilih minimal 1 item untuk melanjutkan</span>
               )}
@@ -1186,7 +1186,7 @@ function PaymentFormDialog({
           {/* Debug: validation errors (development only) */}
           {process.env.NODE_ENV === "development" &&
             Object.keys(errors).length > 0 && (
-              <div className="text-xs text-destructive space-y-1 p-3 bg-destructive-surface rounded border border-destructive-border">
+              <div className="text-destructive bg-destructive-surface border-destructive-border space-y-1 rounded border p-3 text-xs">
                 <p className="font-semibold">❌ Validation Errors:</p>
                 {Object.entries(errors).map(([key, error]) => (
                   <p key={key}>
@@ -1400,7 +1400,7 @@ function PaymentDataTable({
       {
         id: "expand",
         header: () => (
-          <span className="text-xs text-muted-foreground">Item</span>
+          <span className="text-muted-foreground text-xs">Item</span>
         ),
         cell: ({ row }) => {
           const p = row.original;
@@ -1410,7 +1410,7 @@ function PaymentDataTable({
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 gap-1 text-xs px-2"
+              className="h-7 gap-1 px-2 text-xs"
               onClick={() => toggleExpand(p.id)}
             >
               <Package className="h-3.5 w-3.5" />
@@ -1537,7 +1537,7 @@ function PaymentDataTable({
                 {bank?.accountBank ?? "-"}
               </div>
               {bank?.accountName && (
-                <div className="text-xs text-muted-foreground">
+                <div className="text-muted-foreground text-xs">
                   {bank.accountName}
                 </div>
               )}
@@ -1730,13 +1730,13 @@ function PaymentDataTable({
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-3">Data Pembayaran</div>
+      <div className="mb-3 text-3xl font-bold">Data Pembayaran</div>
       <Badge>Seluruh Branch</Badge>
       {/* Toolbar */}
-      <div className="flex items-center justify-between py-4 flex-wrap gap-y-3">
-        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
+        <div className="flex flex-wrap items-center space-x-2 gap-y-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
             <Input
               placeholder="Cari siswa, kwitansi, bulan..."
               value={globalFilter ?? ""}
@@ -1840,8 +1840,8 @@ function PaymentDataTable({
 
       {/* Active filter badges */}
       {hasActiveFilter && (
-        <div className="flex items-center space-x-2 py-2 flex-wrap gap-y-1">
-          <span className="text-sm text-muted-foreground">Filter aktif:</span>
+        <div className="flex flex-wrap items-center space-x-2 gap-y-1 py-2">
+          <span className="text-muted-foreground text-sm">Filter aktif:</span>
           {globalFilter && (
             <Badge variant="secondary" className="gap-1">
               Pencarian: {globalFilter}
@@ -1873,7 +1873,7 @@ function PaymentDataTable({
       )}
 
       {/* Table */}
-      <div className="rounded-md border w-full overflow-hidden">
+      <div className="w-full overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -1924,7 +1924,7 @@ function PaymentDataTable({
                   className="h-24 text-center"
                 >
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <FileText className="h-8 w-8 text-muted-foreground" />
+                    <FileText className="text-muted-foreground h-8 w-8" />
                     <p className="text-muted-foreground">
                       {hasActiveFilter
                         ? "Tidak ada data yang sesuai dengan filter."
@@ -1955,7 +1955,7 @@ function PaymentDataTable({
 
       {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {filteredRows.length} baris dipilih.
           {filteredRows.length !== totalPayments && (
@@ -1989,46 +1989,46 @@ function PaymentDataTable({
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-info" />
+            <CreditCard className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Transaksi</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{totalPayments}</p>
+          <p className="mt-2 text-2xl font-bold">{totalPayments}</p>
           {filteredRows.length !== totalPayments && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
             </p>
           )}
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BadgeCheck className="h-5 w-5 text-success" />
+            <BadgeCheck className="text-success h-5 w-5" />
             <h3 className="font-semibold">Lunas</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="mt-2 text-2xl font-bold">
             {filteredRows.filter((r) => r.original.status === "paid").length}
           </p>
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-warning" />
+            <Clock className="text-warning h-5 w-5" />
             <h3 className="font-semibold">Menunggu</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="mt-2 text-2xl font-bold">
             {filteredRows.filter((r) => r.original.status === "pending").length}
           </p>
         </div>
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-tertiary" />
+            <CreditCard className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Total Terbayar</h3>
           </div>
-          <p className="text-xl font-bold mt-2 tabular-nums">
+          <p className="mt-2 text-xl font-bold tabular-nums">
             {formatRupiah(totalPaid)}
           </p>
-          <p className="text-xs text-muted-foreground">dari transaksi lunas</p>
+          <p className="text-muted-foreground text-xs">dari transaksi lunas</p>
         </div>
       </div>
 

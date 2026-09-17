@@ -147,8 +147,8 @@ function CustomTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border bg-background/95 backdrop-blur shadow-xl p-3 min-w-[180px]">
-      <p className="text-xs font-semibold text-muted-foreground mb-2">
+    <div className="bg-background/95 min-w-[180px] rounded-xl border p-3 shadow-xl backdrop-blur">
+      <p className="text-muted-foreground mb-2 text-xs font-semibold">
         {label}
       </p>
       {payload.map((p, i) => (
@@ -196,7 +196,7 @@ function KPICard({
   return (
     <Card className="relative overflow-hidden">
       <div
-        className="absolute top-0 left-0 right-0 h-1"
+        className="absolute top-0 right-0 left-0 h-1"
         style={{ backgroundColor: color }}
       />
       <CardContent className="pt-5 pb-4">
@@ -208,12 +208,12 @@ function KPICard({
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-muted-foreground font-medium">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="text-muted-foreground text-sm font-medium">
                 {title}
               </span>
               <div
-                className="h-9 w-9 rounded-lg flex items-center justify-center"
+                className="flex h-9 w-9 items-center justify-center rounded-lg"
                 style={{
                   backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`,
                 }}
@@ -222,12 +222,12 @@ function KPICard({
               </div>
             </div>
             <div className="text-2xl font-bold tracking-tight">{value}</div>
-            <div className="flex items-center justify-between mt-1">
-              {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+            <div className="mt-1 flex items-center justify-between">
+              {sub && <p className="text-muted-foreground text-xs">{sub}</p>}
               {badge && (
                 <Badge
                   variant={badge.positive ? "default" : "destructive"}
-                  className="text-[10px] px-1.5 py-0"
+                  className="px-1.5 py-0 text-[10px]"
                 >
                   {badge.label}
                 </Badge>
@@ -243,9 +243,9 @@ function KPICard({
 // ─── Empty / Skeleton ───────────────────────────────────────────────────────
 function EmptyChart({ message }: { message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center h-48 text-center gap-2">
-      <BarChart2 className="h-10 w-10 text-muted-foreground/40" />
-      <p className="text-sm text-muted-foreground">{message}</p>
+    <div className="flex h-48 flex-col items-center justify-center gap-2 text-center">
+      <BarChart2 className="text-muted-foreground/40 h-10 w-10" />
+      <p className="text-muted-foreground text-sm">{message}</p>
     </div>
   );
 }
@@ -350,25 +350,25 @@ function UnpaidPaymentDashboard({
       : "Belum dipilih";
 
   return (
-    <div className="min-h-screen w-full max-w-7xl mx-auto p-6 space-y-6">
+    <div className="mx-auto min-h-screen w-full max-w-7xl space-y-6 p-6">
       {/* ── Page Header ── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
             Dashboard Tunggakan Pembayaran
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <p className="text-muted-foreground mt-1 text-sm">
             Pantau item pembayaran yang belum lunas per branch, jenis, dan siswa
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-xs gap-1.5 py-1.5">
+          <Badge variant="outline" className="gap-1.5 py-1.5 text-xs">
             <CalendarDays className="h-3 w-3" />
             {dateLabel}
           </Badge>
           {selectedSKU !== "all" && (
-            <Badge variant="secondary" className="text-xs gap-1.5 py-1.5">
+            <Badge variant="secondary" className="gap-1.5 py-1.5 text-xs">
               <ListChecks className="h-3 w-3" />
               {selectedSKU}
             </Badge>
@@ -380,7 +380,7 @@ function UnpaidPaymentDashboard({
             disabled={isFetching}
           >
             <RefreshCw
-              className={`h-3.5 w-3.5 mr-1.5 ${isFetching ? "animate-spin" : ""}`}
+              className={`mr-1.5 h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
             />
             Refresh
           </Button>
@@ -392,12 +392,12 @@ function UnpaidPaymentDashboard({
         <CardContent className="py-4">
           <div className="space-y-4">
             {/* Row 1: Main Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Date Range Picker */}
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">
+                  <CalendarDays className="text-muted-foreground h-4 w-4" />
+                  <span className="text-muted-foreground text-sm font-medium">
                     Periode
                   </span>
                 </div>
@@ -408,8 +408,8 @@ function UnpaidPaymentDashboard({
               {isAdmin && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-muted-foreground">
+                    <Building2 className="text-muted-foreground h-4 w-4" />
+                    <span className="text-muted-foreground text-sm font-medium">
                       Branch
                     </span>
                   </div>
@@ -417,7 +417,7 @@ function UnpaidPaymentDashboard({
                     value={selectedMajorId}
                     onValueChange={setSelectedMajorId}
                   >
-                    <SelectTrigger className="w-full h-10">
+                    <SelectTrigger className="h-10 w-full">
                       <SelectValue placeholder="Semua Branch" />
                     </SelectTrigger>
                     <SelectContent>
@@ -435,13 +435,13 @@ function UnpaidPaymentDashboard({
               {/* SKU Type Filter */}
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <ListChecks className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">
+                  <ListChecks className="text-muted-foreground h-4 w-4" />
+                  <span className="text-muted-foreground text-sm font-medium">
                     Jenis Pembayaran
                   </span>
                 </div>
                 <Select value={selectedSKU} onValueChange={setSelectedSKU}>
-                  <SelectTrigger className="w-full h-10">
+                  <SelectTrigger className="h-10 w-full">
                     <SelectValue placeholder="Semua Jenis" />
                   </SelectTrigger>
                   <SelectContent>
@@ -458,7 +458,7 @@ function UnpaidPaymentDashboard({
             </div>
 
             {/* Row 2: Quick Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-2">
               <div className="flex flex-wrap items-center gap-2">
                 {/* Reset Button */}
                 {(selectedMajorId !== "all" || selectedSKU !== "all") && (
@@ -473,7 +473,7 @@ function UnpaidPaymentDashboard({
                       setSelectedSKU("all");
                     }}
                   >
-                    <RefreshCw className="h-3.5 w-3.5 mr-2" />
+                    <RefreshCw className="mr-2 h-3.5 w-3.5" />
                     Reset Filter
                   </Button>
                 )}
@@ -481,7 +481,7 @@ function UnpaidPaymentDashboard({
 
               {/* Quick Date Shortcuts */}
               <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground mr-1">
+                <span className="text-muted-foreground mr-1 text-xs">
                   Quick:
                 </span>
                 {[
@@ -512,7 +512,7 @@ function UnpaidPaymentDashboard({
       </Card>
 
       {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Total Tunggakan"
           value={isLoading ? "—" : fmt(summary.totalUnpaidAmount)}
@@ -570,7 +570,7 @@ function UnpaidPaymentDashboard({
 
       {/* ── Tabs ── */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 w-full max-w-lg">
+        <TabsList className="grid w-full max-w-lg grid-cols-3">
           <TabsTrigger value="overview" className="gap-1.5 text-xs">
             <Activity className="h-3.5 w-3.5" />
             Ringkasan
@@ -587,7 +587,7 @@ function UnpaidPaymentDashboard({
 
         {/* ═══════════ TAB: OVERVIEW ═══════════ */}
         <TabsContent value="overview" className="mt-4 space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <Card className="lg:col-span-2">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">
@@ -763,20 +763,20 @@ function UnpaidPaymentDashboard({
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b bg-muted/40">
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                      <tr className="bg-muted/40 border-b">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Jenis
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Jumlah Item
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Total Tunggakan
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Total Terbayar
                         </th>
-                        <th className="px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-xs font-medium">
                           Porsi Tunggakan
                         </th>
                       </tr>
@@ -800,21 +800,21 @@ function UnpaidPaymentDashboard({
                             <td className="px-4 py-2.5 text-right tabular-nums">
                               {fmtNum(row.totalUnpaidCount)}
                             </td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">
+                            <td className="text-destructive px-4 py-2.5 text-right font-semibold tabular-nums">
                               {fmtFull(row.totalUnpaidAmount)}
                             </td>
-                            <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">
+                            <td className="text-muted-foreground px-4 py-2.5 text-right tabular-nums">
                               {fmtFull(row.totalPaidAmount)}
                             </td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
-                                <div className="flex-1 bg-muted rounded-full h-1.5 max-w-[100px]">
+                                <div className="bg-muted h-1.5 max-w-[100px] flex-1 rounded-full">
                                   <div
                                     className="bg-destructive-solid h-1.5 rounded-full"
                                     style={{ width: `${pct}%` }}
                                   />
                                 </div>
-                                <span className="text-xs text-muted-foreground tabular-nums w-8 text-right">
+                                <span className="text-muted-foreground w-8 text-right text-xs tabular-nums">
                                   {pct}%
                                 </span>
                               </div>
@@ -832,7 +832,7 @@ function UnpaidPaymentDashboard({
 
         {/* ═══════════ TAB: PER BRANCH ═══════════ */}
         <TabsContent value="branch" className="mt-4 space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">
@@ -877,14 +877,14 @@ function UnpaidPaymentDashboard({
                         />
                       </PieChart>
                     </ResponsiveContainer>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 w-full mt-2">
+                    <div className="mt-2 grid w-full grid-cols-2 gap-x-6 gap-y-1.5">
                       {majorPieData.map((d, i) => (
                         <div
                           key={i}
                           className="flex items-center gap-2 text-xs"
                         >
                           <span
-                            className="h-2.5 w-2.5 rounded-sm shrink-0"
+                            className="h-2.5 w-2.5 shrink-0 rounded-sm"
                             style={{
                               backgroundColor:
                                 CHART_PALETTE[i % CHART_PALETTE.length],
@@ -978,23 +978,23 @@ function UnpaidPaymentDashboard({
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b bg-muted/40">
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                      <tr className="bg-muted/40 border-b">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           #
                         </th>
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Branch
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Item Belum Bayar
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Total Tunggakan
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Total Terbayar
                         </th>
-                        <th className="px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-xs font-medium">
                           Collection Rate
                         </th>
                       </tr>
@@ -1009,13 +1009,13 @@ function UnpaidPaymentDashboard({
                             key={i}
                             className={`border-b ${i % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors`}
                           >
-                            <td className="px-4 py-2.5 text-muted-foreground text-xs">
+                            <td className="text-muted-foreground px-4 py-2.5 text-xs">
                               {i + 1}
                             </td>
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
                                 <span
-                                  className="h-2.5 w-2.5 rounded-sm shrink-0"
+                                  className="h-2.5 w-2.5 shrink-0 rounded-sm"
                                   style={{
                                     backgroundColor:
                                       CHART_PALETTE[i % CHART_PALETTE.length],
@@ -1027,10 +1027,10 @@ function UnpaidPaymentDashboard({
                             <td className="px-4 py-2.5 text-right tabular-nums">
                               {fmtNum(row.totalUnpaidCount)}
                             </td>
-                            <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">
+                            <td className="text-destructive px-4 py-2.5 text-right font-semibold tabular-nums">
                               {fmtFull(row.totalUnpaidAmount)}
                             </td>
-                            <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">
+                            <td className="text-muted-foreground px-4 py-2.5 text-right tabular-nums">
                               {fmtFull(row.totalPaidAmount)}
                             </td>
                             <td className="px-4 py-2.5">
@@ -1039,7 +1039,7 @@ function UnpaidPaymentDashboard({
                                   value={row.collectionRate}
                                   className="h-1.5 max-w-[100px]"
                                 />
-                                <span className="text-xs text-muted-foreground tabular-nums w-10 text-right">
+                                <span className="text-muted-foreground w-10 text-right text-xs tabular-nums">
                                   {row.collectionRate}%
                                 </span>
                               </div>
@@ -1060,11 +1060,11 @@ function UnpaidPaymentDashboard({
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <ListChecks className="h-4 w-4 text-destructive" />
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <ListChecks className="text-destructive h-4 w-4" />
                     Top 50 Siswa dengan Tunggakan Terbesar
                   </CardTitle>
-                  <CardDescription className="text-xs mt-1">
+                  <CardDescription className="mt-1 text-xs">
                     Diurutkan berdasarkan total nominal belum bayar
                   </CardDescription>
                 </div>
@@ -1077,7 +1077,7 @@ function UnpaidPaymentDashboard({
             </CardHeader>
             <CardContent className="p-0">
               {isLoading ? (
-                <div className="p-4 space-y-3">
+                <div className="space-y-3 p-4">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <Skeleton key={i} className="h-12 w-full rounded-lg" />
                   ))}
@@ -1088,26 +1088,26 @@ function UnpaidPaymentDashboard({
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b bg-muted/40">
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                      <tr className="bg-muted/40 border-b">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           #
                         </th>
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Nama Siswa
                         </th>
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Kelas
                         </th>
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Branch
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Jumlah Item
                         </th>
-                        <th className="text-right px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
                           Total Tunggakan
                         </th>
-                        <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">
+                        <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
                           Tertua
                         </th>
                       </tr>
@@ -1118,13 +1118,13 @@ function UnpaidPaymentDashboard({
                           key={s.studentId}
                           className={`border-b ${i % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors`}
                         >
-                          <td className="px-4 py-2.5 text-muted-foreground text-xs">
+                          <td className="text-muted-foreground px-4 py-2.5 text-xs">
                             {i + 1}
                           </td>
                           <td className="px-4 py-2.5 font-medium">
                             {s.studentName}
                           </td>
-                          <td className="px-4 py-2.5 text-muted-foreground">
+                          <td className="text-muted-foreground px-4 py-2.5">
                             {s.className}
                           </td>
                           <td className="px-4 py-2.5">
@@ -1138,11 +1138,11 @@ function UnpaidPaymentDashboard({
                           <td className="px-4 py-2.5 text-right tabular-nums">
                             {fmtNum(s.totalUnpaidCount)}
                           </td>
-                          <td className="px-4 py-2.5 text-right tabular-nums font-semibold text-destructive">
+                          <td className="text-destructive px-4 py-2.5 text-right font-semibold tabular-nums">
                             {fmtFull(s.totalUnpaidAmount)}
                           </td>
                           <td className="px-4 py-2.5">
-                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
                               <Clock className="h-3 w-3" />
                               Bulan {s.oldestUnpaidMonth}/{s.oldestUnpaidYear}
                             </div>
@@ -1157,23 +1157,23 @@ function UnpaidPaymentDashboard({
           </Card>
 
           {!isLoading && topUnpaidStudents.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:hidden">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden lg:grid-cols-3">
               {topUnpaidStudents.slice(0, 6).map((s) => (
                 <Card key={s.studentId}>
-                  <CardContent className="p-3 flex items-center justify-between">
+                  <CardContent className="flex items-center justify-between p-3">
                     <div className="min-w-0">
-                      <p className="font-medium text-sm truncate">
+                      <p className="truncate text-sm font-medium">
                         {s.studentName}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {s.className} • {s.majorName}
                       </p>
                     </div>
-                    <div className="text-right shrink-0 ml-2">
-                      <p className="text-sm font-bold text-destructive">
+                    <div className="ml-2 shrink-0 text-right">
+                      <p className="text-destructive text-sm font-bold">
                         {fmt(s.totalUnpaidAmount)}
                       </p>
-                      <ChevronRight className="h-3 w-3 text-muted-foreground ml-auto" />
+                      <ChevronRight className="text-muted-foreground ml-auto h-3 w-3" />
                     </div>
                   </CardContent>
                 </Card>

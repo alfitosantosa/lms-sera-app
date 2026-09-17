@@ -12,10 +12,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -37,7 +40,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(roles);
   } catch (error) {
     console.error("Error fetching roles:", error);
-    return NextResponse.json({ error: "Failed to fetch roles" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch roles" },
+      { status: 500 },
+    );
   }
 }
 
@@ -66,7 +72,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newRole, { status: 201 });
   } catch (error) {
     console.error("Error creating role:", error);
-    return NextResponse.json({ error: "Failed to create role" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create role" },
+      { status: 500 },
+    );
   }
 }
 
@@ -75,15 +84,22 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, description, permissions, isActive } = await request.json();
+    const { id, name, description, permissions, isActive } =
+      await request.json();
     if (!id || !name) {
-      return NextResponse.json({ error: "ID and name are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID and name are required" },
+        { status: 400 },
+      );
     }
 
     // Role milik yayasan ini boleh diubah; role bersama (foundationId NULL)
     // juga boleh, karena body tidak pernah dipakai untuk mengubah foundationId.
     const owned = await prisma.role.findFirst({
-      where: { id, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      where: {
+        id,
+        OR: [{ foundationId: t.foundationId }, { foundationId: null }],
+      },
       select: { id: true },
     });
     if (!owned) {

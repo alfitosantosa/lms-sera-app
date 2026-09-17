@@ -15,7 +15,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -72,7 +72,8 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, code, name, description, majorId, credits } = await request.json();
+    const { id, code, name, description, majorId, credits } =
+      await request.json();
 
     // Pastikan subject milik yayasan pemanggil
     const ownedSubject = await prisma.subject.findFirst({

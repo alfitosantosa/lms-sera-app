@@ -21,7 +21,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const t = await resolveFoundation(request);
@@ -32,12 +32,25 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     if (!schedules || !Array.isArray(schedules)) {
-      return NextResponse.json({ error: "Invalid data format. Expected array of schedules." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid data format. Expected array of schedules." },
+        { status: 400 },
+      );
     }
 
     // Validate each schedule
     const validatedSchedules = schedules.map(
-      (schedule: { classId: string; subjectId: string; teacherId: string; academicYearId: string; dayOfWeek: number | string; startTime: string; endTime: string; room?: string | null; isActive?: boolean }) => {
+      (schedule: {
+        classId: string;
+        subjectId: string;
+        teacherId: string;
+        academicYearId: string;
+        dayOfWeek: number | string;
+        startTime: string;
+        endTime: string;
+        room?: string | null;
+        isActive?: boolean;
+      }) => {
         return {
           classId: schedule.classId,
           subjectId: schedule.subjectId,
@@ -56,16 +69,38 @@ export async function POST(request: NextRequest) {
     const classIds = [...new Set(validatedSchedules.map((s) => s.classId))];
     const subjectIds = [...new Set(validatedSchedules.map((s) => s.subjectId))];
     const teacherIds = [...new Set(validatedSchedules.map((s) => s.teacherId))];
-    const academicYearIds = [...new Set(validatedSchedules.map((s) => s.academicYearId))];
+    const academicYearIds = [
+      ...new Set(validatedSchedules.map((s) => s.academicYearId)),
+    ];
 
-    const [classCount, subjectCount, teacherCount, academicYearCount] = await Promise.all([
-      prisma.class.count({ where: { id: { in: classIds }, major: { foundationId: t.foundationId } } }),
-      prisma.subject.count({ where: { id: { in: subjectIds }, major: { foundationId: t.foundationId } } }),
-      prisma.userData.count({ where: { id: { in: teacherIds }, foundationId: t.foundationId } }),
-      prisma.academicYear.count({ where: { id: { in: academicYearIds }, foundationId: t.foundationId } }),
-    ]);
+    const [classCount, subjectCount, teacherCount, academicYearCount] =
+      await Promise.all([
+        prisma.class.count({
+          where: {
+            id: { in: classIds },
+            major: { foundationId: t.foundationId },
+          },
+        }),
+        prisma.subject.count({
+          where: {
+            id: { in: subjectIds },
+            major: { foundationId: t.foundationId },
+          },
+        }),
+        prisma.userData.count({
+          where: { id: { in: teacherIds }, foundationId: t.foundationId },
+        }),
+        prisma.academicYear.count({
+          where: { id: { in: academicYearIds }, foundationId: t.foundationId },
+        }),
+      ]);
 
-    if (classCount !== classIds.length || subjectCount !== subjectIds.length || teacherCount !== teacherIds.length || academicYearCount !== academicYearIds.length) {
+    if (
+      classCount !== classIds.length ||
+      subjectCount !== subjectIds.length ||
+      teacherCount !== teacherIds.length ||
+      academicYearCount !== academicYearIds.length
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 

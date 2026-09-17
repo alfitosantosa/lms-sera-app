@@ -1,16 +1,17 @@
 ```markdown
 # Product Requirements Document (PRD)
-# LMS Rahmaniyah - Sistem Informasi Sekolah
+
+# LMS Santosatechid - Sistem Informasi Sekolah
 
 **Versi:** 1.0  
 **Tanggal:** 11 September 2026  
-**Untuk:** Yayasan Pendidikan Rahmaniyah Al-Islamy
+**Untuk:** Yayasan Pendidikan Santosatechid Al-Islamy
 
 ---
 
 ## 📋 Ringkasan Produk
 
-**LMS Rahmaniyah** adalah sistem informasi manajemen sekolah terintegrasi untuk SMP, SMA, dan SMK IT Rahmaniyah Al-Islamy. Platform ini mengelola seluruh aspek operasional sekolah dari akademik, keuangan, kedisiplinan, hingga tahfidz Al-Qur'an.
+**LMS Santosatechid** adalah sistem informasi manajemen sekolah terintegrasi untuk SMP, SMA, dan SMK IT Santosatechid Al-Islamy. Platform ini mengelola seluruh aspek operasional sekolah dari akademik, keuangan, kedisiplinan, hingga tahfidz Al-Qur'an.
 
 ---
 
@@ -27,12 +28,14 @@
 ## 🏗️ Struktur Multi-Yayasan (Foundation)
 
 ### Foundation Management
+
 - **Multi-tenant system** - Mendukung beberapa yayasan dalam satu platform
 - **Foundation Code** - Kode unik untuk registrasi user ke yayasan
 - **Isolasi Data** - Data antar yayasan terpisah dan aman
 - **Foundation Profile** - Nama, alamat, telepon, logo yayasan
 
 ### Major (Jurusan/Cabang)
+
 - **Multi-Major per Foundation** - Setiap yayasan bisa memiliki beberapa jurusan/cabang
 - **Major Code** - Kode unik per jurusan (e.g., SMK-IT, SMA-IT, SMP-IT)
 - **Major Profile** - Alamat, telepon, admin, tanda tangan digital
@@ -45,23 +48,27 @@
 ### 1. **Manajemen Akademik**
 
 #### 1.1 Tahun Akademik
+
 - ✅ Pengaturan tahun ajaran aktif
 - ✅ Tanggal mulai dan selesai semester
 - ✅ Multi tahun akademik untuk histori
 
 #### 1.2 Jurusan & Kelas
+
 - ✅ Master data jurusan (Major)
 - ✅ Manajemen kelas per tingkat (Grade 1-12)
 - ✅ Kapasitas kelas (default: 36 siswa)
 - ✅ Kelas per tahun akademik
 
 #### 1.3 Mata Pelajaran
+
 - ✅ Master data mata pelajaran (Subject)
 - ✅ Kode dan nama pelajaran
 - ✅ Jumlah SKS/kredits
 - ✅ Assignment per jurusan
 
 #### 1.4 Jadwal Pelajaran
+
 - ✅ Scheduling per kelas
 - ✅ Hari, jam mulai, jam selesai
 - ✅ Ruang kelas
@@ -73,6 +80,7 @@
 ### 2. **Manajemen Presensi**
 
 #### 2.1 Presensi Siswa
+
 - ✅ Absensi per jadwal pelajaran
 - ✅ Status: Hadir, Sakit, Izin, Alfa
 - ✅ Catatan presensi
@@ -81,6 +89,7 @@
 - ✅ Filter by student, class, date range
 
 #### 2.2 Presensi Guru
+
 - ✅ Check-in dan check-out waktu
 - ✅ Status kehadiran harian
 - ✅ Catatan ketidakhadiran
@@ -91,18 +100,21 @@
 ### 3. **Tahfidz Al-Qur'an**
 
 #### 3.1 Kelompok Tahfidz
+
 - ✅ Manajemen kelompok hafalan
 - ✅ Pembagian per tingkat
 - ✅ Kapasitas per kelompok (default: 40)
 - ✅ Assignment guru pembimbing
 
 #### 3.2 Master Surah
+
 - ✅ Database 114 surah Al-Qur'an
 - ✅ Nama arab dan latin
 - ✅ Jumlah ayat
 - ✅ Tempat turun (Makkiyah/Madaniyah)
 
 #### 3.3 Rekam Setoran
+
 - ✅ Pencatatan hafalan siswa
 - ✅ Surah dan range ayat (ayat awal - akhir)
 - ✅ Penilaian kualitas hafalan
@@ -114,6 +126,7 @@
 ### 4. **Sistem Pembayaran & Keuangan**
 
 #### 4.1 Jenis Pembayaran (Payment Type)
+
 - ✅ SPP bulanan
 - ✅ Biaya catering
 - ✅ Biaya jemputan
@@ -124,6 +137,7 @@
 - ✅ SKU Type untuk kategorisasi
 
 #### 4.2 Tagihan Siswa (Payment Items)
+
 - ✅ Generate tagihan per siswa
 - ✅ Tagihan per bulan
 - ✅ Status pembayaran (Lunas/Belum Lunas)
@@ -131,6 +145,7 @@
 - ✅ Import bulk tagihan via Excel
 
 #### 4.3 Pembayaran (Payment)
+
 - ✅ Pencatatan pembayaran manual (offline)
 - ✅ Pembayaran online via **Midtrans**
   - Snap (redirect ke halaman Midtrans)
@@ -142,12 +157,14 @@
 - ✅ Receipt/kwitansi PDF
 
 #### 4.4 Rekening Bank
+
 - ✅ Multi rekening per jurusan
 - ✅ Nama bank
 - ✅ Nomor rekening
 - ✅ Nama pemilik rekening
 
 #### 4.5 Dashboard Tunggakan
+
 - ✅ Chart total tunggakan per bulan
 - ✅ Filter by date range
 - ✅ Filter by major/jurusan
@@ -160,6 +177,7 @@
 ### 5. **Sistem Pelanggaran (Violations)**
 
 #### 5.1 Jenis Pelanggaran
+
 - ✅ Master data tipe pelanggaran
 - ✅ Kategori (ringan, sedang, berat)
 - ✅ Point pelanggaran
@@ -167,6 +185,7 @@
 - ✅ Assignment per tahun akademik
 
 #### 5.2 Pencatatan Pelanggaran
+
 - ✅ Catat pelanggaran siswa
 - ✅ Tanggal kejadian
 - ✅ Guru pelapor
@@ -179,6 +198,7 @@
 ### 6. **Penilaian & Rapor**
 
 #### 6.1 Tipe Nilai (Grade Type)
+
 - ✅ Tugas (task)
 - ✅ Ulangan Harian
 - ✅ UTS (Mid Exam)
@@ -187,18 +207,21 @@
 - ✅ Bobot penilaian per tipe
 
 #### 6.2 Konfigurasi Penilaian
+
 - ✅ Setting bobot per mata pelajaran
 - ✅ Minimal entri nilai
 - ✅ Wajib atau opsional
 - ✅ Per kelas dan tahun akademik
 
 #### 6.3 Input Nilai
+
 - ✅ Entry nilai per siswa per tipe
 - ✅ Skor dan skor maksimal
 - ✅ Deskripsi/catatan
 - ✅ Tanggal penilaian
 
 #### 6.4 Rapor
+
 - ✅ Rapor per semester
 - ✅ Rata-rata per kategori nilai
 - ✅ Nilai akhir dan predikat
@@ -208,6 +231,7 @@
 - ✅ Publikasi rapor ke siswa/ortu
 
 #### 6.5 Skala Nilai
+
 - ✅ Konversi skor ke huruf
 - ✅ Range nilai (min-max)
 - ✅ Predikat (Sangat Baik, Baik, Cukup, Kurang)
@@ -217,6 +241,7 @@
 ### 7. **Tugas & Penugasan (Assignments)**
 
 #### 7.1 Pembuatan Tugas
+
 - ✅ Guru membuat tugas per jadwal
 - ✅ Judul dan deskripsi tugas
 - ✅ File attachment
@@ -226,6 +251,7 @@
 - ✅ Status publish/draft
 
 #### 7.2 Pengumpulan Tugas
+
 - ✅ Siswa submit tugas
 - ✅ File attachment submission
 - ✅ Catatan pengumpulan
@@ -233,6 +259,7 @@
 - ✅ Timestamp pengumpulan
 
 #### 7.3 Penilaian Tugas
+
 - ✅ Guru beri nilai dan feedback
 - ✅ Skor dan catatan
 - ✅ Status grading
@@ -243,6 +270,7 @@
 ### 8. **Manajemen User**
 
 #### 8.1 Autentikasi
+
 - ✅ Sign up dengan email/password
 - ✅ Sign in dengan email/password
 - ✅ Sign in dengan Google OAuth
@@ -251,6 +279,7 @@
 - ✅ Multi-device login
 
 #### 8.2 Role & Permission
+
 - ✅ Admin - Full akses semua modul
 - ✅ Bendahara - Akses pembayaran dan tagihan
 - ✅ Teacher - Akses jadwal, presensi, nilai, tugas
@@ -259,6 +288,7 @@
 - ✅ Custom roles dengan permission array
 
 #### 8.3 Profile User (UserData)
+
 - ✅ Data diri lengkap (NIK, NISN)
 - ✅ Tempat & tanggal lahir
 - ✅ Alamat & telepon
@@ -275,6 +305,7 @@
 ### 9. **Notifikasi & Komunikasi**
 
 #### 9.1 Notifikasi In-App
+
 - ✅ Notifikasi pembayaran
 - ✅ Notifikasi tugas baru
 - ✅ Notifikasi nilai
@@ -283,6 +314,7 @@
 - ✅ Link ke detail
 
 #### 9.2 WhatsApp Bot (Evolution API)
+
 - ✅ Kirim notif ke ortu via WhatsApp
 - ✅ Notif tunggakan pembayaran
 - ✅ Notif presensi harian
@@ -290,6 +322,7 @@
 - ✅ Integrasi dengan Evolution API
 
 #### 9.3 Pengumuman
+
 - ✅ Posting pengumuman sekolah
 - ✅ Judul, konten, gambar
 - ✅ Link eksternal
@@ -301,6 +334,7 @@
 ### 10. **Kalender & Event**
 
 #### 10.1 Kalender Akademik
+
 - ✅ Event per tahun akademik
 - ✅ Tipe event (holiday, exam, ceremony, etc.)
 - ✅ Judul dan deskripsi event
@@ -312,6 +346,7 @@
 ### 11. **Dashboard & Reporting**
 
 #### 11.1 Dashboard Content
+
 - ✅ Hero banner/slider
 - ✅ Quick access cards
 - ✅ Content management
@@ -319,6 +354,7 @@
 - ✅ Schedule tayang
 
 #### 11.2 Dashboard Analytics
+
 - ✅ Total siswa per jurusan
 - ✅ Total guru aktif
 - ✅ Total tunggakan pembayaran
@@ -326,6 +362,7 @@
 - ✅ Chart statistik bulanan
 
 #### 11.3 Laporan
+
 - ✅ Laporan presensi siswa
 - ✅ Laporan pembayaran & tunggakan
 - ✅ Laporan pelanggaran
@@ -337,6 +374,7 @@
 ### 12. **Upload & Import Data**
 
 #### 12.1 Import Excel
+
 - ✅ Import siswa bulk
 - ✅ Import guru bulk
 - ✅ Import tagihan pembayaran bulk
@@ -344,6 +382,7 @@
 - ✅ Template download
 
 #### 12.2 Template Management
+
 - ✅ Template Excel standar
 - ✅ Validasi format
 - ✅ Error handling & preview
@@ -353,16 +392,19 @@
 ### 13. **Admin Tools**
 
 #### 13.1 Foundation Management
+
 - ✅ CRUD yayasan
 - ✅ Foundation code generator
 - ✅ Assign user ke yayasan
 
 #### 13.2 Major Management
+
 - ✅ CRUD jurusan per yayasan
 - ✅ Config akun bank per jurusan
 - ✅ Admin signature digital
 
 #### 13.3 User Management
+
 - ✅ CRUD users
 - ✅ Assign role
 - ✅ Ban/unban user
@@ -370,6 +412,7 @@
 - ✅ View user without UserData (untuk assign)
 
 #### 13.4 Special Schedule
+
 - ✅ Jadwal khusus (libur, acara)
 - ✅ Override jadwal normal
 
@@ -378,18 +421,21 @@
 ## 🔐 Keamanan & Akses
 
 ### Authentication
+
 - Better Auth dengan Prisma adapter
 - Session-based dengan cookie secure
 - Email verification
 - Google OAuth integration
 
 ### Authorization
+
 - Role-based access control (RBAC)
 - Permission array per role
 - Foundation & Major isolation
 - Route middleware protection
 
 ### Data Security
+
 - PostgreSQL dengan SSL
 - Environment variables untuk credentials
 - API routes dengan error handling
@@ -400,6 +446,7 @@
 ## 💳 Integrasi Pembayaran
 
 ### Midtrans Payment Gateway
+
 - ✅ Snap integration (redirect payment)
 - ✅ Core API (in-app payment)
 - ✅ Webhook untuk status update
@@ -415,6 +462,7 @@
 ## 📱 WhatsApp Integration
 
 ### Evolution API (BotWA)
+
 - ✅ Send notifikasi ke nomor orang tua
 - ✅ Bulk message support
 - ✅ Template message
@@ -426,10 +474,12 @@
 ## 📊 Reporting & Export
 
 ### Format Export
+
 - ✅ PDF (kwitansi, rapor)
 - ✅ Excel (tunggakan, rekap presensi, data siswa)
 
 ### Report Types
+
 - Financial reports (tunggakan, penerimaan)
 - Attendance reports (siswa & guru)
 - Academic reports (nilai, rapor)
@@ -441,12 +491,14 @@
 ## 🎨 User Interface
 
 ### Design System
+
 - Tailwind CSS v4 dengan OKLCH colors
 - shadcn/ui components (Radix UI primitives)
 - Responsive design (mobile, tablet, desktop)
 - Dark mode support (next-themes)
 
 ### Key UI Components
+
 - Sidebar navigation (role-based menu)
 - Data tables (TanStack Table)
 - Forms (React Hook Form + Zod)
@@ -460,6 +512,7 @@
 ## 🛠️ Tech Stack Summary
 
 ### Frontend
+
 - **Framework:** Next.js 16 (App Router)
 - **React:** 19
 - **TypeScript:** 5
@@ -471,6 +524,7 @@
 - **Icons:** Lucide React
 
 ### Backend
+
 - **Runtime:** Node.js 24 (production), Bun (development)
 - **Database:** PostgreSQL
 - **ORM:** Prisma 7
@@ -478,6 +532,7 @@
 - **API:** Next.js API Routes (REST)
 
 ### Integrations
+
 - **Payment:** Midtrans (Snap + Core API)
 - **WhatsApp:** Evolution API
 - **File Storage:** Local/Cloud
@@ -485,6 +540,7 @@
 - **Excel:** xlsx, read-excel-file
 
 ### DevOps
+
 - **Build:** Turbopack
 - **Container:** Docker (standalone output)
 - **Version Control:** Git
@@ -495,18 +551,21 @@
 ## 📈 Key Metrics & KPIs
 
 ### Academic
+
 - Jumlah siswa aktif per jurusan
 - Rata-rata kehadiran siswa
 - Rata-rata nilai per kelas
 - Progress hafalan tahfidz
 
 ### Financial
+
 - Total pembayaran bulanan
 - Tunggakan per siswa
 - Collection rate per SKU type
 - Outstanding balance trend
 
 ### Operational
+
 - Presensi guru
 - Tugas submitted vs pending
 - Pelanggaran per kategori
@@ -530,6 +589,7 @@
 ## 📝 Catatan Teknis
 
 ### Database Schema
+
 - 34+ models/entities
 - Relational mapping dengan Prisma
 - Snake_case table names (@@map)
@@ -537,6 +597,7 @@
 - Cascade delete untuk referential integrity
 
 ### API Conventions
+
 - RESTful endpoint structure
 - JSON response format
 - Error handling dengan handlePrismaError
@@ -544,6 +605,7 @@
 - Search params validation
 
 ### Frontend Patterns
+
 - Server Component untuk static content
 - Client Component untuk interactivity
 - TanStack Query untuk server state
@@ -555,18 +617,21 @@
 ## 🔄 Update & Maintenance
 
 ### Version Control
+
 - Git dengan feature branches
 - Commit message convention
 - Pull request reviews
 - Staging environment testing
 
 ### Database Migrations
+
 - Prisma migrate dev (development)
 - Prisma migrate deploy (production)
 - Migration rollback strategy
 - Backup sebelum major changes
 
 ### Performance Optimization
+
 - React Query caching strategy:
   - Static: 1 hour (majors, roles, subjects)
   - Dynamic: 5 min (payments, schedules)
@@ -580,6 +645,7 @@
 ## 📞 Support & Documentation
 
 ### For Developers
+
 - AGENTS.md - Repository guidelines
 - DESIGN.md - Architecture decisions
 - Steering files (.kiro/steering/)
@@ -587,6 +653,7 @@
 - TypeScript types (app/(types)/)
 
 ### For Users
+
 - User manual (in-app help)
 - Video tutorials
 - FAQ section
@@ -597,6 +664,7 @@
 ## 🎯 Roadmap & Future Enhancements
 
 ### Phase 2 (Planned)
+
 - [ ] Parent mobile app
 - [ ] E-learning content management
 - [ ] Video conference integration
@@ -605,6 +673,7 @@
 - [ ] Multi-language support
 
 ### Under Consideration
+
 - [ ] AI-powered grade prediction
 - [ ] Automated schedule generator
 - [ ] Smart recommendation system
@@ -615,9 +684,10 @@
 
 ## ✅ Kesimpulan
 
-LMS Rahmaniyah adalah sistem informasi sekolah yang **lengkap, terintegrasi, dan modern** yang mengelola seluruh aspek operasional sekolah dari akademik, keuangan, kedisiplinan, hingga kegiatan tahfidz Al-Qur'an. 
+LMS Santosatechid adalah sistem informasi sekolah yang **lengkap, terintegrasi, dan modern** yang mengelola seluruh aspek operasional sekolah dari akademik, keuangan, kedisiplinan, hingga kegiatan tahfidz Al-Qur'an.
 
 Platform ini dirancang khusus untuk:
+
 - **Yayasan Pendidikan Islam** dengan kebutuhan tahfidz
 - **Multi-school management** dalam satu platform
 - **Otomasi proses** pembayaran dan notifikasi
@@ -627,6 +697,4 @@ Platform ini dirancang khusus untuk:
 
 **Dokumen ini dibuat:** 11 September 2026  
 **Untuk pertanyaan:** Hubungi administrator system
-
 ```
-

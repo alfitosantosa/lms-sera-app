@@ -9,7 +9,6 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 export function Features() {
   const features = [
@@ -64,19 +63,20 @@ export function Features() {
   ];
 
   return (
-    <section id="fitur" className="py-24 bg-background">
+    <section id="fitur" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
+          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
             Modul &amp; Fitur Unggulan
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
             Enam pilar operasional sekolah Anda dalam satu sistem.
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-            Dari bel masuk pagi hingga e-rapor akhir semester, setiap proses berjalan otomatis tanpa
-            perlu entri data berulang di berbagai aplikasi berbeda.
+          <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+            Dari bel masuk pagi hingga e-rapor akhir semester, setiap proses
+            berjalan otomatis tanpa perlu entri data berulang di berbagai
+            aplikasi berbeda.
           </p>
         </div>
 
@@ -85,30 +85,32 @@ export function Features() {
           {features.map((feat, idx) => (
             <Card
               key={idx}
-              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-background p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_12px_30px_rgba(13,37,61,0.06)]"
+              className="group border-border bg-background hover:border-primary/40 relative flex flex-col justify-between overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(13,37,61,0.06)]"
             >
               <CardContent className="space-y-4 p-0">
                 {/* Icon with gradient badge */}
                 <div className="flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                  <div className="bg-secondary text-primary group-hover:bg-primary flex h-12 w-12 items-center justify-center rounded-xl transition-colors group-hover:text-white">
                     <feat.icon className="h-6 w-6" />
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                  <ArrowUpRight className="text-muted-foreground h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
 
-                <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="text-foreground group-hover:text-primary text-lg font-bold transition-colors">
                   {feat.title}
                 </h3>
 
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   {feat.desc}
                 </p>
               </CardContent>
 
-              <div className="mt-6 pt-4 border-t border-border/60">
+              <div className="border-border/60 mt-6 border-t pt-4">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">{feat.metricLabel}</span>
-                  <span className="font-semibold text-foreground [font-feature-settings:'tnum'_1]">
+                  <span className="text-muted-foreground">
+                    {feat.metricLabel}
+                  </span>
+                  <span className="text-foreground [font-feature-settings:'tnum'_1] font-semibold">
                     {feat.metricValue}
                   </span>
                 </div>

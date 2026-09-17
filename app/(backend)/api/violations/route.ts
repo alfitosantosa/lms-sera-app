@@ -20,10 +20,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -61,15 +64,34 @@ export async function POST(request: NextRequest) {
   const t = await resolveFoundation(request);
   if (!t.ok) return t.response;
 
-  const { studentId, violationTypeId, classId, description, status, reportedBy, date, resolutionDate, resolutionNotes } = await request.json();
+  const {
+    studentId,
+    violationTypeId,
+    classId,
+    description,
+    status,
+    reportedBy,
+    date,
+    resolutionDate,
+    resolutionNotes,
+  } = await request.json();
 
   try {
     // Pastikan siswa, kelas, dan jenis pelanggaran milik yayasan ini
     const [ownedStudent, ownedClass, ownedViolationType] = await Promise.all([
-      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.userData.findFirst({
+        where: { id: studentId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.class.findFirst({
+        where: { id: classId, major: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
       prisma.violationType.findFirst({
-        where: { id: violationTypeId, academicYear: { foundationId: t.foundationId } },
+        where: {
+          id: violationTypeId,
+          academicYear: { foundationId: t.foundationId },
+        },
         select: { id: true },
       }),
     ]);
@@ -94,7 +116,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(violation);
   } catch (error) {
     console.error("Error creating violation:", error);
-    return NextResponse.json({ error: "Failed to create violation" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create violation" },
+      { status: 500 },
+    );
   }
 }
 
@@ -103,18 +128,42 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, studentId, violationTypeId, classId, description, status, reportedBy, date, resolutionDate, resolutionNotes } = await request.json();
+    const {
+      id,
+      studentId,
+      violationTypeId,
+      classId,
+      description,
+      status,
+      reportedBy,
+      date,
+      resolutionDate,
+      resolutionNotes,
+    } = await request.json();
 
     // Pastikan data milik yayasan ini, sekaligus validasi relasi barunya
-    const [owned, ownedStudent, ownedClass, ownedViolationType] = await Promise.all([
-      prisma.violation.findFirst({ where: { id, student: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.violationType.findFirst({
-        where: { id: violationTypeId, academicYear: { foundationId: t.foundationId } },
-        select: { id: true },
-      }),
-    ]);
+    const [owned, ownedStudent, ownedClass, ownedViolationType] =
+      await Promise.all([
+        prisma.violation.findFirst({
+          where: { id, student: { foundationId: t.foundationId } },
+          select: { id: true },
+        }),
+        prisma.userData.findFirst({
+          where: { id: studentId, foundationId: t.foundationId },
+          select: { id: true },
+        }),
+        prisma.class.findFirst({
+          where: { id: classId, major: { foundationId: t.foundationId } },
+          select: { id: true },
+        }),
+        prisma.violationType.findFirst({
+          where: {
+            id: violationTypeId,
+            academicYear: { foundationId: t.foundationId },
+          },
+          select: { id: true },
+        }),
+      ]);
 
     if (!owned || !ownedStudent || !ownedClass || !ownedViolationType) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
@@ -137,7 +186,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(violation);
   } catch (error) {
     console.error("Error updating violation:", error);
-    return NextResponse.json({ error: "Failed to update violation" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update violation" },
+      { status: 500 },
+    );
   }
 }
 
@@ -163,6 +215,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(violation);
   } catch (error) {
     console.error("Error deleting violation:", error);
-    return NextResponse.json({ error: "Failed to delete violation" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete violation" },
+      { status: 500 },
+    );
   }
 }

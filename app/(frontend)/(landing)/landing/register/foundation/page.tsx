@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
   Building2,
-  ChevronLeft,
   Upload,
   Phone,
   MapPin,
@@ -30,14 +29,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -60,7 +52,6 @@ import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUs
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 // Form Schema untuk Daftarkan Yayasan
@@ -334,7 +325,7 @@ export default function RegisterFoundation() {
       <div className="absolute top-6 left-6 z-20">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 text-xs font-medium text-secondary-foreground shadow-xs backdrop-blur-md transition-all hover:border-primary/40 hover:bg-background hover:text-primary"
+          className="border-border bg-background/80 text-secondary-foreground hover:border-primary/40 hover:bg-background hover:text-primary inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-xs backdrop-blur-md transition-all"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Beranda</span>
@@ -345,8 +336,8 @@ export default function RegisterFoundation() {
         <div className="mx-auto w-full max-w-2xl">
           {/* Header Section */}
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ">
-              <Building2 className="h-8 w-8 text-info" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              <Building2 className="text-info h-8 w-8" />
             </div>
             <h1 className="mb-2 text-3xl font-bold tracking-tight">
               Daftarkan Yayasan
@@ -368,13 +359,13 @@ export default function RegisterFoundation() {
                 <CardContent className="">
                   <div className="flex items-center gap-3">
                     {session.data.user.image && (
-                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-background shadow-sm">
+                      <div className="border-background relative h-12 w-12 overflow-hidden rounded-full border-2 shadow-sm">
                         <Image
                           src={session.data.user.image}
                           alt={session.data.user.name || "User Avatar"}
                           width={48}
                           height={48}
-                          className="w-full h-full object-cover"
+                          className="h-full w-full object-cover"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
                           }}
@@ -386,7 +377,7 @@ export default function RegisterFoundation() {
                       <p className="text-lg font-semibold">
                         {session.data.user.name}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {session.data.user.email}
                       </p>
                     </div>
@@ -471,7 +462,7 @@ export default function RegisterFoundation() {
                                 <Input
                                   disabled={true}
                                   placeholder="YAYASAN_NUSANTARA_A7B9"
-                                  className="h-11 font-mono bg-muted cursor-not-allowed"
+                                  className="bg-muted h-11 cursor-not-allowed font-mono"
                                   {...field}
                                 />
                               </FormControl>
@@ -552,7 +543,7 @@ export default function RegisterFoundation() {
                                 {/* Current Image Preview */}
                                 {field.value && (
                                   <div className="flex items-center gap-3 rounded-lg border p-3">
-                                    <div className="h-12 w-12 overflow-hidden rounded-lg bg-muted">
+                                    <div className="bg-muted h-12 w-12 overflow-hidden rounded-lg">
                                       <img
                                         src={field.value}
                                         alt="Logo Preview"
@@ -563,7 +554,7 @@ export default function RegisterFoundation() {
                                       <p className="text-sm font-medium">
                                         Logo telah diunggah
                                       </p>
-                                      <p className="text-xs text-muted-foreground">
+                                      <p className="text-muted-foreground text-xs">
                                         Klik tombol di bawah untuk mengubah
                                       </p>
                                     </div>
@@ -616,8 +607,8 @@ export default function RegisterFoundation() {
                         <div className="flex flex-col gap-4 pt-4">
                           {/* DEBUG: Show form values in development */}
                           {process.env.NODE_ENV === "development" && (
-                            <div className="p-4 bg-muted rounded-lg text-xs">
-                              <p className="font-bold mb-2">
+                            <div className="bg-muted rounded-lg p-4 text-xs">
+                              <p className="mb-2 font-bold">
                                 🐛 Debug - Form Values:
                               </p>
                               <pre className="whitespace-pre-wrap">
@@ -748,7 +739,7 @@ export default function RegisterFoundation() {
 
           {/* Footer Info */}
           <div className="mt-8 text-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Sudah memiliki akun yayasan?{" "}
               <Button
                 variant="link"

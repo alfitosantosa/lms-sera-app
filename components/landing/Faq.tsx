@@ -37,19 +37,19 @@ export function Faq() {
   ];
 
   return (
-    <section id="faq" className="bg-secondary py-24 border-t border-border">
+    <section id="faq" className="bg-secondary border-border border-t py-24">
       <div className="mx-auto max-w-3xl px-6">
         {/* Section Header */}
         <div className="text-center">
-          <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
+          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
             Pertanyaan Umum (FAQ)
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
             Semua yang perlu Anda ketahui sebelum mulai.
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-            Jawaban atas pertanyaan umum seputar migrasi data, keamanan multi-tenant, dan
-            integrasi penagihan SPP.
+          <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+            Jawaban atas pertanyaan umum seputar migrasi data, keamanan
+            multi-tenant, dan integrasi penagihan SPP.
           </p>
         </div>
 
@@ -60,12 +60,12 @@ export function Faq() {
               <AccordionItem
                 key={idx}
                 value={`faq-${idx}`}
-                className="rounded-xl border border-border bg-background px-5 shadow-xs transition-colors data-[state=open]:border-primary/40 data-[state=open]:shadow-sm"
+                className="border-border bg-background data-[state=open]:border-primary/40 rounded-xl border px-5 shadow-xs transition-colors data-[state=open]:shadow-sm"
               >
-                <AccordionTrigger className="text-left text-sm font-bold text-foreground hover:text-primary hover:no-underline py-4">
+                <AccordionTrigger className="text-foreground hover:text-primary py-4 text-left text-sm font-bold hover:no-underline">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-xs leading-relaxed text-muted-foreground pb-4">
+                <AccordionContent className="text-muted-foreground pb-4 text-xs leading-relaxed">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

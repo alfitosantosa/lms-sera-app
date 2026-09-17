@@ -34,7 +34,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 // export async function GET() {
 //   try {
@@ -118,13 +118,39 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { studentId, amount, dueDate, status, notes, paymentDate, receiptNumber, accountBankId, majorId, month, bendaharaId, bankRef, transferDate } = await request.json();
+    const {
+      studentId,
+      amount,
+      dueDate,
+      status,
+      notes,
+      paymentDate,
+      receiptNumber,
+      accountBankId,
+      majorId,
+      month,
+      bendaharaId,
+      bankRef,
+      transferDate,
+    } = await request.json();
 
     const [student, major, accountBank, bendahara] = await Promise.all([
-      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.accountBank.findFirst({ where: { id: accountBankId, majors: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.userData.findFirst({ where: { id: bendaharaId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.userData.findFirst({
+        where: { id: studentId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.major.findFirst({
+        where: { id: majorId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.accountBank.findFirst({
+        where: { id: accountBankId, majors: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
+      prisma.userData.findFirst({
+        where: { id: bendaharaId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
     ]);
 
     if (!student || !major || !accountBank || !bendahara) {
@@ -166,7 +192,21 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, studentId, amount, dueDate, status, notes, paymentDate, receiptNumber, accountBankId, majorId, month, bankRef, transferDate } = await request.json();
+    const {
+      id,
+      studentId,
+      amount,
+      dueDate,
+      status,
+      notes,
+      paymentDate,
+      receiptNumber,
+      accountBankId,
+      majorId,
+      month,
+      bankRef,
+      transferDate,
+    } = await request.json();
 
     const owned = await prisma.payment.findFirst({
       where: { id, major: { foundationId: t.foundationId } },
@@ -175,9 +215,18 @@ export async function PUT(request: NextRequest) {
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const [student, major, accountBank] = await Promise.all([
-      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.major.findFirst({ where: { id: majorId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.accountBank.findFirst({ where: { id: accountBankId, majors: { foundationId: t.foundationId } }, select: { id: true } }),
+      prisma.userData.findFirst({
+        where: { id: studentId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.major.findFirst({
+        where: { id: majorId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
+      prisma.accountBank.findFirst({
+        where: { id: accountBankId, majors: { foundationId: t.foundationId } },
+        select: { id: true },
+      }),
     ]);
 
     if (!student || !major || !accountBank) {

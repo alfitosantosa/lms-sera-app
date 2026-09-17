@@ -9,11 +9,27 @@ import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "@/lib/authClients";
-import { AlertTriangle, BookOpen, CheckCircle, Clock, MessageSquare, Send, Smartphone, User, Users } from "lucide-react";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import {
+  AlertTriangle,
+  BookOpen,
+  CheckCircle,
+  Clock,
+  MessageSquare,
+  Send,
+  Smartphone,
+  User,
+  Users,
+} from "lucide-react";
+import { type StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import { unauthorized, useParams } from "next/navigation";
 import React, { useState } from "react";
@@ -38,30 +54,41 @@ const STATUS_MAP = {
 
 function AttendanceModule() {
   const params = useParams();
-  const [attendanceData, setAttendanceData] = useState<Record<string, { status: string; notes?: string; evidenceUrl?: string }>>({});
+  const [attendanceData, setAttendanceData] = useState<
+    Record<string, { status: string; notes?: string; evidenceUrl?: string }>
+  >({});
   const [sendWhatsApp, setSendWhatsApp] = useState(false);
   const [isSendingWA, setIsSendingWA] = useState(false);
 
   // Fetch schedule by id
-  const { data: scheduleDataById = [], isLoading: isLoadingSchedule, isError: isErrorSchedule } = useGetScheduleById(params.id as string);
+  const {
+    data: scheduleDataById = [],
+    isLoading: isLoadingSchedule,
+    isError: isErrorSchedule,
+  } = useGetScheduleById(params.id as string);
 
   // Get class ID from the first schedule item
-  const classId = scheduleDataById.length > 0 ? scheduleDataById[0]?.classId : null;
+  const classId =
+    scheduleDataById.length > 0 ? scheduleDataById[0]?.classId : null;
 
   // Fetch class by id from schedule
-  const { data: classData, isLoading: isLoadingClass, isError: isErrorClass } = useGetClassById(classId as string);
+  const {
+    data: classData,
+    isLoading: isLoadingClass,
+    isError: isErrorClass,
+  } = useGetClassById(classId as string);
 
   // Initialize mutation hooks
   const createAttendanceMutation = useCreateAttendanceBulk();
   const bulkSendWA = useBulkSendWhatsApp();
 
-  const currentSession =
-    scheduleDataById[0] ?
-      {
+  const currentSession = scheduleDataById[0]
+    ? {
         subject: scheduleDataById[0]?.subject?.name,
         class: classData?.[0]?.name || "Loading...",
         time: `${scheduleDataById[0].startTime} - ${scheduleDataById[0].endTime}`,
-        teacher: "Teacher: " + (scheduleDataById[0].teacher?.name || "Loading..."),
+        teacher:
+          "Teacher: " + (scheduleDataById[0].teacher?.name || "Loading..."),
       }
     : null;
 
@@ -83,15 +110,25 @@ function AttendanceModule() {
   };
 
   // Function to send WhatsApp notification to parents
-  const sendWhatsAppNotification = async (students: Student[], attendanceInfo: Record<string, { status: string; notes?: string }>) => {
+  const sendWhatsAppNotification = async (
+    students: Student[],
+    attendanceInfo: Record<string, { status: string; notes?: string }>,
+  ) => {
     const schedule = scheduleDataById[0];
     if (!schedule || !classData) return;
 
     // Filter students with parentPhone and attendance data and send if status not absent
-    const studentsWithPhone = students.filter((s) => s.parentPhone && s.parentPhone.trim() !== "" && attendanceInfo[s.id]?.status !== "present");
+    const studentsWithPhone = students.filter(
+      (s) =>
+        s.parentPhone &&
+        s.parentPhone.trim() !== "" &&
+        attendanceInfo[s.id]?.status !== "present",
+    );
 
     if (studentsWithPhone.length === 0) {
-      toast.warning("Tidak ada nomor HP orang tua yang valid untuk dikirim notifikasi.");
+      toast.warning(
+        "Tidak ada nomor HP orang tua yang valid untuk dikirim notifikasi.",
+      );
       return;
     }
 
@@ -219,11 +256,14 @@ Terima kasih.
     try {
       for (const student of studentsWithPhone) {
         const status = attendanceInfo[student.id]?.status || "unknown";
-        const statusLabel = STATUS_MAP[status as keyof typeof STATUS_MAP]?.label || status;
+        const statusLabel =
+          STATUS_MAP[status as keyof typeof STATUS_MAP]?.label || status;
         const notes = attendanceInfo[student.id]?.notes;
 
         // Select a random template for this student
-        const randomTemplateIndex = Math.floor(Math.random() * templates.length);
+        const randomTemplateIndex = Math.floor(
+          Math.random() * templates.length,
+        );
         const selectedTemplate = templates[randomTemplateIndex];
 
         // Personalize message for each student
@@ -249,7 +289,9 @@ Terima kasih.
       }
 
       if (successCount > 0) {
-        toast.success(`Berhasil mengirim ${successCount} notifikasi WhatsApp ke orang tua.`);
+        toast.success(
+          `Berhasil mengirim ${successCount} notifikasi WhatsApp ke orang tua.`,
+        );
       }
       if (failCount > 0) {
         toast.error(`Gagal mengirim ${failCount} notifikasi WhatsApp.`);
@@ -271,7 +313,9 @@ Terima kasih.
       }
 
       // Filter only students with attendance status set
-      const studentsWithAttendance = Object.entries(attendanceData).filter(([_, data]) => data.status);
+      const studentsWithAttendance = Object.entries(attendanceData).filter(
+        ([_, data]) => data.status,
+      );
 
       if (studentsWithAttendance.length === 0) {
         toast.warning("Silakan set status kehadiran untuk minimal satu siswa.");
@@ -285,16 +329,20 @@ Terima kasih.
       }
 
       if (totalStudents === studentsWithAttendance.length) {
-        const attendanceArray = studentsWithAttendance.map(([studentId, data]) => ({
-          studentId,
-          scheduleId: scheduleDataById[0].id,
-          status: data.status, // This will now be 'present', 'absent', 'late', 'excused', or 'sick'
-          notes: data.notes || null,
-          date: new Date(), // This should match your database date field
-        }));
+        const attendanceArray = studentsWithAttendance.map(
+          ([studentId, data]) => ({
+            studentId,
+            scheduleId: scheduleDataById[0].id,
+            status: data.status, // This will now be 'present', 'absent', 'late', 'excused', or 'sick'
+            notes: data.notes || null,
+            date: new Date(), // This should match your database date field
+          }),
+        );
 
         // Use the mutation with proper payload structure
-        await createAttendanceMutation.mutateAsync({ attendances: attendanceArray });
+        await createAttendanceMutation.mutateAsync({
+          attendances: attendanceArray,
+        });
 
         toast.success("Absensi berhasil disimpan!");
 
@@ -311,7 +359,10 @@ Terima kasih.
       }
     } catch (error) {
       console.error("Error saving attendance:", error);
-      toast.error("Error saving attendance: " + (error instanceof Error ? error.message : String(error)));
+      toast.error(
+        "Error saving attendance: " +
+          (error instanceof Error ? error.message : String(error)),
+      );
     }
   };
 
@@ -322,11 +373,23 @@ Terima kasih.
   // Get attendance statistics
   const getAttendanceStats = () => {
     const students = classData?.[0]?.students || [];
-    const present = students.filter((s: { id: string | number }) => attendanceData[s.id]?.status === "present").length;
-    const excused = students.filter((s: { id: string | number }) => attendanceData[s.id]?.status === "excused").length;
-    const sick = students.filter((s: { id: string | number }) => attendanceData[s.id]?.status === "sick").length;
-    const late = students.filter((s: { id: string | number }) => attendanceData[s.id]?.status === "late").length;
-    const absent = students.filter((s: { id: string | number }) => attendanceData[s.id]?.status === "absent").length;
+    const present = students.filter(
+      (s: { id: string | number }) =>
+        attendanceData[s.id]?.status === "present",
+    ).length;
+    const excused = students.filter(
+      (s: { id: string | number }) =>
+        attendanceData[s.id]?.status === "excused",
+    ).length;
+    const sick = students.filter(
+      (s: { id: string | number }) => attendanceData[s.id]?.status === "sick",
+    ).length;
+    const late = students.filter(
+      (s: { id: string | number }) => attendanceData[s.id]?.status === "late",
+    ).length;
+    const absent = students.filter(
+      (s: { id: string | number }) => attendanceData[s.id]?.status === "absent",
+    ).length;
 
     return { present, excused, sick, late, absent };
   };
@@ -336,10 +399,13 @@ Terima kasih.
   if (isErrorSchedule || isErrorClass) {
     return (
       <>
-        <div className="max-w-7xl mx-auto p-6 min-h-screen">
+        <div className="mx-auto min-h-screen max-w-7xl p-6">
           <Alert className="max-w-2xl">
             <AlertTriangle className="h-4 w-4" />
-            <AlertDescription>Error loading data. Please try refreshing the page or contact support.</AlertDescription>
+            <AlertDescription>
+              Error loading data. Please try refreshing the page or contact
+              support.
+            </AlertDescription>
           </Alert>
         </div>
       </>
@@ -348,30 +414,32 @@ Terima kasih.
 
   return (
     <>
-      <div className="max-w-7xl mx-auto p-6 space-y-6 min-h-screen">
+      <div className="mx-auto min-h-screen max-w-7xl space-y-6 p-6">
         {/* Mobile Attendance Interface */}
         <Card>
           <CardHeader>
             <div className="flex items-center space-x-2">
-              <Smartphone className="h-5 w-5 text-info" />
+              <Smartphone className="text-info h-5 w-5" />
               <div>
                 <CardTitle>Absensi Mobile - Sesi Aktif</CardTitle>
-                <CardDescription>Akses otomatis berdasarkan jadwal guru yang login</CardDescription>
+                <CardDescription>
+                  Akses otomatis berdasarkan jadwal guru yang login
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            {isLoadingSchedule || isLoadingClass ?
+            {isLoadingSchedule || isLoadingClass ? (
               <Loading />
-            : currentSession ?
-              <div className="bg-info-surface p-4 rounded-lg mb-4">
+            ) : currentSession ? (
+              <div className="bg-info-surface mb-4 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-semibold flex items-center gap-2">
+                    <h3 className="flex items-center gap-2 font-semibold">
                       <BookOpen className="h-4 w-4" />
                       {currentSession.subject}
                     </h3>
-                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                    <p className="text-muted-foreground flex items-center gap-2 text-sm">
                       <Users className="h-4 w-4" />
                       {currentSession.class}
                     </p>
@@ -380,39 +448,52 @@ Terima kasih.
                     <div className="flex items-center space-x-1">
                       <span className="text-sm">
                         <Badge>
-                          <Clock className="text-white h-4 w-4" />
+                          <Clock className="h-4 w-4 text-white" />
                           {currentSession.time}
                         </Badge>
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground"> {currentSession.teacher}</p>
+                    <p className="text-muted-foreground text-xs">
+                      {" "}
+                      {currentSession.teacher}
+                    </p>
                   </div>
                 </div>
               </div>
-            : null}
+            ) : null}
 
             <div className="space-y-3">
-              {isLoadingClass ?
+              {isLoadingClass ? (
                 <Loading />
-              : classData?.[0]?.students?.map((student: Student) => (
-                  <div key={student.id} className="flex flex-wrap items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors gap-3">
-                    <div className={`w-3 h-3 rounded-xl ${getStatusColor(attendanceData[student.id]?.status)}`}></div>
+              ) : (
+                classData?.[0]?.students?.map((student: Student) => (
+                  <div
+                    key={student.id}
+                    className="hover:bg-muted/50 flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3 transition-colors"
+                  >
+                    <div
+                      className={`h-3 w-3 rounded-xl ${getStatusColor(attendanceData[student.id]?.status)}`}
+                    ></div>
                     <div>
-                      <div className="flex flex-wrap items-center w-full gap-2 border rounded-xl p-4">
+                      <div className="flex w-full flex-wrap items-center gap-2 rounded-xl border p-4">
                         <Image
-                          src={student?.avatarUrl ? student.avatarUrl : "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"}
+                          src={
+                            student?.avatarUrl
+                              ? student.avatarUrl
+                              : "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"
+                          }
                           alt="Picture of the author"
                           width={60}
                           height={60}
                           className="rounded-lg"
                         />
                         <div>
-                          <p className="font-medium flex items-center gap-3">
-                            <User className="h-4 w-4 text-muted-foreground" />
+                          <p className="flex items-center gap-3 font-medium">
+                            <User className="text-muted-foreground h-4 w-4" />
                             {student.name}
                           </p>
                           {student.nisn && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               <Badge variant="outline" className="px-1 py-0.5">
                                 NISN: {student.nisn}
                               </Badge>
@@ -421,53 +502,89 @@ Terima kasih.
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1 justify-center items-center">
+                    <div className="flex flex-wrap items-center justify-center gap-1">
                       {Object.entries(STATUS_MAP).map(([status, config]) => (
-                        <Button key={status} size="sm" variant={attendanceData[student.id]?.status === status ? "default" : "outline"} onClick={() => updateAttendance(student.id, status)} className="text-xs px-2 py-1">
+                        <Button
+                          key={status}
+                          size="sm"
+                          variant={
+                            attendanceData[student.id]?.status === status
+                              ? "default"
+                              : "outline"
+                          }
+                          onClick={() => updateAttendance(student.id, status)}
+                          className="px-2 py-1 text-xs"
+                        >
                           {config.label}
                         </Button>
                       ))}
                     </div>
                   </div>
                 ))
-              }
+              )}
             </div>
 
             <div className="mt-6 space-y-4">
               {/* WhatsApp Notification Option */}
-              <div className="flex items-center space-x-3 p-4 bg-success-surface rounded-lg border border-success-border">
-                <Checkbox id="sendWhatsApp" checked={sendWhatsApp} onCheckedChange={(checked) => setSendWhatsApp(checked as boolean)} />
-                <label htmlFor="sendWhatsApp" className="flex items-center gap-2 text-sm font-medium text-success-strong cursor-pointer">
+              <div className="bg-success-surface border-success-border flex items-center space-x-3 rounded-lg border p-4">
+                <Checkbox
+                  id="sendWhatsApp"
+                  checked={sendWhatsApp}
+                  onCheckedChange={(checked) =>
+                    setSendWhatsApp(checked as boolean)
+                  }
+                />
+                <label
+                  htmlFor="sendWhatsApp"
+                  className="text-success-strong flex cursor-pointer items-center gap-2 text-sm font-medium"
+                >
                   <MessageSquare className="h-4 w-4" />
                   Kirim notifikasi WhatsApp ke orang tua murid
                 </label>
                 {sendWhatsApp && (
                   <Badge variant="secondary" className="ml-auto">
-                    <Send className="h-3 w-3 mr-1" />
+                    <Send className="mr-1 h-3 w-3" />
                     Aktif
                   </Badge>
                 )}
               </div>
 
-              <div className="flex justify-between items-center">
-                <Button onClick={saveAttendance} disabled={isLoadingClass || createAttendanceMutation.isPending || isSendingWA} className="min-w-45">
-                  {createAttendanceMutation.isPending || isSendingWA ?
+              <div className="flex items-center justify-between">
+                <Button
+                  onClick={saveAttendance}
+                  disabled={
+                    isLoadingClass ||
+                    createAttendanceMutation.isPending ||
+                    isSendingWA
+                  }
+                  className="min-w-45"
+                >
+                  {createAttendanceMutation.isPending || isSendingWA ? (
                     <>
-                      <span className="animate-spin mr-2">⏳</span>
+                      <span className="mr-2 animate-spin">⏳</span>
                       {isSendingWA ? "Mengirim WA..." : "Menyimpan..."}
                     </>
-                  : <>
-                      <CheckCircle className="h-4 w-4 mr-2" />
+                  ) : (
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" />
                       Simpan Absensi
                       {sendWhatsApp && " & Kirim WA"}
                     </>
-                  }
+                  )}
                 </Button>
 
                 {/* Show success/error states */}
                 <div className="flex items-center gap-2">
-                  {createAttendanceMutation.isSuccess && <span className="text-success text-sm">✓ Berhasil disimpan</span>}
-                  {createAttendanceMutation.isError && <span className="text-destructive text-sm">✗ Gagal menyimpan</span>}
+                  {createAttendanceMutation.isSuccess && (
+                    <span className="text-success text-sm">
+                      ✓ Berhasil disimpan
+                    </span>
+                  )}
+                  {createAttendanceMutation.isError && (
+                    <span className="text-destructive text-sm">
+                      ✗ Gagal menyimpan
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -479,37 +596,52 @@ Terima kasih.
           <CardHeader>
             <CardTitle>Ringkasan Absensi Hari Ini</CardTitle>
             <CardDescription>
-              {isLoadingClass ?
+              {isLoadingClass ? (
                 <Loading />
-              : `${classData?.[0]?.students?.length || 0} siswa dalam kelas ini`}
+              ) : (
+                `${classData?.[0]?.students?.length || 0} siswa dalam kelas ini`
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {isLoadingClass ?
+            {isLoadingClass ? (
               <Loading />
-            : <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="text-center p-4 bg-success-surface rounded-lg">
-                  <div className="text-2xl font-bold text-success">{stats.present}</div>
-                  <div className="text-sm text-muted-foreground">Hadir</div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+                <div className="bg-success-surface rounded-lg p-4 text-center">
+                  <div className="text-success text-2xl font-bold">
+                    {stats.present}
+                  </div>
+                  <div className="text-muted-foreground text-sm">Hadir</div>
                 </div>
-                <div className="text-center p-4 bg-info-surface rounded-lg">
-                  <div className="text-2xl font-bold text-info">{stats.excused}</div>
-                  <div className="text-sm text-muted-foreground">Izin</div>
+                <div className="bg-info-surface rounded-lg p-4 text-center">
+                  <div className="text-info text-2xl font-bold">
+                    {stats.excused}
+                  </div>
+                  <div className="text-muted-foreground text-sm">Izin</div>
                 </div>
-                <div className="text-center p-4 bg-tertiary-surface rounded-lg">
-                  <div className="text-2xl font-bold text-tertiary">{stats.sick}</div>
-                  <div className="text-sm text-muted-foreground">Sakit</div>
+                <div className="bg-tertiary-surface rounded-lg p-4 text-center">
+                  <div className="text-tertiary text-2xl font-bold">
+                    {stats.sick}
+                  </div>
+                  <div className="text-muted-foreground text-sm">Sakit</div>
                 </div>
-                <div className="text-center p-4 bg-warning-surface rounded-lg">
-                  <div className="text-2xl font-bold text-warning">{stats.late}</div>
-                  <div className="text-sm text-muted-foreground">Terlambat</div>
+                <div className="bg-warning-surface rounded-lg p-4 text-center">
+                  <div className="text-warning text-2xl font-bold">
+                    {stats.late}
+                  </div>
+                  <div className="text-muted-foreground text-sm">Terlambat</div>
                 </div>
-                <div className="text-center p-4 bg-destructive-surface rounded-lg">
-                  <div className="text-2xl font-bold text-destructive">{stats.absent}</div>
-                  <div className="text-sm text-muted-foreground">Tidak Hadir</div>
+                <div className="bg-destructive-surface rounded-lg p-4 text-center">
+                  <div className="text-destructive text-2xl font-bold">
+                    {stats.absent}
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    Tidak Hadir
+                  </div>
                 </div>
               </div>
-            }
+            )}
           </CardContent>
         </Card>
 
@@ -575,7 +707,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

@@ -10,43 +10,43 @@
 
 ### Database Models (27 total)
 
-| Model | Table | Domain |
-|---|---|---|
-| Foundation | `foundation` | Core / Tenant |
-| User | `user` | Authentication |
-| Session | `session` | Authentication |
-| Account | `account` | Authentication |
-| Verification | `verification` | Authentication |
-| UserData | `user_data` | Core / Users |
-| Role | `roles` | Authorization |
-| AcademicYear | `academic_years` | Academic |
-| Major | `majors` | Academic (Branch) |
-| Class | `classes` | Academic |
-| Subject | `subjects` | Academic |
-| Schedule | `schedules` | Academic |
-| Attendance | `attendances` | Attendance |
-| TeacherAttendance | `teacher_attendances` | Attendance |
-| ViolationType | `violation_types` | Discipline |
-| Violation | `violations` | Discipline |
-| PaymentType | `payment_types` | Finance |
-| PaymentItems | `payment_items` | Finance |
-| Payment | `payments` | Finance |
-| PaymentTransaction | `payment_transactions` | Finance |
-| AccountBank | `account_bank` | Finance |
-| TahfidzGroup | `tahfidz_groups` | Tahfidz |
-| TahfidzRecord | `tahfidz_records` | Tahfidz |
-| SurahQuran | `surah_quran` | Tahfidz |
-| CalendarEvent | `calendar_events` | Calendar |
-| GradeType | `grade_types` | Grading |
-| GradeConfiguration | `grade_configurations` | Grading |
-| Grade | `grades` | Grading |
-| GradeScale | `grade_scales` | Grading |
-| ReportCard | `report_cards` | Grading |
-| Assignment | `assignments` | Grading |
-| AssignmentSubmission | `assignment_submissions` | Grading |
-| Notification | `notifications` | Communication |
-| DashboardContent | `dashboard_contents` | Dashboard |
-| Announcement | `announcements` | Communication |
+| Model                | Table                    | Domain            |
+| -------------------- | ------------------------ | ----------------- |
+| Foundation           | `foundation`             | Core / Tenant     |
+| User                 | `user`                   | Authentication    |
+| Session              | `session`                | Authentication    |
+| Account              | `account`                | Authentication    |
+| Verification         | `verification`           | Authentication    |
+| UserData             | `user_data`              | Core / Users      |
+| Role                 | `roles`                  | Authorization     |
+| AcademicYear         | `academic_years`         | Academic          |
+| Major                | `majors`                 | Academic (Branch) |
+| Class                | `classes`                | Academic          |
+| Subject              | `subjects`               | Academic          |
+| Schedule             | `schedules`              | Academic          |
+| Attendance           | `attendances`            | Attendance        |
+| TeacherAttendance    | `teacher_attendances`    | Attendance        |
+| ViolationType        | `violation_types`        | Discipline        |
+| Violation            | `violations`             | Discipline        |
+| PaymentType          | `payment_types`          | Finance           |
+| PaymentItems         | `payment_items`          | Finance           |
+| Payment              | `payments`               | Finance           |
+| PaymentTransaction   | `payment_transactions`   | Finance           |
+| AccountBank          | `account_bank`           | Finance           |
+| TahfidzGroup         | `tahfidz_groups`         | Tahfidz           |
+| TahfidzRecord        | `tahfidz_records`        | Tahfidz           |
+| SurahQuran           | `surah_quran`            | Tahfidz           |
+| CalendarEvent        | `calendar_events`        | Calendar          |
+| GradeType            | `grade_types`            | Grading           |
+| GradeConfiguration   | `grade_configurations`   | Grading           |
+| Grade                | `grades`                 | Grading           |
+| GradeScale           | `grade_scales`           | Grading           |
+| ReportCard           | `report_cards`           | Grading           |
+| Assignment           | `assignments`            | Grading           |
+| AssignmentSubmission | `assignment_submissions` | Grading           |
+| Notification         | `notifications`          | Communication     |
+| DashboardContent     | `dashboard_contents`     | Dashboard         |
+| Announcement         | `announcements`          | Communication     |
 
 ### Business Domains
 
@@ -68,77 +68,79 @@
 
 ### Dashboard Pages (63 total)
 
-| Route | Role | Description |
-|---|---|---|
-| `/dashboard` | All | Main dashboard |
-| `/dashboard/profile` | All | User profile |
-| `/dashboard/foundation` | Admin | Foundation management |
-| `/dashboard/majors` | Admin | Majors listing |
-| `/dashboard/payments` | Shared | Payments listing |
-| `/dashboard/reports` | Shared | Reports |
-| `/dashboard/admin/master/users` | Admin | Master - Users |
-| `/dashboard/admin/master/roles` | Admin | Master - Roles |
-| `/dashboard/admin/master/majors` | Admin | Master - Majors |
-| `/dashboard/admin/master/classes` | Admin | Master - Classes |
-| `/dashboard/admin/master/classes/tahfidz` | Admin | Master - Tahfidz Groups |
-| `/dashboard/admin/master/subjects` | Admin | Master - Subjects |
-| `/dashboard/admin/master/academicyear` | Admin | Master - Academic Year |
-| `/dashboard/admin/master/betterauth` | Admin | Master - Auth Users |
-| `/dashboard/admin/academic/schedules` | Admin | Schedules |
-| `/dashboard/admin/academic/specialschedule` | Admin | Special Schedule (Calendar Events) |
-| `/dashboard/admin/academic/tahfidzrecord` | Admin | Tahfidz Records |
-| `/dashboard/admin/finance/billing` | Admin | Billing |
-| `/dashboard/admin/finance/billing/chart` | Admin | Billing Dashboard |
-| `/dashboard/admin/finance/payments` | Admin | Payments |
-| `/dashboard/admin/finance/payments/chart` | Admin | Payments Dashboard |
-| `/dashboard/admin/finance/paymenttypes` | Admin | Payment Types |
-| `/dashboard/admin/finance/accountbank` | Admin | Account Bank |
-| `/dashboard/admin/finance/accountbank/chart` | Admin | Account Bank Dashboard |
-| `/dashboard/admin/finance/studentinformation` | Admin | Student Payment Info |
-| `/dashboard/admin/discipline/typeviolations` | Admin | Violation Types |
-| `/dashboard/admin/attendance` | Admin | Admin Attendance Backup |
-| `/dashboard/admin/utility/upload/users` | Admin | Bulk Upload Users |
-| `/dashboard/admin/utility/upload/schedules` | Admin | Bulk Upload Schedules |
-| `/dashboard/admin/utility/botwa` | Admin | WhatsApp Bot |
-| `/dashboard/teacher/schedule` | Teacher | My Schedule |
-| `/dashboard/teacher/schedule/[id]` | Teacher | Schedule Detail |
-| `/dashboard/teacher/attendance/[id]` | Teacher | Attendance Input |
-| `/dashboard/teacher/attendance/tahfidz/[id]` | Teacher | Tahfidz Attendance |
-| `/dashboard/teacher/tahfidzrecord/[idTahfidzGroup]` | Teacher | Tahfidz Records |
-| `/dashboard/student/schedule` | Student | Student Schedule |
-| `/dashboard/student/attendance` | Student | Student Attendance |
-| `/dashboard/student/payment` | Student | Student Payment |
-| `/dashboard/student/tahfidzrecord` | Student | Student Tahfidz Records |
-| `/dashboard/parent` | Parent | Parent Portal |
-| `/dashboard/treasurer/billing` | Treasurer | Billing |
-| `/dashboard/treasurer/billing/upload` | Treasurer | Billing Upload |
-| `/dashboard/treasurer/payment` | Treasurer | Payments |
-| `/dashboard/treasurer/paymenttype` | Treasurer | Payment Types |
-| `/dashboard/treasurer/studentinformation` | Treasurer | Student Info |
-| `/dashboard/treasurer/class` | Treasurer | Classes |
-| `/dashboard/treasurer/users` | Treasurer | Users |
-| `/dashboard/treasurer/users/upload` | Treasurer | Users Upload |
-| `/dashboard/attendance` | Shared | Attendance |
-| `/dashboard/attendance/teacher` | Teacher | Teacher Attendance |
-| `/dashboard/attendance/teacher/input ` | Teacher | Teacher Attendance Input (trailing space!) |
-| `/dashboard/recapattendance` | Shared | Attendance Recap |
-| `/dashboard/recapattendance/class` | Shared | Attendance Recap by Class |
-| `/dashboard/violations` | Shared | Violations |
-| `/dashboard/violations/teacher` | Teacher | Teacher Violations View |
-| `/dashboard/violations/student` | Student | Student Violations View |
-| `/dashboard/calender` | Shared | Calendar (MISSPELLED) |
-| `/dashboard/calender/teacher` | Teacher | Teacher Calendar |
-| `/dashboard/calender/student` | Student | Student Calendar |
-| `/dashboard/calender/list/teacher` | Teacher | Teacher Calendar List |
-| `/dashboard/calender/list/student` | Student | Student Calendar List |
-| `/dashboard/middleware` | Internal | Middleware test page |
-| `/dashboard/test/date` | Internal | Date test sandbox |
+| Route                                               | Role      | Description                                |
+| --------------------------------------------------- | --------- | ------------------------------------------ |
+| `/dashboard`                                        | All       | Main dashboard                             |
+| `/dashboard/profile`                                | All       | User profile                               |
+| `/dashboard/foundation`                             | Admin     | Foundation management                      |
+| `/dashboard/majors`                                 | Admin     | Majors listing                             |
+| `/dashboard/payments`                               | Shared    | Payments listing                           |
+| `/dashboard/reports`                                | Shared    | Reports                                    |
+| `/dashboard/admin/master/users`                     | Admin     | Master - Users                             |
+| `/dashboard/admin/master/roles`                     | Admin     | Master - Roles                             |
+| `/dashboard/admin/master/majors`                    | Admin     | Master - Majors                            |
+| `/dashboard/admin/master/classes`                   | Admin     | Master - Classes                           |
+| `/dashboard/admin/master/classes/tahfidz`           | Admin     | Master - Tahfidz Groups                    |
+| `/dashboard/admin/master/subjects`                  | Admin     | Master - Subjects                          |
+| `/dashboard/admin/master/academicyear`              | Admin     | Master - Academic Year                     |
+| `/dashboard/admin/master/betterauth`                | Admin     | Master - Auth Users                        |
+| `/dashboard/admin/academic/schedules`               | Admin     | Schedules                                  |
+| `/dashboard/admin/academic/specialschedule`         | Admin     | Special Schedule (Calendar Events)         |
+| `/dashboard/admin/academic/tahfidzrecord`           | Admin     | Tahfidz Records                            |
+| `/dashboard/admin/finance/billing`                  | Admin     | Billing                                    |
+| `/dashboard/admin/finance/billing/chart`            | Admin     | Billing Dashboard                          |
+| `/dashboard/admin/finance/payments`                 | Admin     | Payments                                   |
+| `/dashboard/admin/finance/payments/chart`           | Admin     | Payments Dashboard                         |
+| `/dashboard/admin/finance/paymenttypes`             | Admin     | Payment Types                              |
+| `/dashboard/admin/finance/accountbank`              | Admin     | Account Bank                               |
+| `/dashboard/admin/finance/accountbank/chart`        | Admin     | Account Bank Dashboard                     |
+| `/dashboard/admin/finance/studentinformation`       | Admin     | Student Payment Info                       |
+| `/dashboard/admin/discipline/typeviolations`        | Admin     | Violation Types                            |
+| `/dashboard/admin/attendance`                       | Admin     | Admin Attendance Backup                    |
+| `/dashboard/admin/utility/upload/users`             | Admin     | Bulk Upload Users                          |
+| `/dashboard/admin/utility/upload/schedules`         | Admin     | Bulk Upload Schedules                      |
+| `/dashboard/admin/utility/botwa`                    | Admin     | WhatsApp Bot                               |
+| `/dashboard/teacher/schedule`                       | Teacher   | My Schedule                                |
+| `/dashboard/teacher/schedule/[id]`                  | Teacher   | Schedule Detail                            |
+| `/dashboard/teacher/attendance/[id]`                | Teacher   | Attendance Input                           |
+| `/dashboard/teacher/attendance/tahfidz/[id]`        | Teacher   | Tahfidz Attendance                         |
+| `/dashboard/teacher/tahfidzrecord/[idTahfidzGroup]` | Teacher   | Tahfidz Records                            |
+| `/dashboard/student/schedule`                       | Student   | Student Schedule                           |
+| `/dashboard/student/attendance`                     | Student   | Student Attendance                         |
+| `/dashboard/student/payment`                        | Student   | Student Payment                            |
+| `/dashboard/student/tahfidzrecord`                  | Student   | Student Tahfidz Records                    |
+| `/dashboard/parent`                                 | Parent    | Parent Portal                              |
+| `/dashboard/treasurer/billing`                      | Treasurer | Billing                                    |
+| `/dashboard/treasurer/billing/upload`               | Treasurer | Billing Upload                             |
+| `/dashboard/treasurer/payment`                      | Treasurer | Payments                                   |
+| `/dashboard/treasurer/paymenttype`                  | Treasurer | Payment Types                              |
+| `/dashboard/treasurer/studentinformation`           | Treasurer | Student Info                               |
+| `/dashboard/treasurer/class`                        | Treasurer | Classes                                    |
+| `/dashboard/treasurer/users`                        | Treasurer | Users                                      |
+| `/dashboard/treasurer/users/upload`                 | Treasurer | Users Upload                               |
+| `/dashboard/attendance`                             | Shared    | Attendance                                 |
+| `/dashboard/attendance/teacher`                     | Teacher   | Teacher Attendance                         |
+| `/dashboard/attendance/teacher/input `              | Teacher   | Teacher Attendance Input (trailing space!) |
+| `/dashboard/recapattendance`                        | Shared    | Attendance Recap                           |
+| `/dashboard/recapattendance/class`                  | Shared    | Attendance Recap by Class                  |
+| `/dashboard/violations`                             | Shared    | Violations                                 |
+| `/dashboard/violations/teacher`                     | Teacher   | Teacher Violations View                    |
+| `/dashboard/violations/student`                     | Student   | Student Violations View                    |
+| `/dashboard/calender`                               | Shared    | Calendar (MISSPELLED)                      |
+| `/dashboard/calender/teacher`                       | Teacher   | Teacher Calendar                           |
+| `/dashboard/calender/student`                       | Student   | Student Calendar                           |
+| `/dashboard/calender/list/teacher`                  | Teacher   | Teacher Calendar List                      |
+| `/dashboard/calender/list/student`                  | Student   | Student Calendar List                      |
+| `/dashboard/middleware`                             | Internal  | Middleware test page                       |
+| `/dashboard/test/date`                              | Internal  | Date test sandbox                          |
 
 ### Auth Pages
+
 - `/auth/sign-in`
 - `/auth/sign-up`
 
 ### Landing Pages
+
 - `/landing`
 - `/landing/register/foundation`
 
@@ -147,140 +149,151 @@
 ## C. Current API Inventory (88 route files)
 
 ### Authentication & Foundation
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/auth/[...all]` | GET, POST | Better Auth handler |
-| `/api/foundation` | GET, POST, PUT, DELETE | Session + tenant |
-| `/api/foundation/assign` | POST | Session only |
+
+| Endpoint                 | Methods                | Auth                |
+| ------------------------ | ---------------------- | ------------------- |
+| `/api/auth/[...all]`     | GET, POST              | Better Auth handler |
+| `/api/foundation`        | GET, POST, PUT, DELETE | Session + tenant    |
+| `/api/foundation/assign` | POST                   | Session only        |
 
 ### Admin
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/admin/set-role` | POST | Admin role check |
-| `/api/betterauth/admin` | POST | Admin role check |
-| `/api/betterauth/users` | GET | Tenant |
-| `/api/betterauth/users/withoutuserdata` | GET | Tenant |
+
+| Endpoint                                | Methods | Auth             |
+| --------------------------------------- | ------- | ---------------- |
+| `/api/admin/set-role`                   | POST    | Admin role check |
+| `/api/betterauth/admin`                 | POST    | Admin role check |
+| `/api/betterauth/users`                 | GET     | Tenant           |
+| `/api/betterauth/users/withoutuserdata` | GET     | Tenant           |
 
 ### Academic
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/academicyear` | GET, POST, PUT, DELETE | Tenant |
-| `/api/major` | GET, POST, PUT, DELETE | Tenant |
-| `/api/major/[id]` | GET | Tenant |
-| `/api/class` | GET, POST, PUT, DELETE | Tenant |
-| `/api/class/[id]` | GET | Tenant |
-| `/api/class/major/[id]` | GET | Tenant |
-| `/api/class/user/[id]` | GET | Tenant |
-| `/api/subjects` | GET, POST, PUT, DELETE | Tenant |
-| `/api/roles` | GET, POST, PUT, DELETE | Tenant |
-| `/api/roles/user/id/[id]` | GET | Tenant |
+
+| Endpoint                  | Methods                | Auth   |
+| ------------------------- | ---------------------- | ------ |
+| `/api/academicyear`       | GET, POST, PUT, DELETE | Tenant |
+| `/api/major`              | GET, POST, PUT, DELETE | Tenant |
+| `/api/major/[id]`         | GET                    | Tenant |
+| `/api/class`              | GET, POST, PUT, DELETE | Tenant |
+| `/api/class/[id]`         | GET                    | Tenant |
+| `/api/class/major/[id]`   | GET                    | Tenant |
+| `/api/class/user/[id]`    | GET                    | Tenant |
+| `/api/subjects`           | GET, POST, PUT, DELETE | Tenant |
+| `/api/roles`              | GET, POST, PUT, DELETE | Tenant |
+| `/api/roles/user/id/[id]` | GET                    | Tenant |
 
 ### Users
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/userdata` | GET, POST, PUT, DELETE | Tenant |
-| `/api/userdata/id/[id]` | GET | Tenant |
-| `/api/userdata/betterauth/id/[id]` | GET | Tenant |
-| `/api/userdata/bulk/create` | POST | Tenant |
-| `/api/userdata/bulk/delete` | POST | Tenant |
-| `/api/students` | GET, POST, PUT, DELETE | Tenant |
-| `/api/students/[id]` | GET | Tenant |
-| `/api/students/by-ids` | GET | Tenant |
-| `/api/students/by-ids/attendance` | GET | Tenant |
-| `/api/students/by-ids/violations` | GET | Tenant |
-| `/api/students/major/[id]` | GET | Tenant |
-| `/api/students/major/[id]/active` | GET | Tenant |
-| `/api/students/tahfidzgroup/[id]` | GET | Tenant |
-| `/api/teachers` | GET, POST, PUT, DELETE | Tenant |
+
+| Endpoint                           | Methods                | Auth   |
+| ---------------------------------- | ---------------------- | ------ |
+| `/api/userdata`                    | GET, POST, PUT, DELETE | Tenant |
+| `/api/userdata/id/[id]`            | GET                    | Tenant |
+| `/api/userdata/betterauth/id/[id]` | GET                    | Tenant |
+| `/api/userdata/bulk/create`        | POST                   | Tenant |
+| `/api/userdata/bulk/delete`        | POST                   | Tenant |
+| `/api/students`                    | GET, POST, PUT, DELETE | Tenant |
+| `/api/students/[id]`               | GET                    | Tenant |
+| `/api/students/by-ids`             | GET                    | Tenant |
+| `/api/students/by-ids/attendance`  | GET                    | Tenant |
+| `/api/students/by-ids/violations`  | GET                    | Tenant |
+| `/api/students/major/[id]`         | GET                    | Tenant |
+| `/api/students/major/[id]/active`  | GET                    | Tenant |
+| `/api/students/tahfidzgroup/[id]`  | GET                    | Tenant |
+| `/api/teachers`                    | GET, POST, PUT, DELETE | Tenant |
 
 ### Schedules
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/schedules` | GET, POST, PUT, DELETE | Tenant |
-| `/api/schedules/[id]` | GET | Tenant |
-| `/api/schedules/active` | GET | Tenant |
-| `/api/schedules/active/teacher/[id]` | GET | Tenant |
-| `/api/schedules/bulk/create` | POST | Tenant |
-| `/api/schedules/class/[id]` | GET | Tenant |
-| `/api/schedules/student/[id]` | GET, POST, PUT, DELETE | Tenant |
-| `/api/schedules/tahfidzgroup/[id]` | GET | Tenant |
-| `/api/schedules/teacher/[id]` | GET | Tenant |
-| `/api/specialschedule` | GET, POST, PUT, DELETE | Tenant |
+
+| Endpoint                             | Methods                | Auth   |
+| ------------------------------------ | ---------------------- | ------ |
+| `/api/schedules`                     | GET, POST, PUT, DELETE | Tenant |
+| `/api/schedules/[id]`                | GET                    | Tenant |
+| `/api/schedules/active`              | GET                    | Tenant |
+| `/api/schedules/active/teacher/[id]` | GET                    | Tenant |
+| `/api/schedules/bulk/create`         | POST                   | Tenant |
+| `/api/schedules/class/[id]`          | GET                    | Tenant |
+| `/api/schedules/student/[id]`        | GET, POST, PUT, DELETE | Tenant |
+| `/api/schedules/tahfidzgroup/[id]`   | GET                    | Tenant |
+| `/api/schedules/teacher/[id]`        | GET                    | Tenant |
+| `/api/specialschedule`               | GET, POST, PUT, DELETE | Tenant |
 
 ### Attendance
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/attendance` | GET, POST, PUT, DELETE | Tenant |
-| `/api/attendance/bulk` | POST, PUT | Tenant |
-| `/api/attendance/class` | GET | Tenant |
-| `/api/attendance/class/bulk` | GET | Tenant |
-| `/api/attendance/filterdate` | GET | Tenant |
-| `/api/attendance/issubmited` | GET | Tenant |
-| `/api/attendance/schedule/[id]` | GET | Tenant |
-| `/api/attendance/student/[id]` | GET | Tenant |
-| `/api/teacherattendance` | GET, POST, PUT, DELETE | Tenant |
-| `/api/teacherattendance/[id]/delete` | DELETE | Tenant |
-| `/api/teacherattendance/bulk` | POST | Tenant |
-| `/api/teacherattendance/reports` | GET | Tenant |
+
+| Endpoint                             | Methods                | Auth   |
+| ------------------------------------ | ---------------------- | ------ |
+| `/api/attendance`                    | GET, POST, PUT, DELETE | Tenant |
+| `/api/attendance/bulk`               | POST, PUT              | Tenant |
+| `/api/attendance/class`              | GET                    | Tenant |
+| `/api/attendance/class/bulk`         | GET                    | Tenant |
+| `/api/attendance/filterdate`         | GET                    | Tenant |
+| `/api/attendance/issubmited`         | GET                    | Tenant |
+| `/api/attendance/schedule/[id]`      | GET                    | Tenant |
+| `/api/attendance/student/[id]`       | GET                    | Tenant |
+| `/api/teacherattendance`             | GET, POST, PUT, DELETE | Tenant |
+| `/api/teacherattendance/[id]/delete` | DELETE                 | Tenant |
+| `/api/teacherattendance/bulk`        | POST                   | Tenant |
+| `/api/teacherattendance/reports`     | GET                    | Tenant |
 
 ### Finance
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/paymenttype` | GET, POST, PUT, DELETE | Tenant |
-| `/api/paymenttype/major/[id]` | GET | Tenant |
-| `/api/accountbank` | GET, POST, PUT, DELETE | Tenant |
-| `/api/accountbank/chart` | GET | Tenant |
-| `/api/accountbank/major/[majorId]` | GET | Tenant |
-| `/api/payment` | POST, PUT, DELETE | Tenant |
-| `/api/payment/chart` | GET | Tenant |
-| `/api/payment/filterdate` | GET | Tenant |
-| `/api/payment/generate/receiptnumber` | POST | Tenant |
-| `/api/payment/major/[majorId]` | GET | Tenant |
-| `/api/payment/student/[studentId]` | GET | Tenant |
-| `/api/payment/student/bulk` | POST | Tenant |
-| `/api/payment/success` | POST | Tenant |
-| `/api/payment/transaction` | GET, POST | Tenant |
-| `/api/payment/items` | GET, POST, PUT, DELETE | Tenant |
-| `/api/payment/items/bulk/upload` | GET, POST | Tenant |
-| `/api/payment/items/chart` | GET | Tenant |
-| `/api/payment/items/filterdate` | GET | Tenant |
-| `/api/payment/items/major/[majorId]` | GET | Tenant |
-| `/api/payment/items/setpaid` | POST | Tenant |
-| `/api/payment/items/student/[id]` | GET | Tenant |
-| `/api/payment/items/student/bulk` | POST | Tenant |
-| `/api/payment/items/unpaid/student/[studentId]` | GET | Tenant |
-| `/api/midtrans` | POST | **NONE** |
-| `/api/midtrans/status` | GET | **NONE** |
+
+| Endpoint                                        | Methods                | Auth     |
+| ----------------------------------------------- | ---------------------- | -------- |
+| `/api/paymenttype`                              | GET, POST, PUT, DELETE | Tenant   |
+| `/api/paymenttype/major/[id]`                   | GET                    | Tenant   |
+| `/api/accountbank`                              | GET, POST, PUT, DELETE | Tenant   |
+| `/api/accountbank/chart`                        | GET                    | Tenant   |
+| `/api/accountbank/major/[majorId]`              | GET                    | Tenant   |
+| `/api/payment`                                  | POST, PUT, DELETE      | Tenant   |
+| `/api/payment/chart`                            | GET                    | Tenant   |
+| `/api/payment/filterdate`                       | GET                    | Tenant   |
+| `/api/payment/generate/receiptnumber`           | POST                   | Tenant   |
+| `/api/payment/major/[majorId]`                  | GET                    | Tenant   |
+| `/api/payment/student/[studentId]`              | GET                    | Tenant   |
+| `/api/payment/student/bulk`                     | POST                   | Tenant   |
+| `/api/payment/success`                          | POST                   | Tenant   |
+| `/api/payment/transaction`                      | GET, POST              | Tenant   |
+| `/api/payment/items`                            | GET, POST, PUT, DELETE | Tenant   |
+| `/api/payment/items/bulk/upload`                | GET, POST              | Tenant   |
+| `/api/payment/items/chart`                      | GET                    | Tenant   |
+| `/api/payment/items/filterdate`                 | GET                    | Tenant   |
+| `/api/payment/items/major/[majorId]`            | GET                    | Tenant   |
+| `/api/payment/items/setpaid`                    | POST                   | Tenant   |
+| `/api/payment/items/student/[id]`               | GET                    | Tenant   |
+| `/api/payment/items/student/bulk`               | POST                   | Tenant   |
+| `/api/payment/items/unpaid/student/[studentId]` | GET                    | Tenant   |
+| `/api/midtrans`                                 | POST                   | **NONE** |
+| `/api/midtrans/status`                          | GET                    | **NONE** |
 
 ### Violations
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/typeviolations` | GET, POST, PUT, DELETE | Tenant |
-| `/api/violations` | GET, POST, PUT, DELETE | Tenant |
-| `/api/violations/student/[id]` | GET | Tenant |
-| `/api/violations/teacher/[id]` | GET | Tenant |
+
+| Endpoint                       | Methods                | Auth   |
+| ------------------------------ | ---------------------- | ------ |
+| `/api/typeviolations`          | GET, POST, PUT, DELETE | Tenant |
+| `/api/violations`              | GET, POST, PUT, DELETE | Tenant |
+| `/api/violations/student/[id]` | GET                    | Tenant |
+| `/api/violations/teacher/[id]` | GET                    | Tenant |
 
 ### Tahfidz
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/tahfidzgroup` | GET, POST, PUT, DELETE | Tenant |
-| `/api/tahfidzgroup/id/[id]` | GET | Tenant |
-| `/api/tahfidzrecord` | GET, POST, PUT, DELETE | Tenant |
-| `/api/tahfidzrecord/[studentId]` | GET | Tenant |
-| `/api/tahfidzrecord/surah` | GET, POST | **NONE** |
-| `/api/tahfidzrecord/teacher/[idTeacher]` | GET | Tenant |
+
+| Endpoint                                 | Methods                | Auth     |
+| ---------------------------------------- | ---------------------- | -------- |
+| `/api/tahfidzgroup`                      | GET, POST, PUT, DELETE | Tenant   |
+| `/api/tahfidzgroup/id/[id]`              | GET                    | Tenant   |
+| `/api/tahfidzrecord`                     | GET, POST, PUT, DELETE | Tenant   |
+| `/api/tahfidzrecord/[studentId]`         | GET                    | Tenant   |
+| `/api/tahfidzrecord/surah`               | GET, POST              | **NONE** |
+| `/api/tahfidzrecord/teacher/[idTeacher]` | GET                    | Tenant   |
 
 ### Communication
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/botwa/send` | POST | **NONE** |
+
+| Endpoint               | Methods   | Auth     |
+| ---------------------- | --------- | -------- |
+| `/api/botwa/send`      | POST      | **NONE** |
 | `/api/botwa/bulk/send` | GET, POST | **NONE** |
 
 ### Health
-| Endpoint | Methods | Auth |
-|---|---|---|
-| `/api/health` | GET | **NONE** |
-| `/health` | GET | **NONE** |
+
+| Endpoint      | Methods | Auth     |
+| ------------- | ------- | -------- |
+| `/api/health` | GET     | **NONE** |
+| `/health`     | GET     | **NONE** |
 
 ---
 
@@ -289,6 +302,7 @@
 ### Hooks by Domain (51 files, ~120 exported functions)
 
 See detailed hook listing in discovery notes. Key domains:
+
 - AccountBank (2 files)
 - AcademicYears (1 file)
 - Attendances (6 files)
@@ -312,30 +326,30 @@ See detailed hook listing in discovery notes. Key domains:
 
 ## E. Current Type Inventory (22 files)
 
-| File | Types |
-|---|---|
-| `academicyear-types.ts` | AcademicYearDataTypes, AcademicYearInputData, AcademicYearUpdateData |
-| `accountbank-types.ts` | AccountBankTypes, AccountBankInput |
-| `attendance-types.ts` | attendanceTypes, attendanceClassResponseTypes (excluded from barrel) |
-| `auth-types.ts` | Auth-related types |
-| `betterauth-types.ts` | betterauthUser |
-| `class-types.ts` | ClassDataTypes |
-| `error-types.ts` | Error response types |
-| `foundation-types.ts` | foundationTypes, FoundationWithCounts, etc. |
-| `majors-types.ts` | majorTypes, MajorFormValues |
-| `payment-items-types.ts` | PaymentItemData, PaymentItemsInput, PaymentItemsTypes, SetPaidInput |
-| `payment-types.ts` | PaymentData, PaymentInput |
-| `paymenttype-types.ts` | PaymentTypeTypes, PaymentTypeInput |
-| `prisma-types.ts` | Prisma utility types |
-| `roles-types.ts` | RoleDataTypes, RolesInputData, RoleUpdateData |
-| `schedule-types.ts` | ScheduleTypes, ScheduleInput |
-| `subject-types.ts` | SubjectTypes, SubjectInput |
-| `tahfidzgroup-types.ts` | tahfidzGroupTypes, TahfidzGroupData, etc. |
-| `tahfidzrecord-types.ts` | Tahfidz record types |
-| `teacher-attendance-types.ts` | TeacherAttendanceRecord, etc. |
-| `userData-types.ts` | UserDataTypes, userDataMajorTypes |
-| `violation-types.ts` | ViolationTypes, ViolationInput, ViolationTypeTypes |
-| `index.ts` | Barrel re-export (excludes attendance-types) |
+| File                          | Types                                                                |
+| ----------------------------- | -------------------------------------------------------------------- |
+| `academicyear-types.ts`       | AcademicYearDataTypes, AcademicYearInputData, AcademicYearUpdateData |
+| `accountbank-types.ts`        | AccountBankTypes, AccountBankInput                                   |
+| `attendance-types.ts`         | attendanceTypes, attendanceClassResponseTypes (excluded from barrel) |
+| `auth-types.ts`               | Auth-related types                                                   |
+| `betterauth-types.ts`         | betterauthUser                                                       |
+| `class-types.ts`              | ClassDataTypes                                                       |
+| `error-types.ts`              | Error response types                                                 |
+| `foundation-types.ts`         | foundationTypes, FoundationWithCounts, etc.                          |
+| `majors-types.ts`             | majorTypes, MajorFormValues                                          |
+| `payment-items-types.ts`      | PaymentItemData, PaymentItemsInput, PaymentItemsTypes, SetPaidInput  |
+| `payment-types.ts`            | PaymentData, PaymentInput                                            |
+| `paymenttype-types.ts`        | PaymentTypeTypes, PaymentTypeInput                                   |
+| `prisma-types.ts`             | Prisma utility types                                                 |
+| `roles-types.ts`              | RoleDataTypes, RolesInputData, RoleUpdateData                        |
+| `schedule-types.ts`           | ScheduleTypes, ScheduleInput                                         |
+| `subject-types.ts`            | SubjectTypes, SubjectInput                                           |
+| `tahfidzgroup-types.ts`       | tahfidzGroupTypes, TahfidzGroupData, etc.                            |
+| `tahfidzrecord-types.ts`      | Tahfidz record types                                                 |
+| `teacher-attendance-types.ts` | TeacherAttendanceRecord, etc.                                        |
+| `userData-types.ts`           | UserDataTypes, userDataMajorTypes                                    |
+| `violation-types.ts`          | ViolationTypes, ViolationInput, ViolationTypeTypes                   |
+| `index.ts`                    | Barrel re-export (excludes attendance-types)                         |
 
 ---
 
@@ -388,16 +402,19 @@ PaymentType (billing template per Major)
 ## G. Role and Permission Overview
 
 ### Authentication
+
 - Better Auth manages User identity (email/password, Google OAuth)
 - `admin` plugin provides role management with custom roles: admin, teacher, student, parent, user
 
 ### Authorization Layers
+
 1. **Session-based**: `resolveFoundation()` in `lib/tenant.ts` extracts foundationId from session
 2. **Tenant isolation**: All API routes verify data belongs to caller's foundation
 3. **Admin-only routes**: `/api/admin/set-role`, `/api/betterauth/admin` check `role === "admin"`
 4. **No middleware**: There is NO Next.js middleware - all auth is in individual route handlers
 
 ### Permission System
+
 - `Role` model has `permissions: String[]` field
 - Sidebar uses permissions to filter menu items
 - **CRITICAL BUG**: The `getRoleMenuKey` function is broken (see Section H)
@@ -416,24 +433,24 @@ Additionally, the teacher case returns `"Lecturer"` instead of `"teacher"`, whic
 
 ### Duplicate Hook Exports
 
-| Function | File 1 | File 2 | Impact |
-|---|---|---|---|
-| `useGetUserById` | `useUsers.ts` | `useUserById.ts` | Identical - dead code |
+| Function                   | File 1          | File 2               | Impact                                         |
+| -------------------------- | --------------- | -------------------- | ---------------------------------------------- |
+| `useGetUserById`           | `useUsers.ts`   | `useUserById.ts`     | Identical - dead code                          |
 | `useGetPaymentByStudentId` | `usePayment.ts` | `usePaymentItems.ts` | **Different query keys** - cache inconsistency |
 
 ### Broken Hook
 
-| Hook | File | Issue |
-|---|---|---|
+| Hook                    | File                       | Issue                                                         |
+| ----------------------- | -------------------------- | ------------------------------------------------------------- |
 | `useGetUserByIdTeacher` | `useGetUserByIdTeacher.ts` | Calls `/api/users/id/${id}` which does NOT exist. Always 404. |
 
 ### Duplicate/Redundant API Routes
 
-| Route 1 | Route 2 | Issue |
-|---|---|---|
-| `/api/attendance/class` | `/api/attendance/class/bulk` | Appear to be functionally identical |
-| `/api/teacherattendance` DELETE | `/api/teacherattendance/[id]/delete` DELETE | Two delete endpoints |
-| `/api/admin/set-role` | `/api/betterauth/admin` | Both set user roles |
+| Route 1                         | Route 2                                     | Issue                               |
+| ------------------------------- | ------------------------------------------- | ----------------------------------- |
+| `/api/attendance/class`         | `/api/attendance/class/bulk`                | Appear to be functionally identical |
+| `/api/teacherattendance` DELETE | `/api/teacherattendance/[id]/delete` DELETE | Two delete endpoints                |
+| `/api/admin/set-role`           | `/api/betterauth/admin`                     | Both set user roles                 |
 
 ### Teacher CRUD Not Using Mutations
 
@@ -445,45 +462,45 @@ In `hooks/Users/useTeachers.ts`, `useCreateTeacher`, `useUpdateTeacher`, and `us
 
 ### URL/Route Inconsistencies
 
-| Current | Standard | Type |
-|---|---|---|
-| `calender` | `calendar` | Misspelling in folder/URL |
-| `issubmited` | `is-submitted` | Misspelling + no kebab-case |
-| `filterdate` | `filter-date` | No kebab-case |
-| `academicyear` | `academic-year` | No kebab-case |
-| `accountbank` | `account-bank` | No kebab-case |
-| `paymenttype` | `payment-type` | No kebab-case |
-| `specialschedule` | `special-schedule` | No kebab-case |
-| `teacherattendance` | `teacher-attendance` | No kebab-case |
-| `tahfidzgroup` | `tahfidz-group` | No kebab-case |
-| `tahfidzrecord` | `tahfidz-record` | No kebab-case |
-| `typeviolations` | `violation-types` | Wrong word order |
-| `recapattendance` | `attendance-recap` | No kebab-case |
-| `botwa` | `bot-wa` | No kebab-case |
-| `betterauth` | (internal) | Exposes auth implementation detail |
-| `studentinformation` | `student-information` | No kebab-case |
+| Current              | Standard              | Type                               |
+| -------------------- | --------------------- | ---------------------------------- |
+| `calender`           | `calendar`            | Misspelling in folder/URL          |
+| `issubmited`         | `is-submitted`        | Misspelling + no kebab-case        |
+| `filterdate`         | `filter-date`         | No kebab-case                      |
+| `academicyear`       | `academic-year`       | No kebab-case                      |
+| `accountbank`        | `account-bank`        | No kebab-case                      |
+| `paymenttype`        | `payment-type`        | No kebab-case                      |
+| `specialschedule`    | `special-schedule`    | No kebab-case                      |
+| `teacherattendance`  | `teacher-attendance`  | No kebab-case                      |
+| `tahfidzgroup`       | `tahfidz-group`       | No kebab-case                      |
+| `tahfidzrecord`      | `tahfidz-record`      | No kebab-case                      |
+| `typeviolations`     | `violation-types`     | Wrong word order                   |
+| `recapattendance`    | `attendance-recap`    | No kebab-case                      |
+| `botwa`              | `bot-wa`              | No kebab-case                      |
+| `betterauth`         | (internal)            | Exposes auth implementation detail |
+| `studentinformation` | `student-information` | No kebab-case                      |
 
 ### File/Function Naming
 
-| Current | Standard | Type |
-|---|---|---|
-| `useAttendaceByIdStudent.ts` | `useAttendanceByIdStudent.ts` | Misspelling |
-| `useAttendanceByIdShcedule.ts` | `useAttendanceByIdSchedule.ts` | Misspelling |
-| `useGetUserByIdTeacher.ts` | (broken - needs removal/fix) | Calls non-existent API |
-| `useScheduleByIdClass.ts` | `useSchedulesByClassId.ts` | Inconsistent naming |
-| `attendance/teacher/input /` | `attendance/teacher/input/` | Trailing space in folder |
+| Current                        | Standard                       | Type                     |
+| ------------------------------ | ------------------------------ | ------------------------ |
+| `useAttendaceByIdStudent.ts`   | `useAttendanceByIdStudent.ts`  | Misspelling              |
+| `useAttendanceByIdShcedule.ts` | `useAttendanceByIdSchedule.ts` | Misspelling              |
+| `useGetUserByIdTeacher.ts`     | (broken - needs removal/fix)   | Calls non-existent API   |
+| `useScheduleByIdClass.ts`      | `useSchedulesByClassId.ts`     | Inconsistent naming      |
+| `attendance/teacher/input /`   | `attendance/teacher/input/`    | Trailing space in folder |
 
 ### Query Key Inconsistencies
 
-| Hook | Query Key | Expected |
-|---|---|---|
-| `useRolesByIdUser` | `["class", id]` | `["roles", id]` |
+| Hook                   | Query Key                     | Expected                     |
+| ---------------------- | ----------------------------- | ---------------------------- |
+| `useRolesByIdUser`     | `["class", id]`               | `["roles", id]`              |
 | `useDeletePaymentType` | invalidates `["paymentType"]` | Should be `["paymentTypes"]` |
 
 ### Data Inconsistency
 
-| File | Issue |
-|---|---|
+| File                    | Issue                              |
+| ----------------------- | ---------------------------------- |
 | `repository/month.json` | Missing "februari" from month list |
 
 ---
@@ -499,18 +516,18 @@ In `hooks/Users/useTeachers.ts`, `useCreateTeacher`, `useUpdateTeacher`, and `us
 
 ### Models Without Full UI
 
-| Model | API | Frontend |
-|---|---|---|
-| Grade | No API routes | No pages |
-| GradeType | No API routes | No pages |
-| GradeConfiguration | No API routes | No pages |
-| GradeScale | No API routes | No pages |
-| ReportCard | No API routes | No pages |
-| Assignment | No API routes | No pages |
+| Model                | API           | Frontend |
+| -------------------- | ------------- | -------- |
+| Grade                | No API routes | No pages |
+| GradeType            | No API routes | No pages |
+| GradeConfiguration   | No API routes | No pages |
+| GradeScale           | No API routes | No pages |
+| ReportCard           | No API routes | No pages |
+| Assignment           | No API routes | No pages |
 | AssignmentSubmission | No API routes | No pages |
-| Notification | No API routes | No pages |
-| DashboardContent | No API routes | No pages |
-| Announcement | No API routes | No pages |
+| Notification         | No API routes | No pages |
+| DashboardContent     | No API routes | No pages |
+| Announcement         | No API routes | No pages |
 
 ### Missing API Features
 
@@ -614,6 +631,7 @@ SERA APP
 ### Navigation by Role (Target)
 
 **Admin:**
+
 - Dashboard
 - Master Data (Users, Roles, Auth, Academic Year, Branch, Classes, Subjects)
 - Academic (Schedules, Calendar, Tahfidz)
@@ -623,12 +641,14 @@ SERA APP
 - Utilities (Upload, BotWA)
 
 **Treasurer:**
+
 - Dashboard (Finance charts)
 - Finance (Payments, Billing, Payment Types, Student Info)
 - Data (Students, Classes)
 - Upload (Billing, Users)
 
 **Teacher:**
+
 - Dashboard
 - Schedule (My Schedule, Attendance Input)
 - Calendar
@@ -636,6 +656,7 @@ SERA APP
 - Teacher Attendance
 
 **Student:**
+
 - Dashboard
 - Schedule
 - Attendance
@@ -645,6 +666,7 @@ SERA APP
 - Calendar
 
 **Parent:**
+
 - Dashboard
 - Child Information / Portal
 
@@ -684,13 +706,13 @@ Environment configuration
 
 ## O. Files That Can Be Safely Removed After Verification
 
-| File | Reason |
-|---|---|
-| `app/(frontend)/(hooks)/hooks/Users/useUserById.ts` | Exact duplicate of `useGetUserById` in `useUsers.ts` |
-| `app/(frontend)/(hooks)/hooks/Users/useGetUserByIdTeacher.ts` | Calls non-existent API `/api/users/id/` |
-| `app/(frontend)/(dashboard)/dashboard/test/date/page.tsx` | Test/sandbox page |
-| `app/(frontend)/(dashboard)/dashboard/middleware/page.tsx` | Internal test page |
-| `eslint.config.mjs.txt` | Inactive ESLint config (renamed with .txt) |
-| Duplicate menu iconMap in menuGroupsSidebar.ts | Consolidate with appSidebar.tsx |
+| File                                                          | Reason                                               |
+| ------------------------------------------------------------- | ---------------------------------------------------- |
+| `app/(frontend)/(hooks)/hooks/Users/useUserById.ts`           | Exact duplicate of `useGetUserById` in `useUsers.ts` |
+| `app/(frontend)/(hooks)/hooks/Users/useGetUserByIdTeacher.ts` | Calls non-existent API `/api/users/id/`              |
+| `app/(frontend)/(dashboard)/dashboard/test/date/page.tsx`     | Test/sandbox page                                    |
+| `app/(frontend)/(dashboard)/dashboard/middleware/page.tsx`    | Internal test page                                   |
+| `eslint.config.mjs.txt`                                       | Inactive ESLint config (renamed with .txt)           |
+| Duplicate menu iconMap in menuGroupsSidebar.ts                | Consolidate with appSidebar.tsx                      |
 
 **Note:** Verify no imports reference these files before deletion.

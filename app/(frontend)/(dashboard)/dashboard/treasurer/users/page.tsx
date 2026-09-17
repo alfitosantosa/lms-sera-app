@@ -5,12 +5,12 @@ import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzG
 import { useGetBetterAuth } from "@/app/(hooks)/hooks/Users/useBetterAuth";
 import { useGetStudentByIdMajor } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { majorTypes } from "@/app/(types)";
+import { type majorTypes } from "@/app/(types)";
 import {
-  BetterAuthUser,
+  type BetterAuthUser,
   DeleteUserBulkDialog,
   DeleteUserDialog,
-  UserData,
+  type UserData,
 } from "@/components/dialog/DialogUser";
 import { StudentFormDialog } from "@/components/dialog/DialogUserBendahara";
 import Loading from "@/components/loading";
@@ -37,16 +37,16 @@ import {
 } from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -184,7 +184,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
             <Image
               src={avatarUrl}
               alt="Avatar"
-              className="w-10 h-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover"
               width={40}
               height={40}
             />
@@ -642,8 +642,8 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
   // Error state
   if (error) {
     return (
-      <div className="w-full min-h-screen items-center justify-center h-32">
-        <div className="text-center text-destructive">
+      <div className="h-32 min-h-screen w-full items-center justify-center">
+        <div className="text-destructive text-center">
           <p>Error loading users: {error.message}</p>
           <Button onClick={() => refetch()} className="mt-2">
             Retry
@@ -655,10 +655,10 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl">Users Menu</div>
+      <div className="text-3xl font-bold">Users Menu</div>
       <Badge className="mt-4">{majorData.name}</Badge>
-      <div className="flex items-start justify-between py-4 gap-4 flex-wrap">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-wrap items-start justify-between gap-4 py-4">
+        <div className="flex flex-wrap items-center gap-2">
           <Input
             placeholder="Cari nama user..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -877,7 +877,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
       </div>
 
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>

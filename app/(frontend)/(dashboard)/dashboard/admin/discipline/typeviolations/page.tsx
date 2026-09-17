@@ -2,23 +2,81 @@
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useCreateTypeViolation, useDeleteTypeViolation, useGetTypeViolations, useUpdateTypeViolation } from "@/app/(hooks)/hooks/Violations/useTypeViolations";
+import {
+  useCreateTypeViolation,
+  useDeleteTypeViolation,
+  useGetTypeViolations,
+  useUpdateTypeViolation,
+} from "@/app/(hooks)/hooks/Violations/useTypeViolations";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -62,7 +120,17 @@ const violationCategories = [
 ];
 
 // Create/Edit Dialog Component
-function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: ViolationTypeData | null; onSuccess: () => void }) {
+function ViolationTypeFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: ViolationTypeData | null;
+  onSuccess: () => void;
+}) {
   const createViolationType = useCreateTypeViolation();
   const updateViolationType = useUpdateTypeViolation();
   const { data: academicYears } = useGetAcademicYears();
@@ -101,7 +169,10 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
   const onSubmit = async (data: ViolationTypeFormValues) => {
     try {
       if (editData) {
-        await updateViolationType.mutateAsync({ id: editData.id, ...data } as any);
+        await updateViolationType.mutateAsync({
+          id: editData.id,
+          ...data,
+        } as any);
         toast.success("Jenis pelanggaran berhasil diperbarui!");
       } else {
         await createViolationType.mutateAsync(data as any);
@@ -117,33 +188,64 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Jenis Pelanggaran" : "Tambah Jenis Pelanggaran Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData
+              ? "Edit Jenis Pelanggaran"
+              : "Tambah Jenis Pelanggaran Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nama Pelanggaran</Label>
-            <Input id="name" placeholder="Contoh: Terlambat Masuk Sekolah" {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              placeholder="Contoh: Terlambat Masuk Sekolah"
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="description">Deskripsi</Label>
-            <Textarea id="description" placeholder="Deskripsi detail pelanggaran..." rows={3} {...register("description")} />
-            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
+            <Textarea
+              id="description"
+              placeholder="Deskripsi detail pelanggaran..."
+              rows={3}
+              {...register("description")}
+            />
+            {errors.description && (
+              <p className="text-destructive text-sm">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="points">Poin Pelanggaran</Label>
-            <Input id="points" type="number" placeholder="5" {...register("points", { valueAsNumber: true })} />
-            {errors.points && <p className="text-sm text-destructive">{errors.points.message}</p>}
+            <Input
+              id="points"
+              type="number"
+              placeholder="5"
+              {...register("points", { valueAsNumber: true })}
+            />
+            {errors.points && (
+              <p className="text-destructive text-sm">
+                {errors.points.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label>Kategori</Label>
-            <Select value={selectedCategory} onValueChange={(value) => setValue("category", value)}>
+            <Select
+              value={selectedCategory}
+              onValueChange={(value) => setValue("category", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Kategori" />
               </SelectTrigger>
@@ -155,12 +257,19 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
                 ))}
               </SelectContent>
             </Select>
-            {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
+            {errors.category && (
+              <p className="text-destructive text-sm">
+                {errors.category.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label>Tahun Ajaran</Label>
-            <Select value={selectedAcademicYearId} onValueChange={(value) => setValue("academicYearId", value)}>
+            <Select
+              value={selectedAcademicYearId}
+              onValueChange={(value) => setValue("academicYearId", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Tahun Ajaran" />
               </SelectTrigger>
@@ -172,19 +281,32 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
                 ))}
               </SelectContent>
             </Select>
-            {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
+            {errors.academicYearId && (
+              <p className="text-destructive text-sm">
+                {errors.academicYearId.message}
+              </p>
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createViolationType.isPending || updateViolationType.isPending}>
-              {createViolationType.isPending || updateViolationType.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={
+                createViolationType.isPending || updateViolationType.isPending
+              }
+            >
+              {createViolationType.isPending || updateViolationType.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -194,7 +316,17 @@ function ViolationTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { 
 }
 
 // Delete Confirmation Dialog
-function DeleteViolationTypeDialog({ open, onOpenChange, violationTypeData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; violationTypeData: ViolationTypeData | null; onSuccess: () => void }) {
+function DeleteViolationTypeDialog({
+  open,
+  onOpenChange,
+  violationTypeData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  violationTypeData: ViolationTypeData | null;
+  onSuccess: () => void;
+}) {
   const deleteViolationType = useDeleteTypeViolation();
 
   const handleDelete = async () => {
@@ -216,12 +348,18 @@ function DeleteViolationTypeDialog({ open, onOpenChange, violationTypeData, onSu
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Jenis Pelanggaran</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus jenis pelanggaran <strong>{violationTypeData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus jenis pelanggaran{" "}
+            <strong>{violationTypeData?.name}</strong>? Tindakan ini tidak dapat
+            dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteViolationType.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteViolationType.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteViolationType.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -233,17 +371,25 @@ function DeleteViolationTypeDialog({ open, onOpenChange, violationTypeData, onSu
 // Main DataTable Component
 function ViolationTypeDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedViolationType, setSelectedViolationType] = React.useState<ViolationTypeData | null>(null);
+  const [selectedViolationType, setSelectedViolationType] =
+    React.useState<ViolationTypeData | null>(null);
 
-  const { data: violationTypes = [], isLoading, refetch } = useGetTypeViolations();
+  const {
+    data: violationTypes = [],
+    isLoading,
+    refetch,
+  } = useGetTypeViolations();
 
   const handleSuccess = () => {
     refetch();
@@ -281,8 +427,23 @@ function ViolationTypeDataTable() {
   const columns: ColumnDef<ViolationTypeData>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -290,13 +451,18 @@ function ViolationTypeDataTable() {
       accessorKey: "name",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Nama Pelanggaran
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
-      cell: ({ row }) => <div className="font-medium max-w-xs">{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="max-w-xs font-medium">{row.getValue("name")}</div>
+      ),
     },
     {
       accessorKey: "description",
@@ -311,7 +477,10 @@ function ViolationTypeDataTable() {
       accessorKey: "category",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Kategori
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -319,14 +488,21 @@ function ViolationTypeDataTable() {
       },
       cell: ({ row }) => {
         const category = row.getValue("category") as string;
-        return <Badge className={`text-white ${getCategoryBadgeColor(category)}`}>{getCategoryLabel(category)}</Badge>;
+        return (
+          <Badge className={`text-white ${getCategoryBadgeColor(category)}`}>
+            {getCategoryLabel(category)}
+          </Badge>
+        );
       },
     },
     {
       accessorKey: "points",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Poin
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -334,14 +510,20 @@ function ViolationTypeDataTable() {
       },
       cell: ({ row }) => {
         const points = row.getValue("points") as number;
-        return <Badge className={`text-white ${getPointsBadgeColor(points)}`}>{points} poin</Badge>;
+        return (
+          <Badge className={`text-white ${getPointsBadgeColor(points)}`}>
+            {points} poin
+          </Badge>
+        );
       },
     },
     {
       accessorKey: "academicYear",
       header: "Tahun Ajaran",
       cell: ({ row }) => {
-        const academicYear = row.getValue("academicYear") as ViolationTypeData["academicYear"];
+        const academicYear = row.getValue(
+          "academicYear",
+        ) as ViolationTypeData["academicYear"];
         return <div>{academicYear?.year || "-"}</div>;
       },
     },
@@ -361,7 +543,13 @@ function ViolationTypeDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(violationTypeData.id)}>Copy ID Pelanggaran</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(violationTypeData.id)
+                }
+              >
+                Copy ID Pelanggaran
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -415,11 +603,20 @@ function ViolationTypeDataTable() {
   return (
     <>
       <div className="">
-        <div className="font-bold text-3xl">Jenis Pelanggaran</div>
+        <div className="text-3xl font-bold">Jenis Pelanggaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
-              <Input placeholder="Cari nama pelanggaran..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />
+              <Input
+                placeholder="Cari nama pelanggaran..."
+                value={
+                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("name")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
             </div>
 
             <div className="flex items-center space-x-2">
@@ -435,18 +632,25 @@ function ViolationTypeDataTable() {
                     .filter((column) => column.getCanHide())
                     .map((column) => {
                       return (
-                        <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
-                          {column.id === "name" ?
-                            "Nama Pelanggaran"
-                          : column.id === "description" ?
-                            "Deskripsi"
-                          : column.id === "category" ?
-                            "Kategori"
-                          : column.id === "points" ?
-                            "Poin"
-                          : column.id === "academicYear" ?
-                            "Tahun Ajaran"
-                          : column.id}
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id === "name"
+                            ? "Nama Pelanggaran"
+                            : column.id === "description"
+                              ? "Deskripsi"
+                              : column.id === "category"
+                                ? "Kategori"
+                                : column.id === "points"
+                                  ? "Poin"
+                                  : column.id === "academicYear"
+                                    ? "Tahun Ajaran"
+                                    : column.id}
                         </DropdownMenuCheckboxItem>
                       );
                     })}
@@ -466,39 +670,71 @@ function ViolationTypeDataTable() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
                     })}
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ?
+                {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
                       ))}
                     </TableRow>
                   ))
-                : <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
                       Tidak ada data jenis pelanggaran.
                     </TableCell>
                   </TableRow>
-                }
+                )}
               </TableBody>
             </Table>
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+            <div className="text-muted-foreground flex-1 text-sm">
+              {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+              {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -506,11 +742,25 @@ function ViolationTypeDataTable() {
         </div>
 
         {/* Dialogs */}
-        <ViolationTypeFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <ViolationTypeFormDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          onSuccess={handleSuccess}
+        />
 
-        <ViolationTypeFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedViolationType} onSuccess={handleSuccess} />
+        <ViolationTypeFormDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editData={selectedViolationType}
+          onSuccess={handleSuccess}
+        />
 
-        <DeleteViolationTypeDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} violationTypeData={selectedViolationType} onSuccess={handleSuccess} />
+        <DeleteViolationTypeDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          violationTypeData={selectedViolationType}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -519,7 +769,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

@@ -15,7 +15,8 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function InstallButton() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -29,7 +30,10 @@ export default function InstallButton() {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt,
+      );
     };
   }, []);
 
@@ -57,7 +61,7 @@ export default function InstallButton() {
   return (
     <Button
       onClick={handleInstallClick}
-      className="fixed bottom-6 right-6 z-50 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover active:translate-y-0 active:bg-primary-active"
+      className="bg-primary text-primary-foreground shadow-primary/25 hover:bg-primary-hover active:bg-primary-active fixed right-6 bottom-6 z-50 rounded-full px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
     >
       <Download className="h-4 w-4" />
       <span>Pasang Aplikasi</span>

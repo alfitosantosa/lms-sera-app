@@ -8,7 +8,7 @@ import {
 } from "@/app/(hooks)/hooks/AccountBank/useAccountBank";
 import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AccountBankTypes } from "@/app/(types)/types/accountbank-types";
+import { type AccountBankTypes } from "@/app/(types)/types/accountbank-types";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -58,16 +58,16 @@ import {
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -129,15 +129,15 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
   const uniqueMajors = new Set(accounts.map((a) => a.majorId)).size;
 
   return (
-    <div className="grid gap-4 md:grid-cols-3 mb-6">
+    <div className="mb-6 grid gap-4 md:grid-cols-3">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Rekening</CardTitle>
-          <CreditCard className="h-4 w-4 text-muted-foreground" />
+          <CreditCard className="text-muted-foreground h-4 w-4" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalAccounts}</div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Total rekening terdaftar
           </p>
         </CardContent>
@@ -146,11 +146,11 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Jenis Bank</CardTitle>
-          <Landmark className="h-4 w-4 text-info" />
+          <Landmark className="text-info h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-info">{uniqueBanks}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="text-info text-2xl font-bold">{uniqueBanks}</div>
+          <p className="text-muted-foreground text-xs">
             Bank berbeda terdaftar
           </p>
         </CardContent>
@@ -161,11 +161,11 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
           <CardTitle className="text-sm font-medium">
             Branch Terdaftar
           </CardTitle>
-          <Users className="h-4 w-4 text-tertiary" />
+          <Users className="text-tertiary h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-tertiary">{uniqueMajors}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="text-tertiary text-2xl font-bold">{uniqueMajors}</div>
+          <p className="text-muted-foreground text-xs">
             Branch memiliki rekening
           </p>
         </CardContent>
@@ -265,7 +265,7 @@ function AccountBankFormDialog({
               {...register("accountName")}
             />
             {errors.accountName && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.accountName.message}
               </p>
             )}
@@ -289,7 +289,7 @@ function AccountBankFormDialog({
               </SelectContent>
             </Select>
             {errors.accountBank && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.accountBank.message}
               </p>
             )}
@@ -303,7 +303,7 @@ function AccountBankFormDialog({
               {...register("accountNumber")}
             />
             {errors.accountNumber && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.accountNumber.message}
               </p>
             )}
@@ -327,7 +327,7 @@ function AccountBankFormDialog({
               </SelectContent>
             </Select>
             {errors.majorId && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.majorId.message}
               </p>
             )}
@@ -490,7 +490,7 @@ function AccountBankDashboard() {
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Building2 className="h-4 w-4 text-muted-foreground" />
+          <Building2 className="text-muted-foreground h-4 w-4" />
           {row.getValue("accountBank")}
         </div>
       ),
@@ -611,7 +611,7 @@ function AccountBankDashboard() {
     <>
       <div className="">
         <div className="mb-6">
-          <h1 className="font-bold text-3xl mb-2">Dashboard Rekening Bank</h1>
+          <h1 className="mb-2 text-3xl font-bold">Dashboard Rekening Bank</h1>
           <p className="text-muted-foreground">
             Kelola rekening bank untuk setiap jurusan
           </p>
@@ -736,7 +736,7 @@ function AccountBankDashboard() {
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex-1 text-sm">
               {table.getFilteredSelectedRowModel().rows.length} dari{" "}
               {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>

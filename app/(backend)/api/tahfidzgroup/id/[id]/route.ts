@@ -2,16 +2,25 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const { id } = await params;
   try {
     // TahfidzGroup hanya menyimpan majorId (tanpa relasi), jadi scope lewat daftar major yayasan
-    const majors = await prisma.major.findMany({ where: { foundationId: t.foundationId }, select: { id: true } });
+    const majors = await prisma.major.findMany({
+      where: { foundationId: t.foundationId },
+      select: { id: true },
+    });
     const majorIds = majors.map((major) => major.id);
 
     const tahfidzGroup = await prisma.tahfidzGroup.findFirst({
@@ -27,7 +36,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       },
     });
     if (!tahfidzGroup) {
-      return NextResponse.json({ error: "Tahfidz group not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Tahfidz group not found" },
+        { status: 404 },
+      );
     }
     return NextResponse.json(tahfidzGroup);
   } catch (error) {

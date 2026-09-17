@@ -2,10 +2,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const fromdate = request.nextUrl.searchParams.get("fromdate");
@@ -13,7 +16,10 @@ export async function GET(request: NextRequest) {
   const majorId = request.nextUrl.searchParams.get("majorId");
 
   if (!fromdate || !todate) {
-    return NextResponse.json({ error: "Missing fromdate or todate query parameters" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing fromdate or todate query parameters" },
+      { status: 400 },
+    );
   }
 
   try {
@@ -50,12 +56,18 @@ export async function GET(request: NextRequest) {
 
     // Transform data sesuai format yang diinginkan
     const summary = {
-      total: payments.reduce((sum, p) => sum + (p.amount ? Number(p.amount) : 0), 0),
+      total: payments.reduce(
+        (sum, p) => sum + (p.amount ? Number(p.amount) : 0),
+        0,
+      ),
       sumTransaction: payments.length,
     };
 
     // Group by Year-Month
-    const yearMonthlyMap = new Map<string, { year: string; month: string; total: number; sumTransaction: number }>();
+    const yearMonthlyMap = new Map<
+      string,
+      { year: string; month: string; total: number; sumTransaction: number }
+    >();
 
     payments.forEach((payment) => {
       const year = payment.createdAt.getFullYear().toString();
@@ -81,7 +93,10 @@ export async function GET(request: NextRequest) {
     const yearMonthly = Array.from(yearMonthlyMap.values());
 
     // Group by Major
-    const byMajorMap = new Map<string, { major: string; total: number; sumTransaction: number }>();
+    const byMajorMap = new Map<
+      string,
+      { major: string; total: number; sumTransaction: number }
+    >();
 
     payments.forEach((payment) => {
       const majorName = payment.major?.name || "Unknown";

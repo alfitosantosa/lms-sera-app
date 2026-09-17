@@ -1,6 +1,6 @@
 "use client";
 
-import { ClassDataTypes } from "@/app/(types)";
+import { type ClassDataTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 

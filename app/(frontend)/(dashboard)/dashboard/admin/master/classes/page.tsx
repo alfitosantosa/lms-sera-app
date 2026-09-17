@@ -1,26 +1,89 @@
 "use client";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useCreateClass, useDeleteClass, useGetClasses, useUpdateClass } from "@/app/(hooks)/hooks/Classes/useClass";
+import {
+  useCreateClass,
+  useDeleteClass,
+  useGetClasses,
+  useUpdateClass,
+} from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
-import { ClassDataTypes, ClassFormValues, classSchemaForm } from "@/app/(types)/types/class-types";
+import { type AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
+import {
+  type ClassDataTypes,
+  type ClassFormValues,
+  classSchemaForm,
+} from "@/app/(types)/types/class-types";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash2, X } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+  X,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,7 +92,17 @@ import { z } from "zod";
 
 // Import hooks
 // Create/Edit Dialog Component
-function ClassFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: ClassDataTypes | null; onSuccess: () => void }) {
+function ClassFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: ClassDataTypes | null;
+  onSuccess: () => void;
+}) {
   const createClass = useCreateClass();
   const updateClass = useUpdateClass();
   const { data: majors } = useGetMajors();
@@ -89,25 +162,43 @@ function ClassFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Kelas" : "Tambah Kelas Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit Kelas" : "Tambah Kelas Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nama Kelas</Label>
-            <Input id="name" placeholder="Contoh: X IPA 1" {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              placeholder="Contoh: X IPA 1"
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="grade">Tingkat</Label>
-            <Input id="grade" type="number" placeholder="10, 11, 12" {...register("grade", { valueAsNumber: true })} />
-            {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
+            <Input
+              id="grade"
+              type="number"
+              placeholder="10, 11, 12"
+              {...register("grade", { valueAsNumber: true })}
+            />
+            {errors.grade && (
+              <p className="text-destructive text-sm">{errors.grade.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label>Jurusan</Label>
-            <Select value={selectedMajorId} onValueChange={(value) => setValue("majorId", value)}>
+            <Select
+              value={selectedMajorId}
+              onValueChange={(value) => setValue("majorId", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jurusan" />
               </SelectTrigger>
@@ -119,12 +210,19 @@ function ClassFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
+            {errors.majorId && (
+              <p className="text-destructive text-sm">
+                {errors.majorId.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label>Tahun Ajaran</Label>
-            <Select value={selectedAcademicYearId} onValueChange={(value) => setValue("academicYearId", value)}>
+            <Select
+              value={selectedAcademicYearId}
+              onValueChange={(value) => setValue("academicYearId", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Tahun Ajaran" />
               </SelectTrigger>
@@ -136,25 +234,45 @@ function ClassFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
                 ))}
               </SelectContent>
             </Select>
-            {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
+            {errors.academicYearId && (
+              <p className="text-destructive text-sm">
+                {errors.academicYearId.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="capacity">Kapasitas</Label>
-            <Input id="capacity" type="number" placeholder="36" {...register("capacity", { valueAsNumber: true })} />
-            {errors.capacity && <p className="text-sm text-destructive">{errors.capacity.message}</p>}
+            <Input
+              id="capacity"
+              type="number"
+              placeholder="36"
+              {...register("capacity", { valueAsNumber: true })}
+            />
+            {errors.capacity && (
+              <p className="text-destructive text-sm">
+                {errors.capacity.message}
+              </p>
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createClass.isPending || updateClass.isPending}>
-              {createClass.isPending || updateClass.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={createClass.isPending || updateClass.isPending}
+            >
+              {createClass.isPending || updateClass.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -164,7 +282,17 @@ function ClassFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
 }
 
 // Delete Confirmation Dialog
-function DeleteClassDialog({ open, onOpenChange, classData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; classData: ClassDataTypes | null; onSuccess: () => void }) {
+function DeleteClassDialog({
+  open,
+  onOpenChange,
+  classData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  classData: ClassDataTypes | null;
+  onSuccess: () => void;
+}) {
   const deleteClass = useDeleteClass();
 
   const handleDelete = async () => {
@@ -188,12 +316,18 @@ function DeleteClassDialog({ open, onOpenChange, classData, onSuccess }: { open:
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Kelas</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus kelas <strong>{classData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus kelas{" "}
+            <strong>{classData?.name}</strong>? Tindakan ini tidak dapat
+            dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteClass.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteClass.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteClass.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -213,7 +347,9 @@ function ClassDataTable() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<ClassDataTypes | null>(null);
+  const [selectedClass, setSelectedClass] = useState<ClassDataTypes | null>(
+    null,
+  );
 
   // Filter states
   const [academicYearFilter, setAcademicYearFilter] = useState<string>("all");
@@ -228,8 +364,23 @@ function ClassDataTable() {
   const columns: ColumnDef<ClassDataTypes>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -237,19 +388,27 @@ function ClassDataTable() {
       accessorKey: "name",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Nama Kelas
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
-      cell: ({ row }) => <div className="font-medium">{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("name")}</div>
+      ),
     },
     {
       accessorKey: "grade",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Tingkat
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -273,7 +432,9 @@ function ClassDataTable() {
       accessorKey: "academicYear",
       header: "Tahun Ajaran",
       cell: ({ row }) => {
-        const academicYear = row.getValue("academicYear") as ClassDataTypes["academicYear"];
+        const academicYear = row.getValue(
+          "academicYear",
+        ) as ClassDataTypes["academicYear"];
         return <div>{academicYear.year}</div>;
       },
       filterFn: (row, id, value) => {
@@ -285,7 +446,10 @@ function ClassDataTable() {
       accessorKey: "capacity",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Kapasitas
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -318,7 +482,11 @@ function ClassDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(classData.id)}>Copy ID Kelas</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(classData.id)}
+              >
+                Copy ID Kelas
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -381,14 +549,26 @@ function ClassDataTable() {
   return (
     <>
       <div className="">
-        <div className="font-bold text-3xl">Kelas </div>
-        <div className=" mx-auto">
+        <div className="text-3xl font-bold">Kelas </div>
+        <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-2 flex-wrap gap-y-2">
-              <Input placeholder="Cari nama kelas..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />
+            <div className="flex flex-wrap items-center space-x-2 gap-y-2">
+              <Input
+                placeholder="Cari nama kelas..."
+                value={
+                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("name")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
 
               {/* Academic Year Filter */}
-              <Select value={academicYearFilter} onValueChange={setAcademicYearFilter}>
+              <Select
+                value={academicYearFilter}
+                onValueChange={setAcademicYearFilter}
+              >
                 <SelectTrigger className="w-45">
                   <SelectValue placeholder="Filter Tahun Ajaran" />
                 </SelectTrigger>
@@ -431,7 +611,14 @@ function ClassDataTable() {
                     .filter((column) => column.getCanHide())
                     .map((column) => {
                       return (
-                        <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
                           {column.id}
                         </DropdownMenuCheckboxItem>
                       );
@@ -452,39 +639,71 @@ function ClassDataTable() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
                     })}
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ?
+                {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
                       ))}
                     </TableRow>
                   ))
-                : <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
                       Tidak ada data kelas.
                     </TableCell>
                   </TableRow>
-                }
+                )}
               </TableBody>
             </Table>
           </div>
 
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+            <div className="text-muted-foreground flex-1 text-sm">
+              {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+              {table.getFilteredRowModel().rows.length} baris dipilih.
             </div>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -492,11 +711,25 @@ function ClassDataTable() {
         </div>
 
         {/* Dialogs */}
-        <ClassFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <ClassFormDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          onSuccess={handleSuccess}
+        />
 
-        <ClassFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedClass} onSuccess={handleSuccess} />
+        <ClassFormDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editData={selectedClass}
+          onSuccess={handleSuccess}
+        />
 
-        <DeleteClassDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} classData={selectedClass} onSuccess={handleSuccess} />
+        <DeleteClassDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          classData={selectedClass}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -506,7 +739,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

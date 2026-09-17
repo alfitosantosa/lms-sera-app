@@ -5,16 +5,66 @@ import { DatePickerWithRange } from "@/components/date/datePicker";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { CHART_GRID_STROKE, CHART_SERIES } from "@/lib/charts";
-import { Activity, AlertCircle, AlertTriangle, BarChart3, BookOpen, CalendarDays, CheckCircle, Clock, MapPin, PieChart as PieChartIcon, RefreshCw, Search, TrendingUp, User, Users, XCircle } from "lucide-react";
+import {
+  Activity,
+  AlertCircle,
+  AlertTriangle,
+  BarChart3,
+  BookOpen,
+  CalendarDays,
+  CheckCircle,
+  Clock,
+  MapPin,
+  PieChart as PieChartIcon,
+  RefreshCw,
+  Search,
+  TrendingUp,
+  User,
+  Users,
+  XCircle,
+} from "lucide-react";
 import React, { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -126,15 +176,31 @@ const STATUS_MAP: Record<
 
 // ─── Custom Tooltip ───────────────────────────────────────────────────────────
 
-function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { name: string; value: number; color: string }[]; label?: string }) {
+function CustomTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: { name: string; value: number; color: string }[];
+  label?: string;
+}) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border bg-background/95 backdrop-blur shadow-xl p-3 min-w-40">
-      <p className="text-xs font-semibold text-muted-foreground mb-2">{label}</p>
+    <div className="bg-background/95 min-w-40 rounded-xl border p-3 shadow-xl backdrop-blur">
+      <p className="text-muted-foreground mb-2 text-xs font-semibold">
+        {label}
+      </p>
       {payload.map((p, i) => (
-        <div key={i} className="flex items-center justify-between gap-4 text-xs">
+        <div
+          key={i}
+          className="flex items-center justify-between gap-4 text-xs"
+        >
           <span className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: p.color }} />
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: p.color }}
+            />
             <span className="text-muted-foreground">{p.name}</span>
           </span>
           <span className="font-semibold">{p.value}</span>
@@ -148,24 +214,30 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
 
 function DashboardSkeleton() {
   return (
-    <div className="min-h-screen p-6 max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto min-h-screen max-w-7xl space-y-6 p-6">
       {/* Header skeleton */}
-      <div className="h-32 rounded-2xl bg-linear-to-r from-info to-info animate-pulse" />
+      <div className="from-info to-info h-32 animate-pulse rounded-2xl bg-linear-to-r" />
 
       {/* Filter skeleton */}
-      <div className="h-24 rounded-xl border bg-card animate-pulse" />
+      <div className="bg-card h-24 animate-pulse rounded-xl border" />
 
       {/* KPI skeleton */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-24 rounded-xl border bg-card animate-pulse" />
+          <div
+            key={i}
+            className="bg-card h-24 animate-pulse rounded-xl border"
+          />
         ))}
       </div>
 
       {/* Charts skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {Array.from({ length: 2 }).map((_, i) => (
-          <div key={i} className="h-80 rounded-xl border bg-card animate-pulse" />
+          <div
+            key={i}
+            className="bg-card h-80 animate-pulse rounded-xl border"
+          />
         ))}
       </div>
     </div>
@@ -197,7 +269,10 @@ export default function AttendanceDashboardPage() {
     todate: dateRange?.to ?? new Date(),
   });
 
-  const attendanceData: AttendanceRecord[] = useMemo(() => (Array.isArray(rawData) ? (rawData as AttendanceRecord[]) : []), [rawData]);
+  const attendanceData: AttendanceRecord[] = useMemo(
+    () => (Array.isArray(rawData) ? (rawData as AttendanceRecord[]) : []),
+    [rawData],
+  );
 
   // ── Derived filter options ───────────────────────────────────────────────
   const classes = useMemo<string[]>(() => {
@@ -219,14 +294,27 @@ export default function AttendanceDashboardPage() {
   // ── Filtered data ────────────────────────────────────────────────────────
   const filteredData = useMemo<AttendanceRecord[]>(() => {
     return attendanceData.filter((r) => {
-      const matchStatus = selectedStatus === "all" || r.status === selectedStatus;
-      const matchClass = selectedClass === "all" || r.schedule?.room === selectedClass;
-      const matchSubject = selectedSubject === "all" || r.schedule?.subject?.name === selectedSubject;
+      const matchStatus =
+        selectedStatus === "all" || r.status === selectedStatus;
+      const matchClass =
+        selectedClass === "all" || r.schedule?.room === selectedClass;
+      const matchSubject =
+        selectedSubject === "all" ||
+        r.schedule?.subject?.name === selectedSubject;
       const q = searchStudent.toLowerCase();
-      const matchSearch = !q || r.student?.name?.toLowerCase().includes(q) || (r.student?.nisn ?? "").includes(q);
+      const matchSearch =
+        !q ||
+        r.student?.name?.toLowerCase().includes(q) ||
+        (r.student?.nisn ?? "").includes(q);
       return matchStatus && matchClass && matchSubject && matchSearch;
     });
-  }, [attendanceData, selectedStatus, selectedClass, selectedSubject, searchStudent]);
+  }, [
+    attendanceData,
+    selectedStatus,
+    selectedClass,
+    selectedSubject,
+    searchStudent,
+  ]);
 
   // ── Stats ────────────────────────────────────────────────────────────────
   const stats = useMemo<StatsMap>(() => {
@@ -243,7 +331,8 @@ export default function AttendanceDashboardPage() {
       absent,
       sick,
       excused,
-      attendanceRate: total > 0 ? (((present + late) / total) * 100).toFixed(1) : "0",
+      attendanceRate:
+        total > 0 ? (((present + late) / total) * 100).toFixed(1) : "0",
     };
   }, [filteredData]);
 
@@ -264,12 +353,22 @@ export default function AttendanceDashboardPage() {
     filteredData.forEach((r) => {
       const date = new Date(r.date).toLocaleDateString("id-ID");
       if (!daily[date]) {
-        daily[date] = { date, present: 0, late: 0, absent: 0, sick: 0, excused: 0, total: 0 };
+        daily[date] = {
+          date,
+          present: 0,
+          late: 0,
+          absent: 0,
+          sick: 0,
+          excused: 0,
+          total: 0,
+        };
       }
       (daily[date][r.status] as number)++;
       (daily[date].total as number)++;
     });
-    return Object.values(daily).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return Object.values(daily).sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    );
   }, [filteredData]);
 
   // ── Bar chart data (by class) ─────────────────────────────────────────────
@@ -278,27 +377,42 @@ export default function AttendanceDashboardPage() {
     filteredData.forEach((r) => {
       const cls = r.schedule?.room ?? "Unknown";
       if (!map[cls]) {
-        map[cls] = { class: cls, present: 0, late: 0, absent: 0, sick: 0, excused: 0 };
+        map[cls] = {
+          class: cls,
+          present: 0,
+          late: 0,
+          absent: 0,
+          sick: 0,
+          excused: 0,
+        };
       }
       (map[cls][r.status] as number)++;
     });
-    return Object.values(map).sort((a, b) => String(a.class).localeCompare(String(b.class)));
+    return Object.values(map).sort((a, b) =>
+      String(a.class).localeCompare(String(b.class)),
+    );
   }, [filteredData]);
 
   const displayedRows = showAllRows ? filteredData : filteredData.slice(0, 10);
-  const hasActiveFilter = selectedStatus !== "all" || selectedClass !== "all" || selectedSubject !== "all" || !!searchStudent;
+  const hasActiveFilter =
+    selectedStatus !== "all" ||
+    selectedClass !== "all" ||
+    selectedSubject !== "all" ||
+    !!searchStudent;
 
   // ── Error state ───────────────────────────────────────────────────────────
   if (isError) {
     return (
       <div className="min-h-screen p-6">
-        <div className="max-w-7xl mx-auto pt-8">
+        <div className="mx-auto max-w-7xl pt-8">
           <Alert className="border-destructive-border bg-destructive-surface">
-            <AlertTriangle className="h-4 w-4 text-destructive" />
-            <AlertDescription className="text-destructive-strong">Gagal memuat data kehadiran. Silakan coba muat ulang halaman.</AlertDescription>
+            <AlertTriangle className="text-destructive h-4 w-4" />
+            <AlertDescription className="text-destructive-strong">
+              Gagal memuat data kehadiran. Silakan coba muat ulang halaman.
+            </AlertDescription>
           </Alert>
           <Button className="mt-4" onClick={() => refetch()}>
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCw className="mr-2 h-4 w-4" />
             Coba Lagi
           </Button>
         </div>
@@ -309,43 +423,59 @@ export default function AttendanceDashboardPage() {
   if (isLoading) return <DashboardSkeleton />;
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="bg-background min-h-screen p-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         {/* ── Page Header ── */}
-        <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-info-solid via-info-solid to-info-strong text-white shadow-xl">
+        <div className="from-info-solid via-info-solid to-info-strong relative overflow-hidden rounded-2xl bg-linear-to-br text-white shadow-xl">
           {/* decorative circles */}
-          <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-background/10" />
-          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-background/10" />
+          <div className="bg-background/10 absolute -top-12 -right-12 h-48 w-48 rounded-full" />
+          <div className="bg-background/10 absolute -bottom-8 -left-8 h-32 w-32 rounded-full" />
 
           <div className="relative px-8 py-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <div>
-                <p className="text-info-chip text-sm font-medium mb-1 uppercase tracking-wide">Sistem Informasi Sekolah</p>
-                <h1 className="text-3xl font-bold tracking-tight">Dashboard Kehadiran</h1>
-                <p className="text-info-chip text-sm mt-1">Pantau dan analisis kehadiran siswa secara real-time</p>
+                <p className="text-info-chip mb-1 text-sm font-medium tracking-wide uppercase">
+                  Sistem Informasi Sekolah
+                </p>
+                <h1 className="text-3xl font-bold tracking-tight">
+                  Dashboard Kehadiran
+                </h1>
+                <p className="text-info-chip mt-1 text-sm">
+                  Pantau dan analisis kehadiran siswa secara real-time
+                </p>
               </div>
 
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex flex-wrap items-center gap-3">
                 {/* Attendance rate pill */}
-                <div className="flex items-center gap-2 bg-background/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-background/20">
-                  <Activity className="h-5 w-5 text-success-chip" />
+                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-xl border px-4 py-3 backdrop-blur-sm">
+                  <Activity className="text-success-chip h-5 w-5" />
                   <div>
-                    <p className="text-xs text-info-chip">Tingkat Kehadiran</p>
+                    <p className="text-info-chip text-xs">Tingkat Kehadiran</p>
                     <p className="text-xl font-bold">{stats.attendanceRate}%</p>
                   </div>
                 </div>
 
                 {/* Total records pill */}
-                <div className="flex items-center gap-2 bg-background/15 backdrop-blur-sm rounded-xl px-4 py-3 border border-background/20">
-                  <Users className="h-5 w-5 text-info-chip" />
+                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-xl border px-4 py-3 backdrop-blur-sm">
+                  <Users className="text-info-chip h-5 w-5" />
                   <div>
-                    <p className="text-xs text-info-chip">Total Record</p>
-                    <p className="text-xl font-bold">{stats.total.toLocaleString("id-ID")}</p>
+                    <p className="text-info-chip text-xs">Total Record</p>
+                    <p className="text-xl font-bold">
+                      {stats.total.toLocaleString("id-ID")}
+                    </p>
                   </div>
                 </div>
 
-                <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching} className="bg-background/15 border-background/30 text-white hover:bg-background/25">
-                  <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? "animate-spin" : ""}`} />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => refetch()}
+                  disabled={isFetching}
+                  className="bg-background/15 border-background/30 hover:bg-background/25 text-white"
+                >
+                  <RefreshCw
+                    className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`}
+                  />
                   Refresh
                 </Button>
               </div>
@@ -356,8 +486,8 @@ export default function AttendanceDashboardPage() {
         {/* ── Filter Bar ── */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CalendarDays className="text-muted-foreground h-4 w-4" />
               Filter & Pencarian
             </CardTitle>
           </CardHeader>
@@ -365,14 +495,21 @@ export default function AttendanceDashboardPage() {
             <div className="flex flex-wrap gap-4">
               {/* Date Range */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Periode</label>
+                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                  Periode
+                </label>
                 <DatePickerWithRange date={dateRange} setDate={setDateRange} />
               </div>
 
               {/* Status */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Status</label>
-                <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                  Status
+                </label>
+                <Select
+                  value={selectedStatus}
+                  onValueChange={setSelectedStatus}
+                >
                   <SelectTrigger className="w-40">
                     <SelectValue placeholder="Semua Status" />
                   </SelectTrigger>
@@ -381,7 +518,12 @@ export default function AttendanceDashboardPage() {
                     {(Object.keys(STATUS_MAP) as StatusKey[]).map((key) => (
                       <SelectItem key={key} value={key}>
                         <span className="flex items-center gap-2">
-                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: STATUS_MAP[key].chartColor }} />
+                          <span
+                            className="h-2 w-2 rounded-full"
+                            style={{
+                              backgroundColor: STATUS_MAP[key].chartColor,
+                            }}
+                          />
                           {STATUS_MAP[key].label}
                         </span>
                       </SelectItem>
@@ -392,7 +534,9 @@ export default function AttendanceDashboardPage() {
 
               {/* Class */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Kelas</label>
+                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                  Kelas
+                </label>
                 <Select value={selectedClass} onValueChange={setSelectedClass}>
                   <SelectTrigger className="w-36">
                     <SelectValue placeholder="Semua Kelas" />
@@ -410,8 +554,13 @@ export default function AttendanceDashboardPage() {
 
               {/* Subject */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Mata Pelajaran</label>
-                <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                  Mata Pelajaran
+                </label>
+                <Select
+                  value={selectedSubject}
+                  onValueChange={setSelectedSubject}
+                >
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Semua Mapel" />
                   </SelectTrigger>
@@ -428,20 +577,27 @@ export default function AttendanceDashboardPage() {
 
               {/* Search */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+                <label className="text-muted-foreground flex items-center gap-1 text-xs font-medium tracking-wide uppercase">
                   <Search className="h-3 w-3" />
                   Cari Siswa
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
-                  <Input placeholder="Nama atau NISN..." value={searchStudent} onChange={(e) => setSearchStudent(e.target.value)} className="pl-8 w-48" />
+                  <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-3.5 w-3.5" />
+                  <Input
+                    placeholder="Nama atau NISN..."
+                    value={searchStudent}
+                    onChange={(e) => setSearchStudent(e.target.value)}
+                    className="w-48 pl-8"
+                  />
                 </div>
               </div>
 
               {/* Reset */}
               {hasActiveFilter && (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-muted-foreground opacity-0">Reset</label>
+                  <label className="text-muted-foreground text-xs font-medium opacity-0">
+                    Reset
+                  </label>
                   <Button
                     variant="outline"
                     size="sm"
@@ -461,11 +617,19 @@ export default function AttendanceDashboardPage() {
 
             {/* Active filter badges */}
             {hasActiveFilter && (
-              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t">
-                <span className="text-xs text-muted-foreground">Filter aktif:</span>
+              <div className="mt-3 flex flex-wrap gap-2 border-t pt-3">
+                <span className="text-muted-foreground text-xs">
+                  Filter aktif:
+                </span>
                 {selectedStatus !== "all" && (
-                  <Badge variant="secondary" className="text-xs gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: STATUS_MAP[selectedStatus as StatusKey]?.chartColor }} />
+                  <Badge variant="secondary" className="gap-1 text-xs">
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{
+                        backgroundColor:
+                          STATUS_MAP[selectedStatus as StatusKey]?.chartColor,
+                      }}
+                    />
                     {STATUS_MAP[selectedStatus as StatusKey]?.label}
                   </Badge>
                 )}
@@ -490,17 +654,19 @@ export default function AttendanceDashboardPage() {
         </Card>
 
         {/* ── KPI Cards ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {/* Total */}
-          <Card className="border-l-4 border-l-border">
+          <Card className="border-l-border border-l-4">
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Total</p>
-                  <p className="text-2xl font-bold text-foreground">{stats.total.toLocaleString("id-ID")}</p>
+                  <p className="text-muted-foreground mb-1 text-xs">Total</p>
+                  <p className="text-foreground text-2xl font-bold">
+                    {stats.total.toLocaleString("id-ID")}
+                  </p>
                 </div>
-                <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center">
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                <div className="bg-muted flex h-8 w-8 items-center justify-center rounded-lg">
+                  <Users className="text-muted-foreground h-4 w-4" />
                 </div>
               </div>
             </CardContent>
@@ -511,21 +677,34 @@ export default function AttendanceDashboardPage() {
             const cfg = STATUS_MAP[key];
             const Icon = cfg.icon;
             const count = stats[key];
-            const pct = stats.total > 0 ? ((count / stats.total) * 100).toFixed(0) : "0";
+            const pct =
+              stats.total > 0 ? ((count / stats.total) * 100).toFixed(0) : "0";
 
             return (
               <Card key={key} className={`border-l-4 ${cfg.borderColor}`}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-xs text-muted-foreground mb-1">{cfg.label}</p>
-                      <p className="text-2xl font-bold" style={{ color: cfg.chartColor }}>
+                      <p className="text-muted-foreground mb-1 text-xs">
+                        {cfg.label}
+                      </p>
+                      <p
+                        className="text-2xl font-bold"
+                        style={{ color: cfg.chartColor }}
+                      >
                         {count}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{pct}%</p>
+                      <p className="text-muted-foreground mt-0.5 text-xs">
+                        {pct}%
+                      </p>
                     </div>
-                    <div className={`h-8 w-8 rounded-lg ${cfg.bgColor} flex items-center justify-center`}>
-                      <Icon className="h-4 w-4" style={{ color: cfg.chartColor }} />
+                    <div
+                      className={`h-8 w-8 rounded-lg ${cfg.bgColor} flex items-center justify-center`}
+                    >
+                      <Icon
+                        className="h-4 w-4"
+                        style={{ color: cfg.chartColor }}
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -535,23 +714,36 @@ export default function AttendanceDashboardPage() {
         </div>
 
         {/* ── Charts Row 1: Pie + Line ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Pie Chart */}
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
-                <PieChartIcon className="h-4 w-4 text-info" />
+                <PieChartIcon className="text-info h-4 w-4" />
                 Distribusi Status
               </CardTitle>
-              <CardDescription>Proporsi kehadiran berdasarkan status</CardDescription>
+              <CardDescription>
+                Proporsi kehadiran berdasarkan status
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              {pieData.length === 0 ?
-                <div className="h-72 flex items-center justify-center text-muted-foreground text-sm">Tidak ada data untuk ditampilkan</div>
-              : <div className="flex items-center gap-4">
+              {pieData.length === 0 ? (
+                <div className="text-muted-foreground flex h-72 items-center justify-center text-sm">
+                  Tidak ada data untuk ditampilkan
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
                   <ResponsiveContainer width="60%" height={240}>
                     <PieChart>
-                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={55}
+                        outerRadius={90}
+                        paddingAngle={3}
+                        dataKey="value"
+                      >
                         {pieData.map((entry, i) => (
                           <Cell key={i} fill={entry.color} />
                         ))}
@@ -561,9 +753,11 @@ export default function AttendanceDashboardPage() {
                           if (!active || !payload?.length) return null;
                           const d = payload[0];
                           return (
-                            <div className="rounded-lg border bg-background shadow-md p-2 text-xs">
+                            <div className="bg-background rounded-lg border p-2 text-xs shadow-md">
                               <p className="font-semibold">{d.name}</p>
-                              <p style={{ color: d.payload.color }}>{d.value} siswa</p>
+                              <p style={{ color: d.payload.color }}>
+                                {d.value} siswa
+                              </p>
                             </div>
                           );
                         }}
@@ -574,19 +768,34 @@ export default function AttendanceDashboardPage() {
                   {/* Legend */}
                   <div className="flex-1 space-y-2">
                     {pieData.map((d, i) => (
-                      <div key={i} className="flex items-center justify-between text-xs">
+                      <div
+                        key={i}
+                        className="flex items-center justify-between text-xs"
+                      >
                         <span className="flex items-center gap-1.5">
-                          <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: d.color }} />
-                          <span className="text-muted-foreground">{d.name}</span>
+                          <span
+                            className="h-2.5 w-2.5 rounded-sm"
+                            style={{ backgroundColor: d.color }}
+                          />
+                          <span className="text-muted-foreground">
+                            {d.name}
+                          </span>
                         </span>
                         <span className="font-semibold">
-                          {d.value} <span className="text-muted-foreground font-normal">({stats.total > 0 ? ((d.value / stats.total) * 100).toFixed(0) : 0}%)</span>
+                          {d.value}{" "}
+                          <span className="text-muted-foreground font-normal">
+                            (
+                            {stats.total > 0
+                              ? ((d.value / stats.total) * 100).toFixed(0)
+                              : 0}
+                            %)
+                          </span>
                         </span>
                       </div>
                     ))}
                   </div>
                 </div>
-              }
+              )}
             </CardContent>
           </Card>
 
@@ -594,29 +803,83 @@ export default function AttendanceDashboardPage() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
-                <TrendingUp className="h-4 w-4 text-success" />
+                <TrendingUp className="text-success h-4 w-4" />
                 Tren Kehadiran Harian
               </CardTitle>
               <CardDescription>Perkembangan kehadiran per hari</CardDescription>
             </CardHeader>
             <CardContent>
-              {lineData.length === 0 ?
-                <div className="h-72 flex items-center justify-center text-muted-foreground text-sm">Tidak ada data tren untuk periode ini</div>
-              : <ResponsiveContainer width="100%" height={240}>
-                  <LineChart data={lineData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
-                    <XAxis dataKey="date" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
-                    <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} width={24} />
+              {lineData.length === 0 ? (
+                <div className="text-muted-foreground flex h-72 items-center justify-center text-sm">
+                  Tidak ada data tren untuk periode ini
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height={240}>
+                  <LineChart
+                    data={lineData}
+                    margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
+                  >
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke={CHART_GRID_STROKE}
+                    />
+                    <XAxis
+                      dataKey="date"
+                      tick={{ fontSize: 9 }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 9 }}
+                      tickLine={false}
+                      axisLine={false}
+                      width={24}
+                    />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend wrapperStyle={{ fontSize: 10 }} />
-                    <Line type="monotone" dataKey="present" stroke={CHART_SERIES.positive} strokeWidth={2} dot={false} name="Hadir" />
-                    <Line type="monotone" dataKey="late" stroke={CHART_SERIES.warning} strokeWidth={2} dot={false} name="Terlambat" />
-                    <Line type="monotone" dataKey="absent" stroke={CHART_SERIES.negative} strokeWidth={2} dot={false} name="Tidak Hadir" />
-                    <Line type="monotone" dataKey="sick" stroke={CHART_SERIES.neutral} strokeWidth={2} dot={false} name="Sakit" />
-                    <Line type="monotone" dataKey="excused" stroke={CHART_SERIES.info} strokeWidth={2} dot={false} name="Izin" />
+                    <Line
+                      type="monotone"
+                      dataKey="present"
+                      stroke={CHART_SERIES.positive}
+                      strokeWidth={2}
+                      dot={false}
+                      name="Hadir"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="late"
+                      stroke={CHART_SERIES.warning}
+                      strokeWidth={2}
+                      dot={false}
+                      name="Terlambat"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="absent"
+                      stroke={CHART_SERIES.negative}
+                      strokeWidth={2}
+                      dot={false}
+                      name="Tidak Hadir"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="sick"
+                      stroke={CHART_SERIES.neutral}
+                      strokeWidth={2}
+                      dot={false}
+                      name="Sakit"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="excused"
+                      stroke={CHART_SERIES.info}
+                      strokeWidth={2}
+                      dot={false}
+                      name="Izin"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
-              }
+              )}
             </CardContent>
           </Card>
         </div>
@@ -625,29 +888,81 @@ export default function AttendanceDashboardPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-base">
-              <BarChart3 className="h-4 w-4 text-tertiary" />
+              <BarChart3 className="text-tertiary h-4 w-4" />
               Kehadiran per Kelas
             </CardTitle>
-            <CardDescription>Perbandingan tingkat kehadiran antar kelas</CardDescription>
+            <CardDescription>
+              Perbandingan tingkat kehadiran antar kelas
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            {classData.length === 0 ?
-              <div className="h-60 flex items-center justify-center text-muted-foreground text-sm">Tidak ada data per kelas untuk periode ini</div>
-            : <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={classData} margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
-                  <XAxis dataKey="class" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} width={24} />
+            {classData.length === 0 ? (
+              <div className="text-muted-foreground flex h-60 items-center justify-center text-sm">
+                Tidak ada data per kelas untuk periode ini
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart
+                  data={classData}
+                  margin={{ top: 4, right: 8, left: 0, bottom: 4 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke={CHART_GRID_STROKE}
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="class"
+                    tick={{ fontSize: 10 }}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 10 }}
+                    tickLine={false}
+                    axisLine={false}
+                    width={24}
+                  />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar dataKey="present" fill={CHART_SERIES.positive} name="Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="late" fill={CHART_SERIES.warning} name="Terlambat" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="absent" fill={CHART_SERIES.negative} name="Tidak Hadir" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="sick" fill={CHART_SERIES.neutral} name="Sakit" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                  <Bar dataKey="excused" fill={CHART_SERIES.info} name="Izin" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                  <Bar
+                    dataKey="present"
+                    fill={CHART_SERIES.positive}
+                    name="Hadir"
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={20}
+                  />
+                  <Bar
+                    dataKey="late"
+                    fill={CHART_SERIES.warning}
+                    name="Terlambat"
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={20}
+                  />
+                  <Bar
+                    dataKey="absent"
+                    fill={CHART_SERIES.negative}
+                    name="Tidak Hadir"
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={20}
+                  />
+                  <Bar
+                    dataKey="sick"
+                    fill={CHART_SERIES.neutral}
+                    name="Sakit"
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={20}
+                  />
+                  <Bar
+                    dataKey="excused"
+                    fill={CHART_SERIES.info}
+                    name="Izin"
+                    radius={[3, 3, 0, 0]}
+                    maxBarSize={20}
+                  />
                 </BarChart>
               </ResponsiveContainer>
-            }
+            )}
           </CardContent>
         </Card>
 
@@ -657,12 +972,16 @@ export default function AttendanceDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <BookOpen className="h-4 w-4 text-info" />
+                  <BookOpen className="text-info h-4 w-4" />
                   Data Kehadiran
                 </CardTitle>
                 <CardDescription className="mt-1">
                   {filteredData.length} record ditemukan
-                  {filteredData.length !== attendanceData.length && <span className="ml-1">(difilter dari {attendanceData.length} total)</span>}
+                  {filteredData.length !== attendanceData.length && (
+                    <span className="ml-1">
+                      (difilter dari {attendanceData.length} total)
+                    </span>
+                  )}
                 </CardDescription>
               </div>
             </div>
@@ -671,24 +990,43 @@ export default function AttendanceDashboardPage() {
           <Separator />
 
           <CardContent className="p-0">
-            {filteredData.length === 0 ?
+            {filteredData.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Users className="h-12 w-12 text-muted-foreground/30 mb-3" />
-                <p className="font-medium text-muted-foreground">Tidak ada data kehadiran</p>
-                <p className="text-sm text-muted-foreground mt-1">Coba ubah filter atau rentang tanggal</p>
+                <Users className="text-muted-foreground/30 mb-3 h-12 w-12" />
+                <p className="text-muted-foreground font-medium">
+                  Tidak ada data kehadiran
+                </p>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  Coba ubah filter atau rentang tanggal
+                </p>
               </div>
-            : <>
+            ) : (
+              <>
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted/40 hover:bg-muted/40">
-                        <TableHead className="font-semibold text-xs">Siswa</TableHead>
-                        <TableHead className="font-semibold text-xs">NISN</TableHead>
-                        <TableHead className="font-semibold text-xs">Kelas</TableHead>
-                        <TableHead className="font-semibold text-xs">Mata Pelajaran</TableHead>
-                        <TableHead className="font-semibold text-xs">Status</TableHead>
-                        <TableHead className="font-semibold text-xs">Tanggal</TableHead>
-                        <TableHead className="font-semibold text-xs">Catatan</TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Siswa
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          NISN
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Kelas
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Mata Pelajaran
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Status
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Tanggal
+                        </TableHead>
+                        <TableHead className="text-xs font-semibold">
+                          Catatan
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -697,47 +1035,63 @@ export default function AttendanceDashboardPage() {
                         if (!cfg) return null;
                         const Icon = cfg.icon;
                         return (
-                          <TableRow key={record.id} className="hover:bg-muted/30 transition-colors">
-                            <TableCell className="font-medium py-2.5">
+                          <TableRow
+                            key={record.id}
+                            className="hover:bg-muted/30 transition-colors"
+                          >
+                            <TableCell className="py-2.5 font-medium">
                               <div className="flex items-center gap-2">
-                                <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center shrink-0">
-                                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                                <div className="bg-muted flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
+                                  <User className="text-muted-foreground h-3.5 w-3.5" />
                                 </div>
-                                <span className="text-sm">{record.student?.name ?? "-"}</span>
+                                <span className="text-sm">
+                                  {record.student?.name ?? "-"}
+                                </span>
                               </div>
                             </TableCell>
                             <TableCell className="py-2.5">
-                              <Badge variant="outline" className="text-xs font-mono">
+                              <Badge
+                                variant="outline"
+                                className="font-mono text-xs"
+                              >
                                 {record.student?.nisn ?? "N/A"}
                               </Badge>
                             </TableCell>
                             <TableCell className="py-2.5">
-                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <div className="text-muted-foreground flex items-center gap-1 text-sm">
                                 <MapPin className="h-3 w-3 shrink-0" />
                                 {record.schedule?.room ?? "N/A"}
                               </div>
                             </TableCell>
                             <TableCell className="py-2.5">
-                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <div className="text-muted-foreground flex items-center gap-1 text-sm">
                                 <BookOpen className="h-3 w-3 shrink-0" />
                                 {record.schedule?.subject?.name ?? "N/A"}
                               </div>
                             </TableCell>
                             <TableCell className="py-2.5">
-                              <Badge className={`${cfg.bgColor} ${cfg.color} border-0 flex items-center gap-1 w-fit text-xs`}>
+                              <Badge
+                                className={`${cfg.bgColor} ${cfg.color} flex w-fit items-center gap-1 border-0 text-xs`}
+                              >
                                 <Icon className="h-3 w-3" />
                                 {cfg.label}
                               </Badge>
                             </TableCell>
-                            <TableCell className="py-2.5 text-sm text-muted-foreground whitespace-nowrap">
-                              {new Date(record.date).toLocaleDateString("id-ID", {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              })}
+                            <TableCell className="text-muted-foreground py-2.5 text-sm whitespace-nowrap">
+                              {new Date(record.date).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                },
+                              )}
                             </TableCell>
-                            <TableCell className="py-2.5 max-w-40">
-                              <span className="text-xs text-muted-foreground truncate block" title={record.notes ?? "-"}>
+                            <TableCell className="max-w-40 py-2.5">
+                              <span
+                                className="text-muted-foreground block truncate text-xs"
+                                title={record.notes ?? "-"}
+                              >
                                 {record.notes ?? "-"}
                               </span>
                             </TableCell>
@@ -750,17 +1104,27 @@ export default function AttendanceDashboardPage() {
 
                 {/* Show more / show less */}
                 {filteredData.length > 10 && (
-                  <div className="p-4 border-t flex items-center justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Menampilkan {showAllRows ? filteredData.length : Math.min(10, filteredData.length)} dari {filteredData.length} record
+                  <div className="flex items-center justify-between border-t p-4">
+                    <p className="text-muted-foreground text-xs">
+                      Menampilkan{" "}
+                      {showAllRows
+                        ? filteredData.length
+                        : Math.min(10, filteredData.length)}{" "}
+                      dari {filteredData.length} record
                     </p>
-                    <Button variant="outline" size="sm" onClick={() => setShowAllRows((v) => !v)}>
-                      {showAllRows ? "Tampilkan Lebih Sedikit" : `Lihat Semua (${filteredData.length} record)`}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowAllRows((v) => !v)}
+                    >
+                      {showAllRows
+                        ? "Tampilkan Lebih Sedikit"
+                        : `Lihat Semua (${filteredData.length} record)`}
                     </Button>
                   </div>
                 )}
               </>
-            }
+            )}
           </CardContent>
         </Card>
       </div>

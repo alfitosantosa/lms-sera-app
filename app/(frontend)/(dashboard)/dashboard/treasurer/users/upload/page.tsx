@@ -7,7 +7,7 @@ import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useBulkCreateUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -408,20 +408,20 @@ function UploadUsers({ majorId }: { majorId: string }) {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-3">Upload Page</div>
+      <div className="mb-3 text-3xl font-bold">Upload Page</div>
 
       <div className="mb-6">
         <Card className="p-6">
-          <div className="text-xl font-semibold mb-4">Upload Files</div>
+          <div className="mb-4 text-xl font-semibold">Upload Files</div>
 
           <div className="space-y-4">
             {/* Instructions */}
-            <div className="bg-info-surface p-4 rounded-lg border border-info-border">
+            <div className="bg-info-surface border-info-border rounded-lg border p-4">
               <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-info mt-0.5" />
-                <div className="text-sm text-info-strong">
-                  <p className="font-semibold mb-1">Petunjuk Upload:</p>
-                  <ul className="list-disc list-inside space-y-1">
+                <AlertCircle className="text-info mt-0.5 h-5 w-5" />
+                <div className="text-info-strong text-sm">
+                  <p className="mb-1 font-semibold">Petunjuk Upload:</p>
+                  <ul className="list-inside list-disc space-y-1">
                     <li>Download template terlebih dahulu</li>
                     <li>Isi data sesuai kolom yang tersedia</li>
                     <li>Field yang wajib diisi: Name</li>
@@ -446,7 +446,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
                 type="file"
                 accept=".xlsx,.xls"
               />
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-muted-foreground mt-2 text-sm">
                 Format: .xlsx atau .xls | Maksimal file yang dapat di-upload
                 sekaligus
               </p>
@@ -461,7 +461,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
                     key={index}
                   >
                     <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <FileText className="text-muted-foreground h-4 w-4" />
                       <span className="text-sm">{file.name}</span>
                       <span className="text-muted-foreground text-xs">
                         ({(file.size / 1024).toFixed(1)} KB)
@@ -483,19 +483,19 @@ function UploadUsers({ majorId }: { majorId: string }) {
             )}
 
             {previewData.length > 0 && (
-              <div className="border rounded-lg p-4">
-                <p className="text-sm font-semibold mb-2">
+              <div className="rounded-lg border p-4">
+                <p className="mb-2 text-sm font-semibold">
                   Preview Data (5 baris pertama):
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left p-2">Name</th>
-                        <th className="text-left p-2">Email</th>
-                        <th className="text-left p-2">NIK</th>
-                        <th className="text-left p-2">NISN</th>
-                        <th className="text-left p-2">Role ID</th>
+                        <th className="p-2 text-left">Name</th>
+                        <th className="p-2 text-left">Email</th>
+                        <th className="p-2 text-left">NIK</th>
+                        <th className="p-2 text-left">NISN</th>
+                        <th className="p-2 text-left">Role ID</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -518,7 +518,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
 
             <div className="flex gap-2">
               <Button onClick={downloadTemplate} variant="outline">
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="mr-2 h-4 w-4" />
                 Download Template
               </Button>
 
@@ -526,7 +526,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
                 onClick={handleUpload}
                 disabled={files.length === 0 || isUploading}
               >
-                <Upload className="h-4 w-4 mr-2" />
+                <Upload className="mr-2 h-4 w-4" />
                 {isUploading
                   ? "Uploading..."
                   : `Upload ${files.length > 0 ? `(${files.length} file)` : ""}`}
@@ -538,7 +538,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
 
       <div className="grid gap-6">
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Roles</div>
+          <div className="mb-2 text-xl font-bold">Data Roles</div>
           <Table>
             <TableCaption>
               Semua Data Roles - Copy ID untuk digunakan di Excel
@@ -569,7 +569,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Tahun Akademik</div>
+          <div className="mb-2 text-xl font-bold">Data Tahun Akademik</div>
           <Table>
             <TableCaption>
               Semua Data Tahun Akademik - Copy ID untuk digunakan di Excel
@@ -600,7 +600,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Jurusan</div>
+          <div className="mb-2 text-xl font-bold">Data Jurusan</div>
           <Table>
             <TableCaption>
               Semua Data Jurusan - Copy ID untuk digunakan di Excel
@@ -631,7 +631,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Kelas</div>
+          <div className="mb-2 text-xl font-bold">Data Kelas</div>
           <Table>
             <TableCaption>
               Semua Data Kelas - Copy ID untuk digunakan di Excel
@@ -661,7 +661,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
           </Table>
         </Card>
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Tahfidz Group</div>
+          <div className="mb-2 text-xl font-bold">Data Tahfidz Group</div>
           <Table>
             <TableCaption>
               Semua Data Tahfidz Group - Copy ID untuk digunakan di Excel

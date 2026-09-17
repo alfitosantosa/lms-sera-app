@@ -1,28 +1,92 @@
 "use client";
 
-import { useCreateAttendance, useDeleteAttendance, useUpdateAttendance } from "@/app/(hooks)/hooks/Attendances/useAttendance";
+import {
+  useCreateAttendance,
+  useDeleteAttendance,
+  useUpdateAttendance,
+} from "@/app/(hooks)/hooks/Attendances/useAttendance";
 import { useGetAttendanceByIdSchedule } from "@/app/(hooks)/hooks/Attendances/useAttendanceByIdShcedule";
 import { useGetSchedules } from "@/app/(hooks)/hooks/Schedules/useSchedules";
 import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(types)";
-import { attendanceTypes } from "@/app/(types)/types/attendance-types";
+import { type attendanceTypes } from "@/app/(types)/types/attendance-types";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { AlertCircle, ArrowUpDown, Calendar, CheckCircle, ChevronDown, Clock, Download, MoreHorizontal, Pencil, Search, Trash2, Users, X, XCircle } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  AlertCircle,
+  ArrowUpDown,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Download,
+  MoreHorizontal,
+  Pencil,
+  Search,
+  Trash2,
+  Users,
+  X,
+  XCircle,
+} from "lucide-react";
 import { unauthorized, useParams } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -82,11 +146,31 @@ type AttendanceFormValues = z.infer<typeof attendanceSchema>;
 
 // Status mapping
 const STATUS_MAP = {
-  present: { label: "Hadir", color: "bg-success-chip text-success-strong", icon: CheckCircle },
-  absent: { label: "Tidak Hadir", color: "bg-destructive-chip text-destructive-strong", icon: XCircle },
-  late: { label: "Terlambat", color: "bg-warning-chip text-warning-strong", icon: Clock },
-  excused: { label: "Izin", color: "bg-info-chip text-info-strong", icon: AlertCircle },
-  sick: { label: "Sakit", color: "bg-tertiary-chip text-tertiary-strong", icon: AlertCircle },
+  present: {
+    label: "Hadir",
+    color: "bg-success-chip text-success-strong",
+    icon: CheckCircle,
+  },
+  absent: {
+    label: "Tidak Hadir",
+    color: "bg-destructive-chip text-destructive-strong",
+    icon: XCircle,
+  },
+  late: {
+    label: "Terlambat",
+    color: "bg-warning-chip text-warning-strong",
+    icon: Clock,
+  },
+  excused: {
+    label: "Izin",
+    color: "bg-info-chip text-info-strong",
+    icon: AlertCircle,
+  },
+  sick: {
+    label: "Sakit",
+    color: "bg-tertiary-chip text-tertiary-strong",
+    icon: AlertCircle,
+  },
 };
 
 // Days mapping
@@ -101,7 +185,17 @@ const DAYS_MAP = {
 };
 
 // Create/Edit Dialog Component
-function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: attendanceTypes | null; onSuccess: () => void }) {
+function AttendanceFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: attendanceTypes | null;
+  onSuccess: () => void;
+}) {
   const createAttendance = useCreateAttendance();
   const updateAttendance = useUpdateAttendance();
 
@@ -167,16 +261,21 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Kehadiran" : "Catat Kehadiran Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit Kehadiran" : "Catat Kehadiran Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Siswa</Label>
-              <Select value={selectedStudentId || ""} onValueChange={(value) => setValue("studentId", value)}>
+              <Select
+                value={selectedStudentId || ""}
+                onValueChange={(value) => setValue("studentId", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Siswa" />
                 </SelectTrigger>
@@ -188,7 +287,11 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
                   ))}
                 </SelectContent>
               </Select>
-              {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
+              {errors.studentId && (
+                <p className="text-destructive text-sm">
+                  {errors.studentId.message}
+                </p>
+              )}
             </div>
 
             {/* <div className="space-y-2">
@@ -212,7 +315,10 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Status Kehadiran</Label>
-              <Select value={selectedStatus || ""} onValueChange={(value) => setValue("status", value as any)}>
+              <Select
+                value={selectedStatus || ""}
+                onValueChange={(value) => setValue("status", value as any)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Status" />
                 </SelectTrigger>
@@ -227,7 +333,11 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
                   ))}
                 </SelectContent>
               </Select>
-              {errors.status && <p className="text-sm text-destructive">{errors.status.message}</p>}
+              {errors.status && (
+                <p className="text-destructive text-sm">
+                  {errors.status.message}
+                </p>
+              )}
             </div>
 
             {/* <div className="space-y-2">
@@ -239,19 +349,33 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
 
           <div className="space-y-2">
             <Label htmlFor="notes">Catatan (Opsional)</Label>
-            <Textarea id="notes" placeholder="Tambahkan catatan kehadiran..." {...register("notes")} rows={3} />
+            <Textarea
+              id="notes"
+              placeholder="Tambahkan catatan kehadiran..."
+              {...register("notes")}
+              rows={3}
+            />
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createAttendance.isPending || updateAttendance.isPending}>
-              {createAttendance.isPending || updateAttendance.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={
+                createAttendance.isPending || updateAttendance.isPending
+              }
+            >
+              {createAttendance.isPending || updateAttendance.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -261,7 +385,17 @@ function AttendanceFormDialog({ open, onOpenChange, editData, onSuccess }: { ope
 }
 
 // Delete Confirmation Dialog
-function DeleteAttendanceDialog({ open, onOpenChange, attendanceData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; attendanceData: attendanceTypes | null; onSuccess: () => void }) {
+function DeleteAttendanceDialog({
+  open,
+  onOpenChange,
+  attendanceData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  attendanceData: attendanceTypes | null;
+  onSuccess: () => void;
+}) {
   const deleteAttendance = useDeleteAttendance();
 
   const handleDelete = async () => {
@@ -283,13 +417,22 @@ function DeleteAttendanceDialog({ open, onOpenChange, attendanceData, onSuccess 
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Data Kehadiran</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus data kehadiran "{attendanceData?.student?.name}" untuk mata pelajaran "{attendanceData?.schedule?.subject?.name}" pada tanggal{" "}
-            {attendanceData?.date ? new Date(attendanceData.date).toLocaleDateString("id-ID") : ""}? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus data kehadiran "
+            {attendanceData?.student?.name}" untuk mata pelajaran "
+            {attendanceData?.schedule?.subject?.name}" pada tanggal{" "}
+            {attendanceData?.date
+              ? new Date(attendanceData.date).toLocaleDateString("id-ID")
+              : ""}
+            ? Tindakan ini tidak dapat dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteAttendance.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteAttendance.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteAttendance.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -301,15 +444,19 @@ function DeleteAttendanceDialog({ open, onOpenChange, attendanceData, onSuccess 
 // Main DataTable Component
 function AttendanceDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedAttendance, setSelectedAttendance] = React.useState<attendanceTypes | null>(null);
+  const [selectedAttendance, setSelectedAttendance] =
+    React.useState<attendanceTypes | null>(null);
 
   // Filter states
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
@@ -319,7 +466,11 @@ function AttendanceDataTable() {
 
   const params = useParams();
 
-  const { data: attendances = [], isLoading, refetch } = useGetAttendanceByIdSchedule(params.id as string);
+  const {
+    data: attendances = [],
+    isLoading,
+    refetch,
+  } = useGetAttendanceByIdSchedule(params.id as string);
   const { data: schedules = [] } = useGetSchedules();
 
   const handleSuccess = () => {
@@ -343,13 +494,30 @@ function AttendanceDataTable() {
       // Create worksheet data
       const wsData = [
         // Header row
-        ["Tanggal", "Hari", "Nama Siswa", "Email Siswa", "NISN", "Kelas", "Mata Pelajaran", "Kode Mapel", "Guru Pengajar", "Waktu Mulai", "Waktu Selesai", "Ruangan", "Status Kehadiran", "Catatan"],
+        [
+          "Tanggal",
+          "Hari",
+          "Nama Siswa",
+          "Email Siswa",
+          "NISN",
+          "Kelas",
+          "Mata Pelajaran",
+          "Kode Mapel",
+          "Guru Pengajar",
+          "Waktu Mulai",
+          "Waktu Selesai",
+          "Ruangan",
+          "Status Kehadiran",
+          "Catatan",
+        ],
       ];
 
       // Add data rows
       selectedRows.forEach((row) => {
         const attendance = row.original;
-        const schedule = schedules.find((s: any) => s.id === attendance.scheduleId);
+        const schedule = schedules.find(
+          (s: any) => s.id === attendance.scheduleId,
+        );
         const date = new Date(attendance.date);
 
         wsData.push([
@@ -369,7 +537,8 @@ function AttendanceDataTable() {
           schedule?.startTime || "",
           schedule?.endTime || "",
           schedule?.room || "",
-          STATUS_MAP[attendance.status as keyof typeof STATUS_MAP]?.label || attendance.status,
+          STATUS_MAP[attendance.status as keyof typeof STATUS_MAP]?.label ||
+            attendance.status,
           attendance.notes || "",
         ]);
       });
@@ -405,7 +574,9 @@ function AttendanceDataTable() {
       // Generate Excel file
       XLSX.writeFile(wb, filename);
 
-      toast.success(`Berhasil mengekspor ${selectedRows.length} data kehadiran`);
+      toast.success(
+        `Berhasil mengekspor ${selectedRows.length} data kehadiran`,
+      );
     } catch (error) {
       console.error("Error exporting to Excel:", error);
       toast.error("Gagal mengekspor data ke Excel");
@@ -417,41 +588,52 @@ function AttendanceDataTable() {
     const classes = schedules
       .filter((schedule: any) => schedule.class)
       .map((schedule: any) => schedule.class)
-      .filter((cls: any, index: number, arr: any[]) => arr.findIndex((c: any) => c.id === cls.id) === index);
+      .filter(
+        (cls: any, index: number, arr: any[]) =>
+          arr.findIndex((c: any) => c.id === cls.id) === index,
+      );
     return classes;
   }, [schedules]);
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback((row: any, columnId: string, filterValue: string) => {
-    if (!filterValue) return true;
+  const globalFilterFn = React.useCallback(
+    (row: any, columnId: string, filterValue: string) => {
+      if (!filterValue) return true;
 
-    const searchValue = filterValue.toLowerCase();
-    const attendance = row.original;
+      const searchValue = filterValue.toLowerCase();
+      const attendance = row.original;
 
-    // Search in multiple fields
-    const searchableText = [
-      attendance.student?.name,
-      attendance.schedule?.subject?.name,
-      attendance.schedule?.subject?.code,
-      attendance.schedule?.class?.name,
-      attendance.schedule?.teacher?.name,
-      STATUS_MAP[attendance.status as keyof typeof STATUS_MAP]?.label,
-      attendance.notes,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+      // Search in multiple fields
+      const searchableText = [
+        attendance.student?.name,
+        attendance.schedule?.subject?.name,
+        attendance.schedule?.subject?.code,
+        attendance.schedule?.class?.name,
+        attendance.schedule?.teacher?.name,
+        STATUS_MAP[attendance.status as keyof typeof STATUS_MAP]?.label,
+        attendance.notes,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-    return searchableText.includes(searchValue);
-  }, []);
+      return searchableText.includes(searchValue);
+    },
+    [],
+  );
 
   // Custom date filter function
-  const dateFilterFn = React.useCallback((row: any, columnId: string, filterValue: string) => {
-    if (!filterValue) return true;
+  const dateFilterFn = React.useCallback(
+    (row: any, columnId: string, filterValue: string) => {
+      if (!filterValue) return true;
 
-    const attendanceDate = new Date(row.original.date).toISOString().split("T")[0];
-    return attendanceDate === filterValue;
-  }, []);
+      const attendanceDate = new Date(row.original.date)
+        .toISOString()
+        .split("T")[0];
+      return attendanceDate === filterValue;
+    },
+    [],
+  );
 
   // Custom class filter function
   const classFilterFn = React.useCallback(
@@ -470,8 +652,23 @@ function AttendanceDataTable() {
   const columns: ColumnDef<attendanceTypes>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -480,7 +677,10 @@ function AttendanceDataTable() {
       accessorFn: (row) => row.date,
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             <Calendar className="mr-2 h-4 w-4" />
             Tanggal
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -512,7 +712,10 @@ function AttendanceDataTable() {
       accessorFn: (row) => row.student?.name || "",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             <Users className="mr-2 h-4 w-4" />
             Siswa
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -522,7 +725,11 @@ function AttendanceDataTable() {
       cell: ({ row }) => (
         <div>
           <div className="font-medium">{row.original.student?.name}</div>
-          {row.original.student?.email && <div className="text-sm text-muted-foreground">{row.original.student.email}</div>}
+          {row.original.student?.email && (
+            <div className="text-muted-foreground text-sm">
+              {row.original.student.email}
+            </div>
+          )}
         </div>
       ),
     },
@@ -539,11 +746,12 @@ function AttendanceDataTable() {
         return (
           <div className="space-y-1">
             <div className="font-medium">{schedule.subject?.name}</div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-muted-foreground text-sm">
               {schedule.class?.name} • {schedule.teacher?.name}
             </div>
-            <div className="text-xs text-muted-foreground">
-              {DAYS_MAP[schedule.dayOfWeek as keyof typeof DAYS_MAP]} {schedule.startTime}-{schedule.endTime}
+            <div className="text-muted-foreground text-xs">
+              {DAYS_MAP[schedule.dayOfWeek as keyof typeof DAYS_MAP]}{" "}
+              {schedule.startTime}-{schedule.endTime}
               {schedule.room && ` • ${schedule.room}`}
             </div>
           </div>
@@ -556,7 +764,10 @@ function AttendanceDataTable() {
       accessorKey: "status",
       header: ({ column }) => {
         return (
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             <CheckCircle className="mr-2 h-4 w-4" />
             Status
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -587,11 +798,13 @@ function AttendanceDataTable() {
         const notes = row.getValue("notes") as string;
         return (
           <div className="max-w-[200px]">
-            {notes ?
-              <div className="text-sm truncate" title={notes}>
+            {notes ? (
+              <div className="truncate text-sm" title={notes}>
                 {notes}
               </div>
-            : <span className="text-muted-foreground">-</span>}
+            ) : (
+              <span className="text-muted-foreground">-</span>
+            )}
           </div>
         );
       },
@@ -612,7 +825,11 @@ function AttendanceDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(attendanceData.id)}>Copy ID Kehadiran</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(attendanceData.id)}
+              >
+                Copy ID Kehadiran
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -691,7 +908,9 @@ function AttendanceDataTable() {
 
   // Calculate statistics
   const stats = React.useMemo(() => {
-    const filteredAttendances = table.getFilteredRowModel().rows.map((row) => row.original);
+    const filteredAttendances = table
+      .getFilteredRowModel()
+      .rows.map((row) => row.original);
 
     return {
       total: filteredAttendances.length,
@@ -709,25 +928,43 @@ function AttendanceDataTable() {
   const selectedRowsCount = table.getFilteredSelectedRowModel().rows.length;
   return (
     <>
-      <div className="mx-auto my-8 p-6 max-w-7xl min-hscreen">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-2">
+      <div className="min-hscreen mx-auto my-8 max-w-7xl p-6">
+        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="font-bold text-4xl md:text-3xl">Data Kehadiran Siswa</div>
+            <div className="text-4xl font-bold md:text-3xl">
+              Data Kehadiran Siswa
+            </div>
             <div className="mt-2 flex flex-wrap gap-2">
               <Badge className="px-3 py-1.5 text-sm font-medium">
-                Kelas: {classFilter !== "all" ? uniqueClasses?.find((c: any) => c.id === classFilter)?.name : schedules.find((s: any) => s.id === (attendances[0]?.scheduleId || ""))?.class?.name || "-"}
+                Kelas:{" "}
+                {classFilter !== "all"
+                  ? uniqueClasses?.find((c: any) => c.id === classFilter)?.name
+                  : schedules.find(
+                      (s: any) => s.id === (attendances[0]?.scheduleId || ""),
+                    )?.class?.name || "-"}
               </Badge>
-              <Badge className="px-3 py-1.5 text-sm font-medium">Mata Pelajaran: {schedules.find((s: any) => s.id === (attendances[0]?.scheduleId || ""))?.subject?.name || "-"}</Badge>
+              <Badge className="px-3 py-1.5 text-sm font-medium">
+                Mata Pelajaran:{" "}
+                {schedules.find(
+                  (s: any) => s.id === (attendances[0]?.scheduleId || ""),
+                )?.subject?.name || "-"}
+              </Badge>
             </div>
           </div>
         </div>
 
         <div className="flex items-center justify-between py-4">
-          <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+          <div className="flex flex-wrap items-center space-x-2 gap-y-2">
             {/* Global Search */}
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Cari siswa, mata pelajaran, atau kelas..." value={globalFilter ?? ""} onChange={(event) => setGlobalFilter(event.target.value)} className="max-w-sm pl-8" disabled={isLoading} />
+              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
+              <Input
+                placeholder="Cari siswa, mata pelajaran, atau kelas..."
+                value={globalFilter ?? ""}
+                onChange={(event) => setGlobalFilter(event.target.value)}
+                className="max-w-sm pl-8"
+                disabled={isLoading}
+              />
             </div>
 
             {/* Status Filter */}
@@ -764,10 +1001,19 @@ function AttendanceDataTable() {
             </Select> */}
 
             {/* Date Filter */}
-            <Input type="date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="w-[150px]" placeholder="Filter Tanggal" />
+            <Input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-[150px]"
+              placeholder="Filter Tanggal"
+            />
 
             {/* Clear Filters */}
-            {(globalFilter || statusFilter !== "all" || classFilter !== "all" || dateFilter) && (
+            {(globalFilter ||
+              statusFilter !== "all" ||
+              classFilter !== "all" ||
+              dateFilter) && (
               <Button
                 variant="outline"
                 size="sm"
@@ -785,7 +1031,7 @@ function AttendanceDataTable() {
             )}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-2 items-center space-x-2">
+          <div className="grid items-center gap-2 space-x-2 md:grid-cols-2">
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -816,7 +1062,14 @@ function AttendanceDataTable() {
                       };
 
                       return (
-                        <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
                           {getColumnLabel(column.id)}
                         </DropdownMenuCheckboxItem>
                       );
@@ -827,7 +1080,11 @@ function AttendanceDataTable() {
             <div>
               {/* Export Excel Button - Show when rows are selected */}
               {selectedRowsCount > 0 && (
-                <Button variant="default" onClick={exportToExcel} className="bg-success-solid hover:bg-success-solid/90">
+                <Button
+                  variant="default"
+                  onClick={exportToExcel}
+                  className="bg-success-solid hover:bg-success-solid/90"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Export Excel ({selectedRowsCount})
                 </Button>
@@ -842,64 +1099,110 @@ function AttendanceDataTable() {
         </div>
 
         {/* Active Filters Display */}
-        {(globalFilter || statusFilter !== "all" || classFilter !== "all" || dateFilter) && (
+        {(globalFilter ||
+          statusFilter !== "all" ||
+          classFilter !== "all" ||
+          dateFilter) && (
           <div className="flex items-center space-x-2 py-2">
-            <span className="text-sm text-muted-foreground">Filter aktif:</span>
+            <span className="text-muted-foreground text-sm">Filter aktif:</span>
             {globalFilter && (
               <Badge variant="secondary" className="gap-1">
                 Pencarian: {globalFilter}
-                <X className="h-3 w-3 cursor-pointer" onClick={() => setGlobalFilter("")} />
+                <X
+                  className="h-3 w-3 cursor-pointer"
+                  onClick={() => setGlobalFilter("")}
+                />
               </Badge>
             )}
             {statusFilter !== "all" && (
               <Badge variant="secondary" className="gap-1">
-                Status: {STATUS_MAP[statusFilter as keyof typeof STATUS_MAP]?.label}
-                <X className="h-3 w-3 cursor-pointer" onClick={() => setStatusFilter("all")} />
+                Status:{" "}
+                {STATUS_MAP[statusFilter as keyof typeof STATUS_MAP]?.label}
+                <X
+                  className="h-3 w-3 cursor-pointer"
+                  onClick={() => setStatusFilter("all")}
+                />
               </Badge>
             )}
             {classFilter !== "all" && (
               <Badge variant="secondary" className="gap-1">
-                Kelas: {uniqueClasses?.find((c: any) => c.id === classFilter)?.name}
-                <X className="h-3 w-3 cursor-pointer" onClick={() => setClassFilter("all")} />
+                Kelas:{" "}
+                {uniqueClasses?.find((c: any) => c.id === classFilter)?.name}
+                <X
+                  className="h-3 w-3 cursor-pointer"
+                  onClick={() => setClassFilter("all")}
+                />
               </Badge>
             )}
             {dateFilter && (
               <Badge variant="secondary" className="gap-1">
                 Tanggal: {new Date(dateFilter).toLocaleDateString("id-ID")}
-                <X className="h-3 w-3 cursor-pointer" onClick={() => setDateFilter("")} />
+                <X
+                  className="h-3 w-3 cursor-pointer"
+                  onClick={() => setDateFilter("")}
+                />
               </Badge>
             )}
           </div>
         )}
 
-        <div className="rounded-md border w-full overflow-hidden">
+        <div className="w-full overflow-hidden rounded-md border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
-                    return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    );
                   })}
                 </TableRow>
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ?
+              {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))
-              : <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
                     <div className="flex flex-col items-center justify-center space-y-2">
-                      <CheckCircle className="h-8 w-8 text-muted-foreground" />
+                      <CheckCircle className="text-muted-foreground h-8 w-8" />
                       <p className="text-muted-foreground">
-                        {globalFilter || statusFilter !== "all" || classFilter !== "all" || dateFilter ? "Tidak ada data kehadiran yang sesuai dengan filter." : "Tidak ada data kehadiran yang ditemukan."}
+                        {globalFilter ||
+                        statusFilter !== "all" ||
+                        classFilter !== "all" ||
+                        dateFilter
+                          ? "Tidak ada data kehadiran yang sesuai dengan filter."
+                          : "Tidak ada data kehadiran yang ditemukan."}
                       </p>
-                      {(globalFilter || statusFilter !== "all" || classFilter !== "all" || dateFilter) && (
+                      {(globalFilter ||
+                        statusFilter !== "all" ||
+                        classFilter !== "all" ||
+                        dateFilter) && (
                         <Button
                           variant="outline"
                           size="sm"
@@ -917,25 +1220,41 @@ function AttendanceDataTable() {
                     </div>
                   </TableCell>
                 </TableRow>
-              }
+              )}
             </TableBody>
           </Table>
         </div>
 
         <div className="flex items-center justify-between space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
-            {table.getFilteredRowModel().rows.length !== attendances.length && <span className="ml-2">(difilter dari {attendances.length} total)</span>}
+          <div className="text-muted-foreground flex-1 text-sm">
+            {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+            {table.getFilteredRowModel().rows.length} baris dipilih.
+            {table.getFilteredRowModel().rows.length !== attendances.length && (
+              <span className="ml-2">
+                (difilter dari {attendances.length} total)
+              </span>
+            )}
           </div>
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">
-              Halaman {table.getState().pagination.pageIndex + 1} dari {table.getPageCount()}
+              Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
+              {table.getPageCount()}
             </p>
             <div className="space-x-2">
-              <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
                 Sebelumnya
               </Button>
-              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
                 Selanjutnya
               </Button>
             </div>
@@ -943,59 +1262,99 @@ function AttendanceDataTable() {
         </div>
 
         {/* Summary Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-info" />
+              <CheckCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
-            <p className="text-2xl font-bold mt-2">{stats.total}</p>
-            {table.getFilteredRowModel().rows.length !== attendances.length && <p className="text-sm text-muted-foreground">({table.getFilteredRowModel().rows.length} terfilter)</p>}
+            <p className="mt-2 text-2xl font-bold">{stats.total}</p>
+            {table.getFilteredRowModel().rows.length !== attendances.length && (
+              <p className="text-muted-foreground text-sm">
+                ({table.getFilteredRowModel().rows.length} terfilter)
+              </p>
+            )}
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-success" />
+              <CheckCircle className="text-success h-5 w-5" />
               <h3 className="font-semibold">Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-success">{stats.present}</p>
-            <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.present / stats.total) * 100)}%` : "0%"}</p>
+            <p className="text-success mt-2 text-2xl font-bold">
+              {stats.present}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {stats.total > 0
+                ? `${Math.round((stats.present / stats.total) * 100)}%`
+                : "0%"}
+            </p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <XCircle className="h-5 w-5 text-destructive" />
+              <XCircle className="text-destructive h-5 w-5" />
               <h3 className="font-semibold">Tidak Hadir</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-destructive">{stats.absent}</p>
-            <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.absent / stats.total) * 100)}%` : "0%"}</p>
+            <p className="text-destructive mt-2 text-2xl font-bold">
+              {stats.absent}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {stats.total > 0
+                ? `${Math.round((stats.absent / stats.total) * 100)}%`
+                : "0%"}
+            </p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-warning" />
+              <Clock className="text-warning h-5 w-5" />
               <h3 className="font-semibold">Terlambat</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-warning">{stats.late}</p>
-            <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round((stats.late / stats.total) * 100)}%` : "0%"}</p>
+            <p className="text-warning mt-2 text-2xl font-bold">{stats.late}</p>
+            <p className="text-muted-foreground text-sm">
+              {stats.total > 0
+                ? `${Math.round((stats.late / stats.total) * 100)}%`
+                : "0%"}
+            </p>
           </div>
 
           <div className="bg-card rounded-lg border p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-info" />
+              <AlertCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Izin dan sakit</h3>
             </div>
-            <p className="text-2xl font-bold mt-2 text-info">{stats.excused + stats.sick}</p>
-            <p className="text-sm text-muted-foreground">{stats.total > 0 ? `${Math.round(((stats.excused + stats.sick) / stats.total) * 100)}%` : "0%"}</p>
+            <p className="text-info mt-2 text-2xl font-bold">
+              {stats.excused + stats.sick}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {stats.total > 0
+                ? `${Math.round(((stats.excused + stats.sick) / stats.total) * 100)}%`
+                : "0%"}
+            </p>
           </div>
         </div>
 
         {/* Dialogs */}
-        <AttendanceFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+        <AttendanceFormDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          onSuccess={handleSuccess}
+        />
 
-        <AttendanceFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedAttendance} onSuccess={handleSuccess} />
+        <AttendanceFormDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editData={selectedAttendance}
+          onSuccess={handleSuccess}
+        />
 
-        <DeleteAttendanceDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} attendanceData={selectedAttendance} onSuccess={handleSuccess} />
+        <DeleteAttendanceDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          attendanceData={selectedAttendance}
+          onSuccess={handleSuccess}
+        />
       </div>
     </>
   );
@@ -1005,7 +1364,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   // Show loading while checking authorization

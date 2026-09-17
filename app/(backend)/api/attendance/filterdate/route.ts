@@ -2,18 +2,24 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 //filter by date
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
 
   if (!fromdate || !todate) {
-    return NextResponse.json({ error: "Missing fromdate or todate query parameters" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing fromdate or todate query parameters" },
+      { status: 400 },
+    );
   }
 
   try {

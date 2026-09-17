@@ -67,7 +67,13 @@ const nextConfig: NextConfig = {
 
     // Fitur eksperimental khusus production
     ...(isProduction && {
-      optimizePackageImports: ["lucide-react", "date-fns", "recharts", "@tanstack/react-query", "@tanstack/react-table"],
+      optimizePackageImports: [
+        "lucide-react",
+        "date-fns",
+        "recharts",
+        "@tanstack/react-query",
+        "@tanstack/react-table",
+      ],
       serverActions: {
         bodySizeLimit: "2mb",
       },

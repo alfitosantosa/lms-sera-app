@@ -111,7 +111,10 @@ export const useGetStudentsByIds = (studentIds: string[]) => {
 };
 
 // Get attendance data for a student
-export const useGetStudentAttendance = (studentId: string, enabled: boolean = true) => {
+export const useGetStudentAttendance = (
+  studentId: string,
+  enabled: boolean = true,
+) => {
   return useQuery({
     queryKey: ["attendance", "student", studentId],
     queryFn: async () => {
@@ -123,7 +126,10 @@ export const useGetStudentAttendance = (studentId: string, enabled: boolean = tr
 };
 
 // Get violations for a student
-export const useGetStudentViolations = (studentId: string, enabled: boolean = true) => {
+export const useGetStudentViolations = (
+  studentId: string,
+  enabled: boolean = true,
+) => {
   return useQuery({
     queryKey: ["violations", "student", studentId],
     queryFn: async () => {

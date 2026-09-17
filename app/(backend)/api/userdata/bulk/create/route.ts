@@ -1,7 +1,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 function replaceUndefinedWithNull<T>(value: T): T {
   if (Array.isArray(value)) {
@@ -12,7 +12,10 @@ function replaceUndefinedWithNull<T>(value: T): T {
     for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
       if (val === undefined) {
         result[key] = null;
-      } else if (Array.isArray(val) || (val !== null && typeof val === "object")) {
+      } else if (
+        Array.isArray(val) ||
+        (val !== null && typeof val === "object")
+      ) {
         result[key] = replaceUndefinedWithNull(val);
       } else {
         result[key] = val;
@@ -41,16 +44,18 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     if (!users || !Array.isArray(users) || users.length === 0) {
-      console.log("[Bulk Create] Validation failed: Empty or invalid users array", { users });
+      console.log(
+        "[Bulk Create] Validation failed: Empty or invalid users array",
+        { users },
+      );
       return NextResponse.json(
         {
           error: "Users array is required and must not be empty",
           details: "Provide at least one user object in the 'users' array",
           received: {
-            users:
-              users ?
-                Array.isArray(users) ?
-                  `${users.length} items`
+            users: users
+              ? Array.isArray(users)
+                ? `${users.length} items`
                 : typeof users
               : "undefined",
           },
@@ -60,7 +65,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate each user has required field (name)
-    const invalidUsers = users.filter((user) => !user.name || (typeof user.name === "string" && !user.name.trim()));
+    const invalidUsers = users.filter(
+      (user) =>
+        !user.name || (typeof user.name === "string" && !user.name.trim()),
+    );
     if (invalidUsers.length > 0) {
       console.log("[Bulk Create] Validation failed: Missing name field", {
         invalidCount: invalidUsers.length,
@@ -72,7 +80,8 @@ export async function POST(request: NextRequest) {
           error: "All users must have a name",
           invalidCount: invalidUsers.length,
           totalUsers: users.length,
-          details: "Check that the 'name' field is filled and not empty for all users",
+          details:
+            "Check that the 'name' field is filled and not empty for all users",
         },
         { status: 400 },
       );
@@ -115,61 +124,84 @@ export async function POST(request: NextRequest) {
     });
 
     // Validate foreign keys exist before bulk create
-    const roleIds = cleanedUsers.map((u) => u.roleId).filter((id): id is string => id !== null);
+    const roleIds = cleanedUsers
+      .map((u) => u.roleId)
+      .filter((id): id is string => id !== null);
 
-    const academicYearIds = cleanedUsers.map((u) => u.academicYearId).filter((id): id is string => id !== null);
+    const academicYearIds = cleanedUsers
+      .map((u) => u.academicYearId)
+      .filter((id): id is string => id !== null);
 
-    const classIds = cleanedUsers.map((u) => u.classId).filter((id): id is string => id !== null);
+    const classIds = cleanedUsers
+      .map((u) => u.classId)
+      .filter((id): id is string => id !== null);
 
-    const majorIds = cleanedUsers.map((u) => u.majorId).filter((id): id is string => id !== null);
+    const majorIds = cleanedUsers
+      .map((u) => u.majorId)
+      .filter((id): id is string => id !== null);
 
-    const tahfidzGroupIds = cleanedUsers.map((u) => u.tahfidzGroupId).filter((id): id is string => id !== null);
+    const tahfidzGroupIds = cleanedUsers
+      .map((u) => u.tahfidzGroupId)
+      .filter((id): id is string => id !== null);
 
     // TahfidzGroup tidak punya relasi ke Major (hanya majorId), jadi scope-nya lewat major yayasan ini
     const tenantMajorIds =
-      tahfidzGroupIds.length > 0 ?
-        (
-          await prisma.major.findMany({
-            where: { foundationId: t.foundationId },
-            select: { id: true },
-          })
-        ).map((major) => major.id)
-      : [];
+      tahfidzGroupIds.length > 0
+        ? (
+            await prisma.major.findMany({
+              where: { foundationId: t.foundationId },
+              select: { id: true },
+            })
+          ).map((major) => major.id)
+        : [];
 
     // Check if referenced records exist dan memang milik yayasan pemanggil
-    const [roles, academicYears, classes, majors, tahfidzGroups] = await Promise.all([
-      roleIds.length > 0 ?
-        prisma.role.findMany({
-          // role bersama (foundationId NULL) tetap valid karena ikut tampil di daftar role
-          where: { id: { in: roleIds }, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
-          select: { id: true },
-        })
-      : [],
-      academicYearIds.length > 0 ?
-        prisma.academicYear.findMany({
-          where: { id: { in: academicYearIds }, foundationId: t.foundationId },
-          select: { id: true },
-        })
-      : [],
-      classIds.length > 0 ?
-        prisma.class.findMany({
-          where: { id: { in: classIds }, major: { foundationId: t.foundationId } },
-          select: { id: true },
-        })
-      : [],
-      majorIds.length > 0 ?
-        prisma.major.findMany({
-          where: { id: { in: majorIds }, foundationId: t.foundationId },
-          select: { id: true },
-        })
-      : [],
-      tahfidzGroupIds.length > 0 ?
-        prisma.tahfidzGroup.findMany({
-          where: { id: { in: tahfidzGroupIds }, majorId: { in: tenantMajorIds } },
-          select: { id: true },
-        })
-      : [],
-    ]);
+    const [roles, academicYears, classes, majors, tahfidzGroups] =
+      await Promise.all([
+        roleIds.length > 0
+          ? prisma.role.findMany({
+              // role bersama (foundationId NULL) tetap valid karena ikut tampil di daftar role
+              where: {
+                id: { in: roleIds },
+                OR: [{ foundationId: t.foundationId }, { foundationId: null }],
+              },
+              select: { id: true },
+            })
+          : [],
+        academicYearIds.length > 0
+          ? prisma.academicYear.findMany({
+              where: {
+                id: { in: academicYearIds },
+                foundationId: t.foundationId,
+              },
+              select: { id: true },
+            })
+          : [],
+        classIds.length > 0
+          ? prisma.class.findMany({
+              where: {
+                id: { in: classIds },
+                major: { foundationId: t.foundationId },
+              },
+              select: { id: true },
+            })
+          : [],
+        majorIds.length > 0
+          ? prisma.major.findMany({
+              where: { id: { in: majorIds }, foundationId: t.foundationId },
+              select: { id: true },
+            })
+          : [],
+        tahfidzGroupIds.length > 0
+          ? prisma.tahfidzGroup.findMany({
+              where: {
+                id: { in: tahfidzGroupIds },
+                majorId: { in: tenantMajorIds },
+              },
+              select: { id: true },
+            })
+          : [],
+      ]);
 
     // Check for invalid references
     const foundRoleIds = new Set(roles.map((r) => r.id));
@@ -179,10 +211,14 @@ export async function POST(request: NextRequest) {
     const foundTahfidzGroupIds = new Set(tahfidzGroups.map((g) => g.id));
 
     const invalidRoles = roleIds.filter((id) => !foundRoleIds.has(id));
-    const invalidAcademicYears = academicYearIds.filter((id) => !foundAcademicYearIds.has(id));
+    const invalidAcademicYears = academicYearIds.filter(
+      (id) => !foundAcademicYearIds.has(id),
+    );
     const invalidClasses = classIds.filter((id) => !foundClassIds.has(id));
     const invalidMajors = majorIds.filter((id) => !foundMajorIds.has(id));
-    const invalidTahfidzGroups = tahfidzGroupIds.filter((id) => !foundTahfidzGroupIds.has(id));
+    const invalidTahfidzGroups = tahfidzGroupIds.filter(
+      (id) => !foundTahfidzGroupIds.has(id),
+    );
 
     if (
       invalidRoles.length > 0 ||
@@ -192,11 +228,26 @@ export async function POST(request: NextRequest) {
       invalidTahfidzGroups.length > 0
     ) {
       console.log("[Bulk Create] Foreign key validation failed:", {
-        invalidRoles: { count: invalidRoles.length, ids: invalidRoles.slice(0, 3) },
-        invalidAcademicYears: { count: invalidAcademicYears.length, ids: invalidAcademicYears.slice(0, 3) },
-        invalidClasses: { count: invalidClasses.length, ids: invalidClasses.slice(0, 3) },
-        invalidMajors: { count: invalidMajors.length, ids: invalidMajors.slice(0, 3) },
-        invalidTahfidzGroups: { count: invalidTahfidzGroups.length, ids: invalidTahfidzGroups.slice(0, 3) },
+        invalidRoles: {
+          count: invalidRoles.length,
+          ids: invalidRoles.slice(0, 3),
+        },
+        invalidAcademicYears: {
+          count: invalidAcademicYears.length,
+          ids: invalidAcademicYears.slice(0, 3),
+        },
+        invalidClasses: {
+          count: invalidClasses.length,
+          ids: invalidClasses.slice(0, 3),
+        },
+        invalidMajors: {
+          count: invalidMajors.length,
+          ids: invalidMajors.slice(0, 3),
+        },
+        invalidTahfidzGroups: {
+          count: invalidTahfidzGroups.length,
+          ids: invalidTahfidzGroups.slice(0, 3),
+        },
         availableRecords: {
           roles: foundRoleIds.size,
           academicYears: foundAcademicYearIds.size,
@@ -209,14 +260,41 @@ export async function POST(request: NextRequest) {
         {
           error: "Invalid foreign key references found",
           details: {
-            invalidRoles: invalidRoles.length > 0 ? { count: invalidRoles.length, samples: invalidRoles.slice(0, 3) } : undefined,
-            invalidAcademicYears: invalidAcademicYears.length > 0 ? { count: invalidAcademicYears.length, samples: invalidAcademicYears.slice(0, 3) } : undefined,
-            invalidClasses: invalidClasses.length > 0 ? { count: invalidClasses.length, samples: invalidClasses.slice(0, 3) } : undefined,
-            invalidMajors: invalidMajors.length > 0 ? { count: invalidMajors.length, samples: invalidMajors.slice(0, 3) } : undefined,
+            invalidRoles:
+              invalidRoles.length > 0
+                ? {
+                    count: invalidRoles.length,
+                    samples: invalidRoles.slice(0, 3),
+                  }
+                : undefined,
+            invalidAcademicYears:
+              invalidAcademicYears.length > 0
+                ? {
+                    count: invalidAcademicYears.length,
+                    samples: invalidAcademicYears.slice(0, 3),
+                  }
+                : undefined,
+            invalidClasses:
+              invalidClasses.length > 0
+                ? {
+                    count: invalidClasses.length,
+                    samples: invalidClasses.slice(0, 3),
+                  }
+                : undefined,
+            invalidMajors:
+              invalidMajors.length > 0
+                ? {
+                    count: invalidMajors.length,
+                    samples: invalidMajors.slice(0, 3),
+                  }
+                : undefined,
             invalidTahfidzGroups:
-              invalidTahfidzGroups.length > 0 ?
-                { count: invalidTahfidzGroups.length, samples: invalidTahfidzGroups.slice(0, 3) }
-              : undefined,
+              invalidTahfidzGroups.length > 0
+                ? {
+                    count: invalidTahfidzGroups.length,
+                    samples: invalidTahfidzGroups.slice(0, 3),
+                  }
+                : undefined,
           },
           availableRecords: {
             roles: foundRoleIds.size,
@@ -225,7 +303,8 @@ export async function POST(request: NextRequest) {
             majors: foundMajorIds.size,
             tahfidzGroups: foundTahfidzGroupIds.size,
           },
-          suggestion: "Verify that all IDs in your Excel file match the available options shown in the tables on the upload page. Note: tahfidzGroupId is optional and can be left empty.",
+          suggestion:
+            "Verify that all IDs in your Excel file match the available options shown in the tables on the upload page. Note: tahfidzGroupId is optional and can be left empty.",
         },
         { status: 400 },
       );

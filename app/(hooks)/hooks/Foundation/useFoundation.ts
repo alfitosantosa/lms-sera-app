@@ -1,7 +1,13 @@
 "use client";
 
-import { FoundationFormData } from "@/app/(frontend)/(landing)/landing/register/foundation/page";
-import { foundationTypes, FoundationWithCounts, FoundationCreateResponse, FoundationUpdateResponse, FoundationAssignUserTypes } from "@/app/(types)/types/foundation-types";
+import { type FoundationFormData } from "@/app/(frontend)/(landing)/landing/register/foundation/page";
+import {
+  type foundationTypes,
+  type FoundationWithCounts,
+  type FoundationCreateResponse,
+  type FoundationUpdateResponse,
+  type FoundationAssignUserTypes,
+} from "@/app/(types)/types/foundation-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -41,7 +47,10 @@ export const useCreateFoundation = () => {
 
   return useMutation({
     mutationFn: async (data: FoundationFormData) => {
-      const response = await apiPost<FoundationFormData>("/api/foundation", data);
+      const response = await apiPost<FoundationFormData>(
+        "/api/foundation",
+        data,
+      );
       return response.data;
     },
 
@@ -75,7 +84,10 @@ export const useUpdateFoundation = () => {
 
   return useMutation({
     mutationFn: async (data: foundationTypes) => {
-      const response = await apiPut<FoundationUpdateResponse>("/api/foundation", data);
+      const response = await apiPut<FoundationUpdateResponse>(
+        "/api/foundation",
+        data,
+      );
       return response.data;
     },
 
@@ -95,10 +107,13 @@ export const useDeleteFoundation = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const response = await apiDelete<FoundationCreateResponse>("/api/foundation", {
-        body: JSON.stringify({ id }),
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await apiDelete<FoundationCreateResponse>(
+        "/api/foundation",
+        {
+          body: JSON.stringify({ id }),
+          headers: { "Content-Type": "application/json" },
+        },
+      );
       return response.data;
     },
 

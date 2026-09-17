@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -37,7 +37,8 @@ export function ReactQueryProvider({ children }: { children: ReactNode }) {
             ...CACHE_STRATEGIES.dynamic,
             // Kurangi retry dari 2 -> 1 untuk gagal lebih cepat
             retry: 1,
-            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: (attemptIndex) =>
+              Math.min(1000 * 2 ** attemptIndex, 30000),
             // Matikan refetch on focus untuk mengurangi request tidak perlu
             refetchOnWindowFocus: false,
             // Revalidate jika stale, tapi tetap tampilkan cached data dulu
@@ -46,11 +47,14 @@ export function ReactQueryProvider({ children }: { children: ReactNode }) {
           },
           mutations: {
             retry: 1,
-            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: (attemptIndex) =>
+              Math.min(1000 * 2 ** attemptIndex, 30000),
           },
         },
       }),
   );
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 }

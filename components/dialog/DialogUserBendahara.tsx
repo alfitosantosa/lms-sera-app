@@ -4,14 +4,28 @@ import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcadem
 import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
-import { useCreateUser, useUpdateUser } from "@/app/(hooks)/hooks/Users/useUsers";
+import {
+  useCreateUser,
+  useUpdateUser,
+} from "@/app/(hooks)/hooks/Users/useUsers";
 import { getErrorMessage } from "@/app/(types)";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, Upload, User, X } from "lucide-react";
@@ -54,7 +68,10 @@ export type StudentFormDialogProps = {
 
 // ─── Form Schema ──────────────────────────────────────────────────────────────
 const studentSchema = z.object({
-  name: z.string().min(1, "Nama wajib diisi").max(100, "Nama maksimal 100 karakter"),
+  name: z
+    .string()
+    .min(1, "Nama wajib diisi")
+    .max(100, "Nama maksimal 100 karakter"),
   email: z
     .string()
     .optional()
@@ -78,8 +95,18 @@ const studentSchema = z.object({
 type StudentFormValues = z.infer<typeof studentSchema>;
 
 // ─── Avatar Upload Component ──────────────────────────────────────────────────
-function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: { currentAvatarUrl?: string; onUploadSuccess: (url: string) => void; disabled?: boolean }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(currentAvatarUrl || null);
+function AvatarUpload({
+  currentAvatarUrl,
+  onUploadSuccess,
+  disabled = false,
+}: {
+  currentAvatarUrl?: string;
+  onUploadSuccess: (url: string) => void;
+  disabled?: boolean;
+}) {
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+    currentAvatarUrl || null,
+  );
   const [isUploading, setIsUploading] = React.useState(false);
   const [showPreview, setShowPreview] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -151,37 +178,71 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
   return (
     <div className="space-y-3">
       <Label>Foto Profil</Label>
-      <div className="flex gap-4 items-start">
+      <div className="flex items-start gap-4">
         <div className="relative shrink-0">
-          {previewUrl ?
-            <div className="relative group">
-              <Image src={previewUrl} alt="Avatar preview" width={96} height={96} className="w-24 h-24 rounded-full object-cover border-2" />
-              <div className="absolute inset-0 flex items-center justify-center bg-navy/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white" onClick={() => setShowPreview(true)}>
+          {previewUrl ? (
+            <div className="group relative">
+              <Image
+                src={previewUrl}
+                alt="Avatar preview"
+                width={96}
+                height={96}
+                className="h-24 w-24 rounded-full border-2 object-cover"
+              />
+              <div className="bg-navy/50 absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity group-hover:opacity-100">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="text-white hover:text-white"
+                  onClick={() => setShowPreview(true)}
+                >
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
             </div>
-          : <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center border-2 border-dashed">
-              <User className="h-10 w-10 text-muted-foreground" />
+          ) : (
+            <div className="bg-muted flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
+              <User className="text-muted-foreground h-10 w-10" />
             </div>
-          }
+          )}
         </div>
 
         <div className="flex-1 space-y-2">
-          <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} disabled={disabled || isUploading} />
+          <Input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={disabled || isUploading}
+          />
           <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={handleUpload} disabled={disabled || isUploading || !fileInputRef.current?.files?.[0]} className="flex-1">
-              <Upload className="h-4 w-4 mr-2" />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleUpload}
+              disabled={
+                disabled || isUploading || !fileInputRef.current?.files?.[0]
+              }
+              className="flex-1"
+            >
+              <Upload className="mr-2 h-4 w-4" />
               {isUploading ? "Mengunggah..." : "Upload Avatar"}
             </Button>
             {previewUrl && (
-              <Button type="button" variant="outline" onClick={handleRemove} disabled={disabled || isUploading}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleRemove}
+                disabled={disabled || isUploading}
+              >
                 <X className="h-4 w-4" />
               </Button>
             )}
           </div>
-          <p className="text-xs text-muted-foreground">Format: JPG, PNG, GIF. Maksimal 5MB.</p>
+          <p className="text-muted-foreground text-xs">
+            Format: JPG, PNG, GIF. Maksimal 5MB.
+          </p>
         </div>
       </div>
 
@@ -192,7 +253,13 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
               <DialogTitle>Preview Avatar</DialogTitle>
             </DialogHeader>
             <div className="flex items-center justify-center p-4">
-              <Image src={previewUrl} alt="Avatar preview" className="max-w-full max-h-[70vh] rounded-lg" width={500} height={500} />
+              <Image
+                src={previewUrl}
+                alt="Avatar preview"
+                className="max-h-[70vh] max-w-full rounded-lg"
+                width={500}
+                height={500}
+              />
             </div>
           </DialogContent>
         </Dialog>
@@ -202,19 +269,32 @@ function AvatarUpload({ currentAvatarUrl, onUploadSuccess, disabled = false }: {
 }
 
 // ─── Main Student Form Dialog ─────────────────────────────────────────────────
-export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majorName, editData }: StudentFormDialogProps) {
+export function StudentFormDialog({
+  open,
+  onOpenChange,
+  onSuccess,
+  majorId,
+  majorName,
+  editData,
+}: StudentFormDialogProps) {
   const createUser = useCreateUser();
   const updateUser = useUpdateUser();
 
   const isEditMode = !!editData;
   const isPending = createUser.isPending || updateUser.isPending;
 
-  const { data: classes = [], isLoading: classesLoading } = useGetClassByIdMajor(majorId);
-  const { data: academicYears = [], isLoading: academicYearsLoading } = useGetAcademicYears();
-  const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } = useGetTahfidzGroup();
+  const { data: classes = [], isLoading: classesLoading } =
+    useGetClassByIdMajor(majorId);
+  const { data: academicYears = [], isLoading: academicYearsLoading } =
+    useGetAcademicYears();
+  const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } =
+    useGetTahfidzGroup();
   const { data: roles = [] } = useGetRoles();
 
-  const studentRoleId = React.useMemo(() => roles.find((r) => r.name.trim() === "Student")?.id ?? "", [roles]);
+  const studentRoleId = React.useMemo(
+    () => roles.find((r) => r.name.trim() === "Student")?.id ?? "",
+    [roles],
+  );
 
   const {
     register,
@@ -239,7 +319,12 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
       setValue("nisn", editData.nisn ?? "");
       setValue("nik", editData.nik ?? "");
       setValue("birthPlace", editData.birthPlace ?? "");
-      setValue("birthDate", editData.birthDate ? new Date(editData.birthDate).toISOString().split("T")[0] : "");
+      setValue(
+        "birthDate",
+        editData.birthDate
+          ? new Date(editData.birthDate).toISOString().split("T")[0]
+          : "",
+      );
       setValue("address", editData.address ?? "");
       setValue("classId", editData.classId ?? "");
       setValue("tahfidzGroupId", editData.tahfidzGroupId ?? "none");
@@ -281,7 +366,10 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
         birthDate: new Date(data.birthDate),
         address: data.address,
         classId: data.classId,
-        tahfidzGroupId: data.tahfidzGroupId && data.tahfidzGroupId !== "none" ? data.tahfidzGroupId : null,
+        tahfidzGroupId:
+          data.tahfidzGroupId && data.tahfidzGroupId !== "none"
+            ? data.tahfidzGroupId
+            : null,
         academicYearId: data.academicYearId,
         parentPhone: data.parentPhone || null,
         status: data.status,
@@ -318,7 +406,7 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[92vh] overflow-y-auto">
+      <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
@@ -333,32 +421,61 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* ── Auto-assigned info banner ── */}
-          <div className="rounded-lg border border-border bg-muted/50 px-4 py-3">
-            <p className="text-sm font-medium text-foreground">Informasi Auto-Assign</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              Role: <span className="font-semibold text-foreground">Student</span> · Branch: <span className="font-semibold text-foreground">{majorName ?? majorId}</span>
+          <div className="border-border bg-muted/50 rounded-lg border px-4 py-3">
+            <p className="text-foreground text-sm font-medium">
+              Informasi Auto-Assign
+            </p>
+            <p className="text-muted-foreground mt-0.5 text-xs">
+              Role:{" "}
+              <span className="text-foreground font-semibold">Student</span> ·
+              Branch:{" "}
+              <span className="text-foreground font-semibold">
+                {majorName ?? majorId}
+              </span>
               {isEditMode && <span className="ml-2">· Mode: Edit</span>}
             </p>
           </div>
 
           {/* ── Section: Informasi Dasar ── */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Informasi Dasar</h3>
+            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+              Informasi Dasar
+            </h3>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">
                   Nama Lengkap <span className="text-destructive">*</span>
                 </Label>
-                <Input id="name" placeholder="Masukkan nama lengkap" {...register("name")} />
-                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+                <Input
+                  id="name"
+                  placeholder="Masukkan nama lengkap"
+                  {...register("name")}
+                />
+                {errors.name && (
+                  <p className="text-destructive text-sm">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">
-                  Email <span className="text-muted-foreground text-xs">(opsional)</span>
+                  Email{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (opsional)
+                  </span>
                 </Label>
-                <Input id="email" type="email" placeholder="siswa@example.com" {...register("email")} />
-                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="siswa@example.com"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-destructive text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -367,7 +484,10 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                 <Label>
                   Jenis Kelamin <span className="text-destructive">*</span>
                 </Label>
-                <Select onValueChange={(v) => setValue("gender", v)} value={watch("gender")}>
+                <Select
+                  onValueChange={(v) => setValue("gender", v)}
+                  value={watch("gender")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih jenis kelamin" />
                   </SelectTrigger>
@@ -376,11 +496,18 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                     <SelectItem value="P">Perempuan</SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.gender && <p className="text-sm text-destructive">{errors.gender.message}</p>}
+                {errors.gender && (
+                  <p className="text-destructive text-sm">
+                    {errors.gender.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Status</Label>
-                <Select onValueChange={(v) => setValue("status", v)} value={watch("status")}>
+                <Select
+                  onValueChange={(v) => setValue("status", v)}
+                  value={watch("status")}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih status" />
                   </SelectTrigger>
@@ -396,22 +523,43 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
 
           {/* ── Section: Identitas ── */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Identitas</h3>
+            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+              Identitas
+            </h3>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="nisn">
                   NISN <span className="text-destructive">*</span>
                 </Label>
-                <Input id="nisn" placeholder="1234567890" {...register("nisn")} />
-                {errors.nisn && <p className="text-sm text-destructive">{errors.nisn.message}</p>}
+                <Input
+                  id="nisn"
+                  placeholder="1234567890"
+                  {...register("nisn")}
+                />
+                {errors.nisn && (
+                  <p className="text-destructive text-sm">
+                    {errors.nisn.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nik">
-                  NIK <span className="text-muted-foreground text-xs">(opsional)</span>
+                  NIK{" "}
+                  <span className="text-muted-foreground text-xs">
+                    (opsional)
+                  </span>
                 </Label>
-                <Input id="nik" placeholder="3201234567890123" {...register("nik")} />
-                {errors.nik && <p className="text-sm text-destructive">{errors.nik.message}</p>}
+                <Input
+                  id="nik"
+                  placeholder="3201234567890123"
+                  {...register("nik")}
+                />
+                {errors.nik && (
+                  <p className="text-destructive text-sm">
+                    {errors.nik.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -420,15 +568,27 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                 <Label htmlFor="birthPlace">
                   Tempat Lahir <span className="text-destructive">*</span>
                 </Label>
-                <Input id="birthPlace" placeholder="Jakarta" {...register("birthPlace")} />
-                {errors.birthPlace && <p className="text-sm text-destructive">{errors.birthPlace.message}</p>}
+                <Input
+                  id="birthPlace"
+                  placeholder="Jakarta"
+                  {...register("birthPlace")}
+                />
+                {errors.birthPlace && (
+                  <p className="text-destructive text-sm">
+                    {errors.birthPlace.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="birthDate">
                   Tanggal Lahir <span className="text-destructive">*</span>
                 </Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
-                {errors.birthDate && <p className="text-sm text-destructive">{errors.birthDate.message}</p>}
+                {errors.birthDate && (
+                  <p className="text-destructive text-sm">
+                    {errors.birthDate.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -436,60 +596,104 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
               <Label htmlFor="address">
                 Alamat <span className="text-destructive">*</span>
               </Label>
-              <Textarea id="address" placeholder="Alamat lengkap siswa" rows={2} {...register("address")} />
-              {errors.address && <p className="text-sm text-destructive">{errors.address.message}</p>}
+              <Textarea
+                id="address"
+                placeholder="Alamat lengkap siswa"
+                rows={2}
+                {...register("address")}
+              />
+              {errors.address && (
+                <p className="text-destructive text-sm">
+                  {errors.address.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="parentPhone">
-                No. HP Orang Tua <span className="text-muted-foreground text-xs">(opsional)</span>
+                No. HP Orang Tua{" "}
+                <span className="text-muted-foreground text-xs">
+                  (opsional)
+                </span>
               </Label>
-              <Input id="parentPhone" placeholder="08123456789" {...register("parentPhone")} />
+              <Input
+                id="parentPhone"
+                placeholder="08123456789"
+                {...register("parentPhone")}
+              />
             </div>
           </div>
 
           {/* ── Section: Akademik ── */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Akademik</h3>
+            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+              Akademik
+            </h3>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>
                   Kelas <span className="text-destructive">*</span>
                 </Label>
-                <Select onValueChange={(v) => setValue("classId", v)} value={watch("classId")} disabled={classesLoading || !majorId}>
+                <Select
+                  onValueChange={(v) => setValue("classId", v)}
+                  value={watch("classId")}
+                  disabled={classesLoading || !majorId}
+                >
                   <SelectTrigger>
                     <SelectValue
                       placeholder={
-                        !majorId ? "Major belum tersedia"
-                        : classesLoading ?
-                          "Memuat kelas..."
-                        : "Pilih kelas"
+                        !majorId
+                          ? "Major belum tersedia"
+                          : classesLoading
+                            ? "Memuat kelas..."
+                            : "Pilih kelas"
                       }
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    {classes.length === 0 && !classesLoading ?
-                      <div className="px-3 py-4 text-sm text-muted-foreground text-center">Tidak ada kelas untuk branch ini</div>
-                    : classes.map((cls) => (
+                    {classes.length === 0 && !classesLoading ? (
+                      <div className="text-muted-foreground px-3 py-4 text-center text-sm">
+                        Tidak ada kelas untuk branch ini
+                      </div>
+                    ) : (
+                      classes.map((cls) => (
                         <SelectItem key={cls.id} value={cls.id}>
                           {cls.name}
                         </SelectItem>
                       ))
-                    }
+                    )}
                   </SelectContent>
                 </Select>
-                {errors.classId && <p className="text-sm text-destructive">{errors.classId.message}</p>}
-                {!classesLoading && classes.length > 0 && <p className="text-xs text-muted-foreground">{classes.length} kelas tersedia untuk branch ini</p>}
+                {errors.classId && (
+                  <p className="text-destructive text-sm">
+                    {errors.classId.message}
+                  </p>
+                )}
+                {!classesLoading && classes.length > 0 && (
+                  <p className="text-muted-foreground text-xs">
+                    {classes.length} kelas tersedia untuk branch ini
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <Label>
                   Tahun Akademik <span className="text-destructive">*</span>
                 </Label>
-                <Select onValueChange={(v) => setValue("academicYearId", v)} value={watch("academicYearId")} disabled={academicYearsLoading}>
+                <Select
+                  onValueChange={(v) => setValue("academicYearId", v)}
+                  value={watch("academicYearId")}
+                  disabled={academicYearsLoading}
+                >
                   <SelectTrigger>
-                    <SelectValue placeholder={academicYearsLoading ? "Memuat..." : "Pilih tahun akademik"} />
+                    <SelectValue
+                      placeholder={
+                        academicYearsLoading
+                          ? "Memuat..."
+                          : "Pilih tahun akademik"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {academicYears.map((year) => (
@@ -499,17 +703,36 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.academicYearId && <p className="text-sm text-destructive">{errors.academicYearId.message}</p>}
+                {errors.academicYearId && (
+                  <p className="text-destructive text-sm">
+                    {errors.academicYearId.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="space-y-2">
               <Label>
-                Kelompok Tahfidz <span className="text-muted-foreground text-xs">(opsional)</span>
+                Kelompok Tahfidz{" "}
+                <span className="text-muted-foreground text-xs">
+                  (opsional)
+                </span>
               </Label>
-              <Select onValueChange={(v) => setValue("tahfidzGroupId", v === "none" ? undefined : v)} value={watch("tahfidzGroupId") || "none"} disabled={tahfidzGroupsLoading}>
+              <Select
+                onValueChange={(v) =>
+                  setValue("tahfidzGroupId", v === "none" ? undefined : v)
+                }
+                value={watch("tahfidzGroupId") || "none"}
+                disabled={tahfidzGroupsLoading}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder={tahfidzGroupsLoading ? "Memuat..." : "Pilih kelompok tahfidz"} />
+                  <SelectValue
+                    placeholder={
+                      tahfidzGroupsLoading
+                        ? "Memuat..."
+                        : "Pilih kelompok tahfidz"
+                    }
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">— Tidak ada —</SelectItem>
@@ -525,21 +748,32 @@ export function StudentFormDialog({ open, onOpenChange, onSuccess, majorId, majo
 
           {/* ── Section: Foto Profil ── */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Foto Profil</h3>
-            <AvatarUpload currentAvatarUrl={watch("avatarUrl")} onUploadSuccess={handleAvatarUpload} disabled={isPending} />
+            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+              Foto Profil
+            </h3>
+            <AvatarUpload
+              currentAvatarUrl={watch("avatarUrl")}
+              onUploadSuccess={handleAvatarUpload}
+              disabled={isPending}
+            />
           </div>
 
           {/* ── Footer ── */}
-          <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
+          <div className="flex justify-end gap-2 border-t pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isPending}
+            >
               Batal
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ?
-                "Menyimpan..."
-              : isEditMode ?
-                "Perbarui Siswa"
-              : "Simpan Siswa"}
+              {isPending
+                ? "Menyimpan..."
+                : isEditMode
+                  ? "Perbarui Siswa"
+                  : "Simpan Siswa"}
             </Button>
           </div>
         </form>

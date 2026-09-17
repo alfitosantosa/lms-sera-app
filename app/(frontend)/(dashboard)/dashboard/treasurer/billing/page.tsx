@@ -11,7 +11,7 @@ import { usePaymentsItemsByDate } from "@/app/(hooks)/hooks/Payments/usePaymentI
 import { useGetPaymentTypeByIdMajor } from "@/app/(hooks)/hooks/Payments/usePaymentType";
 import { useGetStudentByIdMajor } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import Loading from "@/components/loading";
 import {
@@ -64,17 +64,17 @@ import {
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
+  type Row,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 // import { id } from "date-fns/locale";
 import {
@@ -98,7 +98,7 @@ import {
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
-import { DateRange } from "react-day-picker";
+import { type DateRange } from "react-day-picker";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -195,12 +195,12 @@ const YEARS = Array.from({ length: 5 }, (_, i) => String(currentYear - 2 + i));
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 function PaidBadge({ isPaid }: { isPaid: boolean }) {
   return isPaid ? (
-    <Badge className="bg-success-solid text-white flex items-center gap-1 w-fit">
+    <Badge className="bg-success-solid flex w-fit items-center gap-1 text-white">
       <BadgeCheck className="h-3 w-3" />
       Lunas
     </Badge>
   ) : (
-    <Badge className="bg-warning-solid text-white flex items-center gap-1 w-fit">
+    <Badge className="bg-warning-solid flex w-fit items-center gap-1 text-white">
       <Clock className="h-3 w-3" />
       Belum Lunas
     </Badge>
@@ -434,7 +434,7 @@ function SingleItemDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         aria-describedby="Test"
-        className="max-w-xl max-h-[90vh] overflow-y-auto"
+        className="max-h-[90vh] max-w-xl overflow-y-auto"
       >
         <DialogHeader>
           <DialogTitle>
@@ -466,7 +466,7 @@ function SingleItemDialog({
               )}
             />
             {errors.studentId && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.studentId.message}
               </p>
             )}
@@ -474,15 +474,15 @@ function SingleItemDialog({
 
           {/* Payment */}
           {unpaidItems.length > 0 && (
-            <div className="space-y-2 p-3 bg-info-surface rounded-lg border border-info-border">
-              <Label className="text-sm font-semibold text-info-strong">
+            <div className="bg-info-surface border-info-border space-y-2 rounded-lg border p-3">
+              <Label className="text-info-strong text-sm font-semibold">
                 Tagihan Belum Lunas
               </Label>
-              <div className="space-y-1 max-h-40 overflow-y-auto">
+              <div className="max-h-40 space-y-1 overflow-y-auto">
                 {unpaidItems.map((item) => (
                   <div
                     key={item.id}
-                    className="text-xs p-2 bg-card rounded border border-info-border flex justify-between"
+                    className="bg-card border-info-border flex justify-between rounded border p-2 text-xs"
                   >
                     <span className="font-medium">{item.name}</span>
                     <span className="text-info font-semibold">
@@ -526,13 +526,13 @@ function SingleItemDialog({
               )}
             />
             {selectedPT && (
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 {selectedPT.description} ·{" "}
                 {formatRupiah(parseFloat(selectedPT.amount))}
               </p>
             )}
             {errors.paymentTypeId && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.paymentTypeId.message}
               </p>
             )}
@@ -547,7 +547,7 @@ function SingleItemDialog({
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+              <p className="text-destructive text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -574,7 +574,7 @@ function SingleItemDialog({
                 )}
               />
               {errors.month && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.month.message}
                 </p>
               )}
@@ -600,7 +600,7 @@ function SingleItemDialog({
                 )}
               />
               {errors.year && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.year.message}
                 </p>
               )}
@@ -619,7 +619,7 @@ function SingleItemDialog({
                 onChange={(e) => handleAmountChange(Number(e.target.value))}
               />
               {watch("isFixedAmount") && (
-                <p className="text-xs text-muted-foreground">Nominal tetap</p>
+                <p className="text-muted-foreground text-xs">Nominal tetap</p>
               )}
             </div>
             <div className="space-y-2">
@@ -687,14 +687,14 @@ function SingleItemDialog({
                 )}
               </div>
               {watch("isFixedQuantity") && (
-                <p className="text-xs text-muted-foreground">Jumlah tetap</p>
+                <p className="text-muted-foreground text-xs">Jumlah tetap</p>
               )}
             </div>
           </div>
 
           {/* Subtotal */}
-          <div className="flex justify-between items-center rounded-lg bg-muted/40 px-4 py-2">
-            <span className="text-sm text-muted-foreground">Subtotal</span>
+          <div className="bg-muted/40 flex items-center justify-between rounded-lg px-4 py-2">
+            <span className="text-muted-foreground text-sm">Subtotal</span>
             <span className="font-bold tabular-nums">
               {formatRupiah(watch("subtotal") ?? 0)}
             </span>
@@ -715,7 +715,7 @@ function SingleItemDialog({
 
           {/* Debug: Show current form values */}
           {process.env.NODE_ENV === "development" && (
-            <div className="text-xs space-y-2 p-3 bg-muted/50 rounded border">
+            <div className="bg-muted/50 space-y-2 rounded border p-3 text-xs">
               <p className="font-semibold">Debug Form State:</p>
               <div className="space-y-1">
                 <p>• isValid: {isValid ? "✓ true" : "✗ false"}</p>
@@ -730,7 +730,7 @@ function SingleItemDialog({
 
           {/* Show validation errors */}
           {Object.keys(errors).length > 0 && (
-            <div className="text-xs text-destructive space-y-1">
+            <div className="text-destructive space-y-1 text-xs">
               <p className="font-semibold">Validation errors:</p>
               {Object.entries(errors).map(([key, error]) => (
                 <p key={key}>
@@ -1045,7 +1045,7 @@ function BillingDataTable({
           <div className="font-medium">{row.getValue("name")}</div>
           {row.original.PaymentType?.name &&
             row.original.PaymentType.name !== row.getValue("name") && (
-              <div className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground text-xs">
                 {row.original.PaymentType.name}
               </div>
             )}
@@ -1169,7 +1169,7 @@ function BillingDataTable({
       accessorFn: (row) => row.payment?.receiptNumber ?? "-",
       header: "Kwitansi",
       cell: ({ row }) => (
-        <div className="font-mono text-xs text-muted-foreground">
+        <div className="text-muted-foreground font-mono text-xs">
           {row.original.payment?.receiptNumber ?? "-"}
         </div>
       ),
@@ -1337,13 +1337,13 @@ function BillingDataTable({
 
   return (
     <div>
-      <div className="font-bold text-3xl mb-3">Data Tagihan</div>
+      <div className="mb-3 text-3xl font-bold">Data Tagihan</div>
       <Badge>{majorData?.name}</Badge>
       {/* Toolbar */}
-      <div className="flex items-center justify-between py-4 flex-wrap gap-y-3">
-        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
+        <div className="flex flex-wrap items-center space-x-2 gap-y-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
             <Input
               placeholder="Cari siswa, item, kwitansi..."
               value={globalFilter ?? ""}
@@ -1475,8 +1475,8 @@ function BillingDataTable({
 
       {/* Active filter badges */}
       {hasActiveFilter && (
-        <div className="flex items-center space-x-2 py-2 flex-wrap gap-y-1">
-          <span className="text-sm text-muted-foreground">Filter aktif:</span>
+        <div className="flex flex-wrap items-center space-x-2 gap-y-1 py-2">
+          <span className="text-muted-foreground text-sm">Filter aktif:</span>
           {globalFilter && (
             <Badge variant="secondary" className="gap-1">
               Pencarian: {globalFilter}
@@ -1534,7 +1534,7 @@ function BillingDataTable({
       )}
 
       {/* Table */}
-      <div className="rounded-md border w-full overflow-hidden">
+      <div className="w-full overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -1576,7 +1576,7 @@ function BillingDataTable({
                   className="h-24 text-center"
                 >
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <FileText className="h-8 w-8 text-muted-foreground" />
+                    <FileText className="text-muted-foreground h-8 w-8" />
                     <p className="text-muted-foreground">
                       {hasActiveFilter
                         ? "Tidak ada data yang sesuai filter."
@@ -1601,7 +1601,7 @@ function BillingDataTable({
 
       {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {filteredRows.length} baris dipilih.
           {filteredRows.length !== totalItems && (
@@ -1635,15 +1635,15 @@ function BillingDataTable({
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Package className="h-5 w-5 text-info" />
+            <Package className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Item</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{totalItems}</p>
+          <p className="mt-2 text-2xl font-bold">{totalItems}</p>
           {filteredRows.length !== totalItems && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
             </p>
           )}
@@ -1651,29 +1651,29 @@ function BillingDataTable({
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BadgeCheck className="h-5 w-5 text-success" />
+            <BadgeCheck className="text-success h-5 w-5" />
             <h3 className="font-semibold">Sudah Lunas</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{paidCount}</p>
+          <p className="mt-2 text-2xl font-bold">{paidCount}</p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-warning" />
+            <Clock className="text-warning h-5 w-5" />
             <h3 className="font-semibold">Belum Lunas</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{unpaidCount}</p>
+          <p className="mt-2 text-2xl font-bold">{unpaidCount}</p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5 text-tertiary" />
+            <CreditCard className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Total Subtotal</h3>
           </div>
-          <p className="text-lg font-bold mt-2 tabular-nums">
+          <p className="mt-2 text-lg font-bold tabular-nums">
             {formatRupiah(totalSubtotal)}
           </p>
-          <p className="text-xs text-muted-foreground">dari item terfilter</p>
+          <p className="text-muted-foreground text-xs">dari item terfilter</p>
         </div>
       </div>
       {/* dialog find studnet */}

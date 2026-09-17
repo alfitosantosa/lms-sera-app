@@ -16,10 +16,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -70,13 +73,20 @@ export async function POST(request: NextRequest) {
   try {
     // Pastikan siswa dan jadwal milik yayasan pemanggil
     const [student, schedule] = await Promise.all([
-      prisma.userData.findFirst({ where: { id: studentId, foundationId: t.foundationId }, select: { id: true } }),
+      prisma.userData.findFirst({
+        where: { id: studentId, foundationId: t.foundationId },
+        select: { id: true },
+      }),
       prisma.schedule.findFirst({
-        where: { id: scheduleId, academicYear: { foundationId: t.foundationId } },
+        where: {
+          id: scheduleId,
+          academicYear: { foundationId: t.foundationId },
+        },
         select: { id: true },
       }),
     ]);
-    if (!student || !schedule) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (!student || !schedule)
+      return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const attendance = await prisma.attendance.create({
       data: {
@@ -97,7 +107,8 @@ export async function PUT(request: NextRequest) {
   const t = await resolveFoundation(request);
   if (!t.ok) return t.response;
 
-  const { id, studentId, scheduleId, status, notes, date } = await request.json();
+  const { id, studentId, scheduleId, status, notes, date } =
+    await request.json();
 
   try {
     // Verifikasi kepemilikan baris
@@ -117,14 +128,19 @@ export async function PUT(request: NextRequest) {
         where: { id: studentId, foundationId: t.foundationId },
         select: { id: true },
       });
-      if (!student) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      if (!student)
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
     if (scheduleId) {
       const schedule = await prisma.schedule.findFirst({
-        where: { id: scheduleId, academicYear: { foundationId: t.foundationId } },
+        where: {
+          id: scheduleId,
+          academicYear: { foundationId: t.foundationId },
+        },
         select: { id: true },
       });
-      if (!schedule) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      if (!schedule)
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const attendance = await prisma.attendance.update({
@@ -140,7 +156,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(attendance);
   } catch (error) {
     console.error("Error updating attendance:", error);
-    return NextResponse.json({ error: "Failed to update attendance" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update attendance" },
+      { status: 500 },
+    );
   }
 }
 
@@ -167,7 +186,10 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(attendance);
   } catch (error) {
     console.error("Error deleting attendance:", error);
-    return NextResponse.json({ error: "Failed to delete attendance" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete attendance" },
+      { status: 500 },
+    );
   }
 }
 

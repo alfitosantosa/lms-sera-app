@@ -44,15 +44,15 @@ export const EmptyProfileState = ({
   const needsRegistration = !isWaitingForAdminId && !hasUserData;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-gradient-to-br px-4 py-12">
+      <div className="mx-auto max-w-2xl space-y-6">
         {/* Hero Card with Session Info */}
-        <Card className="shadow-xl border-2">
-          <CardHeader className="text-center pb-4">
+        <Card className="border-2 shadow-xl">
+          <CardHeader className="pb-4 text-center">
             <div className="flex flex-col items-center space-y-4">
               {/* Profile Photo */}
               <div className="relative">
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-lg">
                   {session?.user?.image || userBetterAuth?.image ? (
                     <Image
                       src={session.user?.image || userBetterAuth?.image}
@@ -61,21 +61,21 @@ export const EmptyProfileState = ({
                       }
                       width={128}
                       height={128}
-                      className="object-cover w-full h-full"
+                      className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                      <User className="h-16 w-16 text-muted-foreground" />
+                    <div className="from-primary/20 to-primary/5 flex h-full w-full items-center justify-center bg-gradient-to-br">
+                      <User className="text-muted-foreground h-16 w-16" />
                     </div>
                   )}
                 </div>
                 {/* Status Badge */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
                   <Badge
                     variant={isWaitingForAdmin ? "default" : "secondary"}
                     className="shadow-md"
                   >
-                    <AlertCircle className="h-3 w-3 mr-1" />
+                    <AlertCircle className="mr-1 h-3 w-3" />
                     {isWaitingForAdmin
                       ? "Menunggu Aktivasi"
                       : "Belum Terdaftar"}
@@ -120,40 +120,40 @@ export const EmptyProfileState = ({
             {isWaitingForAdmin && (
               <Card className="bg-success-surface border-success-border">
                 <CardHeader>
-                  <CardTitle className="text-sm flex items-center gap-2 text-success-strong">
+                  <CardTitle className="text-success-strong flex items-center gap-2 text-sm">
                     <Building2 className="h-4 w-4" />
                     Informasi Yayasan
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <Building2 className="h-4 w-4 text-success mt-0.5" />
+                    <Building2 className="text-success mt-0.5 h-4 w-4" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Nama Yayasan
                       </p>
-                      <p className="text-sm font-medium text-success-strong">
+                      <p className="text-success-strong text-sm font-medium">
                         {userBetterAuth?.foundation?.name || "Loading..."}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Key className="h-4 w-4 text-success mt-0.5" />
+                    <Key className="text-success mt-0.5 h-4 w-4" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Kode Yayasan
                       </p>
-                      <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded text-success-strong">
+                      <p className="bg-background text-success-strong rounded px-2 py-1 font-mono text-sm text-xs">
                         {userBetterAuth?.foundation?.foundationCode || "N/A"}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                    <CheckCircle className="text-success mt-0.5 h-4 w-4" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Status Keanggotaan
                       </p>
                       <Badge
@@ -171,16 +171,16 @@ export const EmptyProfileState = ({
             {/* Session Details Card */}
             <Card className="bg-muted/50">
               <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-sm">
                   <Key className="h-4 w-4" />
                   Informasi Session
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <User className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <User className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">Nama</p>
+                    <p className="text-muted-foreground text-xs">Nama</p>
                     <p className="text-sm font-medium">
                       {session?.user?.name ||
                         userBetterAuth?.name ||
@@ -190,9 +190,9 @@ export const EmptyProfileState = ({
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Mail className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <Mail className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">Email</p>
+                    <p className="text-muted-foreground text-xs">Email</p>
                     <p className="text-sm font-medium break-all">
                       {session?.user?.email ||
                         userBetterAuth?.email ||
@@ -202,10 +202,10 @@ export const EmptyProfileState = ({
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Key className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <Key className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">User ID</p>
-                    <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded">
+                    <p className="text-muted-foreground text-xs">User ID</p>
+                    <p className="bg-background rounded px-2 py-1 font-mono text-sm text-xs">
                       {session?.user?.id ||
                         userBetterAuth?.id ||
                         "Tidak tersedia"}
@@ -216,9 +216,9 @@ export const EmptyProfileState = ({
                 {(session?.user?.emailVerified ||
                   userBetterAuth?.emailVerified) && (
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                    <CheckCircle className="text-success mt-0.5 h-4 w-4" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Status Email
                       </p>
                       <Badge
@@ -241,7 +241,7 @@ export const EmptyProfileState = ({
                   className="w-full"
                   onClick={() => router.push("/landing/register/foundation")}
                 >
-                  <UserPlus className="h-5 w-5 mr-2" />
+                  <UserPlus className="mr-2 h-5 w-5" />
                   Daftar ke Yayasan
                 </Button>
               )}
@@ -252,14 +252,14 @@ export const EmptyProfileState = ({
                 className="w-full"
                 onClick={() => router.push("/dashboard")}
               >
-                <Building2 className="h-5 w-5 mr-2" />
+                <Building2 className="mr-2 h-5 w-5" />
                 Kembali ke Dashboard
               </Button>
             </div>
 
             {/* Help Text */}
-            <div className="text-center pt-4 border-t">
-              <p className="text-sm text-muted-foreground">
+            <div className="border-t pt-4 text-center">
+              <p className="text-muted-foreground text-sm">
                 Butuh bantuan?{" "}
                 <a
                   href="mailto:santosatechid@gmail.com"
@@ -277,15 +277,15 @@ export const EmptyProfileState = ({
           <CardContent className="pt-6">
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-info-chip flex items-center justify-center">
-                  <AlertCircle className="h-6 w-6 text-info" />
+                <div className="bg-info-chip flex h-12 w-12 items-center justify-center rounded-full">
+                  <AlertCircle className="text-info h-6 w-6" />
                 </div>
               </div>
               <div className="flex-1 space-y-2">
-                <h3 className="font-semibold text-info-strong">
+                <h3 className="text-info-strong font-semibold">
                   Langkah Selanjutnya
                 </h3>
-                <ul className="text-sm text-info-strong space-y-1 list-disc list-inside">
+                <ul className="text-info-strong list-inside list-disc space-y-1 text-sm">
                   {isWaitingForAdmin ? (
                     <>
                       <li>

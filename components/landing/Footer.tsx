@@ -6,33 +6,33 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background px-6 pt-16 pb-12 text-secondary-foreground">
+    <footer className="border-border bg-background text-secondary-foreground border-t px-6 pt-16 pb-12">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-2 gap-8 pb-12 sm:grid-cols-5">
           {/* Brand Info & Live System Status */}
           <div className="col-span-2 space-y-4">
             <Link
               href="/"
-              className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+              className="text-foreground flex items-center gap-2 text-xl font-bold tracking-tight"
             >
-              <span className="h-3 w-3 rounded-full bg-primary" />
+              <span className="bg-primary h-3 w-3 rounded-full" />
               <span>Sera</span>
-              <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
+              <span className="bg-primary/10 text-primary rounded px-1.5 py-0.5 text-[10px] font-bold">
                 LMS Yayasan
               </span>
             </Link>
 
-            <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
+            <p className="text-muted-foreground max-w-xs text-xs leading-relaxed">
               Platform LMS &amp; ERP sekolah multi-tenant terpadu untuk yayasan
               pendidikan di Indonesia. Dikembangkan oleh PT Santosa Tech
               Indonesia.
             </p>
 
             {/* Live Status Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 text-[11px] font-medium text-secondary-foreground">
+            <div className="border-border bg-secondary text-secondary-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-medium">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+                <span className="bg-success absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+                <span className="bg-success relative inline-flex h-2 w-2 rounded-full" />
               </span>
               <span>Semua Sistem Beroperasi Normal</span>
               <span className="text-muted-foreground">(99.9% Uptime)</span>
@@ -41,10 +41,10 @@ export function Footer() {
 
           {/* Column: Produk */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            <h4 className="text-foreground text-xs font-bold tracking-wider uppercase">
               Produk
             </h4>
-            <ul className="mt-4 space-y-2.5 text-xs text-muted-foreground">
+            <ul className="text-muted-foreground mt-4 space-y-2.5 text-xs">
               <li>
                 <a
                   href="#fitur"
@@ -98,10 +98,10 @@ export function Footer() {
 
           {/* Column: Arsitektur */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            <h4 className="text-foreground text-xs font-bold tracking-wider uppercase">
               Solusi
             </h4>
-            <ul className="mt-4 space-y-2.5 text-xs text-muted-foreground">
+            <ul className="text-muted-foreground mt-4 space-y-2.5 text-xs">
               <li>
                 <a
                   href="#arsitektur"
@@ -144,10 +144,10 @@ export function Footer() {
 
           {/* Column: Perusahaan & Legal */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            <h4 className="text-foreground text-xs font-bold tracking-wider uppercase">
               Perusahaan
             </h4>
-            <ul className="mt-4 space-y-2.5 text-xs text-muted-foreground">
+            <ul className="text-muted-foreground mt-4 space-y-2.5 text-xs">
               <li>
                 <Link
                   href="/landing/register/foundation"
@@ -187,7 +187,7 @@ export function Footer() {
         <Separator className="bg-border" />
 
         {/* Bottom Attribution */}
-        <div className="flex flex-col items-center justify-between gap-3 pt-6 text-xs text-muted-foreground sm:flex-row">
+        <div className="text-muted-foreground flex flex-col items-center justify-between gap-3 pt-6 text-xs sm:flex-row">
           <span>
             &copy; {currentYear} PT Santosa Tech Indonesia (Persero). Seluruh
             hak cipta dilindungi.

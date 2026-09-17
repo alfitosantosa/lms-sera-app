@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Loader2, Lock, Mail } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -97,10 +97,10 @@ export default function SignIn() {
   };
 
   const clientName =
-    process.env.NEXT_PUBLIC_CLIENT_NAME || "Yayasan Rahmaniyah Al-Islamy";
+    process.env.NEXT_PUBLIC_CLIENT_NAME || "Yayasan Santosatechid Al-Islamy";
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-center items-center bg-secondary px-4 py-12 overflow-hidden selection:bg-primary/20 selection:text-primary">
+    <div className="bg-secondary selection:bg-primary/20 selection:text-primary relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-12">
       {/* Stripe-style ambient luminous glow */}
       <div
         aria-hidden="true"
@@ -108,11 +108,11 @@ export default function SignIn() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -left-20 -top-20 h-[450px] w-[500px] rounded-full bg-primary/20 blur-[120px]"
+          className="bg-primary/20 pointer-events-none absolute -top-20 -left-20 h-[450px] w-[500px] rounded-full blur-[120px]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-10%] right-[-10%] h-[450px] w-[480px] rounded-full bg-info/15 blur-[120px]"
+          className="bg-info/15 pointer-events-none absolute right-[-10%] bottom-[-10%] h-[450px] w-[480px] rounded-full blur-[120px]"
         />
       </div>
 
@@ -120,7 +120,7 @@ export default function SignIn() {
       <div className="absolute top-6 left-6 z-20">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 text-xs font-medium text-secondary-foreground shadow-xs backdrop-blur-md transition-all hover:border-primary/40 hover:bg-background hover:text-primary"
+          className="border-border bg-background/80 text-secondary-foreground hover:border-primary/40 hover:bg-background hover:text-primary inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-xs backdrop-blur-md transition-all"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Beranda</span>
@@ -129,36 +129,45 @@ export default function SignIn() {
 
       <div className="relative z-10 w-full max-w-[420px]">
         {/* Brand & School Logo */}
-        <div className="flex flex-col items-center mb-6 text-center">
+        <div className="mb-6 flex flex-col items-center text-center">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2.5 mb-3"
+            className="group mb-3 inline-flex items-center gap-2.5"
           >
             <span className="relative flex h-3 w-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-3 w-3 rounded-full bg-primary" />
+              <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" />
+              <span className="bg-primary relative inline-flex h-3 w-3 rounded-full" />
             </span>
-            <span className="text-2xl font-extrabold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            <span className="text-foreground group-hover:text-primary text-2xl font-extrabold tracking-tight transition-colors">
               Sera
             </span>
-            <span className="rounded-full bg-brand-tint px-2 py-0.5 text-[10px] font-bold text-primary">
+            <span className="bg-brand-tint text-primary rounded-full px-2 py-0.5 text-[10px] font-bold">
               LMS
             </span>
           </Link>
 
-          <h1 className="text-lg font-bold text-foreground">{clientName}</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <Image
+            src={
+              process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
+                ? process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
+                : ""
+            }
+            alt="Logo Yayasan Santosatechid Al-Islamy"
+            width={40}
+            height={40}
+          />
+          <p className="text-muted-foreground mt-0.5 text-xs">
             Sistem Informasi Sekolah &amp; Manajemen Pembelajaran
           </p>
         </div>
 
         {/* Sign In Card */}
-        <Card className="rounded-xl border border-border bg-card p-2 shadow-lg">
-          <CardHeader className="space-y-1 pb-4 pt-6 px-6 text-center">
-            <CardTitle className="text-2xl font-extrabold tracking-tight text-foreground">
+        <Card className="border-border bg-card rounded-xl border p-2 shadow-lg">
+          <CardHeader className="space-y-1 px-6 pt-6 pb-4 text-center">
+            <CardTitle className="text-foreground text-2xl font-extrabold tracking-tight">
               Masuk ke Akun
             </CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-sm">
               Masukkan email dan password Anda untuk melanjutkan
             </CardDescription>
           </CardHeader>
@@ -168,7 +177,7 @@ export default function SignIn() {
               <div className="space-y-1.5">
                 <Label
                   htmlFor="email"
-                  className="text-xs font-semibold text-secondary-foreground"
+                  className="text-secondary-foreground text-xs font-semibold"
                 >
                   Email Sekolah / Akun
                 </Label>
@@ -181,7 +190,7 @@ export default function SignIn() {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-11 border-border bg-background text-xs transition-all focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                    className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-11 text-xs transition-all focus-visible:ring-2"
                   />
                 </div>
               </div>
@@ -190,7 +199,7 @@ export default function SignIn() {
                 <div className="flex items-center justify-between">
                   <Label
                     htmlFor="password"
-                    className="text-xs font-semibold text-secondary-foreground"
+                    className="text-secondary-foreground text-xs font-semibold"
                   >
                     Kata Sandi
                   </Label>
@@ -202,7 +211,7 @@ export default function SignIn() {
                         "Silakan hubungi staf admin/TU sekolah untuk mereset kata sandi Anda.",
                       );
                     }}
-                    className="text-[11px] font-medium text-primary hover:underline"
+                    className="text-primary text-[11px] font-medium hover:underline"
                   >
                     Lupa password?
                   </a>
@@ -215,7 +224,7 @@ export default function SignIn() {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-11 border-border bg-background text-xs transition-all focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                  className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-11 text-xs transition-all focus-visible:ring-2"
                 />
               </div>
 
@@ -226,11 +235,11 @@ export default function SignIn() {
                   onCheckedChange={(checked) =>
                     setRememberMe(checked as boolean)
                   }
-                  className="rounded border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded"
                 />
                 <Label
                   htmlFor="remember"
-                  className="text-xs font-normal text-muted-foreground cursor-pointer"
+                  className="text-muted-foreground cursor-pointer text-xs font-normal"
                 >
                   Ingat sesi saya di perangkat ini
                 </Label>
@@ -239,7 +248,7 @@ export default function SignIn() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow-sm shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-md hover:shadow-primary/35 active:translate-y-0 active:bg-primary-active"
+                className="bg-primary text-primary-foreground shadow-primary/25 hover:bg-primary-hover hover:shadow-primary/35 active:bg-primary-active h-11 w-full rounded-full text-xs font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
@@ -258,10 +267,10 @@ export default function SignIn() {
             {/* Divider */}
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full bg-border" />
+                <Separator className="bg-border w-full" />
               </div>
               <div className="relative flex justify-center text-[10px] uppercase">
-                <span className="bg-card px-2 text-muted-foreground font-semibold">
+                <span className="bg-card text-muted-foreground px-2 font-semibold">
                   Atau lanjutkan dengan
                 </span>
               </div>
@@ -273,7 +282,7 @@ export default function SignIn() {
               variant="outline"
               disabled={loading}
               onClick={handleGoogleSignIn}
-              className="w-full h-11 rounded-full border-border bg-background text-xs font-semibold text-secondary-foreground hover:bg-secondary hover:border-primary/30 transition-all"
+              className="border-border bg-background text-secondary-foreground hover:bg-secondary hover:border-primary/30 h-11 w-full rounded-full text-xs font-semibold transition-all"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -303,12 +312,12 @@ export default function SignIn() {
             </Button>
           </CardContent>
 
-          <CardFooter className="flex flex-col space-y-2 pb-6 pt-2 px-6 text-center text-xs">
+          <CardFooter className="flex flex-col space-y-2 px-6 pt-2 pb-6 text-center text-xs">
             <div className="text-muted-foreground">
               Belum punya akun?{" "}
               <Link
                 href="/auth/sign-up"
-                className="font-semibold text-primary hover:underline"
+                className="text-primary font-semibold hover:underline"
               >
                 Daftar sekarang
               </Link>
@@ -317,7 +326,7 @@ export default function SignIn() {
         </Card>
 
         {/* Footer info */}
-        <div className="mt-8 text-center text-xs text-muted-foreground">
+        <div className="text-muted-foreground mt-8 text-center text-xs">
           <p>
             &copy; {new Date().getFullYear()} {clientName}. Seluruh hak cipta
             dilindungi.

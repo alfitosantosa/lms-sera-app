@@ -1,8 +1,22 @@
 import { apiGet } from "@/lib/apiClients";
-import { PaymentItemsTypes } from "@/app/(types)";
+import { type PaymentItemsTypes } from "@/app/(types)";
 import { useQuery } from "@tanstack/react-query";
 
-export const usePaymentsItemsByDate = ({ fromdate, todate, majorId, status, isPaid, skuType }: { fromdate?: Date; todate?: Date; majorId?: string; status?: string; isPaid?: boolean; skuType?: string }) => {
+export const usePaymentsItemsByDate = ({
+  fromdate,
+  todate,
+  majorId,
+  status,
+  isPaid,
+  skuType,
+}: {
+  fromdate?: Date;
+  todate?: Date;
+  majorId?: string;
+  status?: string;
+  isPaid?: boolean;
+  skuType?: string;
+}) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
     const year = date.getFullYear();
@@ -22,11 +36,23 @@ export const usePaymentsItemsByDate = ({ fromdate, todate, majorId, status, isPa
     normalizedToDate.setHours(23, 59, 59, 999);
   }
 
-  const fromdateStr = normalizedFromDate ? formatLocalDate(normalizedFromDate) : undefined;
-  const todateStr = normalizedToDate ? formatLocalDate(normalizedToDate) : undefined;
+  const fromdateStr = normalizedFromDate
+    ? formatLocalDate(normalizedFromDate)
+    : undefined;
+  const todateStr = normalizedToDate
+    ? formatLocalDate(normalizedToDate)
+    : undefined;
 
   return useQuery({
-    queryKey: ["payments-items-by-date", fromdateStr, todateStr, majorId, status, isPaid, skuType],
+    queryKey: [
+      "payments-items-by-date",
+      fromdateStr,
+      todateStr,
+      majorId,
+      status,
+      isPaid,
+      skuType,
+    ],
     queryFn: async () => {
       // Build params object, only include if exists
       const params: Record<string, string> = {};
@@ -50,7 +76,10 @@ export const usePaymentsItemsByDate = ({ fromdate, todate, majorId, status, isPa
         params.isPaid = String(isPaid);
       }
 
-      const response = await apiGet<PaymentItemsTypes[]>("/api/payment/items/filterdate", { params });
+      const response = await apiGet<PaymentItemsTypes[]>(
+        "/api/payment/items/filterdate",
+        { params },
+      );
       return response.data;
     },
     // Selalu enabled
@@ -58,7 +87,21 @@ export const usePaymentsItemsByDate = ({ fromdate, todate, majorId, status, isPa
   });
 };
 
-export const usePaymentsItemsDashboardByDate = ({ fromdate, todate, majorId, status, isPaid, skuType }: { fromdate?: Date; todate?: Date; majorId?: string; status?: string; isPaid?: boolean; skuType?: string }) => {
+export const usePaymentsItemsDashboardByDate = ({
+  fromdate,
+  todate,
+  majorId,
+  status,
+  isPaid,
+  skuType,
+}: {
+  fromdate?: Date;
+  todate?: Date;
+  majorId?: string;
+  status?: string;
+  isPaid?: boolean;
+  skuType?: string;
+}) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
     const year = date.getFullYear();
@@ -78,11 +121,23 @@ export const usePaymentsItemsDashboardByDate = ({ fromdate, todate, majorId, sta
     normalizedToDate.setHours(23, 59, 59, 999);
   }
 
-  const fromdateStr = normalizedFromDate ? formatLocalDate(normalizedFromDate) : undefined;
-  const todateStr = normalizedToDate ? formatLocalDate(normalizedToDate) : undefined;
+  const fromdateStr = normalizedFromDate
+    ? formatLocalDate(normalizedFromDate)
+    : undefined;
+  const todateStr = normalizedToDate
+    ? formatLocalDate(normalizedToDate)
+    : undefined;
 
   return useQuery({
-    queryKey: ["payments-items-by-date", fromdateStr, todateStr, majorId, status, isPaid, skuType],
+    queryKey: [
+      "payments-items-by-date",
+      fromdateStr,
+      todateStr,
+      majorId,
+      status,
+      isPaid,
+      skuType,
+    ],
     queryFn: async () => {
       // Build params object, only include if exists
       const params: Record<string, string> = {};

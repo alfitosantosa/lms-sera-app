@@ -18,7 +18,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -59,9 +59,13 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { name, grade, majorId, academicYearId, capacity } = await request.json();
+    const { name, grade, majorId, academicYearId, capacity } =
+      await request.json();
     if (!name || !grade || !majorId || !academicYearId) {
-      return NextResponse.json({ error: "Name, grade, majorId, and academicYearId are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name, grade, majorId, and academicYearId are required" },
+        { status: 400 },
+      );
     }
 
     // Pastikan major & tahun ajaran milik yayasan pemanggil
@@ -105,9 +109,13 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, grade, majorId, academicYearId, capacity } = await request.json();
+    const { id, name, grade, majorId, academicYearId, capacity } =
+      await request.json();
     if (!id || !name || !grade || !majorId || !academicYearId) {
-      return NextResponse.json({ error: "ID, name, grade, majorId, and academicYearId are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, name, grade, majorId, and academicYearId are required" },
+        { status: 400 },
+      );
     }
 
     // Pastikan kelas milik yayasan pemanggil, sekaligus major & tahun ajaran tujuan

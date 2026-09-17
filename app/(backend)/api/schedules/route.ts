@@ -26,10 +26,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -59,7 +62,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(schedules);
   } catch (error) {
     console.error("Error fetching schedules:", error);
-    return NextResponse.json({ error: "Failed to fetch schedules" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch schedules" },
+      { status: 500 },
+    );
   }
 }
 
@@ -68,28 +74,65 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { classId, subjectId, teacherId, academicYearId, dayOfWeek, startTime, endTime, room, tahfidzGroupId } = await request.json();
+    const {
+      classId,
+      subjectId,
+      teacherId,
+      academicYearId,
+      dayOfWeek,
+      startTime,
+      endTime,
+      room,
+      tahfidzGroupId,
+    } = await request.json();
 
     // Pastikan seluruh relasi milik yayasan pemanggil
-    const [ownedAcademicYear, ownedSubject, ownedTeacher, ownedClass] = await Promise.all([
-      prisma.academicYear.findFirst({ where: { id: academicYearId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.subject.findFirst({ where: { id: subjectId, major: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } }),
-      classId ? prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }) : null,
-    ]);
+    const [ownedAcademicYear, ownedSubject, ownedTeacher, ownedClass] =
+      await Promise.all([
+        prisma.academicYear.findFirst({
+          where: { id: academicYearId, foundationId: t.foundationId },
+          select: { id: true },
+        }),
+        prisma.subject.findFirst({
+          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          select: { id: true },
+        }),
+        prisma.userData.findFirst({
+          where: { id: teacherId, foundationId: t.foundationId },
+          select: { id: true },
+        }),
+        classId
+          ? prisma.class.findFirst({
+              where: { id: classId, major: { foundationId: t.foundationId } },
+              select: { id: true },
+            })
+          : null,
+      ]);
 
-    if (!ownedAcademicYear || !ownedSubject || !ownedTeacher || (classId && !ownedClass)) {
+    if (
+      !ownedAcademicYear ||
+      !ownedSubject ||
+      !ownedTeacher ||
+      (classId && !ownedClass)
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     if (tahfidzGroupId) {
       // TahfidzGroup tidak punya relasi ke Major di schema, jadi diverifikasi lewat daftar major yayasan
-      const majors = await prisma.major.findMany({ where: { foundationId: t.foundationId }, select: { id: true } });
-      const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
-        where: { id: tahfidzGroupId, majorId: { in: majors.map((major) => major.id) } },
+      const majors = await prisma.major.findMany({
+        where: { foundationId: t.foundationId },
         select: { id: true },
       });
-      if (!ownedTahfidzGroup) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
+        where: {
+          id: tahfidzGroupId,
+          majorId: { in: majors.map((major) => major.id) },
+        },
+        select: { id: true },
+      });
+      if (!ownedTahfidzGroup)
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const schedule = await prisma.schedule.create({
@@ -107,7 +150,13 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(schedule);
   } catch {
-    return NextResponse.json({ error: "Jadwal dengan kombinasi kelas, mata pelajaran, guru, hari, dan jam yang sam a sudah ada." }, { status: 409 });
+    return NextResponse.json(
+      {
+        error:
+          "Jadwal dengan kombinasi kelas, mata pelajaran, guru, hari, dan jam yang sam a sudah ada.",
+      },
+      { status: 409 },
+    );
   }
 }
 
@@ -116,29 +165,71 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, classId, subjectId, teacherId, academicYearId, dayOfWeek, startTime, endTime, room, tahfidzGroupId } = await request.json();
+    const {
+      id,
+      classId,
+      subjectId,
+      teacherId,
+      academicYearId,
+      dayOfWeek,
+      startTime,
+      endTime,
+      room,
+      tahfidzGroupId,
+    } = await request.json();
 
     // Pastikan baris & seluruh relasi baru milik yayasan pemanggil
-    const [owned, ownedAcademicYear, ownedSubject, ownedTeacher, ownedClass] = await Promise.all([
-      prisma.schedule.findFirst({ where: { id, academicYear: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.academicYear.findFirst({ where: { id: academicYearId, foundationId: t.foundationId }, select: { id: true } }),
-      prisma.subject.findFirst({ where: { id: subjectId, major: { foundationId: t.foundationId } }, select: { id: true } }),
-      prisma.userData.findFirst({ where: { id: teacherId, foundationId: t.foundationId }, select: { id: true } }),
-      classId ? prisma.class.findFirst({ where: { id: classId, major: { foundationId: t.foundationId } }, select: { id: true } }) : null,
-    ]);
+    const [owned, ownedAcademicYear, ownedSubject, ownedTeacher, ownedClass] =
+      await Promise.all([
+        prisma.schedule.findFirst({
+          where: { id, academicYear: { foundationId: t.foundationId } },
+          select: { id: true },
+        }),
+        prisma.academicYear.findFirst({
+          where: { id: academicYearId, foundationId: t.foundationId },
+          select: { id: true },
+        }),
+        prisma.subject.findFirst({
+          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          select: { id: true },
+        }),
+        prisma.userData.findFirst({
+          where: { id: teacherId, foundationId: t.foundationId },
+          select: { id: true },
+        }),
+        classId
+          ? prisma.class.findFirst({
+              where: { id: classId, major: { foundationId: t.foundationId } },
+              select: { id: true },
+            })
+          : null,
+      ]);
 
-    if (!owned || !ownedAcademicYear || !ownedSubject || !ownedTeacher || (classId && !ownedClass)) {
+    if (
+      !owned ||
+      !ownedAcademicYear ||
+      !ownedSubject ||
+      !ownedTeacher ||
+      (classId && !ownedClass)
+    ) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     if (tahfidzGroupId) {
       // TahfidzGroup tidak punya relasi ke Major di schema, jadi diverifikasi lewat daftar major yayasan
-      const majors = await prisma.major.findMany({ where: { foundationId: t.foundationId }, select: { id: true } });
-      const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
-        where: { id: tahfidzGroupId, majorId: { in: majors.map((major) => major.id) } },
+      const majors = await prisma.major.findMany({
+        where: { foundationId: t.foundationId },
         select: { id: true },
       });
-      if (!ownedTahfidzGroup) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+      const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
+        where: {
+          id: tahfidzGroupId,
+          majorId: { in: majors.map((major) => major.id) },
+        },
+        select: { id: true },
+      });
+      if (!ownedTahfidzGroup)
+        return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
     const schedule = await prisma.schedule.update({

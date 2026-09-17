@@ -1,6 +1,12 @@
 "use client";
 
-import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon } from "lucide-react";
+import {
+  CircleCheckIcon,
+  InfoIcon,
+  Loader2Icon,
+  OctagonXIcon,
+  TriangleAlertIcon,
+} from "lucide-react";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
 // Sera is light-only (no ThemeProvider, `.dark` is never applied), so the

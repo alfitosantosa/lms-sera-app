@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
 export interface PaginationParams {
   page: number;
@@ -22,12 +22,17 @@ export interface PaginationResponse<T> {
  * @param searchParams - URL search parameters
  * @returns Validated pagination params with page, limit, and skip
  */
-export function extractPaginationParams(searchParams: URLSearchParams): PaginationParams {
+export function extractPaginationParams(
+  searchParams: URLSearchParams,
+): PaginationParams {
   // Ensure page is at least 1
   const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
 
   // Limit between 1-100 to prevent DOS
-  const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "20")));
+  const limit = Math.min(
+    100,
+    Math.max(1, parseInt(searchParams.get("limit") || "20")),
+  );
 
   // Calculate skip for database query
   const skip = (page - 1) * limit;
@@ -43,7 +48,12 @@ export function extractPaginationParams(searchParams: URLSearchParams): Paginati
  * @param limit - Items per page
  * @returns Formatted pagination response
  */
-export function createPaginationResponse<T>(data: T[], total: number, page: number, limit: number): PaginationResponse<T> {
+export function createPaginationResponse<T>(
+  data: T[],
+  total: number,
+  page: number,
+  limit: number,
+): PaginationResponse<T> {
   const pages = Math.ceil(total / limit);
 
   return {

@@ -59,16 +59,16 @@ import { useSession } from "@/lib/authClients";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -320,7 +320,7 @@ function PaymentTypeFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData
@@ -352,7 +352,7 @@ function PaymentTypeFormDialog({
               </SelectContent>
             </Select>
             {errors.owner && (
-              <p className="text-sm text-destructive">{errors.owner.message}</p>
+              <p className="text-destructive text-sm">{errors.owner.message}</p>
             )}
           </div>
 
@@ -375,7 +375,7 @@ function PaymentTypeFormDialog({
               </SelectContent>
             </Select>
             {errors.skuType && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.skuType.message}
               </p>
             )}
@@ -390,7 +390,7 @@ function PaymentTypeFormDialog({
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+              <p className="text-destructive text-sm">{errors.name.message}</p>
             )}
           </div>
 
@@ -404,7 +404,7 @@ function PaymentTypeFormDialog({
               {...register("description")}
             />
             {errors.description && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.description.message}
               </p>
             )}
@@ -414,7 +414,7 @@ function PaymentTypeFormDialog({
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isFixedAmount">Edit Amount</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Aktifkan untuk Mengunci jumlah pembayaran
               </p>
             </div>
@@ -434,7 +434,7 @@ function PaymentTypeFormDialog({
               {...register("amount", { valueAsNumber: true })}
             />
             {errors.amount && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.amount.message}
               </p>
             )}
@@ -444,7 +444,7 @@ function PaymentTypeFormDialog({
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isFixedQuantity">Edit Quantity</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Aktifkan untuk Mengunci jumlah quantity
               </p>
             </div>
@@ -466,7 +466,7 @@ function PaymentTypeFormDialog({
               {...register("quantity", { valueAsNumber: true })}
             />
             {errors.quantity && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.quantity.message}
               </p>
             )}
@@ -482,7 +482,7 @@ function PaymentTypeFormDialog({
               {...register("subtotal", { valueAsNumber: true })}
             />
             {errors.subtotal && (
-              <p className="text-sm text-destructive">
+              <p className="text-destructive text-sm">
                 {errors.subtotal.message}
               </p>
             )}
@@ -492,7 +492,7 @@ function PaymentTypeFormDialog({
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isMonthly">Pembayaran Bulanan</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Aktifkan jika pembayaran dilakukan setiap bulan
               </p>
             </div>
@@ -507,7 +507,7 @@ function PaymentTypeFormDialog({
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isActive">Status Aktif</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Jenis pembayaran aktif dapat digunakan
               </p>
             </div>
@@ -648,7 +648,7 @@ const createColumns = (
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="font-medium max-w-xs">{row.getValue("name")}</div>
+      <div className="max-w-xs font-medium">{row.getValue("name")}</div>
     ),
   },
   {
@@ -853,7 +853,7 @@ function PaymentTypeDataTable({
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-3">Jenis Tagihan</div>
+      <div className="mb-3 text-3xl font-bold">Jenis Tagihan</div>
       <Badge>{userMajorData.name}</Badge>
       {/* Filter and Actions Bar */}
       <div className="flex items-center justify-between py-4">
@@ -953,7 +953,7 @@ function PaymentTypeDataTable({
 
       {/* Pagination */}
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} dari{" "}
           {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>

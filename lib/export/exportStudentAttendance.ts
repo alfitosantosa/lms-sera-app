@@ -1,5 +1,5 @@
-import { UserDataTypes } from "@/app/(types)";
-import { attendanceTypes } from "@/app/(types)/types/attendance-types";
+import { type UserDataTypes } from "@/app/(types)";
+import { type attendanceTypes } from "@/app/(types)/types/attendance-types";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 
@@ -16,7 +16,13 @@ export interface StudentAttendanceExportData {
   "Persentase Kehadiran": string;
 }
 
-export const exportStudentAttendanceToExcel = async (student: UserDataTypes, attendances: attendanceTypes[], startDate: string, endDate: string, filename?: string) => {
+export const exportStudentAttendanceToExcel = async (
+  student: UserDataTypes,
+  attendances: attendanceTypes[],
+  startDate: string,
+  endDate: string,
+  filename?: string,
+) => {
   try {
     // Dynamically import xlsx only on client side
     if (typeof window === "undefined") {
@@ -35,7 +41,8 @@ export const exportStudentAttendanceToExcel = async (student: UserDataTypes, att
       absent: attendances.filter((a) => a.status === "absent").length,
     };
 
-    const presentPercentage = stats.total > 0 ? Math.round((stats.present / stats.total) * 100) : 0;
+    const presentPercentage =
+      stats.total > 0 ? Math.round((stats.present / stats.total) * 100) : 0;
 
     // Transform data for export
     const exportData: StudentAttendanceExportData[] = [
@@ -74,7 +81,9 @@ export const exportStudentAttendanceToExcel = async (student: UserDataTypes, att
     ws["!cols"] = colWidths;
 
     // Create filename
-    const exportFilename = filename || `rekap-absensi-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
+    const exportFilename =
+      filename ||
+      `rekap-absensi-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
 
     // Write file
     XLSX.writeFile(wb, exportFilename);
@@ -94,7 +103,13 @@ export const exportStudentAttendanceToExcel = async (student: UserDataTypes, att
   }
 };
 
-export const exportStudentAttendanceDailyToExcel = async (student: UserDataTypes, attendances: attendanceTypes[], startDate: string, endDate: string, filename?: string) => {
+export const exportStudentAttendanceDailyToExcel = async (
+  student: UserDataTypes,
+  attendances: attendanceTypes[],
+  startDate: string,
+  endDate: string,
+  filename?: string,
+) => {
   try {
     // Create daily attendance summary for student
     const dailyAttendanceSummary: Record<string, any> = {};
@@ -155,26 +170,40 @@ export const exportStudentAttendanceDailyToExcel = async (student: UserDataTypes
       overallTotals.totalAlfa += stats.alfa;
     });
 
-    const totalAttendance = overallTotals.totalHadir + overallTotals.totalTerlambat + overallTotals.totalSakit + overallTotals.totalIzin + overallTotals.totalAlfa;
-    const overallPercentage = totalAttendance > 0 ? Math.round(((overallTotals.totalHadir + overallTotals.totalTerlambat) / totalAttendance) * 100) : 0;
+    const totalAttendance =
+      overallTotals.totalHadir +
+      overallTotals.totalTerlambat +
+      overallTotals.totalSakit +
+      overallTotals.totalIzin +
+      overallTotals.totalAlfa;
+    const overallPercentage =
+      totalAttendance > 0
+        ? Math.round(
+            ((overallTotals.totalHadir + overallTotals.totalTerlambat) /
+              totalAttendance) *
+              100,
+          )
+        : 0;
 
     // Create workbook with multiple sheets
     const wb = XLSX.utils.book_new();
 
     // Sheet 1: Daily Breakdown
-    const exportData = Object.entries(dailyAttendanceSummary).map(([date, stats]) => ({
-      Tanggal: format(new Date(date), "dd/MM/yyyy", { locale: idLocale }),
-      "Nama Siswa": student.name,
-      Email: student.email || "-",
-      NISN: student.nisn || "-",
-      Hadir: stats.hadir,
-      Terlambat: stats.terlambat,
-      Sakit: stats.sakit,
-      Izin: stats.izin,
-      Alfa: stats.alfa,
-      "Total Kehadiran": stats.hadir + stats.terlambat,
-      "Persentase Kehadiran": `${Math.round(((stats.hadir + stats.terlambat) / (stats.hadir + stats.terlambat + stats.sakit + stats.izin + stats.alfa)) * 100) || 0}%`,
-    }));
+    const exportData = Object.entries(dailyAttendanceSummary).map(
+      ([date, stats]) => ({
+        Tanggal: format(new Date(date), "dd/MM/yyyy", { locale: idLocale }),
+        "Nama Siswa": student.name,
+        Email: student.email || "-",
+        NISN: student.nisn || "-",
+        Hadir: stats.hadir,
+        Terlambat: stats.terlambat,
+        Sakit: stats.sakit,
+        Izin: stats.izin,
+        Alfa: stats.alfa,
+        "Total Kehadiran": stats.hadir + stats.terlambat,
+        "Persentase Kehadiran": `${Math.round(((stats.hadir + stats.terlambat) / (stats.hadir + stats.terlambat + stats.sakit + stats.izin + stats.alfa)) * 100) || 0}%`,
+      }),
+    );
 
     const wsDaily = XLSX.utils.json_to_sheet(exportData);
     XLSX.utils.book_append_sheet(wb, wsDaily, "Detail Harian");
@@ -185,16 +214,24 @@ export const exportStudentAttendanceDailyToExcel = async (student: UserDataTypes
         "Nama Siswa": student.name,
         Email: student.email || "-",
         NISN: student.nisn || "-",
-        "Periode Mulai": format(new Date(startDate), "dd/MM/yyyy", { locale: idLocale }),
-        "Periode Selesai": format(new Date(endDate), "dd/MM/yyyy", { locale: idLocale }),
+        "Periode Mulai": format(new Date(startDate), "dd/MM/yyyy", {
+          locale: idLocale,
+        }),
+        "Periode Selesai": format(new Date(endDate), "dd/MM/yyyy", {
+          locale: idLocale,
+        }),
         "Total Hari": overallTotals.totalDays,
         "Total Hadir": overallTotals.totalHadir,
         "Total Terlambat": overallTotals.totalTerlambat,
         "Total Sakit": overallTotals.totalSakit,
         "Total Izin": overallTotals.totalIzin,
         "Total Alfa": overallTotals.totalAlfa,
-        "Total Kehadiran": overallTotals.totalHadir + overallTotals.totalTerlambat,
-        "Total Tidak Hadir": overallTotals.totalSakit + overallTotals.totalIzin + overallTotals.totalAlfa,
+        "Total Kehadiran":
+          overallTotals.totalHadir + overallTotals.totalTerlambat,
+        "Total Tidak Hadir":
+          overallTotals.totalSakit +
+          overallTotals.totalIzin +
+          overallTotals.totalAlfa,
         "Persentase Kehadiran": `${overallPercentage}%`,
       },
     ];
@@ -238,7 +275,9 @@ export const exportStudentAttendanceDailyToExcel = async (student: UserDataTypes
     wsSummary["!cols"] = summaryColWidths;
 
     // Create filename
-    const exportFilename = filename || `rekap-absensi-harian-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
+    const exportFilename =
+      filename ||
+      `rekap-absensi-harian-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
 
     // Write file
     XLSX.writeFile(wb, exportFilename);
@@ -258,7 +297,13 @@ export const exportStudentAttendanceDailyToExcel = async (student: UserDataTypes
   }
 };
 
-export const exportStudentAttendanceDetailToExcel = async (student: UserDataTypes, attendances: attendanceTypes[], startDate: string, endDate: string, filename?: string) => {
+export const exportStudentAttendanceDetailToExcel = async (
+  student: UserDataTypes,
+  attendances: attendanceTypes[],
+  startDate: string,
+  endDate: string,
+  filename?: string,
+) => {
   try {
     // Dynamically import xlsx only on client side
     if (typeof window === "undefined") {
@@ -280,7 +325,8 @@ export const exportStudentAttendanceDetailToExcel = async (student: UserDataType
       absent: attendances.filter((a: any) => a.status === "absent").length,
     };
 
-    const presentPercentage = stats.total > 0 ? Math.round((stats.present / stats.total) * 100) : 0;
+    const presentPercentage =
+      stats.total > 0 ? Math.round((stats.present / stats.total) * 100) : 0;
 
     // Sheet 1: Summary
     const summaryData = [
@@ -299,13 +345,26 @@ export const exportStudentAttendanceDetailToExcel = async (student: UserDataType
     ];
 
     const wsSummary = XLSX.utils.json_to_sheet(summaryData);
-    wsSummary["!cols"] = [{ wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 15 }];
+    wsSummary["!cols"] = [
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 12 },
+      { wch: 10 },
+      { wch: 12 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 15 },
+    ];
     XLSX.utils.book_append_sheet(wb, wsSummary, "Ringkasan");
 
     // Sheet 2: Detail records
     const detailData = attendances.map((attendance) => ({
       "Nama Siswa": student.name,
-      Tanggal: format(new Date(attendance.date), "dd/MM/yyyy", { locale: idLocale }),
+      Tanggal: format(new Date(attendance.date), "dd/MM/yyyy", {
+        locale: idLocale,
+      }),
       "Mata Pelajaran": attendance.schedule?.subject?.name || "-",
       Guru: attendance.schedule?.teacher?.name || "-",
       Ruangan: attendance.schedule?.room || "-",
@@ -316,11 +375,23 @@ export const exportStudentAttendanceDetailToExcel = async (student: UserDataType
     }));
 
     const wsDetail = XLSX.utils.json_to_sheet(detailData);
-    wsDetail["!cols"] = [{ wch: 25 }, { wch: 15 }, { wch: 25 }, { wch: 20 }, { wch: 15 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 25 }];
+    wsDetail["!cols"] = [
+      { wch: 25 },
+      { wch: 15 },
+      { wch: 25 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 15 },
+      { wch: 25 },
+    ];
     XLSX.utils.book_append_sheet(wb, wsDetail, "Detail Absensi");
 
     // Create filename
-    const exportFilename = filename || `rekap-absensi-detail-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
+    const exportFilename =
+      filename ||
+      `rekap-absensi-detail-${student.name.replace(/\s+/g, "-")}-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
 
     // Write file
     XLSX.writeFile(wb, exportFilename);

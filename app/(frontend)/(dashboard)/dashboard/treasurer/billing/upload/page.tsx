@@ -239,7 +239,7 @@ function UploadBilling({
       const worksheet = workbook.Sheets[targetSheet];
 
       // Convert sheet to array of arrays
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       const rows = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
       }) as any[][];
@@ -504,7 +504,7 @@ function UploadBilling({
     <div className="">
       {/* ── Page Header ── */}
       <div>
-        <div className="font-bold text-3xl mb-1">Upload Tagihan</div>
+        <div className="mb-1 text-3xl font-bold">Upload Tagihan</div>
         {majorName && (
           <Badge variant="secondary" className="text-sm">
             Branch: {majorName}
@@ -514,13 +514,13 @@ function UploadBilling({
 
       {/* ── Success Result Banner ── */}
       {uploadResult && (
-        <div className="flex items-start gap-3 rounded-lg bg-success-surface border border-success-border p-4">
-          <CheckCircle2 className="h-5 w-5 text-success mt-0.5 shrink-0" />
+        <div className="bg-success-surface border-success-border flex items-start gap-3 rounded-lg border p-4">
+          <CheckCircle2 className="text-success mt-0.5 h-5 w-5 shrink-0" />
           <div>
-            <p className="font-semibold text-success-strong">
+            <p className="text-success-strong font-semibold">
               Upload Berhasil!
             </p>
-            <p className="text-sm text-success-strong mt-0.5">
+            <p className="text-success-strong mt-0.5 text-sm">
               {uploadResult.count} item tagihan dibuat ·{" "}
               {uploadResult.skipped > 0 &&
                 `${uploadResult.skipped} dilewati (duplikat) ·`}{" "}
@@ -532,13 +532,13 @@ function UploadBilling({
 
       {/* ── Step 1: Export Reference Data ── */}
       <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
             1
           </div>
           <div className="text-lg font-semibold">Export Data Referensi</div>
         </div>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-muted-foreground mb-4 text-sm">
           Download daftar siswa dan jenis tagihan untuk mendapatkan ID yang
           dibutuhkan saat mengisi template.
         </p>
@@ -548,7 +548,7 @@ function UploadBilling({
             onClick={exportStudentList}
             disabled={!students.length}
           >
-            <Users className="h-4 w-4 mr-2" />
+            <Users className="mr-2 h-4 w-4" />
             Export Daftar Siswa
             <Badge variant="secondary" className="ml-2 text-xs">
               {students.length} siswa
@@ -559,7 +559,7 @@ function UploadBilling({
             onClick={exportPaymentTypeList}
             disabled={!paymentTypes.length}
           >
-            <CreditCard className="h-4 w-4 mr-2" />
+            <CreditCard className="mr-2 h-4 w-4" />
             Export Jenis Tagihan
             <Badge variant="secondary" className="ml-2 text-xs">
               {paymentTypes.length} jenis
@@ -570,19 +570,19 @@ function UploadBilling({
 
       {/* ── Step 2: Download Template ── */}
       <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
             2
           </div>
           <div className="text-lg font-semibold">Download Template Excel</div>
         </div>
 
-        <div className="bg-info-surface border border-info-border rounded-lg p-4 mb-4">
+        <div className="bg-info-surface border-info-border mb-4 rounded-lg border p-4">
           <div className="flex items-start gap-2">
-            <AlertCircle className="h-5 w-5 text-info mt-0.5 shrink-0" />
-            <div className="text-sm text-info-strong space-y-1">
+            <AlertCircle className="text-info mt-0.5 h-5 w-5 shrink-0" />
+            <div className="text-info-strong space-y-1 text-sm">
               <p className="font-semibold">Petunjuk Pengisian Template:</p>
-              <ul className="list-disc list-inside space-y-0.5 text-info-strong">
+              <ul className="text-info-strong list-inside list-disc space-y-0.5">
                 <li>
                   <strong>Student ID</strong> — ambil dari export Daftar Siswa
                   di Langkah 1
@@ -626,15 +626,15 @@ function UploadBilling({
         </div>
 
         <Button onClick={downloadTemplate} variant="outline">
-          <Download className="h-4 w-4 mr-2" />
+          <Download className="mr-2 h-4 w-4" />
           Download Template
         </Button>
       </Card>
 
       {/* ── Step 3: Upload File ── */}
       <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
             3
           </div>
           <div className="text-lg font-semibold">Upload File Excel</div>
@@ -649,7 +649,7 @@ function UploadBilling({
               onChange={handleFileChange}
               className="bg-background"
             />
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-sm">
               Format: .xlsx atau .xls
             </p>
           </div>
@@ -663,9 +663,9 @@ function UploadBilling({
                   className="flex items-center justify-between rounded-md border p-2"
                 >
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-muted-foreground" />
+                    <FileText className="text-muted-foreground h-4 w-4" />
                     <span className="text-sm">{file.name}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-muted-foreground text-xs">
                       ({(file.size / 1024).toFixed(1)} KB)
                     </span>
                   </div>
@@ -685,10 +685,10 @@ function UploadBilling({
 
           {/* Sheet selector */}
           {availableSheets.length > 1 && (
-            <Card className="p-4 bg-info-surface border-info-border">
-              <div className="flex items-center gap-2 mb-3">
-                <Layers className="h-5 w-5 text-info" />
-                <div className="font-semibold text-info-strong">
+            <Card className="bg-info-surface border-info-border p-4">
+              <div className="mb-3 flex items-center gap-2">
+                <Layers className="text-info h-5 w-5" />
+                <div className="text-info-strong font-semibold">
                   Pilih Sheet Excel
                 </div>
                 <Badge variant="secondary" className="text-xs">
@@ -696,7 +696,7 @@ function UploadBilling({
                 </Badge>
               </div>
               <Select value={selectedSheet} onValueChange={handleSheetChange}>
-                <SelectTrigger className="w-full bg-background">
+                <SelectTrigger className="bg-background w-full">
                   <SelectValue placeholder="Pilih sheet..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -710,7 +710,7 @@ function UploadBilling({
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-info-strong mt-2">
+              <p className="text-info-strong mt-2 text-xs">
                 ℹ️ File Excel ini memiliki {availableSheets.length} sheet. Pilih
                 sheet yang ingin dibaca untuk melihat preview data.
               </p>
@@ -719,7 +719,7 @@ function UploadBilling({
 
           {/* Single sheet info */}
           {availableSheets.length === 1 && selectedSheet && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <Layers className="h-4 w-4" />
               <span>
                 Sheet: <strong>{selectedSheet}</strong>
@@ -729,8 +729,8 @@ function UploadBilling({
 
           {/* Preview table */}
           {previewRows.length > 0 && (
-            <div className="border rounded-lg overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-2 bg-muted/40 border-b">
+            <div className="overflow-hidden rounded-lg border">
+              <div className="bg-muted/40 flex items-center justify-between border-b px-4 py-2">
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <Info className="h-4 w-4" />
                   Preview Data dari Sheet:{" "}
@@ -743,7 +743,7 @@ function UploadBilling({
                 </div>
                 <div className="flex gap-2">
                   {validCount > 0 && (
-                    <Badge className="bg-success-solid text-white text-xs">
+                    <Badge className="bg-success-solid text-xs text-white">
                       {validCount} valid
                     </Badge>
                   )}
@@ -754,24 +754,24 @@ function UploadBilling({
                   )}
                 </div>
               </div>
-              <div className="overflow-x-auto max-h-72">
+              <div className="max-h-72 overflow-x-auto">
                 <table className="w-full text-xs">
-                  <thead className="sticky top-0 bg-background border-b">
+                  <thead className="bg-background sticky top-0 border-b">
                     <tr>
-                      <th className="text-left p-2 font-medium">#</th>
-                      <th className="text-left p-2 font-medium">Siswa</th>
-                      <th className="text-left p-2 font-medium">
+                      <th className="p-2 text-left font-medium">#</th>
+                      <th className="p-2 text-left font-medium">Siswa</th>
+                      <th className="p-2 text-left font-medium">
                         Jenis Tagihan
                       </th>
-                      <th className="text-left p-2 font-medium">Nama</th>
-                      <th className="text-right p-2 font-medium">Qty</th>
-                      <th className="text-right p-2 font-medium">Amount</th>
-                      <th className="text-right p-2 font-medium">Subtotal</th>
-                      <th className="text-center p-2 font-medium">
+                      <th className="p-2 text-left font-medium">Nama</th>
+                      <th className="p-2 text-right font-medium">Qty</th>
+                      <th className="p-2 text-right font-medium">Amount</th>
+                      <th className="p-2 text-right font-medium">Subtotal</th>
+                      <th className="p-2 text-center font-medium">
                         Bulan/Tahun
                       </th>
-                      <th className="text-center p-2 font-medium">Lunas</th>
-                      <th className="text-left p-2 font-medium">Status</th>
+                      <th className="p-2 text-center font-medium">Lunas</th>
+                      <th className="p-2 text-left font-medium">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -780,26 +780,26 @@ function UploadBilling({
                         key={row.rowNum}
                         className={`border-b ${row._errors.length > 0 ? "bg-destructive-surface" : "hover:bg-muted/30"}`}
                       >
-                        <td className="p-2 text-muted-foreground">
+                        <td className="text-muted-foreground p-2">
                           {row.rowNum}
                         </td>
                         <td className="p-2">
-                          <div className="font-medium truncate max-w-[140px]">
+                          <div className="max-w-[140px] truncate font-medium">
                             {row._studentName}
                           </div>
-                          <div className="text-muted-foreground font-mono truncate max-w-[140px]">
+                          <div className="text-muted-foreground max-w-[140px] truncate font-mono">
                             {row.studentId.slice(0, 8)}…
                           </div>
                         </td>
                         <td className="p-2">
-                          <div className="truncate max-w-[140px]">
+                          <div className="max-w-[140px] truncate">
                             {row._paymentTypeName}
                           </div>
-                          <Badge variant="outline" className="text-xs mt-0.5">
+                          <Badge variant="outline" className="mt-0.5 text-xs">
                             {row.skuType}
                           </Badge>
                         </td>
-                        <td className="p-2 truncate max-w-[120px]">
+                        <td className="max-w-[120px] truncate p-2">
                           {row.name}
                         </td>
                         <td className="p-2 text-right">{row.quantity}</td>
@@ -810,7 +810,7 @@ function UploadBilling({
                             minimumFractionDigits: 0,
                           }).format(row.amount)}
                         </td>
-                        <td className="p-2 text-right tabular-nums font-medium">
+                        <td className="p-2 text-right font-medium tabular-nums">
                           {new Intl.NumberFormat("id-ID", {
                             style: "currency",
                             currency: "IDR",
@@ -822,7 +822,7 @@ function UploadBilling({
                         </td>
                         <td className="p-2 text-center">
                           {row.isPaid ? (
-                            <Badge className="bg-success-solid text-white text-xs">
+                            <Badge className="bg-success-solid text-xs text-white">
                               Lunas
                             </Badge>
                           ) : (
@@ -833,13 +833,13 @@ function UploadBilling({
                         </td>
                         <td className="p-2">
                           {row._errors.length > 0 ? (
-                            <div className="text-destructive text-xs space-y-0.5">
+                            <div className="text-destructive space-y-0.5 text-xs">
                               {row._errors.map((e, i) => (
                                 <div key={i}>⚠ {e}</div>
                               ))}
                             </div>
                           ) : (
-                            <CheckCircle2 className="h-4 w-4 text-success" />
+                            <CheckCircle2 className="text-success h-4 w-4" />
                           )}
                         </td>
                       </tr>
@@ -848,7 +848,7 @@ function UploadBilling({
                 </table>
               </div>
               {errorCount > 0 && (
-                <div className="px-4 py-2 bg-destructive-surface border-t text-xs text-destructive-strong">
+                <div className="bg-destructive-surface text-destructive-strong border-t px-4 py-2 text-xs">
                   ⚠ Baris dengan error akan dilewati saat upload. Perbaiki file
                   Excel lalu upload ulang.
                 </div>
@@ -860,7 +860,7 @@ function UploadBilling({
             onClick={handleUpload}
             disabled={validCount === 0 || bulkUploadMutation.isPending}
           >
-            <Upload className="h-4 w-4 mr-2" />
+            <Upload className="mr-2 h-4 w-4" />
             {bulkUploadMutation.isPending
               ? "Mengupload..."
               : validCount > 0
@@ -874,13 +874,13 @@ function UploadBilling({
       <div className="grid gap-6">
         {/* Payment Types */}
         <Card className="p-4">
-          <div className="flex items-center justify-between mb-3">
+          <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5 text-tertiary" />
+              <CreditCard className="text-tertiary h-5 w-5" />
               <div className="text-lg font-bold">Jenis Tagihan</div>
               <Badge variant="secondary">{paymentTypes.length} jenis</Badge>
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Copy ID → paste ke kolom Payment Type ID di template
             </p>
           </div>
@@ -917,7 +917,7 @@ function UploadBilling({
                     </TableCell>
                     <TableCell>
                       {pt.isMonthly ? (
-                        <Badge className="bg-info-solid text-white text-xs">
+                        <Badge className="bg-info-solid text-xs text-white">
                           Bulanan
                         </Badge>
                       ) : (
@@ -926,7 +926,7 @@ function UploadBilling({
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
+                    <TableCell className="text-muted-foreground font-mono text-xs">
                       {pt.id}
                     </TableCell>
                     <TableCell>
@@ -948,11 +948,11 @@ function UploadBilling({
         {/* SKU Types */}
         {skuTypes.length > 0 && (
           <Card className="p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Info className="h-5 w-5 text-caution" />
+            <div className="mb-3 flex items-center gap-2">
+              <Info className="text-caution h-5 w-5" />
               <div className="text-lg font-bold">Daftar SKU Type</div>
             </div>
-            <p className="text-sm text-muted-foreground mb-3">
+            <p className="text-muted-foreground mb-3 text-sm">
               Gunakan salah satu nilai berikut di kolom{" "}
               <strong>SKU Type</strong> pada template.
             </p>
@@ -961,7 +961,7 @@ function UploadBilling({
                 <div key={sku} className="flex items-center gap-1.5">
                   <Badge
                     variant="outline"
-                    className="font-mono text-sm px-3 py-1"
+                    className="px-3 py-1 font-mono text-sm"
                   >
                     {sku}
                   </Badge>
@@ -980,13 +980,13 @@ function UploadBilling({
 
         {/* Month & Year Reference */}
         <Card className="p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar className="h-5 w-5 text-success" />
+          <div className="mb-3 flex items-center gap-2">
+            <Calendar className="text-success h-5 w-5" />
             <div className="text-lg font-bold">Referensi Bulan & Tahun</div>
           </div>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <p className="text-sm font-medium mb-2">
+              <p className="mb-2 text-sm font-medium">
                 Format Bulan (kolom Month):
               </p>
               <div className="grid grid-cols-1 gap-1">
@@ -1029,7 +1029,7 @@ function UploadBilling({
               </div>
             </div>
             <div>
-              <p className="text-sm font-medium mb-2">
+              <p className="mb-2 text-sm font-medium">
                 Format Tahun (kolom Year):
               </p>
               <div className="space-y-1">

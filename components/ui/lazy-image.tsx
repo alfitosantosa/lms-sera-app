@@ -10,7 +10,14 @@ interface LazyImageProps {
   fallback?: string;
 }
 
-export function LazyImage({ src, alt, width = 40, height = 40, className = "", fallback = "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png" }: LazyImageProps) {
+export function LazyImage({
+  src,
+  alt,
+  width = 40,
+  height = 40,
+  className = "",
+  fallback = "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png",
+}: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
@@ -47,7 +54,9 @@ export function LazyImage({ src, alt, width = 40, height = 40, className = "", f
 
   return (
     <div ref={imgRef} className={`relative ${className}`}>
-      {!isLoaded && <div className="absolute inset-0 animate-pulse rounded-full bg-accent" />}
+      {!isLoaded && (
+        <div className="bg-accent absolute inset-0 animate-pulse rounded-full" />
+      )}
       {isInView && (
         <Image
           src={isInView ? src : fallback}

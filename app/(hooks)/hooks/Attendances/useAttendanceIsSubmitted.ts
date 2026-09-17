@@ -8,9 +8,15 @@ type AttendanceParams = {
   scheduleId: string;
 };
 
-export const useAttendanceIsSubmitted = ({ date, scheduleId }: AttendanceParams) => {
+export const useAttendanceIsSubmitted = ({
+  date,
+  scheduleId,
+}: AttendanceParams) => {
   return useQuery<boolean>({
     queryKey: ["attendance-is-submitted", date, scheduleId],
-    queryFn: async () => await apiGet<{ data: boolean }>("/api/attendance/issubmited?date=" + date + "&scheduleId=" + scheduleId).then((res) => (res.data.data ? true : false)),
+    queryFn: async () =>
+      await apiGet<{ data: boolean }>(
+        "/api/attendance/issubmited?date=" + date + "&scheduleId=" + scheduleId,
+      ).then((res) => (res.data.data ? true : false)),
   });
 };

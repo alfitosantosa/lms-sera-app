@@ -20,11 +20,13 @@ This document compares the actual Next.js file system routes against the permiss
 ## ✅ Routes PRESENT in Permissions List
 
 ### Core Routes (3)
+
 - ✅ `/` - Home
 - ✅ `/dashboard` - Dashboard
 - ✅ `/dashboard/profile` - Profile
 
 ### Admin Master (7)
+
 - ✅ `/dashboard/admin/master/academicyear` - Academic Year Management
 - ✅ `/dashboard/admin/master/roles` - Roles Management
 - ✅ `/dashboard/admin/master/betterauth` - BetterAuth Management
@@ -35,15 +37,18 @@ This document compares the actual Next.js file system routes against the permiss
 - ✅ `/dashboard/admin/master/classes/tahfidz` - Tahfidz Group Management
 
 ### Admin Academic (4)
+
 - ✅ `/dashboard/admin/academic/schedules` - Schedule Management
 - ✅ `/dashboard/admin/academic/tahfidzrecord` - Tahfidz Record Management
 - ✅ `/dashboard/admin/academic/specialschedule` - Special Schedule
 
 ### Admin Discipline (2)
+
 - ✅ `/dashboard/admin/discipline/typeviolations` - Type Violation Management
 - ✅ `/dashboard/violations` - Violation Management
 
 ### Admin Finance (6)
+
 - ✅ `/dashboard/admin/finance/paymenttypes` - Payment Types Management
 - ✅ `/dashboard/admin/finance/payments` - Payment Management
 - ✅ `/dashboard/admin/finance/billing` - Data Tagihan (Admin)
@@ -54,28 +59,34 @@ This document compares the actual Next.js file system routes against the permiss
 - ✅ `/dashboard/admin/finance/accountbank/chart` - Dashboard Saldo
 
 ### Admin Utility (3)
+
 - ✅ `/dashboard/admin/utility/upload/users` - Upload Users
 - ✅ `/dashboard/admin/utility/upload/schedules` - Upload Schedules
 - ✅ `/dashboard/admin/utility/botwa` - Botwa Management
 
 ### Admin Attendance (1)
+
 - ✅ `/dashboard/admin/attendance` - Attendance for Admin Backup
 
 ### Teacher Routes (4)
+
 - ✅ `/dashboard/teacher/schedule` - Schedule for Teacher
 - ✅ `/dashboard/attendance/teacher` - Attendance for Principal
 - ✅ `/dashboard/violations/teacher` - Violation for Teacher
 
 ### Student Routes (4)
+
 - ✅ `/dashboard/student/payment` - Payment for Student
 - ✅ `/dashboard/student/attendance` - Attendance for Student
 - ✅ `/dashboard/student/schedule` - Schedule for Student
 - ✅ `/dashboard/student/tahfidzrecord` - Tahfidz Record For Student
 
 ### Parent Routes (1)
+
 - ✅ `/dashboard/parent` - Dashboard Parent
 
 ### Calendar Routes (6)
+
 - ✅ `/dashboard/calender` - Calendar for User
 - ✅ `/dashboard/calender/teacher` - Calendar for Teacher
 - ✅ `/dashboard/calender/student` - Calendar for Student
@@ -83,11 +94,13 @@ This document compares the actual Next.js file system routes against the permiss
 - ✅ `/dashboard/calender/list/student` - Calendar List for Student
 
 ### Attendance & Recap (3)
+
 - ✅ `/dashboard/attendance` - Attendance Management
 - ✅ `/dashboard/recapattendance` - Recap Attendance Student
 - ✅ `/dashboard/recapattendance/class` - Recap Attendance Class
 
 ### Treasurer Routes (8)
+
 - ✅ `/dashboard/treasurer/users` - Data Siswa (Bendahara)
 - ✅ `/dashboard/treasurer/class` - Data kelas (Bendahara)
 - ✅ `/dashboard/treasurer/paymenttype` - Jenis Tagihan (Bendahara)
@@ -98,6 +111,7 @@ This document compares the actual Next.js file system routes against the permiss
 - ✅ `/dashboard/treasurer/studentinformation` - Student Information (Bendahara)
 
 ### Violations (2)
+
 - ✅ `/dashboard/violations/student` - Violation for Student
 
 **Total Present: 50 routes**
@@ -109,6 +123,7 @@ This document compares the actual Next.js file system routes against the permiss
 ### Critical Missing Routes
 
 #### 1. `/dashboard/foundation`
+
 - **File**: `dashboard/foundation/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Foundation management is critical for multi-tenant system
@@ -116,6 +131,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Should be visible to**: Admin, Yayasan
 
 #### 2. `/dashboard/majors`
+
 - **File**: `dashboard/majors/page.tsx`
 - **Importance**: MEDIUM
 - **Reason**: Top-level majors route (duplicate of `/dashboard/admin/master/majors`?)
@@ -123,6 +139,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Note**: ⚠️ May be duplicate - verify purpose
 
 #### 3. `/dashboard/payments`
+
 - **File**: `dashboard/payments/page.tsx`
 - **Importance**: MEDIUM
 - **Reason**: Top-level payments route (different from `/dashboard/student/payment`?)
@@ -130,6 +147,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Note**: ⚠️ May be duplicate - verify purpose
 
 #### 4. `/dashboard/reports`
+
 - **File**: `dashboard/reports/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Reporting functionality is critical for admins
@@ -137,6 +155,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Should be visible to**: Admin, Yayasan, Bendahara
 
 #### 5. `/dashboard/middleware`
+
 - **File**: `dashboard/middleware/page.tsx`
 - **Importance**: LOW (likely test/debug)
 - **Reason**: Unusual route name - may be test page
@@ -144,6 +163,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Note**: ⚠️ Consider removing from production
 
 #### 6. `/dashboard/test/date`
+
 - **File**: `dashboard/test/date/page.tsx`
 - **Importance**: LOW (test page)
 - **Reason**: Test/sandbox page
@@ -153,6 +173,7 @@ This document compares the actual Next.js file system routes against the permiss
 ### Teacher Dynamic Routes (4)
 
 #### 7. `/dashboard/teacher/attendance/[id]`
+
 - **File**: `dashboard/teacher/attendance/[id]/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Teacher attendance detail page
@@ -160,6 +181,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Should be visible to**: Teacher, Admin
 
 #### 8. `/dashboard/teacher/attendance/tahfidz/[id]`
+
 - **File**: `dashboard/teacher/attendance/tahfidz/[id]/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Tahfidz attendance detail
@@ -167,6 +189,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Should be visible to**: Teacher, Admin
 
 #### 9. `/dashboard/teacher/schedule/[id]`
+
 - **File**: `dashboard/teacher/schedule/[id]/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Teacher schedule detail page
@@ -174,6 +197,7 @@ This document compares the actual Next.js file system routes against the permiss
 - **Should be visible to**: Teacher, Admin
 
 #### 10. `/dashboard/teacher/tahfidzrecord/[idTahfidzGroup]`
+
 - **File**: `dashboard/teacher/tahfidzrecord/[idTahfidzGroup]/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Tahfidz record by group
@@ -183,6 +207,7 @@ This document compares the actual Next.js file system routes against the permiss
 ### Attendance Teacher Input Route
 
 #### 11. `/dashboard/attendance/teacher/input`
+
 - **File**: `dashboard/attendance/teacher/input/page.tsx`
 - **Importance**: HIGH
 - **Reason**: Teacher attendance input form (separate from view page)
@@ -198,35 +223,43 @@ This document compares the actual Next.js file system routes against the permiss
 ### Issue Categories
 
 #### 1. **Duplicate Routes (3 potential conflicts)**
+
 ```
 /dashboard/majors          vs  /dashboard/admin/master/majors
 /dashboard/payments        vs  /dashboard/student/payment
 /dashboard/attendance      vs  multiple attendance routes
 ```
+
 **Action Required**: Investigate purpose and consolidate or differentiate
 
 #### 2. **Test/Debug Pages (2 routes)**
+
 ```
 /dashboard/test/date
 /dashboard/middleware
 ```
+
 **Action Required**: Remove from production or add developer-only permission
 
 #### 3. **Dynamic Route Permissions Missing (4 routes)**
+
 ```
 /dashboard/teacher/attendance/[id]
 /dashboard/teacher/attendance/tahfidz/[id]
 /dashboard/teacher/schedule/[id]
 /dashboard/teacher/tahfidzrecord/[idTahfidzGroup]
 ```
+
 **Action Required**: Add base route permissions (can control access at parent level)
 
 #### 4. **Critical Production Routes Missing (4 routes)**
+
 ```
 /dashboard/foundation
 /dashboard/reports
 /dashboard/attendance/teacher/input
 ```
+
 **Action Required**: **MUST ADD** to permissions list
 
 ---
@@ -234,6 +267,7 @@ This document compares the actual Next.js file system routes against the permiss
 ## 📋 Recommended Actions
 
 ### Priority 1: Add Missing Critical Routes
+
 Add these to `availablePermissions` in `/dashboard/admin/master/roles/page.tsx`:
 
 ```typescript
@@ -248,36 +282,40 @@ Add these to `availablePermissions` in `/dashboard/admin/master/roles/page.tsx`:
 ```
 
 ### Priority 2: Investigate Duplicate Routes
+
 - Compare `/dashboard/majors` with `/dashboard/admin/master/majors`
 - Compare `/dashboard/payments` with `/dashboard/student/payment`
 - Consolidate or differentiate clearly
 
 ### Priority 3: Handle Test Pages
+
 - Remove `/dashboard/test/date` from production build
 - Remove `/dashboard/middleware` or add developer-only permission
 - Add to `.gitignore` or move to separate dev environment
 
 ### Priority 4: Update menuGroupsSidebar.ts
+
 Ensure `app/repository/menuGroupsSidebar.ts` includes all routes that should appear in navigation.
 
 ---
 
 ## 🎯 Discrepancies Summary
 
-| Category | Count | Action Required |
-|----------|-------|----------------|
-| Routes in file system | 63 | - |
-| Routes in permissions | 50 | - |
-| Missing from permissions | 11+ | **ADD** |
-| Duplicate routes | 3 | **INVESTIGATE** |
-| Test/Debug pages | 2 | **REMOVE or RESTRICT** |
-| Dynamic routes | 4 | **ADD parent permissions** |
+| Category                 | Count | Action Required            |
+| ------------------------ | ----- | -------------------------- |
+| Routes in file system    | 63    | -                          |
+| Routes in permissions    | 50    | -                          |
+| Missing from permissions | 11+   | **ADD**                    |
+| Duplicate routes         | 3     | **INVESTIGATE**            |
+| Test/Debug pages         | 2     | **REMOVE or RESTRICT**     |
+| Dynamic routes           | 4     | **ADD parent permissions** |
 
 ---
 
 ## 🔐 Security Implications
 
 ### Current State
+
 - ❌ 11+ routes are **NOT** in permission system
 - ❌ Test pages are accessible in production
 - ❌ Dynamic routes have no permission controls
@@ -286,12 +324,14 @@ Ensure `app/repository/menuGroupsSidebar.ts` includes all routes that should app
 ### Risk Level: **HIGH** ⚠️
 
 **Consequences:**
+
 1. Users might access routes without proper authorization
 2. Test/debug pages expose internal functionality
 3. Foundation management is unprotected
 4. Reports are accessible without permission
 
 **Recommended Fix:**
+
 1. Add ALL missing routes to permissions list
 2. Update all existing roles to include appropriate permissions
 3. Remove or restrict test pages
@@ -321,4 +361,4 @@ Ensure `app/repository/menuGroupsSidebar.ts` includes all routes that should app
 
 ---
 
-*Report generated by analyzing file system tree and comparing with permission definitions.*
+_Report generated by analyzing file system tree and comparing with permission definitions._

@@ -1,9 +1,32 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, Calendar, ClipboardCheck, CreditCard, Download, FileSpreadsheet, FileText, Filter, GraduationCap, Users } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  AlertTriangle,
+  Calendar,
+  ClipboardCheck,
+  CreditCard,
+  Download,
+  FileSpreadsheet,
+  FileText,
+  Filter,
+  GraduationCap,
+  Users,
+} from "lucide-react";
 import React, { useState } from "react";
 
 const reportCategories = [
@@ -13,8 +36,16 @@ const reportCategories = [
     icon: Calendar,
     color: "text-info",
     reports: [
-      { name: "Kalender Mingguan", format: ["PDF"], description: "Kalender pendidikan per minggu" },
-      { name: "Kalender Tahunan", format: ["PDF"], description: "Kalender pendidikan per tahun" },
+      {
+        name: "Kalender Mingguan",
+        format: ["PDF"],
+        description: "Kalender pendidikan per minggu",
+      },
+      {
+        name: "Kalender Tahunan",
+        format: ["PDF"],
+        description: "Kalender pendidikan per tahun",
+      },
     ],
   },
   {
@@ -22,21 +53,39 @@ const reportCategories = [
     title: "Jadwal Mata Pelajaran",
     icon: FileText,
     color: "text-success",
-    reports: [{ name: "Jadwal Harian", format: ["PDF"], description: "Jadwal mata pelajaran setiap hari" }],
+    reports: [
+      {
+        name: "Jadwal Harian",
+        format: ["PDF"],
+        description: "Jadwal mata pelajaran setiap hari",
+      },
+    ],
   },
   {
     id: "students",
     title: "Data Siswa",
     icon: Users,
     color: "text-tertiary",
-    reports: [{ name: "Data Lengkap Siswa", format: ["Excel", "PDF"], description: "Data siswa sesuai kebutuhan" }],
+    reports: [
+      {
+        name: "Data Lengkap Siswa",
+        format: ["Excel", "PDF"],
+        description: "Data siswa sesuai kebutuhan",
+      },
+    ],
   },
   {
     id: "teachers",
     title: "Data Guru",
     icon: GraduationCap,
     color: "text-caution",
-    reports: [{ name: "Data Lengkap Guru", format: ["Excel", "PDF"], description: "Data guru sesuai kebutuhan" }],
+    reports: [
+      {
+        name: "Data Lengkap Guru",
+        format: ["Excel", "PDF"],
+        description: "Data guru sesuai kebutuhan",
+      },
+    ],
   },
   {
     id: "attendance",
@@ -44,11 +93,31 @@ const reportCategories = [
     icon: ClipboardCheck,
     color: "text-info",
     reports: [
-      { name: "Rekap Harian", format: ["Excel", "PDF"], description: "Rekapitulasi absensi harian" },
-      { name: "Rekap Mingguan", format: ["Excel", "PDF"], description: "Rekapitulasi absensi mingguan" },
-      { name: "Rekap Bulanan", format: ["Excel", "PDF"], description: "Rekapitulasi absensi bulanan" },
-      { name: "Rekap Semester", format: ["Excel", "PDF"], description: "Rekapitulasi absensi semester" },
-      { name: "Rekap Tahunan", format: ["Excel", "PDF"], description: "Rekapitulasi absensi tahunan" },
+      {
+        name: "Rekap Harian",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi absensi harian",
+      },
+      {
+        name: "Rekap Mingguan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi absensi mingguan",
+      },
+      {
+        name: "Rekap Bulanan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi absensi bulanan",
+      },
+      {
+        name: "Rekap Semester",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi absensi semester",
+      },
+      {
+        name: "Rekap Tahunan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi absensi tahunan",
+      },
     ],
   },
   {
@@ -57,12 +126,36 @@ const reportCategories = [
     icon: AlertTriangle,
     color: "text-destructive",
     reports: [
-      { name: "Rekap Harian", format: ["PDF"], description: "Rekapitulasi pelanggaran harian" },
-      { name: "Rekap Mingguan", format: ["PDF"], description: "Rekapitulasi pelanggaran mingguan" },
-      { name: "Rekap Bulanan", format: ["PDF"], description: "Rekapitulasi pelanggaran bulanan" },
-      { name: "Rekap Semester", format: ["PDF"], description: "Rekapitulasi pelanggaran semester" },
-      { name: "Rekap Tahunan", format: ["PDF"], description: "Rekapitulasi pelanggaran tahunan" },
-      { name: "Kartu Pelanggaran", format: ["PDF"], description: "Kartu pelanggaran per siswa" },
+      {
+        name: "Rekap Harian",
+        format: ["PDF"],
+        description: "Rekapitulasi pelanggaran harian",
+      },
+      {
+        name: "Rekap Mingguan",
+        format: ["PDF"],
+        description: "Rekapitulasi pelanggaran mingguan",
+      },
+      {
+        name: "Rekap Bulanan",
+        format: ["PDF"],
+        description: "Rekapitulasi pelanggaran bulanan",
+      },
+      {
+        name: "Rekap Semester",
+        format: ["PDF"],
+        description: "Rekapitulasi pelanggaran semester",
+      },
+      {
+        name: "Rekap Tahunan",
+        format: ["PDF"],
+        description: "Rekapitulasi pelanggaran tahunan",
+      },
+      {
+        name: "Kartu Pelanggaran",
+        format: ["PDF"],
+        description: "Kartu pelanggaran per siswa",
+      },
     ],
   },
   {
@@ -71,17 +164,43 @@ const reportCategories = [
     icon: CreditCard,
     color: "text-warning",
     reports: [
-      { name: "Rekap Harian", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran harian" },
-      { name: "Rekap Mingguan", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran mingguan" },
-      { name: "Rekap Bulanan", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran bulanan" },
-      { name: "Rekap Semester", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran semester" },
-      { name: "Rekap Tahunan", format: ["Excel", "PDF"], description: "Rekapitulasi pembayaran tahunan" },
+      {
+        name: "Rekap Harian",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi pembayaran harian",
+      },
+      {
+        name: "Rekap Mingguan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi pembayaran mingguan",
+      },
+      {
+        name: "Rekap Bulanan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi pembayaran bulanan",
+      },
+      {
+        name: "Rekap Semester",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi pembayaran semester",
+      },
+      {
+        name: "Rekap Tahunan",
+        format: ["Excel", "PDF"],
+        description: "Rekapitulasi pembayaran tahunan",
+      },
     ],
   },
 ];
 
 const filterOptions = {
-  scope: ["Per Siswa", "Per Kelas", "Per Jurusan", "Per Angkatan", "Satu Sekolah"],
+  scope: [
+    "Per Siswa",
+    "Per Kelas",
+    "Per Jurusan",
+    "Per Angkatan",
+    "Satu Sekolah",
+  ],
   class: ["X RPL 1", "X RPL 2", "XI TKJ 1", "XI TKJ 2", "XII MM 1", "XII MM 2"],
   major: ["RPL", "TKJ", "MM", "TKRO"],
   grade: ["X", "XI", "XII"],
@@ -103,7 +222,9 @@ export default function ReportsModule() {
     alert(`Mengunduh ${reportName} dalam format ${format}...`);
   };
 
-  const currentCategory = reportCategories.find((cat) => cat.id === selectedCategory);
+  const currentCategory = reportCategories.find(
+    (cat) => cat.id === selectedCategory,
+  );
 
   return (
     <div className="space-y-6">
@@ -111,14 +232,16 @@ export default function ReportsModule() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <FileText className="h-6 w-6 text-info" />
+            <FileText className="text-info h-6 w-6" />
             <span>Sistem Laporan {process.env.NEXT_PUBLIC_CLIENT_NAME}</span>
           </CardTitle>
-          <CardDescription>Generate dan download laporan untuk semua modul administrasi sekolah</CardDescription>
+          <CardDescription>
+            Generate dan download laporan untuk semua modul administrasi sekolah
+          </CardDescription>
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
         {/* Category Sidebar */}
         <Card className="lg:col-span-1">
           <CardHeader>
@@ -126,8 +249,13 @@ export default function ReportsModule() {
           </CardHeader>
           <CardContent className="space-y-2">
             {reportCategories.map((category) => (
-              <Button key={category.id} variant={selectedCategory === category.id ? "default" : "ghost"} className="w-full justify-start" onClick={() => setSelectedCategory(category.id)}>
-                <category.icon className={`h-4 w-4 mr-2 ${category.color}`} />
+              <Button
+                key={category.id}
+                variant={selectedCategory === category.id ? "default" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <category.icon className={`mr-2 h-4 w-4 ${category.color}`} />
                 {category.title}
               </Button>
             ))}
@@ -135,7 +263,7 @@ export default function ReportsModule() {
         </Card>
 
         {/* Main Content */}
-        <div className="lg:col-span-3 space-y-6">
+        <div className="space-y-6 lg:col-span-3">
           {/* Filters */}
           <Card>
             <CardHeader>
@@ -145,10 +273,17 @@ export default function ReportsModule() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Cakupan</label>
-                  <Select value={filters.scope} onValueChange={(value) => setFilters({ ...filters, scope: value })}>
+                  <label className="mb-1 block text-sm font-medium">
+                    Cakupan
+                  </label>
+                  <Select
+                    value={filters.scope}
+                    onValueChange={(value) =>
+                      setFilters({ ...filters, scope: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -164,8 +299,15 @@ export default function ReportsModule() {
 
                 {filters.scope === "Per Kelas" && (
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Kelas</label>
-                    <Select value={filters.class} onValueChange={(value) => setFilters({ ...filters, class: value })}>
+                    <label className="mb-1 block text-sm font-medium">
+                      Kelas
+                    </label>
+                    <Select
+                      value={filters.class}
+                      onValueChange={(value) =>
+                        setFilters({ ...filters, class: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Pilih Kelas" />
                       </SelectTrigger>
@@ -182,8 +324,15 @@ export default function ReportsModule() {
 
                 {filters.scope === "Per Jurusan" && (
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Jurusan</label>
-                    <Select value={filters.major} onValueChange={(value) => setFilters({ ...filters, major: value })}>
+                    <label className="mb-1 block text-sm font-medium">
+                      Jurusan
+                    </label>
+                    <Select
+                      value={filters.major}
+                      onValueChange={(value) =>
+                        setFilters({ ...filters, major: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Pilih Jurusan" />
                       </SelectTrigger>
@@ -200,8 +349,15 @@ export default function ReportsModule() {
 
                 {filters.scope === "Per Angkatan" && (
                   <div>
-                    <label className="text-sm font-medium mb-1 block">Angkatan</label>
-                    <Select value={filters.grade} onValueChange={(value) => setFilters({ ...filters, grade: value })}>
+                    <label className="mb-1 block text-sm font-medium">
+                      Angkatan
+                    </label>
+                    <Select
+                      value={filters.grade}
+                      onValueChange={(value) =>
+                        setFilters({ ...filters, grade: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Pilih Angkatan" />
                       </SelectTrigger>
@@ -217,8 +373,15 @@ export default function ReportsModule() {
                 )}
 
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Periode</label>
-                  <Select value={filters.period} onValueChange={(value) => setFilters({ ...filters, period: value })}>
+                  <label className="mb-1 block text-sm font-medium">
+                    Periode
+                  </label>
+                  <Select
+                    value={filters.period}
+                    onValueChange={(value) =>
+                      setFilters({ ...filters, period: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -239,21 +402,36 @@ export default function ReportsModule() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                {currentCategory && <currentCategory.icon className={`h-5 w-5 ${currentCategory.color}`} />}
+                {currentCategory && (
+                  <currentCategory.icon
+                    className={`h-5 w-5 ${currentCategory.color}`}
+                  />
+                )}
                 <span>{currentCategory?.title}</span>
               </CardTitle>
-              <CardDescription>Pilih laporan yang ingin diunduh dengan format yang tersedia</CardDescription>
+              <CardDescription>
+                Pilih laporan yang ingin diunduh dengan format yang tersedia
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {currentCategory?.reports.map((report, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between rounded-lg border p-4"
+                  >
                     <div className="flex-1">
                       <h4 className="font-semibold">{report.name}</h4>
-                      <p className="text-sm text-muted-foreground">{report.description}</p>
-                      <div className="flex space-x-1 mt-2">
+                      <p className="text-muted-foreground text-sm">
+                        {report.description}
+                      </p>
+                      <div className="mt-2 flex space-x-1">
                         {report.format.map((format) => (
-                          <Badge key={format} variant="outline" className="text-xs">
+                          <Badge
+                            key={format}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             {format}
                           </Badge>
                         ))}
@@ -261,10 +439,18 @@ export default function ReportsModule() {
                     </div>
                     <div className="flex space-x-2">
                       {report.format.map((format) => (
-                        <Button key={format} size="sm" variant="outline" onClick={() => handleDownload(report.name, format)} className="flex items-center space-x-1">
-                          {format === "Excel" ?
-                            <FileSpreadsheet className="h-4 w-4 text-success" />
-                          : <FileText className="h-4 w-4 text-destructive" />}
+                        <Button
+                          key={format}
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDownload(report.name, format)}
+                          className="flex items-center space-x-1"
+                        >
+                          {format === "Excel" ? (
+                            <FileSpreadsheet className="text-success h-4 w-4" />
+                          ) : (
+                            <FileText className="text-destructive h-4 w-4" />
+                          )}
                           <Download className="h-3 w-3" />
                           <span>{format}</span>
                         </Button>
@@ -280,18 +466,29 @@ export default function ReportsModule() {
           {selectedCategory === "violations" && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Laporan Khusus Pelanggaran</CardTitle>
+                <CardTitle className="text-lg">
+                  Laporan Khusus Pelanggaran
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-warning-surface p-4 rounded-lg border border-warning-border">
+                <div className="bg-warning-surface border-warning-border rounded-lg border p-4">
                   <div className="flex items-start space-x-3">
-                    <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
+                    <AlertTriangle className="text-warning mt-0.5 h-5 w-5" />
                     <div>
-                      <h4 className="font-semibold text-warning-strong">Kartu Pelanggaran Siswa</h4>
-                      <p className="text-sm text-warning-strong mb-3">Laporan khusus berupa kartu pelanggaran individual untuk setiap siswa dalam format PDF</p>
-                      <Button size="sm" variant="outline" className="border-warning-border bg-transparent">
-                        <FileText className="h-4 w-4 mr-2 text-destructive" />
-                        <Download className="h-3 w-3 mr-1" />
+                      <h4 className="text-warning-strong font-semibold">
+                        Kartu Pelanggaran Siswa
+                      </h4>
+                      <p className="text-warning-strong mb-3 text-sm">
+                        Laporan khusus berupa kartu pelanggaran individual untuk
+                        setiap siswa dalam format PDF
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-warning-border bg-transparent"
+                      >
+                        <FileText className="text-destructive mr-2 h-4 w-4" />
+                        <Download className="mr-1 h-3 w-3" />
                         Download Kartu Pelanggaran
                       </Button>
                     </div>
@@ -307,18 +504,24 @@ export default function ReportsModule() {
               <CardTitle>Statistik Laporan</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-info-surface rounded-lg">
-                  <div className="text-2xl font-bold text-info">127</div>
-                  <div className="text-sm text-muted-foreground">Laporan Bulan Ini</div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="bg-info-surface rounded-lg p-4 text-center">
+                  <div className="text-info text-2xl font-bold">127</div>
+                  <div className="text-muted-foreground text-sm">
+                    Laporan Bulan Ini
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-success-surface rounded-lg">
-                  <div className="text-2xl font-bold text-success">1,247</div>
-                  <div className="text-sm text-muted-foreground">Total Download</div>
+                <div className="bg-success-surface rounded-lg p-4 text-center">
+                  <div className="text-success text-2xl font-bold">1,247</div>
+                  <div className="text-muted-foreground text-sm">
+                    Total Download
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-tertiary-surface rounded-lg">
-                  <div className="text-2xl font-bold text-tertiary">7</div>
-                  <div className="text-sm text-muted-foreground">Kategori Laporan</div>
+                <div className="bg-tertiary-surface rounded-lg p-4 text-center">
+                  <div className="text-tertiary text-2xl font-bold">7</div>
+                  <div className="text-muted-foreground text-sm">
+                    Kategori Laporan
+                  </div>
                 </div>
               </div>
             </CardContent>

@@ -1,5 +1,5 @@
 "use client";
-import { UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,7 +22,9 @@ export const useGetStudentByIdTahfidzGroup = (id: string) => {
     queryKey: ["students-by-tahfidz-group", id],
     queryFn: async () => {
       try {
-        const res = await apiGet<UserDataTypes[]>(`/api/students/tahfidzgroup/${id}`);
+        const res = await apiGet<UserDataTypes[]>(
+          `/api/students/tahfidzgroup/${id}`,
+        );
         return res.data;
       } catch (error) {
         console.error(error);

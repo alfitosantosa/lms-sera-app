@@ -12,7 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/ui/shadcn-io/copy-button";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
 import { AlertCircle, Download, FileText, Upload, X } from "lucide-react";
 import { unauthorized } from "next/navigation";
@@ -41,7 +49,9 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      const excelFiles = newFiles.filter((file) => file.name.endsWith(".xlsx") || file.name.endsWith(".xls"));
+      const excelFiles = newFiles.filter(
+        (file) => file.name.endsWith(".xlsx") || file.name.endsWith(".xls"),
+      );
 
       if (excelFiles.length !== newFiles.length) {
         toast.error("Hanya file Excel (.xlsx atau .xls) yang diperbolehkan");
@@ -54,7 +64,9 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
         try {
           // Dynamically import read-excel-file only on client side
           if (typeof window === "undefined") {
-            throw new Error("This function can only be called on the client side");
+            throw new Error(
+              "This function can only be called on the client side",
+            );
           }
           const readXlsxFile = (await import("read-excel-file")).default;
           const rows = await readXlsxFile(excelFiles[0]);
@@ -205,7 +217,8 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
 
             // Status
             status: row[20]?.toString() || "active",
-            isActive: row[21] === "true" || row[21] === true || row[21] === 1 || true,
+            isActive:
+              row[21] === "true" || row[21] === true || row[21] === 1 || true,
 
             // Relations (optional)
             relation: row[22]?.toString() || null,
@@ -233,7 +246,9 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
       setPreviewData([]);
 
       // Reset file input
-      const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+      const fileInput = document.getElementById(
+        "file-upload",
+      ) as HTMLInputElement;
       if (fileInput) fileInput.value = "";
     } catch (error: any) {
       console.error("Upload error:", error);
@@ -379,24 +394,27 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-3">Upload Page</div>
+      <div className="mb-3 text-3xl font-bold">Upload Page</div>
 
       <div className="mb-6">
         <Card className="p-6">
-          <div className="text-xl font-semibold mb-4">Upload Files</div>
+          <div className="mb-4 text-xl font-semibold">Upload Files</div>
 
           <div className="space-y-4">
             {/* Instructions */}
-            <div className="bg-info-surface p-4 rounded-lg border border-info-border">
+            <div className="bg-info-surface border-info-border rounded-lg border p-4">
               <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-info mt-0.5" />
-                <div className="text-sm text-info-strong">
-                  <p className="font-semibold mb-1">Petunjuk Upload:</p>
-                  <ul className="list-disc list-inside space-y-1">
+                <AlertCircle className="text-info mt-0.5 h-5 w-5" />
+                <div className="text-info-strong text-sm">
+                  <p className="mb-1 font-semibold">Petunjuk Upload:</p>
+                  <ul className="list-inside list-disc space-y-1">
                     <li>Download template terlebih dahulu</li>
                     <li>Isi data sesuai kolom yang tersedia</li>
                     <li>Field yang wajib diisi: Name</li>
-                    <li>Format tanggal: DD/MM/YYYY (contoh: 15/01/2005 atau 01/07/2023)</li>
+                    <li>
+                      Format tanggal: DD/MM/YYYY (contoh: 15/01/2005 atau
+                      01/07/2023)
+                    </li>
                     <li>Gender: L (Laki-laki) atau P (Perempuan)</li>
                     <li>Status: active atau inactive</li>
                     <li>Is Active: true atau false</li>
@@ -406,21 +424,43 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
             </div>
 
             <div>
-              <Input className="bg-background" id="file-upload" multiple onChange={handleFileChange} type="file" accept=".xlsx,.xls" />
-              <p className="text-sm text-muted-foreground mt-2">Format: .xlsx atau .xls | Maksimal file yang dapat di-upload sekaligus</p>
+              <Input
+                className="bg-background"
+                id="file-upload"
+                multiple
+                onChange={handleFileChange}
+                type="file"
+                accept=".xlsx,.xls"
+              />
+              <p className="text-muted-foreground mt-2 text-sm">
+                Format: .xlsx atau .xls | Maksimal file yang dapat di-upload
+                sekaligus
+              </p>
             </div>
 
             {files.length > 0 && (
               <div className="space-y-2">
                 <p className="text-sm font-semibold">File yang dipilih:</p>
                 {files.map((file, index) => (
-                  <div className="flex items-center justify-between rounded-md border p-2" key={index}>
+                  <div
+                    className="flex items-center justify-between rounded-md border p-2"
+                    key={index}
+                  >
                     <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <FileText className="text-muted-foreground h-4 w-4" />
                       <span className="text-sm">{file.name}</span>
-                      <span className="text-muted-foreground text-xs">({(file.size / 1024).toFixed(1)} KB)</span>
+                      <span className="text-muted-foreground text-xs">
+                        ({(file.size / 1024).toFixed(1)} KB)
+                      </span>
                     </div>
-                    <Button className="h-6 w-6" onClick={() => removeFile(index)} size="icon" type="button" variant="ghost" disabled={isUploading}>
+                    <Button
+                      className="h-6 w-6"
+                      onClick={() => removeFile(index)}
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                      disabled={isUploading}
+                    >
                       <X className="h-3 w-3" />
                     </Button>
                   </div>
@@ -429,17 +469,19 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
             )}
 
             {previewData.length > 0 && (
-              <div className="border rounded-lg p-4">
-                <p className="text-sm font-semibold mb-2">Preview Data (5 baris pertama):</p>
+              <div className="rounded-lg border p-4">
+                <p className="mb-2 text-sm font-semibold">
+                  Preview Data (5 baris pertama):
+                </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left p-2">Name</th>
-                        <th className="text-left p-2">Email</th>
-                        <th className="text-left p-2">NIK</th>
-                        <th className="text-left p-2">NISN</th>
-                        <th className="text-left p-2">Role ID</th>
+                        <th className="p-2 text-left">Name</th>
+                        <th className="p-2 text-left">Email</th>
+                        <th className="p-2 text-left">NIK</th>
+                        <th className="p-2 text-left">NISN</th>
+                        <th className="p-2 text-left">Role ID</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -449,7 +491,9 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                           <td className="p-2">{row.email}</td>
                           <td className="p-2">{row.nik}</td>
                           <td className="p-2">{row.nisn}</td>
-                          <td className="p-2 font-mono text-xs">{row.roleId}</td>
+                          <td className="p-2 font-mono text-xs">
+                            {row.roleId}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -460,13 +504,18 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
 
             <div className="flex gap-2">
               <Button onClick={downloadTemplate} variant="outline">
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="mr-2 h-4 w-4" />
                 Download Template
               </Button>
 
-              <Button onClick={handleUpload} disabled={files.length === 0 || isUploading}>
-                <Upload className="h-4 w-4 mr-2" />
-                {isUploading ? "Uploading..." : `Upload ${files.length > 0 ? `(${files.length} file)` : ""}`}
+              <Button
+                onClick={handleUpload}
+                disabled={files.length === 0 || isUploading}
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                {isUploading
+                  ? "Uploading..."
+                  : `Upload ${files.length > 0 ? `(${files.length} file)` : ""}`}
               </Button>
             </div>
           </div>
@@ -475,9 +524,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
 
       <div className="grid gap-6">
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Roles</div>
+          <div className="mb-2 text-xl font-bold">Data Roles</div>
           <Table>
-            <TableCaption>Semua Data Roles - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Roles - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -491,7 +542,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton onClick={() => toast.success("ID berhasil dicopy")} variant="secondary" content={data.id} />
+                    <CopyButton
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      variant="secondary"
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -500,9 +555,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Tahun Akademik</div>
+          <div className="mb-2 text-xl font-bold">Data Tahun Akademik</div>
           <Table>
-            <TableCaption>Semua Data Tahun Akademik - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Tahun Akademik - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Year</TableHead>
@@ -516,7 +573,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                   <TableCell>{data.year}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -525,9 +586,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Jurusan</div>
+          <div className="mb-2 text-xl font-bold">Data Jurusan</div>
           <Table>
-            <TableCaption>Semua Data Jurusan - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Jurusan - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -541,7 +604,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -550,9 +617,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Kelas</div>
+          <div className="mb-2 text-xl font-bold">Data Kelas</div>
           <Table>
-            <TableCaption>Semua Data Kelas - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Kelas - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -566,7 +635,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -574,9 +647,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
           </Table>
         </Card>
         <Card className="p-4">
-          <div className="text-xl font-bold mb-2">Data Tahfidz Group</div>
+          <div className="mb-2 text-xl font-bold">Data Tahfidz Group</div>
           <Table>
-            <TableCaption>Semua Data Tahfidz Group - Copy ID untuk digunakan di Excel</TableCaption>
+            <TableCaption>
+              Semua Data Tahfidz Group - Copy ID untuk digunakan di Excel
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -590,7 +665,11 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
                   <TableCell>
-                    <CopyButton variant="secondary" onClick={() => toast.success("ID berhasil dicopy")} content={data.id} />
+                    <CopyButton
+                      variant="secondary"
+                      onClick={() => toast.success("ID berhasil dicopy")}
+                      content={data.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -606,7 +685,8 @@ export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
   const foundationId = userData?.foundationId;
 

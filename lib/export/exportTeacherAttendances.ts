@@ -14,7 +14,12 @@ export interface TeacherAttendanceExportData {
   "Persentase Kehadiran": string;
 }
 
-export const exportTeacherAttendanceToExcel = async (data: any[], startDate: string, endDate: string, filename?: string) => {
+export const exportTeacherAttendanceToExcel = async (
+  data: any[],
+  startDate: string,
+  endDate: string,
+  filename?: string,
+) => {
   try {
     // Dynamically import xlsx only on client side
     if (typeof window === "undefined") {
@@ -58,7 +63,9 @@ export const exportTeacherAttendanceToExcel = async (data: any[], startDate: str
     ws["!cols"] = colWidths;
 
     // Create filename
-    const exportFilename = filename || `laporan-absensi-guru-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
+    const exportFilename =
+      filename ||
+      `laporan-absensi-guru-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
 
     // Write file
     XLSX.writeFile(wb, exportFilename);
@@ -78,7 +85,12 @@ export const exportTeacherAttendanceToExcel = async (data: any[], startDate: str
   }
 };
 
-export const exportTeacherAttendanceDetailToExcel = async (data: any[], startDate: string, endDate: string, filename?: string) => {
+export const exportTeacherAttendanceDetailToExcel = async (
+  data: any[],
+  startDate: string,
+  endDate: string,
+  filename?: string,
+) => {
   try {
     // Dynamically import xlsx only on client side
     if (typeof window === "undefined") {
@@ -105,13 +117,26 @@ export const exportTeacherAttendanceDetailToExcel = async (data: any[], startDat
     }));
 
     const wsSummary = XLSX.utils.json_to_sheet(summaryData);
-    wsSummary["!cols"] = [{ wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 15 }];
+    wsSummary["!cols"] = [
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 12 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 15 },
+    ];
     XLSX.utils.book_append_sheet(wb, wsSummary, "Ringkasan");
 
     // Sheet 2: Detail records
     const detailData: any[] = [];
     data.forEach((teacher) => {
-      if (teacher.teacherAttendances && Array.isArray(teacher.teacherAttendances)) {
+      if (
+        teacher.teacherAttendances &&
+        Array.isArray(teacher.teacherAttendances)
+      ) {
         teacher.teacherAttendances.forEach((attendance: any) => {
           detailData.push({
             "Nama Guru": teacher.name,
@@ -120,7 +145,9 @@ export const exportTeacherAttendanceDetailToExcel = async (data: any[], startDat
               locale: idLocale,
             }),
             Status: getStatusLabel(attendance.status),
-            "Jam Check-in": attendance.checkinTime ? format(new Date(attendance.checkinTime), "HH:mm") : "-",
+            "Jam Check-in": attendance.checkinTime
+              ? format(new Date(attendance.checkinTime), "HH:mm")
+              : "-",
             Catatan: attendance.notes || "-",
           });
         });
@@ -128,11 +155,20 @@ export const exportTeacherAttendanceDetailToExcel = async (data: any[], startDat
     });
 
     const wsDetail = XLSX.utils.json_to_sheet(detailData);
-    wsDetail["!cols"] = [{ wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 25 }];
+    wsDetail["!cols"] = [
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 25 },
+    ];
     XLSX.utils.book_append_sheet(wb, wsDetail, "Detail Absensi");
 
     // Create filename
-    const exportFilename = filename || `laporan-absensi-detail-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
+    const exportFilename =
+      filename ||
+      `laporan-absensi-detail-${format(new Date(), "yyyy-MM-dd")}.xlsx`;
 
     // Write file
     XLSX.writeFile(wb, exportFilename);

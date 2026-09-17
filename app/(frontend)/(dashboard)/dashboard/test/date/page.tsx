@@ -2,7 +2,7 @@
 
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
+import { type DateRange } from "react-day-picker";
 
 export default function DatePage() {
   const [date, setDate] = useState<DateRange | undefined>({
@@ -11,7 +11,7 @@ export default function DatePage() {
   });
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="space-y-8 p-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
           Date Picker Test Page
@@ -29,8 +29,8 @@ export default function DatePage() {
 
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">State Value</h2>
-          <div className="rounded-md bg-foreground p-4">
-            <pre className="text-xs text-background overscroll-x-auto">
+          <div className="bg-foreground rounded-md p-4">
+            <pre className="text-background overscroll-x-auto text-xs">
               {JSON.stringify(date, null, 2)}
             </pre>
           </div>

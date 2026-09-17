@@ -15,8 +15,8 @@ import {
 } from "@/app/(hooks)/hooks/Users/useUsers";
 import {
   getErrorMessage,
-  SelectOption,
-  tahfidzGroupTypes,
+  type SelectOption,
+  type tahfidzGroupTypes,
 } from "@/app/(types)";
 import {
   AlertDialog,
@@ -218,23 +218,23 @@ function StudentSelector({
 
       {/* Selected Students Display */}
       {selectedStudents.length > 0 && (
-        <div className="flex flex-wrap gap-2 p-3 border rounded-md bg-muted/30">
+        <div className="bg-muted/30 flex flex-wrap gap-2 rounded-md border p-3">
           {selectedStudents.map((student) => (
             <Badge
               key={student.id}
               variant="secondary"
-              className="flex items-center gap-2 py-1.5 px-3"
+              className="flex items-center gap-2 px-3 py-1.5"
             >
               <div className="flex flex-col items-start">
                 <span className="font-medium">{student.name}</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-muted-foreground text-xs">
                   NISN: {student.nisn} • {student.class?.name || "Tanpa Kelas"}
                 </span>
               </div>
               <Button
                 onClick={() => removeStudent(student.id)}
                 disabled={disabled}
-                className="ml-1 hover:bg-destructive/20 rounded-full p-0.5"
+                className="hover:bg-destructive/20 ml-1 rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
               </Button>
@@ -251,7 +251,7 @@ function StudentSelector({
         disabled={disabled}
         className="w-full justify-start"
       >
-        <Search className="h-4 w-4 mr-2" />
+        <Search className="mr-2 h-4 w-4" />
         {selectedStudents.length === 0
           ? "Pilih Siswa"
           : `${selectedStudents.length} siswa dipilih`}
@@ -267,7 +267,7 @@ function StudentSelector({
           <div className="space-y-4">
             {/* Search Input */}
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
               <Input
                 placeholder="Cari nama, NISN, atau kelas..."
                 value={searchTerm}
@@ -277,9 +277,9 @@ function StudentSelector({
             </div>
 
             {/* Student List */}
-            <div className="max-h-96 overflow-y-auto space-y-2 border rounded-md p-2">
+            <div className="max-h-96 space-y-2 overflow-y-auto rounded-md border p-2">
               {filteredStudents.length === 0 ? (
-                <div className="text-center p-8 text-muted-foreground">
+                <div className="text-muted-foreground p-8 text-center">
                   {searchTerm
                     ? "Tidak ada siswa yang cocok dengan pencarian"
                     : "Tidak ada siswa tersedia"}
@@ -288,16 +288,16 @@ function StudentSelector({
                 filteredStudents.map((student) => (
                   <div
                     key={student.id}
-                    className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer"
+                    className="hover:bg-muted flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
                     onClick={() => toggleStudent(student.id)}
                   >
                     <Checkbox
                       checked={selectedStudentIds.includes(student.id)}
                       onCheckedChange={() => toggleStudent(student.id)}
                     />
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{student.name}</p>
-                      <div className="flex gap-2 mt-1">
+                      <div className="mt-1 flex gap-2">
                         <Badge variant="outline" className="text-xs">
                           NISN: {student.nisn || "N/A"}
                         </Badge>
@@ -317,8 +317,8 @@ function StudentSelector({
             </div>
 
             {/* Footer with count */}
-            <div className="flex items-center justify-between pt-2 border-t">
-              <p className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between border-t pt-2">
+              <p className="text-muted-foreground text-sm">
                 {selectedStudentIds.length} siswa dipilih
               </p>
               <div className="flex gap-2">
@@ -446,19 +446,19 @@ function AvatarUpload({
     <div className="space-y-4">
       <Label htmlFor="picture">Avatar</Label>
 
-      <div className="flex gap-4 items-start">
+      <div className="flex items-start gap-4">
         {/* Preview */}
         <div className="relative">
           {previewUrl ? (
-            <div className="relative group">
+            <div className="group relative">
               <Image
                 src={previewUrl}
                 alt="Avatar preview"
                 width={20}
                 height={20}
-                className="w-24 h-24 rounded-full object-cover border-2"
+                className="h-24 w-24 rounded-full border-2 object-cover"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-navy/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-navy/50 absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
                   type="button"
                   size="sm"
@@ -471,8 +471,8 @@ function AvatarUpload({
               </div>
             </div>
           ) : (
-            <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center border-2 border-dashed">
-              <User className="h-10 w-10 text-muted-foreground" />
+            <div className="bg-muted flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
+              <User className="text-muted-foreground h-10 w-10" />
             </div>
           )}
         </div>
@@ -498,7 +498,7 @@ function AvatarUpload({
               }
               className="flex-1"
             >
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               {isUploading ? "Mengunggah..." : "Upload Avatar"}
             </Button>
 
@@ -514,7 +514,7 @@ function AvatarUpload({
             )}
           </div>
 
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Format: JPG, PNG, GIF. Maksimal 5MB.
           </p>
         </div>
@@ -531,7 +531,7 @@ function AvatarUpload({
               <Image
                 src={previewUrl}
                 alt="Avatar preview"
-                className="max-w-full max-h-[70vh] rounded-lg"
+                className="max-h-[70vh] max-w-full rounded-lg"
                 width={500}
                 height={500}
               />
@@ -630,7 +630,7 @@ function BetterAuthSelector({
 
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
               <Input
                 placeholder="Cari nama atau email..."
                 value={searchTerm}
@@ -639,13 +639,13 @@ function BetterAuthSelector({
               />
             </div>
 
-            <div className="max-h-96 overflow-y-auto space-y-2">
+            <div className="max-h-96 space-y-2 overflow-y-auto">
               {betterAuthsLoading ? (
                 <div className="flex items-center justify-center p-8">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                  <div className="border-primary h-6 w-6 animate-spin rounded-full border-b-2"></div>
                 </div>
               ) : filteredbetterAuths.length === 0 ? (
-                <div className="text-center p-8 text-muted-foreground">
+                <div className="text-muted-foreground p-8 text-center">
                   {searchTerm
                     ? "Tidak ada user yang cocok dengan pencarian"
                     : "Tidak ada Betterauth user tersedia"}
@@ -654,7 +654,7 @@ function BetterAuthSelector({
                 filteredbetterAuths.map((user: BetterAuthUser) => (
                   <div
                     key={user.id}
-                    className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted cursor-pointer"
+                    className="hover:bg-muted flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
                     onClick={() => handleSelect(user)}
                   >
                     <div className="flex">
@@ -667,16 +667,16 @@ function BetterAuthSelector({
                           className="h-10 w-10 rounded-full"
                         />
                       ) : (
-                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                        <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
                           <User className="h-5 w-5" />
                         </div>
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">
                         {user.name}
                       </p>
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-muted-foreground truncate text-sm">
                         {user.email || "No email"}
                       </p>
                     </div>
@@ -894,7 +894,7 @@ export function UserFormDialog({
                   {...register("nisn")}
                 />
                 {errors.nisn && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.nisn.message}
                   </p>
                 )}
@@ -907,7 +907,7 @@ export function UserFormDialog({
                   {...register("nik")}
                 />
                 {errors.nik && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.nik.message}
                   </p>
                 )}
@@ -923,7 +923,7 @@ export function UserFormDialog({
                   {...register("birthPlace")}
                 />
                 {errors.birthPlace && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthPlace.message}
                   </p>
                 )}
@@ -932,7 +932,7 @@ export function UserFormDialog({
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
                 {errors.birthDate && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthDate.message}
                   </p>
                 )}
@@ -947,7 +947,7 @@ export function UserFormDialog({
                 {...register("address")}
               />
               {errors.address && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.address.message}
                 </p>
               )}
@@ -1088,7 +1088,7 @@ export function UserFormDialog({
                   {...register("employeeId")}
                 />
                 {errors.employeeId && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.employeeId.message}
                   </p>
                 )}
@@ -1112,7 +1112,7 @@ export function UserFormDialog({
                   {...register("birthPlace")}
                 />
                 {errors.birthPlace && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthPlace.message}
                   </p>
                 )}
@@ -1121,7 +1121,7 @@ export function UserFormDialog({
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
                 {errors.birthDate && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthDate.message}
                   </p>
                 )}
@@ -1137,7 +1137,7 @@ export function UserFormDialog({
                   {...register("address")}
                 />
                 {errors.address && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.address.message}
                   </p>
                 )}
@@ -1159,8 +1159,8 @@ export function UserFormDialog({
           <>
             {/* Student Selection for Parent */}
             {userLoading ? (
-              <div className="flex items-center justify-center h-20 border rounded-md">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              <div className="flex h-20 items-center justify-center rounded-md border">
+                <div className="border-primary h-6 w-6 animate-spin rounded-full border-b-2"></div>
               </div>
             ) : (
               <StudentSelector
@@ -1189,12 +1189,12 @@ export function UserFormDialog({
                 </SelectContent>
               </Select>
               {errors.relation && (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {errors.relation.message}
                 </p>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-4 ">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="address">Alamat</Label>
                 <Textarea
@@ -1228,7 +1228,7 @@ export function UserFormDialog({
                   {...register("employeeId")}
                 />
                 {errors.employeeId && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.employeeId.message}
                   </p>
                 )}
@@ -1252,7 +1252,7 @@ export function UserFormDialog({
                   {...register("birthPlace")}
                 />
                 {errors.birthPlace && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthPlace.message}
                   </p>
                 )}
@@ -1261,7 +1261,7 @@ export function UserFormDialog({
                 <Label htmlFor="birthDate">Tanggal Lahir *</Label>
                 <Input id="birthDate" type="date" {...register("birthDate")} />
                 {errors.birthDate && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.birthDate.message}
                   </p>
                 )}
@@ -1277,7 +1277,7 @@ export function UserFormDialog({
                   {...register("address")}
                 />
                 {errors.address && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.address.message}
                   </p>
                 )}
@@ -1329,16 +1329,16 @@ export function UserFormDialog({
   if (rolesLoading) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editData ? "Edit User" : "Tambah User Baru"}
             </DialogTitle>
           </DialogHeader>
-          <div className="flex items-center justify-center h-32">
+          <div className="flex h-32 items-center justify-center">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2"></div>
+              <p className="text-muted-foreground mt-2 text-sm">
                 Memuat data...
               </p>
             </div>
@@ -1350,7 +1350,7 @@ export function UserFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {editData ? "Edit User" : "Tambah User Baru"}
@@ -1379,7 +1379,7 @@ export function UserFormDialog({
                   {...register("name")}
                 />
                 {errors.name && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.name.message}
                   </p>
                 )}
@@ -1393,7 +1393,7 @@ export function UserFormDialog({
                   {...register("email")}
                 />
                 {errors.email && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.email.message}
                   </p>
                 )}
@@ -1419,7 +1419,7 @@ export function UserFormDialog({
                   </SelectContent>
                 </Select>
                 {errors.roleId && (
-                  <p className="text-sm text-destructive">
+                  <p className="text-destructive text-sm">
                     {errors.roleId.message}
                   </p>
                 )}
@@ -1478,7 +1478,7 @@ export function UserFormDialog({
             </div>
           )}
 
-          <div className="flex justify-end gap-2 pt-4 border-t">
+          <div className="flex justify-end gap-2 border-t pt-4">
             <Button
               type="button"
               variant="outline"
@@ -1546,7 +1546,7 @@ export function DeleteUserDialog({
           <AlertDialogCancel>Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            className="bg-destructive text-white hover:bg-destructive-strong"
+            className="bg-destructive hover:bg-destructive-strong text-white"
             disabled={deleteUser.isPending}
           >
             {deleteUser.isPending ? "Loading..." : "Hapus"}
@@ -1602,11 +1602,11 @@ export function DeleteUserBulkDialog({
               </p>
 
               {userDatas && userDatas.length > 0 && (
-                <div className="max-h-60 overflow-y-auto space-y-2 rounded-md border p-3 bg-muted/30">
+                <div className="bg-muted/30 max-h-60 space-y-2 overflow-y-auto rounded-md border p-3">
                   {userDatas.map((data) => (
                     <div
                       key={data.id}
-                      className="flex items-center gap-3 p-2 rounded-md bg-background border"
+                      className="bg-background flex items-center gap-3 rounded-md border p-2"
                     >
                       {data.avatarUrl ? (
                         <Image
@@ -1614,26 +1614,26 @@ export function DeleteUserBulkDialog({
                           alt={data.name}
                           width={32}
                           height={32}
-                          className="w-8 h-8 rounded-full object-cover"
+                          className="h-8 w-8 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                          <User className="h-4 w-4 text-muted-foreground" />
+                        <div className="bg-muted flex h-8 w-8 items-center justify-center rounded-full">
+                          <User className="text-muted-foreground h-4 w-4" />
                         </div>
                       )}
 
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">
                           {data.name}
                         </p>
-                        <div className="flex gap-2 mt-0.5">
+                        <div className="mt-0.5 flex gap-2">
                           {data.role && (
                             <Badge variant="outline" className="text-xs">
                               {data.role.name}
                             </Badge>
                           )}
                           {data.email && (
-                            <span className="text-xs text-muted-foreground truncate">
+                            <span className="text-muted-foreground truncate text-xs">
                               {data.email}
                             </span>
                           )}
@@ -1652,7 +1652,7 @@ export function DeleteUserBulkDialog({
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            className="bg-destructive text-white hover:bg-destructive-strong"
+            className="bg-destructive hover:bg-destructive-strong text-white"
             disabled={
               deleteUser.isPending || !userDatas || userDatas.length === 0
             }

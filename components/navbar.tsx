@@ -125,10 +125,10 @@ export default function Navbar() {
   if (isPending) {
     return (
       <div className="w-full">
-        <div className="flex items-center justify-center h-32">
+        <div className="flex h-32 items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2"></div>
+            <p className="text-muted-foreground mt-2 text-sm">
               Memuat data anda...
             </p>
           </div>
@@ -140,9 +140,9 @@ export default function Navbar() {
   // Not logged in - show navbar with login button
   if (!userData) {
     return (
-      <header className="bg-background shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+      <header className="bg-background border-b shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
               <Image
                 src={Logo}
@@ -150,10 +150,10 @@ export default function Navbar() {
                 className="h-10 w-10"
               />
               <div className="hidden md:block">
-                <h1 className="text-xl font-bold text-foreground">
+                <h1 className="text-foreground text-xl font-bold">
                   {process.env.NEXT_PUBLIC_CLIENT_NAME}
                 </h1>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Sistem Informasi Sekolah
                 </p>
               </div>
@@ -172,9 +172,9 @@ export default function Navbar() {
 
   // Logged in - show full navbar with avatar and menu
   return (
-    <header className="bg-background shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+    <header className="bg-background border-b shadow-sm">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Image
@@ -183,10 +183,10 @@ export default function Navbar() {
                 className="h-10 w-10"
               />
               <div className="hidden md:block">
-                <h1 className="text-xl font-bold text-foreground">
+                <h1 className="text-foreground text-xl font-bold">
                   {process.env.NEXT_PUBLIC_CLIENT_NAME}
                 </h1>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Sistem Informasi Sekolah
                 </p>
               </div>
@@ -245,10 +245,10 @@ export default function Navbar() {
               <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">
+                    <p className="text-sm leading-none font-medium">
                       {userData.name || "User"}
                     </p>
-                    <p className="text-xs leading-none text-muted-foreground">
+                    <p className="text-muted-foreground text-xs leading-none">
                       {userData.email}
                     </p>
                   </div>

@@ -2,7 +2,14 @@
 
 import { getErrorMessage } from "@/app/(types)";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/authClients";
@@ -17,7 +24,12 @@ interface ChangePasswordDialogProps {
   userName: string;
 }
 
-export function ChangePasswordDialog({ open, onOpenChange, userId, userName }: ChangePasswordDialogProps) {
+export function ChangePasswordDialog({
+  open,
+  onOpenChange,
+  userId,
+  userName,
+}: ChangePasswordDialogProps) {
   const [newPassword, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -89,18 +101,43 @@ export function ChangePasswordDialog({ open, onOpenChange, userId, userName }: C
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="new-password">Password Baru</Label>
-              <Input id="new-password" type="password" placeholder="Masukkan password baru" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} disabled={isLoading} required minLength={8} />
-              <p className="text-xs text-muted-foreground">Minimal 8 karakter</p>
+              <Input
+                id="new-password"
+                type="password"
+                placeholder="Masukkan password baru"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                disabled={isLoading}
+                required
+                minLength={8}
+              />
+              <p className="text-muted-foreground text-xs">
+                Minimal 8 karakter
+              </p>
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="confirm-password">Konfirmasi Password</Label>
-              <Input id="confirm-password" type="password" placeholder="Konfirmasi password baru" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} disabled={isLoading} required minLength={8} />
+              <Input
+                id="confirm-password"
+                type="password"
+                placeholder="Konfirmasi password baru"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={isLoading}
+                required
+                minLength={8}
+              />
             </div>
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              disabled={isLoading}
+            >
               Batal
             </Button>
             <Button type="submit" disabled={isLoading}>

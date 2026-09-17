@@ -18,10 +18,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   const transactions = await prisma.paymentTransaction.findMany({
@@ -35,7 +38,17 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { paymentId, transactionId, orderId, grossAmount, paymentType, transactionTime, transactionStatus, fraudStatus, finishRedirectUrl } = await request.json();
+    const {
+      paymentId,
+      transactionId,
+      orderId,
+      grossAmount,
+      paymentType,
+      transactionTime,
+      transactionStatus,
+      fraudStatus,
+      finishRedirectUrl,
+    } = await request.json();
 
     const owned = await prisma.payment.findFirst({
       where: { id: paymentId, major: { foundationId: t.foundationId } },

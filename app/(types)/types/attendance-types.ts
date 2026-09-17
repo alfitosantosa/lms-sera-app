@@ -12,8 +12,8 @@
 //   @@map("attendances")
 // }
 
-import { ScheduleTypes } from "./schedule-types";
-import { UserDataTypes } from "./userData-types";
+import { type ScheduleTypes } from "./schedule-types";
+import { type UserDataTypes } from "./userData-types";
 
 export type attendanceTypes = {
   id: string;

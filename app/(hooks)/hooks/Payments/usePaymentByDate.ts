@@ -1,8 +1,16 @@
-import { PaymentData } from "@/app/(types)";
+import { type PaymentData } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
-export const usePaymentsByDate = ({ fromdate, todate, majorId }: { fromdate?: Date; todate?: Date; majorId?: string }) => {
+export const usePaymentsByDate = ({
+  fromdate,
+  todate,
+  majorId,
+}: {
+  fromdate?: Date;
+  todate?: Date;
+  majorId?: string;
+}) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
     const year = date.getFullYear();
@@ -22,14 +30,23 @@ export const usePaymentsByDate = ({ fromdate, todate, majorId }: { fromdate?: Da
     normalizedToDate.setHours(23, 59, 59, 999);
   }
 
-  const fromdateStr = normalizedFromDate ? formatLocalDate(normalizedFromDate) : undefined;
-  const todateStr = normalizedToDate ? formatLocalDate(normalizedToDate) : undefined;
+  const fromdateStr = normalizedFromDate
+    ? formatLocalDate(normalizedFromDate)
+    : undefined;
+  const todateStr = normalizedToDate
+    ? formatLocalDate(normalizedToDate)
+    : undefined;
 
   return useQuery({
     queryKey: ["payments-by-date", fromdateStr, todateStr, majorId],
     queryFn: async () => {
       // Jika tidak ada date range, return empty array
-      if (!normalizedFromDate || !normalizedToDate || !fromdateStr || !todateStr) {
+      if (
+        !normalizedFromDate ||
+        !normalizedToDate ||
+        !fromdateStr ||
+        !todateStr
+      ) {
         return [];
       }
 
@@ -43,7 +60,9 @@ export const usePaymentsByDate = ({ fromdate, todate, majorId }: { fromdate?: Da
         params.majorId = majorId;
       }
 
-      const response = await apiGet<PaymentData[]>("/api/payment/filterdate", { params });
+      const response = await apiGet<PaymentData[]>("/api/payment/filterdate", {
+        params,
+      });
       return response.data;
     },
     // ✅ FIX: Enable query when dates are available
@@ -53,7 +72,15 @@ export const usePaymentsByDate = ({ fromdate, todate, majorId }: { fromdate?: Da
   });
 };
 
-export const usePaymentsDashboardByDate = ({ fromdate, todate, majorId }: { fromdate?: Date; todate?: Date; majorId?: string }) => {
+export const usePaymentsDashboardByDate = ({
+  fromdate,
+  todate,
+  majorId,
+}: {
+  fromdate?: Date;
+  todate?: Date;
+  majorId?: string;
+}) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
     const year = date.getFullYear();
@@ -73,14 +100,23 @@ export const usePaymentsDashboardByDate = ({ fromdate, todate, majorId }: { from
     normalizedToDate.setHours(23, 59, 59, 999);
   }
 
-  const fromdateStr = normalizedFromDate ? formatLocalDate(normalizedFromDate) : undefined;
-  const todateStr = normalizedToDate ? formatLocalDate(normalizedToDate) : undefined;
+  const fromdateStr = normalizedFromDate
+    ? formatLocalDate(normalizedFromDate)
+    : undefined;
+  const todateStr = normalizedToDate
+    ? formatLocalDate(normalizedToDate)
+    : undefined;
 
   return useQuery({
     queryKey: ["payments-dashboard-chart", fromdateStr, todateStr, majorId],
     queryFn: async () => {
       // Jika tidak ada date range, return empty dashboard data
-      if (!normalizedFromDate || !normalizedToDate || !fromdateStr || !todateStr) {
+      if (
+        !normalizedFromDate ||
+        !normalizedToDate ||
+        !fromdateStr ||
+        !todateStr
+      ) {
         return {
           summary: { total: 0, sumTransaction: 0 },
           yearMonthly: [],

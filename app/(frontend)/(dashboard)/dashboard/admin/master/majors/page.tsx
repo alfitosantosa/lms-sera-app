@@ -1,25 +1,82 @@
 "use client";
 
-import { useCreateMajor, useDeleteMajor, useGetMajors, useUpdateMajor } from "@/app/(hooks)/hooks/Majors/useMajors";
+import {
+  useCreateMajor,
+  useDeleteMajor,
+  useGetMajors,
+  useUpdateMajor,
+} from "@/app/(hooks)/hooks/Majors/useMajors";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { getErrorMessage, majorTypes } from "@/app/(types)";
+import { getErrorMessage } from "@/app/(types)";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, Eye, MoreHorizontal, Pencil, PenLine, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  Eye,
+  MoreHorizontal,
+  Pencil,
+  PenLine,
+  Plus,
+  Search,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
@@ -48,8 +105,14 @@ export type MajorData = {
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 const majorSchema = z.object({
-  code: z.string().min(1, "Kode Branch wajib diisi").max(10, "Kode maksimal 10 karakter"),
-  name: z.string().min(1, "Nama Branch wajib diisi").max(100, "Nama maksimal 100 karakter"),
+  code: z
+    .string()
+    .min(1, "Kode Branch wajib diisi")
+    .max(10, "Kode maksimal 10 karakter"),
+  name: z
+    .string()
+    .min(1, "Nama Branch wajib diisi")
+    .max(100, "Nama maksimal 100 karakter"),
   description: z.string().optional(),
   address: z.string().optional(),
   phone: z.string().optional(),
@@ -62,8 +125,18 @@ type MajorFormValues = z.infer<typeof majorSchema>;
 
 // ─── SignatureUpload Component ────────────────────────────────────────────────
 // Mengikuti pola AvatarUpload persis, disesuaikan untuk tanda tangan
-function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = false }: { currentSignatureUrl?: string; onUploadSuccess: (url: string) => void; disabled?: boolean }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(currentSignatureUrl || null);
+function SignatureUpload({
+  currentSignatureUrl,
+  onUploadSuccess,
+  disabled = false,
+}: {
+  currentSignatureUrl?: string;
+  onUploadSuccess: (url: string) => void;
+  disabled?: boolean;
+}) {
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+    currentSignatureUrl || null,
+  );
   const [isUploading, setIsUploading] = React.useState(false);
   const [showPreview, setShowPreview] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -123,7 +196,8 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
         throw new Error(errorData.message || "Gagal mengupload file");
       }
       const data = await res.json();
-      if (!data.fileUrl) throw new Error("URL file tidak ditemukan dalam respons server");
+      if (!data.fileUrl)
+        throw new Error("URL file tidak ditemukan dalam respons server");
       setPreviewUrl(data.fileUrl);
       onUploadSuccess(data.fileUrl);
       toast.success("Tanda tangan berhasil diunggah!");
@@ -137,51 +211,88 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
   return (
     <div className="space-y-3">
       <Label>
-        Tanda Tangan Bendahara <span className="text-muted-foreground text-xs">(opsional)</span>
+        Tanda Tangan Bendahara{" "}
+        <span className="text-muted-foreground text-xs">(opsional)</span>
       </Label>
 
-      <div className="flex gap-4 items-start">
+      <div className="flex items-start gap-4">
         {/* Preview area */}
         <div className="relative shrink-0">
-          {previewUrl ?
-            <div className="relative group">
+          {previewUrl ? (
+            <div className="group relative">
               {/* Tanda tangan ditampilkan dalam kotak persegi panjang landscape */}
-              <div className="w-36 h-20 rounded-md border-2 overflow-hidden bg-card flex items-center justify-center">
-                <Image src={previewUrl} alt="Preview tanda tangan" width={144} height={80} className="object-contain w-full h-full" />
+              <div className="bg-card flex h-20 w-36 items-center justify-center overflow-hidden rounded-md border-2">
+                <Image
+                  src={previewUrl}
+                  alt="Preview tanda tangan"
+                  width={144}
+                  height={80}
+                  className="h-full w-full object-contain"
+                />
               </div>
               {/* Overlay hover untuk preview fullscreen */}
-              <div className="absolute inset-0 flex items-center justify-center bg-navy/40 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" size="sm" variant="ghost" className="text-white hover:text-white h-7 w-7 p-0" onClick={() => setShowPreview(true)}>
+              <div className="bg-navy/40 absolute inset-0 flex items-center justify-center rounded-md opacity-0 transition-opacity group-hover:opacity-100">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 w-7 p-0 text-white hover:text-white"
+                  onClick={() => setShowPreview(true)}
+                >
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
             </div>
-          : /* Placeholder ketika belum ada tanda tangan */
-            <div className="w-36 h-20 rounded-md bg-muted flex flex-col items-center justify-center border-2 border-dashed gap-1">
-              <PenLine className="h-6 w-6 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">Belum ada</span>
+          ) : (
+            /* Placeholder ketika belum ada tanda tangan */
+            <div className="bg-muted flex h-20 w-36 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed">
+              <PenLine className="text-muted-foreground h-6 w-6" />
+              <span className="text-muted-foreground text-xs">Belum ada</span>
             </div>
-          }
+          )}
         </div>
 
         {/* Upload controls */}
         <div className="flex-1 space-y-2">
-          <Input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} disabled={disabled || isUploading} />
+          <Input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={disabled || isUploading}
+          />
 
           <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={handleUpload} disabled={disabled || isUploading || !fileInputRef.current?.files?.[0]} className="flex-1">
-              <Upload className="h-4 w-4 mr-2" />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleUpload}
+              disabled={
+                disabled || isUploading || !fileInputRef.current?.files?.[0]
+              }
+              className="flex-1"
+            >
+              <Upload className="mr-2 h-4 w-4" />
               {isUploading ? "Mengunggah..." : "Upload Tanda Tangan"}
             </Button>
 
             {previewUrl && (
-              <Button type="button" variant="outline" onClick={handleRemove} disabled={disabled || isUploading} title="Hapus tanda tangan">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleRemove}
+                disabled={disabled || isUploading}
+                title="Hapus tanda tangan"
+              >
                 <X className="h-4 w-4" />
               </Button>
             )}
           </div>
 
-          <p className="text-xs text-muted-foreground">Disarankan: latar belakang putih/transparan. Format JPG, PNG. Maks. 5MB.</p>
+          <p className="text-muted-foreground text-xs">
+            Disarankan: latar belakang putih/transparan. Format JPG, PNG. Maks.
+            5MB.
+          </p>
         </div>
       </div>
 
@@ -192,10 +303,18 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
             <DialogHeader>
               <DialogTitle>Preview Tanda Tangan</DialogTitle>
             </DialogHeader>
-            <div className="flex items-center justify-center p-4 bg-muted/50 rounded-lg min-h-32">
-              <Image src={previewUrl} alt="Preview tanda tangan" className="max-w-full max-h-64 object-contain rounded" width={400} height={200} />
+            <div className="bg-muted/50 flex min-h-32 items-center justify-center rounded-lg p-4">
+              <Image
+                src={previewUrl}
+                alt="Preview tanda tangan"
+                className="max-h-64 max-w-full rounded object-contain"
+                width={400}
+                height={200}
+              />
             </div>
-            <p className="text-xs text-center text-muted-foreground">Tanda tangan akan muncul di dokumen resmi seperti kwitansi.</p>
+            <p className="text-muted-foreground text-center text-xs">
+              Tanda tangan akan muncul di dokumen resmi seperti kwitansi.
+            </p>
           </DialogContent>
         </Dialog>
       )}
@@ -204,7 +323,17 @@ function SignatureUpload({ currentSignatureUrl, onUploadSuccess, disabled = fals
 }
 
 // ─── MajorFormDialog ──────────────────────────────────────────────────────────
-function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: MajorData | null; onSuccess: () => void }) {
+function MajorFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: MajorData | null;
+  onSuccess: () => void;
+}) {
   const createMajor = useCreateMajor();
   const updateMajor = useUpdateMajor();
 
@@ -278,9 +407,11 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Branch" : "Tambah Branch Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit Branch" : "Tambah Branch Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -291,14 +422,25 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
                 Kode Branch <span className="text-destructive">*</span>
               </Label>
               <Input id="code" placeholder="SMAIT001" {...register("code")} />
-              {errors.code && <p className="text-sm text-destructive">{errors.code.message}</p>}
+              {errors.code && (
+                <p className="text-destructive text-sm">
+                  {errors.code.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label>Status</Label>
-              <div className="flex items-center gap-2 h-10">
-                <Switch id="isActive" checked={isActive} onCheckedChange={(checked) => setValue("isActive", checked)} />
-                <Label htmlFor="isActive" className="cursor-pointer font-normal">
+              <div className="flex h-10 items-center gap-2">
+                <Switch
+                  id="isActive"
+                  checked={isActive}
+                  onCheckedChange={(checked) => setValue("isActive", checked)}
+                />
+                <Label
+                  htmlFor="isActive"
+                  className="cursor-pointer font-normal"
+                >
                   {isActive ? "Aktif" : "Tidak Aktif"}
                 </Label>
               </div>
@@ -309,58 +451,101 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
             <Label htmlFor="name">
               Nama Branch <span className="text-destructive">*</span>
             </Label>
-            <Input id="name" placeholder={`Contoh: SMA IT ${process.env.NEXT_PUBLIC_CLIENT_NAME?.toUpperCase()}`} {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              placeholder={`Contoh: SMA IT ${process.env.NEXT_PUBLIC_CLIENT_NAME?.toUpperCase()}`}
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="description">
-              Deskripsi <span className="text-muted-foreground text-xs">(opsional)</span>
+              Deskripsi{" "}
+              <span className="text-muted-foreground text-xs">(opsional)</span>
             </Label>
-            <Textarea id="description" placeholder="Deskripsi singkat tentang Branch..." rows={2} {...register("description")} />
+            <Textarea
+              id="description"
+              placeholder="Deskripsi singkat tentang Branch..."
+              rows={2}
+              {...register("description")}
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="address">
-              Alamat <span className="text-muted-foreground text-xs">(opsional)</span>
+              Alamat{" "}
+              <span className="text-muted-foreground text-xs">(opsional)</span>
             </Label>
-            <Textarea id="address" placeholder="Alamat lengkap branch..." rows={2} {...register("address")} />
+            <Textarea
+              id="address"
+              placeholder="Alamat lengkap branch..."
+              rows={2}
+              {...register("address")}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="phone">
-                No. Telepon <span className="text-muted-foreground text-xs">(opsional)</span>
+                No. Telepon{" "}
+                <span className="text-muted-foreground text-xs">
+                  (opsional)
+                </span>
               </Label>
-              <Input id="phone" placeholder="(021) 77833598" {...register("phone")} />
+              <Input
+                id="phone"
+                placeholder="(021) 77833598"
+                {...register("phone")}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="adminName">
-                Bendahara <span className="text-muted-foreground text-xs">(opsional)</span>
+                Bendahara{" "}
+                <span className="text-muted-foreground text-xs">
+                  (opsional)
+                </span>
               </Label>
-              <Input id="adminName" placeholder="Nama bendahara..." {...register("adminName")} />
+              <Input
+                id="adminName"
+                placeholder="Nama bendahara..."
+                {...register("adminName")}
+              />
             </div>
           </div>
 
           <Separator />
 
           {/* ── Upload Tanda Tangan ── */}
-          <SignatureUpload currentSignatureUrl={signatureUrl || ""} onUploadSuccess={(url) => setValue("signatureUrl", url)} disabled={createMajor.isPending || updateMajor.isPending} />
+          <SignatureUpload
+            currentSignatureUrl={signatureUrl || ""}
+            onUploadSuccess={(url) => setValue("signatureUrl", url)}
+            disabled={createMajor.isPending || updateMajor.isPending}
+          />
 
           {/* Hidden field untuk menyimpan URL ke form state */}
           <input type="hidden" {...register("signatureUrl")} />
 
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createMajor.isPending || updateMajor.isPending}>
-              {createMajor.isPending || updateMajor.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={createMajor.isPending || updateMajor.isPending}
+            >
+              {createMajor.isPending || updateMajor.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -370,12 +555,20 @@ function MajorFormDialog({ open, onOpenChange, editData, onSuccess }: { open: bo
 }
 
 // ─── MajorDetailDialog ────────────────────────────────────────────────────────
-function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; onOpenChange: (open: boolean) => void; majorData: MajorData | null }) {
+function MajorDetailDialog({
+  open,
+  onOpenChange,
+  majorData,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  majorData: MajorData | null;
+}) {
   if (!majorData) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Detail Branch</DialogTitle>
         </DialogHeader>
@@ -384,25 +577,36 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
           {/* Header info */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Kode Branch</p>
-              <p className="font-mono font-bold text-lg">{majorData.code}</p>
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                Kode Branch
+              </p>
+              <p className="font-mono text-lg font-bold">{majorData.code}</p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Status</p>
-              <Badge variant={majorData.isActive ? "default" : "secondary"} className="mt-1">
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                Status
+              </p>
+              <Badge
+                variant={majorData.isActive ? "default" : "secondary"}
+                className="mt-1"
+              >
                 {majorData.isActive ? "Aktif" : "Tidak Aktif"}
               </Badge>
             </div>
           </div>
 
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Nama Branch</p>
-            <p className="font-semibold text-base">{majorData.name}</p>
+            <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+              Nama Branch
+            </p>
+            <p className="text-base font-semibold">{majorData.name}</p>
           </div>
 
           {majorData.description && (
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Deskripsi</p>
+              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                Deskripsi
+              </p>
               <p className="text-sm">{majorData.description}</p>
             </div>
           )}
@@ -410,19 +614,25 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
           <div className="grid grid-cols-2 gap-4">
             {majorData.address && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Alamat</p>
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                  Alamat
+                </p>
                 <p className="text-sm">{majorData.address}</p>
               </div>
             )}
             {majorData.phone && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Telepon</p>
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                  Telepon
+                </p>
                 <p className="text-sm">{majorData.phone}</p>
               </div>
             )}
             {majorData.adminName && (
               <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Bendahara</p>
+                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                  Bendahara
+                </p>
                 <p className="text-sm font-medium">{majorData.adminName}</p>
               </div>
             )}
@@ -431,9 +641,17 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
           {/* Tanda tangan preview */}
           {majorData.signatureUrl && (
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Tanda Tangan Bendahara</p>
-              <div className="inline-flex p-3 bg-muted/50 rounded-lg border">
-                <Image src={majorData.signatureUrl} alt="Tanda tangan bendahara" width={200} height={80} className="object-contain max-h-20" />
+              <p className="text-muted-foreground mb-2 text-xs tracking-wide uppercase">
+                Tanda Tangan Bendahara
+              </p>
+              <div className="bg-muted/50 inline-flex rounded-lg border p-3">
+                <Image
+                  src={majorData.signatureUrl}
+                  alt="Tanda tangan bendahara"
+                  width={200}
+                  height={80}
+                  className="max-h-20 object-contain"
+                />
               </div>
             </div>
           )}
@@ -442,17 +660,46 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
 
           {/* Statistik */}
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-3">Statistik</p>
+            <p className="text-muted-foreground mb-3 text-xs tracking-wide uppercase">
+              Statistik
+            </p>
             <div className="grid grid-cols-4 gap-3">
               {[
-                { label: "Kelas", value: majorData._count?.classes ?? 0, color: "text-info", bg: "bg-info-surface" },
-                { label: "Siswa", value: majorData._count?.students ?? 0, color: "text-success", bg: "bg-success-surface" },
-                { label: "Mata Pelajaran", value: majorData._count?.subjects ?? 0, color: "text-tertiary", bg: "bg-tertiary-surface" },
-                { label: "Jenis Tagihan", value: majorData._count?.paymenttype ?? 0, color: "text-caution", bg: "bg-caution-surface" },
+                {
+                  label: "Kelas",
+                  value: majorData._count?.classes ?? 0,
+                  color: "text-info",
+                  bg: "bg-info-surface",
+                },
+                {
+                  label: "Siswa",
+                  value: majorData._count?.students ?? 0,
+                  color: "text-success",
+                  bg: "bg-success-surface",
+                },
+                {
+                  label: "Mata Pelajaran",
+                  value: majorData._count?.subjects ?? 0,
+                  color: "text-tertiary",
+                  bg: "bg-tertiary-surface",
+                },
+                {
+                  label: "Jenis Tagihan",
+                  value: majorData._count?.paymenttype ?? 0,
+                  color: "text-caution",
+                  bg: "bg-caution-surface",
+                },
               ].map((stat) => (
-                <div key={stat.label} className={`text-center p-3 rounded-lg ${stat.bg} border`}>
-                  <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{stat.label}</div>
+                <div
+                  key={stat.label}
+                  className={`rounded-lg p-3 text-center ${stat.bg} border`}
+                >
+                  <div className={`text-2xl font-bold ${stat.color}`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-muted-foreground mt-0.5 text-xs">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -468,7 +715,17 @@ function MajorDetailDialog({ open, onOpenChange, majorData }: { open: boolean; o
 }
 
 // ─── DeleteMajorDialog ────────────────────────────────────────────────────────
-function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; majorData: MajorData | null; onSuccess: () => void }) {
+function DeleteMajorDialog({
+  open,
+  onOpenChange,
+  majorData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  majorData: MajorData | null;
+  onSuccess: () => void;
+}) {
   const deleteMajor = useDeleteMajor();
 
   const handleDelete = async () => {
@@ -483,7 +740,11 @@ function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open:
     }
   };
 
-  const hasRelatedData = majorData && ((majorData._count?.classes ?? 0) > 0 || (majorData._count?.students ?? 0) > 0 || (majorData._count?.subjects ?? 0) > 0);
+  const hasRelatedData =
+    majorData &&
+    ((majorData._count?.classes ?? 0) > 0 ||
+      (majorData._count?.students ?? 0) > 0 ||
+      (majorData._count?.subjects ?? 0) > 0);
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -492,34 +753,45 @@ function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open:
           <AlertDialogTitle>Hapus Branch</AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div>
-              {hasRelatedData ?
+              {hasRelatedData ? (
                 <div className="space-y-2">
                   <p>
-                    Branch <strong>{majorData?.name}</strong> memiliki data terkait:
+                    Branch <strong>{majorData?.name}</strong> memiliki data
+                    terkait:
                   </p>
-                  <ul className="list-disc list-inside text-sm space-y-1 text-muted-foreground">
-                    {majorData?._count?.classes ?
+                  <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
+                    {majorData?._count?.classes ? (
                       <li>{majorData._count.classes} kelas</li>
-                    : null}
-                    {majorData?._count?.students ?
+                    ) : null}
+                    {majorData?._count?.students ? (
                       <li>{majorData._count.students} siswa</li>
-                    : null}
-                    {majorData?._count?.subjects ?
+                    ) : null}
+                    {majorData?._count?.subjects ? (
                       <li>{majorData._count.subjects} mata pelajaran</li>
-                    : null}
+                    ) : null}
                   </ul>
-                  <p className="text-destructive font-medium text-sm">Menghapus Branch akan menghapus semua data terkait. Tindakan ini tidak dapat dibatalkan.</p>
+                  <p className="text-destructive text-sm font-medium">
+                    Menghapus Branch akan menghapus semua data terkait. Tindakan
+                    ini tidak dapat dibatalkan.
+                  </p>
                 </div>
-              : <p>
-                  Apakah Anda yakin ingin menghapus branch <strong>{majorData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+              ) : (
+                <p>
+                  Apakah Anda yakin ingin menghapus branch{" "}
+                  <strong>{majorData?.name}</strong>? Tindakan ini tidak dapat
+                  dibatalkan.
                 </p>
-              }
+              )}
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteMajor.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteMajor.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteMajor.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -531,15 +803,20 @@ function DeleteMajorDialog({ open, onOpenChange, majorData, onSuccess }: { open:
 // ─── MajorDataTable ───────────────────────────────────────────────────────────
 function MajorDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = React.useState(false);
-  const [selectedMajor, setSelectedMajor] = React.useState<MajorData | null>(null);
+  const [selectedMajor, setSelectedMajor] = React.useState<MajorData | null>(
+    null,
+  );
 
   const { data: majors = [], isLoading, refetch } = useGetMajors();
   const handleSuccess = () => refetch();
@@ -547,48 +824,91 @@ function MajorDataTable() {
   const columns: ColumnDef<MajorData>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "code",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Kode <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div className="font-mono font-medium text-sm">{row.getValue("code")}</div>,
+      cell: ({ row }) => (
+        <div className="font-mono text-sm font-medium">
+          {row.getValue("code")}
+        </div>
+      ),
     },
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Nama Branch <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div className="font-medium">{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("name")}</div>
+      ),
     },
     {
       accessorKey: "description",
       header: "Deskripsi",
-      cell: ({ row }) => <div className="max-w-[180px] truncate text-sm text-muted-foreground">{(row.getValue("description") as string) || "-"}</div>,
+      cell: ({ row }) => (
+        <div className="text-muted-foreground max-w-[180px] truncate text-sm">
+          {(row.getValue("description") as string) || "-"}
+        </div>
+      ),
     },
     {
       accessorKey: "address",
       header: "Alamat",
-      cell: ({ row }) => <div className="max-w-[160px] truncate text-sm text-muted-foreground">{(row.getValue("address") as string) || "-"}</div>,
+      cell: ({ row }) => (
+        <div className="text-muted-foreground max-w-[160px] truncate text-sm">
+          {(row.getValue("address") as string) || "-"}
+        </div>
+      ),
     },
     {
       accessorKey: "phone",
       header: "Telepon",
-      cell: ({ row }) => <div className="text-sm text-muted-foreground">{(row.getValue("phone") as string) || "-"}</div>,
+      cell: ({ row }) => (
+        <div className="text-muted-foreground text-sm">
+          {(row.getValue("phone") as string) || "-"}
+        </div>
+      ),
     },
     {
       accessorKey: "adminName",
       header: "Bendahara",
-      cell: ({ row }) => <div className="text-sm text-muted-foreground">{(row.getValue("adminName") as string) || "-"}</div>,
+      cell: ({ row }) => (
+        <div className="text-muted-foreground text-sm">
+          {(row.getValue("adminName") as string) || "-"}
+        </div>
+      ),
     },
     {
       accessorKey: "signatureUrl",
@@ -596,11 +916,21 @@ function MajorDataTable() {
       cell: ({ row }) => {
         const url = row.getValue("signatureUrl") as string;
         if (!url) {
-          return <span className="text-xs text-muted-foreground italic">Belum ada</span>;
+          return (
+            <span className="text-muted-foreground text-xs italic">
+              Belum ada
+            </span>
+          );
         }
         return (
-          <div className="w-16 h-8 bg-muted/50 rounded border overflow-hidden flex items-center justify-center">
-            <Image src={url} alt="Tanda tangan" width={64} height={32} className="object-contain w-full h-full" />
+          <div className="bg-muted/50 flex h-8 w-16 items-center justify-center overflow-hidden rounded border">
+            <Image
+              src={url}
+              alt="Tanda tangan"
+              width={64}
+              height={32}
+              className="h-full w-full object-contain"
+            />
           </div>
         );
       },
@@ -608,11 +938,22 @@ function MajorDataTable() {
     {
       accessorKey: "isActive",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Status <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <Badge variant={(row.getValue("isActive") as boolean) ? "default" : "secondary"}>{(row.getValue("isActive") as boolean) ? "Aktif" : "Tidak Aktif"}</Badge>,
+      cell: ({ row }) => (
+        <Badge
+          variant={
+            (row.getValue("isActive") as boolean) ? "default" : "secondary"
+          }
+        >
+          {(row.getValue("isActive") as boolean) ? "Aktif" : "Tidak Aktif"}
+        </Badge>
+      ),
     },
     {
       id: "stats",
@@ -620,14 +961,24 @@ function MajorDataTable() {
       cell: ({ row }) => {
         const m = row.original;
         return (
-          <div className="text-xs space-y-0.5">
+          <div className="space-y-0.5 text-xs">
             <div className="flex gap-2">
-              <span className="text-info font-medium">{m._count?.classes ?? 0}K</span>
-              <span className="text-success font-medium">{m._count?.students ?? 0}S</span>
-              <span className="text-tertiary font-medium">{m._count?.subjects ?? 0}MP</span>
-              <span className="text-caution font-medium">{m._count?.paymenttype ?? 0}TP</span>
+              <span className="text-info font-medium">
+                {m._count?.classes ?? 0}K
+              </span>
+              <span className="text-success font-medium">
+                {m._count?.students ?? 0}S
+              </span>
+              <span className="text-tertiary font-medium">
+                {m._count?.subjects ?? 0}MP
+              </span>
+              <span className="text-caution font-medium">
+                {m._count?.paymenttype ?? 0}TP
+              </span>
             </div>
-            <div className="text-muted-foreground">Kelas · Siswa · MaPel · TiPem</div>
+            <div className="text-muted-foreground">
+              Kelas · Siswa · MaPel · TiPem
+            </div>
           </div>
         );
       },
@@ -647,7 +998,11 @@ function MajorDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(m.id)}>Copy ID Branch</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(m.id)}
+              >
+                Copy ID Branch
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -702,12 +1057,19 @@ function MajorDataTable() {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl">Branch</div>
+      <div className="text-3xl font-bold">Branch</div>
 
       <div className="flex items-center justify-between py-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Cari nama atau kode Branch..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)} className="max-w-sm pl-10" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <Input
+            placeholder="Cari nama atau kode Branch..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(e) =>
+              table.getColumn("name")?.setFilterValue(e.target.value)
+            }
+            className="max-w-sm pl-10"
+          />
         </div>
 
         <div className="flex items-center gap-2">
@@ -722,7 +1084,14 @@ function MajorDataTable() {
                 .getAllColumns()
                 .filter((c) => c.getCanHide())
                 .map((column) => (
-                  <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -742,49 +1111,97 @@ function MajorDataTable() {
             {table.getHeaderGroups().map((hg) => (
               <TableRow key={hg.id}>
                 {hg.headers.map((header) => (
-                  <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ?
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
-            : <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-muted-foreground h-24 text-center"
+                >
                   Tidak ada data Branch.
                 </TableCell>
               </TableRow>
-            }
+            )}
           </TableBody>
         </Table>
       </div>
 
       <div className="flex items-center justify-between py-4">
-        <div className="text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+        <div className="text-muted-foreground text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+          {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>
         <div className="space-x-2">
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
             Sebelumnya
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Selanjutnya
           </Button>
         </div>
       </div>
 
       {/* Dialogs */}
-      <MajorFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
-      <MajorFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedMajor} onSuccess={handleSuccess} />
-      <MajorDetailDialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen} majorData={selectedMajor} />
-      <DeleteMajorDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} majorData={selectedMajor} onSuccess={handleSuccess} />
+      <MajorFormDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onSuccess={handleSuccess}
+      />
+      <MajorFormDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        editData={selectedMajor}
+        onSuccess={handleSuccess}
+      />
+      <MajorDetailDialog
+        open={detailDialogOpen}
+        onOpenChange={setDetailDialogOpen}
+        majorData={selectedMajor}
+      />
+      <DeleteMajorDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        majorData={selectedMajor}
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }
@@ -793,7 +1210,8 @@ function MajorDataTable() {
 export default function UserDataTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   if (isPending || isLoadingUserData) return <Loading />;

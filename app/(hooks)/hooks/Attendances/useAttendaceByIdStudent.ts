@@ -1,6 +1,6 @@
 "use client";
 
-import { attendanceTypes } from "@/app/(types)/types/attendance-types";
+import { type attendanceTypes } from "@/app/(types)/types/attendance-types";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,7 +9,9 @@ export const useGetAttendanceByIdStudent = (id: string) => {
     queryKey: ["attendance", id],
     queryFn: async () => {
       try {
-        const res = await apiGet<attendanceTypes[]>(`/api/attendance/student/${id}`);
+        const res = await apiGet<attendanceTypes[]>(
+          `/api/attendance/student/${id}`,
+        );
         return res.data;
       } catch (error) {
         console.error(error);

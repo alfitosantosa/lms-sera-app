@@ -156,7 +156,7 @@ const formatValue = (val: any): React.ReactNode => {
 
   if (typeof val === "object") {
     return (
-      <pre className="text-xs bg-muted p-2 rounded overflow-x-auto max-w-md">
+      <pre className="bg-muted max-w-md overflow-x-auto rounded p-2 text-xs">
         {JSON.stringify(val, null, 2)}
       </pre>
     );
@@ -181,12 +181,12 @@ const StatCard = ({
     <Card className={VARIANT_STYLES[variant]}>
       <CardContent className="pt-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-background">
-            <Icon className="h-5 w-5 text-muted-foreground" />
+          <div className="bg-background rounded-lg p-2">
+            <Icon className="text-muted-foreground h-5 w-5" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-muted-foreground">{label}</p>
-            <p className="text-lg font-semibold mt-1">{value}</p>
+            <p className="text-muted-foreground text-sm font-medium">{label}</p>
+            <p className="mt-1 text-lg font-semibold">{value}</p>
           </div>
         </div>
       </CardContent>
@@ -198,10 +198,10 @@ const InfoItem = ({ icon: Icon, label, value }: InfoItemProps) => {
   if (isEmpty(value)) return null;
 
   return (
-    <div className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
-      <Icon className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-muted-foreground mb-1">
+    <div className="bg-card hover:bg-muted/50 flex items-start gap-3 rounded-lg border p-3 transition-colors">
+      <Icon className="text-muted-foreground mt-0.5 h-5 w-5 shrink-0" />
+      <div className="min-w-0 flex-1">
+        <p className="text-muted-foreground mb-1 text-xs font-medium">
           {label}
         </p>
         <div className="text-sm font-medium">{value}</div>
@@ -266,15 +266,15 @@ const EmptyProfileState = ({
   console.log("foundation", hasFoundation);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12 px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="from-background via-muted/20 to-background min-h-screen bg-gradient-to-br px-4 py-12">
+      <div className="mx-auto max-w-2xl space-y-6">
         {/* Hero Card with Session Info */}
-        <Card className="shadow-xl border-2">
-          <CardHeader className="text-center pb-4">
+        <Card className="border-2 shadow-xl">
+          <CardHeader className="pb-4 text-center">
             <div className="flex flex-col items-center space-y-4">
               {/* Profile Photo */}
               <div className="relative">
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-lg">
                   {session?.user?.image || userBetterAuth?.image ? (
                     <Image
                       src={session.user?.image || userBetterAuth?.image}
@@ -283,21 +283,21 @@ const EmptyProfileState = ({
                       }
                       width={128}
                       height={128}
-                      className="object-cover w-full h-full"
+                      className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                      <User className="h-16 w-16 text-muted-foreground" />
+                    <div className="from-primary/20 to-primary/5 flex h-full w-full items-center justify-center bg-gradient-to-br">
+                      <User className="text-muted-foreground h-16 w-16" />
                     </div>
                   )}
                 </div>
                 {/* Status Badge */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
                   <Badge
                     variant={hasFoundation ? "default" : "secondary"}
                     className="shadow-md"
                   >
-                    <AlertCircle className="h-3 w-3 mr-1" />
+                    <AlertCircle className="mr-1 h-3 w-3" />
                     {hasFoundation ? "Menunggu Aktivasi" : "Belum Terdaftar"}
                   </Badge>
                 </div>
@@ -345,25 +345,25 @@ const EmptyProfileState = ({
             {/* Session Details Card */}
             <Card className="bg-muted/50">
               <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-sm">
                   <Key className="h-4 w-4" />
                   Informasi Session
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <GraduationCapIcon className="h-4 w-4 text-muted-foreground" />
+                  <GraduationCapIcon className="text-muted-foreground h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">Yayasan</p>
+                    <p className="text-muted-foreground text-xs">Yayasan</p>
                     <p className="text-sm font-medium">
                       {hasFoundation || "Tidak tersedia"}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <User className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <User className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">Nama</p>
+                    <p className="text-muted-foreground text-xs">Nama</p>
                     <p className="text-sm font-medium">
                       {session?.user?.name || "Tidak tersedia"}
                     </p>
@@ -371,9 +371,9 @@ const EmptyProfileState = ({
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Mail className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <Mail className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">Email</p>
+                    <p className="text-muted-foreground text-xs">Email</p>
                     <p className="text-sm font-medium break-all">
                       {session?.user?.email || "Tidak tersedia"}
                     </p>
@@ -381,10 +381,10 @@ const EmptyProfileState = ({
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Key className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <Key className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground">User ID</p>
-                    <p className="text-sm font-mono text-xs bg-background px-2 py-1 rounded">
+                    <p className="text-muted-foreground text-xs">User ID</p>
+                    <p className="bg-background rounded px-2 py-1 font-mono text-sm text-xs">
                       {session?.user?.id || "Tidak tersedia"}
                     </p>
                   </div>
@@ -392,9 +392,9 @@ const EmptyProfileState = ({
 
                 {session?.user?.emailVerified && (
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                    <CheckCircle className="text-success mt-0.5 h-4 w-4" />
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         Status Email
                       </p>
                       <Badge
@@ -417,7 +417,7 @@ const EmptyProfileState = ({
                   className="w-full"
                   onClick={() => router.push("/")}
                 >
-                  <GoalIcon className="h-5 w-5 mr-2" />
+                  <GoalIcon className="mr-2 h-5 w-5" />
                   Ke Halaman Utama
                 </Button>
               ) : (
@@ -426,7 +426,7 @@ const EmptyProfileState = ({
                   className="w-full"
                   onClick={() => router.push("/landing/register/foundation")}
                 >
-                  <UserPlus className="h-5 w-5 mr-2" />
+                  <UserPlus className="mr-2 h-5 w-5" />
                   Daftar ke Yayasan
                 </Button>
               )}
@@ -437,14 +437,14 @@ const EmptyProfileState = ({
                 className="w-full"
                 onClick={() => router.push("/auth/sign-in")}
               >
-                <Building2 className="h-5 w-5 mr-2" />
+                <Building2 className="mr-2 h-5 w-5" />
                 Login Dengan Akun Lain
               </Button>
             </div>
 
             {/* Help Text */}
-            <div className="text-center pt-4 border-t">
-              <p className="text-sm text-muted-foreground">
+            <div className="border-t pt-4 text-center">
+              <p className="text-muted-foreground text-sm">
                 Butuh bantuan?{" "}
                 <a
                   href="mailto:santosatechid@gmail.com"
@@ -485,10 +485,10 @@ const EmptyProfileState = ({
 };
 
 const UserProfileSkeleton = ({ message }: { message?: string }) => (
-  <div className="min-h-screen py-8 px-4">
-    <div className="max-w-7xl mx-auto space-y-6">
+  <div className="min-h-screen px-4 py-8">
+    <div className="mx-auto max-w-7xl space-y-6">
       {message && (
-        <div className="text-center text-sm text-muted-foreground mb-4">
+        <div className="text-muted-foreground mb-4 text-center text-sm">
           {message}
         </div>
       )}
@@ -500,7 +500,7 @@ const UserProfileSkeleton = ({ message }: { message?: string }) => (
           <Skeleton className="h-32 w-full" />
         </CardContent>
       </Card>
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-6 md:grid-cols-2">
         {[1, 2].map((i) => (
           <Card key={i}>
             <CardHeader>
@@ -523,44 +523,44 @@ const UserProfileSkeleton = ({ message }: { message?: string }) => (
 const UserHeroSection = ({ user }: { user: any }) => (
   <Card className="border-2 shadow-lg">
     <CardHeader className="pb-4">
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+      <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
         {user?.avatarUrl && (
           <div className="relative">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-background shadow-xl ring-4 ring-primary/20">
+            <div className="border-background ring-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-xl ring-4">
               <Image
                 src={user.avatarUrl}
                 alt={user?.name || "User Avatar"}
                 width={128}
                 height={128}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 priority
               />
             </div>
             {user?.isActive && (
-              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-success-solid rounded-full border-4 border-background flex items-center justify-center">
+              <div className="bg-success-solid border-background absolute -right-1 -bottom-1 flex h-8 w-8 items-center justify-center rounded-full border-4">
                 <CheckCircle className="h-4 w-4 text-white" />
               </div>
             )}
           </div>
         )}
         <div className="flex-1 text-center md:text-left">
-          <CardTitle className="text-3xl md:text-4xl mb-2">
+          <CardTitle className="mb-2 text-3xl md:text-4xl">
             {user?.name || "User"}
           </CardTitle>
-          <CardDescription className="text-lg mb-4">
+          <CardDescription className="mb-4 text-lg">
             {user?.email}
           </CardDescription>
-          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+          <div className="flex flex-wrap justify-center gap-2 md:justify-start">
             {user?.role?.name && (
-              <Badge variant="default" className="text-sm px-3 py-1">
-                <Shield className="h-3 w-3 mr-1" />
+              <Badge variant="default" className="px-3 py-1 text-sm">
+                <Shield className="mr-1 h-3 w-3" />
                 {user.role.name}
               </Badge>
             )}
             {user?.isActive !== undefined && (
               <Badge
                 variant={user.isActive ? "default" : "destructive"}
-                className="text-sm px-3 py-1"
+                className="px-3 py-1 text-sm"
               >
                 {user.isActive ? "Active" : "Inactive"}
               </Badge>
@@ -584,7 +584,7 @@ const PersonalInformationCard = ({ data }: { data: any }) => (
       </CardDescription>
     </CardHeader>
     <CardContent>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <InfoItem icon={Mail} label="Email" value={data.email} />
         <InfoItem icon={Phone} label="Parent Phone" value={data.parentPhone} />
         <InfoItem icon={MapPin} label="Address" value={data.address} />
@@ -612,7 +612,7 @@ const AcademicInformationCard = ({ data }: { data: any }) => (
       </CardDescription>
     </CardHeader>
     <CardContent>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <InfoItem icon={Key} label="NIK" value={data.nik} />
         <InfoItem icon={Key} label="NISN" value={data.nisn} />
         <InfoItem
@@ -653,7 +653,7 @@ const ProfessionalInformationCard = ({ data }: { data: any }) => {
         <CardDescription>Work-related details</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <InfoItem icon={Key} label="Employee ID" value={data.employeeId} />
           <InfoItem icon={Award} label="Position" value={data.position} />
           <InfoItem icon={Users} label="Relation" value={data.relation} />
@@ -696,7 +696,7 @@ const FoundationInformationCard = ({ foundation }: { foundation: any }) => {
   return (
     <>
       {hasKnownData && (
-        <Card className="border-2 border-primary/10 bg-primary/5">
+        <Card className="border-primary/10 bg-primary/5 border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Landmark className="h-5 w-5" />
@@ -707,7 +707,7 @@ const FoundationInformationCard = ({ foundation }: { foundation: any }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <InfoItem icon={School} label="Name" value={name} />
               <InfoItem icon={MapPin} label="Address" value={address} />
               <InfoItem icon={Phone} label="Phone" value={phone} />
@@ -816,13 +816,13 @@ export default function Home() {
   } = user;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background to-muted/20 py-8 px-4">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="from-background to-muted/20 min-h-screen bg-linear-to-br px-4 py-8">
+      <div className="mx-auto max-w-7xl space-y-6">
         {/* Hero Section */}
         <UserHeroSection user={user} />
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard icon={School} label="Yayasan" value={foundation?.name} />
           <StatCard icon={School} label="Class" value={classData?.name} />
           <StatCard icon={BookOpen} label="Major" value={major?.name} />

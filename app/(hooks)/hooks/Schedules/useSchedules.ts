@@ -1,5 +1,8 @@
 "use client";
-import { ScheduleTypes, ScheduleInput } from "@/app/(types)/types/schedule-types";
+import {
+  type ScheduleTypes,
+  type ScheduleInput,
+} from "@/app/(types)/types/schedule-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -61,7 +64,9 @@ export const useGetSchedulesByTeacher = (teacherId: string) => {
   return useQuery({
     queryKey: ["schedules", teacherId],
     queryFn: async () => {
-      const response = await apiGet<ScheduleTypes[]>(`/api/schedules/teacher/${teacherId}`);
+      const response = await apiGet<ScheduleTypes[]>(
+        `/api/schedules/teacher/${teacherId}`,
+      );
       return response.data;
     },
     enabled: !!teacherId, // Only run the query if teacherId is provided
@@ -72,7 +77,9 @@ export const useGetSchedulesByStudent = (studentId: string) => {
   return useQuery({
     queryKey: ["schedules", studentId],
     queryFn: async () => {
-      const response = await apiGet<ScheduleTypes[]>(`/api/schedules/student/${studentId}`);
+      const response = await apiGet<ScheduleTypes[]>(
+        `/api/schedules/student/${studentId}`,
+      );
       return response.data;
     },
     enabled: !!studentId, // Only run the query if studentId is provided

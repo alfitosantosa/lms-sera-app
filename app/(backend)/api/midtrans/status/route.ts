@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const midtransClient = require("midtrans-client");
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from "next/server";
 
 // cara pakai GET /api/midtrans/status?orderId=KWT-X2O4AIFK5NVUGR9LAAAA
 
@@ -16,7 +16,10 @@ export async function GET(request: NextRequest) {
   try {
     const orderId = request.nextUrl.searchParams.get("orderId");
     if (!orderId) {
-      return NextResponse.json({ error: "orderId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "orderId is required" },
+        { status: 400 },
+      );
     }
 
     const coreApi = getCoreApi();
@@ -24,7 +27,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(status);
   } catch (error: unknown) {
     console.error("Error getting transaction status:", error);
-    const errorMessage = error instanceof Error ? error.message : "Failed to get transaction status";
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Failed to get transaction status";
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

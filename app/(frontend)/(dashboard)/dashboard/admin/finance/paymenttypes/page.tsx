@@ -1,25 +1,83 @@
 "use client";
 
 import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
-import { useCreatePaymentType, useDeletePaymentType, useGetPaymentTypes, useUpdatePaymentType } from "@/app/(hooks)/hooks/Payments/usePaymentType";
+import {
+  useCreatePaymentType,
+  useDeletePaymentType,
+  useGetPaymentTypes,
+  useUpdatePaymentType,
+} from "@/app/(hooks)/hooks/Payments/usePaymentType";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -125,17 +183,45 @@ const getColumnLabel = (columnId: string): string => {
 // Badge Components
 // ============================================================================
 
-const StatusBadge = ({ isActive }: { isActive: boolean }) => <Badge className={`text-white ${isActive ? "bg-success-solid" : "bg-muted-foreground"}`}>{isActive ? "Aktif" : "Nonaktif"}</Badge>;
+const StatusBadge = ({ isActive }: { isActive: boolean }) => (
+  <Badge
+    className={`text-white ${isActive ? "bg-success-solid" : "bg-muted-foreground"}`}
+  >
+    {isActive ? "Aktif" : "Nonaktif"}
+  </Badge>
+);
 
-const TypeBadge = ({ isMonthly }: { isMonthly: boolean }) => <Badge className={`text-white ${isMonthly ? "bg-info-solid" : "bg-tertiary-solid"}`}>{isMonthly ? "Bulanan" : "Sekali Bayar"}</Badge>;
+const TypeBadge = ({ isMonthly }: { isMonthly: boolean }) => (
+  <Badge
+    className={`text-white ${isMonthly ? "bg-info-solid" : "bg-tertiary-solid"}`}
+  >
+    {isMonthly ? "Bulanan" : "Sekali Bayar"}
+  </Badge>
+);
 
-const FixedBadge = ({ isFixed }: { isFixed: boolean }) => <Badge className={`text-white ${isFixed ? "bg-info-solid" : "bg-muted-foreground"}`}>{isFixed ? "Tetap" : "Tidak Tetap"}</Badge>;
+const FixedBadge = ({ isFixed }: { isFixed: boolean }) => (
+  <Badge
+    className={`text-white ${isFixed ? "bg-info-solid" : "bg-muted-foreground"}`}
+  >
+    {isFixed ? "Tetap" : "Tidak Tetap"}
+  </Badge>
+);
 
 // ============================================================================
 // Form Dialog Component
 // ============================================================================
 
-function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; editData?: PaymentTypeData | null; onSuccess: () => void }) {
+function PaymentTypeFormDialog({
+  open,
+  onOpenChange,
+  editData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  editData?: PaymentTypeData | null;
+  onSuccess: () => void;
+}) {
   const createPaymentType = useCreatePaymentType();
   const updatePaymentType = useUpdatePaymentType();
   const { data: majors = [], isLoading: majorsLoading } = useGetMajors();
@@ -152,7 +238,21 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
-  const [isMonthly, isActive, isFixedAmount, isFixedQuantity, amount, quantity] = watch(["isMonthly", "isActive", "isFixedAmount", "isFixedQuantity", "amount", "quantity"]);
+  const [
+    isMonthly,
+    isActive,
+    isFixedAmount,
+    isFixedQuantity,
+    amount,
+    quantity,
+  ] = watch([
+    "isMonthly",
+    "isActive",
+    "isFixedAmount",
+    "isFixedQuantity",
+    "amount",
+    "quantity",
+  ]);
 
   // Auto-calculate subtotal
   React.useEffect(() => {
@@ -187,7 +287,10 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
       };
 
       if (editData) {
-        await updatePaymentType.mutateAsync({ id: editData.id, ...payload } as any);
+        await updatePaymentType.mutateAsync({
+          id: editData.id,
+          ...payload,
+        } as any);
         toast.success("Jenis pembayaran berhasil diperbarui!");
       } else {
         await createPaymentType.mutateAsync(payload as any);
@@ -204,39 +307,54 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Jenis Pembayaran" : "Tambah Jenis Pembayaran Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData
+              ? "Edit Jenis Pembayaran"
+              : "Tambah Jenis Pembayaran Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Major/Branch Selection */}
           <div className="space-y-2">
             <Label htmlFor="majorId">Branch *</Label>
-            <Select value={watch("majorId")} onValueChange={(value) => setValue("majorId", value)}>
+            <Select
+              value={watch("majorId")}
+              onValueChange={(value) => setValue("majorId", value)}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih branch" />
               </SelectTrigger>
               <SelectContent>
-                {majorsLoading ?
+                {majorsLoading ? (
                   <SelectItem value="" disabled>
                     Loading...
                   </SelectItem>
-                : majors.map((major: any) => (
+                ) : (
+                  majors.map((major: any) => (
                     <SelectItem key={major.id} value={major.id}>
                       {major.name}
                     </SelectItem>
                   ))
-                }
+                )}
               </SelectContent>
             </Select>
-            {errors.majorId && <p className="text-sm text-destructive">{errors.majorId.message}</p>}
+            {errors.majorId && (
+              <p className="text-destructive text-sm">
+                {errors.majorId.message}
+              </p>
+            )}
           </div>
 
           {/* Owner Selection */}
           <div className="space-y-2">
             <Label htmlFor="owner">Jenis Peruntukan</Label>
-            <Select value={watch("owner")} onValueChange={(value) => setValue("owner", value)}>
+            <Select
+              value={watch("owner")}
+              onValueChange={(value) => setValue("owner", value)}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih jenis peruntukan" />
               </SelectTrigger>
@@ -248,89 +366,168 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
                 ))}
               </SelectContent>
             </Select>
-            {errors.owner && <p className="text-sm text-destructive">{errors.owner.message}</p>}
+            {errors.owner && (
+              <p className="text-destructive text-sm">{errors.owner.message}</p>
+            )}
           </div>
 
           {/* Name Input */}
           <div className="space-y-2">
             <Label htmlFor="name">Nama Jenis Pembayaran</Label>
-            <Input id="name" placeholder="Contoh: SPP Bulanan" {...register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              placeholder="Contoh: SPP Bulanan"
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-destructive text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           {/* Description Input */}
           <div className="space-y-2">
             <Label htmlFor="description">Deskripsi</Label>
-            <Textarea id="description" placeholder="Deskripsi detail pembayaran..." rows={3} {...register("description")} />
-            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
+            <Textarea
+              id="description"
+              placeholder="Deskripsi detail pembayaran..."
+              rows={3}
+              {...register("description")}
+            />
+            {errors.description && (
+              <p className="text-destructive text-sm">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           {/* Fixed Amount Toggle + Amount Input */}
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isFixedAmount">Edit Amount</Label>
-              <p className="text-sm text-muted-foreground">Jika Aktif maka tidak bisa di ubah pada saat pembayaran</p>
+              <p className="text-muted-foreground text-sm">
+                Jika Aktif maka tidak bisa di ubah pada saat pembayaran
+              </p>
             </div>
-            <Switch id="isFixedAmount" checked={isFixedAmount} onCheckedChange={(checked) => setValue("isFixedAmount", checked)} />
+            <Switch
+              id="isFixedAmount"
+              checked={isFixedAmount}
+              onCheckedChange={(checked) => setValue("isFixedAmount", checked)}
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="amount">Jumlah Pembayaran (Rp)</Label>
-            <Input id="amount" type="number" placeholder="0" {...register("amount", { valueAsNumber: true })} />
-            {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
+            <Input
+              id="amount"
+              type="number"
+              placeholder="0"
+              {...register("amount", { valueAsNumber: true })}
+            />
+            {errors.amount && (
+              <p className="text-destructive text-sm">
+                {errors.amount.message}
+              </p>
+            )}
           </div>
 
           {/* Fixed Quantity Toggle + Quantity Input */}
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isFixedQuantity">Edit Quantity</Label>
-              <p className="text-sm text-muted-foreground">Jika Aktif maka tidak bisa di ubah saat pembayaran</p>
+              <p className="text-muted-foreground text-sm">
+                Jika Aktif maka tidak bisa di ubah saat pembayaran
+              </p>
             </div>
-            <Switch id="isFixedQuantity" checked={isFixedQuantity} onCheckedChange={(checked) => setValue("isFixedQuantity", checked)} />
+            <Switch
+              id="isFixedQuantity"
+              checked={isFixedQuantity}
+              onCheckedChange={(checked) =>
+                setValue("isFixedQuantity", checked)
+              }
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="quantity">Jumlah Quantity</Label>
-            <Input id="quantity" type="number" placeholder="0" {...register("quantity", { valueAsNumber: true })} />
-            {errors.quantity && <p className="text-sm text-destructive">{errors.quantity.message}</p>}
+            <Input
+              id="quantity"
+              type="number"
+              placeholder="0"
+              {...register("quantity", { valueAsNumber: true })}
+            />
+            {errors.quantity && (
+              <p className="text-destructive text-sm">
+                {errors.quantity.message}
+              </p>
+            )}
           </div>
 
           {/* Subtotal Display */}
           <div className="space-y-2">
             <Label htmlFor="subtotal">Jumlah Subtotal</Label>
-            <Input id="subtotal" disabled placeholder="0" {...register("subtotal", { valueAsNumber: true })} />
-            {errors.subtotal && <p className="text-sm text-destructive">{errors.subtotal.message}</p>}
+            <Input
+              id="subtotal"
+              disabled
+              placeholder="0"
+              {...register("subtotal", { valueAsNumber: true })}
+            />
+            {errors.subtotal && (
+              <p className="text-destructive text-sm">
+                {errors.subtotal.message}
+              </p>
+            )}
           </div>
 
           {/* Monthly Payment Toggle */}
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isMonthly">Pembayaran Bulanan</Label>
-              <p className="text-sm text-muted-foreground">Aktifkan jika pembayaran dilakukan setiap bulan</p>
+              <p className="text-muted-foreground text-sm">
+                Aktifkan jika pembayaran dilakukan setiap bulan
+              </p>
             </div>
-            <Switch id="isMonthly" checked={isMonthly} onCheckedChange={(checked) => setValue("isMonthly", checked)} />
+            <Switch
+              id="isMonthly"
+              checked={isMonthly}
+              onCheckedChange={(checked) => setValue("isMonthly", checked)}
+            />
           </div>
 
           {/* Active Status Toggle */}
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor="isActive">Status Aktif</Label>
-              <p className="text-sm text-muted-foreground">Jenis pembayaran aktif dapat digunakan</p>
+              <p className="text-muted-foreground text-sm">
+                Jenis pembayaran aktif dapat digunakan
+              </p>
             </div>
-            <Switch id="isActive" checked={isActive} onCheckedChange={(checked) => setValue("isActive", checked)} />
+            <Switch
+              id="isActive"
+              checked={isActive}
+              onCheckedChange={(checked) => setValue("isActive", checked)}
+            />
           </div>
 
           {/* Form Actions */}
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createPaymentType.isPending || updatePaymentType.isPending}>
-              {createPaymentType.isPending || updatePaymentType.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={
+                createPaymentType.isPending || updatePaymentType.isPending
+              }
+            >
+              {createPaymentType.isPending || updatePaymentType.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -343,7 +540,17 @@ function PaymentTypeFormDialog({ open, onOpenChange, editData, onSuccess }: { op
 // Delete Dialog Component
 // ============================================================================
 
-function DeletePaymentTypeDialog({ open, onOpenChange, paymentTypeData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; paymentTypeData: PaymentTypeData | null; onSuccess: () => void }) {
+function DeletePaymentTypeDialog({
+  open,
+  onOpenChange,
+  paymentTypeData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  paymentTypeData: PaymentTypeData | null;
+  onSuccess: () => void;
+}) {
   const deletePaymentType = useDeletePaymentType();
 
   const handleDelete = async () => {
@@ -366,12 +573,18 @@ function DeletePaymentTypeDialog({ open, onOpenChange, paymentTypeData, onSucces
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Jenis Pembayaran</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus jenis pembayaran <strong>{paymentTypeData?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus jenis pembayaran{" "}
+            <strong>{paymentTypeData?.name}</strong>? Tindakan ini tidak dapat
+            dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deletePaymentType.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deletePaymentType.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deletePaymentType.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -384,38 +597,69 @@ function DeletePaymentTypeDialog({ open, onOpenChange, paymentTypeData, onSucces
 // Table Columns Definition
 // ============================================================================
 
-const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data: PaymentTypeData) => void): ColumnDef<PaymentTypeData>[] => [
+const createColumns = (
+  onEdit: (data: PaymentTypeData) => void,
+  onDelete: (data: PaymentTypeData) => void,
+): ColumnDef<PaymentTypeData>[] => [
   {
     id: "select",
-    header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
-    cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Nama Pembayaran
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div className="font-medium max-w-xs">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="max-w-xs font-medium">{row.getValue("name")}</div>
+    ),
   },
   {
     accessorKey: "owner",
     header: ({ column }) => (
-      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Jenis Peruntukan
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div className="font-medium max-w-xs">{row.getValue("owner")}</div>,
+    cell: ({ row }) => (
+      <div className="max-w-xs font-medium">{row.getValue("owner")}</div>
+    ),
   },
   {
     accessorKey: "major.name",
     header: ({ column }) => (
-      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Branch
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -437,7 +681,10 @@ const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data:
   {
     accessorKey: "amount",
     header: ({ column }) => (
-      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Jumlah
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -450,12 +697,17 @@ const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data:
   {
     accessorKey: "quantity",
     header: "Quantity",
-    cell: ({ row }) => <div className="text-center">{row.getValue("quantity")}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("quantity")}</div>
+    ),
   },
   {
     accessorKey: "subtotal",
     header: ({ column }) => (
-      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Subtotal
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -498,13 +750,20 @@ const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data:
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>Copy ID Pembayaran</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(row.original.id)}
+          >
+            Copy ID Pembayaran
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => onEdit(row.original)}>
             <Pencil className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onDelete(row.original)} className="text-destructive">
+          <DropdownMenuItem
+            onClick={() => onDelete(row.original)}
+            className="text-destructive"
+          >
             <Trash2 className="mr-2 h-4 w-4" />
             Hapus
           </DropdownMenuItem>
@@ -520,15 +779,21 @@ const createColumns = (onEdit: (data: PaymentTypeData) => void, onDelete: (data:
 
 function PaymentTypeDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [majorSelection, setMajorSelection] = React.useState<string | null>(null);
+  const [majorSelection, setMajorSelection] = React.useState<string | null>(
+    null,
+  );
 
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedPaymentType, setSelectedPaymentType] = React.useState<PaymentTypeData | null>(null);
+  const [selectedPaymentType, setSelectedPaymentType] =
+    React.useState<PaymentTypeData | null>(null);
 
   const { data: paymentTypes = [], isLoading, refetch } = useGetPaymentTypes();
   const { data: majors = [] } = useGetMajors();
@@ -553,7 +818,10 @@ function PaymentTypeDataTable() {
     setDeleteDialogOpen(true);
   }, []);
 
-  const columns = React.useMemo(() => createColumns(handleEdit, handleDelete), [handleEdit, handleDelete]);
+  const columns = React.useMemo(
+    () => createColumns(handleEdit, handleDelete),
+    [handleEdit, handleDelete],
+  );
 
   const table = useReactTable<PaymentTypeData>({
     data: filteredPaymentTypes as PaymentTypeData[],
@@ -580,25 +848,39 @@ function PaymentTypeDataTable() {
 
   return (
     <div className="">
-      <div className="font-bold text-3xl mb-6">Jenis Tagihan</div>
+      <div className="mb-6 text-3xl font-bold">Jenis Tagihan</div>
 
       {/* Filter and Actions Bar */}
       <div className="flex items-center justify-between py-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Input placeholder="Cari nama pembayaran..." value={(table.getColumn("name")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} className="max-w-sm" />
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            placeholder="Cari nama pembayaran..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
-                {majorSelection ? majors.find((m: any) => m.id === majorSelection)?.name : "Filter Branch"}
+                {majorSelection
+                  ? majors.find((m: any) => m.id === majorSelection)?.name
+                  : "Filter Branch"}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setMajorSelection(null)}>Semua Branch</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setMajorSelection(null)}>
+                Semua Branch
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {majors.map((major: any) => (
-                <DropdownMenuItem key={major.id} onClick={() => setMajorSelection(major.id)}>
+                <DropdownMenuItem
+                  key={major.id}
+                  onClick={() => setMajorSelection(major.id)}
+                >
                   {major.name}
                 </DropdownMenuItem>
               ))}
@@ -620,7 +902,14 @@ function PaymentTypeDataTable() {
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
                 .map((column) => (
-                  <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
                     {getColumnLabel(column.id)}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -642,51 +931,95 @@ function PaymentTypeDataTable() {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ?
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
-            : <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Tidak ada data jenis pembayaran.
                 </TableCell>
               </TableRow>
-            }
+            )}
           </TableBody>
         </Table>
       </div>
 
       {/* Pagination */}
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+          {table.getFilteredRowModel().rows.length} baris dipilih.
         </div>
         <div className="space-x-2">
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
             Sebelumnya
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Selanjutnya
           </Button>
         </div>
       </div>
 
       {/* Dialogs */}
-      <PaymentTypeFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} />
+      <PaymentTypeFormDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onSuccess={handleSuccess}
+      />
 
-      <PaymentTypeFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedPaymentType} onSuccess={handleSuccess} />
+      <PaymentTypeFormDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        editData={selectedPaymentType}
+        onSuccess={handleSuccess}
+      />
 
-      <DeletePaymentTypeDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} paymentTypeData={selectedPaymentType} onSuccess={handleSuccess} />
+      <DeletePaymentTypeDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        paymentTypeData={selectedPaymentType}
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }
@@ -699,7 +1032,8 @@ export default function PaymentTypeTable() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
 
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
   console.log(userData);
 

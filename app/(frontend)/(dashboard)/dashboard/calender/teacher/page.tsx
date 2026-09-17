@@ -4,7 +4,17 @@ import { useGetScheduleByIdTeacher } from "@/app/(hooks)/hooks/Schedules/useGetS
 import { useGetSpecialSchedules } from "@/app/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
-import { CalendarBody, CalendarDate, CalendarDatePagination, CalendarDatePicker, CalendarHeader, CalendarItem, CalendarMonthPicker, CalendarProvider, CalendarYearPicker } from "@/components/ui/kibo-ui/calendar";
+import {
+  CalendarBody,
+  CalendarDate,
+  CalendarDatePagination,
+  CalendarDatePicker,
+  CalendarHeader,
+  CalendarItem,
+  CalendarMonthPicker,
+  CalendarProvider,
+  CalendarYearPicker,
+} from "@/components/ui/kibo-ui/calendar";
 import { useSession } from "@/lib/authClients";
 import { useMemo } from "react";
 
@@ -67,8 +77,10 @@ export default function CalendarPage() {
   const { data: session, isPending } = useSession();
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
-  const { data: schedules = [], isLoading: schedulesLoading } = useGetScheduleByIdTeacher(userData?.id ?? "");
-  const { data: specialSchedules = [], isLoading: specialSchedulesLoading } = useGetSpecialSchedules();
+  const { data: schedules = [], isLoading: schedulesLoading } =
+    useGetScheduleByIdTeacher(userData?.id ?? "");
+  const { data: specialSchedules = [], isLoading: specialSchedulesLoading } =
+    useGetSpecialSchedules();
 
   // Status untuk berbagai jenis event
   const statuses = {
@@ -93,13 +105,18 @@ export default function CalendarPage() {
       const currentWeekStart = new Date(startOfYear);
 
       // Cari hari pertama sesuai dayOfWeek
-      while (currentWeekStart.getDay() !== (schedule.dayOfWeek === 7 ? 0 : schedule.dayOfWeek)) {
+      while (
+        currentWeekStart.getDay() !==
+        (schedule.dayOfWeek === 7 ? 0 : schedule.dayOfWeek)
+      ) {
         currentWeekStart.setDate(currentWeekStart.getDate() + 1);
       }
 
       // Generate event untuk setiap minggu
       while (currentWeekStart <= endOfYear) {
-        const [startHour, startMinute] = schedule.startTime.split(":").map(Number);
+        const [startHour, startMinute] = schedule.startTime
+          .split(":")
+          .map(Number);
         const [endHour, endMinute] = schedule.endTime.split(":").map(Number);
 
         const startAt = new Date(currentWeekStart);
@@ -163,7 +180,9 @@ export default function CalendarPage() {
 
   // Gabungkan semua features
   const allFeatures = useMemo(() => {
-    return [...scheduleFeatures, ...specialScheduleFeatures].sort((a, b) => a.startAt.getTime() - b.startAt.getTime());
+    return [...scheduleFeatures, ...specialScheduleFeatures].sort(
+      (a, b) => a.startAt.getTime() - b.startAt.getTime(),
+    );
   }, [scheduleFeatures, specialScheduleFeatures]);
 
   // Hitung range tahun dari semua events
@@ -173,7 +192,10 @@ export default function CalendarPage() {
       return { earliestYear: currentYear, latestYear: currentYear + 1 };
     }
 
-    const years = allFeatures.flatMap((feature) => [feature.startAt.getFullYear(), feature.endAt.getFullYear()]);
+    const years = allFeatures.flatMap((feature) => [
+      feature.startAt.getFullYear(),
+      feature.endAt.getFullYear(),
+    ]);
 
     return {
       earliestYear: Math.min(...years),
@@ -192,47 +214,71 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header Info */}
         <div className="mb-6 space-y-4">
           <div>
             <h1 className="text-3xl font-bold">Kalender Akademik</h1>
-            <p className="text-muted-foreground mt-1">Jadwal kelas dan event khusus tahun akademik</p>
+            <p className="text-muted-foreground mt-1">
+              Jadwal kelas dan event khusus tahun akademik
+            </p>
           </div>
 
           {/* Legend */}
-          <div className="flex flex-wrap gap-4 p-4 bg-muted/30 rounded-lg">
+          <div className="bg-muted/30 flex flex-wrap gap-4 rounded-lg p-4">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: statuses.regularClass.color }} />
-              <span className="text-sm font-medium">{statuses.regularClass.name}</span>
+              <div
+                className="h-4 w-4 rounded"
+                style={{ backgroundColor: statuses.regularClass.color }}
+              />
+              <span className="text-sm font-medium">
+                {statuses.regularClass.name}
+              </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: statuses.holiday.color }} />
-              <span className="text-sm font-medium">{statuses.holiday.name}</span>
+              <div
+                className="h-4 w-4 rounded"
+                style={{ backgroundColor: statuses.holiday.color }}
+              />
+              <span className="text-sm font-medium">
+                {statuses.holiday.name}
+              </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: statuses.exam.color }} />
+              <div
+                className="h-4 w-4 rounded"
+                style={{ backgroundColor: statuses.exam.color }}
+              />
               <span className="text-sm font-medium">{statuses.exam.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded" style={{ backgroundColor: statuses.event.color }} />
+              <div
+                className="h-4 w-4 rounded"
+                style={{ backgroundColor: statuses.event.color }}
+              />
               <span className="text-sm font-medium">{statuses.event.name}</span>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-info-surface rounded-lg border border-info-border">
-              <p className="text-sm text-info font-medium">Jadwal Reguler</p>
-              <p className="text-2xl font-bold text-info-strong mt-1">{schedules.length}</p>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="bg-info-surface border-info-border rounded-lg border p-4">
+              <p className="text-info text-sm font-medium">Jadwal Reguler</p>
+              <p className="text-info-strong mt-1 text-2xl font-bold">
+                {schedules.length}
+              </p>
             </div>
-            <div className="p-4 bg-caution-surface rounded-lg border border-caution-border">
-              <p className="text-sm text-caution font-medium">Event Khusus</p>
-              <p className="text-2xl font-bold text-caution-strong mt-1">{specialSchedules.filter((s) => s.isPublished).length}</p>
+            <div className="bg-caution-surface border-caution-border rounded-lg border p-4">
+              <p className="text-caution text-sm font-medium">Event Khusus</p>
+              <p className="text-caution-strong mt-1 text-2xl font-bold">
+                {specialSchedules.filter((s) => s.isPublished).length}
+              </p>
             </div>
-            <div className="p-4 bg-success-surface rounded-lg border border-success-border">
-              <p className="text-sm text-success font-medium">Total Event</p>
-              <p className="text-2xl font-bold text-success-strong mt-1">{allFeatures.length}</p>
+            <div className="bg-success-surface border-success-border rounded-lg border p-4">
+              <p className="text-success text-sm font-medium">Total Event</p>
+              <p className="text-success-strong mt-1 text-2xl font-bold">
+                {allFeatures.length}
+              </p>
             </div>
           </div>
         </div>
@@ -247,13 +293,19 @@ export default function CalendarPage() {
             <CalendarDatePagination />
           </CalendarDate>
           <CalendarHeader />
-          <CalendarBody features={allFeatures}>{({ feature }) => <CalendarItem feature={feature} key={feature.id} />}</CalendarBody>
+          <CalendarBody features={allFeatures}>
+            {({ feature }) => (
+              <CalendarItem feature={feature} key={feature.id} />
+            )}
+          </CalendarBody>
         </CalendarProvider>
 
         {/* Empty State */}
         {allFeatures.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Tidak ada jadwal atau event yang tersedia</p>
+          <div className="py-12 text-center">
+            <p className="text-muted-foreground">
+              Tidak ada jadwal atau event yang tersedia
+            </p>
           </div>
         )}
       </div>

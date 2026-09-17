@@ -3,6 +3,7 @@
 ## ✅ What Was Completed
 
 ### 1. Updated `betterauthUser` Type
+
 **File**: `app/(types)/types/betterauth-types.ts`
 
 Added support for foundation data at both User and UserData levels:
@@ -29,14 +30,16 @@ export type betterauthUser = {
       updatedAt: string;
     } | null;
     // ... rest of userData
-  } | null;  // Made userData optional
+  } | null; // Made userData optional
 };
 ```
 
 ### 2. Created New `EmptyProfileState` Component
+
 **File**: `components/profile/EmptyProfileState.tsx`
 
 This new component:
+
 - ✅ Accepts both `session` and `userBetterAuth` props
 - ✅ Detects if user has foundation assignment
 - ✅ Shows different UI based on foundation status:
@@ -47,9 +50,11 @@ This new component:
 - ✅ Provides contextual help text
 
 ### 3. Updated Profile Page
+
 **File**: `app/(frontend)/(dashboard)/dashboard/profile/page.tsx`
 
 Changes:
+
 - ✅ Added import for `useGetBetterAuthById` hook
 - ✅ Added import for new `EmptyProfileState` component
 - ✅ Fetches `userBetterAuth` data in main component
@@ -68,6 +73,7 @@ Due to formatting complexity, you need to **manually remove the old `EmptyProfil
 **Lines to delete**: Approximately lines 157-358 (the old inline `EmptyProfileState` component)
 
 **What to remove**:
+
 ```typescript
 // Remove this entire block:
 
@@ -86,6 +92,7 @@ const EmptyProfileState = ({
 ```
 
 **What to keep**:
+
 - Keep the import: `import { EmptyProfileState } from "@/components/profile/EmptyProfileState";`
 - Keep the usage: `<EmptyProfileState session={session} userBetterAuth={userBetterAuth} />`
 - Keep all other components (`UserProfileSkeleton`, `StatCard`, `InfoItem`, etc.)
@@ -101,16 +108,16 @@ graph TD
     A[Profile Page] --> B[useSession Hook]
     A --> C[useGetUserByIdBetterAuthProfile]
     A --> D[useGetBetterAuthById]
-    
+
     C --> E{userData exists?}
     E -->|Yes| F[Show Full Profile]
     E -->|No| G[EmptyProfileState]
-    
+
     D --> G
     G --> H{Check foundation}
     H -->|Has Foundation| I[Show 'Menunggu Aktivasi']
     H -->|No Foundation| J[Show 'Belum Terdaftar']
-    
+
     I --> K[Display Foundation Info Card]
     J --> L[Show Registration Button]
 ```
@@ -118,17 +125,20 @@ graph TD
 ### Three User States:
 
 #### 1. **Complete Profile** (userData exists + foundation exists)
+
 ```typescript
 user = {
   id: "...",
   name: "...",
   foundation: { name: "Yayasan Sera", code: "SERA001" },
   // ... full profile data
-}
+};
 ```
+
 → Shows full profile page with stats, academic info, etc.
 
 #### 2. **Pending Activation** (NO userData BUT foundation assigned on User)
+
 ```typescript
 userBetterAuth = {
   id: "...",
@@ -136,16 +146,19 @@ userBetterAuth = {
   email: "...",
   foundationId: "foundation-id",
   foundation: { name: "Yayasan Sera", code: "SERA001" },
-  userData: null  // Not yet created
-}
+  userData: null, // Not yet created
+};
 ```
+
 → Shows `EmptyProfileState` with:
+
 - ✅ Foundation info card (green/success themed)
 - ✅ "Menunggu Aktivasi" badge (yellow warning)
 - ✅ Message: "Contact admin to activate your account"
 - ❌ NO "Daftar ke Yayasan" button (already registered)
 
 #### 3. **Not Registered** (NO userData AND NO foundation)
+
 ```typescript
 userBetterAuth = {
   id: "...",
@@ -153,10 +166,12 @@ userBetterAuth = {
   email: "...",
   foundationId: null,
   foundation: null,
-  userData: null
-}
+  userData: null,
+};
 ```
+
 → Shows `EmptyProfileState` with:
+
 - ❌ NO foundation info card
 - ✅ "Belum Terdaftar" badge (red/destructive)
 - ✅ Message: "You need to register to a foundation"
@@ -169,13 +184,14 @@ userBetterAuth = {
 ### EmptyProfileState Component Features:
 
 ```tsx
-<EmptyProfileState 
-  session={session}           // From useSession()
-  userBetterAuth={userBetterAuth}  // From useGetBetterAuthById()
+<EmptyProfileState
+  session={session} // From useSession()
+  userBetterAuth={userBetterAuth} // From useGetBetterAuthById()
 />
 ```
 
 **Renders**:
+
 1. **Profile Photo** (from session or userBetterAuth)
 2. **Status Badge** (dynamic based on foundation)
 3. **Alert** (different message based on foundation)
@@ -202,16 +218,17 @@ userBetterAuth = {
 
 ```sql
 -- Setup: User with foundation but no userData
-UPDATE "user" 
+UPDATE "user"
 SET "foundationId" = 'foundation-id-here'
 WHERE id = 'user-id-here';
 
 -- Ensure userData doesn't exist
-DELETE FROM "user_data" 
+DELETE FROM "user_data"
 WHERE "userId" = 'user-id-here';
 ```
 
 **Expected Result**:
+
 - ✅ Profile page shows `EmptyProfileState`
 - ✅ Foundation info card is visible
 - ✅ Shows foundation name and code
@@ -224,16 +241,17 @@ WHERE "userId" = 'user-id-here';
 
 ```sql
 -- Setup: User without foundation and no userData
-UPDATE "user" 
+UPDATE "user"
 SET "foundationId" = NULL
 WHERE id = 'user-id-here';
 
 -- Ensure userData doesn't exist
-DELETE FROM "user_data" 
+DELETE FROM "user_data"
 WHERE "userId" = 'user-id-here';
 ```
 
 **Expected Result**:
+
 - ✅ Profile page shows `EmptyProfileState`
 - ❌ NO foundation info card
 - ✅ Badge says "Belum Terdaftar"
@@ -245,12 +263,13 @@ WHERE "userId" = 'user-id-here';
 
 ```sql
 -- Setup: User with userData
-SELECT * FROM "user_data" 
+SELECT * FROM "user_data"
 WHERE "userId" = 'user-id-here';
 -- Should return a record
 ```
 
 **Expected Result**:
+
 - ✅ Profile page shows full profile
 - ✅ Hero section with avatar
 - ✅ Stats cards (Yayasan, Class, Major, Academic Year, Role)
@@ -265,6 +284,7 @@ WHERE "userId" = 'user-id-here';
 ### POST `/api/betterauth/users`
 
 **Request**:
+
 ```json
 {
   "userId": "user-id-string"
@@ -272,6 +292,7 @@ WHERE "userId" = 'user-id-here';
 ```
 
 **Response** (when foundation exists):
+
 ```json
 {
   "id": "user-id",
@@ -281,7 +302,7 @@ WHERE "userId" = 'user-id-here';
   "foundationId": "foundation-id",
   "foundation": {
     "id": "foundation-id",
-    "name": "Yayasan Pendidikan Rahmaniyah",
+    "name": "Yayasan Pendidikan Santosatechid",
     "code": "YAYASAN001",
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
@@ -291,6 +312,7 @@ WHERE "userId" = 'user-id-here';
 ```
 
 **Response** (when no foundation):
+
 ```json
 {
   "id": "user-id",
@@ -317,7 +339,7 @@ export default function Home() {
     isPending: userLoading,
     isError: userError,
   } = useGetUserByIdBetterAuthProfile(session?.user?.id ?? "");
-  
+
   const userId = session?.user.id;
   const { data: userBetterAuth } = useGetBetterAuthById(userId as string);
 
@@ -390,14 +412,16 @@ const hasFoundation = userBetterAuth?.foundation || userBetterAuth?.foundationId
    - Easier to maintain and test
 
 ### Files Modified:
+
 1. ✅ `app/(types)/types/betterauth-types.ts` - Added foundation fields
 2. ✅ `components/profile/EmptyProfileState.tsx` - New component (created)
 3. ✅ `app/(frontend)/(dashboard)/dashboard/profile/page.tsx` - Updated imports and usage
 
 ### Manual Action Required:
+
 - ⚠️ Remove old `EmptyProfileState` definition from profile page (lines ~157-358)
 
 ---
 
-*Created: 2024-09-14*  
-*Purpose: Document profile page enhancement to show foundation info for pending users*
+_Created: 2024-09-14_  
+_Purpose: Document profile page enhancement to show foundation info for pending users_

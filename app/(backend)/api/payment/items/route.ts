@@ -1,7 +1,7 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
@@ -40,7 +40,17 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { studentId, paymentTypeId, quantity, amount, subtotal, month, name, year, skuType } = body;
+    const {
+      studentId,
+      paymentTypeId,
+      quantity,
+      amount,
+      subtotal,
+      month,
+      name,
+      year,
+      skuType,
+    } = body;
 
     // Pastikan siswa & jenis pembayaran milik yayasan ini
     const [ownedStudent, ownedPaymentType] = await Promise.all([
@@ -72,7 +82,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log("[PaymentItems] Created with quantity:", createPaymentItems.quantity);
+    console.log(
+      "[PaymentItems] Created with quantity:",
+      createPaymentItems.quantity,
+    );
 
     return NextResponse.json(createPaymentItems);
   } catch (error) {
@@ -87,7 +100,18 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const { id, studentId, paymentTypeId, quantity, amount, subtotal, month, name, year, skuType } = body;
+    const {
+      id,
+      studentId,
+      paymentTypeId,
+      quantity,
+      amount,
+      subtotal,
+      month,
+      name,
+      year,
+      skuType,
+    } = body;
 
     // Pastikan data milik yayasan ini, sekaligus validasi siswa & jenis pembayaran baru
     const [owned, ownedStudent, ownedPaymentType] = await Promise.all([

@@ -59,10 +59,13 @@
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const t = await resolveFoundation(request, request.nextUrl.searchParams.get("foundationId"));
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
   if (!t.ok) return t.response;
 
   try {
@@ -100,15 +103,27 @@ export async function POST(request: NextRequest) {
 
   try {
     // foundationId dari body dibuang, selalu di-stamp dari sesi
-    const { name, email, roleId, foundationId: _foundationId, ...rest } = await request.json();
+    const {
+      name,
+      email,
+      roleId,
+      foundationId: _foundationId,
+      ...rest
+    } = await request.json();
     if (!name || !roleId) {
-      return NextResponse.json({ error: "Name and role are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name and role are required" },
+        { status: 400 },
+      );
     }
 
     // Pastikan role yang dikirim milik yayasan ini
     // (role bersama ber-foundationId NULL tetap diizinkan karena ikut tampil di daftar role)
     const ownedRole = await prisma.role.findFirst({
-      where: { id: roleId, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      where: {
+        id: roleId,
+        OR: [{ foundationId: t.foundationId }, { foundationId: null }],
+      },
       select: { id: true },
     });
     if (!ownedRole) {
@@ -136,9 +151,19 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, email, roleId, foundationId: _foundationId, ...rest } = await request.json();
+    const {
+      id,
+      name,
+      email,
+      roleId,
+      foundationId: _foundationId,
+      ...rest
+    } = await request.json();
     if (!id || !name || !roleId) {
-      return NextResponse.json({ error: "ID, name, and role are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, name, and role are required" },
+        { status: 400 },
+      );
     }
 
     const owned = await prisma.userData.findFirst({
@@ -152,7 +177,10 @@ export async function PUT(request: NextRequest) {
     // Pastikan role baru tetap milik yayasan ini
     // (role bersama ber-foundationId NULL tetap diizinkan karena ikut tampil di daftar role)
     const ownedRole = await prisma.role.findFirst({
-      where: { id: roleId, OR: [{ foundationId: t.foundationId }, { foundationId: null }] },
+      where: {
+        id: roleId,
+        OR: [{ foundationId: t.foundationId }, { foundationId: null }],
+      },
       select: { id: true },
     });
     if (!ownedRole) {

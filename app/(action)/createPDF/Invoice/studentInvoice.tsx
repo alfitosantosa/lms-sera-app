@@ -1,6 +1,14 @@
 "use client";
 
-import { Document, Image, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
+import {
+  Document,
+  Image,
+  Page,
+  pdf,
+  StyleSheet,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 import React from "react";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -60,7 +68,8 @@ export type KwitansiPDFData = {
 // HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const fmt = (v: number) => new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(v);
+const fmt = (v: number) =>
+  new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(v);
 
 const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString("id-ID", {
@@ -79,16 +88,54 @@ const fmtDateTime = (d: string) =>
   });
 
 const terbilang = (n: number): string => {
-  const satuan = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
+  const satuan = [
+    "",
+    "satu",
+    "dua",
+    "tiga",
+    "empat",
+    "lima",
+    "enam",
+    "tujuh",
+    "delapan",
+    "sembilan",
+    "sepuluh",
+    "sebelas",
+  ];
   if (n < 12) return satuan[n];
   if (n < 20) return satuan[n - 10] + " belas";
-  if (n < 100) return satuan[Math.floor(n / 10)] + " puluh" + (n % 10 ? " " + satuan[n % 10] : "");
+  if (n < 100)
+    return (
+      satuan[Math.floor(n / 10)] +
+      " puluh" +
+      (n % 10 ? " " + satuan[n % 10] : "")
+    );
   if (n < 200) return "seratus" + (n % 100 ? " " + terbilang(n % 100) : "");
-  if (n < 1_000) return satuan[Math.floor(n / 100)] + " ratus" + (n % 100 ? " " + terbilang(n % 100) : "");
-  if (n < 2_000) return "seribu" + (n % 1_000 ? " " + terbilang(n % 1_000) : "");
-  if (n < 1_000_000) return terbilang(Math.floor(n / 1_000)) + " ribu" + (n % 1_000 ? " " + terbilang(n % 1_000) : "");
-  if (n < 1_000_000_000) return terbilang(Math.floor(n / 1_000_000)) + " juta" + (n % 1_000_000 ? " " + terbilang(n % 1_000_000) : "");
-  return terbilang(Math.floor(n / 1_000_000_000)) + " miliar" + (n % 1_000_000_000 ? " " + terbilang(n % 1_000_000_000) : "");
+  if (n < 1_000)
+    return (
+      satuan[Math.floor(n / 100)] +
+      " ratus" +
+      (n % 100 ? " " + terbilang(n % 100) : "")
+    );
+  if (n < 2_000)
+    return "seribu" + (n % 1_000 ? " " + terbilang(n % 1_000) : "");
+  if (n < 1_000_000)
+    return (
+      terbilang(Math.floor(n / 1_000)) +
+      " ribu" +
+      (n % 1_000 ? " " + terbilang(n % 1_000) : "")
+    );
+  if (n < 1_000_000_000)
+    return (
+      terbilang(Math.floor(n / 1_000_000)) +
+      " juta" +
+      (n % 1_000_000 ? " " + terbilang(n % 1_000_000) : "")
+    );
+  return (
+    terbilang(Math.floor(n / 1_000_000_000)) +
+    " miliar" +
+    (n % 1_000_000_000 ? " " + terbilang(n % 1_000_000_000) : "")
+  );
 };
 
 const toTerbilang = (v: number) => {
@@ -242,7 +289,12 @@ const S = StyleSheet.create({
   badgePaid: { backgroundColor: C.green },
   badgePending: { backgroundColor: C.amber },
   badgeOverdue: { backgroundColor: C.red },
-  badgeText: { color: C.white, fontSize: 5.5, fontFamily: "Helvetica-Bold", letterSpacing: 0.3 },
+  badgeText: {
+    color: C.white,
+    fontSize: 5.5,
+    fontFamily: "Helvetica-Bold",
+    letterSpacing: 0.3,
+  },
 
   // ── STUDENT INFO BAR ───────────────────────────────────────────────────────
 
@@ -442,7 +494,12 @@ const S = StyleSheet.create({
     marginTop: 3,
     borderRadius: 2,
   },
-  grandLabel: { fontSize: 8, fontFamily: "Helvetica-Bold", color: C.white, letterSpacing: 0.3 },
+  grandLabel: {
+    fontSize: 8,
+    fontFamily: "Helvetica-Bold",
+    color: C.white,
+    letterSpacing: 0.3,
+  },
   grandValue: { fontSize: 8, fontFamily: "Helvetica-Bold", color: C.white },
 
   // ── FOOTER ─────────────────────────────────────────────────────────────────
@@ -580,7 +637,11 @@ const S = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  continuationText: { fontSize: 5.5, color: C.navyLt, fontFamily: "Helvetica-Oblique" },
+  continuationText: {
+    fontSize: 5.5,
+    color: C.navyLt,
+    fontFamily: "Helvetica-Oblique",
+  },
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -598,14 +659,12 @@ function StatusBadge({ status }: { status: string }) {
   const s = status.toLowerCase();
   const isPaid = s === "paid" || s === "lunas";
   const isOverdue = s === "overdue" || s === "terlambat";
-  const badgeStyle =
-    isPaid ? S.badgePaid
-    : isOverdue ? S.badgeOverdue
-    : S.badgePending;
-  const label =
-    isPaid ? "LUNAS"
-    : isOverdue ? "TERLAMBAT"
-    : "MENUNGGU";
+  const badgeStyle = isPaid
+    ? S.badgePaid
+    : isOverdue
+      ? S.badgeOverdue
+      : S.badgePending;
+  const label = isPaid ? "LUNAS" : isOverdue ? "TERLAMBAT" : "MENUNGGU";
   return (
     <View style={[S.badge, badgeStyle]}>
       <Text style={S.badgeText}>{label}</Text>
@@ -641,9 +700,9 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             {/* Left: institution identity */}
             <View style={S.instBlock}>
               <Text style={S.instName}>{unitName || INSTITUTION.name}</Text>
-              {unitName ?
+              {unitName ? (
                 <Text style={S.instUnit}>{INSTITUTION.name}</Text>
-              : null}
+              ) : null}
               <View style={S.instDivider} />
               <Text style={S.instAddr}>
                 {address}
@@ -703,11 +762,15 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             </View>
             <View style={S.studentCell}>
               <Text style={S.cellLabel}>Kelas</Text>
-              <Text style={S.cellValue}>{data.student?.class?.name ?? "-"}</Text>
+              <Text style={S.cellValue}>
+                {data.student?.class?.name ?? "-"}
+              </Text>
             </View>
             <View style={S.studentCell}>
               <Text style={S.cellLabel}>No. HP Orang Tua / Wali</Text>
-              <Text style={S.cellValue}>{data.student?.parentPhone ?? "-"}</Text>
+              <Text style={S.cellValue}>
+                {data.student?.parentPhone ?? "-"}
+              </Text>
             </View>
             <View style={S.studentCellLast}>
               <Text style={S.cellLabel}>Email</Text>
@@ -730,7 +793,11 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
 
           {/* Rows — wrap={false} prevents a row from splitting across pages */}
           {items.map((item, i) => (
-            <View key={item.id} style={i % 2 === 0 ? S.tableRowEven : S.tableRowOdd} wrap={false}>
+            <View
+              key={item.id}
+              style={i % 2 === 0 ? S.tableRowEven : S.tableRowOdd}
+              wrap={false}
+            >
               <Text style={[S.td, S.colNo]}>{i + 1}</Text>
               <Text style={[S.tdBold, S.colName]}>{item.name}</Text>
               <Text style={[S.td, S.colPeriod]}>
@@ -755,12 +822,12 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             </View>
             <View style={S.terbilangBody}>
               <Text style={S.terbilangText}>{toTerbilang(total)}</Text>
-              {data.notes ?
+              {data.notes ? (
                 <>
                   <Text style={S.notesLabel}>Catatan</Text>
                   <Text style={S.notesText}>{data.notes}</Text>
                 </>
-              : null}
+              ) : null}
             </View>
           </View>
 
@@ -772,14 +839,16 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             </View>
             <View style={S.totalRowAlt}>
               <Text style={S.totalLabel}>Bank / Rekening</Text>
-              <Text style={S.totalValue}>{data.accountBank?.accountBank ?? "-"}</Text>
+              <Text style={S.totalValue}>
+                {data.accountBank?.accountBank ?? "-"}
+              </Text>
             </View>
-            {data.bankRef ?
+            {data.bankRef ? (
               <View style={S.totalRow}>
                 <Text style={S.totalLabel}>Referensi Bank</Text>
                 <Text style={S.totalValue}>{data.bankRef}</Text>
               </View>
-            : null}
+            ) : null}
             <View style={S.grandRow}>
               <Text style={S.grandLabel}>TOTAL BAYAR</Text>
               <Text style={S.grandValue}>Rp {fmt(total)}</Text>
@@ -791,7 +860,9 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
         <View style={S.footerWrap} wrap={false}>
           <View style={S.footerHeader}>
             <Text style={S.footerHeaderText}>Tanda Tangan &amp; Informasi</Text>
-            <Text style={S.footerHeaderValid}>Dokumen ini sah apabila tercatat dalam sistem keuangan sekolah.</Text>
+            <Text style={S.footerHeaderValid}>
+              Dokumen ini sah apabila tercatat dalam sistem keuangan sekolah.
+            </Text>
           </View>
 
           <View style={S.footerBody}>
@@ -801,22 +872,31 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
               <Text style={S.footerText}>
                 <Text>Bank</Text>
                 {"\n"}
-                <Text style={S.footerTextBold}>{data.accountBank?.accountBank ?? "-"}</Text>
+                <Text style={S.footerTextBold}>
+                  {data.accountBank?.accountBank ?? "-"}
+                </Text>
                 {"\n"}
                 <Text>No. Rekening</Text>
                 {"\n"}
-                <Text style={S.footerTextBold}>{data.accountBank?.accountNumber ?? "-"}</Text>
+                <Text style={S.footerTextBold}>
+                  {data.accountBank?.accountNumber ?? "-"}
+                </Text>
                 {"\n"}
                 <Text> Atas Nama</Text>
                 {"\n"}
-                <Text style={S.footerTextBold}>{data.accountBank?.accountName ?? "-"}</Text>
+                <Text style={S.footerTextBold}>
+                  {data.accountBank?.accountName ?? "-"}
+                </Text>
               </Text>
             </View>
 
             {/* Keterangan */}
             <View style={S.footerCol}>
               <Text style={S.footerColLabel}>Validitas</Text>
-              <Text style={S.footerText}>Kwitansi ini merupakan bukti pembayaran resmi yang diterbitkan oleh bagian keuangan. Harap disimpan sebagai arsip pribadi.</Text>
+              <Text style={S.footerText}>
+                Kwitansi ini merupakan bukti pembayaran resmi yang diterbitkan
+                oleh bagian keuangan. Harap disimpan sebagai arsip pribadi.
+              </Text>
             </View>
 
             {/* Sig: pemberi */}
@@ -824,20 +904,23 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
               <Text style={S.footerColLabel}>Pemberi</Text>
               <View style={S.sigSpace} />
               <View style={S.sigLine} />
-              <Text style={S.sigName}>{data.student?.name?.split(" ").slice(0, 2).join(" ") ?? ""}</Text>
+              <Text style={S.sigName}>
+                {data.student?.name?.split(" ").slice(0, 2).join(" ") ?? ""}
+              </Text>
               <Text style={S.sigRole}>Siswa / Wali Murid</Text>
             </View>
 
             {/* Sig: penerima */}
             <View style={S.footerColLast}>
               <Text style={S.footerColLabel}>Penerima</Text>
-              {data.major?.signatureUrl ?
+              {data.major?.signatureUrl ? (
                 <Image src={data.major?.signatureUrl} style={S.sigImage} />
-              : <>
+              ) : (
+                <>
                   <View style={S.sigSpace} />
                   <View style={S.sigLine} />
                 </>
-              }
+              )}
               <Text style={S.sigName}>{data.major?.adminName ?? ""}</Text>
               <Text style={S.sigRole}>Bendahara</Text>
             </View>
@@ -863,7 +946,12 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             PAGE FOOTER — fixed, every page
         ══════════════════════════════════════════ */}
         <View style={S.pageFooter} fixed>
-          <Text style={S.pageFooterText} render={({ pageNumber, totalPages }) => (totalPages > 1 ? `Halaman ${pageNumber} dari ${totalPages}` : " ")} />
+          <Text
+            style={S.pageFooterText}
+            render={({ pageNumber, totalPages }) =>
+              totalPages > 1 ? `Halaman ${pageNumber} dari ${totalPages}` : " "
+            }
+          />
           <Text style={S.pageFooterText}>{data.receiptNumber}</Text>
           <Text style={S.pageFooterText}>{INSTITUTION.name}</Text>
         </View>

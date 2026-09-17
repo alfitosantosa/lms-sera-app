@@ -1,28 +1,93 @@
 "use client";
 
 import { useGetQuranSurah } from "@/app/(hooks)/hooks/TahfidzRecord/useQuranSurah";
-import { useCreateTahfidzRecord, useDeleteTahfidzRecord, useGetTahfidzRecords, useUpdateTahfidzRecord } from "@/app/(hooks)/hooks/TahfidzRecord/useTahfidzRecord";
+import {
+  useCreateTahfidzRecord,
+  useDeleteTahfidzRecord,
+  useGetTahfidzRecords,
+  useUpdateTahfidzRecord,
+} from "@/app/(hooks)/hooks/TahfidzRecord/useTahfidzRecord";
 import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
 import { useGetTeachers } from "@/app/(hooks)/hooks/Users/useTeachers";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
-import { ArrowUpDown, BookOpen, CalendarDays, ChevronDown, FileText, MoreHorizontal, Pencil, Plus, Search, Star, Trash2, User, X } from "lucide-react";
+import {
+  ArrowUpDown,
+  BookOpen,
+  CalendarDays,
+  ChevronDown,
+  FileText,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Search,
+  Star,
+  Trash2,
+  User,
+  X,
+} from "lucide-react";
 import { unauthorized } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -76,7 +141,13 @@ const gradeColor: Record<string, string> = {
 
 function GradeBadge({ grade }: { grade?: string }) {
   if (!grade) return <span className="text-muted-foreground">-</span>;
-  return <Badge className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} text-white font-bold`}>{grade}</Badge>;
+  return (
+    <Badge
+      className={`${gradeColor[grade.toUpperCase()] ?? "bg-muted-foreground"} font-bold text-white`}
+    >
+      {grade}
+    </Badge>
+  );
 }
 
 // ─── Form Schema ──────────────────────────────────────────────────────────────
@@ -135,7 +206,10 @@ function TahfidzFormDialog({
   const selectedGrade = watch("grade");
 
   // Find selected surah to show verse count hint
-  const selectedSurah = React.useMemo(() => quranSurah?.find((s) => s.id === selectedSurahId), [quranSurah, selectedSurahId]);
+  const selectedSurah = React.useMemo(
+    () => quranSurah?.find((s) => s.id === selectedSurahId),
+    [quranSurah, selectedSurahId],
+  );
 
   React.useEffect(() => {
     if (editData) {
@@ -145,10 +219,19 @@ function TahfidzFormDialog({
       setValue("startVerse", editData.startVerse ?? 1);
       setValue("endVerse", editData.endVerse ?? 1);
       setValue("grade", editData.grade || "");
-      setValue("date", editData.date ? new Date(editData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]);
+      setValue(
+        "date",
+        editData.date
+          ? new Date(editData.date).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+      );
       setValue("notes", editData.notes || "");
     } else {
-      reset({ date: new Date().toISOString().split("T")[0], startVerse: 1, endVerse: 1 });
+      reset({
+        date: new Date().toISOString().split("T")[0],
+        startVerse: 1,
+        endVerse: 1,
+      });
     }
   }, [editData, setValue, reset]);
 
@@ -178,7 +261,10 @@ function TahfidzFormDialog({
       };
 
       if (editData) {
-        await updateRecord.mutateAsync({ id: editData.id, ...submitData } as any);
+        await updateRecord.mutateAsync({
+          id: editData.id,
+          ...submitData,
+        } as any);
         toast.success("Rekaman tahfidz berhasil diperbarui!");
       } else {
         await createRecord.mutateAsync(submitData as any);
@@ -194,9 +280,11 @@ function TahfidzFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{editData ? "Edit Rekaman Tahfidz" : "Tambah Rekaman Tahfidz Baru"}</DialogTitle>
+          <DialogTitle>
+            {editData ? "Edit Rekaman Tahfidz" : "Tambah Rekaman Tahfidz Baru"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
@@ -204,7 +292,10 @@ function TahfidzFormDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Siswa</Label>
-              <Select value={selectedStudentId || ""} onValueChange={(v) => setValue("studentId", v)}>
+              <Select
+                value={selectedStudentId || ""}
+                onValueChange={(v) => setValue("studentId", v)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Siswa" />
                 </SelectTrigger>
@@ -216,12 +307,21 @@ function TahfidzFormDialog({
                   ))}
                 </SelectContent>
               </Select>
-              {errors.studentId && <p className="text-sm text-destructive">{errors.studentId.message}</p>}
+              {errors.studentId && (
+                <p className="text-destructive text-sm">
+                  {errors.studentId.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label>Guru</Label>
-              <Select value={selectedTeacherId || "none"} onValueChange={(v) => setValue("teacherId", v === "none" ? "" : v)}>
+              <Select
+                value={selectedTeacherId || "none"}
+                onValueChange={(v) =>
+                  setValue("teacherId", v === "none" ? "" : v)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Guru (Opsional)" />
                 </SelectTrigger>
@@ -262,17 +362,26 @@ function TahfidzFormDialog({
                 </SelectContent>
               </Select>
               {selectedSurah && (
-                <p className="text-xs text-muted-foreground">
-                  {selectedSurah.revelationPlace} · {selectedSurah.verseCount} ayat
+                <p className="text-muted-foreground text-xs">
+                  {selectedSurah.revelationPlace} · {selectedSurah.verseCount}{" "}
+                  ayat
                 </p>
               )}
-              {errors.surahQuranId && <p className="text-sm text-destructive">{errors.surahQuranId.message}</p>}
+              {errors.surahQuranId && (
+                <p className="text-destructive text-sm">
+                  {errors.surahQuranId.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="date">Tanggal</Label>
               <Input id="date" type="date" {...register("date")} />
-              {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
+              {errors.date && (
+                <p className="text-destructive text-sm">
+                  {errors.date.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -281,25 +390,56 @@ function TahfidzFormDialog({
             <div className="space-y-2">
               <Label htmlFor="startVerse">
                 Ayat Awal
-                {selectedSurah && <span className="ml-1 text-xs text-muted-foreground">(maks. {selectedSurah.verseCount})</span>}
+                {selectedSurah && (
+                  <span className="text-muted-foreground ml-1 text-xs">
+                    (maks. {selectedSurah.verseCount})
+                  </span>
+                )}
               </Label>
-              <Input id="startVerse" type="number" min="1" max={selectedSurah?.verseCount} {...register("startVerse", { valueAsNumber: true })} />
-              {errors.startVerse && <p className="text-sm text-destructive">{errors.startVerse.message}</p>}
+              <Input
+                id="startVerse"
+                type="number"
+                min="1"
+                max={selectedSurah?.verseCount}
+                {...register("startVerse", { valueAsNumber: true })}
+              />
+              {errors.startVerse && (
+                <p className="text-destructive text-sm">
+                  {errors.startVerse.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="endVerse">
                 Ayat Akhir
-                {selectedSurah && <span className="ml-1 text-xs text-muted-foreground">(maks. {selectedSurah.verseCount})</span>}
+                {selectedSurah && (
+                  <span className="text-muted-foreground ml-1 text-xs">
+                    (maks. {selectedSurah.verseCount})
+                  </span>
+                )}
               </Label>
-              <Input id="endVerse" type="number" min="1" max={selectedSurah?.verseCount} {...register("endVerse", { valueAsNumber: true })} />
-              {errors.endVerse && <p className="text-sm text-destructive">{errors.endVerse.message}</p>}
+              <Input
+                id="endVerse"
+                type="number"
+                min="1"
+                max={selectedSurah?.verseCount}
+                {...register("endVerse", { valueAsNumber: true })}
+              />
+              {errors.endVerse && (
+                <p className="text-destructive text-sm">
+                  {errors.endVerse.message}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Grade */}
           <div className="space-y-2">
             <Label>Nilai</Label>
-            <Select value={selectedGrade || "none"} onValueChange={(v) => setValue("grade", v === "none" ? "" : v)}>
+            <Select
+              value={selectedGrade || "none"}
+              onValueChange={(v) => setValue("grade", v === "none" ? "" : v)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Nilai (Opsional)" />
               </SelectTrigger>
@@ -317,19 +457,31 @@ function TahfidzFormDialog({
           {/* Notes */}
           <div className="space-y-2">
             <Label htmlFor="notes">Catatan</Label>
-            <Textarea id="notes" placeholder="Catatan tambahan..." rows={3} {...register("notes")} />
+            <Textarea
+              id="notes"
+              placeholder="Catatan tambahan..."
+              rows={3}
+              {...register("notes")}
+            />
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Batal
             </Button>
-            <Button type="submit" disabled={createRecord.isPending || updateRecord.isPending}>
-              {createRecord.isPending || updateRecord.isPending ?
-                "Menyimpan..."
-              : editData ?
-                "Perbarui"
-              : "Simpan"}
+            <Button
+              type="submit"
+              disabled={createRecord.isPending || updateRecord.isPending}
+            >
+              {createRecord.isPending || updateRecord.isPending
+                ? "Menyimpan..."
+                : editData
+                  ? "Perbarui"
+                  : "Simpan"}
             </Button>
           </div>
         </form>
@@ -339,13 +491,26 @@ function TahfidzFormDialog({
 }
 
 // ─── Delete Dialog ────────────────────────────────────────────────────────────
-function DeleteTahfidzDialog({ open, onOpenChange, recordData, onSuccess }: { open: boolean; onOpenChange: (open: boolean) => void; recordData: TahfidzRecordData | null; onSuccess: () => void }) {
+function DeleteTahfidzDialog({
+  open,
+  onOpenChange,
+  recordData,
+  onSuccess,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  recordData: TahfidzRecordData | null;
+  onSuccess: () => void;
+}) {
   const deleteRecord = useDeleteTahfidzRecord();
 
   const handleDelete = async () => {
     if (!recordData) return;
     try {
-      await deleteRecord.mutateAsync({ id: recordData.id, studentId: recordData.studentId } as any);
+      await deleteRecord.mutateAsync({
+        id: recordData.id,
+        studentId: recordData.studentId,
+      } as any);
       toast.success("Rekaman tahfidz berhasil dihapus!");
       onOpenChange(false);
       onSuccess();
@@ -354,7 +519,9 @@ function DeleteTahfidzDialog({ open, onOpenChange, recordData, onSuccess }: { op
     }
   };
 
-  const surahLabel = recordData?.surah ? `${recordData.surah.name} (${recordData.surah.nameLatin})` : "-";
+  const surahLabel = recordData?.surah
+    ? `${recordData.surah.name} (${recordData.surah.nameLatin})`
+    : "-";
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -362,12 +529,18 @@ function DeleteTahfidzDialog({ open, onOpenChange, recordData, onSuccess }: { op
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus Rekaman Tahfidz</AlertDialogTitle>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus rekaman tahfidz surah "{surahLabel}" milik {recordData?.student?.name ?? "siswa ini"}? Tindakan ini tidak dapat dibatalkan.
+            Apakah Anda yakin ingin menghapus rekaman tahfidz surah "
+            {surahLabel}" milik {recordData?.student?.name ?? "siswa ini"}?
+            Tindakan ini tidak dapat dibatalkan.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={deleteRecord.isPending} className="bg-destructive-solid hover:bg-destructive-solid/90">
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={deleteRecord.isPending}
+            className="bg-destructive-solid hover:bg-destructive-solid/90"
+          >
             {deleteRecord.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -379,8 +552,11 @@ function DeleteTahfidzDialog({ open, onOpenChange, recordData, onSuccess }: { op
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function TahfidzRecordDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [gradeFilter, setGradeFilter] = React.useState<string>("all");
@@ -388,7 +564,8 @@ function TahfidzRecordDataTable() {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedRecord, setSelectedRecord] = React.useState<TahfidzRecordData | null>(null);
+  const [selectedRecord, setSelectedRecord] =
+    React.useState<TahfidzRecordData | null>(null);
 
   const { data: records = [], isLoading, refetch } = useGetTahfidzRecords("");
   const { data: allStudents = [] } = useGetStudents();
@@ -397,18 +574,48 @@ function TahfidzRecordDataTable() {
 
   const handleSuccess = () => refetch();
 
-  const globalFilterFn = React.useCallback((row: any, _columnId: string, filterValue: string) => {
-    if (!filterValue) return true;
-    const r = row.original as TahfidzRecordData;
-    const text = [r.surah?.name, r.surah?.nameLatin, r.student?.name, r.teacher?.name, r.grade, r.notes, r.startVerse?.toString(), r.endVerse?.toString()].filter(Boolean).join(" ").toLowerCase();
-    return text.includes(filterValue.toLowerCase());
-  }, []);
+  const globalFilterFn = React.useCallback(
+    (row: any, _columnId: string, filterValue: string) => {
+      if (!filterValue) return true;
+      const r = row.original as TahfidzRecordData;
+      const text = [
+        r.surah?.name,
+        r.surah?.nameLatin,
+        r.student?.name,
+        r.teacher?.name,
+        r.grade,
+        r.notes,
+        r.startVerse?.toString(),
+        r.endVerse?.toString(),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return text.includes(filterValue.toLowerCase());
+    },
+    [],
+  );
 
   const columns: ColumnDef<TahfidzRecordData>[] = [
     {
       id: "select",
-      header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")} onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)} aria-label="Select all" />,
-      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(v) => row.toggleSelected(!!v)} aria-label="Select row" />,
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(v) => row.toggleSelected(!!v)}
+          aria-label="Select row"
+        />
+      ),
       enableSorting: false,
       enableHiding: false,
     },
@@ -416,31 +623,46 @@ function TahfidzRecordDataTable() {
       id: "student",
       accessorFn: (row) => row.student?.name ?? "-",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           <User className="mr-2 h-4 w-4" />
           Siswa
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div className="font-medium">{row.original.student?.name ?? "-"}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.original.student?.name ?? "-"}</div>
+      ),
     },
     {
       id: "teacher",
       accessorFn: (row) => row.teacher?.name ?? "-",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           <User className="mr-2 h-4 w-4" />
           Guru
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div className="text-muted-foreground">{row.original.teacher?.name ?? "-"}</div>,
+      cell: ({ row }) => (
+        <div className="text-muted-foreground">
+          {row.original.teacher?.name ?? "-"}
+        </div>
+      ),
     },
     {
       id: "surah",
       accessorFn: (row) => row.surah?.name ?? "-",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           <BookOpen className="mr-2 h-4 w-4" />
           Surah
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -450,17 +672,22 @@ function TahfidzRecordDataTable() {
         const surah = row.original.surah;
         return (
           <div>
-            {surah ?
+            {surah ? (
               <>
                 <div className="font-medium">{surah.name}</div>
-                <div className="text-xs text-muted-foreground">{surah.nameLatin}</div>
+                <div className="text-muted-foreground text-xs">
+                  {surah.nameLatin}
+                </div>
               </>
-            : <span className="text-muted-foreground">-</span>}
-            {row.original.startVerse != null && row.original.endVerse != null && (
-              <div className="text-xs text-muted-foreground mt-0.5">
-                Ayat {row.original.startVerse} – {row.original.endVerse}
-              </div>
+            ) : (
+              <span className="text-muted-foreground">-</span>
             )}
+            {row.original.startVerse != null &&
+              row.original.endVerse != null && (
+                <div className="text-muted-foreground mt-0.5 text-xs">
+                  Ayat {row.original.startVerse} – {row.original.endVerse}
+                </div>
+              )}
           </div>
         );
       },
@@ -482,7 +709,10 @@ function TahfidzRecordDataTable() {
     {
       accessorKey: "grade",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           <Star className="mr-2 h-4 w-4" />
           Nilai
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -498,7 +728,10 @@ function TahfidzRecordDataTable() {
     {
       accessorKey: "date",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           <CalendarDays className="mr-2 h-4 w-4" />
           Tanggal
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -507,7 +740,11 @@ function TahfidzRecordDataTable() {
       cell: ({ row }) => {
         const d = row.getValue("date") as string;
         if (!d) return <span className="text-muted-foreground">-</span>;
-        return <span>{format(new Date(d), "dd MMM yyyy", { locale: localeId })}</span>;
+        return (
+          <span>
+            {format(new Date(d), "dd MMM yyyy", { locale: localeId })}
+          </span>
+        );
       },
     },
     {
@@ -516,7 +753,10 @@ function TahfidzRecordDataTable() {
       cell: ({ row }) => {
         const notes = row.getValue("notes") as string;
         return (
-          <div className="max-w-xs truncate text-muted-foreground" title={notes}>
+          <div
+            className="text-muted-foreground max-w-xs truncate"
+            title={notes}
+          >
             {notes || "-"}
           </div>
         );
@@ -537,7 +777,11 @@ function TahfidzRecordDataTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(rec.id)}>Copy ID Rekaman</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(rec.id)}
+              >
+                Copy ID Rekaman
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -578,11 +822,19 @@ function TahfidzRecordDataTable() {
     onRowSelectionChange: setRowSelection,
     globalFilterFn,
     onGlobalFilterChange: setGlobalFilter,
-    state: { sorting, columnFilters, columnVisibility, rowSelection, globalFilter },
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      globalFilter,
+    },
   });
 
   React.useEffect(() => {
-    table.getColumn("grade")?.setFilterValue(gradeFilter !== "all" ? gradeFilter : undefined);
+    table
+      .getColumn("grade")
+      ?.setFilterValue(gradeFilter !== "all" ? gradeFilter : undefined);
   }, [gradeFilter, table]);
 
   if (isLoading) return <Loading />;
@@ -601,15 +853,20 @@ function TahfidzRecordDataTable() {
   };
 
   return (
-    <div className="mx-auto my-8 p-6 max-w-7xl min-h-screen">
-      <div className="font-bold text-3xl mb-6">Data Rekaman Tahfidz</div>
+    <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
+      <div className="mb-6 text-3xl font-bold">Data Rekaman Tahfidz</div>
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between py-4 flex-wrap gap-y-3">
-        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
+        <div className="flex flex-wrap items-center space-x-2 gap-y-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Cari surah, siswa, guru..." value={globalFilter ?? ""} onChange={(e) => setGlobalFilter(e.target.value)} className="max-w-sm pl-8" />
+            <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
+            <Input
+              placeholder="Cari surah, siswa, guru..."
+              value={globalFilter ?? ""}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="max-w-sm pl-8"
+            />
           </div>
 
           <Select value={gradeFilter} onValueChange={setGradeFilter}>
@@ -655,7 +912,12 @@ function TahfidzRecordDataTable() {
                 .getAllColumns()
                 .filter((c) => c.getCanHide())
                 .map((column) => (
-                  <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(v) => column.toggleVisibility(!!v)}>
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(v) => column.toggleVisibility(!!v)}
+                  >
                     {columnLabels[column.id] ?? column.id}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -671,49 +933,78 @@ function TahfidzRecordDataTable() {
 
       {/* Active filter badges */}
       {(globalFilter || gradeFilter !== "all") && (
-        <div className="flex items-center space-x-2 py-2 flex-wrap gap-y-1">
-          <span className="text-sm text-muted-foreground">Filter aktif:</span>
+        <div className="flex flex-wrap items-center space-x-2 gap-y-1 py-2">
+          <span className="text-muted-foreground text-sm">Filter aktif:</span>
           {globalFilter && (
             <Badge variant="secondary" className="gap-1">
               Pencarian: {globalFilter}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setGlobalFilter("")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setGlobalFilter("")}
+              />
             </Badge>
           )}
           {gradeFilter !== "all" && (
             <Badge variant="secondary" className="gap-1">
               Nilai: {gradeFilter === "none" ? "Belum Dinilai" : gradeFilter}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setGradeFilter("all")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setGradeFilter("all")}
+              />
             </Badge>
           )}
         </div>
       )}
 
       {/* Table */}
-      <div className="rounded-md border w-full overflow-hidden">
+      <div className="w-full overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
               <TableRow key={hg.id}>
                 {hg.headers.map((header) => (
-                  <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ?
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
-            : <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <FileText className="h-8 w-8 text-muted-foreground" />
-                    <p className="text-muted-foreground">{globalFilter || gradeFilter !== "all" ? "Tidak ada data yang sesuai dengan filter." : "Tidak ada rekaman tahfidz yang ditemukan."}</p>
+                    <FileText className="text-muted-foreground h-8 w-8" />
+                    <p className="text-muted-foreground">
+                      {globalFilter || gradeFilter !== "all"
+                        ? "Tidak ada data yang sesuai dengan filter."
+                        : "Tidak ada rekaman tahfidz yang ditemukan."}
+                    </p>
                     {(globalFilter || gradeFilter !== "all") && (
                       <Button
                         variant="outline"
@@ -730,26 +1021,40 @@ function TahfidzRecordDataTable() {
                   </div>
                 </TableCell>
               </TableRow>
-            }
+            )}
           </TableBody>
         </Table>
       </div>
 
       {/* Pagination */}
       <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} dari {filteredRows.length} baris dipilih.
-          {filteredRows.length !== totalRecords && <span className="ml-2">(difilter dari {totalRecords} total)</span>}
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+          {filteredRows.length} baris dipilih.
+          {filteredRows.length !== totalRecords && (
+            <span className="ml-2">(difilter dari {totalRecords} total)</span>
+          )}
         </div>
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">
-            Halaman {table.getState().pagination.pageIndex + 1} dari {table.getPageCount()}
+            Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
+            {table.getPageCount()}
           </p>
           <div className="space-x-2">
-            <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
               Sebelumnya
             </Button>
-            <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
               Selanjutnya
             </Button>
           </div>
@@ -757,45 +1062,79 @@ function TahfidzRecordDataTable() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <BookOpen className="h-5 w-5 text-info" />
+            <BookOpen className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Rekaman</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{totalRecords}</p>
-          {filteredRows.length !== totalRecords && <p className="text-sm text-muted-foreground">({filteredRows.length} terfilter)</p>}
+          <p className="mt-2 text-2xl font-bold">{totalRecords}</p>
+          {filteredRows.length !== totalRecords && (
+            <p className="text-muted-foreground text-sm">
+              ({filteredRows.length} terfilter)
+            </p>
+          )}
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-success" />
+            <div className="bg-success h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Nilai A</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => r.original.grade === "A").length}</p>
+          <p className="mt-2 text-2xl font-bold">
+            {filteredRows.filter((r) => r.original.grade === "A").length}
+          </p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <div className="h-3 w-3 rounded-full bg-warning" />
+            <div className="bg-warning h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Belum Dinilai</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{filteredRows.filter((r) => !r.original.grade).length}</p>
+          <p className="mt-2 text-2xl font-bold">
+            {filteredRows.filter((r) => !r.original.grade).length}
+          </p>
         </div>
 
         <div className="bg-card rounded-lg border p-4">
           <div className="flex items-center space-x-2">
-            <User className="h-5 w-5 text-tertiary" />
+            <User className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Jumlah Siswa</h3>
           </div>
-          <p className="text-2xl font-bold mt-2">{new Set(filteredRows.map((r) => r.original.studentId).filter(Boolean)).size}</p>
+          <p className="mt-2 text-2xl font-bold">
+            {
+              new Set(
+                filteredRows.map((r) => r.original.studentId).filter(Boolean),
+              ).size
+            }
+          </p>
         </div>
       </div>
 
       {/* Dialogs */}
-      <TahfidzFormDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} onSuccess={handleSuccess} allStudents={allStudents} allTeachers={allTeachers} quranSurah={quranSurah} />
-      <TahfidzFormDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} editData={selectedRecord} onSuccess={handleSuccess} allStudents={allStudents} allTeachers={allTeachers} quranSurah={quranSurah} />
-      <DeleteTahfidzDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} recordData={selectedRecord} onSuccess={handleSuccess} />
+      <TahfidzFormDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onSuccess={handleSuccess}
+        allStudents={allStudents}
+        allTeachers={allTeachers}
+        quranSurah={quranSurah}
+      />
+      <TahfidzFormDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        editData={selectedRecord}
+        onSuccess={handleSuccess}
+        allStudents={allStudents}
+        allTeachers={allTeachers}
+        quranSurah={quranSurah}
+      />
+      <DeleteTahfidzDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        recordData={selectedRecord}
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }
@@ -804,7 +1143,8 @@ function TahfidzRecordDataTable() {
 export default function TahfidzRecordPage() {
   const { data: session, isPending } = useSession();
   const userId = session?.user?.id;
-  const { data: userData, isLoading: isLoadingUserData } = useGetUserByIdBetterAuth(userId as string);
+  const { data: userData, isLoading: isLoadingUserData } =
+    useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
 
   if (isPending || isLoadingUserData) return <Loading />;
