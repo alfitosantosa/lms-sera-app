@@ -239,8 +239,8 @@ export type BranchWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   accountBank?: Prisma.AccountBankListRelationFilter
-  classes?: Prisma.ClassListRelationFilter
   foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  classes?: Prisma.ClassListRelationFilter
   paymenttype?: Prisma.PaymentTypeListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -261,8 +261,8 @@ export type BranchOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accountBank?: Prisma.AccountBankOrderByRelationAggregateInput
-  classes?: Prisma.ClassOrderByRelationAggregateInput
   foundation?: Prisma.FoundationOrderByWithRelationInput
+  classes?: Prisma.ClassOrderByRelationAggregateInput
   paymenttype?: Prisma.PaymentTypeOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
@@ -287,8 +287,8 @@ export type BranchWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Branch"> | Date | string
   accountBank?: Prisma.AccountBankListRelationFilter
-  classes?: Prisma.ClassListRelationFilter
   foundation?: Prisma.XOR<Prisma.FoundationNullableScalarRelationFilter, Prisma.FoundationWhereInput> | null
+  classes?: Prisma.ClassListRelationFilter
   paymenttype?: Prisma.PaymentTypeListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -344,8 +344,8 @@ export type BranchCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
@@ -386,8 +386,8 @@ export type BranchUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
@@ -756,8 +756,8 @@ export type BranchCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
@@ -812,8 +812,8 @@ export type BranchUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
@@ -948,8 +948,8 @@ export type BranchCreateWithoutSubjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
@@ -1004,8 +1004,8 @@ export type BranchUpdateWithoutSubjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
@@ -1044,8 +1044,8 @@ export type BranchCreateWithoutPaymenttypeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
@@ -1100,8 +1100,8 @@ export type BranchUpdateWithoutPaymenttypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
@@ -1140,8 +1140,8 @@ export type BranchCreateWithoutPaymentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
@@ -1196,8 +1196,8 @@ export type BranchUpdateWithoutPaymentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
@@ -1235,8 +1235,8 @@ export type BranchCreateWithoutAccountBankInput = {
   signatureUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
   paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
@@ -1291,8 +1291,8 @@ export type BranchUpdateWithoutAccountBankInput = {
   signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
   paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
@@ -1477,8 +1477,8 @@ export type BranchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   accountBank?: boolean | Prisma.Branch$accountBankArgs<ExtArgs>
-  classes?: boolean | Prisma.Branch$classesArgs<ExtArgs>
   foundation?: boolean | Prisma.Branch$foundationArgs<ExtArgs>
+  classes?: boolean | Prisma.Branch$classesArgs<ExtArgs>
   paymenttype?: boolean | Prisma.Branch$paymenttypeArgs<ExtArgs>
   payments?: boolean | Prisma.Branch$paymentsArgs<ExtArgs>
   subjects?: boolean | Prisma.Branch$subjectsArgs<ExtArgs>
@@ -1536,8 +1536,8 @@ export type BranchSelectScalar = {
 export type BranchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "isActive" | "address" | "phone" | "adminName" | "signatureUrl" | "foundationId" | "createdAt" | "updatedAt", ExtArgs["result"]["branch"]>
 export type BranchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accountBank?: boolean | Prisma.Branch$accountBankArgs<ExtArgs>
-  classes?: boolean | Prisma.Branch$classesArgs<ExtArgs>
   foundation?: boolean | Prisma.Branch$foundationArgs<ExtArgs>
+  classes?: boolean | Prisma.Branch$classesArgs<ExtArgs>
   paymenttype?: boolean | Prisma.Branch$paymenttypeArgs<ExtArgs>
   payments?: boolean | Prisma.Branch$paymentsArgs<ExtArgs>
   subjects?: boolean | Prisma.Branch$subjectsArgs<ExtArgs>
@@ -1555,8 +1555,8 @@ export type $BranchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Branch"
   objects: {
     accountBank: Prisma.$AccountBankPayload<ExtArgs>[]
-    classes: Prisma.$ClassPayload<ExtArgs>[]
     foundation: Prisma.$FoundationPayload<ExtArgs> | null
+    classes: Prisma.$ClassPayload<ExtArgs>[]
     paymenttype: Prisma.$PaymentTypePayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
@@ -1970,8 +1970,8 @@ readonly fields: BranchFieldRefs;
 export interface Prisma__BranchClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   accountBank<T extends Prisma.Branch$accountBankArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$accountBankArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountBankPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  classes<T extends Prisma.Branch$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   foundation<T extends Prisma.Branch$foundationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$foundationArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  classes<T extends Prisma.Branch$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paymenttype<T extends Prisma.Branch$paymenttypeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$paymenttypeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Branch$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Branch$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2442,6 +2442,25 @@ export type Branch$accountBankArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Branch.foundation
+ */
+export type Branch$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Foundation
+   */
+  select?: Prisma.FoundationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Foundation
+   */
+  omit?: Prisma.FoundationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FoundationInclude<ExtArgs> | null
+  where?: Prisma.FoundationWhereInput
+}
+
+/**
  * Branch.classes
  */
 export type Branch$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2463,25 +2482,6 @@ export type Branch$classesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.ClassScalarFieldEnum | Prisma.ClassScalarFieldEnum[]
-}
-
-/**
- * Branch.foundation
- */
-export type Branch$foundationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foundation
-   */
-  select?: Prisma.FoundationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foundation
-   */
-  omit?: Prisma.FoundationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FoundationInclude<ExtArgs> | null
-  where?: Prisma.FoundationWhereInput
 }
 
 /**

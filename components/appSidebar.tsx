@@ -85,10 +85,29 @@ type MenuItem = {
 export function AppSidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session } = useSession();
-  const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
+  const { data: session, isPending: isSessionPending } = useSession();
+  const { data: userData, isLoading: isUserDataLoading } =
+    useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
-  const userRole = userData?.role?.name || "student";
+  // Show loading state while data is being fetched
+  if (isSessionPending || isUserDataLoading) {
+    return (
+      <Sidebar className="border-border bg-sidebar text-foreground border-r">
+        <SidebarHeader className="border-border bg-sidebar border-b px-5 py-4">
+          <div className="flex items-center gap-2.5">
+            <span className="text-foreground text-[17px] font-extrabold">
+              Sera
+            </span>
+          </div>
+        </SidebarHeader>
+        <SidebarContent className="flex items-center justify-center">
+          <p className="text-muted-foreground text-sm">Memuat menu...</p>
+        </SidebarContent>
+      </Sidebar>
+    );
+  }
+
+  const userRole = userData?.role?.name || "Student";
   const userRoleLower = userRole.toLowerCase();
   const permissions = userData?.role?.permissions || [];
 
@@ -104,42 +123,27 @@ export function AppSidebar() {
       r.includes("kepala sekolah")
     )
       return "teacher";
-    if (r.includes("parent") || r.includes("orang tua")) return "parent";
-    return "student";
+    if (r.includes("student")) return "student";
+    return "";
   };
 
   const roleMenuKey = getRoleMenuKey(userRole);
   const currentMenuGroups = menuGroups[roleMenuKey] || menuGroups.student;
 
-  // Debug logging (remove in production)
-  React.useEffect(() => {
-    if (userData?.role) {
-      console.log("🔍 Sidebar Debug:", {
-        originalRole: userData.role.name,
-        userRole,
-        userRoleLower,
-        roleMenuKey,
-        hasMenuGroup: !!menuGroups[roleMenuKey],
-        menuGroupsAvailable: Object.keys(menuGroups),
-        permissionsCount: permissions.length,
-      });
-    }
-  }, [
-    userData?.role,
-    userRole,
-    userRoleLower,
-    roleMenuKey,
-    permissions.length,
-  ]);
+  console.log("role", roleMenuKey);
 
   // Filter menu items based on permissions
   const filterMenuByPermissions = (items: MenuItem[]): MenuItem[] => {
-    // Admin, Yayasan, and Treasurer roles see ALL menus (bypass permission filtering)
+    // Admin, Yayasan, Treasurer, Student, and Parent roles see ALL menus (bypass permission filtering)
     if (
       userRoleLower.includes("admin") ||
       userRoleLower.includes("yayasan") ||
       userRoleLower.includes("treasurer") ||
-      userRoleLower.includes("bendahara")
+      userRoleLower.includes("bendahara") ||
+      userRoleLower.includes("student") ||
+      userRoleLower.includes("siswa") ||
+      userRoleLower.includes("parent") ||
+      userRoleLower.includes("orang tua")
     ) {
       return items;
     }

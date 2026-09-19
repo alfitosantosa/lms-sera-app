@@ -192,9 +192,9 @@ export type FoundationWhereInput = {
   phone?: Prisma.StringFilter<"Foundation"> | string
   academicYear?: Prisma.AcademicYearListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
+  branch?: Prisma.BranchListRelationFilter
   calendarEvent?: Prisma.CalendarEventListRelationFilter
   dashboardContent?: Prisma.DashboardContentListRelationFilter
-  branch?: Prisma.BranchListRelationFilter
   role?: Prisma.RoleListRelationFilter
   user?: Prisma.UserListRelationFilter
   userData?: Prisma.UserDataListRelationFilter
@@ -209,9 +209,9 @@ export type FoundationOrderByWithRelationInput = {
   phone?: Prisma.SortOrder
   academicYear?: Prisma.AcademicYearOrderByRelationAggregateInput
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
+  branch?: Prisma.BranchOrderByRelationAggregateInput
   calendarEvent?: Prisma.CalendarEventOrderByRelationAggregateInput
   dashboardContent?: Prisma.DashboardContentOrderByRelationAggregateInput
-  branch?: Prisma.BranchOrderByRelationAggregateInput
   role?: Prisma.RoleOrderByRelationAggregateInput
   user?: Prisma.UserOrderByRelationAggregateInput
   userData?: Prisma.UserDataOrderByRelationAggregateInput
@@ -229,9 +229,9 @@ export type FoundationWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringFilter<"Foundation"> | string
   academicYear?: Prisma.AcademicYearListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
+  branch?: Prisma.BranchListRelationFilter
   calendarEvent?: Prisma.CalendarEventListRelationFilter
   dashboardContent?: Prisma.DashboardContentListRelationFilter
-  branch?: Prisma.BranchListRelationFilter
   role?: Prisma.RoleListRelationFilter
   user?: Prisma.UserListRelationFilter
   userData?: Prisma.UserDataListRelationFilter
@@ -270,9 +270,9 @@ export type FoundationCreateInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
@@ -287,9 +287,9 @@ export type FoundationUncheckedCreateInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
@@ -304,9 +304,9 @@ export type FoundationUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
@@ -321,9 +321,9 @@ export type FoundationUncheckedUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
@@ -528,9 +528,9 @@ export type FoundationCreateWithoutUserInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
 }
@@ -544,9 +544,9 @@ export type FoundationUncheckedCreateWithoutUserInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
 }
@@ -576,9 +576,9 @@ export type FoundationUpdateWithoutUserInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
 }
@@ -592,9 +592,9 @@ export type FoundationUncheckedUpdateWithoutUserInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
 }
@@ -608,9 +608,9 @@ export type FoundationCreateWithoutUserDataInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
 }
@@ -624,9 +624,9 @@ export type FoundationUncheckedCreateWithoutUserDataInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
 }
@@ -656,9 +656,9 @@ export type FoundationUpdateWithoutUserDataInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
 }
@@ -672,9 +672,9 @@ export type FoundationUncheckedUpdateWithoutUserDataInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
 }
@@ -688,9 +688,9 @@ export type FoundationCreateWithoutRoleInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
 }
@@ -704,9 +704,9 @@ export type FoundationUncheckedCreateWithoutRoleInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
 }
@@ -736,9 +736,9 @@ export type FoundationUpdateWithoutRoleInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
 }
@@ -752,9 +752,9 @@ export type FoundationUncheckedUpdateWithoutRoleInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
 }
@@ -767,9 +767,9 @@ export type FoundationCreateWithoutAcademicYearInput = {
   address: string
   phone: string
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
@@ -783,9 +783,9 @@ export type FoundationUncheckedCreateWithoutAcademicYearInput = {
   address: string
   phone: string
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
@@ -815,9 +815,9 @@ export type FoundationUpdateWithoutAcademicYearInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
@@ -831,9 +831,9 @@ export type FoundationUncheckedUpdateWithoutAcademicYearInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
@@ -928,8 +928,8 @@ export type FoundationCreateWithoutCalendarEventInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
-  dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
   branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
+  dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
@@ -944,8 +944,8 @@ export type FoundationUncheckedCreateWithoutCalendarEventInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
-  dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
   branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
+  dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
@@ -976,8 +976,8 @@ export type FoundationUpdateWithoutCalendarEventInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
-  dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
   branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
+  dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
@@ -992,8 +992,8 @@ export type FoundationUncheckedUpdateWithoutCalendarEventInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
-  dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
   branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
+  dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1008,8 +1008,8 @@ export type FoundationCreateWithoutDashboardContentInput = {
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
-  calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
+  calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
@@ -1024,8 +1024,8 @@ export type FoundationUncheckedCreateWithoutDashboardContentInput = {
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
-  calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
+  calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
@@ -1056,8 +1056,8 @@ export type FoundationUpdateWithoutDashboardContentInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
-  calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
+  calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
@@ -1072,8 +1072,8 @@ export type FoundationUncheckedUpdateWithoutDashboardContentInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
-  calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
+  calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1087,9 +1087,9 @@ export type FoundationCreateWithoutAnnouncementsInput = {
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
@@ -1103,9 +1103,9 @@ export type FoundationUncheckedCreateWithoutAnnouncementsInput = {
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
   dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
-  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
   user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
   userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
@@ -1135,9 +1135,9 @@ export type FoundationUpdateWithoutAnnouncementsInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
@@ -1151,9 +1151,9 @@ export type FoundationUncheckedUpdateWithoutAnnouncementsInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
   dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
-  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
   user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
   userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1167,9 +1167,9 @@ export type FoundationUncheckedUpdateWithoutAnnouncementsInput = {
 export type FoundationCountOutputType = {
   academicYear: number
   announcements: number
+  branch: number
   calendarEvent: number
   dashboardContent: number
-  branch: number
   role: number
   user: number
   userData: number
@@ -1178,9 +1178,9 @@ export type FoundationCountOutputType = {
 export type FoundationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   academicYear?: boolean | FoundationCountOutputTypeCountAcademicYearArgs
   announcements?: boolean | FoundationCountOutputTypeCountAnnouncementsArgs
+  branch?: boolean | FoundationCountOutputTypeCountBranchArgs
   calendarEvent?: boolean | FoundationCountOutputTypeCountCalendarEventArgs
   dashboardContent?: boolean | FoundationCountOutputTypeCountDashboardContentArgs
-  branch?: boolean | FoundationCountOutputTypeCountBranchArgs
   role?: boolean | FoundationCountOutputTypeCountRoleArgs
   user?: boolean | FoundationCountOutputTypeCountUserArgs
   userData?: boolean | FoundationCountOutputTypeCountUserDataArgs
@@ -1213,6 +1213,13 @@ export type FoundationCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runt
 /**
  * FoundationCountOutputType without action
  */
+export type FoundationCountOutputTypeCountBranchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BranchWhereInput
+}
+
+/**
+ * FoundationCountOutputType without action
+ */
 export type FoundationCountOutputTypeCountCalendarEventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CalendarEventWhereInput
 }
@@ -1222,13 +1229,6 @@ export type FoundationCountOutputTypeCountCalendarEventArgs<ExtArgs extends runt
  */
 export type FoundationCountOutputTypeCountDashboardContentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DashboardContentWhereInput
-}
-
-/**
- * FoundationCountOutputType without action
- */
-export type FoundationCountOutputTypeCountBranchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BranchWhereInput
 }
 
 /**
@@ -1262,9 +1262,9 @@ export type FoundationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   phone?: boolean
   academicYear?: boolean | Prisma.Foundation$academicYearArgs<ExtArgs>
   announcements?: boolean | Prisma.Foundation$announcementsArgs<ExtArgs>
+  branch?: boolean | Prisma.Foundation$branchArgs<ExtArgs>
   calendarEvent?: boolean | Prisma.Foundation$calendarEventArgs<ExtArgs>
   dashboardContent?: boolean | Prisma.Foundation$dashboardContentArgs<ExtArgs>
-  branch?: boolean | Prisma.Foundation$branchArgs<ExtArgs>
   role?: boolean | Prisma.Foundation$roleArgs<ExtArgs>
   user?: boolean | Prisma.Foundation$userArgs<ExtArgs>
   userData?: boolean | Prisma.Foundation$userDataArgs<ExtArgs>
@@ -1302,9 +1302,9 @@ export type FoundationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type FoundationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   academicYear?: boolean | Prisma.Foundation$academicYearArgs<ExtArgs>
   announcements?: boolean | Prisma.Foundation$announcementsArgs<ExtArgs>
+  branch?: boolean | Prisma.Foundation$branchArgs<ExtArgs>
   calendarEvent?: boolean | Prisma.Foundation$calendarEventArgs<ExtArgs>
   dashboardContent?: boolean | Prisma.Foundation$dashboardContentArgs<ExtArgs>
-  branch?: boolean | Prisma.Foundation$branchArgs<ExtArgs>
   role?: boolean | Prisma.Foundation$roleArgs<ExtArgs>
   user?: boolean | Prisma.Foundation$userArgs<ExtArgs>
   userData?: boolean | Prisma.Foundation$userDataArgs<ExtArgs>
@@ -1318,9 +1318,9 @@ export type $FoundationPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     academicYear: Prisma.$AcademicYearPayload<ExtArgs>[]
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
+    branch: Prisma.$BranchPayload<ExtArgs>[]
     calendarEvent: Prisma.$CalendarEventPayload<ExtArgs>[]
     dashboardContent: Prisma.$DashboardContentPayload<ExtArgs>[]
-    branch: Prisma.$BranchPayload<ExtArgs>[]
     role: Prisma.$RolePayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>[]
     userData: Prisma.$UserDataPayload<ExtArgs>[]
@@ -1728,9 +1728,9 @@ export interface Prisma__FoundationClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   academicYear<T extends Prisma.Foundation$academicYearArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$academicYearArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   announcements<T extends Prisma.Foundation$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  branch<T extends Prisma.Foundation$branchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$branchArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   calendarEvent<T extends Prisma.Foundation$calendarEventArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$calendarEventArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dashboardContent<T extends Prisma.Foundation$dashboardContentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$dashboardContentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  branch<T extends Prisma.Foundation$branchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$branchArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   role<T extends Prisma.Foundation$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$roleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.Foundation$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$userArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userData<T extends Prisma.Foundation$userDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$userDataArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2210,6 +2210,30 @@ export type Foundation$announcementsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * Foundation.branch
+ */
+export type Foundation$branchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Branch
+   */
+  select?: Prisma.BranchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Branch
+   */
+  omit?: Prisma.BranchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BranchInclude<ExtArgs> | null
+  where?: Prisma.BranchWhereInput
+  orderBy?: Prisma.BranchOrderByWithRelationInput | Prisma.BranchOrderByWithRelationInput[]
+  cursor?: Prisma.BranchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BranchScalarFieldEnum | Prisma.BranchScalarFieldEnum[]
+}
+
+/**
  * Foundation.calendarEvent
  */
 export type Foundation$calendarEventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2255,30 +2279,6 @@ export type Foundation$dashboardContentArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.DashboardContentScalarFieldEnum | Prisma.DashboardContentScalarFieldEnum[]
-}
-
-/**
- * Foundation.branch
- */
-export type Foundation$branchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Branch
-   */
-  select?: Prisma.BranchSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Branch
-   */
-  omit?: Prisma.BranchOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BranchInclude<ExtArgs> | null
-  where?: Prisma.BranchWhereInput
-  orderBy?: Prisma.BranchOrderByWithRelationInput | Prisma.BranchOrderByWithRelationInput[]
-  cursor?: Prisma.BranchWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BranchScalarFieldEnum | Prisma.BranchScalarFieldEnum[]
 }
 
 /**
