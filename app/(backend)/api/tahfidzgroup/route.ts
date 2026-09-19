@@ -25,22 +25,22 @@ export async function GET(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    // TahfidzGroup hanya menyimpan majorId (tanpa relasi), jadi scope lewat daftar major yayasan
-    const majors = await prisma.major.findMany({
+    // TahfidzGroup hanya menyimpan branchId (tanpa relasi), jadi scope lewat daftar branch yayasan
+    const branchs = await prisma.branch.findMany({
       where: { foundationId: t.foundationId },
       select: { id: true },
     });
-    const majorIds = majors.map((major) => major.id);
+    const branchIds = branchs.map((branch) => branch.id);
 
     // ✅ Optimized: Explicit select for clarity and future-proofing
     // Fields used: id, name, grade, capacity, isActive, _count.students
     const tahfidzGroups = await prisma.tahfidzGroup.findMany({
-      where: { majorId: { in: majorIds } },
+      where: { branchId: { in: branchIds } },
       select: {
         id: true,
         name: true,
         grade: true,
-        majorId: true,
+        branchId: true,
         capacity: true,
         isActive: true,
         _count: { select: { students: true } },
@@ -58,27 +58,27 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { name, grade, capacity, majorId } = await request.json();
+    const { name, grade, capacity, branchId } = await request.json();
     if (!name || !grade) {
       return NextResponse.json(
         { error: "Name, grade, and capacity are required" },
         { status: 400 },
       );
     }
-    if (!majorId) {
+    if (!branchId) {
       return NextResponse.json(
-        { error: "Major (majorId) wajib diisi" },
+        { error: "Branch (branchId) wajib diisi" },
         { status: 400 },
       );
     }
 
-    // Pastikan major milik yayasan ini
-    const ownedMajor = await prisma.major.findFirst({
-      where: { id: majorId, foundationId: t.foundationId },
+    // Pastikan branch milik yayasan ini
+    const ownedBranch = await prisma.branch.findFirst({
+      where: { id: branchId, foundationId: t.foundationId },
       select: { id: true },
     });
 
-    if (!ownedMajor) {
+    if (!ownedBranch) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         name,
         grade,
         capacity: capacity || 40,
-        majorId,
+        branchId,
       },
     });
 
@@ -102,7 +102,7 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, grade, capacity, majorId } = await request.json();
+    const { id, name, grade, capacity, branchId } = await request.json();
     if (!id || !name || !grade) {
       return NextResponse.json(
         { error: "ID, name, grade, and capacity are required" },
@@ -110,20 +110,20 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Kepemilikan grup & major tujuan sama-sama harus milik yayasan ini
+    // Kepemilikan grup & branch tujuan sama-sama harus milik yayasan ini
     const owned = await prisma.tahfidzGroup.findFirst({
       where: { id },
-      select: { id: true, majorId: true },
+      select: { id: true, branchId: true },
     });
-    const targetMajorId = majorId ?? owned?.majorId;
-    const ownedMajor = targetMajorId
-      ? await prisma.major.findFirst({
-          where: { id: targetMajorId, foundationId: t.foundationId },
+    const targetBranchId = branchId ?? owned?.branchId;
+    const ownedBranch = targetBranchId
+      ? await prisma.branch.findFirst({
+          where: { id: targetBranchId, foundationId: t.foundationId },
           select: { id: true },
         })
       : null;
 
-    if (!owned || !ownedMajor) {
+    if (!owned || !ownedBranch) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -133,7 +133,7 @@ export async function PUT(request: NextRequest) {
         name,
         grade,
         capacity: capacity || 40,
-        majorId: targetMajorId,
+        branchId: targetBranchId,
       },
     });
 
@@ -155,16 +155,16 @@ export async function DELETE(request: NextRequest) {
 
     const owned = await prisma.tahfidzGroup.findFirst({
       where: { id },
-      select: { id: true, majorId: true },
+      select: { id: true, branchId: true },
     });
-    const ownedMajor = owned
-      ? await prisma.major.findFirst({
-          where: { id: owned.majorId, foundationId: t.foundationId },
+    const ownedBranch = owned
+      ? await prisma.branch.findFirst({
+          where: { id: owned.branchId, foundationId: t.foundationId },
           select: { id: true },
         })
       : null;
 
-    if (!owned || !ownedMajor) {
+    if (!owned || !ownedBranch) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 

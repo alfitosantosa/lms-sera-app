@@ -2,11 +2,11 @@
 //   id             String       @id @default(cuid())
 //   name           String
 //   grade          Int
-//   majorId        String
+//   branchId        String
 //   academicYearId String
 //   capacity       Int          @default(36)
 //   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
-//   major          Major        @relation(fields: [majorId], references: [id])
+//   branch          Branch        @relation(fields: [branchId], references: [id])
 //   schedules      Schedule[]
 //   students       Student[]
 //   violations     Violation[]
@@ -33,11 +33,11 @@ export async function GET(
     const classes = await prisma.class.findFirst({
       where: {
         students: { some: { id: id } }, // Fetch class where the student with id matches
-        major: { foundationId: t.foundationId },
+        branch: { foundationId: t.foundationId },
       },
       include: {
         academicYear: true,
-        major: true,
+        branch: true,
         students: true,
         schedules: true,
         violations: true,

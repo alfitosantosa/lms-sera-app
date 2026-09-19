@@ -6,7 +6,7 @@
 // address        String
 // phone          String
 // userData       UserData[]
-// major          Major[]
+// branch          Branch[]
 // user           User[]
 // }
 
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
         _count: {
           select: {
             user: true,
-            major: true,
+            branch: true,
             userData: true,
           },
         },

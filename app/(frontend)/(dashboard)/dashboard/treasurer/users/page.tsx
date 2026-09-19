@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
+import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetBetterAuth } from "@/app/(hooks)/hooks/Users/useBetterAuth";
-import { useGetStudentByIdMajor } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetStudentByIdBranch } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { type majorTypes } from "@/app/(types)";
+import { type branchTypes } from "@/app/(types)";
 import {
   type BetterAuthUser,
   DeleteUserBulkDialog,
@@ -69,7 +69,7 @@ import * as React from "react";
 // Import hooks
 // Import dialog components
 // Dashboard Component - Only rendered after role verification
-function UserDashboard({ majorData }: { majorData: majorTypes }) {
+function UserDashboard({ branchData }: { branchData: branchTypes }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -86,7 +86,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
   const [tahfidzGroupSelection, setTahfidzGroupSelection] = React.useState<
     string | null
   >(null);
-  const [majorSelection, setMajorSelection] = React.useState<string | null>(
+  const [branchSelection, setBranchSelection] = React.useState<string | null>(
     null,
   );
 
@@ -103,7 +103,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
     isLoading,
     refetch,
     error,
-  } = useGetStudentByIdMajor(majorData.id);
+  } = useGetStudentByIdBranch(branchData.id);
   const { data: betterAuthUsers = [] } = useGetBetterAuth();
 
   // Helper function to get betterAuth user info
@@ -122,14 +122,14 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
   }, [usersData]);
 
   const { data: classesData, isLoading: isLoadingClasses } =
-    useGetClassByIdMajor(majorData.id);
+    useGetClassByIdBranch(branchData.id);
 
   const { data: tahfidzGroupsData, isLoading: isLoadingTahfidzGroups } =
     useGetTahfidzGroup();
 
-  const uniqueMajors = React.useMemo(() => {
+  const uniqueBranchs = React.useMemo(() => {
     return Array.from(
-      new Set(usersData.map((user) => user.major?.name).filter(Boolean)),
+      new Set(usersData.map((user) => user.branch?.name).filter(Boolean)),
     );
   }, [usersData]);
 
@@ -344,7 +344,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
         },
       },
       {
-        accessorKey: "major",
+        accessorKey: "branch",
         header: ({ column }) => {
           return (
             <Button
@@ -360,21 +360,21 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
           );
         },
         cell: ({ row }) => {
-          const major = row.original.major;
-          return <div>{major?.name || "-"}</div>;
+          const branch = row.original.branch;
+          return <div>{branch?.name || "-"}</div>;
         },
         sortingFn: (rowA, rowB) => {
-          const majorA = rowA.original.major?.name || "";
-          const majorB = rowB.original.major?.name || "";
-          return majorA.localeCompare(majorB);
+          const branchA = rowA.original.branch?.name || "";
+          const branchB = rowB.original.branch?.name || "";
+          return branchA.localeCompare(branchB);
         },
         filterFn: (row, columnId, filterValue) => {
           if (typeof filterValue === "function") {
             return filterValue(row);
           }
           if (!filterValue) return true;
-          const major = row.original.major;
-          return major?.name === filterValue;
+          const branch = row.original.branch;
+          return branch?.name === filterValue;
         },
       },
       {
@@ -584,13 +584,13 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
     [table],
   );
 
-  const handleMajorFilter = React.useCallback(
-    (majorName: string | null) => {
-      setMajorSelection(majorName);
-      if (majorName) {
-        table.getColumn("major")?.setFilterValue(majorName);
+  const handleBranchFilter = React.useCallback(
+    (branchName: string | null) => {
+      setBranchSelection(branchName);
+      if (branchName) {
+        table.getColumn("branch")?.setFilterValue(branchName);
       } else {
-        table.getColumn("major")?.setFilterValue("");
+        table.getColumn("branch")?.setFilterValue("");
       }
     },
     [table],
@@ -656,7 +656,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
   return (
     <div className="">
       <div className="text-3xl font-bold">Users Menu</div>
-      <Badge className="mt-4">{majorData.name}</Badge>
+      <Badge className="mt-4">{branchData.name}</Badge>
       <div className="flex flex-wrap items-start justify-between gap-4 py-4">
         <div className="flex flex-wrap items-center gap-2">
           <Input
@@ -742,21 +742,21 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
-                {majorSelection || "Filter Branch"}
+                {branchSelection || "Filter Branch"}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleMajorFilter(null)}>
+              <DropdownMenuItem onClick={() => handleBranchFilter(null)}>
                 Semua Branch
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {uniqueMajors.map((majorName) => (
+              {uniqueBranchs.map((branchName) => (
                 <DropdownMenuItem
-                  key={String(majorName)}
-                  onClick={() => handleMajorFilter(majorName as string)}
+                  key={String(branchName)}
+                  onClick={() => handleBranchFilter(branchName as string)}
                 >
-                  {majorName as string}
+                  {branchName as string}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -784,7 +784,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
                       role: "Role",
                       class: "Kelas",
                       tahfidzGroup: "Tahfidz Group",
-                      major: "Branch",
+                      branch: "Branch",
                       status: "Status",
                       user: "BetterAuth",
                     };
@@ -902,7 +902,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
       </div>
 
       <StudentFormDialog
-        majorId={majorData.id}
+        branchId={branchData.id}
         open={createDialogOpen}
         onOpenChange={handleCloseCreateDialog}
         onSuccess={handleSuccess}
@@ -912,7 +912,7 @@ function UserDashboard({ majorData }: { majorData: majorTypes }) {
         onOpenChange={handleCloseEditDialog}
         editData={selectedUser}
         onSuccess={handleSuccess}
-        majorId={majorData.id}
+        branchId={branchData.id}
       />
       <DeleteUserDialog
         open={deleteDialogOpen}
@@ -940,7 +940,7 @@ export default function UserDataTable() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
-  const majorData = userData?.major;
+  const branchData = userData?.branch;
 
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
@@ -956,5 +956,5 @@ export default function UserDataTable() {
   }
 
   // Render dashboard only after authorization is confirmed
-  return <UserDashboard majorData={majorData as majorTypes} />;
+  return <UserDashboard branchData={branchData as branchTypes} />;
 }

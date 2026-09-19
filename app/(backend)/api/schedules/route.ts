@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
           select: { id: true },
         }),
         prisma.subject.findFirst({
-          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          where: { id: subjectId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.userData.findFirst({
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
         }),
         classId
           ? prisma.class.findFirst({
-              where: { id: classId, major: { foundationId: t.foundationId } },
+              where: { id: classId, branch: { foundationId: t.foundationId } },
               select: { id: true },
             })
           : null,
@@ -119,15 +119,15 @@ export async function POST(request: NextRequest) {
     }
 
     if (tahfidzGroupId) {
-      // TahfidzGroup tidak punya relasi ke Major di schema, jadi diverifikasi lewat daftar major yayasan
-      const majors = await prisma.major.findMany({
+      // TahfidzGroup tidak punya relasi ke Branch di schema, jadi diverifikasi lewat daftar branch yayasan
+      const branchs = await prisma.branch.findMany({
         where: { foundationId: t.foundationId },
         select: { id: true },
       });
       const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
         where: {
           id: tahfidzGroupId,
-          majorId: { in: majors.map((major) => major.id) },
+          branchId: { in: branchs.map((branch) => branch.id) },
         },
         select: { id: true },
       });
@@ -190,7 +190,7 @@ export async function PUT(request: NextRequest) {
           select: { id: true },
         }),
         prisma.subject.findFirst({
-          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          where: { id: subjectId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.userData.findFirst({
@@ -199,7 +199,7 @@ export async function PUT(request: NextRequest) {
         }),
         classId
           ? prisma.class.findFirst({
-              where: { id: classId, major: { foundationId: t.foundationId } },
+              where: { id: classId, branch: { foundationId: t.foundationId } },
               select: { id: true },
             })
           : null,
@@ -216,15 +216,15 @@ export async function PUT(request: NextRequest) {
     }
 
     if (tahfidzGroupId) {
-      // TahfidzGroup tidak punya relasi ke Major di schema, jadi diverifikasi lewat daftar major yayasan
-      const majors = await prisma.major.findMany({
+      // TahfidzGroup tidak punya relasi ke Branch di schema, jadi diverifikasi lewat daftar branch yayasan
+      const branchs = await prisma.branch.findMany({
         where: { foundationId: t.foundationId },
         select: { id: true },
       });
       const ownedTahfidzGroup = await prisma.tahfidzGroup.findFirst({
         where: {
           id: tahfidzGroupId,
-          majorId: { in: majors.map((major) => major.id) },
+          branchId: { in: branchs.map((branch) => branch.id) },
         },
         select: { id: true },
       });

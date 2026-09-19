@@ -74,11 +74,11 @@ export async function POST(request: NextRequest) {
     const [ownedClass, ownedSubject, ownedTeacher, ownedAcademicYear] =
       await Promise.all([
         prisma.class.findFirst({
-          where: { id: classId, major: { foundationId: t.foundationId } },
+          where: { id: classId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.subject.findFirst({
-          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          where: { id: subjectId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.userData.findFirst({
@@ -138,11 +138,11 @@ export async function PUT(request: NextRequest) {
           select: { id: true },
         }),
         prisma.class.findFirst({
-          where: { id: classId, major: { foundationId: t.foundationId } },
+          where: { id: classId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.subject.findFirst({
-          where: { id: subjectId, major: { foundationId: t.foundationId } },
+          where: { id: subjectId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.userData.findFirst({

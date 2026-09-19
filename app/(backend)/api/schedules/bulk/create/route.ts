@@ -78,13 +78,13 @@ export async function POST(request: NextRequest) {
         prisma.class.count({
           where: {
             id: { in: classIds },
-            major: { foundationId: t.foundationId },
+            branch: { foundationId: t.foundationId },
           },
         }),
         prisma.subject.count({
           where: {
             id: { in: subjectIds },
-            major: { foundationId: t.foundationId },
+            branch: { foundationId: t.foundationId },
           },
         }),
         prisma.userData.count({

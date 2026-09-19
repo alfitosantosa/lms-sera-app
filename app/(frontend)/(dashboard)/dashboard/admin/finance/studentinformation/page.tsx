@@ -66,7 +66,7 @@ type Payment = {
   paymentDate: string;
   receiptNumber: string;
   accountBankId: string;
-  majorId: string;
+  branchId: string;
   month: string;
   bendaharaId: string;
   bankRef: string;
@@ -86,7 +86,7 @@ type Student = {
   status?: string;
   enrollmentDate?: string;
   class?: { id: string; name: string; grade: number };
-  major?: { id: string; name: string };
+  branch?: { id: string; name: string };
   academicYear?: { id: string; year: string };
 };
 
@@ -275,7 +275,7 @@ function StudentProfileCard({ student }: { student: Student }) {
               Branch
             </span>
             <span className="text-xs font-medium">
-              {student.major?.name ?? "-"}
+              {student.branch?.name ?? "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -713,7 +713,7 @@ function StudentInformation() {
         paymentDate: String(payment.paymentDate ?? payment.createdAt ?? ""),
         receiptNumber: String(payment.receiptNumber ?? "-"),
         accountBankId: String(payment.accountBankId ?? ""),
-        majorId: String(payment.majorId ?? ""),
+        branchId: String(payment.branchId ?? ""),
         month: String(payment.month ?? "-"),
         bendaharaId: String(payment.bendaharaId ?? ""),
         bankRef: String(payment.bankRef ?? ""),

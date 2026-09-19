@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         },
         foundationId: t.foundationId,
       },
-      include: { class: true, major: true, academicYear: true, role: true },
+      include: { class: true, branch: true, academicYear: true, role: true },
     });
 
     return NextResponse.json(students);

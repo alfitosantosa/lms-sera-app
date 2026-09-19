@@ -7,7 +7,7 @@ import {
   useGetClasses,
   useUpdateClass,
 } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { type AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
 import {
@@ -105,7 +105,7 @@ function ClassFormDialog({
 }) {
   const createClass = useCreateClass();
   const updateClass = useUpdateClass();
-  const { data: majors } = useGetMajors();
+  const { data: branchs } = useGetBranchs();
   const { data: academicYears } = useGetAcademicYears();
 
   const {
@@ -122,14 +122,14 @@ function ClassFormDialog({
     },
   });
 
-  const selectedMajorId = watch("majorId");
+  const selectedBranchId = watch("branchId");
   const selectedAcademicYearId = watch("academicYearId");
 
   useEffect(() => {
     if (editData) {
       setValue("name", editData.name);
       setValue("grade", editData.grade);
-      setValue("majorId", editData.majorId);
+      setValue("branchId", editData.branchId);
       setValue("academicYearId", editData.academicYearId);
       setValue("capacity", editData.capacity);
     } else {
@@ -196,23 +196,23 @@ function ClassFormDialog({
           <div className="space-y-2">
             <Label>Jurusan</Label>
             <Select
-              value={selectedMajorId}
-              onValueChange={(value) => setValue("majorId", value)}
+              value={selectedBranchId}
+              onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jurusan" />
               </SelectTrigger>
               <SelectContent>
-                {majors?.map((major) => (
-                  <SelectItem key={major.id} value={major.id}>
-                    {major.name}
+                {branchs?.map((branch) => (
+                  <SelectItem key={branch.id} value={branch.id}>
+                    {branch.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && (
+            {errors.branchId && (
               <p className="text-destructive text-sm">
-                {errors.majorId.message}
+                {errors.branchId.message}
               </p>
             )}
           </div>
@@ -421,11 +421,11 @@ function ClassDataTable() {
       ),
     },
     {
-      accessorKey: "major",
+      accessorKey: "branch",
       header: "Jurusan",
       cell: ({ row }) => {
-        const major = row.getValue("major") as ClassDataTypes["major"];
-        return <div>{major.name}</div>;
+        const branch = row.getValue("branch") as ClassDataTypes["branch"];
+        return <div>{branch.name}</div>;
       },
     },
     {

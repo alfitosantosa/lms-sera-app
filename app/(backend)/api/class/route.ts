@@ -2,11 +2,11 @@
 //   id             String       @id @default(cuid())
 //   name           String
 //   grade          Int
-//   majorId        String
+//   branchId        String
 //   academicYearId String
 //   capacity       Int          @default(36)
 //   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
-//   major          Major        @relation(fields: [majorId], references: [id])
+//   branch          Branch        @relation(fields: [branchId], references: [id])
 //   schedules      Schedule[]
 //   students       Student[]
 //   violations     Violation[]
@@ -28,17 +28,17 @@ export async function GET(request: NextRequest) {
   try {
     // ✅ Optimized: Field-selection to keep only accessed fields
     // Dropping: _count.schedules, _count.violations (not accessed)
-    // Keeping: id, name, grade, capacity, majorId, academicYearId, major.id/name, academicYear.id/year, _count.students
+    // Keeping: id, name, grade, capacity, branchId, academicYearId, branch.id/name, academicYear.id/year, _count.students
     const classes = await prisma.class.findMany({
-      where: { major: { foundationId: t.foundationId } },
+      where: { branch: { foundationId: t.foundationId } },
       select: {
         id: true,
         name: true,
         grade: true,
         capacity: true,
-        majorId: true,
+        branchId: true,
         academicYearId: true,
-        major: {
+        branch: {
           select: { id: true, name: true },
         },
         academicYear: {
@@ -59,19 +59,19 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { name, grade, majorId, academicYearId, capacity } =
+    const { name, grade, branchId, academicYearId, capacity } =
       await request.json();
-    if (!name || !grade || !majorId || !academicYearId) {
+    if (!name || !grade || !branchId || !academicYearId) {
       return NextResponse.json(
-        { error: "Name, grade, majorId, and academicYearId are required" },
+        { error: "Name, grade, branchId, and academicYearId are required" },
         { status: 400 },
       );
     }
 
-    // Pastikan major & tahun ajaran milik yayasan pemanggil
-    const [ownedMajor, ownedAcademicYear] = await Promise.all([
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+    // Pastikan branch & tahun ajaran milik yayasan pemanggil
+    const [ownedBranch, ownedAcademicYear] = await Promise.all([
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
       prisma.academicYear.findFirst({
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
-    if (!ownedMajor || !ownedAcademicYear) {
+    if (!ownedBranch || !ownedAcademicYear) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -88,13 +88,13 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         grade,
-        majorId,
+        branchId,
         academicYearId,
         capacity: capacity || 36, // Default capacity if not provided
       },
       include: {
         academicYear: true,
-        major: true,
+        branch: true,
       },
     });
 
@@ -109,23 +109,23 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, name, grade, majorId, academicYearId, capacity } =
+    const { id, name, grade, branchId, academicYearId, capacity } =
       await request.json();
-    if (!id || !name || !grade || !majorId || !academicYearId) {
+    if (!id || !name || !grade || !branchId || !academicYearId) {
       return NextResponse.json(
-        { error: "ID, name, grade, majorId, and academicYearId are required" },
+        { error: "ID, name, grade, branchId, and academicYearId are required" },
         { status: 400 },
       );
     }
 
-    // Pastikan kelas milik yayasan pemanggil, sekaligus major & tahun ajaran tujuan
-    const [ownedClass, ownedMajor, ownedAcademicYear] = await Promise.all([
+    // Pastikan kelas milik yayasan pemanggil, sekaligus branch & tahun ajaran tujuan
+    const [ownedClass, ownedBranch, ownedAcademicYear] = await Promise.all([
       prisma.class.findFirst({
-        where: { id, major: { foundationId: t.foundationId } },
+        where: { id, branch: { foundationId: t.foundationId } },
         select: { id: true },
       }),
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
       prisma.academicYear.findFirst({
@@ -134,7 +134,7 @@ export async function PUT(request: NextRequest) {
       }),
     ]);
 
-    if (!ownedClass || !ownedMajor || !ownedAcademicYear) {
+    if (!ownedClass || !ownedBranch || !ownedAcademicYear) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -143,13 +143,13 @@ export async function PUT(request: NextRequest) {
       data: {
         name,
         grade,
-        majorId,
+        branchId,
         academicYearId,
         capacity: capacity || 36, // Default capacity if not provided
       },
       include: {
         academicYear: true,
-        major: true,
+        branch: true,
       },
     });
 
@@ -171,7 +171,7 @@ export async function DELETE(request: NextRequest) {
 
     // Pastikan kelas milik yayasan pemanggil
     const ownedClass = await prisma.class.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
 

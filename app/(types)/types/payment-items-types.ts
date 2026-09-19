@@ -27,7 +27,7 @@ export interface PaymentItemData {
     id: string;
     name: string;
     class?: { name: string } | null;
-    major?: { id: string; name: string } | null;
+    branch?: { id: string; name: string } | null;
     email?: string | null;
     nisn?: string | null;
   };
@@ -77,7 +77,7 @@ export interface PaymentItemsInput {
 export interface PaymentItemsFilterTypes {
   startDate?: Date | string;
   endDate?: Date | string;
-  majorId?: string;
+  branchId?: string;
   status?: string;
   isPaid?: boolean;
   skuType?: string;

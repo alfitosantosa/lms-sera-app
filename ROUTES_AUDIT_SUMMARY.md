@@ -21,7 +21,7 @@ Added **13 missing routes** to `/dashboard/admin/master/roles/page.tsx`:
 
 #### Top-Level Alternative Routes Added:
 
-- ✅ `/dashboard/majors` - Majors (Top-level)
+- ✅ `/dashboard/branchs` - Branchs (Top-level)
 - ✅ `/dashboard/payments` - Payments (Top-level)
 
 #### Test/Debug Routes Added (with warning):
@@ -91,9 +91,9 @@ echo "app/(frontend)/(dashboard)/dashboard/middleware/" >> .gitignore
 
 Compare these potentially duplicate routes:
 
-1. **Majors**:
-   - `/dashboard/majors` (top-level)
-   - `/dashboard/admin/master/majors` (admin master)
+1. **Branchs**:
+   - `/dashboard/branchs` (top-level)
+   - `/dashboard/admin/master/branchs` (admin master)
 
 2. **Payments**:
    - `/dashboard/payments` (top-level)
@@ -116,7 +116,7 @@ const newPermissions = [
   "/dashboard/teacher/attendance/[id]",
   "/dashboard/teacher/attendance/tahfidz/[id]",
   "/dashboard/teacher/tahfidzrecord/[idTahfidzGroup]",
-  "/dashboard/majors",
+  "/dashboard/branchs",
   "/dashboard/payments",
 ];
 ```

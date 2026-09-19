@@ -17,7 +17,7 @@
 //   enrollmentDate DateTime?          // Default now() untuk student
 //   gender         String?            // Wajib untuk student & teacher
 //   graduationDate DateTime?          // Optional untuk student
-//   majorId        String?            // Wajib untuk student
+//   branchId        String?            // Wajib untuk student
 //   parentPhone    String?            // Optional untuk student
 //   status         String?   @default("active")  // active/inactive/graduated
 
@@ -41,7 +41,7 @@
 //   // Relations sebagai Student
 //   academicYear   AcademicYear?     @relation("StudentAcademicYear", fields: [academicYearId], references: [id])
 //   class          Class?            @relation("StudentClass", fields: [classId], references: [id])
-//   major          Major?            @relation("StudentMajor", fields: [majorId], references: [id])
+//   branch          Branch?            @relation("StudentBranch", fields: [branchId], references: [id])
 //   attendances    Attendance[]      @relation("StudentAttendance")
 //   payments       Payment[]         @relation("StudentPayment")
 //   violations     Violation[]       @relation("StudentViolation")
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
       include: {
         role: true,
         class: true,
-        major: true,
+        branch: true,
         academicYear: true,
       },
       where: {
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       name,
       email,
       roleId,
-      majorId,
+      branchId,
       classId,
       academicYearId,
       foundationId: _foundationId,
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
 
     // Pastikan role & penempatan yang dikirim milik yayasan ini
     // (role bersama ber-foundationId NULL tetap diizinkan karena ikut tampil di daftar role)
-    const [ownedRole, ownedMajor, ownedClass, ownedAcademicYear] =
+    const [ownedRole, ownedBranch, ownedClass, ownedAcademicYear] =
       await Promise.all([
         prisma.role.findFirst({
           where: {
@@ -124,15 +124,15 @@ export async function POST(request: NextRequest) {
           },
           select: { id: true },
         }),
-        majorId
-          ? prisma.major.findFirst({
-              where: { id: majorId, foundationId: t.foundationId },
+        branchId
+          ? prisma.branch.findFirst({
+              where: { id: branchId, foundationId: t.foundationId },
               select: { id: true },
             })
           : null,
         classId
           ? prisma.class.findFirst({
-              where: { id: classId, major: { foundationId: t.foundationId } },
+              where: { id: classId, branch: { foundationId: t.foundationId } },
               select: { id: true },
             })
           : null,
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
 
     if (
       !ownedRole ||
-      (majorId && !ownedMajor) ||
+      (branchId && !ownedBranch) ||
       (classId && !ownedClass) ||
       (academicYearId && !ownedAcademicYear)
     ) {
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         roleId,
-        majorId,
+        branchId,
         classId,
         academicYearId,
         ...rest,
@@ -182,7 +182,7 @@ export async function PUT(request: NextRequest) {
       name,
       email,
       roleId,
-      majorId,
+      branchId,
       classId,
       academicYearId,
       foundationId: _foundationId,
@@ -204,7 +204,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Pastikan role & penempatan baru tetap milik yayasan ini
-    const [ownedRole, ownedMajor, ownedClass, ownedAcademicYear] =
+    const [ownedRole, ownedBranch, ownedClass, ownedAcademicYear] =
       await Promise.all([
         prisma.role.findFirst({
           where: {
@@ -213,15 +213,15 @@ export async function PUT(request: NextRequest) {
           },
           select: { id: true },
         }),
-        majorId
-          ? prisma.major.findFirst({
-              where: { id: majorId, foundationId: t.foundationId },
+        branchId
+          ? prisma.branch.findFirst({
+              where: { id: branchId, foundationId: t.foundationId },
               select: { id: true },
             })
           : null,
         classId
           ? prisma.class.findFirst({
-              where: { id: classId, major: { foundationId: t.foundationId } },
+              where: { id: classId, branch: { foundationId: t.foundationId } },
               select: { id: true },
             })
           : null,
@@ -235,7 +235,7 @@ export async function PUT(request: NextRequest) {
 
     if (
       !ownedRole ||
-      (majorId && !ownedMajor) ||
+      (branchId && !ownedBranch) ||
       (classId && !ownedClass) ||
       (academicYearId && !ownedAcademicYear)
     ) {
@@ -248,7 +248,7 @@ export async function PUT(request: NextRequest) {
         name,
         email,
         roleId,
-        majorId,
+        branchId,
         classId,
         academicYearId,
         ...rest,

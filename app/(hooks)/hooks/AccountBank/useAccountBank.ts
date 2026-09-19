@@ -35,7 +35,7 @@ export const useUpdateAccountBank = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["accountbank"] });
-      queryClient.invalidateQueries({ queryKey: ["accountbank-by-id-major"] });
+      queryClient.invalidateQueries({ queryKey: ["accountbank-by-id-branch"] });
     },
   });
 };
@@ -58,12 +58,12 @@ export const useDeleteAccountBank = () => {
   });
 };
 
-export const useGetAccountBankByIdMajor = (majorId: string) => {
+export const useGetAccountBankByIdBranch = (branchId: string) => {
   return useQuery({
-    queryKey: ["accountbank-by-id-major", majorId],
+    queryKey: ["accountbank-by-id-branch", branchId],
     queryFn: async () => {
       const res = await apiGet<AccountBankTypes[]>(
-        `/api/accountbank/major/${majorId}`,
+        `/api/accountbank/branch/${branchId}`,
       );
       return res.data;
     },

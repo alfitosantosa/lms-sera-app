@@ -31,7 +31,7 @@ This document compares the actual Next.js file system routes against the permiss
 - ✅ `/dashboard/admin/master/roles` - Roles Management
 - ✅ `/dashboard/admin/master/betterauth` - BetterAuth Management
 - ✅ `/dashboard/admin/master/users` - Users Management
-- ✅ `/dashboard/admin/master/majors` - Major Management
+- ✅ `/dashboard/admin/master/branchs` - Branch Management
 - ✅ `/dashboard/admin/master/classes` - Class Management
 - ✅ `/dashboard/admin/master/subjects` - Subject Management
 - ✅ `/dashboard/admin/master/classes/tahfidz` - Tahfidz Group Management
@@ -130,12 +130,12 @@ This document compares the actual Next.js file system routes against the permiss
 - **Recommended Label**: "Foundation Management"
 - **Should be visible to**: Admin, Yayasan
 
-#### 2. `/dashboard/majors`
+#### 2. `/dashboard/branchs`
 
-- **File**: `dashboard/majors/page.tsx`
+- **File**: `dashboard/branchs/page.tsx`
 - **Importance**: MEDIUM
-- **Reason**: Top-level majors route (duplicate of `/dashboard/admin/master/majors`?)
-- **Recommended Label**: "Majors (Top-level)"
+- **Reason**: Top-level branchs route (duplicate of `/dashboard/admin/master/branchs`?)
+- **Recommended Label**: "Branchs (Top-level)"
 - **Note**: ⚠️ May be duplicate - verify purpose
 
 #### 3. `/dashboard/payments`
@@ -225,7 +225,7 @@ This document compares the actual Next.js file system routes against the permiss
 #### 1. **Duplicate Routes (3 potential conflicts)**
 
 ```
-/dashboard/majors          vs  /dashboard/admin/master/majors
+/dashboard/branchs          vs  /dashboard/admin/master/branchs
 /dashboard/payments        vs  /dashboard/student/payment
 /dashboard/attendance      vs  multiple attendance routes
 ```
@@ -283,7 +283,7 @@ Add these to `availablePermissions` in `/dashboard/admin/master/roles/page.tsx`:
 
 ### Priority 2: Investigate Duplicate Routes
 
-- Compare `/dashboard/majors` with `/dashboard/admin/master/majors`
+- Compare `/dashboard/branchs` with `/dashboard/admin/master/branchs`
 - Compare `/dashboard/payments` with `/dashboard/student/payment`
 - Consolidate or differentiate clearly
 

@@ -12,9 +12,9 @@ export interface PaymentTypeForPage {
   quantity: number | string;
   subtotal: string | number;
   owner: string;
-  majorId: string;
+  branchId: string;
   skuType: string;
-  major?: { id: string; name: string };
+  branch?: { id: string; name: string };
   student?: {
     class?: { name: string };
   };
@@ -33,14 +33,14 @@ export interface PaymentTypeTypes {
   quantity: number;
   subtotal: number | string;
   owner: string;
-  majorId: string;
+  branchId: string;
   skuType: string;
   // Relations
-  major?: MajorPaymentTypeTypes;
+  branch?: BranchPaymentTypeTypes;
   paymentItems?: PaymentItemPaymentTypeTypes[];
 }
 
-interface MajorPaymentTypeTypes {
+interface BranchPaymentTypeTypes {
   id: string;
   code: string;
   name: string;
@@ -67,7 +67,7 @@ export interface PaymentTypeInput {
   quantity: number;
   subtotal: number;
   owner: string;
-  majorId: string;
+  branchId: string;
   skuType: string;
 }
 

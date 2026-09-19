@@ -11,7 +11,7 @@ export const useCreatePayment = () => {
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payment-by-id-major"] });
+      queryClient.invalidateQueries({ queryKey: ["payment-by-id-branch"] });
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       queryClient.invalidateQueries({ queryKey: ["unpaid-students"] });
       queryClient.invalidateQueries({
@@ -87,11 +87,11 @@ export const useGetPaymentById = (id: string) => {
   });
 };
 
-export const useGetPaymentByIdMajor = (majorId: string) => {
+export const useGetPaymentByIdBranch = (branchId: string) => {
   return useQuery({
-    queryKey: ["payment-by-id-major", majorId],
+    queryKey: ["payment-by-id-branch", branchId],
     queryFn: async () => {
-      const res = await apiGet<PaymentData[]>(`/api/payment/major/${majorId}`);
+      const res = await apiGet<PaymentData[]>(`/api/payment/branch/${branchId}`);
       return res.data;
     },
   });

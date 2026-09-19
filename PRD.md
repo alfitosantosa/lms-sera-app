@@ -34,11 +34,11 @@
 - **Isolasi Data** - Data antar yayasan terpisah dan aman
 - **Foundation Profile** - Nama, alamat, telepon, logo yayasan
 
-### Major (Jurusan/Cabang)
+### Branch (Jurusan/Cabang)
 
-- **Multi-Major per Foundation** - Setiap yayasan bisa memiliki beberapa jurusan/cabang
-- **Major Code** - Kode unik per jurusan (e.g., SMK-IT, SMA-IT, SMP-IT)
-- **Major Profile** - Alamat, telepon, admin, tanda tangan digital
+- **Multi-Branch per Foundation** - Setiap yayasan bisa memiliki beberapa jurusan/cabang
+- **Branch Code** - Kode unik per jurusan (e.g., SMK-IT, SMA-IT, SMP-IT)
+- **Branch Profile** - Alamat, telepon, admin, tanda tangan digital
 - **Isolasi Akun Bank** - Setiap jurusan memiliki rekening bank terpisah
 
 ---
@@ -55,7 +55,7 @@
 
 #### 1.2 Jurusan & Kelas
 
-- ✅ Master data jurusan (Major)
+- ✅ Master data jurusan (Branch)
 - ✅ Manajemen kelas per tingkat (Grade 1-12)
 - ✅ Kapasitas kelas (default: 36 siswa)
 - ✅ Kelas per tahun akademik
@@ -167,7 +167,7 @@
 
 - ✅ Chart total tunggakan per bulan
 - ✅ Filter by date range
-- ✅ Filter by major/jurusan
+- ✅ Filter by branch/jurusan
 - ✅ Filter by SKU Type
 - ✅ Top siswa dengan tunggakan tertinggi
 - ✅ Export Excel tunggakan
@@ -397,7 +397,7 @@
 - ✅ Foundation code generator
 - ✅ Assign user ke yayasan
 
-#### 13.2 Major Management
+#### 13.2 Branch Management
 
 - ✅ CRUD jurusan per yayasan
 - ✅ Config akun bank per jurusan
@@ -431,7 +431,7 @@
 
 - Role-based access control (RBAC)
 - Permission array per role
-- Foundation & Major isolation
+- Foundation & Branch isolation
 - Route middleware protection
 
 ### Data Security
@@ -628,12 +628,12 @@
 - Prisma migrate dev (development)
 - Prisma migrate deploy (production)
 - Migration rollback strategy
-- Backup sebelum major changes
+- Backup sebelum branch changes
 
 ### Performance Optimization
 
 - React Query caching strategy:
-  - Static: 1 hour (majors, roles, subjects)
+  - Static: 1 hour (branchs, roles, subjects)
   - Dynamic: 5 min (payments, schedules)
   - Realtime: 30 sec (attendance, scores)
 - Image optimization (Next.js Image)

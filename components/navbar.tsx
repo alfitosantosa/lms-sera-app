@@ -33,7 +33,7 @@ const permissionLabels: Record<string, string> = {
   "/dashboard/admin/master/roles": "Roles Management",
   "/dashboard/admin/master/users": "Users Management",
   "/dashboard/admin/master/academicyear": "Tahun Ajaran Management",
-  "/dashboard/admin/master/majors": "Branch Management",
+  "/dashboard/admin/master/branchs": "Branch Management",
   "/dashboard/admin/master/classes": "Kelas Management",
   "/dashboard/admin/master/subjects": "Mata Pelajaran Management",
   "/dashboard/admin/academic/schedules": "Jadwal Management",

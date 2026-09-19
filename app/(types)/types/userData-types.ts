@@ -1,6 +1,6 @@
 import { type attendanceTypes } from "./attendance-types";
 import { type foundationTypes } from "./foundation-types";
-import { type majorTypes } from "./majors-types";
+import { type branchTypes } from "./branchs-types";
 import { type PaymentTypes } from "./payment-types";
 import { type RoleDataTypes } from "./roles-types";
 import { type ViolationTypes } from "./violation-types";
@@ -20,7 +20,7 @@ export type UserDataTypes = {
   enrollmentDate?: Date | string | null;
   gender?: string | null;
   graduationDate?: Date | string | null;
-  majorId?: string | null;
+  branchId?: string | null;
   nik?: string | null;
   nisn?: string | null;
   parentPhone?: string | null;
@@ -41,7 +41,7 @@ export type UserDataTypes = {
   user?: UserTypes | null;
   academicYear?: AcademicYearTypes | null;
   class?: ClassTypes | null;
-  major?: MajorTypes | null;
+  branch?: BranchTypes | null;
   role?: RoleDataTypes | null;
   tahfidzGroup?: TahfidzGroupTypes | null;
 };
@@ -76,7 +76,7 @@ type ClassTypes = {
   grade: number;
 };
 
-interface MajorTypes {
+interface BranchTypes {
   id: string;
   code: string;
   name: string;
@@ -89,7 +89,7 @@ interface TahfidzGroupTypes {
 }
 
 //   where: {
-//     majorId: id,
+//     branchId: id,
 //     status: "active",
 //     role: {
 //       name: "Student",
@@ -99,7 +99,7 @@ interface TahfidzGroupTypes {
 //     role: true,
 //     academicYear: true,
 //     class: true,
-//     major: true,
+//     branch: true,
 //     attendances: true,
 //     payments: true,
 //     violations: true,
@@ -113,7 +113,7 @@ interface TahfidzGroupTypes {
 //   },
 // });
 
-export type userDataMajorTypes = {
+export type userDataBranchTypes = {
   id: string;
   userId?: string | null;
   academicYearId?: string | null;
@@ -127,7 +127,7 @@ export type userDataMajorTypes = {
   enrollmentDate?: Date | string | null;
   gender?: string | null;
   graduationDate?: Date | string | null;
-  majorId?: string | null;
+  branchId?: string | null;
   nik?: string | null;
   nisn?: string | null;
   parentPhone?: string | null;
@@ -146,7 +146,7 @@ export type userDataMajorTypes = {
   role?: RoleDataTypes | null;
   academicYear?: AcademicYearTypes | null;
   class?: ClassTypes | null;
-  major?: majorTypes | null;
+  branch?: branchTypes | null;
   attendances?: attendanceTypes[] | null;
   payments?: PaymentTypes[] | null;
   violations?: ViolationTypes[] | null;

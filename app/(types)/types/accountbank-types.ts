@@ -1,4 +1,4 @@
-import { type majorTypes } from "./majors-types";
+import { type branchTypes } from "./branchs-types";
 import { type PaymentTypes } from "./payment-types";
 
 // Account Bank Types
@@ -7,17 +7,17 @@ export interface AccountBankTypes {
   accountName: string;
   accountBank: string;
   accountNumber: string;
-  majorId: string;
+  branchId: string;
   isActive?: boolean;
   createdAt?: Date | string;
   // Relations
-  majors?: majorTypes;
-  /** Alias for majors — used in payment page dropdowns */
-  major?: { id: string; name: string };
+  branchs?: branchTypes;
+  /** Alias for branchs — used in payment page dropdowns */
+  branch?: { id: string; name: string };
   payments?: PaymentTypes[];
 }
 
-interface MajorBankTypes {
+interface BranchBankTypes {
   id: string;
   code: string;
   name: string;
@@ -48,7 +48,7 @@ export interface AccountBankDetail {
   accountBank: string;
   accountNumber: string;
   isActive: boolean;
-  major: MajorBankTypes | null;
+  branch: BranchBankTypes | null;
   totalRevenue: number;
   totalTransaction: number;
   totalPaymentItems: number;
@@ -88,7 +88,7 @@ export interface TopAccount {
   accountName: string;
   accountBank: string;
   accountNumber: string;
-  majorName: string;
+  branchName: string;
   totalRevenue: number;
   totalTransaction: number;
   percentage: number;
@@ -108,5 +108,5 @@ export interface AccountBankInput {
   accountName: string;
   accountBank: string;
   accountNumber: string;
-  majorId: string;
+  branchId: string;
 }

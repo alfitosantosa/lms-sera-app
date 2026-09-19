@@ -6,7 +6,7 @@ export * from "./types/accountbank-types";
 export * from "./types/academicyear-types";
 // export * from "./types/attendance-types";
 export * from "./types/class-types";
-export * from "./types/majors-types";
+export * from "./types/branchs-types";
 export * from "./types/roles-types";
 export * from "./types/schedule-types";
 export * from "./types/paymenttype-types";

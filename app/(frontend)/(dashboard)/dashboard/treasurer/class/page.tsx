@@ -6,7 +6,7 @@ import {
   useDeleteClass,
   useUpdateClass,
 } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
+import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { type AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
 import {
@@ -135,7 +135,7 @@ function ClassFormDialog({
         capacity: 36,
       });
       if (id) {
-        setValue("majorId", id);
+        setValue("branchId", id);
       }
     }
   }, [editData, setValue, reset, id]);
@@ -334,7 +334,7 @@ function ClassDataTable({ id }: { id: string }) {
   // Filter states
   const [academicYearFilter, setAcademicYearFilter] = useState<string>("all");
 
-  const { data: classes = [], isLoading, refetch } = useGetClassByIdMajor(id);
+  const { data: classes = [], isLoading, refetch } = useGetClassByIdBranch(id);
   const { data: academicYears = [] } = useGetAcademicYears();
 
   const handleSuccess = () => {
@@ -401,11 +401,11 @@ function ClassDataTable({ id }: { id: string }) {
       ),
     },
     {
-      accessorKey: "major",
+      accessorKey: "branch",
       header: "Branch",
       cell: ({ row }) => {
-        const major = row.getValue("major") as ClassDataTypes["major"];
-        return <div>{major.name}</div>;
+        const branch = row.getValue("branch") as ClassDataTypes["branch"];
+        return <div>{branch.name}</div>;
       },
     },
     {
@@ -724,7 +724,7 @@ export default function UserDataTable() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
-  const majorId = userData?.major?.id;
+  const branchId = userData?.branch?.id;
   // Show loading while checking authorization
   if (isPending || isLoadingUserData) {
     return <Loading />;
@@ -739,5 +739,5 @@ export default function UserDataTable() {
   }
 
   // Render dashboard only after authorization is confirmed
-  return <ClassDataTable id={majorId as string} />;
+  return <ClassDataTable id={branchId as string} />;
 }

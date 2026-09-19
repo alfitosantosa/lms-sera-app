@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
   useCreatePaymentType,
   useDeletePaymentType,
@@ -102,8 +102,8 @@ export type PaymentTypeData = {
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  majorId: string;
-  major: {
+  branchId: string;
+  branch: {
     name: string;
   };
 };
@@ -142,7 +142,7 @@ const paymentTypeSchema = z.object({
   isFixedAmount: z.boolean(),
   isFixedQuantity: z.boolean(),
   owner: z.string(),
-  majorId: z.string().min(1, "Branch wajib dipilih"),
+  branchId: z.string().min(1, "Branch wajib dipilih"),
 });
 
 const DEFAULT_FORM_VALUES: Partial<PaymentTypeFormValues> = {
@@ -156,7 +156,7 @@ const DEFAULT_FORM_VALUES: Partial<PaymentTypeFormValues> = {
   owner: "",
   name: "",
   description: "",
-  majorId: "",
+  branchId: "",
 };
 
 // ============================================================================
@@ -224,7 +224,7 @@ function PaymentTypeFormDialog({
 }) {
   const createPaymentType = useCreatePaymentType();
   const updatePaymentType = useUpdatePaymentType();
-  const { data: majors = [], isLoading: majorsLoading } = useGetMajors();
+  const { data: branchs = [], isLoading: branchsLoading } = useGetBranchs();
 
   const {
     register,
@@ -264,7 +264,7 @@ function PaymentTypeFormDialog({
   // Populate form when editing
   React.useEffect(() => {
     if (editData) {
-      setValue("majorId", editData.majorId);
+      setValue("branchId", editData.branchId);
       setValue("name", editData.name);
       setValue("description", editData.description);
       setValue("amount", parseToFloat(editData.amount));
@@ -317,33 +317,33 @@ function PaymentTypeFormDialog({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Major/Branch Selection */}
+          {/* Branch/Branch Selection */}
           <div className="space-y-2">
-            <Label htmlFor="majorId">Branch *</Label>
+            <Label htmlFor="branchId">Branch *</Label>
             <Select
-              value={watch("majorId")}
-              onValueChange={(value) => setValue("majorId", value)}
+              value={watch("branchId")}
+              onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih branch" />
               </SelectTrigger>
               <SelectContent>
-                {majorsLoading ? (
+                {branchsLoading ? (
                   <SelectItem value="" disabled>
                     Loading...
                   </SelectItem>
                 ) : (
-                  majors.map((major: any) => (
-                    <SelectItem key={major.id} value={major.id}>
-                      {major.name}
+                  branchs.map((branch: any) => (
+                    <SelectItem key={branch.id} value={branch.id}>
+                      {branch.name}
                     </SelectItem>
                   ))
                 )}
               </SelectContent>
             </Select>
-            {errors.majorId && (
+            {errors.branchId && (
               <p className="text-destructive text-sm">
-                {errors.majorId.message}
+                {errors.branchId.message}
               </p>
             )}
           </div>
@@ -654,7 +654,7 @@ const createColumns = (
     ),
   },
   {
-    accessorKey: "major.name",
+    accessorKey: "branch.name",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -665,8 +665,8 @@ const createColumns = (
       </Button>
     ),
     cell: ({ row }) => {
-      const major = row.original.major;
-      return <div className="font-medium">{major?.name || "-"}</div>;
+      const branch = row.original.branch;
+      return <div className="font-medium">{branch?.name || "-"}</div>;
     },
   },
   {
@@ -785,7 +785,7 @@ function PaymentTypeDataTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [majorSelection, setMajorSelection] = React.useState<string | null>(
+  const [branchSelection, setBranchSelection] = React.useState<string | null>(
     null,
   );
 
@@ -796,13 +796,13 @@ function PaymentTypeDataTable() {
     React.useState<PaymentTypeData | null>(null);
 
   const { data: paymentTypes = [], isLoading, refetch } = useGetPaymentTypes();
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
-  // Filter payment types by selected major
+  // Filter payment types by selected branch
   const filteredPaymentTypes = React.useMemo(() => {
-    if (!majorSelection) return paymentTypes;
-    return paymentTypes.filter((pt) => pt.majorId === majorSelection);
-  }, [paymentTypes, majorSelection]);
+    if (!branchSelection) return paymentTypes;
+    return paymentTypes.filter((pt) => pt.branchId === branchSelection);
+  }, [paymentTypes, branchSelection]);
 
   const handleSuccess = () => {
     refetch();
@@ -865,23 +865,23 @@ function PaymentTypeDataTable() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
-                {majorSelection
-                  ? majors.find((m: any) => m.id === majorSelection)?.name
+                {branchSelection
+                  ? branchs.find((m: any) => m.id === branchSelection)?.name
                   : "Filter Branch"}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setMajorSelection(null)}>
+              <DropdownMenuItem onClick={() => setBranchSelection(null)}>
                 Semua Branch
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {majors.map((major: any) => (
+              {branchs.map((branch: any) => (
                 <DropdownMenuItem
-                  key={major.id}
-                  onClick={() => setMajorSelection(major.id)}
+                  key={branch.id}
+                  onClick={() => setBranchSelection(branch.id)}
                 >
-                  {major.name}
+                  {branch.name}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

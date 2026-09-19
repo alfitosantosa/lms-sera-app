@@ -163,7 +163,7 @@ async function exportToExcel(
 
     // ── 1. Siapkan data ───────────────────────────────────────────────────
     const exportData = data.map((item) => ({
-      Branch: item.major?.name ?? "-",
+      Branch: item.branch?.name ?? "-",
       Kelas: item.student?.class?.name ?? "-",
       "Nama Siswa": item.student?.name ?? "-",
       "No. HP Orang Tua": item.student?.parentPhone ?? "-",
@@ -348,7 +348,7 @@ const paymentItemSchema = z.object({
 const paymentSchema = z.object({
   studentId: z.string().min(1, "Siswa wajib dipilih"),
   bendaharaId: z.string().min(1, "Bendahara ID wajib diisi"),
-  majorId: z.string().min(1, "Branch wajib dipilih"),
+  branchId: z.string().min(1, "Branch wajib dipilih"),
   accountBankId: z.string().min(1, "Rekening bank wajib dipilih"),
   month: z.string().min(1, "Bulan wajib dipilih"),
   status: z.string().min(1, "Status wajib dipilih"),
@@ -416,7 +416,7 @@ function PaymentFormDialog({
   allStudents,
   allAccountBanks,
   userDataId,
-  userDataMajorId,
+  userDataBranchId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -425,7 +425,7 @@ function PaymentFormDialog({
   allStudents: UserDataTypes[];
   allAccountBanks: AccountBankTypes[];
   userDataId?: string;
-  userDataMajorId?: string;
+  userDataBranchId?: string;
 }) {
   const createPayment = useCreatePayment();
   const updatePayment = useUpdatePayment();
@@ -465,7 +465,7 @@ function PaymentFormDialog({
       transferDate: new Date().toISOString(),
       month: MONTHS[new Date().getMonth()],
       bendaharaId: userDataId || "",
-      majorId: userDataMajorId || "",
+      branchId: userDataBranchId || "",
       items: [],
       receiptNumber: "",
       bankRef: "",
@@ -487,7 +487,7 @@ function PaymentFormDialog({
       setValue("studentId", editData.studentId);
       setValue("bankRef", editData.bankRef);
       setValue("status", editData.status);
-      setValue("majorId", editData.majorId);
+      setValue("branchId", editData.branchId);
     }
   }, [open, editData?.id, setValue]);
 
@@ -578,7 +578,7 @@ function PaymentFormDialog({
         bankRef: editData.bankRef || "",
         notes: editData.notes || "",
         bendaharaId: userDataId || "",
-        majorId: editData.majorId || "",
+        branchId: editData.branchId || "",
         items: editData.paymentItems?.length
           ? editData.paymentItems.map((item) => ({
               id: item.id,
@@ -609,14 +609,14 @@ function PaymentFormDialog({
         bankRef: "",
         notes: "",
         bendaharaId: userDataId || "",
-        majorId: userDataMajorId || "",
+        branchId: userDataBranchId || "",
         items: [],
       });
       setSelectedStudentId("");
       setUnpaidItems([]);
       setTotalTransfer("");
     }
-  }, [editData?.id, userDataId, userDataMajorId, reset]);
+  }, [editData?.id, userDataId, userDataBranchId, reset]);
 
   const totalTransferNum =
     typeof totalTransfer === "number" ? totalTransfer : 0;
@@ -639,7 +639,7 @@ function PaymentFormDialog({
       const paymentPayload = {
         studentId: data.studentId,
         bendaharaId: data.bendaharaId,
-        majorId: data.majorId,
+        branchId: data.branchId,
         accountBankId: data.accountBankId,
         month: data.month,
         amount: grandTotal,
@@ -715,7 +715,7 @@ function PaymentFormDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <input type="hidden" {...register("bendaharaId")} />
-          <input type="hidden" {...register("majorId")} />
+          <input type="hidden" {...register("branchId")} />
 
           {/* Student Selection */}
           <div className="space-y-2">
@@ -1261,10 +1261,10 @@ function DeletePaymentDialog({
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function PaymentDataTable({
   userDataId,
-  userDataMajor,
+  userDataBranch,
 }: {
   userDataId?: string;
-  userDataMajor: {
+  userDataBranch: {
     id?: string;
     name?: string;
   };
@@ -1313,7 +1313,7 @@ function PaymentDataTable({
     React.useState<PaymentData | null>(null);
   // const [totalTransfer, setTotalTransfer] = React.useState(0);
 
-  const majorId = userDataMajor.id;
+  const branchId = userDataBranch.id;
 
   // Query hooks
   const {
@@ -1323,7 +1323,7 @@ function PaymentDataTable({
   } = usePaymentsByDate({
     fromdate: dateRange?.from,
     todate: dateRange?.to,
-    majorId: undefined, // ✅ FIX: Pass majorId directly (undefined is OK)
+    branchId: undefined, // ✅ FIX: Pass branchId directly (undefined is OK)
   });
   const { data: allStudents = [] } = useGetStudents();
   const { data: allAccountBanks = [] } = useGetAccountBank();
@@ -1339,7 +1339,7 @@ function PaymentDataTable({
       const p = row.original;
       const text = [
         p.student?.name,
-        p.major?.name,
+        p.branch?.name,
         p.accountBank?.accountName,
         p.accountBank?.accountBank,
         p.receiptNumber,
@@ -1509,11 +1509,11 @@ function PaymentDataTable({
         },
       },
       {
-        id: "major",
-        accessorFn: (row) => row.major?.name ?? "-",
+        id: "branch",
+        accessorFn: (row) => row.branch?.name ?? "-",
         header: "Branch",
         cell: ({ row }) => (
-          <Badge variant="secondary">{row.original.major?.name ?? "-"}</Badge>
+          <Badge variant="secondary">{row.original.branch?.name ?? "-"}</Badge>
         ),
       },
       {
@@ -1714,7 +1714,7 @@ function PaymentDataTable({
     month: "Bulan",
     amount: "Jumlah",
     status: "Status",
-    major: "Branch",
+    branch: "Branch",
     accountBank: "Bank",
     paymentDate: "Tgl Bayar",
     transferDate: "Tgl Transfer",
@@ -2040,7 +2040,7 @@ function PaymentDataTable({
         allStudents={allStudents}
         allAccountBanks={allAccountBanks}
         userDataId={userDataId}
-        userDataMajorId={majorId}
+        userDataBranchId={branchId}
       />
       <PaymentFormDialog
         open={editDialogOpen}
@@ -2050,7 +2050,7 @@ function PaymentDataTable({
         allStudents={allStudents}
         allAccountBanks={allAccountBanks}
         userDataId={userDataId}
-        userDataMajorId={majorId}
+        userDataBranchId={branchId}
       />
       <DeletePaymentDialog
         open={deleteDialogOpen}
@@ -2071,12 +2071,12 @@ export default function PaymentPage() {
   const userRole = userData?.role?.name;
   const userDataId = userData?.id;
 
-  // ✅ FIX #2: Memoize userDataMajor object untuk stabilize reference
-  const userDataMajor = React.useMemo(() => {
-    return userData?.major
-      ? { id: userData.major.id, name: userData.major.name }
+  // ✅ FIX #2: Memoize userDataBranch object untuk stabilize reference
+  const userDataBranch = React.useMemo(() => {
+    return userData?.branch
+      ? { id: userData.branch.id, name: userData.branch.name }
       : { id: undefined, name: undefined };
-  }, [userData?.major?.id, userData?.major?.name]);
+  }, [userData?.branch?.id, userData?.branch?.name]);
 
   if (isPending || isLoadingUserData) {
     return <Loading />;
@@ -2089,6 +2089,6 @@ export default function PaymentPage() {
   }
 
   return (
-    <PaymentDataTable userDataId={userDataId} userDataMajor={userDataMajor} />
+    <PaymentDataTable userDataId={userDataId} userDataBranch={userDataBranch} />
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
   useCreateTahfidzGroup,
   useDeleteTahfidzGroup,
@@ -94,7 +94,7 @@ export type TahfidzGroupData = {
   id: string;
   name: string;
   grade: number;
-  majorId?: string;
+  branchId?: string;
   capacity: number;
   isActive: boolean;
   _count?: {
@@ -106,7 +106,7 @@ export type TahfidzGroupData = {
 const tahfidzGroupSchema = z.object({
   name: z.string().min(1, "Nama kelompok tahfidz wajib diisi"),
   grade: z.number().min(1, "Tingkat minimal 1").max(12, "Tingkat maksimal 12"),
-  majorId: z.string().min(1, "Jurusan wajib dipilih"),
+  branchId: z.string().min(1, "Jurusan wajib dipilih"),
   capacity: z
     .number()
     .min(1, "Kapasitas minimal 1")
@@ -129,7 +129,7 @@ function TahfidzGroupFormDialog({
 }) {
   const createTahfidzGroup = useCreateTahfidzGroup();
   const updateTahfidzGroup = useUpdateTahfidzGroup();
-  const { data: majors } = useGetMajors();
+  const { data: branchs } = useGetBranchs();
 
   const {
     register,
@@ -142,24 +142,24 @@ function TahfidzGroupFormDialog({
     resolver: zodResolver(tahfidzGroupSchema),
     defaultValues: {
       capacity: 40,
-      majorId: "",
+      branchId: "",
     },
   });
 
-  const selectedMajorId = watch("majorId");
+  const selectedBranchId = watch("branchId");
 
   React.useEffect(() => {
     if (editData) {
       reset({
         name: editData.name,
         grade: editData.grade,
-        majorId: editData.majorId ?? "",
+        branchId: editData.branchId ?? "",
         capacity: editData.capacity,
       });
     } else {
       reset({
         capacity: 40,
-        majorId: "",
+        branchId: "",
       });
     }
   }, [editData, reset]);
@@ -221,23 +221,23 @@ function TahfidzGroupFormDialog({
           <div className="space-y-2">
             <Label>Jurusan</Label>
             <Select
-              value={selectedMajorId}
-              onValueChange={(value) => setValue("majorId", value)}
+              value={selectedBranchId}
+              onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jurusan" />
               </SelectTrigger>
               <SelectContent>
-                {majors?.map((major) => (
-                  <SelectItem key={major.id} value={major.id}>
-                    {major.name}
+                {branchs?.map((branch) => (
+                  <SelectItem key={branch.id} value={branch.id}>
+                    {branch.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && (
+            {errors.branchId && (
               <p className="text-destructive text-sm">
-                {errors.majorId.message}
+                {errors.branchId.message}
               </p>
             )}
           </div>

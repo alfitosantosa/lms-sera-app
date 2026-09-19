@@ -2,7 +2,7 @@
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
@@ -78,7 +78,7 @@ export type UserData = {
   enrollmentDate?: Date;
   gender?: string;
   graduationDate?: Date;
-  majorId?: string;
+  branchId?: string;
   parentPhone?: string;
   status?: string;
 
@@ -105,7 +105,7 @@ export type UserData = {
     id: string;
     name: string;
   };
-  major?: {
+  branch?: {
     id: string;
     name: string;
   };
@@ -150,7 +150,7 @@ const userSchema = z.object({
   classId: z.string().optional(),
   tahfidzGroupId: z.string().optional(),
   academicYearId: z.string().optional(),
-  majorId: z.string().optional(),
+  branchId: z.string().optional(),
   parentPhone: z.string().optional(),
   status: z.string().min(1, "Status wajib diisi").default("active"),
 
@@ -722,7 +722,7 @@ export function UserFormDialog({
     useGetTahfidzGroup();
   const { data: academicYears = [], isLoading: academicYearsLoading } =
     useGetAcademicYears();
-  const { data: majors = [], isLoading: majorsLoading } = useGetMajors();
+  const { data: branchs = [], isLoading: branchsLoading } = useGetBranchs();
 
   const students = React.useMemo(() => {
     return users.filter((user) => user.role?.name.trim() === "Student");
@@ -769,7 +769,7 @@ export function UserFormDialog({
       setValue("classId", editData.classId || "");
       setValue("tahfidzGroupId", editData.tahfidzGroupId || "");
       setValue("academicYearId", editData.academicYearId || "");
-      setValue("majorId", editData.majorId || "");
+      setValue("branchId", editData.branchId || "");
       setValue("parentPhone", editData.parentPhone || "");
       setValue("status", editData.status || "active");
       setValue("employeeId", editData.employeeId || "");
@@ -821,9 +821,9 @@ export function UserFormDialog({
           data.academicYearId && data.academicYearId !== ""
             ? data.academicYearId
             : null,
-        majorId: data.majorId && data.majorId !== "" ? data.majorId : null,
-        // Branch (major) sudah membawa yayasan; foundationId hanya diisi bila baris tanpa branch
-        foundationId: data.majorId && data.majorId !== "" ? null : foundationId,
+        branchId: data.branchId && data.branchId !== "" ? data.branchId : null,
+        // Branch (branch) sudah membawa yayasan; foundationId hanya diisi bila baris tanpa branch
+        foundationId: data.branchId && data.branchId !== "" ? null : foundationId,
       };
 
       // Add role-specific fields
@@ -1019,21 +1019,21 @@ export function UserFormDialog({
               <div className="space-y-2">
                 <Label>Branch *</Label>
                 <Select
-                  onValueChange={(value) => setValue("majorId", value)}
-                  value={watch("majorId")}
+                  onValueChange={(value) => setValue("branchId", value)}
+                  value={watch("branchId")}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Branch" />
                   </SelectTrigger>
                   <SelectContent>
-                    {majorsLoading ? (
+                    {branchsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
                     ) : (
-                      majors.map((major) => (
-                        <SelectItem key={major.id} value={major.id}>
-                          {major.name}
+                      branchs.map((branch) => (
+                        <SelectItem key={branch.id} value={branch.id}>
+                          {branch.name}
                         </SelectItem>
                       ))
                     )}
@@ -1295,21 +1295,21 @@ export function UserFormDialog({
               <div className="space-y-2">
                 <Label>Branch *</Label>
                 <Select
-                  onValueChange={(value) => setValue("majorId", value)}
-                  value={watch("majorId")}
+                  onValueChange={(value) => setValue("branchId", value)}
+                  value={watch("branchId")}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Branch" />
                   </SelectTrigger>
                   <SelectContent>
-                    {majorsLoading ? (
+                    {branchsLoading ? (
                       <SelectItem value="" disabled>
                         Loading...
                       </SelectItem>
                     ) : (
-                      majors.map((major) => (
-                        <SelectItem key={major.id} value={major.id}>
-                          {major.name}
+                      branchs.map((branch) => (
+                        <SelectItem key={branch.id} value={branch.id}>
+                          {branch.name}
                         </SelectItem>
                       ))
                     )}

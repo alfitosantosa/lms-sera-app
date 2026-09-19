@@ -18,7 +18,7 @@
 //   enrollmentDate DateTime?          // Default now() untuk student
 //   gender         String?            // Wajib untuk student & teacher
 //   graduationDate DateTime?          // Optional untuk student
-//   majorId        String?            // Wajib untuk student
+//   branchId        String?            // Wajib untuk student
 //   parentPhone    String?            // Optional untuk student
 //   status         String?   @default("active")  // active/inactive/graduated
 
@@ -42,7 +42,7 @@
 //   // Relations sebagai Student
 //   academicYear   AcademicYear?     @relation("StudentAcademicYear", fields: [academicYearId], references: [id])
 //   class          Class?            @relation("StudentClass", fields: [classId], references: [id])
-//   major          Major?            @relation("StudentMajor", fields: [majorId], references: [id])
+//   branch          Branch?            @relation("StudentBranch", fields: [branchId], references: [id])
 //   attendances    Attendance[]      @relation("StudentAttendance")
 //   payments       Payment[]         @relation("StudentPayment")
 //   violations     Violation[]       @relation("StudentViolation")
@@ -88,7 +88,7 @@ function replaceUndefinedWithNull<T>(value: T): T {
 type TenantRefs = {
   userId?: string | null;
   roleId?: string | null;
-  majorId?: string | null;
+  branchId?: string | null;
   classId?: string | null;
   academicYearId?: string | null;
   tahfidzGroupId?: string | null;
@@ -100,20 +100,20 @@ async function refsOwnedByFoundation(
   data: TenantRefs,
   foundationId: string,
 ): Promise<boolean> {
-  const { userId, roleId, majorId, classId, academicYearId, tahfidzGroupId } =
+  const { userId, roleId, branchId, classId, academicYearId, tahfidzGroupId } =
     data;
 
-  // TahfidzGroup tidak punya relasi ke Major (hanya majorId), jadi scope-nya lewat major yayasan ini
-  const tenantMajorIds = tahfidzGroupId
+  // TahfidzGroup tidak punya relasi ke Branch (hanya branchId), jadi scope-nya lewat branch yayasan ini
+  const tenantBranchIds = tahfidzGroupId
     ? (
-        await prisma.major.findMany({
+        await prisma.branch.findMany({
           where: { foundationId },
           select: { id: true },
         })
-      ).map((major) => major.id)
+      ).map((branch) => branch.id)
     : [];
 
-  const [user, role, major, kelas, academicYear, tahfidzGroup] =
+  const [user, role, branch, kelas, academicYear, tahfidzGroup] =
     await Promise.all([
       userId
         ? prisma.user.findFirst({
@@ -130,15 +130,15 @@ async function refsOwnedByFoundation(
             select: { id: true },
           })
         : true,
-      majorId
-        ? prisma.major.findFirst({
-            where: { id: majorId, foundationId },
+      branchId
+        ? prisma.branch.findFirst({
+            where: { id: branchId, foundationId },
             select: { id: true },
           })
         : true,
       classId
         ? prisma.class.findFirst({
-            where: { id: classId, major: { foundationId } },
+            where: { id: classId, branch: { foundationId } },
             select: { id: true },
           })
         : true,
@@ -150,14 +150,14 @@ async function refsOwnedByFoundation(
         : true,
       tahfidzGroupId
         ? prisma.tahfidzGroup.findFirst({
-            where: { id: tahfidzGroupId, majorId: { in: tenantMajorIds } },
+            where: { id: tahfidzGroupId, branchId: { in: tenantBranchIds } },
             select: { id: true },
           })
         : true,
     ]);
 
   return Boolean(
-    user && role && major && kelas && academicYear && tahfidzGroup,
+    user && role && branch && kelas && academicYear && tahfidzGroup,
   );
 }
 
@@ -176,7 +176,7 @@ export async function GET(request: NextRequest) {
       include: {
         role: true,
         class: true,
-        major: true,
+        branch: true,
         academicYear: true,
         user: true,
         tahfidzGroup: true,

@@ -114,7 +114,7 @@ const availablePermissions = [
   { id: "/dashboard/admin/master/roles", label: "Roles Management" },
   { id: "/dashboard/admin/master/betterauth", label: "BetterAuth Management" },
   { id: "/dashboard/admin/master/users", label: "Users Management" },
-  { id: "/dashboard/admin/master/majors", label: "Major Management" },
+  { id: "/dashboard/admin/master/branchs", label: "Branch Management" },
   { id: "/dashboard/admin/master/classes", label: "Class Management" },
   {
     id: "/dashboard/admin/master/classes/tahfidz",
@@ -275,7 +275,7 @@ const availablePermissions = [
   { id: "/dashboard/violations/student", label: "Violation for Student" },
 
   // ========== Top-Level Alternative Routes (may be duplicates) ==========
-  { id: "/dashboard/majors", label: "Majors (Top-level)" },
+  { id: "/dashboard/branchs", label: "Branchs (Top-level)" },
   { id: "/dashboard/payments", label: "Payments (Top-level)" },
 
   // ========== Test/Debug Pages (should be restricted) ==========

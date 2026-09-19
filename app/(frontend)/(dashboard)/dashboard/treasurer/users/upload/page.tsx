@@ -1,8 +1,8 @@
 "use client";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
-import { useGetMajorById } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
+import { useGetBranchById } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useBulkCreateUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
@@ -43,21 +43,21 @@ type UserDataInput = Omit<
   | "user"
   | "academicYear"
   | "class"
-  | "major"
+  | "branch"
   | "role"
   | "tahfidzGroup"
 >;
 
-function UploadUsers({ majorId }: { majorId: string }) {
+function UploadUsers({ branchId }: { branchId: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [previewData, setPreviewData] = useState<UserDataTypes[]>([]);
 
   const { data: rolesData = [] } = useGetRoles();
   const { data: academicYearData = [] } = useGetAcademicYears();
-  const { data: classData = [] } = useGetClassByIdMajor(majorId);
-  const { data: singleMajorData } = useGetMajorById(majorId);
-  const majorsData = singleMajorData ? [singleMajorData] : [];
+  const { data: classData = [] } = useGetClassByIdBranch(branchId);
+  const { data: singleBranchData } = useGetBranchById(branchId);
+  const branchsData = singleBranchData ? [singleBranchData] : [];
   const { data: tahfidzGroupData = [] } = useGetTahfidzGroup();
 
   const bulkCreateMutation = useBulkCreateUserData();
@@ -217,7 +217,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
             academicYearId: row[10]?.toString() || null,
             classId: row[11]?.toString() || null,
             tahfidzGroupId: row[12]?.toString() || null,
-            majorId: row[13]?.toString() || null,
+            branchId: row[13]?.toString() || null,
 
             // Dates
             enrollmentDate: parseDate(row[14]),
@@ -297,7 +297,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
           "Academic Year ID",
           "Class ID",
           "Tahfidz Group ID",
-          "Major ID",
+          "Branch ID",
           "Enrollment Date",
           "Graduation Date",
           "Employee ID",
@@ -323,7 +323,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
           academicYearData[0]?.id || "",
           classData[0]?.id || "",
           tahfidzGroupData[0]?.id || "",
-          majorsData[0]?.id || "",
+          branchsData[0]?.id || "",
           "01/07/2023",
           "",
           "",
@@ -349,7 +349,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
           academicYearData[0]?.id || "",
           classData[0]?.id || "",
           tahfidzGroupData[0]?.id || "",
-          majorsData[0]?.id || "",
+          branchsData[0]?.id || "",
           "01/07/2023",
           "",
           "",
@@ -381,7 +381,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
         { wch: 30 }, // Academic Year ID
         { wch: 30 }, // Class ID
         { wch: 30 }, // Tahfidz Group ID
-        { wch: 30 }, // Major ID
+        { wch: 30 }, // Branch ID
         { wch: 15 }, // Enrollment Date
         { wch: 15 }, // Graduation Date
         { wch: 15 }, // Employee ID
@@ -613,7 +613,7 @@ function UploadUsers({ majorId }: { majorId: string }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {majorsData.map((data) => (
+              {branchsData.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>
@@ -717,5 +717,5 @@ export default function UserDataTable() {
   }
 
   // Render dashboard only after authorization is confirmed
-  return <UploadUsers majorId={userData?.major?.id as string} />;
+  return <UploadUsers branchId={userData?.branch?.id as string} />;
 }

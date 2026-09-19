@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       }),
       paymentId
         ? prisma.payment.findFirst({
-            where: { id: paymentId, major: { foundationId: t.foundationId } },
+            where: { id: paymentId, branch: { foundationId: t.foundationId } },
             select: { id: true },
           })
         : Promise.resolve(null),

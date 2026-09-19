@@ -335,7 +335,7 @@ pos-rahmany-new-2/
 │   │       ├── class/            # Class management
 │   │       ├── docs/             # API documentation (Swagger)
 │   │       ├── health/           # Health check endpoint
-│   │       ├── major/            # Major/Jurusan
+│   │       ├── branch/            # Branch/Jurusan
 │   │       ├── midtrans/         # Midtrans payment
 │   │       ├── payment/          # Payment system
 │   │       ├── paymenttype/      # Payment types
@@ -357,7 +357,7 @@ pos-rahmany-new-2/
 │   │   │   ├── botwa/           # WhatsApp bot UI
 │   │   │   ├── calender/        # Calendar view
 │   │   │   ├── classes/         # Class management UI
-│   │   │   ├── majors/          # Major management UI
+│   │   │   ├── branchs/          # Branch management UI
 │   │   │   ├── parent/          # Parent portal
 │   │   │   ├── payments/        # Payment UI
 │   │   │   ├── profile/         # User profile
@@ -418,7 +418,7 @@ http://localhost:3000/api/docs
 | Kategori        | Endpoint                 | Deskripsi                |
 | --------------- | ------------------------ | ------------------------ |
 | **Academic**    | `/api/academicyear`      | Manajemen tahun akademik |
-| **Academic**    | `/api/major`             | Manajemen jurusan        |
+| **Academic**    | `/api/branch`             | Manajemen jurusan        |
 | **Academic**    | `/api/class`             | Manajemen kelas          |
 | **Academic**    | `/api/subjects`          | Manajemen mata pelajaran |
 | **Users**       | `/api/students`          | Manajemen siswa          |
@@ -470,7 +470,7 @@ Database menggunakan **PostgreSQL** dengan **Prisma ORM**.
 #### Academic Models
 
 - **AcademicYear**: Tahun ajaran
-- **Major**: Jurusan/program studi
+- **Branch**: Jurusan/program studi
 - **Class**: Kelas
 - **Subject**: Mata pelajaran
 

@@ -8,7 +8,7 @@ import { type NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
-  const majorId = request.nextUrl.searchParams.get("majorId");
+  const branchId = request.nextUrl.searchParams.get("branchId");
   const status = request.nextUrl.searchParams.get("status");
   const isPaidParam = request.nextUrl.searchParams.get("isPaid");
   const skuType = request.nextUrl.searchParams.get("skuType");
@@ -47,10 +47,10 @@ export async function GET(request: NextRequest) {
       };
     }
 
-    // Filter tenant + majorId melalui relasi student
+    // Filter tenant + branchId melalui relasi student
     whereClause.student = {
       foundationId: t.foundationId,
-      ...(majorId ? { majorId: majorId } : {}),
+      ...(branchId ? { branchId: branchId } : {}),
     };
 
     // Filter by skuType if provided (skuType is a field in paymentType and take skuType)

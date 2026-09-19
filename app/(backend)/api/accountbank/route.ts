@@ -3,9 +3,9 @@
 //   accountName   String
 //   accountBank   String
 //   accountNumber String
-//   majorId       String
+//   branchId       String
 //   createdAt     DateTime  @default(now())
-//   majors        Major     @relation(fields: [majorId], references: [id])
+//   branchs        Branch     @relation(fields: [branchId], references: [id])
 //   payments      Payment[]
 
 //   @@map("account_bank")
@@ -23,10 +23,10 @@ export async function GET(request: NextRequest) {
   try {
     const getAllAccountBank = await prisma.accountBank.findMany({
       where: {
-        majors: { foundationId: t.foundationId },
+        branchs: { foundationId: t.foundationId },
       },
       include: {
-        majors: true,
+        branchs: true,
       },
     });
     return NextResponse.json(getAllAccountBank);
@@ -40,21 +40,21 @@ export async function POST(Request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { accountName, accountBank, accountNumber, majorId } =
+    const { accountName, accountBank, accountNumber, branchId } =
       await Request.json();
 
-    const major = await prisma.major.findFirst({
-      where: { id: majorId, foundationId: t.foundationId },
+    const branch = await prisma.branch.findFirst({
+      where: { id: branchId, foundationId: t.foundationId },
       select: { id: true },
     });
-    if (!major) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (!branch) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const createAccountBank = await prisma.accountBank.create({
       data: {
         accountName,
         accountBank,
         accountNumber,
-        majorId,
+        branchId,
       },
     });
     return NextResponse.json(createAccountBank);
@@ -68,20 +68,20 @@ export async function PUT(Request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, accountName, accountBank, accountNumber, majorId } =
+    const { id, accountName, accountBank, accountNumber, branchId } =
       await Request.json();
 
-    const [owned, major] = await Promise.all([
+    const [owned, branch] = await Promise.all([
       prisma.accountBank.findFirst({
-        where: { id, majors: { foundationId: t.foundationId } },
+        where: { id, branchs: { foundationId: t.foundationId } },
         select: { id: true },
       }),
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
     ]);
-    if (!owned || !major)
+    if (!owned || !branch)
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const createAccountBank = await prisma.accountBank.update({
@@ -90,7 +90,7 @@ export async function PUT(Request: NextRequest) {
         accountName,
         accountBank,
         accountNumber,
-        majorId,
+        branchId,
       },
     });
     return NextResponse.json(createAccountBank);
@@ -107,7 +107,7 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const owned = await prisma.accountBank.findFirst({
-      where: { id, majors: { foundationId: t.foundationId } },
+      where: { id, branchs: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");

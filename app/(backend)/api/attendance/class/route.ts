@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
       classInfo = await prisma.class.findFirst({
         where: {
           id: classId,
-          major: { foundationId: t.foundationId },
+          branch: { foundationId: t.foundationId },
         },
         select: {
           id: true,

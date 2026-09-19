@@ -84,7 +84,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   const [tahfidzGroupSelection, setTahfidzGroupSelection] = React.useState<
     string | null
   >(null);
-  const [majorSelection, setMajorSelection] = React.useState<string | null>(
+  const [branchSelection, setBranchSelection] = React.useState<string | null>(
     null,
   );
 
@@ -130,9 +130,9 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   const { data: tahfidzGroupsData, isLoading: isLoadingTahfidzGroups } =
     useGetTahfidzGroup();
 
-  const uniqueMajors = React.useMemo(() => {
+  const uniqueBranchs = React.useMemo(() => {
     return Array.from(
-      new Set(usersData.map((user) => user.major?.name).filter(Boolean)),
+      new Set(usersData.map((user) => user.branch?.name).filter(Boolean)),
     );
   }, [usersData]);
 
@@ -339,7 +339,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         },
       },
       {
-        accessorKey: "major",
+        accessorKey: "branch",
         header: ({ column }) => {
           return (
             <Button
@@ -355,21 +355,21 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
           );
         },
         cell: ({ row }) => {
-          const major = row.original.major;
-          return <div>{major?.name || "-"}</div>;
+          const branch = row.original.branch;
+          return <div>{branch?.name || "-"}</div>;
         },
         sortingFn: (rowA, rowB) => {
-          const majorA = rowA.original.major?.name || "";
-          const majorB = rowB.original.major?.name || "";
-          return majorA.localeCompare(majorB);
+          const branchA = rowA.original.branch?.name || "";
+          const branchB = rowB.original.branch?.name || "";
+          return branchA.localeCompare(branchB);
         },
         filterFn: (row, columnId, filterValue) => {
           if (typeof filterValue === "function") {
             return filterValue(row);
           }
           if (!filterValue) return true;
-          const major = row.original.major;
-          return major?.name === filterValue;
+          const branch = row.original.branch;
+          return branch?.name === filterValue;
         },
       },
       {
@@ -578,13 +578,13 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     [table],
   );
 
-  const handleMajorFilter = React.useCallback(
-    (majorName: string | null) => {
-      setMajorSelection(majorName);
-      if (majorName) {
-        table.getColumn("major")?.setFilterValue(majorName);
+  const handleBranchFilter = React.useCallback(
+    (branchName: string | null) => {
+      setBranchSelection(branchName);
+      if (branchName) {
+        table.getColumn("branch")?.setFilterValue(branchName);
       } else {
-        table.getColumn("major")?.setFilterValue("");
+        table.getColumn("branch")?.setFilterValue("");
       }
     },
     [table],
@@ -648,7 +648,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   }
 
   return (
-    <div className="">
+    <div className="max-w-8xl">
       <div className="text-3xl font-bold">Users Menu</div>
 
       <div className="flex flex-wrap items-start justify-between gap-4 py-4">
@@ -736,21 +736,21 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
-                {majorSelection || "Filter Branch"}
+                {branchSelection || "Filter Branch"}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleMajorFilter(null)}>
+              <DropdownMenuItem onClick={() => handleBranchFilter(null)}>
                 Semua Branch
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {uniqueMajors.map((majorName) => (
+              {uniqueBranchs.map((branchName) => (
                 <DropdownMenuItem
-                  key={String(majorName)}
-                  onClick={() => handleMajorFilter(majorName as string)}
+                  key={String(branchName)}
+                  onClick={() => handleBranchFilter(branchName as string)}
                 >
-                  {majorName as string}
+                  {branchName as string}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -778,7 +778,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
                       role: "Role",
                       class: "Kelas",
                       tahfidzGroup: "Tahfidz Group",
-                      major: "Branch",
+                      branch: "Branch",
                       status: "Status",
                       user: "BetterAuth",
                     };

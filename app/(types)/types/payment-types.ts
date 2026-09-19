@@ -14,7 +14,7 @@ export interface PaymentData {
   receiptNumber: string;
   bankRef: string;
   accountBankId: string;
-  majorId: string;
+  branchId: string;
   month: string;
   // Relations
   student?: {
@@ -22,11 +22,11 @@ export interface PaymentData {
     name: string;
     parentPhone?: string | null;
     class?: { name: string } | null;
-    major?: { id: string; name: string } | null;
+    branch?: { id: string; name: string } | null;
     nisn?: string | null;
     email?: string | null;
   };
-  major?: {
+  branch?: {
     id: string;
     name: string;
     adminName?: string | null;
@@ -69,7 +69,7 @@ export interface PaymentInput {
   id?: string;
   studentId: string;
   bendaharaId: string;
-  majorId: string;
+  branchId: string;
   accountBankId: string;
   month: string;
   amount: number;

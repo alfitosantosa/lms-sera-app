@@ -892,7 +892,7 @@ function AttendanceDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 max-w-7xl p-6">
+      <div className="max-w-8xl">
         <div className="mb-6 text-3xl font-bold">Data Kehadiran Siswa</div>
 
         <div className="flex flex-wrap items-center justify-between gap-4 py-4">

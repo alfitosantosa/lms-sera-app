@@ -20,7 +20,7 @@
 | UserData             | `user_data`              | Core / Users      |
 | Role                 | `roles`                  | Authorization     |
 | AcademicYear         | `academic_years`         | Academic          |
-| Major                | `majors`                 | Academic (Branch) |
+| Branch                | `branchs`                 | Academic (Branch) |
 | Class                | `classes`                | Academic          |
 | Subject              | `subjects`               | Academic          |
 | Schedule             | `schedules`              | Academic          |
@@ -53,7 +53,7 @@
 1. **Core/Tenant**: Foundation, multi-tenant isolation
 2. **Authentication**: Better Auth (User, Session, Account, Verification)
 3. **Authorization**: Role-based access (Role model with permissions array)
-4. **Academic**: AcademicYear, Major (=Branch), Class, Subject, Schedule
+4. **Academic**: AcademicYear, Branch (=Branch), Class, Subject, Schedule
 5. **Finance**: PaymentType, PaymentItems, Payment, PaymentTransaction, AccountBank
 6. **Attendance**: Student Attendance, Teacher Attendance
 7. **Discipline**: ViolationType, Violation
@@ -73,12 +73,12 @@
 | `/dashboard`                                        | All       | Main dashboard                             |
 | `/dashboard/profile`                                | All       | User profile                               |
 | `/dashboard/foundation`                             | Admin     | Foundation management                      |
-| `/dashboard/majors`                                 | Admin     | Majors listing                             |
+| `/dashboard/branchs`                                 | Admin     | Branchs listing                             |
 | `/dashboard/payments`                               | Shared    | Payments listing                           |
 | `/dashboard/reports`                                | Shared    | Reports                                    |
 | `/dashboard/admin/master/users`                     | Admin     | Master - Users                             |
 | `/dashboard/admin/master/roles`                     | Admin     | Master - Roles                             |
-| `/dashboard/admin/master/majors`                    | Admin     | Master - Majors                            |
+| `/dashboard/admin/master/branchs`                    | Admin     | Master - Branchs                            |
 | `/dashboard/admin/master/classes`                   | Admin     | Master - Classes                           |
 | `/dashboard/admin/master/classes/tahfidz`           | Admin     | Master - Tahfidz Groups                    |
 | `/dashboard/admin/master/subjects`                  | Admin     | Master - Subjects                          |
@@ -170,11 +170,11 @@
 | Endpoint                  | Methods                | Auth   |
 | ------------------------- | ---------------------- | ------ |
 | `/api/academicyear`       | GET, POST, PUT, DELETE | Tenant |
-| `/api/major`              | GET, POST, PUT, DELETE | Tenant |
-| `/api/major/[id]`         | GET                    | Tenant |
+| `/api/branch`              | GET, POST, PUT, DELETE | Tenant |
+| `/api/branch/[id]`         | GET                    | Tenant |
 | `/api/class`              | GET, POST, PUT, DELETE | Tenant |
 | `/api/class/[id]`         | GET                    | Tenant |
-| `/api/class/major/[id]`   | GET                    | Tenant |
+| `/api/class/branch/[id]`   | GET                    | Tenant |
 | `/api/class/user/[id]`    | GET                    | Tenant |
 | `/api/subjects`           | GET, POST, PUT, DELETE | Tenant |
 | `/api/roles`              | GET, POST, PUT, DELETE | Tenant |
@@ -194,8 +194,8 @@
 | `/api/students/by-ids`             | GET                    | Tenant |
 | `/api/students/by-ids/attendance`  | GET                    | Tenant |
 | `/api/students/by-ids/violations`  | GET                    | Tenant |
-| `/api/students/major/[id]`         | GET                    | Tenant |
-| `/api/students/major/[id]/active`  | GET                    | Tenant |
+| `/api/students/branch/[id]`         | GET                    | Tenant |
+| `/api/students/branch/[id]/active`  | GET                    | Tenant |
 | `/api/students/tahfidzgroup/[id]`  | GET                    | Tenant |
 | `/api/teachers`                    | GET, POST, PUT, DELETE | Tenant |
 
@@ -236,15 +236,15 @@
 | Endpoint                                        | Methods                | Auth     |
 | ----------------------------------------------- | ---------------------- | -------- |
 | `/api/paymenttype`                              | GET, POST, PUT, DELETE | Tenant   |
-| `/api/paymenttype/major/[id]`                   | GET                    | Tenant   |
+| `/api/paymenttype/branch/[id]`                   | GET                    | Tenant   |
 | `/api/accountbank`                              | GET, POST, PUT, DELETE | Tenant   |
 | `/api/accountbank/chart`                        | GET                    | Tenant   |
-| `/api/accountbank/major/[majorId]`              | GET                    | Tenant   |
+| `/api/accountbank/branch/[branchId]`              | GET                    | Tenant   |
 | `/api/payment`                                  | POST, PUT, DELETE      | Tenant   |
 | `/api/payment/chart`                            | GET                    | Tenant   |
 | `/api/payment/filterdate`                       | GET                    | Tenant   |
 | `/api/payment/generate/receiptnumber`           | POST                   | Tenant   |
-| `/api/payment/major/[majorId]`                  | GET                    | Tenant   |
+| `/api/payment/branch/[branchId]`                  | GET                    | Tenant   |
 | `/api/payment/student/[studentId]`              | GET                    | Tenant   |
 | `/api/payment/student/bulk`                     | POST                   | Tenant   |
 | `/api/payment/success`                          | POST                   | Tenant   |
@@ -253,7 +253,7 @@
 | `/api/payment/items/bulk/upload`                | GET, POST              | Tenant   |
 | `/api/payment/items/chart`                      | GET                    | Tenant   |
 | `/api/payment/items/filterdate`                 | GET                    | Tenant   |
-| `/api/payment/items/major/[majorId]`            | GET                    | Tenant   |
+| `/api/payment/items/branch/[branchId]`            | GET                    | Tenant   |
 | `/api/payment/items/setpaid`                    | POST                   | Tenant   |
 | `/api/payment/items/student/[id]`               | GET                    | Tenant   |
 | `/api/payment/items/student/bulk`               | POST                   | Tenant   |
@@ -309,7 +309,7 @@ See detailed hook listing in discovery notes. Key domains:
 - BotWA (1 file)
 - Classes (3 files)
 - Foundation (1 file)
-- Majors (1 file)
+- Branchs (1 file)
 - Midtrans (1 file)
 - Payments (6 files)
 - Roles (2 files)
@@ -336,7 +336,7 @@ See detailed hook listing in discovery notes. Key domains:
 | `class-types.ts`              | ClassDataTypes                                                       |
 | `error-types.ts`              | Error response types                                                 |
 | `foundation-types.ts`         | foundationTypes, FoundationWithCounts, etc.                          |
-| `majors-types.ts`             | majorTypes, MajorFormValues                                          |
+| `branchs-types.ts`             | branchTypes, BranchFormValues                                          |
 | `payment-items-types.ts`      | PaymentItemData, PaymentItemsInput, PaymentItemsTypes, SetPaidInput  |
 | `payment-types.ts`            | PaymentData, PaymentInput                                            |
 | `paymenttype-types.ts`        | PaymentTypeTypes, PaymentTypeInput                                   |
@@ -347,7 +347,7 @@ See detailed hook listing in discovery notes. Key domains:
 | `tahfidzgroup-types.ts`       | tahfidzGroupTypes, TahfidzGroupData, etc.                            |
 | `tahfidzrecord-types.ts`      | Tahfidz record types                                                 |
 | `teacher-attendance-types.ts` | TeacherAttendanceRecord, etc.                                        |
-| `userData-types.ts`           | UserDataTypes, userDataMajorTypes                                    |
+| `userData-types.ts`           | UserDataTypes, userDataBranchTypes                                    |
 | `violation-types.ts`          | ViolationTypes, ViolationInput, ViolationTypeTypes                   |
 | `index.ts`                    | Barrel re-export (excludes attendance-types)                         |
 
@@ -360,8 +360,8 @@ See detailed hook listing in discovery notes. Key domains:
 ```
 Foundation (tenant root)
 ├── AcademicYear (many) ──┐
-├── Major (many) ─────────┤  ← "Major" serves as "Branch" in the handwritten notes
-│   ├── Class (many) ──────── requires both majorId + academicYearId
+├── Branch (many) ─────────┤  ← "Branch" serves as "Branch" in the handwritten notes
+│   ├── Class (many) ──────── requires both branchId + academicYearId
 │   ├── Subject (many)
 │   ├── PaymentType (many)
 │   ├── AccountBank (many)
@@ -371,7 +371,7 @@ Foundation (tenant root)
 │   └── UserData (0..1)
 │       ├── → Foundation (optional)
 │       ├── → AcademicYear (optional)
-│       ├── → Major (optional)
+│       ├── → Branch (optional)
 │       ├── → Class (optional)
 │       ├── → Role (optional)
 │       └── → TahfidzGroup (optional)
@@ -380,12 +380,12 @@ Foundation (tenant root)
 └── DashboardContent (many)
 ```
 
-**Important:** There is NO separate `Branch` model. The `Major` model serves as "Branch" in the handwritten module structure. Each Major has `address`, `phone`, `adminName`, `signatureUrl` fields supporting branch-like identity.
+**Important:** There is NO separate `Branch` model. The `Branch` model serves as "Branch" in the handwritten module structure. Each Branch has `address`, `phone`, `adminName`, `signatureUrl` fields supporting branch-like identity.
 
 ### Finance Flow
 
 ```
-PaymentType (billing template per Major)
+PaymentType (billing template per Branch)
   └── PaymentItems (individual billing line items per student)
        └── Payment (receipt grouping paid items)
             ├── PaymentTransaction (1:1 Midtrans record)
@@ -590,7 +590,7 @@ SERA APP
 │
 ├── Academic
 │   ├── Academic Year (master data)
-│   ├── Branch / Major (master data)
+│   ├── Branch / Branch (master data)
 │   ├── Classes (master data)
 │   ├── Subjects (master data)
 │   ├── Schedules

@@ -202,7 +202,7 @@ const filterOptions = {
     "Satu Sekolah",
   ],
   class: ["X RPL 1", "X RPL 2", "XI TKJ 1", "XI TKJ 2", "XII MM 1", "XII MM 2"],
-  major: ["RPL", "TKJ", "MM", "TKRO"],
+  branch: ["RPL", "TKJ", "MM", "TKRO"],
   grade: ["X", "XI", "XII"],
   period: ["Hari Ini", "Minggu Ini", "Bulan Ini", "Semester Ini", "Tahun Ini"],
 };
@@ -212,7 +212,7 @@ export default function ReportsModule() {
   const [filters, setFilters] = useState({
     scope: "Satu Sekolah",
     class: "",
-    major: "",
+    branch: "",
     grade: "",
     period: "Bulan Ini",
   });
@@ -328,16 +328,16 @@ export default function ReportsModule() {
                       Jurusan
                     </label>
                     <Select
-                      value={filters.major}
+                      value={filters.branch}
                       onValueChange={(value) =>
-                        setFilters({ ...filters, major: value })
+                        setFilters({ ...filters, branch: value })
                       }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Pilih Jurusan" />
                       </SelectTrigger>
                       <SelectContent>
-                        {filterOptions.major.map((option) => (
+                        {filterOptions.branch.map((option) => (
                           <SelectItem key={option} value={option}>
                             {option}
                           </SelectItem>

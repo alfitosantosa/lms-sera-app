@@ -4,7 +4,7 @@ import {
   useGetPaymentByStudentId,
   usePaymentItemsByStudentId,
 } from "@/app/(hooks)/hooks/Payments/usePaymentItems";
-import { useGetStudentByIdMajor } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetStudentByIdBranch } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
@@ -66,7 +66,7 @@ type Payment = {
   paymentDate: string;
   receiptNumber: string;
   accountBankId: string;
-  majorId: string;
+  branchId: string;
   month: string;
   bendaharaId: string;
   bankRef: string;
@@ -86,7 +86,7 @@ type Student = {
   status?: string;
   enrollmentDate?: string;
   class?: { id: string; name: string; grade: number };
-  major?: { id: string; name: string };
+  branch?: { id: string; name: string };
   academicYear?: { id: string; year: string };
 };
 
@@ -275,7 +275,7 @@ function StudentProfileCard({ student }: { student: Student }) {
               Branch
             </span>
             <span className="text-xs font-medium">
-              {student.major?.name ?? "-"}
+              {student.branch?.name ?? "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -679,14 +679,14 @@ function EmptyState() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 function StudentInformation({
-  userDataMajor,
+  userDataBranch,
 }: {
-  userDataMajor: { id: string; name: string };
+  userDataBranch: { id: string; name: string };
 }) {
   const [selectedStudentId, setSelectedStudentId] = React.useState<string>("");
 
   const { data: allStudents = [], isLoading: isLoadingStudents } =
-    useGetStudentByIdMajor(userDataMajor.id);
+    useGetStudentByIdBranch(userDataBranch.id);
   const { data: rawBilling = [], isLoading: isLoadingBilling } =
     usePaymentItemsByStudentId(selectedStudentId);
   const { data: rawPayments = [], isLoading: isLoadingPayments } =
@@ -715,7 +715,7 @@ function StudentInformation({
           paymentDate: String(payment.paymentDate ?? payment.createdAt ?? ""),
           receiptNumber: String(payment.receiptNumber ?? "-"),
           accountBankId: String(payment.accountBankId ?? ""),
-          majorId: String(payment.majorId ?? ""),
+          branchId: String(payment.branchId ?? ""),
           month: String(payment.month ?? "-"),
           bendaharaId: String(payment.bendaharaId ?? ""),
           bankRef: String(payment.bankRef ?? ""),
@@ -738,7 +738,7 @@ function StudentInformation({
         <p className="text-muted-foreground mt-1 text-sm">
           Branch:{" "}
           <span className="text-foreground font-medium">
-            {userDataMajor.name}
+            {userDataBranch.name}
           </span>
           {" · "}
           <span>{(allStudents as any[]).length} siswa terdaftar</span>
@@ -846,7 +846,7 @@ export default function StudentInformationPage() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
-  const userDataMajor = userData?.major;
+  const userDataBranch = userData?.branch;
 
   if (isPending || isLoadingUserData) return <Loading />;
 
@@ -855,7 +855,7 @@ export default function StudentInformationPage() {
     return null;
   }
 
-  if (!userDataMajor) {
+  if (!userDataBranch) {
     return (
       <div className="mx-auto my-8 flex min-h-screen max-w-7xl items-center justify-center p-6">
         <div className="space-y-2 text-center">
@@ -870,7 +870,7 @@ export default function StudentInformationPage() {
     );
   }
 
-  return <StudentInformation userDataMajor={userDataMajor} />;
+  return <StudentInformation userDataBranch={userDataBranch} />;
 }
 
 // ─── Missing import helper ────────────────────────────────────────────────────

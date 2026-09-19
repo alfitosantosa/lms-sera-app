@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccountBankDashboard } from "@/app/(hooks)/hooks/AccountBank/useAccountBankDashboard";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { type UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
@@ -82,7 +82,7 @@ type AccountDetail = {
   accountBank: string;
   accountNumber: string;
   isActive: boolean;
-  major: { id: string; name: string } | null;
+  branch: { id: string; name: string } | null;
   totalRevenue: number;
   totalTransaction: number;
   totalPaymentItems: number;
@@ -113,7 +113,7 @@ type TopAccount = {
   accountName: string;
   accountBank: string;
   accountNumber: string;
-  majorName: string;
+  branchName: string;
   totalRevenue: number;
   totalTransaction: number;
   percentage: number;
@@ -285,10 +285,10 @@ function ChartSkeleton() {
 
 // ─── Main Dashboard ─────────────────────────────────────────────────────────
 function AccountBankBalanceDashboard({
-  userDataMajor,
+  userDataBranch,
   isAdmin,
 }: {
-  userDataMajor:
+  userDataBranch:
     | {
         id: string;
         name: string;
@@ -311,8 +311,8 @@ function AccountBankBalanceDashboard({
   );
 
   // ✅ Fix: Provide fallback value untuk undefined dan set based on isAdmin
-  const [selectedMajorId, setSelectedMajorId] = React.useState<string>(
-    isAdmin ? "all" : (userDataMajor?.id ?? ""),
+  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+    isAdmin ? "all" : (userDataBranch?.id ?? ""),
   );
   const [activeTab, setActiveTab] = React.useState("overview");
 
@@ -324,13 +324,13 @@ function AccountBankBalanceDashboard({
     [],
   );
 
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
-  // Determine majorId untuk query based on isAdmin
-  const queryMajorId = React.useMemo(() => {
-    if (!isAdmin) return userDataMajor?.id;
-    return selectedMajorId === "all" ? undefined : selectedMajorId;
-  }, [isAdmin, selectedMajorId, userDataMajor?.id]);
+  // Determine branchId untuk query based on isAdmin
+  const queryBranchId = React.useMemo(() => {
+    if (!isAdmin) return userDataBranch?.id;
+    return selectedBranchId === "all" ? undefined : selectedBranchId;
+  }, [isAdmin, selectedBranchId, userDataBranch?.id]);
 
   const {
     data: rawData,
@@ -340,7 +340,7 @@ function AccountBankBalanceDashboard({
   } = useAccountBankDashboard({
     fromdate: dateRange?.from,
     todate: dateRange?.to,
-    majorId: queryMajorId,
+    branchId: queryBranchId,
   });
 
   const data = rawData as DashboardResult | null | undefined;
@@ -449,15 +449,15 @@ function AccountBankBalanceDashboard({
                   </span>
                 </div>
                 <Select
-                  value={selectedMajorId}
-                  onValueChange={setSelectedMajorId}
+                  value={selectedBranchId}
+                  onValueChange={setSelectedBranchId}
                 >
                   <SelectTrigger className="h-9 w-48">
                     <SelectValue placeholder="Semua Branch" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Semua Branch</SelectItem>
-                    {majors.map((m) => (
+                    {branchs.map((m) => (
                       <SelectItem key={m.id} value={m.id}>
                         {m.name}
                       </SelectItem>
@@ -761,7 +761,7 @@ function AccountBankBalanceDashboard({
                               variant="outline"
                               className="text-xs font-normal"
                             >
-                              {a.majorName}
+                              {a.branchName}
                             </Badge>
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">
@@ -1105,7 +1105,7 @@ function AccountBankBalanceDashboard({
                               variant="outline"
                               className="text-xs font-normal"
                             >
-                              {acc.major?.name ?? "-"}
+                              {acc.branch?.name ?? "-"}
                             </Badge>
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">
@@ -1162,7 +1162,7 @@ export default function AccountBankChartPage() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = (userData as UserDataTypes)?.role?.name;
-  const userDataMajor = (userData as UserDataTypes)?.major;
+  const userDataBranch = (userData as UserDataTypes)?.branch;
 
   if (isPending || isLoadingUserData) {
     return <Loading />;
@@ -1176,7 +1176,7 @@ export default function AccountBankChartPage() {
 
   return (
     <AccountBankBalanceDashboard
-      userDataMajor={userDataMajor}
+      userDataBranch={userDataBranch}
       isAdmin={userRole == "Admin"}
     />
   );

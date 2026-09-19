@@ -15,7 +15,7 @@ export interface StudentData {
     id: string;
     name: string;
   } | null;
-  major?: {
+  branch?: {
     id: string;
     name: string;
   } | null;

@@ -4,15 +4,15 @@ export interface SubjectTypes {
   code: string;
   name: string;
   description?: string | null;
-  majorId?: string | null;
+  branchId?: string | null;
   credits: number;
   isActive: boolean;
   // Relations
-  major?: MajorSubjectTypes | null;
+  branch?: BranchSubjectTypes | null;
   schedules?: ScheduleSubjectTypes[];
 }
 
-interface MajorSubjectTypes {
+interface BranchSubjectTypes {
   id: string;
   code: string;
   name: string;
@@ -31,7 +31,7 @@ export interface SubjectInput {
   code: string;
   name: string;
   description?: string;
-  majorId?: string;
+  branchId?: string;
   credits?: number;
   isActive?: boolean;
 }

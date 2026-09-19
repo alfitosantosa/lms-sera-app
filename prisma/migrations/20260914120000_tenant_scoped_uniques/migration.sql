@@ -5,7 +5,7 @@
 DROP INDEX "academic_years_year_key";
 
 -- DropIndex
-DROP INDEX "majors_code_key";
+DROP INDEX "branchs_code_key";
 
 -- DropIndex
 DROP INDEX "roles_name_key";
@@ -23,7 +23,7 @@ WHERE ud."userId" = u.id
 
 -- Backfill warisan single-tenant: hanya jalan bila database hanya punya SATU yayasan.
 -- Database dengan banyak yayasan tidak diubah (tidak ada cara aman menebak pemiliknya).
-UPDATE "majors" SET "foundationId" = (SELECT id FROM "foundation" LIMIT 1)
+UPDATE "branchs" SET "foundationId" = (SELECT id FROM "foundation" LIMIT 1)
 WHERE "foundationId" IS NULL AND (SELECT count(*) FROM "foundation") = 1;
 
 UPDATE "academic_years" SET "foundationId" = (SELECT id FROM "foundation" LIMIT 1)
@@ -42,10 +42,10 @@ CREATE UNIQUE INDEX "academic_years_foundationId_year_key" ON "academic_years"("
 CREATE UNIQUE INDEX "foundation_foundationCode_key" ON "foundation"("foundationCode");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "majors_foundationId_code_key" ON "majors"("foundationId", "code");
+CREATE UNIQUE INDEX "branchs_foundationId_code_key" ON "branchs"("foundationId", "code");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "roles_foundationId_name_key" ON "roles"("foundationId", "name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "subjects_majorId_code_key" ON "subjects"("majorId", "code");
+CREATE UNIQUE INDEX "subjects_branchId_code_key" ON "subjects"("branchId", "code");

@@ -808,7 +808,7 @@ export default function Home() {
   // Extract nested objects
   const {
     class: classData,
-    major,
+    branch,
     foundation,
     academicYear,
     role,
@@ -825,7 +825,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard icon={School} label="Yayasan" value={foundation?.name} />
           <StatCard icon={School} label="Class" value={classData?.name} />
-          <StatCard icon={BookOpen} label="Major" value={major?.name} />
+          <StatCard icon={BookOpen} label="Branch" value={branch?.name} />
           <StatCard
             icon={Calendar}
             label="Academic Year"

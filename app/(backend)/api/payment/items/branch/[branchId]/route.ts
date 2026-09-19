@@ -5,36 +5,35 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ majorId: string }> },
+  { params }: { params: Promise<{ branchId: string }> },
 ) {
-  const { majorId } = await params;
+  const explicit = request.nextUrl.searchParams.get("foundationId");
+  const t = await resolveFoundation(request, explicit);
+  if (!t.ok) return t.response;
 
-  if (!majorId) {
+  const { branchId } = await params;
+
+  if (!branchId) {
     return NextResponse.json({ error: "Student ID required" }, { status: 400 });
   }
 
-  const t = await resolveFoundation(
-    request,
-    request.nextUrl.searchParams.get("foundationId"),
-  );
-  if (!t.ok) return t.response;
-
   try {
-    const payments = await prisma.payment.findMany({
+    const payments = await prisma.paymentItems.findMany({
       where: {
-        majorId: majorId,
-        major: { foundationId: t.foundationId },
+        student: {
+          branchId: branchId,
+          foundationId: t.foundationId,
+        },
       },
       include: {
+        // student: true,
+        PaymentType: true,
+        payment: true,
         student: {
           include: {
             class: true,
           },
         },
-        major: true,
-        accountBank: true,
-        createdBy: true,
-        paymentItems: true,
       },
       orderBy: {
         createdAt: "desc",

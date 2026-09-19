@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const MajorSchema = z.object({
+export const BranchSchema = z.object({
   id: z.string().min(1, "id not be null"),
   code: z.string().min(1, "code not be null"),
   name: z.string().min(1, "name not be null"),
@@ -13,9 +13,9 @@ export const MajorSchema = z.object({
   }),
 });
 
-export type MajorDataTypes = z.infer<typeof MajorSchema>;
+export type BranchDataTypes = z.infer<typeof BranchSchema>;
 
-export const majorSchemaForm = z.object({
+export const branchSchemaForm = z.object({
   code: z.string().min(1, "Kode jurusan wajib diisi"),
   name: z.string().min(1, "Nama jurusan wajib diisi"),
   description: z.string().optional(),
@@ -26,9 +26,9 @@ export const majorSchemaForm = z.object({
   isActive: z.boolean(),
 });
 
-export type MajorFormValues = z.infer<typeof majorSchemaForm>;
+export type BranchFormValues = z.infer<typeof branchSchemaForm>;
 
-// model Major {
+// model Branch {
 //   id          String    @id @default(cuid())
 //   code        String    @unique
 //   name        String
@@ -41,10 +41,10 @@ export type MajorFormValues = z.infer<typeof majorSchemaForm>;
 //   subjects    Subject[]
 //   paymenttype   // Paymenttype[]
 
-//   @@map("majors")
+//   @@map("branchs")
 // }
 
-export type majorTypes = {
+export type branchTypes = {
   id: string;
   code: string;
   name: string;

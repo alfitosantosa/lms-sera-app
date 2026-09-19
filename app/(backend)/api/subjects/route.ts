@@ -3,11 +3,11 @@
 //   code        String     @unique
 //   name        String
 //   description String?
-//   majorId     String?
+//   branchId     String?
 //   credits     Int        @default(2)
 //   isActive    Boolean    @default(true)
 //   schedules   Schedule[]
-//   major       Major?     @relation(fields: [majorId], references: [id])
+//   branch       Branch?     @relation(fields: [branchId], references: [id])
 
 //   @@map("subjects")
 // }
@@ -24,8 +24,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const subjects = await prisma.subject.findMany({
-      where: { major: { foundationId: t.foundationId } },
-      include: { major: true },
+      where: { branch: { foundationId: t.foundationId } },
+      include: { branch: true },
       orderBy: { name: "asc" },
     });
     return NextResponse.json(subjects);
@@ -39,16 +39,16 @@ export async function POST(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { code, name, description, majorId, credits } = await request.json();
+    const { code, name, description, branchId, credits } = await request.json();
 
-    // Pastikan major milik yayasan pemanggil
-    if (majorId) {
-      const ownedMajor = await prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+    // Pastikan branch milik yayasan pemanggil
+    if (branchId) {
+      const ownedBranch = await prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       });
 
-      if (!ownedMajor) {
+      if (!ownedBranch) {
         return tenantForbidden("Data tidak ditemukan di yayasan ini");
       }
     }
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         code,
         name,
         description,
-        majorId,
+        branchId,
         credits,
       },
     });
@@ -72,12 +72,12 @@ export async function PUT(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const { id, code, name, description, majorId, credits } =
+    const { id, code, name, description, branchId, credits } =
       await request.json();
 
     // Pastikan subject milik yayasan pemanggil
     const ownedSubject = await prisma.subject.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
 
@@ -85,14 +85,14 @@ export async function PUT(request: NextRequest) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
-    // Pastikan major tujuan (bila diisi) milik yayasan pemanggil
-    if (majorId) {
-      const ownedMajor = await prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+    // Pastikan branch tujuan (bila diisi) milik yayasan pemanggil
+    if (branchId) {
+      const ownedBranch = await prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       });
 
-      if (!ownedMajor) {
+      if (!ownedBranch) {
         return tenantForbidden("Data tidak ditemukan di yayasan ini");
       }
     }
@@ -103,7 +103,7 @@ export async function PUT(request: NextRequest) {
         code,
         name,
         description,
-        majorId,
+        branchId,
         credits,
       },
     });
@@ -122,7 +122,7 @@ export async function DELETE(request: NextRequest) {
 
     // Pastikan subject milik yayasan pemanggil
     const ownedSubject = await prisma.subject.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
 

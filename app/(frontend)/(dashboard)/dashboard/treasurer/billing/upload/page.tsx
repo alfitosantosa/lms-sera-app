@@ -1,8 +1,8 @@
 "use client";
 
 import { BulkUploadPaymentItems } from "@/app/(hooks)/hooks/Payments/usePaymentItems";
-import { useGetPaymentTypeByIdMajor } from "@/app/(hooks)/hooks/Payments/usePaymentType";
-import { useGetStudentByIdMajorActive } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetPaymentTypeByIdBranch } from "@/app/(hooks)/hooks/Payments/usePaymentType";
+import { useGetStudentByIdBranchActive } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
@@ -64,7 +64,7 @@ export type PaymentTypeData = {
   isFixedAmount: boolean;
   isFixedQuantity: boolean;
   quantity: number;
-  major?: { name: string };
+  branch?: { name: string };
 };
 
 type PreviewRow = {
@@ -106,11 +106,11 @@ const YEARS = Array.from({ length: 12 }, (_, i) => String(currentYear - 2 + i));
 
 // ─── Main Upload Component ─────────────────────────────────────────────────────
 function UploadBilling({
-  majorId,
-  majorName,
+  branchId,
+  branchName,
 }: {
-  majorId: string;
-  majorName?: string;
+  branchId: string;
+  branchName?: string;
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [previewRows, setPreviewRows] = useState<PreviewRow[]>([]);
@@ -124,8 +124,8 @@ function UploadBilling({
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   // ── Data hooks ────────────────────────────────────────────────────────────
-  const { data: students = [] } = useGetStudentByIdMajorActive(majorId);
-  const { data: paymentTypes = [] } = useGetPaymentTypeByIdMajor(majorId);
+  const { data: students = [] } = useGetStudentByIdBranchActive(branchId);
+  const { data: paymentTypes = [] } = useGetPaymentTypeByIdBranch(branchId);
 
   const bulkUploadMutation = BulkUploadPaymentItems();
 
@@ -417,7 +417,7 @@ function UploadBilling({
       ];
 
       XLSX.utils.book_append_sheet(wb, ws, "Billing Template");
-      XLSX.writeFile(wb, `billing-template-${majorName ?? majorId}.xlsx`);
+      XLSX.writeFile(wb, `billing-template-${branchName ?? branchId}.xlsx`);
       toast.success("Template Excel berhasil didownload");
     } catch {
       toast.error("Gagal membuat template");
@@ -443,7 +443,7 @@ function UploadBilling({
       const ws = XLSX.utils.aoa_to_sheet(wsData);
       ws["!cols"] = [{ wch: 36 }, { wch: 30 }, { wch: 14 }, { wch: 20 }];
       XLSX.utils.book_append_sheet(wb, ws, "Daftar Siswa");
-      XLSX.writeFile(wb, `daftar-siswa-${majorName ?? majorId}.xlsx`);
+      XLSX.writeFile(wb, `daftar-siswa-${branchName ?? branchId}.xlsx`);
       toast.success("Daftar siswa berhasil diexport");
     } catch {
       toast.error("Gagal export daftar siswa");
@@ -490,7 +490,7 @@ function UploadBilling({
         { wch: 12 },
       ];
       XLSX.utils.book_append_sheet(wb, ws, "Jenis Tagihan");
-      XLSX.writeFile(wb, `jenis-tagihan-${majorName ?? majorId}.xlsx`);
+      XLSX.writeFile(wb, `jenis-tagihan-${branchName ?? branchId}.xlsx`);
       toast.success("Daftar jenis tagihan berhasil diexport");
     } catch {
       toast.error("Gagal export jenis tagihan");
@@ -505,9 +505,9 @@ function UploadBilling({
       {/* ── Page Header ── */}
       <div>
         <div className="mb-1 text-3xl font-bold">Upload Tagihan</div>
-        {majorName && (
+        {branchName && (
           <Badge variant="secondary" className="text-sm">
-            Branch: {majorName}
+            Branch: {branchName}
           </Badge>
         )}
       </div>
@@ -887,7 +887,7 @@ function UploadBilling({
           <div className="max-h-64 overflow-y-auto">
             <Table>
               <TableCaption>
-                Jenis tagihan untuk branch {majorName}
+                Jenis tagihan untuk branch {branchName}
               </TableCaption>
               <TableHeader>
                 <TableRow>
@@ -1077,8 +1077,8 @@ export default function UploadBillingPage() {
 
   return (
     <UploadBilling
-      majorId={userData?.major?.id ?? ""}
-      majorName={userData?.major?.name}
+      branchId={userData?.branch?.id ?? ""}
+      branchName={userData?.branch?.name}
     />
   );
 }

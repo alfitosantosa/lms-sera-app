@@ -16,15 +16,15 @@ export async function GET(
 
   const { id } = await params;
   try {
-    // TahfidzGroup hanya menyimpan majorId (tanpa relasi), jadi scope lewat daftar major yayasan
-    const majors = await prisma.major.findMany({
+    // TahfidzGroup hanya menyimpan branchId (tanpa relasi), jadi scope lewat daftar branch yayasan
+    const branchs = await prisma.branch.findMany({
       where: { foundationId: t.foundationId },
       select: { id: true },
     });
-    const majorIds = majors.map((major) => major.id);
+    const branchIds = branchs.map((branch) => branch.id);
 
     const tahfidzGroup = await prisma.tahfidzGroup.findFirst({
-      where: { id, majorId: { in: majorIds } },
+      where: { id, branchId: { in: branchIds } },
       include: {
         students: {
           orderBy: {

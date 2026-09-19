@@ -2,11 +2,11 @@
 //   id             String       @id @default(cuid())
 //   name           String
 //   grade          Int
-//   majorId        String
+//   branchId        String
 //   academicYearId String
 //   capacity       Int          @default(36)
 //   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
-//   major          Major        @relation(fields: [majorId], references: [id])
+//   branch          Branch        @relation(fields: [branchId], references: [id])
 //   schedules      Schedule[]
 //   students       Student[]
 //   violations     Violation[]
@@ -33,12 +33,12 @@ export async function GET(
   try {
     const classData = await prisma.class.findMany({
       where: {
-        majorId: id,
-        major: { foundationId: t.foundationId },
+        branchId: id,
+        branch: { foundationId: t.foundationId },
       },
       include: {
         academicYear: true,
-        major: true,
+        branch: true,
         students: {
           orderBy: {
             name: "asc",

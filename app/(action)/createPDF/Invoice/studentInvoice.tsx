@@ -45,7 +45,7 @@ export type KwitansiPDFData = {
     classId?: string;
     class: { name: string };
   };
-  major?: {
+  branch?: {
     name: string;
     code?: string;
     phone?: string;
@@ -679,10 +679,10 @@ function StatusBadge({ status }: { status: string }) {
 function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
   const items = data.paymentItems ?? [];
   const total = Number(data.amount);
-  const unitName = data.major?.unitName ?? data.major?.name ?? "";
-  const phone = data.major?.phone ?? INSTITUTION.phone;
-  const fax = data.major?.fax ?? INSTITUTION.fax;
-  const address = data.major?.address ?? INSTITUTION.address;
+  const unitName = data.branch?.unitName ?? data.branch?.name ?? "";
+  const phone = data.branch?.phone ?? INSTITUTION.phone;
+  const fax = data.branch?.fax ?? INSTITUTION.fax;
+  const address = data.branch?.address ?? INSTITUTION.address;
 
   return (
     <Document>
@@ -913,15 +913,15 @@ function KwitansiDocument({ data }: { data: KwitansiPDFData }) {
             {/* Sig: penerima */}
             <View style={S.footerColLast}>
               <Text style={S.footerColLabel}>Penerima</Text>
-              {data.major?.signatureUrl ? (
-                <Image src={data.major?.signatureUrl} style={S.sigImage} />
+              {data.branch?.signatureUrl ? (
+                <Image src={data.branch?.signatureUrl} style={S.sigImage} />
               ) : (
                 <>
                   <View style={S.sigSpace} />
                   <View style={S.sigLine} />
                 </>
               )}
-              <Text style={S.sigName}>{data.major?.adminName ?? ""}</Text>
+              <Text style={S.sigName}>{data.branch?.adminName ?? ""}</Text>
               <Text style={S.sigRole}>Bendahara</Text>
             </View>
           </View>

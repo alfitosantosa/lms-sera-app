@@ -272,7 +272,7 @@ WHERE "userId" = 'user-id-here';
 
 - ✅ Profile page shows full profile
 - ✅ Hero section with avatar
-- ✅ Stats cards (Yayasan, Class, Major, Academic Year, Role)
+- ✅ Stats cards (Yayasan, Class, Branch, Academic Year, Role)
 - ✅ Personal information card
 - ✅ Academic information card
 - ✅ Professional information card (if applicable)

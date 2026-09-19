@@ -26,7 +26,7 @@ interface ClassScheduleTypes {
   id: string;
   name: string;
   grade: number;
-  majorId: string;
+  branchId: string;
 }
 
 interface SubjectScheduleTypes {

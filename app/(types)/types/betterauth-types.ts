@@ -24,7 +24,7 @@
 //         "enrollmentDate": null,
 //         "gender": null,
 //         "graduationDate": null,
-//         "majorId": "cmplf2rcv000701psk9y8gkbv",
+//         "branchId": "cmplf2rcv000701psk9y8gkbv",
 //         "nik": null,
 //         "nisn": null,
 //         "parentPhone": null,
@@ -97,7 +97,7 @@ export type betterauthUser = {
     enrollmentDate: string | null;
     gender: string | null;
     graduationDate: string | null;
-    majorId: string;
+    branchId: string;
     nik: string | null;
     nisn: string | null;
     parentPhone: string | null;

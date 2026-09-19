@@ -304,7 +304,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/accountbank/major/%5BmajorId%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/accountbank/branch/%5BbranchId%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -376,7 +376,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/class/major/%5Bid%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/class/branch/%5Bid%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -392,11 +392,11 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/major/%5Bid%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/branch/%5Bid%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/major/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/branch/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -432,7 +432,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/payment/items/major/%5BmajorId%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/payment/items/branch/%5BbranchId%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -456,7 +456,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/payment/major/%5BmajorId%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/payment/branch/%5BbranchId%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -480,7 +480,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/paymenttype/major/%5Bid%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/paymenttype/branch/%5Bid%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -552,11 +552,11 @@ define(["./workbox-f1770938"], function (a) {
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/students/major/%5Bid%5D/active/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/students/branch/%5Bid%5D/active/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
-          url: "/_next/static/chunks/app/(backend)/api/students/major/%5Bid%5D/route-0c2da5013e3db50a.js",
+          url: "/_next/static/chunks/app/(backend)/api/students/branch/%5Bid%5D/route-0c2da5013e3db50a.js",
           revision: "0c2da5013e3db50a",
         },
         {
@@ -756,7 +756,7 @@ define(["./workbox-f1770938"], function (a) {
           revision: "626f65155efa0f53",
         },
         {
-          url: "/_next/static/chunks/app/(frontend)/dashboard/majors/page-9c9fda0efb7b1cf2.js",
+          url: "/_next/static/chunks/app/(frontend)/dashboard/branchs/page-9c9fda0efb7b1cf2.js",
           revision: "9c9fda0efb7b1cf2",
         },
         {

@@ -9,7 +9,7 @@
 // announcements  Announcement[]
 // calendarEvent  CalendarEvent[]
 // dashboardContent DashboardContent[]
-// major          Major[]
+// branch          Branch[]
 // role           Role[]
 // user           User[]
 // userData       UserData[]
@@ -23,7 +23,7 @@ export type foundationTypes = {
   address: string;
   phone: string;
   userData?: object[];
-  major?: object[];
+  branch?: object[];
   user?: object[];
   academicYear?: object[];
   announcements?: object[];
@@ -36,7 +36,7 @@ export type foundationTypes = {
 export type FoundationWithCounts = foundationTypes & {
   _count?: {
     user: number;
-    major: number;
+    branch: number;
     userData: number;
   };
 };

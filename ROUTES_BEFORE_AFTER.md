@@ -50,7 +50,7 @@ Coverage: 100%
 
 | Route                 | Status  | Label                |
 | --------------------- | ------- | -------------------- |
-| `/dashboard/majors`   | ❌ → ✅ | Majors (Top-level)   |
+| `/dashboard/branchs`   | ❌ → ✅ | Branchs (Top-level)   |
 | `/dashboard/payments` | ❌ → ✅ | Payments (Top-level) |
 
 ### 5. Test/Debug Pages
@@ -367,7 +367,7 @@ filtered menus = [teacher menus filtered correctly] // Works! ✅
 ### What Still Needs Attention:
 
 - ⚠️ Remove or restrict test/debug pages
-- ⚠️ Investigate duplicate routes (majors, payments)
+- ⚠️ Investigate duplicate routes (branchs, payments)
 - ⚠️ Add route protection at page component level
 - ⚠️ Update existing database roles with new permissions
 - ⚠️ Consider middleware for centralized route protection

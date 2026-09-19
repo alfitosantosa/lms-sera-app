@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
 
     // Pastikan jenis pembayaran milik yayasan ini
     const ownedPaymentType = await prisma.paymentType.findFirst({
-      where: { id: paymentTypeId, major: { foundationId: t.foundationId } },
+      where: { id: paymentTypeId, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
 
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
 
 //     const newPaymentBulk = await prisma.payment.createMany({
 //       data: students.map((student) => ({
-//         majorId,
+//         branchId,
 //         studentId: student.id,
 //         bendaharaId,
 //         accountBankId,

@@ -5,14 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 export const usePaymentsItemsByDate = ({
   fromdate,
   todate,
-  majorId,
+  branchId,
   status,
   isPaid,
   skuType,
 }: {
   fromdate?: Date;
   todate?: Date;
-  majorId?: string;
+  branchId?: string;
   status?: string;
   isPaid?: boolean;
   skuType?: string;
@@ -48,7 +48,7 @@ export const usePaymentsItemsByDate = ({
       "payments-items-by-date",
       fromdateStr,
       todateStr,
-      majorId,
+      branchId,
       status,
       isPaid,
       skuType,
@@ -63,8 +63,8 @@ export const usePaymentsItemsByDate = ({
         params.todate = todateStr;
       }
 
-      if (majorId) {
-        params.majorId = majorId;
+      if (branchId) {
+        params.branchId = branchId;
       }
       if (status) {
         params.status = status;
@@ -90,14 +90,14 @@ export const usePaymentsItemsByDate = ({
 export const usePaymentsItemsDashboardByDate = ({
   fromdate,
   todate,
-  majorId,
+  branchId,
   status,
   isPaid,
   skuType,
 }: {
   fromdate?: Date;
   todate?: Date;
-  majorId?: string;
+  branchId?: string;
   status?: string;
   isPaid?: boolean;
   skuType?: string;
@@ -133,7 +133,7 @@ export const usePaymentsItemsDashboardByDate = ({
       "payments-items-by-date",
       fromdateStr,
       todateStr,
-      majorId,
+      branchId,
       status,
       isPaid,
       skuType,
@@ -148,8 +148,8 @@ export const usePaymentsItemsDashboardByDate = ({
         params.todate = todateStr;
       }
 
-      if (majorId) {
-        params.majorId = majorId;
+      if (branchId) {
+        params.branchId = branchId;
       }
       if (status) {
         params.status = status;

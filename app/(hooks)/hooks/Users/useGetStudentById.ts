@@ -1,5 +1,5 @@
 "use client";
-import { type userDataMajorTypes, type UserDataTypes } from "@/app/(types)";
+import { type userDataBranchTypes, type UserDataTypes } from "@/app/(types)";
 import { apiGet } from "@/lib/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,12 +18,12 @@ export const useGetStudentById = (id: string) => {
   });
 };
 
-export const useGetStudentByIdMajor = (id: string) => {
+export const useGetStudentByIdBranch = (id: string) => {
   return useQuery({
     queryKey: ["students", id],
     queryFn: async () => {
       try {
-        const res = await apiGet<UserDataTypes[]>(`/api/students/major/${id}`);
+        const res = await apiGet<UserDataTypes[]>(`/api/students/branch/${id}`);
         return res.data;
       } catch (error) {
         console.error(error);
@@ -33,13 +33,13 @@ export const useGetStudentByIdMajor = (id: string) => {
   });
 };
 
-export const useGetStudentByIdMajorActive = (id: string) => {
+export const useGetStudentByIdBranchActive = (id: string) => {
   return useQuery({
     queryKey: ["students", id, "active"],
     queryFn: async () => {
       try {
-        const res = await apiGet<userDataMajorTypes[]>(
-          `/api/students/major/${id}/active`,
+        const res = await apiGet<userDataBranchTypes[]>(
+          `/api/students/branch/${id}/active`,
         );
         return res.data;
       } catch (error) {

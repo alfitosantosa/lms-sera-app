@@ -19,12 +19,12 @@ export const useGetClassById = (id: string) => {
   });
 };
 
-export const useGetClassByIdMajor = (id: string) => {
+export const useGetClassByIdBranch = (id: string) => {
   return useQuery({
     queryKey: ["class", id],
     queryFn: async () => {
       try {
-        const res = await apiGet<ClassDataTypes[]>(`/api/class/major/${id}`);
+        const res = await apiGet<ClassDataTypes[]>(`/api/class/branch/${id}`);
         return res.data;
       } catch (error) {
         console.error(error);

@@ -18,9 +18,9 @@ model Foundation {
   phone            String
   academicYear     AcademicYear[]
   announcements    Announcement[]
+  branch           Branch[]
   calendarEvent    CalendarEvent[]
   dashboardContent DashboardContent[]
-  major            Major[]
   role             Role[]
   user             User[]
   userData         UserData[]
@@ -113,7 +113,7 @@ model UserData {
   enrollmentDate          DateTime?
   gender                  String?
   graduationDate          DateTime?
-  majorId                 String?
+  branchId                String?
   nik                     String?
   nisn                    String?
   parentPhone             String?
@@ -147,9 +147,9 @@ model UserData {
   createdAttendances      TeacherAttendance[]    @relation("CreatedAttendance")
   teacherAttendances      TeacherAttendance[]    @relation("TeacherAttendance")
   academicYear            AcademicYear?          @relation("UserAcademicYear", fields: [academicYearId], references: [id])
+  branch                  Branch?                @relation("UserBranch", fields: [branchId], references: [id])
   class                   Class?                 @relation("UserClass", fields: [classId], references: [id])
   foundation              Foundation?            @relation(fields: [foundationId], references: [id])
-  major                   Major?                 @relation("UserMajor", fields: [majorId], references: [id])
   role                    Role?                  @relation(fields: [roleId], references: [id])
   tahfidzGroup            TahfidzGroup?          @relation("UserTahfidzGroup", fields: [tahfidzGroupId], references: [id])
   user                    User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -158,7 +158,7 @@ model UserData {
   @@index([foundationId])
   @@index([academicYearId])
   @@index([classId])
-  @@index([majorId])
+  @@index([branchId])
   @@index([roleId])
   @@index([tahfidzGroupId])
   @@index([status])
@@ -205,7 +205,7 @@ model AcademicYear {
   @@map("academic_years")
 }
 
-model Major {
+model Branch {
   id           String        @id @default(cuid())
   code         String
   name         String
@@ -219,29 +219,29 @@ model Major {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   accountBank  AccountBank[]
-  classes      Class[]
   foundation   Foundation?   @relation(fields: [foundationId], references: [id])
+  classes      Class[]
   paymenttype  PaymentType[]
   payments     Payment[]
   subjects     Subject[]
-  students     UserData[]    @relation("UserMajor")
+  students     UserData[]    @relation("UserBranch")
 
   @@unique([foundationId, code])
   @@index([foundationId])
-  @@map("majors")
+  @@map("branchs")
 }
 
 model Class {
   id                  String               @id @default(cuid())
   name                String
   grade               Int
-  majorId             String
+  branchId            String
   academicYearId      String
   capacity            Int                  @default(36)
   isActive            Boolean              @default(true)
   assignments         Assignment[]
   academicYear        AcademicYear         @relation(fields: [academicYearId], references: [id])
-  major               Major                @relation(fields: [majorId], references: [id])
+  branch              Branch               @relation(fields: [branchId], references: [id])
   gradeConfigurations GradeConfiguration[]
   reportCards         ReportCard[]
   schedules           Schedule[]
@@ -257,7 +257,7 @@ model Subject {
   code                String
   name                String
   description         String?
-  majorId             String?
+  branchId            String?
   credits             Int                  @default(2)
   isActive            Boolean              @default(true)
   assignments         Assignment[]
@@ -265,9 +265,9 @@ model Subject {
   grades              Grade[]
   reportCards         ReportCard[]
   schedules           Schedule[]
-  major               Major?               @relation(fields: [majorId], references: [id])
+  branch              Branch?              @relation(fields: [branchId], references: [id])
 
-  @@unique([majorId, code])
+  @@unique([branchId, code])
   @@map("subjects")
 }
 
@@ -370,12 +370,12 @@ model PaymentType {
   quantity        Float
   subtotal        Decimal
   owner           String
-  majorId         String
+  branchId        String
   skuType         String
   paymentItems    PaymentItems[]
-  major           Major          @relation(fields: [majorId], references: [id])
+  branch          Branch         @relation(fields: [branchId], references: [id])
 
-  @@index([majorId])
+  @@index([branchId])
   @@index([owner])
   @@map("payment_types")
 }
@@ -417,7 +417,7 @@ model Payment {
   paymentDate        DateTime
   receiptNumber      String              @unique
   accountBankId      String
-  majorId            String
+  branchId           String
   month              String
   bendaharaId        String
   bankRef            String?
@@ -426,11 +426,11 @@ model Payment {
   paymentTransaction PaymentTransaction?
   accountBank        AccountBank         @relation(fields: [accountBankId], references: [id])
   createdBy          UserData            @relation("CreatedPayment", fields: [bendaharaId], references: [id])
-  major              Major               @relation(fields: [majorId], references: [id])
+  branch             Branch              @relation(fields: [branchId], references: [id])
   student            UserData            @relation("StudentPayment", fields: [studentId], references: [id], onDelete: Cascade)
 
   @@index([studentId])
-  @@index([majorId])
+  @@index([branchId])
   @@index([accountBankId])
   @@index([bendaharaId])
   @@index([status])
@@ -461,9 +461,9 @@ model AccountBank {
   accountName   String
   accountBank   String
   accountNumber String
-  majorId       String
+  branchId      String
   createdAt     DateTime  @default(now())
-  majors        Major     @relation(fields: [majorId], references: [id])
+  branchs       Branch    @relation(fields: [branchId], references: [id])
   payments      Payment[]
 
   @@map("account_bank")
@@ -780,7 +780,7 @@ model TahfidzGroup {
   id        String     @id @default(cuid())
   name      String
   grade     Int
-  majorId   String
+  branchId  String
   capacity  Int        @default(40)
   isActive  Boolean    @default(true)
   schedules Schedule[] @relation("TahfidzGroupSchedule")

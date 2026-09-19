@@ -1,4 +1,4 @@
-// model Major {
+// model Branch {
 //   id          String    @id @default(cuid())
 //   code        String    @unique
 //   name        String
@@ -11,7 +11,7 @@
 //   subjects    Subject[]
 //   paymenttype   // Paymenttype[]
 
-//   @@map("majors")
+//   @@map("branchs")
 // }
 
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   if (!t.ok) return t.response;
 
   try {
-    const majors = await prisma.major.findMany({
+    const branchs = await prisma.branch.findMany({
       where: { foundationId: t.foundationId },
       include: {
         _count: {
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       },
       orderBy: { name: "asc" },
     });
-    return NextResponse.json(majors);
+    return NextResponse.json(branchs);
   } catch (error) {
     return handlePrismaError(error);
   }
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newMajor = await prisma.major.create({
+    const newBranch = await prisma.branch.create({
       data: {
         code,
         name,
@@ -88,11 +88,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(newMajor, { status: 201 });
+    return NextResponse.json(newBranch, { status: 201 });
   } catch (error) {
-    console.error("Error creating major:", error);
+    console.error("Error creating branch:", error);
     return NextResponse.json(
-      { error: "Failed to create major" },
+      { error: "Failed to create branch" },
       { status: 500 },
     );
   }
@@ -121,8 +121,8 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Pastikan major milik yayasan pemanggil
-    const owned = await prisma.major.findFirst({
+    // Pastikan branch milik yayasan pemanggil
+    const owned = await prisma.branch.findFirst({
       where: { id, foundationId: t.foundationId },
       select: { id: true },
     });
@@ -131,7 +131,7 @@ export async function PUT(request: NextRequest) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
-    const updatedMajor = await prisma.major.update({
+    const updatedBranch = await prisma.branch.update({
       where: { id },
       data: {
         code,
@@ -146,11 +146,11 @@ export async function PUT(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(updatedMajor, { status: 200 });
+    return NextResponse.json(updatedBranch, { status: 200 });
   } catch (error) {
-    console.error("Error updating major:", error);
+    console.error("Error updating branch:", error);
     return NextResponse.json(
-      { error: "Failed to update major" },
+      { error: "Failed to update branch" },
       { status: 500 },
     );
   }
@@ -166,8 +166,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    // Pastikan major milik yayasan pemanggil
-    const owned = await prisma.major.findFirst({
+    // Pastikan branch milik yayasan pemanggil
+    const owned = await prisma.branch.findFirst({
       where: { id, foundationId: t.foundationId },
       select: { id: true },
     });
@@ -176,15 +176,15 @@ export async function DELETE(request: NextRequest) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
-    const deletedMajor = await prisma.major.delete({
+    const deletedBranch = await prisma.branch.delete({
       where: { id },
     });
 
-    return NextResponse.json(deletedMajor, { status: 200 });
+    return NextResponse.json(deletedBranch, { status: 200 });
   } catch (error) {
-    console.error("Error deleting major:", error);
+    console.error("Error deleting branch:", error);
     return NextResponse.json(
-      { error: "Failed to delete major" },
+      { error: "Failed to delete branch" },
       { status: 500 },
     );
   }

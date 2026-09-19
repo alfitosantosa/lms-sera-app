@@ -15,11 +15,11 @@ export async function GET(
   try {
     const paymentTypes = await prisma.paymentType.findMany({
       where: {
-        majorId: id,
-        major: { foundationId: t.foundationId },
+        branchId: id,
+        branch: { foundationId: t.foundationId },
       },
       include: {
-        major: true,
+        branch: true,
       },
     });
     return NextResponse.json(paymentTypes);

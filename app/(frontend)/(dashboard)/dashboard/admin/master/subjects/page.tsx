@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
   useCreateSubject,
   useDeleteSubject,
@@ -97,10 +97,10 @@ export type SubjectData = {
   code: string;
   name: string;
   description?: string;
-  majorId?: string;
+  branchId?: string;
   credits: number;
   isActive: boolean;
-  major?: {
+  branch?: {
     id: string;
     name: string;
   };
@@ -114,7 +114,7 @@ const subjectSchema = z.object({
     .max(10, "Kode maksimal 10 karakter"),
   name: z.string().min(1, "Nama mata pelajaran wajib diisi"),
   description: z.string().optional(),
-  majorId: z.string().optional(),
+  branchId: z.string().optional(),
   credits: z.number().min(1, "SKS minimal 1").max(10, "SKS maksimal 10"),
   isActive: z.boolean().default(true),
 });
@@ -135,7 +135,7 @@ function SubjectFormDialog({
 }) {
   const createSubject = useCreateSubject();
   const updateSubject = useUpdateSubject();
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
   const {
     register,
@@ -152,7 +152,7 @@ function SubjectFormDialog({
     },
   });
 
-  const selectedMajorId = watch("majorId");
+  const selectedBranchId = watch("branchId");
   const isActive = watch("isActive");
   const credits = watch("credits");
 
@@ -161,7 +161,7 @@ function SubjectFormDialog({
       setValue("code", editData.code);
       setValue("name", editData.name);
       setValue("description", editData.description || "");
-      setValue("majorId", editData.majorId || "");
+      setValue("branchId", editData.branchId || "");
       setValue("credits", editData.credits);
       setValue("isActive", editData.isActive);
     } else {
@@ -176,7 +176,7 @@ function SubjectFormDialog({
     try {
       const submitData = {
         ...data,
-        majorId: data.majorId || null,
+        branchId: data.branchId || null,
         description: data.description || null,
       };
 
@@ -255,9 +255,9 @@ function SubjectFormDialog({
           <div className="space-y-2">
             <Label>Jurusan</Label>
             <Select
-              value={selectedMajorId || "all"}
+              value={selectedBranchId || "all"}
               onValueChange={(value) =>
-                setValue("majorId", value === "all" ? "" : value)
+                setValue("branchId", value === "all" ? "" : value)
               }
             >
               <SelectTrigger>
@@ -265,9 +265,9 @@ function SubjectFormDialog({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Semua Jurusan</SelectItem>
-                {majors?.map((major: any) => (
-                  <SelectItem key={major.id} value={major.id}>
-                    {major.name}
+                {branchs?.map((branch: any) => (
+                  <SelectItem key={branch.id} value={branch.id}>
+                    {branch.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -387,12 +387,12 @@ function SubjectDataTable() {
     React.useState<SubjectData | null>(null);
 
   // Filter states
-  const [majorFilter, setMajorFilter] = React.useState<string>("all");
+  const [branchFilter, setBranchFilter] = React.useState<string>("all");
   const [statusFilter, setStatusFilter] = React.useState<string>("all");
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
 
   const { data: subjects = [], isLoading, refetch } = useGetSubjects();
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
   const handleSuccess = () => {
     refetch();
@@ -405,14 +405,14 @@ function SubjectDataTable() {
 
       const searchValue = filterValue.toLowerCase();
       const subject = row.original;
-      const major = subject.major;
+      const branch = subject.branch;
 
       // Search in multiple fields
       const searchableText = [
         subject.code,
         subject.name,
         subject.description,
-        major?.name,
+        branch?.name,
         subject.credits.toString(),
       ]
         .filter(Boolean)
@@ -495,8 +495,8 @@ function SubjectDataTable() {
     },
 
     {
-      id: "major",
-      accessorFn: (row) => row.major?.name || "Semua Jurusan",
+      id: "branch",
+      accessorFn: (row) => row.branch?.name || "Semua Jurusan",
       header: ({ column }) => {
         return (
           <Button
@@ -510,11 +510,11 @@ function SubjectDataTable() {
         );
       },
       cell: ({ row }) => {
-        const major = row.original.major;
+        const branch = row.original.branch;
         return (
           <div>
-            {major ? (
-              <Badge variant="outline">{major.name}</Badge>
+            {branch ? (
+              <Badge variant="outline">{branch.name}</Badge>
             ) : (
               <Badge variant="secondary">Semua Jurusan</Badge>
             )}
@@ -523,8 +523,8 @@ function SubjectDataTable() {
       },
       filterFn: (row, id, value) => {
         if (value === "all") return true;
-        if (value === "none") return !row.original.majorId;
-        return row.original.majorId === value;
+        if (value === "none") return !row.original.branchId;
+        return row.original.branchId === value;
       },
     },
     {
@@ -654,14 +654,14 @@ function SubjectDataTable() {
     },
   });
 
-  // Apply major filter
+  // Apply branch filter
   React.useEffect(() => {
-    if (majorFilter !== "all") {
-      table.getColumn("major")?.setFilterValue(majorFilter);
+    if (branchFilter !== "all") {
+      table.getColumn("branch")?.setFilterValue(branchFilter);
     } else {
-      table.getColumn("major")?.setFilterValue(undefined);
+      table.getColumn("branch")?.setFilterValue(undefined);
     }
-  }, [majorFilter, table]);
+  }, [branchFilter, table]);
 
   // Apply status filter
   React.useEffect(() => {
@@ -682,354 +682,352 @@ function SubjectDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
-        <div className="mb-6 text-3xl font-bold">Data Mata Pelajaran</div>
+      <div className="mb-6 text-3xl font-bold">Data Mata Pelajaran</div>
 
-        <div className="flex items-center justify-between py-4">
-          <div className="flex flex-wrap items-center space-x-2 gap-y-2">
-            {/* Global Search */}
-            <div className="relative">
-              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
-              <Input
-                placeholder="Cari kode, nama, atau deskripsi..."
-                value={globalFilter ?? ""}
-                onChange={(event) => setGlobalFilter(event.target.value)}
-                className="max-w-sm pl-8"
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Major Filter */}
-            <Select value={majorFilter} onValueChange={setMajorFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter Jurusan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua Jurusan</SelectItem>
-                <SelectItem value="none">Tanpa Jurusan</SelectItem>
-                {majors?.map((major: any) => (
-                  <SelectItem key={major.id} value={major.id}>
-                    {major.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Status Filter */}
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua Status</SelectItem>
-                <SelectItem value="active">Aktif</SelectItem>
-                <SelectItem value="inactive">Tidak Aktif</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Clear Filters */}
-            {(globalFilter ||
-              majorFilter !== "all" ||
-              statusFilter !== "all") && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setGlobalFilter("");
-                  setMajorFilter("all");
-                  setStatusFilter("all");
-                  table.resetColumnFilters();
-                }}
-              >
-                <X className="mr-2 h-4 w-4" />
-                Reset Filter
-              </Button>
-            )}
+      <div className="flex items-center justify-between py-4">
+        <div className="flex flex-wrap items-center space-x-2 gap-y-2">
+          {/* Global Search */}
+          <div className="relative">
+            <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
+            <Input
+              placeholder="Cari kode, nama, atau deskripsi..."
+              value={globalFilter ?? ""}
+              onChange={(event) => setGlobalFilter(event.target.value)}
+              className="max-w-sm pl-8"
+              disabled={isLoading}
+            />
           </div>
 
-          <div className="grid items-center gap-2 space-x-2 md:grid-cols-2">
-            <div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
-                    Kolom <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {table
-                    .getAllColumns()
-                    .filter((column) => column.getCanHide())
-                    .map((column) => {
-                      const getColumnLabel = (columnId: string) => {
-                        switch (columnId) {
-                          case "code":
-                            return "Kode";
-                          case "name":
-                            return "Nama Mata Pelajaran";
-                          case "major":
-                            return "Jurusan";
-                          case "credits":
-                            return "SKS";
-                          case "isActive":
-                            return "Status";
-                          case "description":
-                            return "Deskripsi";
-                          default:
-                            return columnId;
-                        }
-                      };
+          {/* Branch Filter */}
+          <Select value={branchFilter} onValueChange={setBranchFilter}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Filter Jurusan" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Jurusan</SelectItem>
+              <SelectItem value="none">Tanpa Jurusan</SelectItem>
+              {branchs?.map((branch: any) => (
+                <SelectItem key={branch.id} value={branch.id}>
+                  {branch.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-                      return (
-                        <DropdownMenuCheckboxItem
-                          key={column.id}
-                          className="capitalize"
-                          checked={column.getIsVisible()}
-                          onCheckedChange={(value) =>
-                            column.toggleVisibility(!!value)
-                          }
-                        >
-                          {getColumnLabel(column.id)}
-                        </DropdownMenuCheckboxItem>
-                      );
-                    })}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div>
-              <Button onClick={() => setCreateDialogOpen(true)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Tambah Mata Pelajaran
-              </Button>
-            </div>
-          </div>
+          {/* Status Filter */}
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Status</SelectItem>
+              <SelectItem value="active">Aktif</SelectItem>
+              <SelectItem value="inactive">Tidak Aktif</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Clear Filters */}
+          {(globalFilter ||
+            branchFilter !== "all" ||
+            statusFilter !== "all") && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setGlobalFilter("");
+                setBranchFilter("all");
+                setStatusFilter("all");
+                table.resetColumnFilters();
+              }}
+            >
+              <X className="mr-2 h-4 w-4" />
+              Reset Filter
+            </Button>
+          )}
         </div>
 
-        {/* Active Filters Display */}
-        {(globalFilter || majorFilter !== "all" || statusFilter !== "all") && (
-          <div className="flex items-center space-x-2 py-2">
-            <span className="text-muted-foreground text-sm">Filter aktif:</span>
-            {globalFilter && (
-              <Badge variant="secondary" className="gap-1">
-                Pencarian: {globalFilter}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => setGlobalFilter("")}
-                />
-              </Badge>
-            )}
-            {majorFilter !== "all" && (
-              <Badge variant="secondary" className="gap-1">
-                Jurusan:{" "}
-                {majorFilter === "none"
-                  ? "Tanpa Jurusan"
-                  : majors?.find((m: any) => m.id === majorFilter)?.name}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => setMajorFilter("all")}
-                />
-              </Badge>
-            )}
-            {statusFilter !== "all" && (
-              <Badge variant="secondary" className="gap-1">
-                Status: {statusFilter === "active" ? "Aktif" : "Tidak Aktif"}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => setStatusFilter("all")}
-                />
-              </Badge>
-            )}
-          </div>
-        )}
+        <div className="grid items-center gap-2 space-x-2 md:grid-cols-2">
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  Kolom <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    const getColumnLabel = (columnId: string) => {
+                      switch (columnId) {
+                        case "code":
+                          return "Kode";
+                        case "name":
+                          return "Nama Mata Pelajaran";
+                        case "branch":
+                          return "Jurusan";
+                        case "credits":
+                          return "SKS";
+                        case "isActive":
+                          return "Status";
+                        case "description":
+                          return "Deskripsi";
+                        default:
+                          return columnId;
+                      }
+                    };
 
-        <div className="w-full overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {getColumnLabel(column.id)}
+                      </DropdownMenuCheckboxItem>
                     );
                   })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    <div className="flex flex-col items-center justify-center space-y-2">
-                      <FileText className="text-muted-foreground h-8 w-8" />
-                      <p className="text-muted-foreground">
-                        {globalFilter ||
-                        majorFilter !== "all" ||
-                        statusFilter !== "all"
-                          ? "Tidak ada data yang sesuai dengan filter."
-                          : "Tidak ada data mata pelajaran yang ditemukan."}
-                      </p>
-                      {(globalFilter ||
-                        majorFilter !== "all" ||
-                        statusFilter !== "all") && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setGlobalFilter("");
-                            setMajorFilter("all");
-                            setStatusFilter("all");
-                            table.resetColumnFilters();
-                          }}
-                        >
-                          Reset Filter
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        <div className="flex items-center justify-between space-x-2 py-4">
-          <div className="text-muted-foreground flex-1 text-sm">
-            {table.getFilteredSelectedRowModel().rows.length} dari{" "}
-            {table.getFilteredRowModel().rows.length} baris dipilih.
-            {table.getFilteredRowModel().rows.length !== subjects.length && (
-              <span className="ml-2">
-                (difilter dari {subjects.length} total)
-              </span>
-            )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">
-              Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
-              {table.getPageCount()}
-            </p>
-            <div className="space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                Sebelumnya
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                Selanjutnya
-              </Button>
-            </div>
+          <div>
+            <Button onClick={() => setCreateDialogOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" />
+              Tambah Mata Pelajaran
+            </Button>
           </div>
         </div>
-
-        {/* Summary Statistics */}
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="bg-card rounded-lg border p-4">
-            <div className="flex items-center space-x-2">
-              <BookOpen className="text-info h-5 w-5" />
-              <h3 className="font-semibold">Total Mata Pelajaran</h3>
-            </div>
-            <p className="mt-2 text-2xl font-bold">{subjects.length}</p>
-            {table.getFilteredRowModel().rows.length !== subjects.length && (
-              <p className="text-muted-foreground text-sm">
-                ({table.getFilteredRowModel().rows.length} terfilter)
-              </p>
-            )}
-          </div>
-
-          <div className="bg-card rounded-lg border p-4">
-            <div className="flex items-center space-x-2">
-              <div className="bg-success h-3 w-3 rounded-full"></div>
-              <h3 className="font-semibold">Aktif</h3>
-            </div>
-            <p className="mt-2 text-2xl font-bold">
-              {
-                table
-                  .getFilteredRowModel()
-                  .rows.filter((row) => row.original.isActive === true).length
-              }
-            </p>
-          </div>
-
-          <div className="bg-card rounded-lg border p-4">
-            <div className="flex items-center space-x-2">
-              <div className="bg-muted-foreground h-3 w-3 rounded-full"></div>
-              <h3 className="font-semibold">Tidak Aktif</h3>
-            </div>
-            <p className="mt-2 text-2xl font-bold">
-              {
-                table
-                  .getFilteredRowModel()
-                  .rows.filter((row) => row.original.isActive === false).length
-              }
-            </p>
-          </div>
-
-          <div className="bg-card rounded-lg border p-4">
-            <div className="flex items-center space-x-2">
-              <Hash className="text-tertiary h-5 w-5" />
-              <h3 className="font-semibold">Total SKS</h3>
-            </div>
-            <p className="mt-2 text-2xl font-bold">
-              {table
-                .getFilteredRowModel()
-                .rows.reduce((total, row) => total + row.original.credits, 0)}
-            </p>
-          </div>
-        </div>
-
-        {/* Dialogs */}
-        <SubjectFormDialog
-          open={createDialogOpen}
-          onOpenChange={setCreateDialogOpen}
-          onSuccess={handleSuccess}
-        />
-
-        <SubjectFormDialog
-          open={editDialogOpen}
-          onOpenChange={setEditDialogOpen}
-          editData={selectedSubject}
-          onSuccess={handleSuccess}
-        />
-
-        <DeleteSubjectDialog
-          open={deleteDialogOpen}
-          onOpenChange={setDeleteDialogOpen}
-          subjectData={selectedSubject}
-          onSuccess={handleSuccess}
-        />
       </div>
+
+      {/* Active Filters Display */}
+      {(globalFilter || branchFilter !== "all" || statusFilter !== "all") && (
+        <div className="flex items-center space-x-2 py-2">
+          <span className="text-muted-foreground text-sm">Filter aktif:</span>
+          {globalFilter && (
+            <Badge variant="secondary" className="gap-1">
+              Pencarian: {globalFilter}
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setGlobalFilter("")}
+              />
+            </Badge>
+          )}
+          {branchFilter !== "all" && (
+            <Badge variant="secondary" className="gap-1">
+              Jurusan:{" "}
+              {branchFilter === "none"
+                ? "Tanpa Jurusan"
+                : branchs?.find((m: any) => m.id === branchFilter)?.name}
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setBranchFilter("all")}
+              />
+            </Badge>
+          )}
+          {statusFilter !== "all" && (
+            <Badge variant="secondary" className="gap-1">
+              Status: {statusFilter === "active" ? "Aktif" : "Tidak Aktif"}
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setStatusFilter("all")}
+              />
+            </Badge>
+          )}
+        </div>
+      )}
+
+      <div className="w-full overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  <div className="flex flex-col items-center justify-center space-y-2">
+                    <FileText className="text-muted-foreground h-8 w-8" />
+                    <p className="text-muted-foreground">
+                      {globalFilter ||
+                      branchFilter !== "all" ||
+                      statusFilter !== "all"
+                        ? "Tidak ada data yang sesuai dengan filter."
+                        : "Tidak ada data mata pelajaran yang ditemukan."}
+                    </p>
+                    {(globalFilter ||
+                      branchFilter !== "all" ||
+                      statusFilter !== "all") && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setGlobalFilter("");
+                          setBranchFilter("all");
+                          setStatusFilter("all");
+                          table.resetColumnFilters();
+                        }}
+                      >
+                        Reset Filter
+                      </Button>
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+          {table.getFilteredRowModel().rows.length} baris dipilih.
+          {table.getFilteredRowModel().rows.length !== subjects.length && (
+            <span className="ml-2">
+              (difilter dari {subjects.length} total)
+            </span>
+          )}
+        </div>
+        <div className="flex items-center space-x-2">
+          <p className="text-sm font-medium">
+            Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
+            {table.getPageCount()}
+          </p>
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Sebelumnya
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Selanjutnya
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Summary Statistics */}
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="bg-card rounded-lg border p-4">
+          <div className="flex items-center space-x-2">
+            <BookOpen className="text-info h-5 w-5" />
+            <h3 className="font-semibold">Total Mata Pelajaran</h3>
+          </div>
+          <p className="mt-2 text-2xl font-bold">{subjects.length}</p>
+          {table.getFilteredRowModel().rows.length !== subjects.length && (
+            <p className="text-muted-foreground text-sm">
+              ({table.getFilteredRowModel().rows.length} terfilter)
+            </p>
+          )}
+        </div>
+
+        <div className="bg-card rounded-lg border p-4">
+          <div className="flex items-center space-x-2">
+            <div className="bg-success h-3 w-3 rounded-full"></div>
+            <h3 className="font-semibold">Aktif</h3>
+          </div>
+          <p className="mt-2 text-2xl font-bold">
+            {
+              table
+                .getFilteredRowModel()
+                .rows.filter((row) => row.original.isActive === true).length
+            }
+          </p>
+        </div>
+
+        <div className="bg-card rounded-lg border p-4">
+          <div className="flex items-center space-x-2">
+            <div className="bg-muted-foreground h-3 w-3 rounded-full"></div>
+            <h3 className="font-semibold">Tidak Aktif</h3>
+          </div>
+          <p className="mt-2 text-2xl font-bold">
+            {
+              table
+                .getFilteredRowModel()
+                .rows.filter((row) => row.original.isActive === false).length
+            }
+          </p>
+        </div>
+
+        <div className="bg-card rounded-lg border p-4">
+          <div className="flex items-center space-x-2">
+            <Hash className="text-tertiary h-5 w-5" />
+            <h3 className="font-semibold">Total SKS</h3>
+          </div>
+          <p className="mt-2 text-2xl font-bold">
+            {table
+              .getFilteredRowModel()
+              .rows.reduce((total, row) => total + row.original.credits, 0)}
+          </p>
+        </div>
+      </div>
+
+      {/* Dialogs */}
+      <SubjectFormDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onSuccess={handleSuccess}
+      />
+
+      <SubjectFormDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        editData={selectedSubject}
+        onSuccess={handleSuccess}
+      />
+
+      <DeleteSubjectDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        subjectData={selectedSubject}
+        onSuccess={handleSuccess}
+      />
     </>
   );
 }

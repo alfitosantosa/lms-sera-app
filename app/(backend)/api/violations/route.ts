@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         select: { id: true },
       }),
       prisma.class.findFirst({
-        where: { id: classId, major: { foundationId: t.foundationId } },
+        where: { id: classId, branch: { foundationId: t.foundationId } },
         select: { id: true },
       }),
       prisma.violationType.findFirst({
@@ -153,7 +153,7 @@ export async function PUT(request: NextRequest) {
           select: { id: true },
         }),
         prisma.class.findFirst({
-          where: { id: classId, major: { foundationId: t.foundationId } },
+          where: { id: classId, branch: { foundationId: t.foundationId } },
           select: { id: true },
         }),
         prisma.violationType.findFirst({

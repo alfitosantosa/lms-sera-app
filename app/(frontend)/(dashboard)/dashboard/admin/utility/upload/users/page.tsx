@@ -2,7 +2,7 @@
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useBulkCreateUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
@@ -41,7 +41,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
   const { data: rolesData = [] } = useGetRoles();
   const { data: academicYearData = [] } = useGetAcademicYears();
   const { data: classData = [] } = useGetClasses();
-  const { data: majorsData = [] } = useGetMajors();
+  const { data: branchsData = [] } = useGetBranchs();
   const { data: tahfidzGroupData = [] } = useGetTahfidzGroup();
 
   const bulkCreateMutation = useBulkCreateUserData();
@@ -200,9 +200,9 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
             academicYearId: row[10]?.toString() || null,
             classId: row[11]?.toString() || null,
             tahfidzGroupId: row[12]?.toString() || null,
-            majorId: row[13]?.toString() || null,
+            branchId: row[13]?.toString() || null,
 
-            // Tanpa branch (major) yayasan harus dikirim eksplisit; kalau ada branch, cukup majorId
+            // Tanpa branch (branch) yayasan harus dikirim eksplisit; kalau ada branch, cukup branchId
             foundationId: row[13]?.toString() ? null : foundationId,
 
             // Dates
@@ -283,7 +283,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
           "Academic Year ID",
           "Class ID",
           "Tahfidz Group ID",
-          "Major ID",
+          "Branch ID",
           "Enrollment Date",
           "Graduation Date",
           "Employee ID",
@@ -309,7 +309,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
           academicYearData[0]?.id || "",
           classData[0]?.id || "",
           tahfidzGroupData[0]?.id || "",
-          majorsData[0]?.id || "",
+          branchsData[0]?.id || "",
           "01/07/2023",
           "",
           "",
@@ -335,7 +335,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
           academicYearData[0]?.id || "",
           classData[0]?.id || "",
           tahfidzGroupData[0]?.id || "",
-          majorsData[0]?.id || "",
+          branchsData[0]?.id || "",
           "01/07/2023",
           "",
           "",
@@ -367,7 +367,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
         { wch: 30 }, // Academic Year ID
         { wch: 30 }, // Class ID
         { wch: 30 }, // Tahfidz Group ID
-        { wch: 30 }, // Major ID
+        { wch: 30 }, // Branch ID
         { wch: 15 }, // Enrollment Date
         { wch: 15 }, // Graduation Date
         { wch: 15 }, // Employee ID
@@ -599,7 +599,7 @@ function UploadUsers({ foundationId }: { foundationId?: string }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {majorsData.map((data) => (
+              {branchsData.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell>{data.name}</TableCell>
                   <TableCell className="font-mono text-xs">{data.id}</TableCell>

@@ -6,7 +6,7 @@ import {
   useGetAccountBank,
   useUpdateAccountBank,
 } from "@/app/(hooks)/hooks/AccountBank/useAccountBank";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { type AccountBankTypes } from "@/app/(types)/types/accountbank-types";
 import Loading from "@/components/loading";
@@ -92,7 +92,7 @@ const accountBankSchema = z.object({
   accountName: z.string().min(1, "Nama pemilik akun wajib diisi"),
   accountBank: z.string().min(1, "Nama bank wajib diisi"),
   accountNumber: z.string().min(1, "Nomor rekening wajib diisi"),
-  majorId: z.string().min(1, "Jurusan wajib dipilih"),
+  branchId: z.string().min(1, "Jurusan wajib dipilih"),
 });
 
 type AccountBankFormValues = z.infer<typeof accountBankSchema>;
@@ -125,8 +125,8 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
   // Unique banks
   const uniqueBanks = new Set(accounts.map((a) => a.accountBank)).size;
 
-  // Unique majors
-  const uniqueMajors = new Set(accounts.map((a) => a.majorId)).size;
+  // Unique branchs
+  const uniqueBranchs = new Set(accounts.map((a) => a.branchId)).size;
 
   return (
     <div className="mb-6 grid gap-4 md:grid-cols-3">
@@ -164,7 +164,9 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
           <Users className="text-tertiary h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-tertiary text-2xl font-bold">{uniqueMajors}</div>
+          <div className="text-tertiary text-2xl font-bold">
+            {uniqueBranchs}
+          </div>
           <p className="text-muted-foreground text-xs">
             Branch memiliki rekening
           </p>
@@ -189,8 +191,8 @@ function AccountBankFormDialog({
   const createAccountBank = useCreateAccountBank();
   const updateAccountBank = useUpdateAccountBank();
 
-  // Get majors from hook
-  const { data: majors = [] } = useGetMajors();
+  // Get branchs from hook
+  const { data: branchs = [] } = useGetBranchs();
 
   const {
     register,
@@ -205,25 +207,25 @@ function AccountBankFormDialog({
       accountName: "",
       accountBank: "",
       accountNumber: "",
-      majorId: "",
+      branchId: "",
     },
   });
 
   const selectedBank = watch("accountBank");
-  const selectedMajorId = watch("majorId");
+  const selectedBranchId = watch("branchId");
 
   React.useEffect(() => {
     if (editData) {
       setValue("accountName", editData.accountName);
       setValue("accountBank", editData.accountBank);
       setValue("accountNumber", editData.accountNumber);
-      setValue("majorId", editData.majorId);
+      setValue("branchId", editData.branchId);
     } else {
       reset({
         accountName: "",
         accountBank: "",
         accountNumber: "",
-        majorId: "",
+        branchId: "",
       });
     }
   }, [editData, setValue, reset]);
@@ -312,23 +314,23 @@ function AccountBankFormDialog({
           <div className="space-y-2">
             <Label>Jurusan</Label>
             <Select
-              value={selectedMajorId}
-              onValueChange={(value) => setValue("majorId", value)}
+              value={selectedBranchId}
+              onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Branch" />
               </SelectTrigger>
               <SelectContent>
-                {majors.map((major) => (
-                  <SelectItem key={major.id} value={major.id}>
-                    {major.name}
+                {branchs.map((branch) => (
+                  <SelectItem key={branch.id} value={branch.id}>
+                    {branch.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.majorId && (
+            {errors.branchId && (
               <p className="text-destructive text-sm">
-                {errors.majorId.message}
+                {errors.branchId.message}
               </p>
             )}
           </div>
@@ -503,11 +505,11 @@ function AccountBankDashboard() {
       ),
     },
     {
-      id: "majorName",
+      id: "branchName",
       header: "Branch",
-      accessorFn: (row) => row.majors?.name,
+      accessorFn: (row) => row.branchs?.name,
       cell: ({ row }) => {
-        return <div>{row.original.majors?.name || "-"}</div>;
+        return <div>{row.original.branchs?.name || "-"}</div>;
       },
     },
     {

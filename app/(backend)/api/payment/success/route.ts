@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const { id, status, receiptNumber } = await request.json();
 
     const owned = await prisma.payment.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");

@@ -285,7 +285,7 @@ function TeacherAttendancePage() {
   return (
     <>
       <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
-        <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className="max-w-8xl ">
           {/* Header Section */}
           <div className="mb-8">
             <div className="mb-2 flex items-center gap-2">

@@ -89,7 +89,7 @@ Establish pattern: `[domain, ...identifiers]`
 - `["users", id]` for user queries
 - `["students", id]` for student queries
 - `["roles", "user", id]` for role-by-user
-- `["payments", majorId]` for payments by major
+- `["payments", branchId]` for payments by branch
 - etc.
 
 ### 4.3 Consolidate duplicate attendance API
@@ -112,7 +112,7 @@ After fixing `getRoleMenuKey`, verify each role sees appropriate menus:
 
 **Admin sidebar** - Already well-organized. Minor adjustments:
 
-- Rename "Branch" to "Branch / Jurusan" for clarity (it currently says "Branch" for `/dashboard/admin/master/majors`)
+- Rename "Branch" to "Branch / Jurusan" for clarity (it currently says "Branch" for `/dashboard/admin/master/branchs`)
 
 **Treasurer sidebar** - Already well-organized. May need:
 

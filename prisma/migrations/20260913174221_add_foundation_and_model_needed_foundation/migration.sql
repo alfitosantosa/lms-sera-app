@@ -90,7 +90,7 @@ CREATE TABLE "user_data" (
     "enrollmentDate" TIMESTAMP(3),
     "gender" TEXT,
     "graduationDate" TIMESTAMP(3),
-    "majorId" TEXT,
+    "branchId" TEXT,
     "nik" TEXT,
     "nisn" TEXT,
     "parentPhone" TEXT,
@@ -138,7 +138,7 @@ CREATE TABLE "academic_years" (
 );
 
 -- CreateTable
-CREATE TABLE "majors" (
+CREATE TABLE "branchs" (
     "id" TEXT NOT NULL,
     "code" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE "majors" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "majors_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "branchs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -160,7 +160,7 @@ CREATE TABLE "classes" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "grade" INTEGER NOT NULL,
-    "majorId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
     "academicYearId" TEXT NOT NULL,
     "capacity" INTEGER NOT NULL DEFAULT 36,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
@@ -174,7 +174,7 @@ CREATE TABLE "subjects" (
     "code" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "majorId" TEXT,
+    "branchId" TEXT,
     "credits" INTEGER NOT NULL DEFAULT 2,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
 
@@ -253,7 +253,7 @@ CREATE TABLE "payment_types" (
     "quantity" DOUBLE PRECISION NOT NULL,
     "subtotal" DECIMAL(65,30) NOT NULL,
     "owner" TEXT NOT NULL,
-    "majorId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
     "skuType" TEXT NOT NULL,
 
     CONSTRAINT "payment_types_pkey" PRIMARY KEY ("id")
@@ -291,7 +291,7 @@ CREATE TABLE "payments" (
     "paymentDate" TIMESTAMP(3) NOT NULL,
     "receiptNumber" TEXT NOT NULL,
     "accountBankId" TEXT NOT NULL,
-    "majorId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
     "month" TEXT NOT NULL,
     "bendaharaId" TEXT NOT NULL,
     "bankRef" TEXT,
@@ -323,7 +323,7 @@ CREATE TABLE "account_bank" (
     "accountName" TEXT NOT NULL,
     "accountBank" TEXT NOT NULL,
     "accountNumber" TEXT NOT NULL,
-    "majorId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "account_bank_pkey" PRIMARY KEY ("id")
@@ -586,7 +586,7 @@ CREATE TABLE "tahfidz_groups" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "grade" INTEGER NOT NULL,
-    "majorId" TEXT NOT NULL,
+    "branchId" TEXT NOT NULL,
     "capacity" INTEGER NOT NULL DEFAULT 40,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
 
@@ -633,7 +633,7 @@ CREATE INDEX "user_data_academicYearId_idx" ON "user_data"("academicYearId");
 CREATE INDEX "user_data_classId_idx" ON "user_data"("classId");
 
 -- CreateIndex
-CREATE INDEX "user_data_majorId_idx" ON "user_data"("majorId");
+CREATE INDEX "user_data_branchId_idx" ON "user_data"("branchId");
 
 -- CreateIndex
 CREATE INDEX "user_data_roleId_idx" ON "user_data"("roleId");
@@ -660,10 +660,10 @@ CREATE UNIQUE INDEX "academic_years_year_key" ON "academic_years"("year");
 CREATE INDEX "academic_years_foundationId_idx" ON "academic_years"("foundationId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "majors_code_key" ON "majors"("code");
+CREATE UNIQUE INDEX "branchs_code_key" ON "branchs"("code");
 
 -- CreateIndex
-CREATE INDEX "majors_foundationId_idx" ON "majors"("foundationId");
+CREATE INDEX "branchs_foundationId_idx" ON "branchs"("foundationId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "classes_name_academicYearId_key" ON "classes"("name", "academicYearId");
@@ -723,7 +723,7 @@ CREATE INDEX "violations_status_idx" ON "violations"("status");
 CREATE INDEX "violations_date_idx" ON "violations"("date");
 
 -- CreateIndex
-CREATE INDEX "payment_types_majorId_idx" ON "payment_types"("majorId");
+CREATE INDEX "payment_types_branchId_idx" ON "payment_types"("branchId");
 
 -- CreateIndex
 CREATE INDEX "payment_types_owner_idx" ON "payment_types"("owner");
@@ -747,7 +747,7 @@ CREATE UNIQUE INDEX "payments_receiptNumber_key" ON "payments"("receiptNumber");
 CREATE INDEX "payments_studentId_idx" ON "payments"("studentId");
 
 -- CreateIndex
-CREATE INDEX "payments_majorId_idx" ON "payments"("majorId");
+CREATE INDEX "payments_branchId_idx" ON "payments"("branchId");
 
 -- CreateIndex
 CREATE INDEX "payments_accountBankId_idx" ON "payments"("accountBankId");
@@ -894,7 +894,7 @@ ALTER TABLE "user_data" ADD CONSTRAINT "user_data_academicYearId_fkey" FOREIGN K
 ALTER TABLE "user_data" ADD CONSTRAINT "user_data_classId_fkey" FOREIGN KEY ("classId") REFERENCES "classes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_data" ADD CONSTRAINT "user_data_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "user_data" ADD CONSTRAINT "user_data_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_data" ADD CONSTRAINT "user_data_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -912,16 +912,16 @@ ALTER TABLE "roles" ADD CONSTRAINT "roles_foundationId_fkey" FOREIGN KEY ("found
 ALTER TABLE "academic_years" ADD CONSTRAINT "academic_years_foundationId_fkey" FOREIGN KEY ("foundationId") REFERENCES "foundation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "majors" ADD CONSTRAINT "majors_foundationId_fkey" FOREIGN KEY ("foundationId") REFERENCES "foundation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "branchs" ADD CONSTRAINT "branchs_foundationId_fkey" FOREIGN KEY ("foundationId") REFERENCES "foundation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "classes" ADD CONSTRAINT "classes_academicYearId_fkey" FOREIGN KEY ("academicYearId") REFERENCES "academic_years"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "classes" ADD CONSTRAINT "classes_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "classes" ADD CONSTRAINT "classes_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "subjects" ADD CONSTRAINT "subjects_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "subjects" ADD CONSTRAINT "subjects_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "schedules" ADD CONSTRAINT "schedules_academicYearId_fkey" FOREIGN KEY ("academicYearId") REFERENCES "academic_years"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -957,7 +957,7 @@ ALTER TABLE "violations" ADD CONSTRAINT "violations_studentId_fkey" FOREIGN KEY 
 ALTER TABLE "violations" ADD CONSTRAINT "violations_violationTypeId_fkey" FOREIGN KEY ("violationTypeId") REFERENCES "violation_types"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "payment_types" ADD CONSTRAINT "payment_types_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "payment_types" ADD CONSTRAINT "payment_types_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payment_items" ADD CONSTRAINT "payment_items_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "payments"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -975,7 +975,7 @@ ALTER TABLE "payments" ADD CONSTRAINT "payments_accountBankId_fkey" FOREIGN KEY 
 ALTER TABLE "payments" ADD CONSTRAINT "payments_bendaharaId_fkey" FOREIGN KEY ("bendaharaId") REFERENCES "user_data"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "payments" ADD CONSTRAINT "payments_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "payments" ADD CONSTRAINT "payments_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payments" ADD CONSTRAINT "payments_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "user_data"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -984,7 +984,7 @@ ALTER TABLE "payments" ADD CONSTRAINT "payments_studentId_fkey" FOREIGN KEY ("st
 ALTER TABLE "payment_transactions" ADD CONSTRAINT "payment_transactions_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "payments"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "account_bank" ADD CONSTRAINT "account_bank_majorId_fkey" FOREIGN KEY ("majorId") REFERENCES "majors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "account_bank" ADD CONSTRAINT "account_bank_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "branchs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "calendar_events" ADD CONSTRAINT "calendar_events_foundationId_fkey" FOREIGN KEY ("foundationId") REFERENCES "foundation"("id") ON DELETE SET NULL ON UPDATE CASCADE;

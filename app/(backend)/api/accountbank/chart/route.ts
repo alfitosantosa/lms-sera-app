@@ -27,7 +27,7 @@ type AccountBankDetail = {
   accountBank: string;
   accountNumber: string;
   isActive: boolean;
-  major: { id: string; name: string } | null;
+  branch: { id: string; name: string } | null;
   totalRevenue: number;
   totalTransaction: number;
   totalPaymentItems: number;
@@ -73,7 +73,7 @@ type DashboardResult = {
     accountName: string;
     accountBank: string;
     accountNumber: string;
-    majorName: string;
+    branchName: string;
     totalRevenue: number;
     totalTransaction: number;
     percentage: number;
@@ -110,20 +110,20 @@ function parseAndValidateDate(
 function buildPaymentWhereClause({
   startDate,
   endDate,
-  majorId,
+  branchId,
   accountBankId,
   foundationId,
 }: {
   startDate: Date;
   endDate: Date;
-  majorId?: string;
+  branchId?: string;
   accountBankId?: string;
   foundationId: string;
 }): Prisma.PaymentWhereInput {
   return {
     createdAt: { gte: startDate, lte: endDate },
-    major: { foundationId },
-    ...(majorId && { majorId }),
+    branch: { foundationId },
+    ...(branchId && { branchId }),
     ...(accountBankId && { accountBankId }),
   };
 }
@@ -172,7 +172,7 @@ export async function GET(request: NextRequest) {
 
   const fromdate = searchParams.get("fromdate");
   const todate = searchParams.get("todate");
-  const majorId = searchParams.get("majorId") ?? undefined;
+  const branchId = searchParams.get("branchId") ?? undefined;
   const accountBankId = searchParams.get("accountBankId") ?? undefined;
 
   // ── 1. Validate ───────────────────────────────────────────────────────────
@@ -189,10 +189,10 @@ export async function GET(request: NextRequest) {
         // Semua account bank (tidak di-filter tanggal — ini adalah master data)
         prisma.accountBank.findMany({
           where: {
-            majors: { foundationId: t.foundationId },
+            branchs: { foundationId: t.foundationId },
           },
           include: {
-            majors: { select: { id: true, name: true } },
+            branchs: { select: { id: true, name: true } },
             _count: {
               select: { payments: true },
             },
@@ -205,7 +205,7 @@ export async function GET(request: NextRequest) {
           where: buildPaymentWhereClause({
             startDate,
             endDate,
-            majorId,
+            branchId,
             accountBankId,
             foundationId: t.foundationId,
           }),
@@ -221,8 +221,8 @@ export async function GET(request: NextRequest) {
                 accountName: true,
                 accountBank: true,
                 accountNumber: true,
-                majorId: true,
-                majors: { select: { id: true, name: true } },
+                branchId: true,
+                branchs: { select: { id: true, name: true } },
               },
             },
             paymentItems: {
@@ -245,13 +245,13 @@ export async function GET(request: NextRequest) {
             createdAt: { gte: startDate, lte: endDate },
             isPaid: false,
             student: {
-              ...(majorId && { majorId }),
+              ...(branchId && { branchId }),
               foundationId: t.foundationId,
             },
             ...(accountBankId && {
               payment: {
                 accountBankId,
-                accountBank: { majors: { foundationId: t.foundationId } },
+                accountBank: { branchs: { foundationId: t.foundationId } },
               },
             }),
           },
@@ -276,13 +276,13 @@ export async function GET(request: NextRequest) {
           where: {
             createdAt: { gte: startDate, lte: endDate },
             student: {
-              ...(majorId && { majorId }),
+              ...(branchId && { branchId }),
               foundationId: t.foundationId,
             },
             ...(accountBankId && {
               payment: {
                 accountBankId,
-                accountBank: { majors: { foundationId: t.foundationId } },
+                accountBank: { branchs: { foundationId: t.foundationId } },
               },
             }),
           },
@@ -372,7 +372,7 @@ export async function GET(request: NextRequest) {
           accountBank: acct.accountBank,
           accountNumber: acct.accountNumber,
           isActive: true, // Default value karena field tidak ada di schema
-          major: acct.majors ?? null,
+          branch: acct.branchs ?? null,
           totalRevenue: revenue,
           totalTransaction: acctPayments.length,
           totalPaymentItems: acctAllItems.length,
@@ -480,7 +480,7 @@ export async function GET(request: NextRequest) {
         accountName: a.accountName,
         accountBank: a.accountBank,
         accountNumber: a.accountNumber,
-        majorName: a.major?.name ?? "-",
+        branchName: a.branch?.name ?? "-",
         totalRevenue: a.totalRevenue,
         totalTransaction: a.totalTransaction,
         percentage:

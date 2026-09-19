@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
+import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
 import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import {
@@ -52,7 +52,7 @@ export type StudentData = {
   academicYearId?: string;
   parentPhone?: string;
   status?: string;
-  majorId?: string;
+  branchId?: string;
   roleId?: string;
 };
 
@@ -60,8 +60,8 @@ export type StudentFormDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
-  majorId: string;
-  majorName?: string;
+  branchId: string;
+  branchName?: string;
   // ← tambahan untuk edit
   editData?: StudentData | null;
 };
@@ -273,8 +273,8 @@ export function StudentFormDialog({
   open,
   onOpenChange,
   onSuccess,
-  majorId,
-  majorName,
+  branchId,
+  branchName,
   editData,
 }: StudentFormDialogProps) {
   const createUser = useCreateUser();
@@ -284,7 +284,7 @@ export function StudentFormDialog({
   const isPending = createUser.isPending || updateUser.isPending;
 
   const { data: classes = [], isLoading: classesLoading } =
-    useGetClassByIdMajor(majorId);
+    useGetClassByIdBranch(branchId);
   const { data: academicYears = [], isLoading: academicYearsLoading } =
     useGetAcademicYears();
   const { data: tahfidzGroups = [], isLoading: tahfidzGroupsLoading } =
@@ -349,8 +349,8 @@ export function StudentFormDialog({
       toast.error("Role 'Student' tidak ditemukan. Hubungi administrator.");
       return;
     }
-    if (!majorId) {
-      toast.error("Major ID tidak tersedia.");
+    if (!branchId) {
+      toast.error("Branch ID tidak tersedia.");
       return;
     }
 
@@ -380,8 +380,8 @@ export function StudentFormDialog({
         await updateUser.mutateAsync({
           id: editData.id,
           ...baseData,
-          // majorId & roleId tidak boleh berubah saat edit
-          majorId,
+          // branchId & roleId tidak boleh berubah saat edit
+          branchId,
           roleId: editData.roleId ?? studentRoleId,
         });
         toast.success("Data siswa berhasil diperbarui!");
@@ -390,7 +390,7 @@ export function StudentFormDialog({
         await createUser.mutateAsync({
           ...baseData,
           roleId: studentRoleId,
-          majorId,
+          branchId,
           enrollmentDate: new Date(),
         });
         toast.success("Siswa berhasil ditambahkan!");
@@ -411,9 +411,9 @@ export function StudentFormDialog({
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
             {isEditMode ? "Edit Data Siswa" : "Tambah Siswa Baru"}
-            {majorName && (
+            {branchName && (
               <Badge variant="secondary" className="ml-1 font-normal">
-                {majorName}
+                {branchName}
               </Badge>
             )}
           </DialogTitle>
@@ -430,7 +430,7 @@ export function StudentFormDialog({
               <span className="text-foreground font-semibold">Student</span> ·
               Branch:{" "}
               <span className="text-foreground font-semibold">
-                {majorName ?? majorId}
+                {branchName ?? branchId}
               </span>
               {isEditMode && <span className="ml-2">· Mode: Edit</span>}
             </p>
@@ -638,13 +638,13 @@ export function StudentFormDialog({
                 <Select
                   onValueChange={(v) => setValue("classId", v)}
                   value={watch("classId")}
-                  disabled={classesLoading || !majorId}
+                  disabled={classesLoading || !branchId}
                 >
                   <SelectTrigger>
                     <SelectValue
                       placeholder={
-                        !majorId
-                          ? "Major belum tersedia"
+                        !branchId
+                          ? "Branch belum tersedia"
                           : classesLoading
                             ? "Memuat kelas..."
                             : "Pilih kelas"

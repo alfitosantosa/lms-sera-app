@@ -21,7 +21,7 @@ export async function GET(
 
   try {
     const payments = await prisma.payment.findMany({
-      where: { studentId: studentId, major: { foundationId: t.foundationId } },
+      where: { studentId: studentId, branch: { foundationId: t.foundationId } },
       include: {
         student: true,
         paymentTransaction: true,

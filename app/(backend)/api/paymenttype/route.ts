@@ -11,13 +11,13 @@
 //   quantity        Decimal
 //   subtotal        Decimal
 //   owner           String
-//   majorId         String
+//   branchId         String
 //   skuType         String
 
 //   paymentItems    PaymentItems[]
-//   major           Major          @relation(fields: [majorId], references: [id])
+//   branch           Branch          @relation(fields: [branchId], references: [id])
 
-//   @@index([majorId])
+//   @@index([branchId])
 //   @@index([owner])
 //   @@map("payment_types")
 // }
@@ -35,10 +35,10 @@ export async function GET(request: NextRequest) {
   try {
     const paymentTypes = await prisma.paymentType.findMany({
       where: {
-        major: { foundationId: t.foundationId },
+        branch: { foundationId: t.foundationId },
       },
       include: {
-        major: true,
+        branch: true,
       },
     });
     return NextResponse.json(paymentTypes);
@@ -63,21 +63,21 @@ export async function POST(request: NextRequest) {
       isActive,
       isFixedAmount,
       isFixedQuantity,
-      majorId,
+      branchId,
       skuType,
     } = await request.json();
 
-    const major = await prisma.major.findFirst({
-      where: { id: majorId, foundationId: t.foundationId },
+    const branch = await prisma.branch.findFirst({
+      where: { id: branchId, foundationId: t.foundationId },
       select: { id: true },
     });
-    if (!major) return tenantForbidden("Data tidak ditemukan di yayasan ini");
+    if (!branch) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const newPaymentType = await prisma.paymentType.create({
       data: {
         name,
         description,
-        majorId,
+        branchId,
         skuType,
         amount: parseFloat(amount),
         quantity: parseFloat(quantity),
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
         owner,
       },
       include: {
-        major: true,
+        branch: true,
       },
     });
 
@@ -128,20 +128,20 @@ export async function PUT(request: NextRequest) {
       isActive,
       isFixedAmount,
       isFixedQuantity,
-      majorId,
+      branchId,
     } = await request.json();
 
-    const [owned, major] = await Promise.all([
+    const [owned, branch] = await Promise.all([
       prisma.paymentType.findFirst({
-        where: { id, major: { foundationId: t.foundationId } },
+        where: { id, branch: { foundationId: t.foundationId } },
         select: { id: true },
       }),
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
     ]);
-    if (!owned || !major)
+    if (!owned || !branch)
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
     const updatedPaymentType = await prisma.paymentType.update({
@@ -150,7 +150,7 @@ export async function PUT(request: NextRequest) {
         name,
         description,
         owner,
-        majorId,
+        branchId,
         amount: parseFloat(amount),
         quantity: parseFloat(quantity),
         subtotal: parseFloat(subtotal),
@@ -168,7 +168,7 @@ export async function PUT(request: NextRequest) {
             : isFixedQuantity === "true",
       },
       include: {
-        major: true,
+        branch: true,
       },
     });
 
@@ -193,7 +193,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const owned = await prisma.paymentType.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");

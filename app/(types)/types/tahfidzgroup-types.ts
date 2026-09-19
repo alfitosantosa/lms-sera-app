@@ -18,7 +18,7 @@ export interface tahfidzGroupTypes {
   id: string;
   name: string;
   grade: number;
-  majorId?: string;
+  branchId?: string;
   capacity: number;
   isActive: boolean;
   schedules: ScheduleTypes[];
@@ -30,7 +30,7 @@ export interface TahfidzGroupData {
   id: string;
   name: string;
   grade: number;
-  majorId?: string;
+  branchId?: string;
   capacity: number;
   isActive: boolean;
   _count?: {
@@ -42,7 +42,7 @@ export interface TahfidzGroupData {
 export interface CreateTahfidzGroupInput {
   name: string;
   grade: number;
-  majorId: string;
+  branchId: string;
   capacity: number;
 }
 
@@ -51,7 +51,7 @@ export interface UpdateTahfidzGroupInput {
   id: string;
   name: string;
   grade: number;
-  majorId: string;
+  branchId: string;
   capacity: number;
 }
 

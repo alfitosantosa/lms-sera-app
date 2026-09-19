@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
-  const majorId = request.nextUrl.searchParams.get("majorId");
+  const branchId = request.nextUrl.searchParams.get("branchId");
 
   if (!fromdate || !todate) {
     return NextResponse.json(
@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
           gte: startDate,
           lte: endDate,
         },
-        major: { foundationId: t.foundationId },
-        ...(majorId && { majorId }),
+        branch: { foundationId: t.foundationId },
+        ...(branchId && { branchId }),
       },
       include: {
         student: {
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
             class: true,
           },
         },
-        major: true,
+        branch: true,
         accountBank: true,
         createdBy: true,
         paymentItems: true,

@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  useCreateMajor,
-  useDeleteMajor,
-  useGetMajors,
-  useUpdateMajor,
-} from "@/app/(hooks)/hooks/Majors/useMajors";
+  useCreateBranch,
+  useDeleteBranch,
+  useGetBranchs,
+  useUpdateBranch,
+} from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { getErrorMessage } from "@/app/(types)";
 import Loading from "@/components/loading";
@@ -85,7 +85,7 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-export type MajorData = {
+export type BranchData = {
   id: string;
   code: string;
   name: string;
@@ -104,7 +104,7 @@ export type MajorData = {
 };
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
-const majorSchema = z.object({
+const branchSchema = z.object({
   code: z
     .string()
     .min(1, "Kode Branch wajib diisi")
@@ -121,7 +121,7 @@ const majorSchema = z.object({
   signatureUrl: z.string().optional(),
 });
 
-type MajorFormValues = z.infer<typeof majorSchema>;
+type BranchFormValues = z.infer<typeof branchSchema>;
 
 // ─── SignatureUpload Component ────────────────────────────────────────────────
 // Mengikuti pola AvatarUpload persis, disesuaikan untuk tanda tangan
@@ -322,8 +322,8 @@ function SignatureUpload({
   );
 }
 
-// ─── MajorFormDialog ──────────────────────────────────────────────────────────
-function MajorFormDialog({
+// ─── BranchFormDialog ──────────────────────────────────────────────────────────
+function BranchFormDialog({
   open,
   onOpenChange,
   editData,
@@ -331,11 +331,11 @@ function MajorFormDialog({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  editData?: MajorData | null;
+  editData?: BranchData | null;
   onSuccess: () => void;
 }) {
-  const createMajor = useCreateMajor();
-  const updateMajor = useUpdateMajor();
+  const createBranch = useCreateBranch();
+  const updateBranch = useUpdateBranch();
 
   const {
     register,
@@ -344,8 +344,8 @@ function MajorFormDialog({
     watch,
     formState: { errors },
     reset,
-  } = useForm<MajorFormValues>({
-    resolver: zodResolver(majorSchema),
+  } = useForm<BranchFormValues>({
+    resolver: zodResolver(branchSchema),
     defaultValues: {
       code: "",
       name: "",
@@ -385,16 +385,16 @@ function MajorFormDialog({
     }
   }, [editData, setValue, reset]);
 
-  const onSubmit = async (data: MajorFormValues) => {
+  const onSubmit = async (data: BranchFormValues) => {
     try {
       if (editData) {
-        await updateMajor.mutateAsync({
+        await updateBranch.mutateAsync({
           ...data,
           id: editData.id,
         });
         toast.success("Branch berhasil diperbarui!");
       } else {
-        await createMajor.mutateAsync(data);
+        await createBranch.mutateAsync(data);
         toast.success("Branch berhasil dibuat!");
       }
       reset();
@@ -523,7 +523,7 @@ function MajorFormDialog({
           <SignatureUpload
             currentSignatureUrl={signatureUrl || ""}
             onUploadSuccess={(url) => setValue("signatureUrl", url)}
-            disabled={createMajor.isPending || updateMajor.isPending}
+            disabled={createBranch.isPending || updateBranch.isPending}
           />
 
           {/* Hidden field untuk menyimpan URL ke form state */}
@@ -539,9 +539,9 @@ function MajorFormDialog({
             </Button>
             <Button
               type="submit"
-              disabled={createMajor.isPending || updateMajor.isPending}
+              disabled={createBranch.isPending || updateBranch.isPending}
             >
-              {createMajor.isPending || updateMajor.isPending
+              {createBranch.isPending || updateBranch.isPending
                 ? "Menyimpan..."
                 : editData
                   ? "Perbarui"
@@ -554,17 +554,17 @@ function MajorFormDialog({
   );
 }
 
-// ─── MajorDetailDialog ────────────────────────────────────────────────────────
-function MajorDetailDialog({
+// ─── BranchDetailDialog ────────────────────────────────────────────────────────
+function BranchDetailDialog({
   open,
   onOpenChange,
-  majorData,
+  branchData,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  majorData: MajorData | null;
+  branchData: BranchData | null;
 }) {
-  if (!majorData) return null;
+  if (!branchData) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -580,17 +580,17 @@ function MajorDetailDialog({
               <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Kode Branch
               </p>
-              <p className="font-mono text-lg font-bold">{majorData.code}</p>
+              <p className="font-mono text-lg font-bold">{branchData.code}</p>
             </div>
             <div>
               <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Status
               </p>
               <Badge
-                variant={majorData.isActive ? "default" : "secondary"}
+                variant={branchData.isActive ? "default" : "secondary"}
                 className="mt-1"
               >
-                {majorData.isActive ? "Aktif" : "Tidak Aktif"}
+                {branchData.isActive ? "Aktif" : "Tidak Aktif"}
               </Badge>
             </div>
           </div>
@@ -599,54 +599,54 @@ function MajorDetailDialog({
             <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
               Nama Branch
             </p>
-            <p className="text-base font-semibold">{majorData.name}</p>
+            <p className="text-base font-semibold">{branchData.name}</p>
           </div>
 
-          {majorData.description && (
+          {branchData.description && (
             <div>
               <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                 Deskripsi
               </p>
-              <p className="text-sm">{majorData.description}</p>
+              <p className="text-sm">{branchData.description}</p>
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-4">
-            {majorData.address && (
+            {branchData.address && (
               <div>
                 <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Alamat
                 </p>
-                <p className="text-sm">{majorData.address}</p>
+                <p className="text-sm">{branchData.address}</p>
               </div>
             )}
-            {majorData.phone && (
+            {branchData.phone && (
               <div>
                 <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Telepon
                 </p>
-                <p className="text-sm">{majorData.phone}</p>
+                <p className="text-sm">{branchData.phone}</p>
               </div>
             )}
-            {majorData.adminName && (
+            {branchData.adminName && (
               <div>
                 <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
                   Bendahara
                 </p>
-                <p className="text-sm font-medium">{majorData.adminName}</p>
+                <p className="text-sm font-medium">{branchData.adminName}</p>
               </div>
             )}
           </div>
 
           {/* Tanda tangan preview */}
-          {majorData.signatureUrl && (
+          {branchData.signatureUrl && (
             <div>
               <p className="text-muted-foreground mb-2 text-xs tracking-wide uppercase">
                 Tanda Tangan Bendahara
               </p>
               <div className="bg-muted/50 inline-flex rounded-lg border p-3">
                 <Image
-                  src={majorData.signatureUrl}
+                  src={branchData.signatureUrl}
                   alt="Tanda tangan bendahara"
                   width={200}
                   height={80}
@@ -667,25 +667,25 @@ function MajorDetailDialog({
               {[
                 {
                   label: "Kelas",
-                  value: majorData._count?.classes ?? 0,
+                  value: branchData._count?.classes ?? 0,
                   color: "text-info",
                   bg: "bg-info-surface",
                 },
                 {
                   label: "Siswa",
-                  value: majorData._count?.students ?? 0,
+                  value: branchData._count?.students ?? 0,
                   color: "text-success",
                   bg: "bg-success-surface",
                 },
                 {
                   label: "Mata Pelajaran",
-                  value: majorData._count?.subjects ?? 0,
+                  value: branchData._count?.subjects ?? 0,
                   color: "text-tertiary",
                   bg: "bg-tertiary-surface",
                 },
                 {
                   label: "Jenis Tagihan",
-                  value: majorData._count?.paymenttype ?? 0,
+                  value: branchData._count?.paymenttype ?? 0,
                   color: "text-caution",
                   bg: "bg-caution-surface",
                 },
@@ -714,24 +714,24 @@ function MajorDetailDialog({
   );
 }
 
-// ─── DeleteMajorDialog ────────────────────────────────────────────────────────
-function DeleteMajorDialog({
+// ─── DeleteBranchDialog ────────────────────────────────────────────────────────
+function DeleteBranchDialog({
   open,
   onOpenChange,
-  majorData,
+  branchData,
   onSuccess,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  majorData: MajorData | null;
+  branchData: BranchData | null;
   onSuccess: () => void;
 }) {
-  const deleteMajor = useDeleteMajor();
+  const deleteBranch = useDeleteBranch();
 
   const handleDelete = async () => {
-    if (!majorData) return;
+    if (!branchData) return;
     try {
-      await deleteMajor.mutateAsync(majorData.id);
+      await deleteBranch.mutateAsync(branchData.id);
       toast.success("Branch berhasil dihapus!");
       onOpenChange(false);
       onSuccess();
@@ -741,10 +741,10 @@ function DeleteMajorDialog({
   };
 
   const hasRelatedData =
-    majorData &&
-    ((majorData._count?.classes ?? 0) > 0 ||
-      (majorData._count?.students ?? 0) > 0 ||
-      (majorData._count?.subjects ?? 0) > 0);
+    branchData &&
+    ((branchData._count?.classes ?? 0) > 0 ||
+      (branchData._count?.students ?? 0) > 0 ||
+      (branchData._count?.subjects ?? 0) > 0);
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -756,18 +756,18 @@ function DeleteMajorDialog({
               {hasRelatedData ? (
                 <div className="space-y-2">
                   <p>
-                    Branch <strong>{majorData?.name}</strong> memiliki data
+                    Branch <strong>{branchData?.name}</strong> memiliki data
                     terkait:
                   </p>
                   <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
-                    {majorData?._count?.classes ? (
-                      <li>{majorData._count.classes} kelas</li>
+                    {branchData?._count?.classes ? (
+                      <li>{branchData._count.classes} kelas</li>
                     ) : null}
-                    {majorData?._count?.students ? (
-                      <li>{majorData._count.students} siswa</li>
+                    {branchData?._count?.students ? (
+                      <li>{branchData._count.students} siswa</li>
                     ) : null}
-                    {majorData?._count?.subjects ? (
-                      <li>{majorData._count.subjects} mata pelajaran</li>
+                    {branchData?._count?.subjects ? (
+                      <li>{branchData._count.subjects} mata pelajaran</li>
                     ) : null}
                   </ul>
                   <p className="text-destructive text-sm font-medium">
@@ -778,7 +778,7 @@ function DeleteMajorDialog({
               ) : (
                 <p>
                   Apakah Anda yakin ingin menghapus branch{" "}
-                  <strong>{majorData?.name}</strong>? Tindakan ini tidak dapat
+                  <strong>{branchData?.name}</strong>? Tindakan ini tidak dapat
                   dibatalkan.
                 </p>
               )}
@@ -789,10 +789,10 @@ function DeleteMajorDialog({
           <AlertDialogCancel>Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            disabled={deleteMajor.isPending}
+            disabled={deleteBranch.isPending}
             className="bg-destructive-solid hover:bg-destructive-solid/90"
           >
-            {deleteMajor.isPending ? "Menghapus..." : "Hapus"}
+            {deleteBranch.isPending ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -800,8 +800,8 @@ function DeleteMajorDialog({
   );
 }
 
-// ─── MajorDataTable ───────────────────────────────────────────────────────────
-function MajorDataTable() {
+// ─── BranchDataTable ───────────────────────────────────────────────────────────
+function BranchDataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -814,14 +814,14 @@ function MajorDataTable() {
   const [editDialogOpen, setEditDialogOpen] = React.useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = React.useState(false);
-  const [selectedMajor, setSelectedMajor] = React.useState<MajorData | null>(
+  const [selectedBranch, setSelectedBranch] = React.useState<BranchData | null>(
     null,
   );
 
-  const { data: majors = [], isLoading, refetch } = useGetMajors();
+  const { data: branchs = [], isLoading, refetch } = useGetBranchs();
   const handleSuccess = () => refetch();
 
-  const columns: ColumnDef<MajorData>[] = [
+  const columns: ColumnDef<BranchData>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -903,7 +903,7 @@ function MajorDataTable() {
     },
     {
       accessorKey: "adminName",
-      header: "Bendahara",
+      header: "Treasurer",
       cell: ({ row }) => (
         <div className="text-muted-foreground text-sm">
           {(row.getValue("adminName") as string) || "-"}
@@ -1006,7 +1006,7 @@ function MajorDataTable() {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  setSelectedMajor(m);
+                  setSelectedBranch(m);
                   setDetailDialogOpen(true);
                 }}
               >
@@ -1015,7 +1015,7 @@ function MajorDataTable() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  setSelectedMajor(m);
+                  setSelectedBranch(m);
                   setEditDialogOpen(true);
                 }}
               >
@@ -1024,7 +1024,7 @@ function MajorDataTable() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  setSelectedMajor(m);
+                  setSelectedBranch(m);
                   setDeleteDialogOpen(true);
                 }}
                 className="text-destructive"
@@ -1040,7 +1040,7 @@ function MajorDataTable() {
   ];
 
   const table = useReactTable({
-    data: majors,
+    data: branchs,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -1180,26 +1180,26 @@ function MajorDataTable() {
       </div>
 
       {/* Dialogs */}
-      <MajorFormDialog
+      <BranchFormDialog
         open={createDialogOpen}
         onOpenChange={setCreateDialogOpen}
         onSuccess={handleSuccess}
       />
-      <MajorFormDialog
+      <BranchFormDialog
         open={editDialogOpen}
         onOpenChange={setEditDialogOpen}
-        editData={selectedMajor}
+        editData={selectedBranch}
         onSuccess={handleSuccess}
       />
-      <MajorDetailDialog
+      <BranchDetailDialog
         open={detailDialogOpen}
         onOpenChange={setDetailDialogOpen}
-        majorData={selectedMajor}
+        branchData={selectedBranch}
       />
-      <DeleteMajorDialog
+      <DeleteBranchDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        majorData={selectedMajor}
+        branchData={selectedBranch}
         onSuccess={handleSuccess}
       />
     </div>
@@ -1220,5 +1220,5 @@ export default function UserDataTable() {
     return null;
   }
 
-  return <MajorDataTable />;
+  return <BranchDataTable />;
 }

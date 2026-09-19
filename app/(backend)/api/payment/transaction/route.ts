@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   if (!t.ok) return t.response;
 
   const transactions = await prisma.paymentTransaction.findMany({
-    where: { payment: { major: { foundationId: t.foundationId } } },
+    where: { payment: { branch: { foundationId: t.foundationId } } },
   });
   return NextResponse.json(transactions);
 }
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     } = await request.json();
 
     const owned = await prisma.payment.findFirst({
-      where: { id: paymentId, major: { foundationId: t.foundationId } },
+      where: { id: paymentId, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");

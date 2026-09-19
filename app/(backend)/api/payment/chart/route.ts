@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
-  const majorId = request.nextUrl.searchParams.get("majorId");
+  const branchId = request.nextUrl.searchParams.get("branchId");
 
   if (!fromdate || !todate) {
     return NextResponse.json(
@@ -35,8 +35,8 @@ export async function GET(request: NextRequest) {
           gte: startDate,
           lte: endDate,
         },
-        major: { foundationId: t.foundationId },
-        ...(majorId && { majorId }),
+        branch: { foundationId: t.foundationId },
+        ...(branchId && { branchId }),
       },
       include: {
         student: {
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
             class: true,
           },
         },
-        major: true,
+        branch: true,
         accountBank: true,
         createdBy: true,
         paymentItems: true,
@@ -92,35 +92,35 @@ export async function GET(request: NextRequest) {
 
     const yearMonthly = Array.from(yearMonthlyMap.values());
 
-    // Group by Major
-    const byMajorMap = new Map<
+    // Group by Branch
+    const byBranchMap = new Map<
       string,
-      { major: string; total: number; sumTransaction: number }
+      { branch: string; total: number; sumTransaction: number }
     >();
 
     payments.forEach((payment) => {
-      const majorName = payment.major?.name || "Unknown";
+      const branchName = payment.branch?.name || "Unknown";
 
-      if (!byMajorMap.has(majorName)) {
-        byMajorMap.set(majorName, {
-          major: majorName,
+      if (!byBranchMap.has(branchName)) {
+        byBranchMap.set(branchName, {
+          branch: branchName,
           total: 0,
           sumTransaction: 0,
         });
       }
 
-      const entry = byMajorMap.get(majorName)!;
+      const entry = byBranchMap.get(branchName)!;
       entry.total += payment.amount ? Number(payment.amount) : 0;
       entry.sumTransaction += 1;
     });
 
-    const byMajor = Array.from(byMajorMap.values());
+    const byBranch = Array.from(byBranchMap.values());
 
-    // Group by Major-Month
-    const byMajorMonthlyMap = new Map<
+    // Group by Branch-Month
+    const byBranchMonthlyMap = new Map<
       string,
       {
-        major: string;
+        branch: string;
         month: string;
         year: string;
         total: number;
@@ -129,16 +129,16 @@ export async function GET(request: NextRequest) {
     >();
 
     payments.forEach((payment) => {
-      const majorName = payment.major?.name || "Unknown";
+      const branchName = payment.branch?.name || "Unknown";
       const year = payment.createdAt.getFullYear().toString();
       const month = payment.createdAt.toLocaleString("default", {
         month: "long",
       });
-      const key = `${majorName}-${year}-${month}`;
+      const key = `${branchName}-${year}-${month}`;
 
-      if (!byMajorMonthlyMap.has(key)) {
-        byMajorMonthlyMap.set(key, {
-          major: majorName,
+      if (!byBranchMonthlyMap.has(key)) {
+        byBranchMonthlyMap.set(key, {
+          branch: branchName,
           month,
           year,
           total: 0,
@@ -146,18 +146,18 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      const entry = byMajorMonthlyMap.get(key)!;
+      const entry = byBranchMonthlyMap.get(key)!;
       entry.total += payment.amount ? Number(payment.amount) : 0;
       entry.sumTransaction += 1;
     });
 
-    const byMajorMonthly = Array.from(byMajorMonthlyMap.values());
+    const byBranchMonthly = Array.from(byBranchMonthlyMap.values());
 
     const result = {
       summary,
       yearMonthly,
-      byMajor,
-      byMajorMonthly,
+      byBranch,
+      byBranchMonthly,
     };
 
     return NextResponse.json(result);

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 type AccountBankDashboardParams = {
   fromdate?: Date;
   todate?: Date;
-  majorId?: string;
+  branchId?: string;
   accountBankId?: string;
 };
 
@@ -21,7 +21,7 @@ const formatLocalDate = (date: Date): string => {
 export const useAccountBankDashboard = ({
   fromdate,
   todate,
-  majorId,
+  branchId,
   accountBankId,
 }: AccountBankDashboardParams) => {
   // Normalize ke awal/akhir hari
@@ -40,7 +40,7 @@ export const useAccountBankDashboard = ({
       "accountbank-dashboard",
       fromdateStr,
       todateStr,
-      majorId,
+      branchId,
       accountBankId,
     ],
     queryFn: async () => {
@@ -51,7 +51,7 @@ export const useAccountBankDashboard = ({
         todate: todateStr,
       };
 
-      if (majorId) params.majorId = majorId;
+      if (branchId) params.branchId = branchId;
       if (accountBankId) params.accountBankId = accountBankId;
 
       const response = await apiGet("/api/accountbank/chart", { params });

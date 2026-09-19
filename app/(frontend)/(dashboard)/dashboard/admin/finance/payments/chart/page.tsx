@@ -1,6 +1,6 @@
 "use client";
 import { usePaymentsDashboardByDate } from "@/app/(hooks)/hooks/Payments/usePaymentByDate";
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import Loading from "@/components/loading";
@@ -69,9 +69,9 @@ type DashboardData = {
     total: number;
     sumTransaction: number;
   }[];
-  byMajor: { major: string; total: number; sumTransaction: number }[];
-  byMajorMonthly: {
-    major: string;
+  byBranch: { branch: string; total: number; sumTransaction: number }[];
+  byBranchMonthly: {
+    branch: string;
     month: string;
     year: string;
     total: number;
@@ -236,10 +236,10 @@ function ChartSkeleton() {
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 function PaymentDashboard({
-  userMajorId,
+  userBranchId,
   isAdmin,
 }: {
-  userMajorId?: string;
+  userBranchId?: string;
   isAdmin: boolean;
 }) {
   // Default: last 3 months → today
@@ -248,18 +248,18 @@ function PaymentDashboard({
     to: new Date(),
   });
 
-  const [selectedMajorId, setSelectedMajorId] = React.useState<string>(
-    isAdmin ? "all" : (userMajorId ?? "all"),
+  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+    isAdmin ? "all" : (userBranchId ?? "all"),
   );
   const [activeTab, setActiveTab] = React.useState("overview");
 
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
-  // Determine majorId to pass to hook
-  const queryMajorId = React.useMemo(() => {
-    if (!isAdmin) return userMajorId;
-    return selectedMajorId === "all" ? undefined : selectedMajorId;
-  }, [isAdmin, selectedMajorId, userMajorId]);
+  // Determine branchId to pass to hook
+  const queryBranchId = React.useMemo(() => {
+    if (!isAdmin) return userBranchId;
+    return selectedBranchId === "all" ? undefined : selectedBranchId;
+  }, [isAdmin, selectedBranchId, userBranchId]);
 
   const {
     data: rawData,
@@ -269,7 +269,7 @@ function PaymentDashboard({
   } = usePaymentsDashboardByDate({
     fromdate: dateRange?.from,
     todate: dateRange?.to,
-    majorId: queryMajorId,
+    branchId: queryBranchId,
   });
 
   console.log(rawData);
@@ -277,15 +277,15 @@ function PaymentDashboard({
   const data = rawData as DashboardData | undefined;
   const summary = data?.summary ?? { total: 0, sumTransaction: 0 };
   const yearMonthly = data?.yearMonthly ?? [];
-  const byMajor = data?.byMajor ?? [];
-  const byMajorMonthly = data?.byMajorMonthly ?? [];
+  const byBranch = data?.byBranch ?? [];
+  const byBranchMonthly = data?.byBranchMonthly ?? [];
 
   // Avg per transaction
   const avgPerTransaction =
     summary.sumTransaction > 0 ? summary.total / summary.sumTransaction : 0;
 
-  // Top major
-  const topMajor = byMajor.reduce<{ major: string; total: number } | null>(
+  // Top branch
+  const topBranch = byBranch.reduce<{ branch: string; total: number } | null>(
     (acc, cur) => (!acc || cur.total > acc.total ? cur : acc),
     null,
   );
@@ -317,17 +317,17 @@ function PaymentDashboard({
     Transaksi: d.sumTransaction,
   }));
 
-  // Major pie data
-  const majorPieData = byMajor.map((d) => ({
-    name: d.major,
+  // Branch pie data
+  const branchPieData = byBranch.map((d) => ({
+    name: d.branch,
     value: d.total,
     count: d.sumTransaction,
   }));
 
-  // Multi-line per major per month
-  const majorNames = Array.from(new Set(byMajorMonthly.map((d) => d.major)));
+  // Multi-line per branch per month
+  const branchNames = Array.from(new Set(byBranchMonthly.map((d) => d.branch)));
   const periodKeys = Array.from(
-    new Set(byMajorMonthly.map((d) => `${d.month.slice(0, 3)} ${d.year}`)),
+    new Set(byBranchMonthly.map((d) => `${d.month.slice(0, 3)} ${d.year}`)),
   ).sort((a, b) => {
     const [mA, yA] = a.split(" ");
     const [mB, yB] = b.split(" ");
@@ -340,12 +340,12 @@ function PaymentDashboard({
 
   const multiLineData = periodKeys.map((period) => {
     const row: Record<string, string | number> = { period };
-    majorNames.forEach((major) => {
-      const entry = byMajorMonthly.find(
+    branchNames.forEach((branch) => {
+      const entry = byBranchMonthly.find(
         (d) =>
-          `${d.month.slice(0, 3)} ${d.year}` === period && d.major === major,
+          `${d.month.slice(0, 3)} ${d.year}` === period && d.branch === branch,
       );
-      row[major] = entry?.total ?? 0;
+      row[branch] = entry?.total ?? 0;
     });
     return row;
   });
@@ -410,15 +410,15 @@ function PaymentDashboard({
                   </span>
                 </div>
                 <Select
-                  value={selectedMajorId}
-                  onValueChange={setSelectedMajorId}
+                  value={selectedBranchId}
+                  onValueChange={setSelectedBranchId}
                 >
                   <SelectTrigger className="h-9 w-48">
                     <SelectValue placeholder="Semua Branch" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Semua Branch</SelectItem>
-                    {(majors as any[]).map((m) => (
+                    {(branchs as any[]).map((m) => (
                       <SelectItem key={m.id} value={m.id}>
                         {m.name}
                       </SelectItem>
@@ -484,8 +484,8 @@ function PaymentDashboard({
         />
         <KPICard
           title="Branch Terbesar"
-          value={isLoading ? "—" : (topMajor?.major ?? "-")}
-          sub={topMajor ? fmt(topMajor.total) : undefined}
+          value={isLoading ? "—" : (topBranch?.branch ?? "-")}
+          sub={topBranch ? fmt(topBranch.total) : undefined}
           icon={Building2}
           color={CHART_SERIES.positive}
           loading={isLoading}
@@ -753,14 +753,14 @@ function PaymentDashboard({
               <CardContent>
                 {isLoading ? (
                   <ChartSkeleton />
-                ) : majorPieData.length === 0 ? (
+                ) : branchPieData.length === 0 ? (
                   <EmptyChart message="Tidak ada data per branch" />
                 ) : (
                   <div className="flex flex-col items-center">
                     <ResponsiveContainer width="100%" height={220}>
                       <PieChart>
                         <Pie
-                          data={majorPieData}
+                          data={branchPieData}
                           cx="50%"
                           cy="50%"
                           innerRadius={55}
@@ -768,7 +768,7 @@ function PaymentDashboard({
                           paddingAngle={3}
                           dataKey="value"
                         >
-                          {majorPieData.map((_, i) => (
+                          {branchPieData.map((_, i) => (
                             <Cell
                               key={i}
                               fill={CHART_PALETTE[i % CHART_PALETTE.length]}
@@ -785,7 +785,7 @@ function PaymentDashboard({
                     </ResponsiveContainer>
                     {/* Legend */}
                     <div className="mt-2 grid w-full grid-cols-2 gap-x-6 gap-y-1.5">
-                      {majorPieData.map((d, i) => (
+                      {branchPieData.map((d, i) => (
                         <div
                           key={i}
                           className="flex items-center gap-2 text-xs"
@@ -819,12 +819,12 @@ function PaymentDashboard({
               <CardContent>
                 {isLoading ? (
                   <ChartSkeleton />
-                ) : majorPieData.length === 0 ? (
+                ) : branchPieData.length === 0 ? (
                   <EmptyChart message="Tidak ada data per branch" />
                 ) : (
                   <ResponsiveContainer width="100%" height={260}>
                     <BarChart
-                      data={byMajor}
+                      data={byBranch}
                       layout="vertical"
                       margin={{ top: 0, right: 16, left: 4, bottom: 0 }}
                     >
@@ -841,7 +841,7 @@ function PaymentDashboard({
                         tickFormatter={(v) => fmt(v).replace("Rp", "").trim()}
                       />
                       <YAxis
-                        dataKey="major"
+                        dataKey="branch"
                         type="category"
                         tick={{ fontSize: 9 }}
                         tickLine={false}
@@ -854,7 +854,7 @@ function PaymentDashboard({
                         }
                       />
                       <Bar dataKey="total" name="Total" radius={[0, 4, 4, 0]}>
-                        {byMajor.map((_, i) => (
+                        {byBranch.map((_, i) => (
                           <Cell
                             key={i}
                             fill={CHART_PALETTE[i % CHART_PALETTE.length]}
@@ -869,7 +869,7 @@ function PaymentDashboard({
           </div>
 
           {/* Branch detail table */}
-          {!isLoading && byMajor.length > 0 && (
+          {!isLoading && byBranch.length > 0 && (
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">Rincian per Branch</CardTitle>
@@ -900,7 +900,7 @@ function PaymentDashboard({
                       </tr>
                     </thead>
                     <tbody>
-                      {[...byMajor]
+                      {[...byBranch]
                         .sort((a, b) => b.total - a.total)
                         .map((row, i) => {
                           const pct =
@@ -929,7 +929,7 @@ function PaymentDashboard({
                                     }}
                                   />
                                   <span className="font-medium">
-                                    {row.major}
+                                    {row.branch}
                                   </span>
                                 </div>
                               </td>
@@ -981,7 +981,7 @@ function PaymentDashboard({
         {/* ═══════════ TAB: PERBANDINGAN ═══════════ */}
         <TabsContent value="comparison" className="mt-4 space-y-4">
           <div className="grid grid-cols-1 gap-4">
-            {/* Multi-line chart — per major per month */}
+            {/* Multi-line chart — per branch per month */}
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">
@@ -1021,7 +1021,7 @@ function PaymentDashboard({
                       />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend wrapperStyle={{ fontSize: 10 }} />
-                      {majorNames.map((name, i) => (
+                      {branchNames.map((name, i) => (
                         <Line
                           key={name}
                           type="monotone"
@@ -1039,7 +1039,7 @@ function PaymentDashboard({
             </Card>
 
             {/* Grouped bar chart */}
-            {isAdmin && byMajorMonthly.length > 0 && (
+            {isAdmin && byBranchMonthly.length > 0 && (
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">
@@ -1078,7 +1078,7 @@ function PaymentDashboard({
                         />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend wrapperStyle={{ fontSize: 10 }} />
-                        {majorNames.map((name, i) => (
+                        {branchNames.map((name, i) => (
                           <Bar
                             key={name}
                             dataKey={name}
@@ -1117,7 +1117,7 @@ export default function DashboardPage() {
   }
 
   const isAdmin = userRole === "Admin";
-  const userMajorId = userData?.major?.id;
+  const userBranchId = userData?.branch?.id;
 
-  return <PaymentDashboard isAdmin={isAdmin} userMajorId={userMajorId} />;
+  return <PaymentDashboard isAdmin={isAdmin} userBranchId={userBranchId} />;
 }

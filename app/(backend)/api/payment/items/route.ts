@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         select: { id: true },
       }),
       prisma.paymentType.findFirst({
-        where: { id: paymentTypeId, major: { foundationId: t.foundationId } },
+        where: { id: paymentTypeId, branch: { foundationId: t.foundationId } },
         select: { id: true },
       }),
     ]);
@@ -124,7 +124,7 @@ export async function PUT(request: NextRequest) {
         select: { id: true },
       }),
       prisma.paymentType.findFirst({
-        where: { id: paymentTypeId, major: { foundationId: t.foundationId } },
+        where: { id: paymentTypeId, branch: { foundationId: t.foundationId } },
         select: { id: true },
       }),
     ]);

@@ -70,12 +70,12 @@ export const useGetPaymentTypeById = (id: string) => {
   });
 };
 
-export const useGetPaymentTypeByIdMajor = (id: string) => {
+export const useGetPaymentTypeByIdBranch = (id: string) => {
   return useQuery({
     queryKey: ["paymentType", id],
     queryFn: async () => {
       const res = await apiGet<PaymentTypeTypes[]>(
-        `/api/paymenttype/major/${id}`,
+        `/api/paymenttype/branch/${id}`,
       );
       return res.data;
     },

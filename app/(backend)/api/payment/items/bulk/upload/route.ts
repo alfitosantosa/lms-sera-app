@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     const existingPaymentTypes = await prisma.paymentType.findMany({
       where: {
         id: { in: paymentTypeIds },
-        major: { foundationId: t.foundationId },
+        branch: { foundationId: t.foundationId },
       },
       select: { id: true },
     });

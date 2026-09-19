@@ -70,7 +70,7 @@ export const useCreatePaymentItemsBulk = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["paymentItems"] });
-      queryClient.invalidateQueries({ queryKey: ["payment-by-id-major"] });
+      queryClient.invalidateQueries({ queryKey: ["payment-by-id-branch"] });
     },
   });
 };
@@ -111,16 +111,16 @@ export const usePaymentItemsUnpaidStudent = (studentId: string) => {
   });
 };
 
-export const usePaymentItemsByMajorId = (majorId: string) => {
+export const usePaymentItemsByBranchId = (branchId: string) => {
   return useQuery({
-    queryKey: ["payment-by-id-major", majorId],
+    queryKey: ["payment-by-id-branch", branchId],
     queryFn: async () => {
       const res = await apiGet<PaymentItemData[]>(
-        `/api/payment/items/major/${majorId}`,
+        `/api/payment/items/branch/${branchId}`,
       );
       return res.data;
     },
-    enabled: !!majorId,
+    enabled: !!branchId,
   });
 };
 
@@ -136,7 +136,7 @@ export const usePaymentItemsSetPaid = () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       queryClient.invalidateQueries({ queryKey: ["payments-by-date"] });
       queryClient.invalidateQueries({ queryKey: ["unpaid-students"] });
-      queryClient.invalidateQueries({ queryKey: ["payment-by-id-major"] });
+      queryClient.invalidateQueries({ queryKey: ["payment-by-id-branch"] });
     },
   });
 };

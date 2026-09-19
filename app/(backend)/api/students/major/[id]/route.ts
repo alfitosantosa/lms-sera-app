@@ -17,7 +17,7 @@
 //   enrollmentDate DateTime?          // Default now() untuk student
 //   gender         String?            // Wajib untuk student & teacher
 //   graduationDate DateTime?          // Optional untuk student
-//   majorId        String?            // Wajib untuk student
+//   branchId        String?            // Wajib untuk student
 //   parentPhone    String?            // Optional untuk student
 //   status         String?   @default("active")  // active/inactive/graduated
 
@@ -41,7 +41,7 @@
 //   // Relations sebagai Student
 //   academicYear   AcademicYear?     @relation("StudentAcademicYear", fields: [academicYearId], references: [id])
 //   class          Class?            @relation("StudentClass", fields: [classId], references: [id])
-//   major          Major?            @relation("StudentMajor", fields: [majorId], references: [id])
+//   branch          Branch?            @relation("StudentBranch", fields: [branchId], references: [id])
 //   attendances    Attendance[]      @relation("StudentAttendance")
 //   payments       Payment[]         @relation("StudentPayment")
 //   violations     Violation[]       @relation("StudentViolation")
@@ -75,7 +75,7 @@ export async function GET(
   try {
     const students = await prisma.userData.findMany({
       where: {
-        majorId: id,
+        branchId: id,
         foundationId: t.foundationId,
         role: {
           name: "Student",
@@ -85,7 +85,7 @@ export async function GET(
         role: true,
         academicYear: true,
         class: true,
-        major: true,
+        branch: true,
         attendances: true,
         payments: true,
         violations: true,

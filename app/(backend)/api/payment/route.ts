@@ -10,7 +10,7 @@
 //   receiptNumber      String              @unique
 //   accountBankId      String
 //   transferDate       DateTime?
-//   majorId            String
+//   branchId            String
 //   month              String
 //   bendaharaId        String
 //   bankRef            String?
@@ -18,11 +18,11 @@
 //   paymentTransaction PaymentTransaction?
 //   accountBank        AccountBank         @relation(fields: [accountBankId], references: [id])
 //   createdBy          UserData            @relation("CreatedPayment", fields: [bendaharaId], references: [id])
-//   major              Major               @relation(fields: [majorId], references: [id])
+//   branch              Branch               @relation(fields: [branchId], references: [id])
 //   student            UserData            @relation("StudentPayment", fields: [studentId], references: [id], onDelete: Cascade)
 
 //   @@index([studentId])
-//   @@index([majorId])
+//   @@index([branchId])
 //   @@index([accountBankId])
 //   @@index([bendaharaId])
 //   @@index([status])
@@ -40,7 +40,7 @@ import { type NextRequest, NextResponse } from "next/server";
 //   try {
 //     // ✅ Optimized: Use select to fetch only needed fields
 //     // - Dropped: student.class (never accessed), createdBy (only bendaharaId used)
-//     // - Kept: all fields accessed in UI (student.name, major.name, accountBank, paymentItems with paymentType)
+//     // - Kept: all fields accessed in UI (student.name, branch.name, accountBank, paymentItems with paymentType)
 //     const payments = await prisma.payment.findMany({
 //       select: {
 //         id: true,
@@ -66,7 +66,7 @@ import { type NextRequest, NextResponse } from "next/server";
 //             },
 //           },
 //         },
-//         major: {
+//         branch: {
 //           select: {
 //             id: true,
 //             name: true,
@@ -127,24 +127,24 @@ export async function POST(request: NextRequest) {
       paymentDate,
       receiptNumber,
       accountBankId,
-      majorId,
+      branchId,
       month,
       bendaharaId,
       bankRef,
       transferDate,
     } = await request.json();
 
-    const [student, major, accountBank, bendahara] = await Promise.all([
+    const [student, branch, accountBank, bendahara] = await Promise.all([
       prisma.userData.findFirst({
         where: { id: studentId, foundationId: t.foundationId },
         select: { id: true },
       }),
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
       prisma.accountBank.findFirst({
-        where: { id: accountBankId, majors: { foundationId: t.foundationId } },
+        where: { id: accountBankId, branchs: { foundationId: t.foundationId } },
         select: { id: true },
       }),
       prisma.userData.findFirst({
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
-    if (!student || !major || !accountBank || !bendahara) {
+    if (!student || !branch || !accountBank || !bendahara) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
         amount: parseFloat(amount),
         accountBankId,
         bankRef,
-        majorId,
+        branchId,
         month,
         dueDate: dueDate ? new Date(dueDate) : undefined,
         status,
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
       include: {
         createdBy: true,
         student: true,
-        major: true,
+        branch: true,
         accountBank: true,
       },
     });
@@ -202,34 +202,34 @@ export async function PUT(request: NextRequest) {
       paymentDate,
       receiptNumber,
       accountBankId,
-      majorId,
+      branchId,
       month,
       bankRef,
       transferDate,
     } = await request.json();
 
     const owned = await prisma.payment.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");
 
-    const [student, major, accountBank] = await Promise.all([
+    const [student, branch, accountBank] = await Promise.all([
       prisma.userData.findFirst({
         where: { id: studentId, foundationId: t.foundationId },
         select: { id: true },
       }),
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
       prisma.accountBank.findFirst({
-        where: { id: accountBankId, majors: { foundationId: t.foundationId } },
+        where: { id: accountBankId, branchs: { foundationId: t.foundationId } },
         select: { id: true },
       }),
     ]);
 
-    if (!student || !major || !accountBank) {
+    if (!student || !branch || !accountBank) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -237,7 +237,7 @@ export async function PUT(request: NextRequest) {
       where: { id },
       data: {
         studentId,
-        majorId,
+        branchId,
         accountBankId,
         month,
         amount: parseFloat(amount),
@@ -251,7 +251,7 @@ export async function PUT(request: NextRequest) {
       },
       include: {
         student: true,
-        major: true,
+        branch: true,
         accountBank: true,
       },
     });
@@ -273,7 +273,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const owned = await prisma.payment.findFirst({
-      where: { id, major: { foundationId: t.foundationId } },
+      where: { id, branch: { foundationId: t.foundationId } },
       select: { id: true },
     });
     if (!owned) return tenantForbidden("Data tidak ditemukan di yayasan ini");

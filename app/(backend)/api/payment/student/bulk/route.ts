@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       status,
       notes,
       paymentDate,
-      majorId,
+      branchId,
       accountBankId,
       month,
     } = await request.json();
@@ -47,13 +47,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const [major, accountBank, bendahara] = await Promise.all([
-      prisma.major.findFirst({
-        where: { id: majorId, foundationId: t.foundationId },
+    const [branch, accountBank, bendahara] = await Promise.all([
+      prisma.branch.findFirst({
+        where: { id: branchId, foundationId: t.foundationId },
         select: { id: true },
       }),
       prisma.accountBank.findFirst({
-        where: { id: accountBankId, majors: { foundationId: t.foundationId } },
+        where: { id: accountBankId, branchs: { foundationId: t.foundationId } },
         select: { id: true },
       }),
       prisma.userData.findFirst({
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
-    if (!major || !accountBank || !bendahara) {
+    if (!branch || !accountBank || !bendahara) {
       return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     const newPaymentBulk = await prisma.payment.createMany({
       data: students.map((student) => ({
-        majorId,
+        branchId,
         studentId: student.id,
         bendaharaId,
         accountBankId,

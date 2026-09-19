@@ -26,9 +26,9 @@ type MonthlyData = {
   totalPaidCount: number;
 };
 
-type ByMajorData = {
-  major: string;
-  majorId: string;
+type ByBranchData = {
+  branch: string;
+  branchId: string;
   totalUnpaidAmount: number;
   totalUnpaidCount: number;
   totalPaidAmount: number;
@@ -48,7 +48,7 @@ type ByStudentData = {
   studentId: string;
   studentName: string;
   className: string;
-  majorName: string;
+  branchName: string;
   totalUnpaidAmount: number;
   totalUnpaidCount: number;
   oldestUnpaidMonth: string;
@@ -58,7 +58,7 @@ type ByStudentData = {
 type DashboardResult = {
   summary: SummaryResult;
   monthly: MonthlyData[];
-  byMajor: ByMajorData[];
+  byBranch: ByBranchData[];
   bySkuType: BySkuTypeData[];
   topUnpaidStudents: ByStudentData[];
   unpaidByMonth: {
@@ -101,14 +101,14 @@ function buildWhereClause({
   startDate,
   endDate,
   foundationId,
-  majorId,
+  branchId,
   skuType,
   isPaid,
 }: {
   startDate: Date;
   endDate: Date;
   foundationId: string;
-  majorId?: string;
+  branchId?: string;
   skuType?: string;
   isPaid?: boolean;
 }): Prisma.PaymentItemsWhereInput {
@@ -117,10 +117,10 @@ function buildWhereClause({
       gte: startDate,
       lte: endDate,
     },
-    // Filter tenant + majorId melalui relasi student
+    // Filter tenant + branchId melalui relasi student
     student: {
       foundationId,
-      ...(majorId ? { majorId } : {}),
+      ...(branchId ? { branchId } : {}),
     },
     // Filter skuType melalui relasi PaymentType
     ...(skuType && {
@@ -154,7 +154,7 @@ export async function GET(request: NextRequest) {
 
   const fromdate = searchParams.get("fromdate");
   const todate = searchParams.get("todate");
-  const majorId = searchParams.get("majorId") ?? undefined;
+  const branchId = searchParams.get("branchId") ?? undefined;
   const skuType = searchParams.get("skuType") ?? undefined;
 
   // ── 1. Validate dates ───────────────────────────────────────────────────
@@ -179,7 +179,7 @@ export async function GET(request: NextRequest) {
           startDate,
           endDate,
           foundationId: t.foundationId,
-          majorId,
+          branchId,
           skuType,
           isPaid: false,
         }),
@@ -193,7 +193,7 @@ export async function GET(request: NextRequest) {
               id: true,
               name: true,
               class: { select: { name: true } },
-              major: { select: { id: true, name: true } },
+              branch: { select: { id: true, name: true } },
             },
           },
         },
@@ -206,7 +206,7 @@ export async function GET(request: NextRequest) {
           startDate,
           endDate,
           foundationId: t.foundationId,
-          majorId,
+          branchId,
           isPaid: true,
           skuType,
         }),
@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
           PaymentType: { select: { name: true, owner: true } },
           student: {
             select: {
-              major: { select: { id: true, name: true } },
+              branch: { select: { id: true, name: true } },
             },
           },
         },
@@ -308,32 +308,32 @@ export async function GET(request: NextRequest) {
         count: m.totalUnpaidCount,
       }));
 
-    // ── 5. By Major ─────────────────────────────────────────────────────
-    const unpaidByMajorMap = groupBy(
+    // ── 5. By Branch ─────────────────────────────────────────────────────
+    const unpaidByBranchMap = groupBy(
       unpaidItems,
-      (i) => i.student?.major?.id ?? "unknown",
+      (i) => i.student?.branch?.id ?? "unknown",
     );
-    const paidByMajorMap = groupBy(
+    const paidByBranchMap = groupBy(
       paidItems,
-      (i) => i.student?.major?.id ?? "unknown",
+      (i) => i.student?.branch?.id ?? "unknown",
     );
 
-    const allMajorIds = Array.from(
-      new Set([...unpaidByMajorMap.keys(), ...paidByMajorMap.keys()]),
+    const allBranchIds = Array.from(
+      new Set([...unpaidByBranchMap.keys(), ...paidByBranchMap.keys()]),
     );
 
-    const byMajor: ByMajorData[] = allMajorIds
+    const byBranch: ByBranchData[] = allBranchIds
       .map((mId) => {
-        const unpaid = unpaidByMajorMap.get(mId) ?? [];
-        const paid = paidByMajorMap.get(mId) ?? [];
+        const unpaid = unpaidByBranchMap.get(mId) ?? [];
+        const paid = paidByBranchMap.get(mId) ?? [];
         const uAmount = unpaid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
         const pAmount = paid.reduce((s, i) => s + Number(i.subtotal ?? 0), 0);
         const total = uAmount + pAmount;
-        const majorInfo = unpaid[0]?.student?.major ?? paid[0]?.student?.major;
+        const branchInfo = unpaid[0]?.student?.branch ?? paid[0]?.student?.branch;
 
         return {
-          major: majorInfo?.name ?? mId,
-          majorId: mId,
+          branch: branchInfo?.name ?? mId,
+          branchId: mId,
           totalUnpaidAmount: uAmount,
           totalUnpaidCount: unpaid.length,
           totalPaidAmount: pAmount,
@@ -396,7 +396,7 @@ export async function GET(request: NextRequest) {
           studentId,
           studentName: student?.name ?? "-",
           className: student?.class?.name ?? "-",
-          majorName: student?.major?.name ?? "-",
+          branchName: student?.branch?.name ?? "-",
           totalUnpaidAmount: items.reduce(
             (s, i) => s + Number(i.subtotal ?? 0),
             0,
@@ -413,7 +413,7 @@ export async function GET(request: NextRequest) {
     const result: DashboardResult = {
       summary,
       monthly,
-      byMajor,
+      byBranch,
       bySkuType,
       topUnpaidStudents,
       unpaidByMonth,

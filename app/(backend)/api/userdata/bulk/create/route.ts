@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
         academicYearId: user.academicYearId || null,
         classId: user.classId || null,
         tahfidzGroupId: user.tahfidzGroupId || null,
-        majorId: user.majorId || null,
+        branchId: user.branchId || null,
         enrollmentDate: user.enrollmentDate || null,
         graduationDate: user.graduationDate || null,
         employeeId: user.employeeId || null,
@@ -136,27 +136,27 @@ export async function POST(request: NextRequest) {
       .map((u) => u.classId)
       .filter((id): id is string => id !== null);
 
-    const majorIds = cleanedUsers
-      .map((u) => u.majorId)
+    const branchIds = cleanedUsers
+      .map((u) => u.branchId)
       .filter((id): id is string => id !== null);
 
     const tahfidzGroupIds = cleanedUsers
       .map((u) => u.tahfidzGroupId)
       .filter((id): id is string => id !== null);
 
-    // TahfidzGroup tidak punya relasi ke Major (hanya majorId), jadi scope-nya lewat major yayasan ini
-    const tenantMajorIds =
+    // TahfidzGroup tidak punya relasi ke Branch (hanya branchId), jadi scope-nya lewat branch yayasan ini
+    const tenantBranchIds =
       tahfidzGroupIds.length > 0
         ? (
-            await prisma.major.findMany({
+            await prisma.branch.findMany({
               where: { foundationId: t.foundationId },
               select: { id: true },
             })
-          ).map((major) => major.id)
+          ).map((branch) => branch.id)
         : [];
 
     // Check if referenced records exist dan memang milik yayasan pemanggil
-    const [roles, academicYears, classes, majors, tahfidzGroups] =
+    const [roles, academicYears, classes, branchs, tahfidzGroups] =
       await Promise.all([
         roleIds.length > 0
           ? prisma.role.findMany({
@@ -181,14 +181,14 @@ export async function POST(request: NextRequest) {
           ? prisma.class.findMany({
               where: {
                 id: { in: classIds },
-                major: { foundationId: t.foundationId },
+                branch: { foundationId: t.foundationId },
               },
               select: { id: true },
             })
           : [],
-        majorIds.length > 0
-          ? prisma.major.findMany({
-              where: { id: { in: majorIds }, foundationId: t.foundationId },
+        branchIds.length > 0
+          ? prisma.branch.findMany({
+              where: { id: { in: branchIds }, foundationId: t.foundationId },
               select: { id: true },
             })
           : [],
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
           ? prisma.tahfidzGroup.findMany({
               where: {
                 id: { in: tahfidzGroupIds },
-                majorId: { in: tenantMajorIds },
+                branchId: { in: tenantBranchIds },
               },
               select: { id: true },
             })
@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
     const foundRoleIds = new Set(roles.map((r) => r.id));
     const foundAcademicYearIds = new Set(academicYears.map((a) => a.id));
     const foundClassIds = new Set(classes.map((c) => c.id));
-    const foundMajorIds = new Set(majors.map((m) => m.id));
+    const foundBranchIds = new Set(branchs.map((m) => m.id));
     const foundTahfidzGroupIds = new Set(tahfidzGroups.map((g) => g.id));
 
     const invalidRoles = roleIds.filter((id) => !foundRoleIds.has(id));
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
       (id) => !foundAcademicYearIds.has(id),
     );
     const invalidClasses = classIds.filter((id) => !foundClassIds.has(id));
-    const invalidMajors = majorIds.filter((id) => !foundMajorIds.has(id));
+    const invalidBranchs = branchIds.filter((id) => !foundBranchIds.has(id));
     const invalidTahfidzGroups = tahfidzGroupIds.filter(
       (id) => !foundTahfidzGroupIds.has(id),
     );
@@ -224,7 +224,7 @@ export async function POST(request: NextRequest) {
       invalidRoles.length > 0 ||
       invalidAcademicYears.length > 0 ||
       invalidClasses.length > 0 ||
-      invalidMajors.length > 0 ||
+      invalidBranchs.length > 0 ||
       invalidTahfidzGroups.length > 0
     ) {
       console.log("[Bulk Create] Foreign key validation failed:", {
@@ -240,9 +240,9 @@ export async function POST(request: NextRequest) {
           count: invalidClasses.length,
           ids: invalidClasses.slice(0, 3),
         },
-        invalidMajors: {
-          count: invalidMajors.length,
-          ids: invalidMajors.slice(0, 3),
+        invalidBranchs: {
+          count: invalidBranchs.length,
+          ids: invalidBranchs.slice(0, 3),
         },
         invalidTahfidzGroups: {
           count: invalidTahfidzGroups.length,
@@ -252,7 +252,7 @@ export async function POST(request: NextRequest) {
           roles: foundRoleIds.size,
           academicYears: foundAcademicYearIds.size,
           classes: foundClassIds.size,
-          majors: foundMajorIds.size,
+          branchs: foundBranchIds.size,
           tahfidzGroups: foundTahfidzGroupIds.size,
         },
       });
@@ -281,11 +281,11 @@ export async function POST(request: NextRequest) {
                     samples: invalidClasses.slice(0, 3),
                   }
                 : undefined,
-            invalidMajors:
-              invalidMajors.length > 0
+            invalidBranchs:
+              invalidBranchs.length > 0
                 ? {
-                    count: invalidMajors.length,
-                    samples: invalidMajors.slice(0, 3),
+                    count: invalidBranchs.length,
+                    samples: invalidBranchs.slice(0, 3),
                   }
                 : undefined,
             invalidTahfidzGroups:
@@ -300,7 +300,7 @@ export async function POST(request: NextRequest) {
             roles: foundRoleIds.size,
             academicYears: foundAcademicYearIds.size,
             classes: foundClassIds.size,
-            majors: foundMajorIds.size,
+            branchs: foundBranchIds.size,
             tahfidzGroups: foundTahfidzGroupIds.size,
           },
           suggestion:

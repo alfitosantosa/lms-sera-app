@@ -559,7 +559,7 @@ export default function ParentPage() {
                     <div className="flex items-center gap-2">
                       <GraduationCap className="text-muted-foreground h-4 w-4" />
                       <span className="text-sm">
-                        Jurusan: {selectedStudent?.major?.name || "-"}
+                        Jurusan: {selectedStudent?.branch?.name || "-"}
                       </span>
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetClassByIdMajor } from "@/app/(hooks)/hooks/Classes/useGetClassById";
+import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import {
   useCreatePaymentItems,
   useDeletePaymentItems,
@@ -8,8 +8,8 @@ import {
   useUpdatePaymentItems,
 } from "@/app/(hooks)/hooks/Payments/usePaymentItems";
 import { usePaymentsItemsByDate } from "@/app/(hooks)/hooks/Payments/usePaymentItemsByDate";
-import { useGetPaymentTypeByIdMajor } from "@/app/(hooks)/hooks/Payments/usePaymentType";
-import { useGetStudentByIdMajor } from "@/app/(hooks)/hooks/Users/useGetStudentById";
+import { useGetPaymentTypeByIdBranch } from "@/app/(hooks)/hooks/Payments/usePaymentType";
+import { useGetStudentByIdBranch } from "@/app/(hooks)/hooks/Users/useGetStudentById";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { type UserDataTypes } from "@/app/(types)";
 import { DatePickerWithRange } from "@/components/date/datePicker";
@@ -117,8 +117,8 @@ export type PaymentTypeData = {
   subtotal: string;
   owner: string;
   skuType: string;
-  majorId: string;
-  major?: { id: string; name: string };
+  branchId: string;
+  branch?: { id: string; name: string };
   student?: {
     class: {
       name: string;
@@ -514,9 +514,9 @@ function SingleItemDialog({
                       .map((pt) => (
                         <SelectItem key={pt.id} value={pt.id}>
                           {pt.name}
-                          {pt.major && (
+                          {pt.branch && (
                             <span className="text-muted-foreground ml-1 text-xs">
-                              · {pt.major.name}
+                              · {pt.branch.name}
                             </span>
                           )}
                         </SelectItem>
@@ -863,9 +863,9 @@ async function exportToExcel(
 
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function BillingDataTable({
-  majorData,
+  branchData,
 }: {
-  majorData: { id: string; name: string } | null | undefined;
+  branchData: { id: string; name: string } | null | undefined;
 }) {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
     () => {
@@ -911,7 +911,7 @@ function BillingDataTable({
   //   setDateRange(newDateRange);
   // }, []);
 
-  // ✅ Integrasikan hook dengan filter tanggal, major, skuType, dan isPaid
+  // ✅ Integrasikan hook dengan filter tanggal, branch, skuType, dan isPaid
   const {
     data: paymentItems = [],
     isLoading,
@@ -919,19 +919,19 @@ function BillingDataTable({
   } = usePaymentsItemsByDate({
     fromdate: dateRange?.from,
     todate: dateRange?.to,
-    majorId: majorData?.id,
+    branchId: branchData?.id,
     skuType: skuFilter !== "all" ? skuFilter : undefined,
     isPaid:
       paidFilter === "all" ? undefined : paidFilter === "paid" ? true : false,
   });
 
-  const { data: allStudents = [] } = useGetStudentByIdMajor(
-    majorData?.id ?? "",
+  const { data: allStudents = [] } = useGetStudentByIdBranch(
+    branchData?.id ?? "",
   );
-  const { data: allPaymentTypes = [] } = useGetPaymentTypeByIdMajor(
-    majorData?.id ?? "",
+  const { data: allPaymentTypes = [] } = useGetPaymentTypeByIdBranch(
+    branchData?.id ?? "",
   );
-  const { data: allClassById = [] } = useGetClassByIdMajor(majorData?.id ?? "");
+  const { data: allClassById = [] } = useGetClassByIdBranch(branchData?.id ?? "");
   const handleSuccess = () => refetch();
 
   const globalFilterFn = React.useCallback(
@@ -1338,7 +1338,7 @@ function BillingDataTable({
   return (
     <div>
       <div className="mb-3 text-3xl font-bold">Data Tagihan</div>
-      <Badge>{majorData?.name}</Badge>
+      <Badge>{branchData?.name}</Badge>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
         <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -1711,8 +1711,8 @@ export default function BillingPage() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
-  const majorData = userData?.major;
-  // const majorId = userData?.major?.id;
+  const branchData = userData?.branch;
+  // const branchId = userData?.branch?.id;
 
   if (isPending || isLoadingUserData) return <Loading />;
   // Check if user is Admin
@@ -1722,5 +1722,5 @@ export default function BillingPage() {
       return null;
     }
   }
-  return <BillingDataTable majorData={majorData} />;
+  return <BillingDataTable branchData={branchData} />;
 }

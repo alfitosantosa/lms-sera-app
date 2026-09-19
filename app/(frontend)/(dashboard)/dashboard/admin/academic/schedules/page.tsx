@@ -939,7 +939,7 @@ function ScheduleDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
+      <div className="max-w-8xl">
         <div className="mb-6 text-3xl font-bold">Jadwal Pelajaran</div>
 
         <div className="flex items-center justify-between py-4">

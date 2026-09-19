@@ -3,7 +3,7 @@
 import {
   useCreatePaymentType,
   useDeletePaymentType,
-  useGetPaymentTypeByIdMajor,
+  useGetPaymentTypeByIdBranch,
   useUpdatePaymentType,
 } from "@/app/(hooks)/hooks/Payments/usePaymentType";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
@@ -99,7 +99,7 @@ export type PaymentTypeData = {
   isFixedQuantity: boolean;
   owner: string;
   skuType: string;
-  majorId: string;
+  branchId: string;
   isMonthly: boolean;
   isActive: boolean;
   createdAt?: Date;
@@ -145,7 +145,7 @@ const paymentTypeSchema = z.object({
   amount: z.number().min(0, "Jumlah minimal 0"),
   subtotal: z.number().min(0, "Jumlah minimal 0"),
   owner: z.string().min(1, "Jenis peruntukan wajib diisi"),
-  majorId: z.string().min(1, "ID Branch wajib diisi"),
+  branchId: z.string().min(1, "ID Branch wajib diisi"),
   skuType: z.string().min(1, "SKU Type wajib diisi"),
   quantity: z.number().min(0, "Jumlah minimal 0"),
   isMonthly: z.boolean(),
@@ -271,11 +271,11 @@ function PaymentTypeFormDialog({
     setValue("subtotal", a * q);
   }, [amount, quantity, setValue]);
 
-  // Populate form when editing or auto-assign majorId
+  // Populate form when editing or auto-assign branchId
   React.useEffect(() => {
     if (editData) {
       setValue("id", editData.id);
-      setValue("majorId", editData.majorId);
+      setValue("branchId", editData.branchId);
       setValue("name", editData.name);
       setValue("description", editData.description);
       setValue("amount", parseToFloat(editData.amount));
@@ -289,9 +289,9 @@ function PaymentTypeFormDialog({
       setValue("subtotal", parseToFloat(editData.subtotal));
     } else {
       reset(DEFAULT_FORM_VALUES);
-      // Auto-assign majorId from props
+      // Auto-assign branchId from props
       if (id) {
-        setValue("majorId", id as string);
+        setValue("branchId", id as string);
       }
     }
   }, [editData, setValue, reset, id]);
@@ -330,8 +330,8 @@ function PaymentTypeFormDialog({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Hidden majorId field - auto-assigned */}
-          <input type="hidden" {...register("majorId")} />
+          {/* Hidden branchId field - auto-assigned */}
+          <input type="hidden" {...register("branchId")} />
 
           {/* Owner Selection */}
           <div className="space-y-2">
@@ -770,9 +770,9 @@ const createColumns = (
 // ============================================================================
 
 function PaymentTypeDataTable({
-  userMajorData,
+  userBranchData,
 }: {
-  userMajorData: { id: string; name: string };
+  userBranchData: { id: string; name: string };
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -794,18 +794,18 @@ function PaymentTypeDataTable({
     data: paymentTypes = [],
     isLoading,
     refetch,
-  } = useGetPaymentTypeByIdMajor(userMajorData.id);
+  } = useGetPaymentTypeByIdBranch(userBranchData.id);
 
   // Wait for async data to load before rendering
   React.useEffect(() => {
-    if (!isLoading && userMajorData) {
+    if (!isLoading && userBranchData) {
       setIsReady(true);
     }
-  }, [isLoading, userMajorData]);
+  }, [isLoading, userBranchData]);
 
   // Filter by branch ID - only after data is ready
   const filteredPaymentTypes = React.useMemo(() => {
-    if (!userMajorData.id || !isReady) return [];
+    if (!userBranchData.id || !isReady) return [];
     return paymentTypes;
   }, [paymentTypes, isReady]);
 
@@ -854,7 +854,7 @@ function PaymentTypeDataTable({
   return (
     <div className="">
       <div className="mb-3 text-3xl font-bold">Jenis Tagihan</div>
-      <Badge>{userMajorData.name}</Badge>
+      <Badge>{userBranchData.name}</Badge>
       {/* Filter and Actions Bar */}
       <div className="flex items-center justify-between py-4">
         <Input
@@ -980,14 +980,14 @@ function PaymentTypeDataTable({
       {/* Dialogs */}
       <PaymentTypeFormDialog
         open={createDialogOpen}
-        id={userMajorData.id}
+        id={userBranchData.id}
         onOpenChange={setCreateDialogOpen}
         onSuccess={handleSuccess}
       />
 
       <PaymentTypeFormDialog
         open={editDialogOpen}
-        id={userMajorData.id}
+        id={userBranchData.id}
         onOpenChange={setEditDialogOpen}
         editData={selectedPaymentType}
         onSuccess={handleSuccess}
@@ -1014,7 +1014,7 @@ export default function PaymentTypeTable() {
   const { data: userData, isLoading: isLoadingUserData } =
     useGetUserByIdBetterAuth(userId as string);
   const userRole = userData?.role?.name;
-  const userMajorData = userData?.major;
+  const userBranchData = userData?.branch;
 
   // Wait for all data to load before rendering
   if (isPending || isLoadingUserData) {
@@ -1027,14 +1027,14 @@ export default function PaymentTypeTable() {
     return null;
   }
 
-  // Check if bendahara has a major assigned
+  // Check if bendahara has a branch assigned
 
-  if (!userMajorData) {
+  if (!userBranchData) {
     return (
       <div className="text-center">
         <p className="text-destructive">User tidak memiliki data jurusan.</p>
       </div>
     );
   }
-  return <PaymentTypeDataTable userMajorData={userMajorData} />;
+  return <PaymentTypeDataTable userBranchData={userBranchData} />;
 }

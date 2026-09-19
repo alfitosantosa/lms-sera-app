@@ -965,7 +965,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
 
   return (
     <>
-      <div className="mx-auto my-8 max-w-7xl p-6">
+      <div className="max-w-8xl">
         <div className="mb-6 text-3xl font-bold">Data Pelanggaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between gap-2 py-4">

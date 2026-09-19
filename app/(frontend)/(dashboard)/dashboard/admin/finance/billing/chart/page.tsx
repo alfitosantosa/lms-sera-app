@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetMajors } from "@/app/(hooks)/hooks/Majors/useMajors";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { usePaymentsItemsDashboardByDate } from "@/app/(hooks)/hooks/Payments/usePaymentItemsByDate";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { DatePickerWithRange } from "@/components/date/datePicker";
@@ -79,9 +79,9 @@ type MonthlyData = {
   totalPaidCount: number;
 };
 
-type ByMajorData = {
-  major: string;
-  majorId: string;
+type ByBranchData = {
+  branch: string;
+  branchId: string;
   totalUnpaidAmount: number;
   totalUnpaidCount: number;
   totalPaidAmount: number;
@@ -101,7 +101,7 @@ type ByStudentData = {
   studentId: string;
   studentName: string;
   className: string;
-  majorName: string;
+  branchName: string;
   totalUnpaidAmount: number;
   totalUnpaidCount: number;
   oldestUnpaidMonth: string;
@@ -111,7 +111,7 @@ type ByStudentData = {
 type DashboardResult = {
   summary: SummaryResult;
   monthly: MonthlyData[];
-  byMajor: ByMajorData[];
+  byBranch: ByBranchData[];
   bySkuType: BySkuTypeData[];
   topUnpaidStudents: ByStudentData[];
   unpaidByMonth: { label: string; amount: number; count: number }[];
@@ -267,10 +267,10 @@ function ChartSkeleton() {
 
 // ─── Main Dashboard ─────────────────────────────────────────────────────────
 function UnpaidPaymentDashboard({
-  userMajorId,
+  userBranchId,
   isAdmin,
 }: {
-  userMajorId?: string;
+  userBranchId?: string;
   isAdmin: boolean;
 }) {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
@@ -278,20 +278,20 @@ function UnpaidPaymentDashboard({
     to: new Date(),
   });
 
-  const [selectedMajorId, setSelectedMajorId] = React.useState<string>(
-    isAdmin ? "all" : (userMajorId ?? "all"),
+  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+    isAdmin ? "all" : (userBranchId ?? "all"),
   );
 
   const [selectedSKU, setSelectedSKU] = React.useState<string>("all");
 
   const [activeTab, setActiveTab] = React.useState("overview");
 
-  const { data: majors = [] } = useGetMajors();
+  const { data: branchs = [] } = useGetBranchs();
 
-  const queryMajorId = React.useMemo(() => {
-    if (!isAdmin) return userMajorId;
-    return selectedMajorId === "all" ? undefined : selectedMajorId;
-  }, [isAdmin, selectedMajorId, userMajorId]);
+  const queryBranchId = React.useMemo(() => {
+    if (!isAdmin) return userBranchId;
+    return selectedBranchId === "all" ? undefined : selectedBranchId;
+  }, [isAdmin, selectedBranchId, userBranchId]);
 
   const querySKUType = React.useMemo(() => {
     return selectedSKU === "all" ? undefined : selectedSKU;
@@ -305,7 +305,7 @@ function UnpaidPaymentDashboard({
   } = usePaymentsItemsDashboardByDate({
     fromdate: dateRange?.from,
     todate: dateRange?.to,
-    majorId: queryMajorId,
+    branchId: queryBranchId,
     skuType: querySKUType,
     isPaid: false, // fokus dashboard ini: tunggakan / belum bayar
   });
@@ -319,11 +319,11 @@ function UnpaidPaymentDashboard({
     collectionRate: 0,
   };
   const monthly = data?.monthly ?? [];
-  const byMajor = data?.byMajor ?? [];
+  const byBranch = data?.byBranch ?? [];
   const bySkuType = data?.bySkuType ?? [];
   const topUnpaidStudents = data?.topUnpaidStudents ?? [];
 
-  const worstMajor = byMajor.reduce<ByMajorData | null>(
+  const worstBranch = byBranch.reduce<ByBranchData | null>(
     (acc, cur) =>
       !acc || cur.totalUnpaidAmount > acc.totalUnpaidAmount ? cur : acc,
     null,
@@ -338,8 +338,8 @@ function UnpaidPaymentDashboard({
   }));
 
   // Pie: distribusi tunggakan per branch
-  const majorPieData = byMajor.map((d) => ({
-    name: d.major,
+  const branchPieData = byBranch.map((d) => ({
+    name: d.branch,
     value: d.totalUnpaidAmount,
     count: d.totalUnpaidCount,
   }));
@@ -414,15 +414,15 @@ function UnpaidPaymentDashboard({
                     </span>
                   </div>
                   <Select
-                    value={selectedMajorId}
-                    onValueChange={setSelectedMajorId}
+                    value={selectedBranchId}
+                    onValueChange={setSelectedBranchId}
                   >
                     <SelectTrigger className="h-10 w-full">
                       <SelectValue placeholder="Semua Branch" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Semua Branch</SelectItem>
-                      {(majors as any[]).map((m) => (
+                      {(branchs as any[]).map((m) => (
                         <SelectItem key={m.id} value={m.id}>
                           {m.name}
                         </SelectItem>
@@ -461,14 +461,14 @@ function UnpaidPaymentDashboard({
             <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-2">
               <div className="flex flex-wrap items-center gap-2">
                 {/* Reset Button */}
-                {(selectedMajorId !== "all" || selectedSKU !== "all") && (
+                {(selectedBranchId !== "all" || selectedSKU !== "all") && (
                   <Button
                     size="sm"
                     variant="outline"
                     className="h-9"
                     onClick={() => {
-                      setSelectedMajorId(
-                        isAdmin ? "all" : (userMajorId ?? "all"),
+                      setSelectedBranchId(
+                        isAdmin ? "all" : (userBranchId ?? "all"),
                       );
                       setSelectedSKU("all");
                     }}
@@ -560,8 +560,8 @@ function UnpaidPaymentDashboard({
         />
         <KPICard
           title="Branch Tunggakan Terbesar"
-          value={isLoading ? "—" : (worstMajor?.major ?? "-")}
-          sub={worstMajor ? fmt(worstMajor.totalUnpaidAmount) : undefined}
+          value={isLoading ? "—" : (worstBranch?.branch ?? "-")}
+          sub={worstBranch ? fmt(worstBranch.totalUnpaidAmount) : undefined}
           icon={Building2}
           color={CHART_SERIES.negative}
           loading={isLoading}
@@ -845,14 +845,14 @@ function UnpaidPaymentDashboard({
               <CardContent>
                 {isLoading ? (
                   <ChartSkeleton />
-                ) : majorPieData.length === 0 ? (
+                ) : branchPieData.length === 0 ? (
                   <EmptyChart message="Tidak ada data per branch" />
                 ) : (
                   <div className="flex flex-col items-center">
                     <ResponsiveContainer width="100%" height={220}>
                       <PieChart>
                         <Pie
-                          data={majorPieData}
+                          data={branchPieData}
                           cx="50%"
                           cy="50%"
                           innerRadius={55}
@@ -860,7 +860,7 @@ function UnpaidPaymentDashboard({
                           paddingAngle={3}
                           dataKey="value"
                         >
-                          {majorPieData.map((_, i) => (
+                          {branchPieData.map((_, i) => (
                             <Cell
                               key={i}
                               fill={CHART_PALETTE[i % CHART_PALETTE.length]}
@@ -878,7 +878,7 @@ function UnpaidPaymentDashboard({
                       </PieChart>
                     </ResponsiveContainer>
                     <div className="mt-2 grid w-full grid-cols-2 gap-x-6 gap-y-1.5">
-                      {majorPieData.map((d, i) => (
+                      {branchPieData.map((d, i) => (
                         <div
                           key={i}
                           className="flex items-center gap-2 text-xs"
@@ -913,12 +913,12 @@ function UnpaidPaymentDashboard({
               <CardContent>
                 {isLoading ? (
                   <ChartSkeleton />
-                ) : byMajor.length === 0 ? (
+                ) : byBranch.length === 0 ? (
                   <EmptyChart message="Tidak ada data per branch" />
                 ) : (
                   <ResponsiveContainer width="100%" height={260}>
                     <BarChart
-                      data={byMajor}
+                      data={byBranch}
                       layout="vertical"
                       margin={{ top: 0, right: 16, left: 4, bottom: 0 }}
                     >
@@ -935,7 +935,7 @@ function UnpaidPaymentDashboard({
                         tickFormatter={(v) => fmt(v).replace("Rp", "").trim()}
                       />
                       <YAxis
-                        dataKey="major"
+                        dataKey="branch"
                         type="category"
                         tick={{ fontSize: 9 }}
                         tickLine={false}
@@ -952,7 +952,7 @@ function UnpaidPaymentDashboard({
                         name="Tunggakan"
                         radius={[0, 4, 4, 0]}
                       >
-                        {byMajor.map((_, i) => (
+                        {byBranch.map((_, i) => (
                           <Cell
                             key={i}
                             fill={CHART_PALETTE[i % CHART_PALETTE.length]}
@@ -966,7 +966,7 @@ function UnpaidPaymentDashboard({
             </Card>
           </div>
 
-          {!isLoading && byMajor.length > 0 && (
+          {!isLoading && byBranch.length > 0 && (
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">Rincian per Branch</CardTitle>
@@ -1000,7 +1000,7 @@ function UnpaidPaymentDashboard({
                       </tr>
                     </thead>
                     <tbody>
-                      {[...byMajor]
+                      {[...byBranch]
                         .sort(
                           (a, b) => b.totalUnpaidAmount - a.totalUnpaidAmount,
                         )
@@ -1021,7 +1021,7 @@ function UnpaidPaymentDashboard({
                                       CHART_PALETTE[i % CHART_PALETTE.length],
                                   }}
                                 />
-                                <span className="font-medium">{row.major}</span>
+                                <span className="font-medium">{row.branch}</span>
                               </div>
                             </td>
                             <td className="px-4 py-2.5 text-right tabular-nums">
@@ -1132,7 +1132,7 @@ function UnpaidPaymentDashboard({
                               variant="outline"
                               className="text-xs font-normal"
                             >
-                              {s.majorName}
+                              {s.branchName}
                             </Badge>
                           </td>
                           <td className="px-4 py-2.5 text-right tabular-nums">
@@ -1166,7 +1166,7 @@ function UnpaidPaymentDashboard({
                         {s.studentName}
                       </p>
                       <p className="text-muted-foreground text-xs">
-                        {s.className} • {s.majorName}
+                        {s.className} • {s.branchName}
                       </p>
                     </div>
                     <div className="ml-2 shrink-0 text-right">
@@ -1203,7 +1203,7 @@ export default function UnpaidDashboardPage() {
   }
 
   const isAdmin = userRole === "Admin";
-  const userMajorId = userData?.major?.id;
+  const userBranchId = userData?.branch?.id;
 
-  return <UnpaidPaymentDashboard isAdmin={isAdmin} userMajorId={userMajorId} />;
+  return <UnpaidPaymentDashboard isAdmin={isAdmin} userBranchId={userBranchId} />;
 }

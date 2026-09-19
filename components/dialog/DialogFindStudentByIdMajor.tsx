@@ -10,7 +10,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { type BetterAuthUser } from "./DialogUser";
 
-export function StudentSelectorByIdMajor({
+export function StudentSelectorByIdBranch({
   onSelect,
   selecteduserId,
   disabled = false,

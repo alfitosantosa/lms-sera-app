@@ -8,7 +8,7 @@ export default function WaPage() {
   const { data: connection, isLoading, isError } = useGetConnectionBotWa();
 
   return (
-    <div className="mx-auto my-8 min-h-screen w-full max-w-7xl p-6">
+    <div className="max-w-8xl">
       <div className="mb-3 text-3xl font-bold">
         WhatsApp Bot Connection Status
       </div>

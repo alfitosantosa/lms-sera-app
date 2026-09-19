@@ -10,7 +10,7 @@ const isDev = process.env.NODE_ENV === "development";
  * Gunakan di level hook: useQuery({ ...CACHE_STRATEGIES.static, ... })
  */
 export const CACHE_STRATEGIES = {
-  // Data statis yang jarang berubah (majors, roles, academic years, subjects)
+  // Data statis yang jarang berubah (branchs, roles, academic years, subjects)
   static: {
     staleTime: isDev ? 0 : 1000 * 60 * 60, // 1 jam
     gcTime: 1000 * 60 * 60 * 2, // 2 jam

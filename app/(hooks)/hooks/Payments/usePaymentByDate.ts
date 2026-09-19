@@ -5,11 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 export const usePaymentsByDate = ({
   fromdate,
   todate,
-  majorId,
+  branchId,
 }: {
   fromdate?: Date;
   todate?: Date;
-  majorId?: string;
+  branchId?: string;
 }) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
@@ -38,7 +38,7 @@ export const usePaymentsByDate = ({
     : undefined;
 
   return useQuery({
-    queryKey: ["payments-by-date", fromdateStr, todateStr, majorId],
+    queryKey: ["payments-by-date", fromdateStr, todateStr, branchId],
     queryFn: async () => {
       // Jika tidak ada date range, return empty array
       if (
@@ -50,14 +50,14 @@ export const usePaymentsByDate = ({
         return [];
       }
 
-      // Build params object, only include majorId if it exists
+      // Build params object, only include branchId if it exists
       const params: Record<string, string> = {
         fromdate: fromdateStr,
         todate: todateStr,
       };
 
-      if (majorId) {
-        params.majorId = majorId;
+      if (branchId) {
+        params.branchId = branchId;
       }
 
       const response = await apiGet<PaymentData[]>("/api/payment/filterdate", {
@@ -75,11 +75,11 @@ export const usePaymentsByDate = ({
 export const usePaymentsDashboardByDate = ({
   fromdate,
   todate,
-  majorId,
+  branchId,
 }: {
   fromdate?: Date;
   todate?: Date;
-  majorId?: string;
+  branchId?: string;
 }) => {
   // Format tanggal ke YYYY-MM-DD menggunakan timezone lokal
   const formatLocalDate = (date: Date) => {
@@ -108,7 +108,7 @@ export const usePaymentsDashboardByDate = ({
     : undefined;
 
   return useQuery({
-    queryKey: ["payments-dashboard-chart", fromdateStr, todateStr, majorId],
+    queryKey: ["payments-dashboard-chart", fromdateStr, todateStr, branchId],
     queryFn: async () => {
       // Jika tidak ada date range, return empty dashboard data
       if (
@@ -120,19 +120,19 @@ export const usePaymentsDashboardByDate = ({
         return {
           summary: { total: 0, sumTransaction: 0 },
           yearMonthly: [],
-          byMajor: [],
-          byMajorMonthly: [],
+          byBranch: [],
+          byBranchMonthly: [],
         };
       }
 
-      // Build params object, only include majorId if it exists
+      // Build params object, only include branchId if it exists
       const params: Record<string, string> = {
         fromdate: fromdateStr,
         todate: todateStr,
       };
 
-      if (majorId) {
-        params.majorId = majorId;
+      if (branchId) {
+        params.branchId = branchId;
       }
 
       const response = await apiGet("/api/payment/chart", { params });

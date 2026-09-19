@@ -181,7 +181,7 @@ function RecapAttendanceByClass() {
 
   return (
     <div className="bg-muted/50 min-h-screen">
-      <div className="mx-auto max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-8xl">
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-foreground text-3xl font-bold tracking-tight">
