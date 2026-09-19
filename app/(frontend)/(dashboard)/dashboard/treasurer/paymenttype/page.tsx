@@ -774,6 +774,14 @@ function PaymentTypeDataTable({
 }: {
   userBranchData: { id: string; name: string };
 }) {
+  // Early return if no branch data
+  if (!userBranchData?.id || !userBranchData?.name) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-destructive">Data jurusan tidak lengkap.</p>
+      </div>
+    );
+  }
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -1028,11 +1036,17 @@ export default function PaymentTypeTable() {
   }
 
   // Check if bendahara has a branch assigned
-
-  if (!userBranchData) {
+  if (!userBranchData || !userBranchData.id || !userBranchData.name) {
     return (
-      <div className="text-center">
-        <p className="text-destructive">User tidak memiliki data jurusan.</p>
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive text-lg font-semibold">
+            User tidak memiliki data jurusan.
+          </p>
+          <p className="text-muted-foreground mt-2">
+            Silakan hubungi administrator untuk mengatur jurusan Anda.
+          </p>
+        </div>
       </div>
     );
   }
