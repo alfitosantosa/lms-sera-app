@@ -823,7 +823,8 @@ export function UserFormDialog({
             : null,
         branchId: data.branchId && data.branchId !== "" ? data.branchId : null,
         // Branch (branch) sudah membawa yayasan; foundationId hanya diisi bila baris tanpa branch
-        foundationId: data.branchId && data.branchId !== "" ? null : foundationId,
+        foundationId:
+          data.branchId && data.branchId !== "" ? null : foundationId,
       };
 
       // Add role-specific fields
@@ -1216,7 +1217,7 @@ export function UserFormDialog({
           </>
         );
 
-      case "bendahara":
+      case "treasurer":
         return (
           <>
             <div className="grid grid-cols-2 gap-4">
