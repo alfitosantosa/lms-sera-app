@@ -123,23 +123,35 @@ export function AppSidebar() {
       r.includes("kepala sekolah")
     )
       return "teacher";
-    if (r.includes("student")) return "student";
-    return "";
+    if (r.includes("student") || r.includes("siswa")) return "student";
+    if (r.includes("parent") || r.includes("orang tua")) return "parent";
+
+    // Default fallback to student
+    return "student";
   };
 
   const roleMenuKey = getRoleMenuKey(userRole);
   const currentMenuGroups = menuGroups[roleMenuKey] || menuGroups.student;
 
-  console.log("role", roleMenuKey);
+  // console.log("🔑 Role Debug:", {
+  //   userRole,
+  //   roleMenuKey,
+  //   hasMenuGroups: !!menuGroups[roleMenuKey],
+  //   menuGroupKeys: Object.keys(menuGroups),
+  //   currentMenuGroupsLength: currentMenuGroups?.length,
+  //   firstGroup: currentMenuGroups?.[0]?.title,
+  // });
 
   // Filter menu items based on permissions
   const filterMenuByPermissions = (items: MenuItem[]): MenuItem[] => {
-    // Admin, Yayasan, Treasurer, Student, and Parent roles see ALL menus (bypass permission filtering)
+    // Admin, Yayasan, Treasurer, Teacher, Student, and Parent roles see ALL menus (bypass permission filtering)
     if (
       userRoleLower.includes("admin") ||
       userRoleLower.includes("yayasan") ||
       userRoleLower.includes("treasurer") ||
       userRoleLower.includes("bendahara") ||
+      userRoleLower.includes("teacher") ||
+      userRoleLower.includes("guru") ||
       userRoleLower.includes("student") ||
       userRoleLower.includes("siswa") ||
       userRoleLower.includes("parent") ||

@@ -400,7 +400,11 @@ export default function ViolationDataTable() {
             <div className="flex items-center space-x-4">
               <Image
                 className="rounded-full"
-                src={dataStudent.avatarUrl ?? "/avatar-placeholder.png"}
+                src={
+                  dataStudent.avatarUrl
+                    ? (dataStudent.avatarUrl as string)
+                    : (session?.user?.image as string)
+                }
                 alt="Avatar"
                 width={50}
                 height={50}

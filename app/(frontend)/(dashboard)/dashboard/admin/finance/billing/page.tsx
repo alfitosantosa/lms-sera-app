@@ -210,16 +210,6 @@ function PaidBadge({ isPaid }: { isPaid: boolean }) {
   );
 }
 
-// function ActiveBadge({ isActive }: { isActive: boolean }) {
-//   return isActive ?
-//       <Badge variant="outline" className="text-success border-success text-xs">
-//         Aktif
-//       </Badge>
-//     : <Badge variant="outline" className="text-muted-foreground text-xs">
-//         Nonaktif
-//       </Badge>;
-// }
-
 // ─── Single Item Form Schema ──────────────────────────────────────────────────
 const singleItemSchema = z.object({
   paymentId: z.string().optional(),

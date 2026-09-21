@@ -130,6 +130,17 @@ export default function SignIn() {
       <div className="relative z-10 w-full max-w-[420px]">
         {/* Brand & School Logo */}
         <div className="mb-6 flex flex-col items-center text-center">
+          <Image
+            src={
+              process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
+                ? process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
+                : ""
+            }
+            alt="Logo Yayasan Santosatechid Al-Islamy"
+            width={120}
+            height={120}
+            loading="eager"
+          />
           <Link
             href="/"
             className="group mb-3 inline-flex items-center gap-2.5"
@@ -145,17 +156,6 @@ export default function SignIn() {
               LMS
             </span>
           </Link>
-
-          <Image
-            src={
-              process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
-                ? process.env.NEXT_PUBLIC_CLIENT_IMAGE_URL
-                : ""
-            }
-            alt="Logo Yayasan Santosatechid Al-Islamy"
-            width={40}
-            height={40}
-          />
           <p className="text-muted-foreground mt-0.5 text-xs">
             Sistem Informasi Sekolah &amp; Manajemen Pembelajaran
           </p>

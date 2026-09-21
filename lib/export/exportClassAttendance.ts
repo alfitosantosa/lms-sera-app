@@ -1,10 +1,11 @@
+import { ClassDataTypes, UserDataTypes } from "@/app/(types)";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 
 export const exportClassAttendanceDailyToExcel = async (
-  classData: any,
+  classData: ClassDataTypes,
   attendanceByDate: Record<string, any[]>,
-  students: any[],
+  students: UserDataTypes[],
   startDate: string,
   endDate: string,
   filename?: string,
