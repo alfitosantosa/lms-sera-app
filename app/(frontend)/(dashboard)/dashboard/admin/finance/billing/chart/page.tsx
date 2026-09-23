@@ -1,4 +1,5 @@
 "use client";
+import { useState, useMemo, ElementType } from "react";
 
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { usePaymentsItemsDashboardByDate } from "@/app/(hooks)/hooks/Payments/usePaymentItemsByDate";
@@ -43,7 +44,7 @@ import {
   Users,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import type { DateRange } from "react-day-picker";
 import {
   Area,
@@ -188,7 +189,7 @@ function KPICard({
   title: string;
   value: string;
   sub?: string;
-  icon: React.ElementType;
+  icon: ElementType;
   color: string;
   loading?: boolean;
   badge?: { label: string; positive?: boolean };
@@ -273,27 +274,27 @@ function UnpaidPaymentDashboard({
   userBranchId?: string;
   isAdmin: boolean;
 }) {
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subMonths(new Date(), 3),
     to: new Date(),
   });
 
-  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+  const [selectedBranchId, setSelectedBranchId] = useState<string>(
     isAdmin ? "all" : (userBranchId ?? "all"),
   );
 
-  const [selectedSKU, setSelectedSKU] = React.useState<string>("all");
+  const [selectedSKU, setSelectedSKU] = useState<string>("all");
 
-  const [activeTab, setActiveTab] = React.useState("overview");
+  const [activeTab, setActiveTab] = useState("overview");
 
   const { data: branchs = [] } = useGetBranchs();
 
-  const queryBranchId = React.useMemo(() => {
+  const queryBranchId = useMemo(() => {
     if (!isAdmin) return userBranchId;
     return selectedBranchId === "all" ? undefined : selectedBranchId;
   }, [isAdmin, selectedBranchId, userBranchId]);
 
-  const querySKUType = React.useMemo(() => {
+  const querySKUType = useMemo(() => {
     return selectedSKU === "all" ? undefined : selectedSKU;
   }, [selectedSKU]);
 
@@ -1021,7 +1022,9 @@ function UnpaidPaymentDashboard({
                                       CHART_PALETTE[i % CHART_PALETTE.length],
                                   }}
                                 />
-                                <span className="font-medium">{row.branch}</span>
+                                <span className="font-medium">
+                                  {row.branch}
+                                </span>
                               </div>
                             </td>
                             <td className="px-4 py-2.5 text-right tabular-nums">
@@ -1205,5 +1208,7 @@ export default function UnpaidDashboardPage() {
   const isAdmin = userRole === "Admin";
   const userBranchId = userData?.branch?.id;
 
-  return <UnpaidPaymentDashboard isAdmin={isAdmin} userBranchId={userBranchId} />;
+  return (
+    <UnpaidPaymentDashboard isAdmin={isAdmin} userBranchId={userBranchId} />
+  );
 }

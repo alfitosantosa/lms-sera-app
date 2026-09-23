@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import { useGetBetterAuth } from "@/app/(hooks)/hooks/Users/useBetterAuth";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
@@ -8,9 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -72,7 +70,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { toast } from "sonner";
 
 export type User = {
@@ -122,34 +120,34 @@ function DataTableBetterAuth() {
 
   const { data, isLoading, error, refetch } = useGetBetterAuth();
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = React.useState(false);
-  const [isChangePasswordOpen, setIsChangePasswordOpen] = React.useState(false);
-  const [isChangeRoleOpen, setIsChangeRoleOpen] = React.useState(false);
-  const [userToChangePassword, setUserToChangePassword] = React.useState<{
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isChangeRoleOpen, setIsChangeRoleOpen] = useState(false);
+  const [userToChangePassword, setUserToChangePassword] = useState<{
     id: string;
     name: string;
   } | null>(null);
-  const [userToChangeRole, setUserToChangeRole] = React.useState<{
+  const [userToChangeRole, setUserToChangeRole] = useState<{
     id: string;
     name: string;
     currentRole: string;
   } | null>(null);
 
   // Form states
-  const [newPassword, setNewPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [selectedRole, setSelectedRole] = React.useState<
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState<
     "user" | "admin" | "teacher" | "student" | "parent" | ""
   >("");
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Check if current user is admin
   const isAdmin = session?.user?.role === "admin";

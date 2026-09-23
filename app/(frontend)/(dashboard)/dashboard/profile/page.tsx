@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/authClients";
@@ -46,6 +45,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetBetterAuthById } from "@/app/(hooks)/hooks/Users/useBetterAuth";
+import { type ComponentType, type ReactNode, useEffect, useState } from "react";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -54,15 +54,15 @@ import { useGetBetterAuthById } from "@/app/(hooks)/hooks/Users/useBetterAuth";
 type StatCardVariant = "default" | "success" | "warning" | "destructive";
 
 interface InfoItemProps {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   label: string;
-  value: React.ReactNode;
+  value: ReactNode;
 }
 
 interface StatCardProps {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   label: string;
-  value: string | React.ReactNode;
+  value: string | ReactNode;
   variant?: StatCardVariant;
 }
 
@@ -70,7 +70,7 @@ interface DataTableProps {
   data: Record<string, any>;
   title: string;
   description?: string;
-  Icon?: React.ReactNode;
+  Icon?: ReactNode;
 }
 
 interface DataRowProps {
@@ -126,7 +126,7 @@ const formatDate = (date: string | Date): string => {
   return dateObj.toLocaleString("id-ID", DATE_FORMAT_OPTIONS);
 };
 
-const formatValue = (val: any): React.ReactNode => {
+const formatValue = (val: any): ReactNode => {
   if (typeof val === "boolean") {
     return (
       <Badge variant={val ? "default" : "secondary"}>
@@ -750,14 +750,14 @@ export default function Home() {
   const { data: userBetterAuth, isPending: userBetterAuthLoading } =
     useGetBetterAuthById(userId);
 
-  const [isMounted, setIsMounted] = React.useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   console.log("userid", userId);
   console.log("userData", user);
   console.log("user betterauth", userBetterAuth);
 
   // Only track if component is mounted on client
-  React.useEffect(() => {
+  useEffect(() => {
     setIsMounted(true);
   }, []);
 

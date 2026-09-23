@@ -1,6 +1,7 @@
 "use client";
+import { useState, useEffect, ChangeEvent } from "react";
 
-import * as React from "react";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -110,9 +111,9 @@ export type FoundationCodeFormData = z.infer<typeof foundationCodeSchema>;
 
 export default function RegisterFoundation() {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [uploadingImage, setUploadingImage] = React.useState(false);
-  const [isJoining, setIsJoining] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
   const createFoundationMutation = useCreateFoundation();
   const foundationAssignUserMutation = useFoundationAssignUser();
   const session = useSession();
@@ -215,7 +216,7 @@ export default function RegisterFoundation() {
 
   // Handle image upload (placeholder for now)
   const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -235,7 +236,7 @@ export default function RegisterFoundation() {
   };
 
   // Auto-generate foundation code from name
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription = form.watch((value, { name: fieldName }) => {
       if (fieldName === "name" && value.name) {
         // Generate unique code from name
@@ -247,7 +248,7 @@ export default function RegisterFoundation() {
   }, [form]);
 
   // Update userId in form when session is available
-  React.useEffect(() => {
+  useEffect(() => {
     if (userId) {
       form.setValue("userId", userId);
     }

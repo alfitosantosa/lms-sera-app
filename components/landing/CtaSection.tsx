@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import { useRouter } from "next/navigation";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";

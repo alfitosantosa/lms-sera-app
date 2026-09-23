@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useRouter } from "next/navigation";
 import {
   Sparkles,
@@ -19,24 +18,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { GradientMesh } from "./GradientMesh";
+import { useState } from "react";
 
 type PreviewTab = "keuangan" | "presensi" | "tenant" | "whatsapp";
 
 export function Hero() {
-  const [activeTab, setActiveTab] = React.useState<PreviewTab>("keuangan");
-  const [selectedSchool, setSelectedSchool] = React.useState<string>("smk-it");
+  const [activeTab, setActiveTab] = useState<PreviewTab>("keuangan");
+  const [selectedSchool, setSelectedSchool] = useState<string>("smk-it");
   const router = useRouter();
 
   const handleSignIn = () => {
     router.push("/auth/sign-in");
-  };
-
-  const handleScrollToFeatures = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const el = document.getElementById("fitur");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   return (
@@ -45,10 +37,10 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
         {/* Luminous Top Badge */}
-        <div className="border-primary/20 bg-background/70 text-primary hover:border-primary/40 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-md transition-all">
+        <div className="border-primary/20 bg-background/70 text-primary hover:border-primary/40 inline-flex items-center gap-2 rounded-full border px-2 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-md transition-all">
           <Sparkles className="text-primary h-3.5 w-3.5" />
           <span>Platform LMS & ERP Multi-Sekolah Terpadu</span>
-          <span className="bg-primary py-0.2 rounded-full px-1.5 text-[10px] font-bold text-white">
+          <span className="bg-primary py-1 rounded-full px-2  text-[10px] font-bold text-white">
             Yayasan
           </span>
         </div>

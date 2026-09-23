@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useMemo, useRef, ChangeEvent } from "react";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
@@ -50,7 +51,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, Search, Upload, User, X } from "lucide-react";
 import Image from "next/image";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -176,10 +177,10 @@ function StudentSelector({
   onSelectionChange: (studentIds: string[]) => void;
   disabled?: boolean;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredStudents = React.useMemo(() => {
+  const filteredStudents = useMemo(() => {
     if (!searchTerm) return students || [];
 
     return students.filter((student) => {
@@ -194,7 +195,7 @@ function StudentSelector({
     });
   }, [students, searchTerm]);
 
-  const selectedStudents = React.useMemo(() => {
+  const selectedStudents = useMemo(() => {
     return students.filter((student) =>
       selectedStudentIds.includes(student.id),
     );
@@ -348,20 +349,20 @@ function AvatarUpload({
   onUploadSuccess: (url: string) => void;
   disabled?: boolean;
 }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
     currentAvatarUrl || null,
   );
-  const [isUploading, setIsUploading] = React.useState(false);
-  const [showPreview, setShowPreview] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentAvatarUrl) {
       setPreviewUrl(currentAvatarUrl);
     }
   }, [currentAvatarUrl]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -555,13 +556,13 @@ function BetterAuthSelector({
   disabled?: boolean;
   foundationId: string;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { data: betterAuthsData, isLoading: betterAuthsLoading } =
     useGetBetterAuthWithoutUserData(foundationId);
   const betterAuths = (betterAuthsData ?? []) as BetterAuthUser[];
 
-  const filteredbetterAuths = React.useMemo(() => {
+  const filteredbetterAuths = useMemo(() => {
     if (!searchTerm) return betterAuths;
 
     return betterAuths.filter((user: BetterAuthUser) => {
@@ -574,7 +575,7 @@ function BetterAuthSelector({
     });
   }, [betterAuths, searchTerm]);
 
-  const selectedUser = React.useMemo(() => {
+  const selectedUser = useMemo(() => {
     if (!selecteduserId) return null;
     return betterAuths.find(
       (user: BetterAuthUser) => user.id === selecteduserId,
@@ -724,7 +725,7 @@ export function UserFormDialog({
     useGetAcademicYears();
   const { data: branchs = [], isLoading: branchsLoading } = useGetBranchs();
 
-  const students = React.useMemo(() => {
+  const students = useMemo(() => {
     return users.filter((user) => user.role?.name.trim() === "Student");
   }, [users]);
 
@@ -748,7 +749,7 @@ export function UserFormDialog({
   const selectedStudentIds = watch("studentIds") || [];
   const selectedRole = roles.find((role) => role.id === selectedRoleId);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("name", editData.name);
       setValue("email", editData.email || "");

@@ -8,7 +8,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { ReactNode } from "react";
 import InstallButton from "./installButton";
 
 const AUTH_ROUTES = [
@@ -22,7 +22,7 @@ const AUTH_ROUTES = [
 export default function ConditionalLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const pathname = usePathname();
   const isAuthPage = AUTH_ROUTES.some((route) =>

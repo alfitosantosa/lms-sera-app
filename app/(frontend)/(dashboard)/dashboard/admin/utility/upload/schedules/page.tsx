@@ -23,7 +23,7 @@ import {
 import { useSession } from "@/lib/authClients";
 import { AlertCircle, Download, FileText, Upload, X } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
 export type typeData = {
@@ -44,7 +44,7 @@ function UploadSchedules() {
 
   const bulkCreateMutation = useBulkCreateSchedulesData();
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       const excelFiles = newFiles.filter(

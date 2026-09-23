@@ -62,38 +62,31 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
-import * as React from "react";
+import { useCallback, useMemo, useState } from "react";
 
 // Import hooks
 // Import dialog components
 // Dashboard Component - Only rendered after role verification
 function UserDashboard({ foundationId }: { foundationId: string }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Filter selections
-  const [roleSelection, setRoleSelection] = React.useState<string | null>(null);
-  const [classSelection, setClassSelection] = React.useState<string | null>(
-    null,
-  );
-  const [tahfidzGroupSelection, setTahfidzGroupSelection] = React.useState<
+  const [roleSelection, setRoleSelection] = useState<string | null>(null);
+  const [classSelection, setClassSelection] = useState<string | null>(null);
+  const [tahfidzGroupSelection, setTahfidzGroupSelection] = useState<
     string | null
   >(null);
-  const [branchSelection, setBranchSelection] = React.useState<string | null>(
-    null,
-  );
+  const [branchSelection, setBranchSelection] = useState<string | null>(null);
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [deleteBulkDialogOpen, setDeleteBulkDialogOpen] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState<UserData | null>(null);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteBulkDialogOpen, setDeleteBulkDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
 
   // Fetch data with proper error handling
   const {
@@ -105,7 +98,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   const { data: betterAuthUsers = [] } = useGetBetterAuth();
 
   // Helper function to get betterAuth user info
-  const getBetterAuthUserInfo = React.useCallback(
+  const getBetterAuthUserInfo = useCallback(
     (userId: string): BetterAuthUser | undefined => {
       return betterAuthUsers.find((user: any) => user.id === userId);
     },
@@ -113,13 +106,13 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   );
 
   // Get unique values for filters
-  const uniqueRoles = React.useMemo(() => {
+  const uniqueRoles = useMemo(() => {
     return Array.from(
       new Set(usersData.map((user) => user.role?.name).filter(Boolean)),
     );
   }, [usersData]);
 
-  const uniqueClasses = React.useMemo(() => {
+  const uniqueClasses = useMemo(() => {
     return Array.from(
       new Set(usersData.map((user) => user.class?.name).filter(Boolean)),
     );
@@ -130,14 +123,14 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   const { data: tahfidzGroupsData, isLoading: isLoadingTahfidzGroups } =
     useGetTahfidzGroup();
 
-  const uniqueBranchs = React.useMemo(() => {
+  const uniqueBranchs = useMemo(() => {
     return Array.from(
       new Set(usersData.map((user) => user.branch?.name).filter(Boolean)),
     );
   }, [usersData]);
 
   // Define columns with useMemo to prevent recreation
-  const columns = React.useMemo<ColumnDef<UserData>[]>(
+  const columns = useMemo<ColumnDef<UserData>[]>(
     () => [
       {
         id: "select",
@@ -147,7 +140,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
             }
-            onCheckedChange={(value) =>
+            onCheckedChange={(value: boolean) =>
               table.toggleAllPageRowsSelected(!!value)
             }
             aria-label="Select all"
@@ -156,7 +149,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         cell: ({ row }) => (
           <Checkbox
             checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
             aria-label="Select row"
           />
         ),
@@ -542,7 +535,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   });
 
   // Filter handlers
-  const handleRoleFilter = React.useCallback(
+  const handleRoleFilter = useCallback(
     (roleName: string | null) => {
       setRoleSelection(roleName);
       if (roleName) {
@@ -554,7 +547,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     [table],
   );
 
-  const handleClassFilter = React.useCallback(
+  const handleClassFilter = useCallback(
     (className: string | null) => {
       setClassSelection(className);
       if (className) {
@@ -566,7 +559,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     [table],
   );
 
-  const handleTahfidzGroupFilter = React.useCallback(
+  const handleTahfidzGroupFilter = useCallback(
     (tahfidzGroupName: string | null) => {
       setTahfidzGroupSelection(tahfidzGroupName);
       if (tahfidzGroupName) {
@@ -578,7 +571,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     [table],
   );
 
-  const handleBranchFilter = React.useCallback(
+  const handleBranchFilter = useCallback(
     (branchName: string | null) => {
       setBranchSelection(branchName);
       if (branchName) {
@@ -590,7 +583,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
     [table],
   );
 
-  const handleSuccess = React.useCallback(async () => {
+  const handleSuccess = useCallback(async () => {
     try {
       setRowSelection({});
       setSelectedUser(null);
@@ -601,27 +594,27 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
   }, [refetch]);
 
   // Close dialog handlers
-  const handleCloseCreateDialog = React.useCallback(() => {
+  const handleCloseCreateDialog = useCallback(() => {
     setCreateDialogOpen(false);
     setSelectedUser(null);
   }, []);
 
-  const handleCloseEditDialog = React.useCallback(() => {
+  const handleCloseEditDialog = useCallback(() => {
     setEditDialogOpen(false);
     setSelectedUser(null);
   }, []);
 
-  const handleCloseDeleteDialog = React.useCallback(() => {
+  const handleCloseDeleteDialog = useCallback(() => {
     setDeleteDialogOpen(false);
     setSelectedUser(null);
   }, []);
 
-  const handleCloseBulkDeleteDialog = React.useCallback(() => {
+  const handleCloseBulkDeleteDialog = useCallback(() => {
     setDeleteBulkDialogOpen(false);
     setRowSelection({});
   }, []);
 
-  const handleBulkDeleteClick = React.useCallback(() => {
+  const handleBulkDeleteClick = useCallback(() => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     if (selectedRows.length > 0) {
       setDeleteBulkDialogOpen(true);
@@ -656,7 +649,9 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
           <Input
             placeholder="Cari nama user..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
+            onChange={(event: { target: { value: {
+              
+            }; }; }) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -790,7 +785,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
+                      onCheckedChange={(value: boolean) =>
                         column.toggleVisibility(!!value)
                       }
                     >

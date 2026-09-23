@@ -3,6 +3,9 @@
  * Defines all TypeScript interfaces and types for the teacher attendance system
  */
 
+import { NextComponentType } from "next";
+import { ComponentProps, ComponentType } from "react";
+
 export type AttendanceStatus =
   "hadir" | "sakit" | "izin" | "alfa" | "terlambat";
 
@@ -133,7 +136,7 @@ export interface StatusConfig {
   bg: string;
   text: string;
   color: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
 }
 
 export interface StatusConfigMap {

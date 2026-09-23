@@ -1,4 +1,5 @@
 "use client";
+import { FormEvent, useState } from "react";
 
 import { getErrorMessage } from "@/app/(types)";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/authClients";
 import { Loader2 } from "lucide-react";
-import * as React from "react";
+
 import { toast } from "sonner";
 
 interface ChangePasswordDialogProps {
@@ -30,11 +31,11 @@ export function ChangePasswordDialog({
   userId,
   userName,
 }: ChangePasswordDialogProps) {
-  const [newPassword, setNewPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // Validasi

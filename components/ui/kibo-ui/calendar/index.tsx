@@ -1,5 +1,5 @@
 "use client";
-
+import { useState, useCallback, useMemo, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -23,15 +23,7 @@ import {
   ChevronRightIcon,
   ChevronsUpDown,
 } from "lucide-react";
-import {
-  createContext,
-  memo,
-  type ReactNode,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, memo, type ReactNode } from "react";
 
 export type CalendarState = {
   month: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
@@ -142,9 +134,8 @@ const Combobox = ({
       </PopoverTrigger>
       <PopoverContent className="w-40 p-0">
         <Command
-          filter={(value, search) => {
+          filter={(value: string, search: string) => {
             const label = data.find((item) => item.value === value)?.label;
-
             return label?.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
           }}
         >
@@ -156,7 +147,7 @@ const Combobox = ({
                 <CommandItem
                   className="capitalize"
                   key={item.value}
-                  onSelect={(currentValue) => {
+                  onSelect={(currentValue: string) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -20,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { signIn, signUp } from "@/lib/authClients";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 async function convertImageToBase64(file: File): Promise<string> {
   const { promise, resolve, reject } = Promise.withResolvers<string>();
@@ -31,17 +31,17 @@ async function convertImageToBase64(file: File): Promise<string> {
 }
 
 export default function SignUp() {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState("");
-  const [image, setImage] = React.useState<File | null>(null);
-  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
@@ -62,7 +62,7 @@ export default function SignUp() {
     setImagePreview(null);
   };
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!firstName.trim()) {
@@ -230,7 +230,11 @@ export default function SignUp() {
                     placeholder="Ahmad"
                     required
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e: {
+                      target: {
+                        value: string;
+                      };
+                    }) => setFirstName(e.target.value)}
                     className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-10 rounded-xl text-xs transition-all focus-visible:ring-2"
                   />
                 </div>
@@ -245,7 +249,11 @@ export default function SignUp() {
                     id="last-name"
                     placeholder="Ramadhan"
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e: {
+                      target: {
+                        value: string;
+                      };
+                    }) => setLastName(e.target.value)}
                     className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-10 rounded-xl text-xs transition-all focus-visible:ring-2"
                   />
                 </div>
@@ -266,7 +274,11 @@ export default function SignUp() {
                   required
                   autoComplete="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: {
+                    target: {
+                      value: string;
+                    };
+                  }) => setEmail(e.target.value)}
                   className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-10 rounded-xl text-xs transition-all focus-visible:ring-2"
                 />
               </div>
@@ -286,7 +298,11 @@ export default function SignUp() {
                   required
                   autoComplete="new-password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: {
+                    target: {
+                      value: string;
+                    };
+                  }) => setPassword(e.target.value)}
                   className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-10 rounded-xl text-xs transition-all focus-visible:ring-2"
                 />
               </div>
@@ -306,7 +322,11 @@ export default function SignUp() {
                   required
                   autoComplete="new-password"
                   value={passwordConfirmation}
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  onChange={(e: {
+                    target: {
+                      value: string;
+                    };
+                  }) => setPasswordConfirmation(e.target.value)}
                   className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-10 rounded-xl text-xs transition-all focus-visible:ring-2"
                 />
               </div>

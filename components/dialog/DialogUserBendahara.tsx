@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useMemo, useRef, ChangeEvent } from "react";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
@@ -30,7 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, Upload, User, X } from "lucide-react";
 import Image from "next/image";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -104,18 +105,18 @@ function AvatarUpload({
   onUploadSuccess: (url: string) => void;
   disabled?: boolean;
 }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
     currentAvatarUrl || null,
   );
-  const [isUploading, setIsUploading] = React.useState(false);
-  const [showPreview, setShowPreview] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPreviewUrl(currentAvatarUrl || null);
   }, [currentAvatarUrl]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
@@ -291,7 +292,7 @@ export function StudentFormDialog({
     useGetTahfidzGroup();
   const { data: roles = [] } = useGetRoles();
 
-  const studentRoleId = React.useMemo(
+  const studentRoleId = useMemo(
     () => roles.find((r) => r.name.trim() === "Student")?.id ?? "",
     [roles],
   );
@@ -310,7 +311,7 @@ export function StudentFormDialog({
   });
 
   // ── Populate form when editData changes ──────────────────────────────────
-  React.useEffect(() => {
+  useEffect(() => {
     if (open && editData) {
       setValue("name", editData.name ?? "");
       setValue("email", editData.email ?? "");
@@ -338,7 +339,7 @@ export function StudentFormDialog({
   }, [open, editData, setValue, reset]);
 
   // ── Reset on close ───────────────────────────────────────────────────────
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) reset({ status: "active" });
   }, [open, reset]);
 

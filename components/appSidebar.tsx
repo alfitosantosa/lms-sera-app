@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,9 +56,10 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/authClients";
+import { type ElementType } from "react";
 
 // Icon mapping
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, ElementType> = {
   home: Home,
   dashboard: LayoutDashboard,
   users: Users,

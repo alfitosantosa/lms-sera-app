@@ -1,4 +1,5 @@
 "use client";
+import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -10,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import * as React from "react";
+
 import { type DateRange } from "react-day-picker";
 
 export function DatePickerWithRange({
@@ -21,7 +22,7 @@ export function DatePickerWithRange({
   setDate?: (date: DateRange | undefined) => void;
 }) {
   // ✅ Use controlled date only, no internal state
-  const handleSelect = React.useCallback(
+  const handleSelect = useCallback(
     (newDate: DateRange | undefined) => {
       setDate?.(newDate);
     },

@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo, ReactElement } from "react";
 
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetUsers } from "@/app/(hooks)/hooks/Users/useUsers";
@@ -103,7 +104,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -128,14 +129,14 @@ function SearchableStudentSelect({
   placeholder = "Pilih siswa...",
   disabled = false,
   className,
-}: SearchableStudentSelectProps): React.ReactElement {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+}: SearchableStudentSelectProps): ReactElement {
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Filter students based on search by name OR email
-  const [filteredStudents, setFilteredStudents] = React.useState(students);
+  const [filteredStudents, setFilteredStudents] = useState(students);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!searchTerm) {
       setFilteredStudents(students);
     } else {
@@ -151,7 +152,7 @@ function SearchableStudentSelect({
   }, [students, searchTerm]);
 
   // Find selected student
-  const selectedStudent = React.useMemo(() => {
+  const selectedStudent = useMemo(() => {
     if (!value) return null;
     return students.find((student) => student.id === value) || null;
   }, [students, value]);
@@ -167,13 +168,13 @@ function SearchableStudentSelect({
     setSearchTerm("");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setSearchTerm("");
     }
   }, [open]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (value && !students.some((student) => student.id === value)) {
       onValueChange("");
     }
@@ -309,7 +310,7 @@ function ViolationFormDialog({
     useGetUsers(foundationId);
 
   // Filter students from users data (role.name === "Student")
-  const students = React.useMemo(() => {
+  const students = useMemo(() => {
     return usersData.filter((user) => user.role?.name === "Student");
   }, [usersData]);
 
@@ -334,7 +335,7 @@ function ViolationFormDialog({
   const selectedClassId = watchedValues.classId;
   const selectedStatus = watchedValues.status;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("studentId", editData.studentId);
       setValue("violationTypeId", editData.violationTypeId);
@@ -640,25 +641,25 @@ function DeleteViolationDialog({
 
 // Main DataTable Component
 function ViolationDataTable({ foundationId }: { foundationId: string }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedViolation, setSelectedViolation] =
-    React.useState<ViolationTypes | null>(null);
+    useState<ViolationTypes | null>(null);
 
   // Additional filter states
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const { data: violations = [], isLoading, refetch } = useGetViolations();
   const { data: classes } = useGetClasses();
@@ -696,7 +697,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
   };
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -942,7 +943,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
   });
 
   // Apply status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("status")?.setFilterValue(statusFilter);
     } else {
@@ -951,7 +952,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
   }, [statusFilter, table]);
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("class")?.setFilterValue(classFilter);
     } else {

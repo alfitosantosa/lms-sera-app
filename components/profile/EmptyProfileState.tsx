@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -41,7 +40,6 @@ export const EmptyProfileState = ({
   // CASE 1: No foundation + No userData = Belum terdaftar, harus daftar
   // CASE 2: Has foundation + No userData = Sudah terdaftar, menunggu admin assign
   const isWaitingForAdmin = isWaitingForAdminId && !hasUserData;
-  const needsRegistration = !isWaitingForAdminId && !hasUserData;
 
   return (
     <div className="from-background via-muted/20 to-background min-h-screen bg-gradient-to-br px-4 py-12">

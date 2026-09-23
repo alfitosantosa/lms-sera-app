@@ -14,9 +14,10 @@ import {
   Upload,
   Users,
 } from "lucide-react";
+import { ElementType } from "react";
 
 // Icon mapping
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, ElementType> = {
   home: Home,
   dashboard: LayoutDashboard,
   users: Users,

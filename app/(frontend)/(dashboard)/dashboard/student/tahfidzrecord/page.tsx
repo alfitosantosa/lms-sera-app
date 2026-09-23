@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 
 import { useGetTahfidzRecords } from "@/app/(hooks)/hooks/TahfidzRecord/useTahfidzRecord";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
@@ -59,7 +60,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type SurahQuranData = {
@@ -119,15 +120,15 @@ function GradeBadge({ grade }: { grade?: string }) {
 
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function TahfidzRecordDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
-  const [gradeFilter, setGradeFilter] = React.useState<string>("all");
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [gradeFilter, setGradeFilter] = useState<string>("all");
 
   // Get session from Better Auth
   const { data: session, isPending } = useSession();
@@ -140,7 +141,7 @@ function TahfidzRecordDataTable() {
     refetch,
   } = useGetTahfidzRecords(userData?.id ?? "");
 
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, _columnId: string, filterValue: string) => {
       if (!filterValue) return true;
       const r = row.original as TahfidzRecordData;
@@ -378,7 +379,7 @@ function TahfidzRecordDataTable() {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("grade")
       ?.setFilterValue(gradeFilter !== "all" ? gradeFilter : undefined);

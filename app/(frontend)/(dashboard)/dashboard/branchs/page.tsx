@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 
 import {
   useCreateBranch,
@@ -79,7 +80,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -134,19 +135,19 @@ function SignatureUpload({
   onUploadSuccess: (url: string) => void;
   disabled?: boolean;
 }) {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
     currentSignatureUrl || null,
   );
-  const [isUploading, setIsUploading] = React.useState(false);
-  const [showPreview, setShowPreview] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync ketika prop berubah (mis. saat edit)
-  React.useEffect(() => {
+  useEffect(() => {
     setPreviewUrl(currentSignatureUrl || null);
   }, [currentSignatureUrl]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
@@ -361,7 +362,7 @@ function BranchFormDialog({
   const isActive = watch("isActive");
   const signatureUrl = watch("signatureUrl");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("code", editData.code);
       setValue("name", editData.name);
@@ -802,21 +803,16 @@ function DeleteBranchDialog({
 
 // ─── BranchDataTable ───────────────────────────────────────────────────────────
 function BranchDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [detailDialogOpen, setDetailDialogOpen] = React.useState(false);
-  const [selectedBranch, setSelectedBranch] = React.useState<BranchData | null>(
-    null,
-  );
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState<BranchData | null>(null);
 
   const { data: branchs = [], isLoading, refetch } = useGetBranchs();
   const handleSuccess = () => refetch();

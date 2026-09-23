@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
@@ -83,7 +84,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -148,7 +149,7 @@ function TahfidzGroupFormDialog({
 
   const selectedBranchId = watch("branchId");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       reset({
         name: editData.name,
@@ -339,23 +340,23 @@ function DeleteTahfidzGroupDialog({
 
 // Main DataTable Component
 function TahfidzGroupDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedTahfidzGroup, setSelectedTahfidzGroup] =
-    React.useState<TahfidzGroupData | null>(null);
+    useState<TahfidzGroupData | null>(null);
 
   // Filter states
-  const [gradeFilter, setGradeFilter] = React.useState<string>("all");
+  const [gradeFilter, setGradeFilter] = useState<string>("all");
 
   const { data: tahfidzGroups = [], isLoading, refetch } = useGetTahfidzGroup();
 
@@ -532,7 +533,7 @@ function TahfidzGroupDataTable() {
   });
 
   // Apply grade filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (gradeFilter !== "all") {
       table.getColumn("grade")?.setFilterValue(gradeFilter);
     } else {

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import { Navbar } from "./Navbar";
 import { Hero } from "./Hero";
 import { SocialProof } from "./SocialProof";

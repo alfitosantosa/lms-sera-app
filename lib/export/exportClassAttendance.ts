@@ -1,4 +1,4 @@
-import { ClassDataTypes, UserDataTypes } from "@/app/(types)";
+import { type ClassDataTypes, type UserDataTypes } from "@/app/(types)";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 

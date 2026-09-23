@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import { Lock, ShieldCheck, Database, Building2, Key } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";

@@ -1,4 +1,5 @@
 "use client";
+import { useState, useMemo, ElementType } from "react";
 import { usePaymentsDashboardByDate } from "@/app/(hooks)/hooks/Payments/usePaymentByDate";
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
@@ -40,7 +41,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import type { DateRange } from "react-day-picker";
 import {
   Area,
@@ -147,7 +148,7 @@ function KPICard({
   title: string;
   value: string;
   sub?: string;
-  icon: React.ElementType;
+  icon: ElementType;
   trend?: { value: number; label: string };
   color: string;
   loading?: boolean;
@@ -243,20 +244,20 @@ function PaymentDashboard({
   isAdmin: boolean;
 }) {
   // Default: last 3 months → today
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subMonths(new Date(), 3),
     to: new Date(),
   });
 
-  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+  const [selectedBranchId, setSelectedBranchId] = useState<string>(
     isAdmin ? "all" : (userBranchId ?? "all"),
   );
-  const [activeTab, setActiveTab] = React.useState("overview");
+  const [activeTab, setActiveTab] = useState("overview");
 
   const { data: branchs = [] } = useGetBranchs();
 
   // Determine branchId to pass to hook
-  const queryBranchId = React.useMemo(() => {
+  const queryBranchId = useMemo(() => {
     if (!isAdmin) return userBranchId;
     return selectedBranchId === "all" ? undefined : selectedBranchId;
   }, [isAdmin, selectedBranchId, userBranchId]);

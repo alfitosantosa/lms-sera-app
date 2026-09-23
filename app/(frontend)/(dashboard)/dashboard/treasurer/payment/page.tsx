@@ -1,4 +1,12 @@
 "use client";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  ReactNode,
+  Fragment,
+} from "react";
 
 import { createPDFKwitansi } from "@/app/(action)/createPDF/Invoice/studentInvoice";
 import { useGetAccountBankByIdBranch } from "@/app/(hooks)/hooks/AccountBank/useAccountBank";
@@ -111,7 +119,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { type DateRange } from "react-day-picker";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -120,7 +128,7 @@ import * as z from "zod";
 // ─── Status Config ────────────────────────────────────────────────────────────
 const statusConfig: Record<
   string,
-  { label: string; className: string; icon: React.ReactNode }
+  { label: string; className: string; icon: ReactNode }
 > = {
   paid: {
     label: "Lunas",
@@ -429,12 +437,12 @@ function PaymentFormDialog({
   const createPayment = useCreatePayment();
   const updatePayment = useUpdatePayment();
   const setPaidMutation = usePaymentItemsSetPaid();
-  const [selectedStudentId, setSelectedStudentId] = React.useState<string>("");
+  const [selectedStudentId, setSelectedStudentId] = useState<string>("");
 
-  const [totalTransfer, setTotalTransfer] = React.useState<number | "">("");
+  const [totalTransfer, setTotalTransfer] = useState<number | "">("");
 
   // Reset saat dialog tutup
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) {
       setTotalTransfer("");
       setSelectedStudentId("");
@@ -445,7 +453,7 @@ function PaymentFormDialog({
   const { data: unpaidItemsData = [], isLoading: isLoadingUnpaid } =
     usePaymentItemsUnpaidStudent(selectedStudentId);
 
-  const [unpaidItems, setUnpaidItems] = React.useState<PaymentItemData[]>([]);
+  const [unpaidItems, setUnpaidItems] = useState<PaymentItemData[]>([]);
 
   const {
     register,
@@ -475,7 +483,7 @@ function PaymentFormDialog({
   const watchedItems = watch("items");
 
   // Generate receipt number saat dialog dibuka untuk mode create
-  React.useEffect(() => {
+  useEffect(() => {
     if (open && !editData) {
       const newReceiptNumber = `KWT-${crypto.randomUUID().substring(0, 12).toUpperCase()}`;
       setValue("receiptNumber", newReceiptNumber);
@@ -493,7 +501,7 @@ function PaymentFormDialog({
   const unpaidItemsKey =
     unpaidItemsData?.map((i: PaymentItemData) => i.id).join(",") ?? "";
 
-  const memoizedUnpaidItems = React.useMemo(() => {
+  const memoizedUnpaidItems = useMemo(() => {
     // Start with existing payment items from editData
     const existingItems =
       editData?.paymentItems?.map((item) => ({
@@ -527,7 +535,7 @@ function PaymentFormDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unpaidItemsKey, editData?.paymentItems]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (memoizedUnpaidItems.length > 0) {
       replace(memoizedUnpaidItems);
       // Combine both editData.paymentItems and unpaidItemsData for setUnpaidItems
@@ -550,7 +558,7 @@ function PaymentFormDialog({
       ?.map((item) => `${item.selected}:${item.subtotal}`)
       .join("|") ?? "";
 
-  const grandTotal = React.useMemo(() => {
+  const grandTotal = useMemo(() => {
     return (
       watchedItems
         ?.filter((item) => item.selected)
@@ -563,7 +571,7 @@ function PaymentFormDialog({
   }, [itemsKey]);
 
   // Auto-fill totalTransfer saat grandTotal berubah
-  React.useEffect(() => {
+  useEffect(() => {
     if (grandTotal > 0) {
       setTotalTransfer(grandTotal);
     } else {
@@ -571,7 +579,7 @@ function PaymentFormDialog({
     }
   }, [grandTotal]);
 
-  const toggleItemSelection = React.useCallback(
+  const toggleItemSelection = useCallback(
     (index: number) => {
       const currentSelected = watchedItems[index].selected;
       setValue(`items.${index}.selected`, !currentSelected);
@@ -580,7 +588,7 @@ function PaymentFormDialog({
   );
 
   // ✅ FIX 5: editData reset — tambah setSelectedStudentId agar query unpaid terpanggil
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       reset({
         studentId: editData.studentId || "",
@@ -1310,7 +1318,7 @@ function PaymentDataTable({
   };
 }) {
   // ✅ Memoize initial date range to prevent re-creation
-  const initialDateRange = React.useMemo(() => {
+  const initialDateRange = useMemo(() => {
     const today = new Date();
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     return {
@@ -1319,39 +1327,35 @@ function PaymentDataTable({
     };
   }, []);
 
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
     initialDateRange,
   );
 
   // ✅ Memoize date change handler
-  const handleDateRangeChange = React.useCallback(
+  const handleDateRangeChange = useCallback(
     (newDateRange: DateRange | undefined) => {
       setDateRange(newDateRange);
     },
     [],
   );
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [monthFilter, setMonthFilter] = React.useState<string>("all");
-  const [expandedRows, setExpandedRows] = React.useState<Set<string>>(
-    new Set(),
-  );
-  const [isExporting, setIsExporting] = React.useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [isExporting, setIsExporting] = useState(false);
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedPayment, setSelectedPayment] =
-    React.useState<PaymentData | null>(null);
-  // const [totalTransfer, setTotalTransfer] = React.useState(0);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<PaymentData | null>(
+    null,
+  );
+  // const [totalTransfer, setTotalTransfer] = useState(0);
 
   const branchId = userDataBranch.id;
 
@@ -1365,13 +1369,15 @@ function PaymentDataTable({
     todate: dateRange?.to,
     branchId: branchId, // ✅ FIX: Pass branchId directly (undefined is OK)
   });
-  const { data: allStudents = [] } = useGetStudentByIdBranch(branchId as string);
+  const { data: allStudents = [] } = useGetStudentByIdBranch(
+    branchId as string,
+  );
   const { data: allAccountBanks = [] } = useGetAccountBankByIdBranch(
     branchId as string,
   );
 
   // Callback hooks
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, _: string, filterValue: string) => {
       if (!filterValue) return true;
       const p = row.original as PaymentData;
@@ -1393,7 +1399,7 @@ function PaymentDataTable({
     [],
   );
 
-  const toggleExpand = React.useCallback((id: string) => {
+  const toggleExpand = useCallback((id: string) => {
     setExpandedRows((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
@@ -1401,17 +1407,17 @@ function PaymentDataTable({
     });
   }, []);
 
-  const handleSuccess = React.useCallback(() => {
+  const handleSuccess = useCallback(() => {
     refetch();
   }, [refetch]);
 
   // ✅ Memoize reset handler - MUST BE BEFORE OTHER LOGIC
-  const handleResetDateRange = React.useCallback(() => {
+  const handleResetDateRange = useCallback(() => {
     setDateRange(initialDateRange);
   }, [initialDateRange]);
 
   // Memoize columns definition
-  const columns: ColumnDef<PaymentData>[] = React.useMemo(
+  const columns: ColumnDef<PaymentData>[] = useMemo(
     () => [
       {
         id: "select",
@@ -1726,13 +1732,13 @@ function PaymentDataTable({
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("status")
       ?.setFilterValue(statusFilter !== "all" ? statusFilter : undefined);
   }, [statusFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("month")
       ?.setFilterValue(monthFilter !== "all" ? monthFilter : undefined);
@@ -1928,7 +1934,7 @@ function PaymentDataTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <React.Fragment key={row.id}>
+                <Fragment key={row.id}>
                   <TableRow data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -1949,7 +1955,7 @@ function PaymentDataTable({
                       </TableCell>
                     </TableRow>
                   )}
-                </React.Fragment>
+                </Fragment>
               ))
             ) : (
               <TableRow>
@@ -2106,7 +2112,7 @@ export default function PaymentPage() {
   const userDataId = userData?.id;
 
   // ✅ FIX #2: Memoize userDataBranch object untuk stabilize reference
-  const userDataBranch = React.useMemo(() => {
+  const userDataBranch = useMemo(() => {
     return userData?.branch
       ? { id: userData.branch.id, name: userData.branch.name }
       : { id: undefined, name: undefined };

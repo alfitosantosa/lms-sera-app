@@ -1,6 +1,6 @@
 import {
-  BranchFormValues,
-  branchTypes,
+  type BranchFormValues,
+  type branchTypes,
 } from "@/app/(types)/types/branchs-types";
 import { CACHE_STRATEGIES } from "@/app/client/providers";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";

@@ -41,7 +41,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ function UploadBilling({
   }, [paymentTypes]);
 
   // ── File handling ─────────────────────────────────────────────────────────
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setUploadResult(null);
     setPreviewRows([]);
     setAvailableSheets([]);

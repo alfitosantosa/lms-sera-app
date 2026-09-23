@@ -137,6 +137,7 @@ export async function POST(request: NextRequest) {
       foundation: createNewFoundation,
       user: AssignUserFoundation,
       userData: AssignUserDataFoundation,
+      createRole: CreateRole ? "true" : "false",
     });
   } catch (error) {
     return handlePrismaError(error);

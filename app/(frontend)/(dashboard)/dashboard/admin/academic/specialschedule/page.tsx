@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 
 import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
 import {
@@ -87,7 +88,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -197,7 +198,7 @@ function SpecialScheduleFormDialog({
   const selectedAcademicYearId = watch("academicYearId");
   const isPublished = watch("isPublished");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("title", editData.title);
       setValue("description", editData.description || "");
@@ -265,7 +266,7 @@ function SpecialScheduleFormDialog({
               <Label>Jenis Acara</Label>
               <Select
                 value={selectedEventType || ""}
-                onValueChange={(value) => setValue("eventType", value)}
+                onValueChange={(value: string) => setValue("eventType", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Jenis Acara" />
@@ -305,7 +306,9 @@ function SpecialScheduleFormDialog({
             <Label>Tahun Akademik</Label>
             <Select
               value={selectedAcademicYearId || ""}
-              onValueChange={(value) => setValue("academicYearId", value)}
+              onValueChange={(value: string) =>
+                setValue("academicYearId", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Tahun Akademik" />
@@ -338,7 +341,7 @@ function SpecialScheduleFormDialog({
             <Switch
               id="isPublished"
               checked={isPublished}
-              onCheckedChange={(checked) => {
+              onCheckedChange={(checked: boolean) => {
                 setValue("isPublished", checked);
               }}
             />
@@ -427,27 +430,24 @@ function DeleteSpecialScheduleDialog({
 }
 
 function SpecialScheduleDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedSpecialSchedule, setSelectedSpecialSchedule] =
-    React.useState<SpecialScheduleData | null>(null);
+    useState<SpecialScheduleData | null>(null);
 
   // Filter states
-  const [eventTypeFilter, setEventTypeFilter] = React.useState<string>("all");
-  const [publishStatusFilter, setPublishStatusFilter] = React.useState<
+  const [eventTypeFilter, setEventTypeFilter] = useState<string>("all");
+  const [publishStatusFilter, setPublishStatusFilter] = useState<
     boolean | null
   >(null);
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const {
     data: specialSchedules = [],
@@ -480,7 +480,7 @@ function SpecialScheduleDataTable() {
   };
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -516,14 +516,16 @@ function SpecialScheduleDataTable() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value: boolean) =>
+            table.toggleAllPageRowsSelected(!!value)
+          }
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
         />
       ),
@@ -731,7 +733,7 @@ function SpecialScheduleDataTable() {
   });
 
   // Apply event type filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (eventTypeFilter !== "all") {
       table.getColumn("eventType")?.setFilterValue(eventTypeFilter);
     } else {
@@ -740,7 +742,7 @@ function SpecialScheduleDataTable() {
   }, [eventTypeFilter, table]);
 
   // Apply publish status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (publishStatusFilter !== null) {
       table.getColumn("isPublished")?.setFilterValue(publishStatusFilter);
     } else {
@@ -765,7 +767,11 @@ function SpecialScheduleDataTable() {
               <Input
                 placeholder="Cari acara, jenis, atau tahun akademik..."
                 value={globalFilter ?? ""}
-                onChange={(event) => setGlobalFilter(event.target.value)}
+                onChange={(event: {
+                  target: {
+                    value: string;
+                  };
+                }) => setGlobalFilter(event.target.value)}
                 className="max-w-sm pl-8"
                 disabled={isLoading}
               />
@@ -800,7 +806,7 @@ function SpecialScheduleDataTable() {
                     ? "published"
                     : "draft"
               }
-              onValueChange={(value) => {
+              onValueChange={(value: string) => {
                 if (value === "all") {
                   setPublishStatusFilter(null);
                 } else {
@@ -873,7 +879,7 @@ function SpecialScheduleDataTable() {
                           key={column.id}
                           className="capitalize"
                           checked={column.getIsVisible()}
-                          onCheckedChange={(value) =>
+                          onCheckedChange={(value: boolean) =>
                             column.toggleVisibility(!!value)
                           }
                         >

@@ -1,7 +1,7 @@
 import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
 import { Search, User } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useMemo, useState } from "react";
 
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -21,12 +21,12 @@ export function StudentSelectorByIdBranch({
   disabled?: boolean;
   foundationId?: string;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { data: betterAuths = [], isLoading: betterAuthsLoading } =
     useGetBetterAuthWithoutUserData(foundationId);
 
-  const filteredbetterAuths = React.useMemo(() => {
+  const filteredbetterAuths = useMemo(() => {
     if (!searchTerm) return betterAuths;
 
     return betterAuths.filter((user: BetterAuthUser) => {
@@ -39,7 +39,7 @@ export function StudentSelectorByIdBranch({
     });
   }, [betterAuths, searchTerm]);
 
-  const selectedUser = React.useMemo(() => {
+  const selectedUser = useMemo(() => {
     if (!selecteduserId) return null;
     return betterAuths.find(
       (user: BetterAuthUser) => user.id === selecteduserId,

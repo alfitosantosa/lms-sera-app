@@ -1,14 +1,14 @@
 "use client";
 
-import * as React from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
 export function Pricing() {
-  const [isAnnual, setIsAnnual] = React.useState(true);
+  const [isAnnual, setIsAnnual] = useState(true);
   const router = useRouter();
 
   const handleSelectPlan = () => {

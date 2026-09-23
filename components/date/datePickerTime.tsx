@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, ChangeEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
-import * as React from "react";
+
 
 interface DatePickerTimeProps {
   value?: Date;
@@ -30,16 +31,16 @@ export function DatePickerTime({
   placeholder = "Select date",
   disabled = false,
 }: DatePickerTimeProps) {
-  const [open, setOpen] = React.useState(false);
-  const [internalDate, setInternalDate] = React.useState<Date | undefined>(
+  const [open, setOpen] = useState(false);
+  const [internalDate, setInternalDate] = useState<Date | undefined>(
     value,
   );
-  const [time, setTime] = React.useState<string>(
+  const [time, setTime] = useState<string>(
     value ? format(value, "HH:mm:ss") : "10:30:00",
   );
 
   // Sync internal date with external value
-  React.useEffect(() => {
+  useEffect(() => {
     if (value) {
       setInternalDate(value);
       setTime(format(value, "HH:mm:ss"));
@@ -64,7 +65,7 @@ export function DatePickerTime({
     setOpen(false);
   };
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newTime = e.target.value;
     setTime(newTime);
 

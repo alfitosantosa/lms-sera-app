@@ -11,7 +11,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown, Search, X } from "lucide-react";
-import * as React from "react";
+import { useMemo, useState } from "react";
 
 interface TeacherComboboxProps {
   teachers: UserDataTypes[];
@@ -30,10 +30,10 @@ export function TeacherCombobox({
   disabled = false,
   className,
 }: TeacherComboboxProps) {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredTeachers = React.useMemo(() => {
+  const filteredTeachers = useMemo(() => {
     if (!searchTerm) return teachers;
     return teachers.filter(
       (teacher) =>
@@ -42,7 +42,7 @@ export function TeacherCombobox({
     );
   }, [teachers, searchTerm]);
 
-  const selectedTeacher = React.useMemo(() => {
+  const selectedTeacher = useMemo(() => {
     if (!value) return null;
     return teachers.find((teacher) => teacher.id === value) || null;
   }, [teachers, value]);
@@ -53,7 +53,7 @@ export function TeacherCombobox({
     setSearchTerm("");
   };
 
-  const handleClear = (e: React.MouseEvent) => {
+  const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     onValueChange("");
     setSearchTerm("");
@@ -89,10 +89,9 @@ export function TeacherCombobox({
           </div>
           <div className="ml-2 flex items-center gap-1">
             {selectedTeacher && !disabled && (
-              <X
-                className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100"
-                onClick={handleClear}
-              />
+              <Button onClick={handleClear}>
+                <X className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100" />
+              </Button>
             )}
             <ChevronDown className="h-4 w-4 opacity-50" />
           </div>
@@ -106,7 +105,11 @@ export function TeacherCombobox({
             <Input
               placeholder="Cari nama guru..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: {
+                target: {
+                  value: string;
+                };
+              }) => setSearchTerm(e.target.value)}
               className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>

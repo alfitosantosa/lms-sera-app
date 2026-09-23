@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
@@ -79,7 +80,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -255,14 +256,14 @@ function PaymentTypeFormDialog({
   ]);
 
   // Auto-calculate subtotal
-  React.useEffect(() => {
+  useEffect(() => {
     const a = Number(amount) || 0;
     const q = Number(quantity) || 0;
     setValue("subtotal", a * q);
   }, [amount, quantity, setValue]);
 
   // Populate form when editing
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("branchId", editData.branchId);
       setValue("name", editData.name);
@@ -609,14 +610,16 @@ const createColumns = (
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: boolean) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
     ),
@@ -778,28 +781,23 @@ const createColumns = (
 // ============================================================================
 
 function PaymentTypeDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [branchSelection, setBranchSelection] = React.useState<string | null>(
-    null,
-  );
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [branchSelection, setBranchSelection] = useState<string | null>(null);
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedPaymentType, setSelectedPaymentType] =
-    React.useState<PaymentTypeData | null>(null);
+    useState<PaymentTypeData | null>(null);
 
   const { data: paymentTypes = [], isLoading, refetch } = useGetPaymentTypes();
   const { data: branchs = [] } = useGetBranchs();
 
   // Filter payment types by selected branch
-  const filteredPaymentTypes = React.useMemo(() => {
+  const filteredPaymentTypes = useMemo(() => {
     if (!branchSelection) return paymentTypes;
     return paymentTypes.filter((pt) => pt.branchId === branchSelection);
   }, [paymentTypes, branchSelection]);
@@ -808,17 +806,17 @@ function PaymentTypeDataTable() {
     refetch();
   };
 
-  const handleEdit = React.useCallback((data: PaymentTypeData) => {
+  const handleEdit = useCallback((data: PaymentTypeData) => {
     setSelectedPaymentType(data);
     setEditDialogOpen(true);
   }, []);
 
-  const handleDelete = React.useCallback((data: PaymentTypeData) => {
+  const handleDelete = useCallback((data: PaymentTypeData) => {
     setSelectedPaymentType(data);
     setDeleteDialogOpen(true);
   }, []);
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => createColumns(handleEdit, handleDelete),
     [handleEdit, handleDelete],
   );

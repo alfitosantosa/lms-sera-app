@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useBulkSendWhatsApp } from "@/app/(hooks)/hooks/BotWA/useBotWA";
 import {
   useCreateSnapMidtransTransaction,
@@ -66,7 +67,7 @@ import {
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import Script from "next/script";
-import * as React from "react";
+
 import { toast } from "sonner";
 import * as z from "zod";
 
@@ -244,7 +245,7 @@ function MidtransPaymentDialog({
   onSuccess: () => void;
   setMidtransDialogOpen?: (open: boolean) => void;
 }) {
-  const [isProcessing, setIsProcessing] = React.useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const mutationSnapMidtrans = useCreateSnapMidtransTransaction();
   const mutationUpdatePaymentTransaction = useUpdatePaymentTransaction();
   const mutationPaymentSuccess = useUpdateMidtransSuccessTransaction();
@@ -486,18 +487,15 @@ function MidtransPaymentDialog({
 
 // Main DataTable Component
 function PaymentDashboard({ userId }: { userId: string }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [midtransDialogOpen, setMidtransDialogOpen] = React.useState(false);
+  const [midtransDialogOpen, setMidtransDialogOpen] = useState(false);
   const [selectedPayment, setSelectedPayment] =
-    React.useState<StudentPaymentData | null>(null);
+    useState<StudentPaymentData | null>(null);
 
   const {
     data: payments = [],

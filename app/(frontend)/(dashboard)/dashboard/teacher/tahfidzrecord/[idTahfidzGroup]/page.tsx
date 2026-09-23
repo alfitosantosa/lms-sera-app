@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useGetQuranSurah } from "@/app/(hooks)/hooks/TahfidzRecord/useQuranSurah";
 import {
@@ -88,7 +89,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized, useParams } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -208,12 +209,12 @@ function TahfidzFormDialog({
   const selectedGrade = watch("grade");
 
   // Find selected surah to show verse count hint
-  const selectedSurah = React.useMemo(
+  const selectedSurah = useMemo(
     () => quranSurah?.find((s) => s.id === selectedSurahId),
     [quranSurah, selectedSurahId],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("studentId", editData.studentId || "");
       setValue("teacherId", editData.teacherId || teacherId || "");
@@ -296,7 +297,7 @@ function TahfidzFormDialog({
               <Label>Siswa</Label>
               <Select
                 value={selectedStudentId || ""}
-                onValueChange={(v) => setValue("studentId", v)}
+                onValueChange={(v: string) => setValue("studentId", v)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Siswa" />
@@ -337,7 +338,7 @@ function TahfidzFormDialog({
               <Label>Surah</Label>
               <Select
                 value={selectedSurahId || ""}
-                onValueChange={(v) => {
+                onValueChange={(v: string) => {
                   setValue("surahQuranId", v);
                   // Reset verses when surah changes
                   setValue("startVerse", 1);
@@ -432,7 +433,9 @@ function TahfidzFormDialog({
             <Label>Nilai</Label>
             <Select
               value={selectedGrade || "none"}
-              onValueChange={(v) => setValue("grade", v === "none" ? "" : v)}
+              onValueChange={(v: string) =>
+                setValue("grade", v === "none" ? "" : v)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Nilai (Opsional)" />
@@ -549,21 +552,18 @@ function DeleteTahfidzDialog({
 
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function TahfidzRecordDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
-  const [gradeFilter, setGradeFilter] = React.useState<string>("all");
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [gradeFilter, setGradeFilter] = useState<string>("all");
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] =
-    React.useState<TahfidzRecordData | null>(null);
+    useState<TahfidzRecordData | null>(null);
 
   const { data: session } = useSession();
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
@@ -585,7 +585,7 @@ function TahfidzRecordDataTable() {
 
   const handleSuccess = () => refetch();
 
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (
       row: { original: TahfidzRecordData },
       _columnId: string,
@@ -620,14 +620,14 @@ function TahfidzRecordDataTable() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
+          onCheckedChange={(v: boolean) => table.toggleAllPageRowsSelected(!!v)}
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(v) => row.toggleSelected(!!v)}
+          onCheckedChange={(v: boolean) => row.toggleSelected(!!v)}
           aria-label="Select row"
         />
       ),
@@ -846,7 +846,7 @@ function TahfidzRecordDataTable() {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("grade")
       ?.setFilterValue(gradeFilter !== "all" ? gradeFilter : undefined);
@@ -879,7 +879,11 @@ function TahfidzRecordDataTable() {
             <Input
               placeholder="Cari surah, siswa, guru..."
               value={globalFilter ?? ""}
-              onChange={(e) => setGlobalFilter(e.target.value)}
+              onChange={(e: {
+                target: {
+                  value: string;
+                };
+              }) => setGlobalFilter(e.target.value)}
               className="max-w-sm pl-8"
             />
           </div>
@@ -931,7 +935,9 @@ function TahfidzRecordDataTable() {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(v) => column.toggleVisibility(!!v)}
+                    onCheckedChange={(v: boolean) =>
+                      column.toggleVisibility(!!v)
+                    }
                   >
                     {columnLabels[column.id] ?? column.id}
                   </DropdownMenuCheckboxItem>

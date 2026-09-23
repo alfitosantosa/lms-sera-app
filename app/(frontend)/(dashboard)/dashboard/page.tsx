@@ -48,7 +48,7 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { ElementType, useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import {
   Bar,
@@ -128,7 +128,7 @@ const STATUS_MAP: Record<
     color: string;
     bgColor: string;
     borderColor: string;
-    icon: React.ElementType;
+    icon: ElementType;
     chartColor: string;
   }
 > = {

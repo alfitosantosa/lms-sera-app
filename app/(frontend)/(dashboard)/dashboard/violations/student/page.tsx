@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetStudentById } from "@/app/(hooks)/hooks/Users/useGetStudentById";
@@ -56,7 +57,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import * as React from "react";
+
 
 export type ViolationData = {
   id: string;
@@ -97,16 +98,16 @@ const violationStatuses = [
 ];
 
 export default function ViolationDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   // Get session from Better Auth
   const { data: session, isPending } = useSession();
@@ -146,7 +147,7 @@ export default function ViolationDataTable() {
     return found ? found.label : status;
   };
 
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
       const searchValue = filterValue.toLowerCase();
@@ -370,7 +371,7 @@ export default function ViolationDataTable() {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("status")?.setFilterValue(statusFilter);
     } else {
@@ -378,7 +379,7 @@ export default function ViolationDataTable() {
     }
   }, [statusFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("class")?.setFilterValue(classFilter);
     } else {

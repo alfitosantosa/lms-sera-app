@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 
 import {
   useCreateAcademicYear,
@@ -76,7 +77,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -114,7 +115,7 @@ function AcademicYearFormDialog({
 
   const isActiveValue = watch("isActive");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("year", editData.year);
       setValue("startDate", editData.startDate.split("T")[0]); // Format for date input
@@ -285,20 +286,20 @@ function DeleteAcademicYearDialog({
 
 // Main DataTable Component
 function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedAcademicYear, setSelectedAcademicYear] =
-    React.useState<AcademicYearDataTypes | null>(null);
+    useState<AcademicYearDataTypes | null>(null);
 
   const {
     data: academicYears = [],

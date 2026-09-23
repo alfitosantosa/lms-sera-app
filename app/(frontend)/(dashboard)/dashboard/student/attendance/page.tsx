@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useGetAttendanceByIdStudent } from "@/app/(hooks)/hooks/Attendances/useAttendaceByIdStudent";
 import { useGetSchedules } from "@/app/(hooks)/hooks/Schedules/useSchedules";
@@ -57,7 +58,7 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import * as React from "react";
+
 
 // Type definitions
 export type AttendanceData = {
@@ -137,20 +138,20 @@ const DAYS_MAP = {
 
 // Main DataTable Component
 export default function AttendanceDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Filter states
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [subjectFilter, setSubjectFilter] = React.useState<string>("all");
-  const [dateFilter, setDateFilter] = React.useState<string>("");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [subjectFilter, setSubjectFilter] = useState<string>("all");
+  const [dateFilter, setDateFilter] = useState<string>("");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   // Get session from Better Auth
   const { data: session, isPending } = useSession();
@@ -170,7 +171,7 @@ export default function AttendanceDataTable() {
   };
 
   // Get unique classes from schedules
-  const uniqueClasses = React.useMemo(() => {
+  const uniqueClasses = useMemo(() => {
     const classes = schedules
       .filter((schedule: any) => schedule.class)
       .map((schedule: any) => schedule.class)
@@ -182,7 +183,7 @@ export default function AttendanceDataTable() {
   }, [schedules]);
 
   // Get unique subjects from schedules
-  const uniqueSubjects = React.useMemo(() => {
+  const uniqueSubjects = useMemo(() => {
     const subjects = schedules
       .filter((schedule: any) => schedule.subject)
       .map((schedule: any) => schedule.subject)
@@ -194,7 +195,7 @@ export default function AttendanceDataTable() {
   }, [schedules]);
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -221,7 +222,7 @@ export default function AttendanceDataTable() {
   );
 
   // Custom date filter function
-  const dateFilterFn = React.useCallback(
+  const dateFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -234,7 +235,7 @@ export default function AttendanceDataTable() {
   );
 
   // Custom class filter function
-  const classFilterFn = React.useCallback(
+  const classFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (filterValue === "all") return true;
 
@@ -248,7 +249,7 @@ export default function AttendanceDataTable() {
   );
 
   // Custom subject filter function
-  const subjectFilterFn = React.useCallback(
+  const subjectFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (filterValue === "all") return true;
 
@@ -496,7 +497,7 @@ export default function AttendanceDataTable() {
   });
 
   // Apply status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("status")?.setFilterValue(statusFilter);
     } else {
@@ -505,7 +506,7 @@ export default function AttendanceDataTable() {
   }, [statusFilter, table]);
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("schedule")?.setFilterValue(classFilter);
     } else {
@@ -514,7 +515,7 @@ export default function AttendanceDataTable() {
   }, [classFilter, table]);
 
   // Apply subject filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (subjectFilter !== "all") {
       table.getColumn("subject")?.setFilterValue(subjectFilter);
     } else {
@@ -523,7 +524,7 @@ export default function AttendanceDataTable() {
   }, [subjectFilter, table]);
 
   // Apply date filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (dateFilter) {
       table.getColumn("date")?.setFilterValue(dateFilter);
     } else {
@@ -532,7 +533,7 @@ export default function AttendanceDataTable() {
   }, [dateFilter, table]);
 
   // Calculate statistics
-  const stats = React.useMemo(() => {
+  const stats = useMemo(() => {
     const filteredAttendances = table
       .getFilteredRowModel()
       .rows.map((row) => row.original);

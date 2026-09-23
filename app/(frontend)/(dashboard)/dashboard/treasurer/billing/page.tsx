@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
 import {
@@ -97,7 +98,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { type DateRange } from "react-day-picker";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -300,13 +301,13 @@ function SingleItemDialog({
     usePaymentItemsUnpaidStudent(watchedStudentId);
 
   // ✅ FIX #2: Memoize selectedPT to prevent unnecessary recalculations
-  const selectedPT = React.useMemo(
+  const selectedPT = useMemo(
     () => allPaymentTypes.find((p) => p.id === watchedPaymentTypeId),
     [allPaymentTypes, watchedPaymentTypeId],
   );
 
   // ✅ FIX #5: Wrap callbacks with useCallback to prevent recreation on every render
-  const handlePaymentTypeChange = React.useCallback(
+  const handlePaymentTypeChange = useCallback(
     (ptId: string) => {
       const pt = allPaymentTypes.find((p) => p.id === ptId);
       if (pt) {
@@ -328,7 +329,7 @@ function SingleItemDialog({
     [allPaymentTypes, watch, setValue],
   );
 
-  const handleQtyChange = React.useCallback(
+  const handleQtyChange = useCallback(
     (qty: number) => {
       const amount = watch("amount") ?? 0;
       setValue("quantity", qty);
@@ -337,7 +338,7 @@ function SingleItemDialog({
     [watch, setValue],
   );
 
-  const handleAmountChange = React.useCallback(
+  const handleAmountChange = useCallback(
     (amount: number) => {
       const qty = watch("quantity") ?? 1;
       setValue("amount", amount);
@@ -347,7 +348,7 @@ function SingleItemDialog({
   );
 
   // ✅ FIX #3: Use editData.id instead of entire editData object to prevent unnecessary resets
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData && open) {
       // Convert month number to month name for display
       let monthName = editData.month;
@@ -867,7 +868,7 @@ function BillingDataTable({
 }: {
   branchData: { id: string; name: string } | null | undefined;
 }) {
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
     () => {
       const today = new Date();
       const firstDayOfMonth = new Date(
@@ -881,33 +882,33 @@ function BillingDataTable({
       };
     },
   );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
-  const [paidFilter, setPaidFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [monthFilter, setMonthFilter] = React.useState<string>("all");
-  const [yearFilter, setYearFilter] = React.useState<string>("all");
-  const [skuFilter, setSkuFilter] = React.useState<string>("all");
-  const [isExporting, setIsExporting] = React.useState(false);
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [paidFilter, setPaidFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [yearFilter, setYearFilter] = useState<string>("all");
+  const [skuFilter, setSkuFilter] = useState<string>("all");
+  const [isExporting, setIsExporting] = useState(false);
 
-  const [singleDialogOpen, setSingleDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [singleDialogOpen, setSingleDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] =
-    React.useState<PaymentItemData | null>(null);
+    useState<PaymentItemData | null>(null);
 
   // ✅ Smart handlers untuk date range
-  // const handleResetDateRange = React.useCallback(() => {
+  // const handleResetDateRange = useCallback(() => {
   //   setDateRange(undefined);
   // }, []);
 
-  // const handleDateRangeChange = React.useCallback((newDateRange: DateRange | undefined) => {
+  // const handleDateRangeChange = useCallback((newDateRange: DateRange | undefined) => {
   //   setDateRange(newDateRange);
   // }, []);
 
@@ -934,7 +935,7 @@ function BillingDataTable({
   const { data: allClassById = [] } = useGetClassByIdBranch(branchData?.id ?? "");
   const handleSuccess = () => refetch();
 
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: Row<PaymentItemData>, _: string, filterValue: string) => {
       if (!filterValue) return true;
       const item = row.original;
@@ -955,7 +956,7 @@ function BillingDataTable({
     [],
   );
   // ✅ FIX: Get students in selected class
-  const studentsInSelectedClass = React.useMemo(() => {
+  const studentsInSelectedClass = useMemo(() => {
     if (classFilter === "all") return null;
     const selectedClass = allClassById.find((c) => c.id === classFilter);
     if (!selectedClass) return [];
@@ -1265,31 +1266,31 @@ function BillingDataTable({
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("isPaid")
       ?.setFilterValue(paidFilter !== "all" ? paidFilter : undefined);
   }, [paidFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("student")
       ?.setFilterValue(classFilter !== "all" ? classFilter : undefined);
   }, [classFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("month")
       ?.setFilterValue(monthFilter !== "all" ? monthFilter : undefined);
   }, [monthFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("year")
       ?.setFilterValue(yearFilter !== "all" ? yearFilter : undefined);
   }, [yearFilter, table]);
 
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   table.getColumn("skuType")?.setFilterValue(skuFilter !== "all" ? skuFilter : undefined);
   // }, [skuFilter, table]);
 

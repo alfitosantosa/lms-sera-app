@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { useGetQuranSurah } from "@/app/(hooks)/hooks/TahfidzRecord/useQuranSurah";
 import {
@@ -89,7 +90,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -206,12 +207,12 @@ function TahfidzFormDialog({
   const selectedGrade = watch("grade");
 
   // Find selected surah to show verse count hint
-  const selectedSurah = React.useMemo(
+  const selectedSurah = useMemo(
     () => quranSurah?.find((s) => s.id === selectedSurahId),
     [quranSurah, selectedSurahId],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("studentId", editData.studentId || "");
       setValue("teacherId", editData.teacherId || "");
@@ -551,21 +552,18 @@ function DeleteTahfidzDialog({
 
 // ─── Main DataTable ───────────────────────────────────────────────────────────
 function TahfidzRecordDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
-  const [gradeFilter, setGradeFilter] = React.useState<string>("all");
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [gradeFilter, setGradeFilter] = useState<string>("all");
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] =
-    React.useState<TahfidzRecordData | null>(null);
+    useState<TahfidzRecordData | null>(null);
 
   const { data: records = [], isLoading, refetch } = useGetTahfidzRecords("");
   const { data: allStudents = [] } = useGetStudents();
@@ -574,7 +572,7 @@ function TahfidzRecordDataTable() {
 
   const handleSuccess = () => refetch();
 
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, _columnId: string, filterValue: string) => {
       if (!filterValue) return true;
       const r = row.original as TahfidzRecordData;
@@ -605,14 +603,14 @@ function TahfidzRecordDataTable() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
+          onCheckedChange={(v: boolean) => table.toggleAllPageRowsSelected(!!v)}
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(v) => row.toggleSelected(!!v)}
+          onCheckedChange={(v: boolean) => row.toggleSelected(!!v)}
           aria-label="Select row"
         />
       ),
@@ -831,7 +829,7 @@ function TahfidzRecordDataTable() {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table
       .getColumn("grade")
       ?.setFilterValue(gradeFilter !== "all" ? gradeFilter : undefined);

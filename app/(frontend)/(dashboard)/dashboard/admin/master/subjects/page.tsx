@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import {
@@ -85,7 +86,7 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -156,7 +157,7 @@ function SubjectFormDialog({
   const isActive = watch("isActive");
   const credits = watch("credits");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("code", editData.code);
       setValue("name", editData.name);
@@ -371,25 +372,25 @@ function DeleteSubjectDialog({
 
 // Main DataTable Component
 function SubjectDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] =
-    React.useState<SubjectData | null>(null);
+    useState<SubjectData | null>(null);
 
   // Filter states
-  const [branchFilter, setBranchFilter] = React.useState<string>("all");
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [branchFilter, setBranchFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const { data: subjects = [], isLoading, refetch } = useGetSubjects();
   const { data: branchs = [] } = useGetBranchs();
@@ -399,7 +400,7 @@ function SubjectDataTable() {
   };
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -655,7 +656,7 @@ function SubjectDataTable() {
   });
 
   // Apply branch filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (branchFilter !== "all") {
       table.getColumn("branch")?.setFilterValue(branchFilter);
     } else {
@@ -664,7 +665,7 @@ function SubjectDataTable() {
   }, [branchFilter, table]);
 
   // Apply status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("isActive")?.setFilterValue(statusFilter);
     } else {

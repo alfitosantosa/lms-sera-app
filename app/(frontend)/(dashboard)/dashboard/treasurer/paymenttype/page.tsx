@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import {
   useCreatePaymentType,
@@ -79,7 +80,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -265,14 +266,14 @@ function PaymentTypeFormDialog({
   ]);
 
   // Auto-calculate subtotal
-  React.useEffect(() => {
+  useEffect(() => {
     const a = Number(amount) || 0;
     const q = Number(quantity) || 0;
     setValue("subtotal", a * q);
   }, [amount, quantity, setValue]);
 
   // Populate form when editing or auto-assign branchId
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("id", editData.id);
       setValue("branchId", editData.branchId);
@@ -782,20 +783,20 @@ function PaymentTypeDataTable({
       </div>
     );
   }
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [isReady, setIsReady] = React.useState(false);
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [isReady, setIsReady] = useState(false);
 
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedPaymentType, setSelectedPaymentType] =
-    React.useState<PaymentTypeData | null>(null);
+    useState<PaymentTypeData | null>(null);
 
   // Fetch payment types for the specific branch
   const {
@@ -805,14 +806,14 @@ function PaymentTypeDataTable({
   } = useGetPaymentTypeByIdBranch(userBranchData.id);
 
   // Wait for async data to load before rendering
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isLoading && userBranchData) {
       setIsReady(true);
     }
   }, [isLoading, userBranchData]);
 
   // Filter by branch ID - only after data is ready
-  const filteredPaymentTypes = React.useMemo(() => {
+  const filteredPaymentTypes = useMemo(() => {
     if (!userBranchData.id || !isReady) return [];
     return paymentTypes;
   }, [paymentTypes, isReady]);
@@ -821,17 +822,17 @@ function PaymentTypeDataTable({
     refetch();
   };
 
-  const handleEdit = React.useCallback((data: PaymentTypeData) => {
+  const handleEdit = useCallback((data: PaymentTypeData) => {
     setSelectedPaymentType(data);
     setEditDialogOpen(true);
   }, []);
 
-  const handleDelete = React.useCallback((data: PaymentTypeData) => {
+  const handleDelete = useCallback((data: PaymentTypeData) => {
     setSelectedPaymentType(data);
     setDeleteDialogOpen(true);
   }, []);
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => createColumns(handleEdit, handleDelete),
     [handleEdit, handleDelete],
   );

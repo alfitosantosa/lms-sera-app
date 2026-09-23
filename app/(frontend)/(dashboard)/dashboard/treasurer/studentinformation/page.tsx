@@ -1,4 +1,5 @@
 "use client";
+import { useState, useMemo, ReactNode, LabelHTMLAttributes } from "react";
 
 import {
   useGetPaymentByStudentId,
@@ -35,7 +36,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type PaymentItem = {
@@ -147,7 +148,7 @@ _Bagian Keuangan_`;
 function PaymentStatusBadge({ status }: { status: string }) {
   const cfg: Record<
     string,
-    { label: string; className: string; icon: React.ReactNode }
+    { label: string; className: string; icon: ReactNode }
   > = {
     paid: {
       label: "Lunas",
@@ -414,7 +415,7 @@ function BillingTab({
   };
 
   // Group by skuType
-  const groupedUnpaid = React.useMemo(() => {
+  const groupedUnpaid = useMemo(() => {
     const map = new Map<string, PaymentItem[]>();
     unpaidItems.forEach((item) => {
       const key = item.skuType || "Lainnya";
@@ -683,7 +684,7 @@ function StudentInformation({
 }: {
   userDataBranch: { id: string; name: string };
 }) {
-  const [selectedStudentId, setSelectedStudentId] = React.useState<string>("");
+  const [selectedStudentId, setSelectedStudentId] = useState<string>("");
 
   const { data: allStudents = [], isLoading: isLoadingStudents } =
     useGetStudentByIdBranch(userDataBranch.id);
@@ -723,7 +724,7 @@ function StudentInformation({
       })
     : [];
 
-  const selectedStudent: Student | undefined = React.useMemo(
+  const selectedStudent: Student | undefined = useMemo(
     () => (allStudents as Student[]).find((s) => s.id === selectedStudentId),
     [allStudents, selectedStudentId],
   );
@@ -878,7 +879,7 @@ function Label({
   children,
   className,
   ...props
-}: React.LabelHTMLAttributes<HTMLLabelElement> & { className?: string }) {
+}: LabelHTMLAttributes<HTMLLabelElement> & { className?: string }) {
   return (
     <label
       className={`text-sm leading-none font-medium ${className ?? ""}`}

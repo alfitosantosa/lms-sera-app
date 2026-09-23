@@ -493,7 +493,7 @@ export default function ParentPage() {
             <CardContent>
               <Select
                 value={selectedStudent?.id}
-                onValueChange={(value) => {
+                onValueChange={(value: string) => {
                   const student = students.find((s: any) => s.id === value);
                   if (student) setSelectedStudent(student);
                 }}

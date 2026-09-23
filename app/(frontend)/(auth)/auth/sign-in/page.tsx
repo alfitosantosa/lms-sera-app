@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,15 +20,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "@/lib/authClients";
+import { type FormEvent, type SetStateAction, useState } from "react";
 
 export default function SignIn() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [rememberMe, setRememberMe] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleEmailSignIn = async (e: FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error("Silakan masukkan email dan password Anda.");
@@ -189,7 +189,7 @@ export default function SignIn() {
                     required
                     autoComplete="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)}
                     className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-11 text-xs transition-all focus-visible:ring-2"
                   />
                 </div>
@@ -223,7 +223,7 @@ export default function SignIn() {
                   required
                   autoComplete="current-password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: { target: { value: SetStateAction<string>; }; }) => setPassword(e.target.value)}
                   className="border-border bg-background focus-visible:border-primary focus-visible:ring-primary/20 h-11 text-xs transition-all focus-visible:ring-2"
                 />
               </div>
@@ -232,7 +232,7 @@ export default function SignIn() {
                 <Checkbox
                   id="remember"
                   checked={rememberMe}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={(checked: boolean) =>
                     setRememberMe(checked as boolean)
                   }
                   className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded"

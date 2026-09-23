@@ -7,6 +7,7 @@ import { type Metadata, type Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import { ReactQueryProvider } from "./client/providers";
+import { ReactNode } from "react";
 
 // Optimized font loading with next/font
 const inter = Inter({
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="id" className={inter.variable} suppressHydrationWarning>

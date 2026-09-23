@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   useBulkCreateTeacherAttendance,
   useDeleteTeacherAttendance,
@@ -76,7 +77,6 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 
 const STATUS_CONFIG: StatusConfigMap = {
@@ -454,6 +454,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
           const config = STATUS_CONFIG[key];
           const count = stats[key];
           const Icon = config?.icon;
+
           return (
             <Card key={key}>
               <CardContent className="pt-4 sm:pt-6">
@@ -461,7 +462,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                   <div
                     className={`rounded-lg p-1.5 sm:p-2 ${config?.bg} shrink-0`}
                   >
-                    <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${config?.text}`} />
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-xl font-bold sm:text-2xl">{count}</p>

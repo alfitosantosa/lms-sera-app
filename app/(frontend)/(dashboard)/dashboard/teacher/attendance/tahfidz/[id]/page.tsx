@@ -551,8 +551,8 @@ Terima kasih.
                 <Checkbox
                   id="sendWhatsApp"
                   checked={sendWhatsApp}
-                  onCheckedChange={(checked) =>
-                    setSendWhatsApp(checked as boolean)
+                  onCheckedChange={(checked: boolean) =>
+                    setSendWhatsApp(checked)
                   }
                 />
                 <label

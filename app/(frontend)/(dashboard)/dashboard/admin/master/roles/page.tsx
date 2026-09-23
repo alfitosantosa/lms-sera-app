@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 
 import {
   useCreateRole,
@@ -72,7 +73,7 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -299,7 +300,7 @@ function RoleFormDialog({
 }) {
   const createRole = useCreateRole();
   const updateRole = useUpdateRole();
-  const [selectedPermissions, setSelectedPermissions] = React.useState<
+  const [selectedPermissions, setSelectedPermissions] = useState<
     string[]
   >([]);
 
@@ -320,7 +321,7 @@ function RoleFormDialog({
 
   const isActive = watch("isActive");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("name", editData.name);
       setValue("description", editData.description || "");
@@ -526,19 +527,19 @@ function DeleteRoleDialog({
 
 // Main DataTable Component
 function RoleDataTable({ foundationId }: { foundationId?: string }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedRole, setSelectedRole] = React.useState<RoleData | null>(null);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
 
   const { data: roles = [], isLoading, refetch } = useGetRoles();
 

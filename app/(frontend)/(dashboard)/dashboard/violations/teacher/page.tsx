@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetStudents } from "@/app/(hooks)/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
@@ -99,7 +100,8 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+import { ReactElement } from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -153,14 +155,14 @@ function SearchableStudentSelect({
   placeholder = "Pilih siswa...",
   disabled = false,
   className,
-}: SearchableStudentSelectProps): React.ReactElement {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+}: SearchableStudentSelectProps): ReactElement {
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Filter students based on search by name OR email
-  const [filteredStudents, setFilteredStudents] = React.useState(students);
+  const [filteredStudents, setFilteredStudents] = useState(students);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!searchTerm) {
       setFilteredStudents(students);
     } else {
@@ -176,7 +178,7 @@ function SearchableStudentSelect({
   }, [students, searchTerm]);
 
   // Find selected student
-  const selectedStudent = React.useMemo(() => {
+  const selectedStudent = useMemo(() => {
     if (!value) return null;
     return students.find((student) => student.id === value) || null;
   }, [students, value]);
@@ -192,13 +194,13 @@ function SearchableStudentSelect({
     setSearchTerm("");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setSearchTerm("");
     }
   }, [open]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (value && !students.some((student) => student.id === value)) {
       onValueChange("");
     }
@@ -331,7 +333,7 @@ function ViolationFormDialog({
   const { data: usersData = [], isLoading: usersLoading } = useGetStudents();
 
   // Filter students from users data (role.name === "Student")
-  const students = React.useMemo(() => {
+  const students = useMemo(() => {
     return usersData.filter((user: any) => user?.role?.name === "Student");
   }, [usersData]);
 
@@ -356,7 +358,7 @@ function ViolationFormDialog({
   const selectedClassId = watchedValues.classId;
   const selectedStatus = watchedValues.status;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("studentId", editData.studentId);
       setValue("violationTypeId", editData.violationTypeId);
@@ -443,7 +445,7 @@ function ViolationFormDialog({
               <Label>Kelas</Label>
               <Select
                 value={selectedClassId}
-                onValueChange={(value) => setValue("classId", value)}
+                onValueChange={(value: string) => setValue("classId", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Kelas" />
@@ -468,7 +470,9 @@ function ViolationFormDialog({
             <Label>Jenis Pelanggaran</Label>
             <Select
               value={selectedViolationTypeId}
-              onValueChange={(value) => setValue("violationTypeId", value)}
+              onValueChange={(value: string) =>
+                setValue("violationTypeId", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jenis Pelanggaran" />
@@ -528,7 +532,7 @@ function ViolationFormDialog({
             <Label>Status</Label>
             <Select
               value={selectedStatus}
-              onValueChange={(value) => setValue("status", value)}
+              onValueChange={(value: string) => setValue("status", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Status" />
@@ -653,25 +657,22 @@ function DeleteViolationDialog({
 function ViolationDataTable() {
   const { data: session } = useSession();
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedViolation, setSelectedViolation] =
-    React.useState<ViolationData | null>(null);
+    useState<ViolationData | null>(null);
 
   // Additional filter states
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const { data: user } = useGetUserByIdBetterAuth(session?.user.id || "");
   const teacherId = user?.id || "";
@@ -717,7 +718,7 @@ function ViolationDataTable() {
   };
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -756,14 +757,16 @@ function ViolationDataTable() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value: boolean) =>
+            table.toggleAllPageRowsSelected(!!value)
+          }
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
         />
       ),
@@ -963,7 +966,7 @@ function ViolationDataTable() {
   });
 
   // Apply status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("status")?.setFilterValue(statusFilter);
     } else {
@@ -972,7 +975,7 @@ function ViolationDataTable() {
   }, [statusFilter, table]);
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("class")?.setFilterValue(classFilter);
     } else {
@@ -997,7 +1000,11 @@ function ViolationDataTable() {
                 <Input
                   placeholder="Cari siswa, kelas, pelanggaran..."
                   value={globalFilter ?? ""}
-                  onChange={(event) => setGlobalFilter(event.target.value)}
+                  onChange={(event: {
+                    target: {
+                      value: string;
+                    };
+                  }) => setGlobalFilter(event.target.value)}
                   className="max-w-sm pl-8"
                   disabled={isLoading}
                 />
@@ -1073,7 +1080,7 @@ function ViolationDataTable() {
                             key={column.id}
                             className="capitalize"
                             checked={column.getIsVisible()}
-                            onCheckedChange={(value) =>
+                            onCheckedChange={(value: boolean) =>
                               column.toggleVisibility(!!value)
                             }
                           >

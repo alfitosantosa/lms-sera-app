@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import {
   useCreateAttendance,
@@ -88,7 +89,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { unauthorized, useParams } from "next/navigation";
-import * as React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -221,7 +222,7 @@ function AttendanceFormDialog({
   const selectedStatus = watch("status");
   const selectedDate = watch("date");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("studentId", editData.studentId);
       setValue("scheduleId", editData.scheduleId);
@@ -443,26 +444,26 @@ function DeleteAttendanceDialog({
 
 // Main DataTable Component
 function AttendanceDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedAttendance, setSelectedAttendance] =
-    React.useState<attendanceTypes | null>(null);
+    useState<attendanceTypes | null>(null);
 
   // Filter states
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [dateFilter, setDateFilter] = React.useState<string>("");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [dateFilter, setDateFilter] = useState<string>("");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const params = useParams();
 
@@ -584,7 +585,7 @@ function AttendanceDataTable() {
   };
 
   // Get unique classes from schedules
-  const uniqueClasses = React.useMemo(() => {
+  const uniqueClasses = useMemo(() => {
     const classes = schedules
       .filter((schedule: any) => schedule.class)
       .map((schedule: any) => schedule.class)
@@ -596,7 +597,7 @@ function AttendanceDataTable() {
   }, [schedules]);
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -623,7 +624,7 @@ function AttendanceDataTable() {
   );
 
   // Custom date filter function
-  const dateFilterFn = React.useCallback(
+  const dateFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -636,7 +637,7 @@ function AttendanceDataTable() {
   );
 
   // Custom class filter function
-  const classFilterFn = React.useCallback(
+  const classFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (filterValue === "all") return true;
 
@@ -880,7 +881,7 @@ function AttendanceDataTable() {
   });
 
   // Apply status filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (statusFilter !== "all") {
       table.getColumn("status")?.setFilterValue(statusFilter);
     } else {
@@ -889,7 +890,7 @@ function AttendanceDataTable() {
   }, [statusFilter, table]);
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("schedule")?.setFilterValue(classFilter);
     } else {
@@ -898,7 +899,7 @@ function AttendanceDataTable() {
   }, [classFilter, table]);
 
   // Apply date filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (dateFilter) {
       table.getColumn("date")?.setFilterValue(dateFilter);
     } else {
@@ -907,7 +908,7 @@ function AttendanceDataTable() {
   }, [dateFilter, table]);
 
   // Calculate statistics
-  const stats = React.useMemo(() => {
+  const stats = useMemo(() => {
     const filteredAttendances = table
       .getFilteredRowModel()
       .rows.map((row) => row.original);

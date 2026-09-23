@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, ArrowRight, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useEffect, useState } from "react";
 
 export const NAV_LINKS = [
   { label: "Fitur", href: "#fitur" },
@@ -17,11 +18,11 @@ export const NAV_LINKS = [
 ];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 12);
     };

@@ -1,4 +1,5 @@
 "use client";
+import { useState, useCallback, useMemo, ElementType } from "react";
 
 import { useAccountBankDashboard } from "@/app/(hooks)/hooks/AccountBank/useAccountBankDashboard";
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
@@ -45,7 +46,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+
 import type { DateRange } from "react-day-picker";
 import {
   Area,
@@ -206,7 +207,7 @@ function KPICard({
   title: string;
   value: string;
   sub?: string;
-  icon: React.ElementType;
+  icon: ElementType;
   color: string;
   loading?: boolean;
   badge?: { label: string; positive?: boolean };
@@ -298,7 +299,7 @@ function AccountBankBalanceDashboard({
   isAdmin: boolean;
 }) {
   // ✅ Memoize initial date to prevent re-creation
-  const initialDateRange = React.useMemo(
+  const initialDateRange = useMemo(
     () => ({
       from: subMonths(new Date(), 3),
       to: new Date(),
@@ -306,18 +307,18 @@ function AccountBankBalanceDashboard({
     [],
   );
 
-  const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
     initialDateRange,
   );
 
   // ✅ Fix: Provide fallback value untuk undefined dan set based on isAdmin
-  const [selectedBranchId, setSelectedBranchId] = React.useState<string>(
+  const [selectedBranchId, setSelectedBranchId] = useState<string>(
     isAdmin ? "all" : (userDataBranch?.id ?? ""),
   );
-  const [activeTab, setActiveTab] = React.useState("overview");
+  const [activeTab, setActiveTab] = useState("overview");
 
   // ✅ Memoize setDateRange handler to prevent recreating on every render
-  const handleDateRangeChange = React.useCallback(
+  const handleDateRangeChange = useCallback(
     (newDateRange: DateRange | undefined) => {
       setDateRange(newDateRange);
     },
@@ -327,7 +328,7 @@ function AccountBankBalanceDashboard({
   const { data: branchs = [] } = useGetBranchs();
 
   // Determine branchId untuk query based on isAdmin
-  const queryBranchId = React.useMemo(() => {
+  const queryBranchId = useMemo(() => {
     if (!isAdmin) return userDataBranch?.id;
     return selectedBranchId === "all" ? undefined : selectedBranchId;
   }, [isAdmin, selectedBranchId, userDataBranch?.id]);

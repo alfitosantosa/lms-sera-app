@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 
 import { useClassByIdUser } from "@/app/(hooks)/hooks/Classes/useClassByIdUser";
 import { useGetSchedulesByIdClass } from "@/app/(hooks)/hooks/Schedules/useScheduleByIdClass";
@@ -57,7 +58,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import * as React from "react";
+
 import * as z from "zod";
 
 // Type definitions
@@ -142,17 +143,17 @@ const DAYS_MAP = {
 
 // Main DataTable Component
 export default function ScheduleDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [dayFilter, setDayFilter] = React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [dayFilter, setDayFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   // Get session from Better Auth
   const { data: session, isPending } = useSession();
@@ -172,7 +173,7 @@ export default function ScheduleDataTable() {
   const { data: schedules = [], isLoading: isLoadingSchedules } =
     useGetSchedulesByIdClass((classId as string) ?? "");
 
-  const globalFilterFn = React.useCallback((row: any, filterValue: string) => {
+  const globalFilterFn = useCallback((row: any, filterValue: string) => {
     if (!filterValue) return true;
 
     const searchValue = filterValue.toLowerCase();
@@ -389,7 +390,7 @@ export default function ScheduleDataTable() {
   });
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("class")?.setFilterValue(classFilter);
     } else {
@@ -398,7 +399,7 @@ export default function ScheduleDataTable() {
   }, [classFilter, table]);
 
   // Apply day filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (dayFilter !== "all") {
       table.getColumn("dayOfWeek")?.setFilterValue(dayFilter);
     } else {

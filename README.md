@@ -860,7 +860,7 @@ Special thanks to:
 ## 🔗 Useful Links
 
 - [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
+- [React Documentation](https://dev)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)

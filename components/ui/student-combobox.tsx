@@ -11,7 +11,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Check, ChevronDown, Search, X } from "lucide-react";
-import * as React from "react";
+import { useMemo, useState } from "react";
 
 interface StudentComboboxProps {
   students: UserDataTypes[];
@@ -30,10 +30,10 @@ export function StudentCombobox({
   disabled = false,
   className,
 }: StudentComboboxProps) {
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredStudents = React.useMemo(() => {
+  const filteredStudents = useMemo(() => {
     if (!searchTerm) return students;
     const term = searchTerm.toLowerCase();
     return students.filter((student) => {
@@ -44,7 +44,7 @@ export function StudentCombobox({
     });
   }, [students, searchTerm]);
 
-  const selectedStudent = React.useMemo(() => {
+  const selectedStudent = useMemo(() => {
     if (!value) return null;
     return students.find((student) => student.id === value) || null;
   }, [students, value]);
@@ -55,7 +55,7 @@ export function StudentCombobox({
     setSearchTerm("");
   };
 
-  const handleClear = (e: React.MouseEvent) => {
+  const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     onValueChange("");
     setSearchTerm("");
@@ -100,10 +100,9 @@ export function StudentCombobox({
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
             {selectedStudent && !disabled && (
-              <X
-                className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100"
-                onClick={handleClear}
-              />
+              <Button onClick={handleClear}>
+                <X className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100" />
+              </Button>
             )}
             <ChevronDown className="h-4 w-4 opacity-50" />
           </div>
@@ -117,7 +116,9 @@ export function StudentCombobox({
             <Input
               placeholder="Cari nama, NISN, atau kelas..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchTerm(e.target.value)
+              }
               className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>

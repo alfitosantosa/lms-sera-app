@@ -1,5 +1,5 @@
-import * as React from "react";
 import { UserCheck, GraduationCap, BookOpen, ArrowRight } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
 
 const flows = [
   {
@@ -67,14 +67,14 @@ export function HowItWorks() {
 
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
                 {flow.steps.map((step, sIdx) => (
-                  <React.Fragment key={sIdx}>
+                  <Fragment key={sIdx}>
                     <div className="border-border bg-secondary/50 text-secondary-foreground flex-1 rounded-lg border px-4 py-3 text-xs font-medium">
                       {step}
                     </div>
                     {sIdx < flow.steps.length - 1 && (
                       <ArrowRight className="text-muted-foreground/50 hidden h-4 w-4 flex-shrink-0 sm:block" />
                     )}
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </div>
             </div>

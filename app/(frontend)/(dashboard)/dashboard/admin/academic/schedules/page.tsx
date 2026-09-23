@@ -91,7 +91,8 @@ import {
   X,
 } from "lucide-react";
 import { unauthorized } from "next/navigation";
-import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -226,7 +227,7 @@ function ScheduleFormDialog({
   const selectedAcademicYearId = watch("academicYearId");
   const selectedDayOfWeek = watch("dayOfWeek");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editData) {
       setValue("classId", editData.classId);
       setValue("tahfidzGroupId", editData.tahfidzGroupId);
@@ -290,7 +291,7 @@ function ScheduleFormDialog({
               </Label>
               <Select
                 value={selectedClassId || "none"}
-                onValueChange={(value) =>
+                onValueChange={(value: string) =>
                   setValue("classId", value === "none" ? undefined : value)
                 }
               >
@@ -321,7 +322,7 @@ function ScheduleFormDialog({
               </Label>
               <Select
                 value={selectedTahfidzGroupId || "none"}
-                onValueChange={(value) =>
+                onValueChange={(value: string) =>
                   setValue(
                     "tahfidzGroupId",
                     value === "none" ? undefined : value,
@@ -354,7 +355,7 @@ function ScheduleFormDialog({
               <Label>Mata Pelajaran</Label>
               <Select
                 value={selectedSubjectId || ""}
-                onValueChange={(value) => setValue("subjectId", value)}
+                onValueChange={(value: string) => setValue("subjectId", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Mata Pelajaran" />
@@ -395,7 +396,9 @@ function ScheduleFormDialog({
               <Label>Tahun Akademik</Label>
               <Select
                 value={selectedAcademicYearId || ""}
-                onValueChange={(value) => setValue("academicYearId", value)}
+                onValueChange={(value: string) =>
+                  setValue("academicYearId", value)
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih Tahun Akademik" />
@@ -421,7 +424,7 @@ function ScheduleFormDialog({
               <Label>Hari</Label>
               <Select
                 value={selectedDayOfWeek?.toString() || ""}
-                onValueChange={(value) =>
+                onValueChange={(value: string) =>
                   setValue("dayOfWeek", parseInt(value))
                 }
               >
@@ -560,30 +563,26 @@ function DeleteScheduleDialog({
 
 // Main DataTable Component
 function ScheduleDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
-  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
-  const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [selectedSchedule, setSelectedSchedule] =
-    React.useState<ScheduleData | null>(null);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState<ScheduleData | null>(
+    null,
+  );
 
   // Filter states
-  const [classFilter, setClassFilter] = React.useState<string>("all");
-  const [tahfidzGroupFilter, setTahfidzGroupFilter] =
-    React.useState<string>("all");
-  const [teacherFilter, setTeacherFilter] = React.useState<string>("all");
-  const [dayFilter, setDayFilter] = React.useState<string>("all");
-  const [academicYearFilter, setAcademicYearFilter] =
-    React.useState<string>("all");
-  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [classFilter, setClassFilter] = useState<string>("all");
+  const [tahfidzGroupFilter, setTahfidzGroupFilter] = useState<string>("all");
+  const [teacherFilter, setTeacherFilter] = useState<string>("all");
+  const [dayFilter, setDayFilter] = useState<string>("all");
+  const [academicYearFilter, setAcademicYearFilter] = useState<string>("all");
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const { data: schedules = [], isLoading, refetch } = useGetSchedules();
   const { data: classes = [] } = useGetClasses();
@@ -597,7 +596,7 @@ function ScheduleDataTable() {
   };
 
   // Custom global filter function
-  const globalFilterFn = React.useCallback(
+  const globalFilterFn = useCallback(
     (row: any, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
 
@@ -633,14 +632,16 @@ function ScheduleDataTable() {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value: boolean) =>
+            table.toggleAllPageRowsSelected(!!value)
+          }
           aria-label="Select all"
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
         />
       ),
@@ -890,7 +891,7 @@ function ScheduleDataTable() {
   });
 
   // Apply class filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (classFilter !== "all") {
       table.getColumn("class")?.setFilterValue(classFilter);
     } else {
@@ -898,7 +899,7 @@ function ScheduleDataTable() {
     }
   }, [classFilter, table]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (tahfidzGroupFilter !== "all") {
       table.getColumn("tahfidzGroup")?.setFilterValue(tahfidzGroupFilter);
     } else {
@@ -907,7 +908,7 @@ function ScheduleDataTable() {
   }, [tahfidzGroupFilter, table]);
 
   // Apply teacher filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (teacherFilter !== "all") {
       table.getColumn("teacher")?.setFilterValue(teacherFilter);
     } else {
@@ -916,7 +917,7 @@ function ScheduleDataTable() {
   }, [teacherFilter, table]);
 
   // Apply day filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (dayFilter !== "all") {
       table.getColumn("dayOfWeek")?.setFilterValue(dayFilter);
     } else {
@@ -925,7 +926,7 @@ function ScheduleDataTable() {
   }, [dayFilter, table]);
 
   // Apply academic year filter
-  React.useEffect(() => {
+  useEffect(() => {
     if (academicYearFilter !== "all") {
       table.getColumn("academicYear")?.setFilterValue(academicYearFilter);
     } else {
@@ -950,7 +951,11 @@ function ScheduleDataTable() {
               <Input
                 placeholder="Cari kelas, mata pelajaran, atau guru..."
                 value={globalFilter ?? ""}
-                onChange={(event) => setGlobalFilter(event.target.value)}
+                onChange={(event: {
+                  target: {
+                    value: string;
+                  };
+                }) => setGlobalFilter(event.target.value)}
                 className="max-w-sm pl-8"
                 disabled={isLoading}
               />
@@ -1098,7 +1103,7 @@ function ScheduleDataTable() {
                           key={column.id}
                           className="capitalize"
                           checked={column.getIsVisible()}
-                          onCheckedChange={(value) =>
+                          onCheckedChange={(value: boolean) =>
                             column.toggleVisibility(!!value)
                           }
                         >
