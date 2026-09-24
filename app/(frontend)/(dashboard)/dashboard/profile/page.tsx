@@ -54,6 +54,7 @@ import {
   useState,
 } from "react";
 import { foundationTypes } from "@/app/(types)/types/foundation-types";
+import { DialogEditFoundation } from "@/components/dialog/DialogEditFoundation";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -683,6 +684,8 @@ const FoundationInformationCard = ({
     name: string;
   };
 }) => {
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+
   if (!foundation) return null;
 
   const { name, address, phone, foundationCode, ...rest } = foundation;
@@ -728,7 +731,7 @@ const FoundationInformationCard = ({
 
               {isAdmin ? (
                 <div className="flex justify-end">
-                  <Button>Edit</Button>
+                  <Button onClick={() => setOpenEditDialog(true)}>Edit</Button>
                 </div>
               ) : null}
             </div>
@@ -748,6 +751,13 @@ const FoundationInformationCard = ({
           </CardContent>
         </Card>
       )}
+
+      {/* Dialog Edit Foundation */}
+      <DialogEditFoundation
+        open={openEditDialog}
+        onOpenChange={setOpenEditDialog}
+        foundation={foundation}
+      />
     </>
   );
 };

@@ -88,7 +88,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "academic",
         },
         {
-          title: "Branch",
+          title: "Sekolah",
           url: "/dashboard/admin/master/branchs",
           icon: "academic",
         },

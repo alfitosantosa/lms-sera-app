@@ -1,7 +1,7 @@
 import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
 import { Search, User } from "lucide-react";
 import Image from "next/image";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
