@@ -56,6 +56,16 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/authClients";
 import { type ElementType } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 
 // Icon mapping
 const iconMap: Record<string, ElementType> = {
@@ -89,8 +99,11 @@ export function AppSidebar() {
   const { data: userData, isLoading: isUserDataLoading } =
     useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
+  // Call all hooks at the top level, before any early returns
+  const { data: branches, isPending: isBranchesPending } = useGetBranchs();
+
   // Show loading state while data is being fetched
-  if (isSessionPending || isUserDataLoading) {
+  if (isSessionPending || isUserDataLoading || isBranchesPending) {
     return (
       <Sidebar className="border-border bg-sidebar text-foreground border-r">
         <SidebarHeader className="border-border bg-sidebar border-b px-5 py-4">
@@ -198,6 +211,8 @@ export function AppSidebar() {
     ? userData.foundation?.name
     : "Sera App";
 
+  console.log(branches);
+
   return (
     <Sidebar className="border-border bg-sidebar text-foreground border-r">
       {/* ── Brand & Institution Header ── */}
@@ -220,6 +235,26 @@ export function AppSidebar() {
           <Building2 className="text-primary h-3 w-3 shrink-0" />
           <span className="truncate">{clientName}</span>
         </div>
+        <Select>
+          <SelectTrigger className="w-full max-w-48">
+            <SelectValue placeholder="Semua Sekolah" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>List Sekolah</SelectLabel>
+              <SelectItem key={"all"} value={"all"}>
+                Semua Sekolah
+              </SelectItem>
+              {branches
+                ? branches.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))
+                : null}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </SidebarHeader>
 
       {/* ── Menu Navigation Content ── */}
