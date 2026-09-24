@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -195,7 +194,9 @@ export function AppSidebar() {
     router.push("/auth/sign-in");
   };
 
-  const clientName = "Sera App";
+  const clientName = userData?.foundation
+    ? userData.foundation?.name
+    : "Sera App";
 
   return (
     <Sidebar className="border-border bg-sidebar text-foreground border-r">

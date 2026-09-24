@@ -41,11 +41,19 @@ import {
   Landmark,
   Globe,
   GraduationCapIcon,
+  EyeOffIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetBetterAuthById } from "@/app/(hooks)/hooks/Users/useBetterAuth";
-import { type ComponentType, type ReactNode, useEffect, useState } from "react";
+import {
+  type ComponentType,
+  type ReactNode,
+  use,
+  useEffect,
+  useState,
+} from "react";
+import { foundationTypes } from "@/app/(types)/types/foundation-types";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -666,19 +674,24 @@ const ProfessionalInformationCard = ({ data }: { data: any }) => {
 // New: Foundation Information Card — shown whenever `foundation` is present
 // on the user record. Known fields render as friendly InfoItems; anything
 // extra on the foundation object still shows up via the DataTable fallback.
-const FoundationInformationCard = ({ foundation }: { foundation: any }) => {
+const FoundationInformationCard = ({
+  foundation,
+  Role,
+}: {
+  foundation: foundationTypes;
+  Role?: {
+    name: string;
+  };
+}) => {
   if (!foundation) return null;
 
-  const { name, address, phone, email, website, description, ...rest } =
-    foundation;
+  const { name, address, phone, foundationCode, ...rest } = foundation;
 
   const knownEntries = {
     name,
     address,
     phone,
-    email,
-    website,
-    description,
+    foundationCode,
   };
   const hasKnownData = Object.values(knownEntries).some(
     (value) => !isEmpty(value),
@@ -693,42 +706,48 @@ const FoundationInformationCard = ({ foundation }: { foundation: any }) => {
 
   if (!hasKnownData && Object.keys(extraData).length === 0) return null;
 
+  console.log("role", Role);
+
+  const isAdmin = Role?.name === "Admin";
+
   return (
     <>
       {hasKnownData && (
         <Card className="border-primary/10 bg-primary/5 border-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Landmark className="h-5 w-5" />
-              Foundation
-            </CardTitle>
-            <CardDescription>
-              The yayasan (foundation) this account belongs to
-            </CardDescription>
+            <div className="flex w-full mx-auto justify-between items-center">
+              <div className="flex-1">
+                <CardTitle className="flex items-center gap-2">
+                  <Landmark className="h-5 w-5" />
+                  Foundation
+                </CardTitle>
+                <CardDescription>
+                  The yayasan (foundation) this account belongs to
+                </CardDescription>
+              </div>
+
+              {isAdmin ? (
+                <div className="flex justify-end">
+                  <Button>Edit</Button>
+                </div>
+              ) : null}
+            </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <InfoItem icon={School} label="Name" value={name} />
               <InfoItem icon={MapPin} label="Address" value={address} />
               <InfoItem icon={Phone} label="Phone" value={phone} />
-              <InfoItem icon={Mail} label="Email" value={email} />
-              <InfoItem icon={Globe} label="Website" value={website} />
               <InfoItem
-                icon={AlertCircle}
-                label="Description"
-                value={description}
+                icon={EyeOffIcon}
+                label="Code Code"
+                value={foundationCode}
               />
+              {/* <InfoItem icon={Key} label="Code ID" value={foundation.id} /> */}
             </div>
           </CardContent>
         </Card>
       )}
-
-      {/* Any other foundation fields not covered above */}
-      <DataTable
-        data={extraData}
-        title="Additional Foundation Details"
-        Icon={<Landmark className="h-5 w-5" />}
-      />
     </>
   );
 };
@@ -835,7 +854,10 @@ export default function Home() {
         </div>
 
         {/* Foundation Information (shown if the user has a foundation) */}
-        <FoundationInformationCard foundation={foundation} />
+        <FoundationInformationCard
+          foundation={foundation as foundationTypes}
+          Role={role as { name: string }}
+        />
 
         {/* Personal Information */}
         <PersonalInformationCard data={mainData} />

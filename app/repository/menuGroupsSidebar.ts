@@ -55,7 +55,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        { title: "Home", url: "/", icon: "home" },
+        // { title: "Home", url: "/", icon: "home" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -92,6 +92,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/admin/master/branchs",
           icon: "academic",
         },
+      ],
+    },
+
+    {
+      title: "Akademik",
+      items: [
         {
           title: "Kelas",
           url: "/dashboard/admin/master/classes",
@@ -107,12 +113,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
             },
           ],
         },
-      ],
-    },
-
-    {
-      title: "Akademik",
-      items: [
         {
           title: "Mata Pelajaran",
           url: "/dashboard/admin/master/subjects",
@@ -264,7 +264,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        { title: "Home", url: "/", icon: "home" },
+        // { title: "Home", url: "/", icon: "home" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -354,7 +354,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        { title: "Home", url: "/", icon: "home" },
+        // { title: "Home", url: "/", icon: "home" },
         { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
@@ -410,7 +410,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        { title: "Home", url: "/", icon: "home" },
+        // { title: "Home", url: "/", icon: "home" },
         { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
@@ -482,7 +482,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        { title: "Home", url: "/", icon: "home" },
+        // { title: "Home", url: "/", icon: "home" },
         { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
