@@ -97,6 +97,12 @@ export async function POST(request: NextRequest) {
             foundationId: createNewFoundation.id,
           },
           {
+            name: "Admin School",
+            description: "Administrator Sekolah",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
+          {
             name: "Treasurer",
             description: "Bendahara",
             permissions: [],

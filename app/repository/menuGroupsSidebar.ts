@@ -258,6 +258,117 @@ export const menuGroups: Record<string, MenuGroup[]> = {
   ],
 
   // =====================================================
+  // TU
+  // =====================================================
+  schooladministrator: [
+    {
+      title: "Utama",
+      items: [
+        // { title: "Home", url: "/", icon: "home" },
+        {
+          title: "Profile",
+          url: "/dashboard/profile",
+          icon: "users",
+        },
+      ],
+    },
+
+    {
+      title: "Dashboard",
+      items: [
+        {
+          title: "Dashboard Absensi",
+          url: "/dashboard",
+          icon: "chart",
+        },
+        {
+          title: "Dashboard Transaksi",
+          url: "/dashboard/principal/finance/chart",
+          icon: "chart",
+        },
+        {
+          title: "Dashboard Tagihan",
+          url: "/dashboard/principal/finance/billing/chart",
+          icon: "chart",
+        },
+      ],
+    },
+
+    {
+      title: "Akademik",
+      items: [
+        {
+          title: "Absensi",
+          url: "/dashboard/attendance",
+          icon: "attendance",
+          items: [
+            {
+              title: "Absensi",
+              url: "/dashboard/attendance",
+            },
+            {
+              title: "Backup Absensi",
+              url: "/dashboard/admin/attendance",
+            },
+          ],
+        },
+        {
+          title: "Rekap Absensi",
+          url: "/dashboard/recapattendance",
+          icon: "attendance",
+          items: [
+            {
+              title: "Per Kelas",
+              url: "/dashboard/recapattendance/class",
+            },
+            {
+              title: "Per Siswa",
+              url: "/dashboard/recapattendance/student",
+            },
+          ],
+        },
+        {
+          title: "Kalender",
+          url: "/dashboard/calender/principal",
+          icon: "calendar",
+          items: [
+            {
+              title: "List Kalender",
+              url: "/dashboard/calender/list/principal",
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      title: "Pelanggaran",
+      items: [
+        {
+          title: "Data Pelanggaran",
+          url: "/dashboard/violations",
+          icon: "violation",
+        },
+      ],
+    },
+
+    {
+      title: "Keuangan",
+      items: [
+        // {
+        //   title: "Data Tagihan",
+        //   url: "/dashboard/principal/finance/billing",
+        //   icon: "file",
+        // },
+        // {
+        //   title: "Data Transaksi",
+        //   url: "/dashboard/principal",
+        // },
+      ],
+    },
+  ],
+
+  // =====================================================
   // TREASURER
   // =====================================================
   treasurer: [

@@ -55,7 +55,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/authClients";
-import { type ElementType } from "react";
+import { useState, type ElementType } from "react";
 import {
   Select,
   SelectContent,
@@ -98,6 +98,7 @@ export function AppSidebar() {
   const { data: session, isPending: isSessionPending } = useSession();
   const { data: userData, isLoading: isUserDataLoading } =
     useGetUserByIdBetterAuth(session?.user?.id ?? "");
+  const [school, setSchool] = useState("all");
 
   // Call all hooks at the top level, before any early returns
   const { data: branches, isPending: isBranchesPending } = useGetBranchs();
@@ -127,6 +128,17 @@ export function AppSidebar() {
   // Map role names to menu group keys (menuGroups uses lowercase keys)
   const getRoleMenuKey = (role: string): string => {
     const r = role.toLowerCase();
+
+    // If admin/yayasan selects a specific school, use schooladministrator menu
+    if (
+      (r.includes("admin") || r.includes("yayasan")) &&
+      school &&
+      school !== "all"
+    ) {
+      return "schooladministrator";
+    }
+
+    // Otherwise use default role menus
     if (r.includes("admin") || r.includes("yayasan")) return "admin";
     if (r.includes("bendahara") || r.includes("treasurer")) return "treasurer";
     if (
@@ -138,6 +150,9 @@ export function AppSidebar() {
       return "teacher";
     if (r.includes("student") || r.includes("siswa")) return "student";
     if (r.includes("parent") || r.includes("orang tua")) return "parent";
+    if (r.includes("admin school") || r.includes("orang tua"))
+      return "schoolAdministrator";
+    if (r.includes("admin") && school) return "schoolAdministrator";
 
     // Default fallback to student
     return "student";
@@ -168,7 +183,8 @@ export function AppSidebar() {
       userRoleLower.includes("student") ||
       userRoleLower.includes("siswa") ||
       userRoleLower.includes("parent") ||
-      userRoleLower.includes("orang tua")
+      userRoleLower.includes("orang tua") ||
+      userRoleLower.includes("admin school")
     ) {
       return items;
     }
@@ -201,6 +217,48 @@ export function AppSidebar() {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  // Function to modify menu URLs when school is selected
+  const modifyMenuUrlsForSchool = (
+    items: MenuItem[],
+    branchId: string,
+  ): MenuItem[] => {
+    return items.map((item) => {
+      const modifiedItem = { ...item };
+
+      // Jika ada sub-items, modify recursively
+      if (modifiedItem.items && modifiedItem.items.length > 0) {
+        modifiedItem.items = modifyMenuUrlsForSchool(
+          modifiedItem.items,
+          branchId,
+        );
+      }
+
+      // Modify URL: tambahkan /branch/{branchId} setelah /dashboard
+      // Contoh: /dashboard/admin/... -> /dashboard/school/{branchId}/...
+      if (
+        modifiedItem.url &&
+        modifiedItem.url.startsWith("/dashboard") &&
+        !modifiedItem.url.includes("/school/")
+      ) {
+        modifiedItem.url = modifiedItem.url.replace(
+          "/dashboard",
+          `/dashboard/school/${branchId}`,
+        );
+      }
+
+      return modifiedItem;
+    });
+  };
+
+  // Apply URL modification if school is selected
+  const finalMenuGroups =
+    school && school !== "all"
+      ? currentMenuGroups.map((group) => ({
+          ...group,
+          items: modifyMenuUrlsForSchool(group.items, school),
+        }))
+      : currentMenuGroups;
 
   const handleSignOut = async () => {
     await signOut();
@@ -235,31 +293,11 @@ export function AppSidebar() {
           <Building2 className="text-primary h-3 w-3 shrink-0" />
           <span className="truncate">{clientName}</span>
         </div>
-        <Select>
-          <SelectTrigger className="w-full max-w-48">
-            <SelectValue placeholder="Semua Sekolah" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>List Sekolah</SelectLabel>
-              <SelectItem key={"all"} value={"all"}>
-                Semua Sekolah
-              </SelectItem>
-              {branches
-                ? branches.map((item) => (
-                    <SelectItem key={item.id} value={item.id}>
-                      {item.name}
-                    </SelectItem>
-                  ))
-                : null}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
       </SidebarHeader>
 
       {/* ── Menu Navigation Content ── */}
       <SidebarContent className="scrollbar-thin overflow-y-auto px-3 py-3">
-        {currentMenuGroups.map((group, groupIndex) => {
+        {finalMenuGroups.map((group, groupIndex) => {
           const filteredItems = filterMenuByPermissions(group.items);
           if (filteredItems.length === 0) return null;
 
@@ -363,7 +401,36 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* ── User Profile Footer ── */}
-      <SidebarFooter className="border-border bg-sidebar border-t p-3">
+      <SidebarFooter className="border-border bg-sidebar space-y-2 border-t p-3">
+        {/* School Selector - Only for Admin/Yayasan */}
+        {(userRoleLower.includes("admin") ||
+          userRoleLower.includes("yayasan")) &&
+          branches &&
+          branches.length > 0 && (
+            <div className="space-y-1.5">
+              <label className="text-muted-foreground text-[10px] font-medium uppercase tracking-wider">
+                Pilih Sekolah
+              </label>
+              <Select value={school} onValueChange={setSchool}>
+                <SelectTrigger className="h-9 w-full text-xs">
+                  <SelectValue placeholder="Semua Sekolah" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>List Sekolah</SelectLabel>
+                    <SelectItem value="all">Semua Sekolah</SelectItem>
+                    {branches.map((item) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+        {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="group hover:border-border hover:bg-secondary flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all">
