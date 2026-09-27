@@ -445,11 +445,8 @@ function DeleteAttendanceDialog({
 // Main DataTable Component
 function AttendanceDataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
@@ -929,8 +926,8 @@ function AttendanceDataTable() {
   const selectedRowsCount = table.getFilteredSelectedRowModel().rows.length;
   return (
     <>
-      <div className="min-hscreen mx-auto my-8 max-w-7xl p-6">
-        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+      <div className="max-w-7xl">
+        <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
             <div className="text-4xl font-bold md:text-3xl">
               Data Kehadiran Siswa

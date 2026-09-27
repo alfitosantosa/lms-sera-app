@@ -59,7 +59,6 @@ import {
   XCircle,
 } from "lucide-react";
 
-
 // Type definitions
 export type AttendanceData = {
   id: string;
@@ -139,11 +138,8 @@ const DAYS_MAP = {
 // Main DataTable Component
 export default function AttendanceDataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   // Filter states
@@ -554,7 +550,7 @@ export default function AttendanceDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
+      <div className="max-w-7xl ">
         <div className="mb-2 text-3xl font-bold">Data Kehadiran Siswa</div>
         {studentData && (
           <div className="bg-info-surface border-info-border mb-6 rounded-lg border p-4">

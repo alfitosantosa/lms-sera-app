@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetSchedulesByTeacher } from "@/app/(hooks)/hooks/Schedules/useSchedules";
+import { useGetSchedulesByStudent } from "@/app/(hooks)/hooks/Schedules/useSchedules";
 import { useGetSpecialSchedules } from "@/app/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
@@ -23,6 +23,46 @@ import { id } from "date-fns/locale";
 import { Calendar, Clock, MapPin, User } from "lucide-react";
 import { useMemo, useState } from "react";
 
+// Type definitions berdasarkan JSON
+type Schedule = {
+  id: string;
+  classId: string;
+  subjectId: string;
+  teacherId: string;
+  academicYearId: string;
+  dayOfWeek: number; // 1 = Monday, 7 = Sunday
+  startTime: string;
+  endTime: string;
+  room: string;
+  class: {
+    id: string;
+    name: string;
+    grade: number;
+  };
+  subject: {
+    id: string;
+    code: string;
+    name: string;
+    credits: number;
+  };
+  teacher: {
+    id: string;
+    name: string;
+  };
+};
+
+type SpecialSchedule = {
+  id: string;
+  title: string;
+  description: string | null;
+  eventDate: string;
+  eventType: "HOLIDAY" | "EXAM" | "EVENT";
+  isPublished: boolean;
+  academicYearId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type CalendarFeature = {
   id: string;
   name: string;
@@ -39,14 +79,14 @@ type CalendarFeature = {
 
 export default function CalendarPage() {
   // Get session from Better Auth
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
   // State for selected date
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const { data: schedules = [], isLoading: schedulesLoading } =
-    useGetSchedulesByTeacher(userData?.id ?? "");
+    useGetSchedulesByStudent(userData?.id ?? "");
   const { data: specialSchedules = [], isLoading: specialSchedulesLoading } =
     useGetSpecialSchedules();
 
@@ -94,12 +134,12 @@ export default function CalendarPage() {
         endAt.setHours(endHour, endMinute, 0, 0);
 
         features.push({
-          id: `${schedule.id}-${currentWeekStart.getTime()}`,
+          id: `${schedule?.id}-${currentWeekStart.getTime()}`,
           name: `${schedule?.subject?.name} - ${schedule?.class?.name}`,
           startAt,
           endAt,
           status: statuses.regularClass,
-          description: `Guru: ${schedule?.teacher?.name}\nRuang: ${schedule.room}\nWaktu: ${schedule.startTime} - ${schedule.endTime}`,
+          description: `Guru: ${schedule?.teacher?.name}\nRuang: ${schedule?.room}\nWaktu: ${schedule?.startTime} - ${schedule?.endTime}`,
           type: "schedule",
         });
 
@@ -183,6 +223,12 @@ export default function CalendarPage() {
   }, [selectedDate, allFeatures]);
 
   // Check if a date has schedules
+  const hasSchedulesOnDate = (date: Date) => {
+    return allFeatures.some(
+      (feature) =>
+        isSameDay(feature.startAt, date) || isSameDay(feature.endAt, date),
+    );
+  };
 
   // Loading state
   if (schedulesLoading || specialSchedulesLoading) {
@@ -191,7 +237,7 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="max-w-7xl">
         {/* Header Info */}
         <div className="mb-6 space-y-4">
           <div>

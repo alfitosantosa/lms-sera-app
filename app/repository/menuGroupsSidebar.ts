@@ -130,11 +130,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           items: [
             {
               title: "Absensi",
-              url: "/dashboard/attendance",
+              url: "/dashboard/admin/attendance",
             },
             {
               title: "Backup Absensi Admin",
-              url: "/dashboard/admin/attendance",
+              url: "/dashboard/admin/attendance/backup",
             },
           ],
         },
@@ -145,7 +145,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           items: [
             {
               title: "Per Kelas",
-              url: "/dashboard/recapattendance/class",
+              url: "/dashboard/admin/recapattendance/class",
+            },
+            {
+              title: "Per Murid",
+              url: "/dashboard/admin/recapattendance",
             },
           ],
         },
@@ -511,19 +515,13 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Absensi Kepala Sekolah",
-          url: "/dashboard/attendance/teacher",
+          url: "/dashboard/teacher/attendance",
           icon: "attendance",
         },
         {
           title: "Kalender",
-          url: "/dashboard/calender/teacher",
+          url: "/dashboard/teacher/calender",
           icon: "calendar",
-          items: [
-            {
-              title: "List Kalender",
-              url: "/dashboard/calender/list/teacher",
-            },
-          ],
         },
       ],
     },
@@ -533,7 +531,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Data Pelanggaran",
-          url: "/dashboard/violations/teacher",
+          url: "/dashboard/teacher/violations",
           icon: "violation",
         },
       ],
@@ -547,8 +545,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        // { title: "Home", url: "/", icon: "home" },
-        { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -577,14 +573,8 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Kalender",
-          url: "/dashboard/calender/student",
+          url: "/dashboard/student/calender",
           icon: "calendar",
-          items: [
-            {
-              title: "List Kalender",
-              url: "/dashboard/calender/list/student",
-            },
-          ],
         },
       ],
     },
@@ -605,7 +595,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       items: [
         {
           title: "Data Pelanggaran",
-          url: "/dashboard/violations/student",
+          url: "/dashboard/student/violations",
           icon: "violation",
         },
       ],

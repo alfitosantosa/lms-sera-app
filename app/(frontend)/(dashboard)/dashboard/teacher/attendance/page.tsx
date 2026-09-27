@@ -1152,7 +1152,8 @@ export default function UserDataTable() {
   if (
     userRole !== "Admin" &&
     userRole !== "Head Of School" &&
-    userRole !== "Yayasan"
+    userRole !== "Yayasan" &&
+    userRole !== "Teacher"
   ) {
     unauthorized();
     return null;

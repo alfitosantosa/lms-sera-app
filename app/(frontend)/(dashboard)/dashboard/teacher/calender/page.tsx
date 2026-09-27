@@ -1,9 +1,11 @@
 "use client";
 
-import { useGetSchedulesByStudent } from "@/app/(hooks)/hooks/Schedules/useSchedules";
+import { useGetSchedulesByTeacher } from "@/app/(hooks)/hooks/Schedules/useSchedules";
 import { useGetSpecialSchedules } from "@/app/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import Loading from "@/components/loading";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   CalendarBody,
   CalendarDate,
@@ -16,47 +18,10 @@ import {
   CalendarYearPicker,
 } from "@/components/ui/kibo-ui/calendar";
 import { useSession } from "@/lib/authClients";
-import { useMemo } from "react";
-
-// Type definitions berdasarkan JSON
-type Schedule = {
-  id: string;
-  classId: string;
-  subjectId: string;
-  teacherId: string;
-  academicYearId: string;
-  dayOfWeek: number; // 1 = Monday, 7 = Sunday
-  startTime: string;
-  endTime: string;
-  room: string;
-  class: {
-    id: string;
-    name: string;
-    grade: number;
-  };
-  subject: {
-    id: string;
-    code: string;
-    name: string;
-    credits: number;
-  };
-  teacher: {
-    id: string;
-    name: string;
-  };
-};
-
-type SpecialSchedule = {
-  id: string;
-  title: string;
-  description: string | null;
-  eventDate: string;
-  eventType: "HOLIDAY" | "EXAM" | "EVENT";
-  isPublished: boolean;
-  academicYearId: string;
-  createdAt: string;
-  updatedAt: string;
-};
+import { format, isSameDay } from "date-fns";
+import { id } from "date-fns/locale";
+import { Calendar, Clock, MapPin, User } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type CalendarFeature = {
   id: string;
@@ -74,12 +39,14 @@ type CalendarFeature = {
 
 export default function CalendarPage() {
   // Get session from Better Auth
-  const { data: session, isPending } = useSession();
-
+  const { data: session } = useSession();
   const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
+  // State for selected date
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const { data: schedules = [], isLoading: schedulesLoading } =
-    useGetSchedulesByStudent(userData?.id ?? "");
+    useGetSchedulesByTeacher(userData?.id ?? "");
   const { data: specialSchedules = [], isLoading: specialSchedulesLoading } =
     useGetSpecialSchedules();
 
@@ -132,7 +99,7 @@ export default function CalendarPage() {
           startAt,
           endAt,
           status: statuses.regularClass,
-          description: `Guru: ${schedule?.teacher?.name}\nRuang: ${schedule?.room}\nWaktu: ${schedule?.startTime} - ${schedule?.endTime}`,
+          description: `Guru: ${schedule?.teacher?.name}\nRuang: ${schedule.room}\nWaktu: ${schedule.startTime} - ${schedule.endTime}`,
           type: "schedule",
         });
 
@@ -204,6 +171,19 @@ export default function CalendarPage() {
     };
   }, [allFeatures]);
 
+  // Filter schedules for selected date
+  const selectedDateSchedules = useMemo(() => {
+    if (!selectedDate) return [];
+
+    return allFeatures.filter(
+      (feature) =>
+        isSameDay(feature.startAt, selectedDate) ||
+        isSameDay(feature.endAt, selectedDate),
+    );
+  }, [selectedDate, allFeatures]);
+
+  // Check if a date has schedules
+
   // Loading state
   if (schedulesLoading || specialSchedulesLoading) {
     return <Loading />;
@@ -211,7 +191,7 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className=" max-w-7xl ">
         {/* Header Info */}
         <div className="mb-6 space-y-4">
           <div>
@@ -281,7 +261,7 @@ export default function CalendarPage() {
         </div>
 
         {/* Calendar */}
-        <CalendarProvider>
+        <CalendarProvider locale="id" startDay={1}>
           <CalendarDate>
             <CalendarDatePicker>
               <CalendarMonthPicker />
@@ -290,12 +270,108 @@ export default function CalendarPage() {
             <CalendarDatePagination />
           </CalendarDate>
           <CalendarHeader />
-          <CalendarBody features={allFeatures}>
+          <CalendarBody
+            features={allFeatures}
+            onDateClick={setSelectedDate}
+            selectedDate={selectedDate}
+          >
             {({ feature }) => (
               <CalendarItem feature={feature} key={feature.id} />
             )}
           </CalendarBody>
         </CalendarProvider>
+
+        {/* Schedule List for Selected Date */}
+        {selectedDate && (
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Jadwal untuk{" "}
+                {format(selectedDate, "EEEE, d MMMM yyyy", { locale: id })}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {selectedDateSchedules.length > 0 ? (
+                <div className="space-y-4">
+                  {selectedDateSchedules.map((schedule) => (
+                    <div
+                      key={schedule.id}
+                      className="hover:bg-muted/50 space-y-3 rounded-lg border p-4 transition-colors"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold">
+                            {schedule.name}
+                          </h3>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant="secondary"
+                              style={{
+                                backgroundColor: `${schedule.status.color}20`,
+                                color: schedule.status.color,
+                              }}
+                            >
+                              {schedule.status.name}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      {schedule.description && (
+                        <div className="text-muted-foreground text-sm whitespace-pre-line">
+                          {schedule.description}
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-1 gap-3 text-sm md:grid-cols-2">
+                        <div className="flex items-center gap-2">
+                          <Clock className="text-muted-foreground h-4 w-4" />
+                          <span>
+                            {format(schedule.startAt, "HH:mm")} -{" "}
+                            {format(schedule.endAt, "HH:mm")}
+                          </span>
+                        </div>
+
+                        {schedule.type === "schedule" &&
+                          schedule.description && (
+                            <>
+                              <div className="flex items-center gap-2">
+                                <MapPin className="text-muted-foreground h-4 w-4" />
+                                <span>
+                                  {schedule.description
+                                    .split("\n")[2]
+                                    ?.replace("Ruang: ", "") || "-"}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <User className="text-muted-foreground h-4 w-4" />
+                                <span>
+                                  {schedule.description
+                                    .split("\n")[0]
+                                    ?.replace("Guru: ", "") || "-"}
+                                </span>
+                              </div>
+                            </>
+                          )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-8 text-center">
+                  <div className="text-muted-foreground">
+                    <Calendar className="mx-auto mb-4 h-12 w-12 opacity-50" />
+                    <p className="mb-2 text-lg font-medium">Tidak ada jadwal</p>
+                    <p className="text-sm">
+                      Tidak ada jadwal atau event pada tanggal ini
+                    </p>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Empty State */}
         {allFeatures.length === 0 && (

@@ -174,7 +174,7 @@ export function AppSidebar() {
       return "teacher";
     if (r.includes("student") || r.includes("siswa")) return "student";
     if (r.includes("parent") || r.includes("orang tua")) return "parent";
-    if (r.includes("admin school")) return "adminschool";
+    if (r.includes("admin school")) return "schooladministrator";
 
     // Default fallback to student
     return "null";

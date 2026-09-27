@@ -1,9 +1,7 @@
 "use client";
-
 import { useAttendanceIsSubmitted } from "@/app/(hooks)/hooks/Attendances/useAttendanceIsSubmitted";
-import { useGetScheduleByIdAcademicYearActive } from "@/app/(hooks)/hooks/Schedules/useGetScheduleById";
+import { useGetScheduleAcademicYearActive } from "@/app/(hooks)/hooks/Schedules/useSchedules";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { type ScheduleTypes } from "@/app/(types)";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -32,15 +30,21 @@ import {
   Clock,
   Eye,
   GraduationCap,
+  LucidePanelTopClose,
   MapPin,
   Plus,
   Users,
 } from "lucide-react";
 import Link from "next/link";
 import { unauthorized } from "next/navigation";
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 
-const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
+const ScheduleCard = ({ schedule }: { schedule: any }) => {
+  const isTodaySchedule = (dayOfWeek: number) => {
+    const currentDay = new Date().getDay();
+    return dayOfWeek === currentDay;
+  };
+
   const getDayName = (dayOfWeek: number) => {
     const days = [
       "Minggu",
@@ -67,29 +71,25 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
     return colors[dayOfWeek];
   };
 
-  const isTodaySchedule = (dayOfWeek: number) => {
-    const today = new Date().getDay();
-    return dayOfWeek === today;
-  };
-
   // Get today's date in YYYY-MM-DD format
   const todayDate = new Date().toISOString().split("T")[0];
 
   // Call the hook for each schedule
-  const { data: isSubmitted, isLoading: isLoadingIsSubmitted } =
-    useAttendanceIsSubmitted({
-      date: todayDate,
-      scheduleId: schedule.id,
-    });
+  const { data: isSubmitted, isLoading } = useAttendanceIsSubmitted({
+    date: todayDate,
+    scheduleId: schedule.id,
+  });
 
-  if (isLoadingIsSubmitted) {
+  if (isLoading) {
     return <Loading />;
   }
 
-  const isButtonDisabled =
+  // Check if button should be disabled
+  const isDisabled =
     isSubmitted === true || !isTodaySchedule(schedule.dayOfWeek);
 
-  const getButtonText = isSubmitted
+  // Get button text
+  const buttonText = isSubmitted
     ? "Sudah Diabsen"
     : !isTodaySchedule(schedule.dayOfWeek)
       ? "Bukan Hari Ini"
@@ -101,10 +101,10 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <CardTitle className="text-foreground text-xl">
-              {schedule?.subject?.name}
+              {schedule.subject.name}
             </CardTitle>
             <CardDescription className="text-base">
-              Kode: {schedule?.subject?.code}
+              Kode: {schedule.subject.code}
             </CardDescription>
           </div>
           <Badge
@@ -123,11 +123,13 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
               <Users className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
                 <span className="font-medium">Kelas:</span>{" "}
-                {schedule?.tahfidzGroup?.name
-                  ? schedule?.tahfidzGroup?.name
-                  : schedule?.class?.name}
+                {schedule.tahfidzGroup?.name
+                  ? schedule.tahfidzGroup.name
+                  : schedule.class.name}
               </span>
+              <div>{schedule.id}</div>
             </div>
+
             <div className="flex items-center gap-3">
               <MapPin className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
@@ -144,12 +146,20 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
                 - {schedule.endTime}
               </span>
             </div>
-
+            <div className="flex items-center gap-3">
+              <LucidePanelTopClose className="text-muted-foreground h-4 w-4" />
+              <span className="text-foreground">
+                <span className="font-medium">Guru:</span>{" "}
+                {schedule?.teacher?.name || "Tidak ada guru"}
+              </span>
+            </div>
+          </div>
+          <div className="space-y-4">
             <div className="flex items-center gap-3">
               <BookOpen className="text-muted-foreground h-4 w-4" />
               <span className="text-foreground">
                 <span className="font-medium">SKS:</span>{" "}
-                {schedule?.subject?.credits}
+                {schedule.subject.credits}
               </span>
             </div>
           </div>
@@ -159,65 +169,62 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
 
         <div className="text-muted-foreground text-sm">
           <span className="font-medium">Tahun Akademik:</span>{" "}
-          {schedule?.academicYear?.year}
+          {schedule.academicYear.year}
         </div>
       </CardContent>
 
-      <CardFooter className="bg-muted/50 flex flex-wrap items-center gap-2">
+      <CardFooter className="bg-muted/50 flex gap-3">
         <Link href={`/dashboard/teacher/schedule/${schedule.id}`} passHref>
           <Button variant="outline" className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
             Lihat Absensi
           </Button>
         </Link>
-        <Button
-          disabled={isButtonDisabled}
-          className={`flex items-center gap-2 ${isButtonDisabled ? "bg-muted text-muted-foreground hover:bg-muted cursor-not-allowed opacity-10" : ""}`}
-          onClick={() => {
-            if (!isButtonDisabled) {
-              if (schedule.tahfidzGroup?.name) {
-                window.location.href = `/dashboard/teacher/attendance/tahfidz/${schedule.id}`;
-              } else {
-                window.location.href = `/dashboard/teacher/attendance/${schedule.id}`;
+
+        <div className="flex items-center gap-2">
+          <Button
+            disabled={isDisabled}
+            className={`flex items-center gap-2 ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
+            onClick={() => {
+              if (!isDisabled) {
+                if (schedule.tahfidzGroup?.name) {
+                  window.location.href = `/dashboard/teacher/attendance/tahfidz/${schedule.id}`;
+                } else {
+                  window.location.href = `/dashboard/teacher/attendance/${schedule.id}`;
+                }
               }
-            }
-          }}
-        >
-          <Plus className="h-4 w-4" />
-          {getButtonText}
-        </Button>
-        {(schedule.tahfidzGroupId || schedule.tahfidzGroup?.id) && (
-          <Link
-            href={`/dashboard/teacher/tahfidzrecord/${schedule.tahfidzGroupId ?? schedule.tahfidzGroup?.id}`}
-            passHref
+            }}
           >
-            <Button variant="outline" className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              Setoran Hafalan
-            </Button>
-          </Link>
-        )}
+            <Plus className="h-4 w-4" />
+            {buttonText}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
 };
 
 function TeacherAttendancePage() {
-  // Get session from Better Auth first
-  const { data: session } = useSession();
-
   const today = new Date().getDay();
   const [selectedDay, setSelectedDay] = useState<string>(today.toString());
-
-  // Get session from Better Auth
-
-  const { data: userData } = useGetUserByIdBetterAuth(session?.user?.id ?? "");
+  const [selectedTeacher, setSelectedTeacher] = useState<string>("all");
 
   const {
     data: scheduleData = [],
     isLoading: isLoadingSchedule,
     error: scheduleError,
-  } = useGetScheduleByIdAcademicYearActive(userData?.id ?? "");
+  } = useGetScheduleAcademicYearActive();
+
+  // Extract unique teachers from schedule data
+  const uniqueTeachers = useMemo(() => {
+    const teachers = new Map();
+    scheduleData.forEach((schedule: any) => {
+      if (schedule.teacher && schedule.teacher.id && schedule.teacher.name) {
+        teachers.set(schedule.teacher.id, schedule.teacher.name);
+      }
+    });
+    return Array.from(teachers.entries()).map(([id, name]) => ({ id, name }));
+  }, [scheduleData]);
 
   const dayOptions = [
     { value: "all", label: "Semua Hari" },
@@ -229,15 +236,31 @@ function TeacherAttendancePage() {
     { value: "5", label: "Jumat" },
     { value: "6", label: "Sabtu" },
   ];
-  //filtered base on hour entry student at start time
-  const filteredScheduleData =
-    selectedDay === "all"
-      ? scheduleData
-      : scheduleData.filter(
-          (schedule: ScheduleTypes) =>
-            schedule.dayOfWeek.toString() === selectedDay &&
-            schedule.startTime === schedule.startTime,
-        );
+
+  const filteredScheduleData = useMemo(() => {
+    let filtered = scheduleData;
+
+    // Filter by day
+    if (selectedDay !== "all") {
+      filtered = filtered.filter(
+        (schedule: any) => schedule.dayOfWeek.toString() === selectedDay,
+      );
+    }
+
+    // Filter by teacher
+    if (selectedTeacher !== "all") {
+      filtered = filtered.filter(
+        (schedule: any) => schedule.teacher?.id === selectedTeacher,
+      );
+    }
+
+    // filter sort by start time
+    filtered = filtered.sort((a: any, b: any) =>
+      a.startTime.localeCompare(b.startTime),
+    );
+
+    return filtered;
+  }, [scheduleData, selectedDay, selectedTeacher]);
 
   const ScheduleCardSkeleton = () => (
     <Card>
@@ -262,7 +285,7 @@ function TeacherAttendancePage() {
   return (
     <>
       <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
-        <div className="max-w-7xl">
+        <div className="max-w-8xl ">
           {/* Header Section */}
           <div className="mb-8">
             <div className="mb-2 flex items-center gap-2">
@@ -284,26 +307,50 @@ function TeacherAttendancePage() {
                 Filter Jadwal
               </CardTitle>
               <CardDescription>
-                Pilih hari untuk melihat jadwal spesifik
+                Pilih hari dan guru untuk melihat jadwal spesifik
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-4">
-                <label className="text-foreground min-w-fit text-sm font-medium">
-                  Pilih Hari:
-                </label>
-                <Select value={selectedDay} onValueChange={setSelectedDay}>
-                  <SelectTrigger className="w-64">
-                    <SelectValue placeholder="Pilih hari" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {dayOptions.map((day) => (
-                      <SelectItem key={day.value} value={day.value}>
-                        {day.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex flex-wrap items-center gap-6">
+                <div className="flex items-center gap-4">
+                  <label className="text-foreground min-w-fit text-sm font-medium">
+                    Pilih Hari:
+                  </label>
+                  <Select value={selectedDay} onValueChange={setSelectedDay}>
+                    <SelectTrigger className="w-64">
+                      <SelectValue placeholder="Pilih hari" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {dayOptions.map((day) => (
+                        <SelectItem key={day.value} value={day.value}>
+                          {day.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <label className="text-foreground min-w-fit text-sm font-medium">
+                    Pilih Guru:
+                  </label>
+                  <Select
+                    value={selectedTeacher}
+                    onValueChange={setSelectedTeacher}
+                  >
+                    <SelectTrigger className="w-64">
+                      <SelectValue placeholder="Pilih guru" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Semua Guru</SelectItem>
+                      {uniqueTeachers.map((teacher) => (
+                        <SelectItem key={teacher.id} value={teacher.id}>
+                          {teacher.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -346,7 +393,7 @@ function TeacherAttendancePage() {
                   </div>
 
                   {/* Schedule Cards */}
-                  {filteredScheduleData.map((schedule: ScheduleTypes) => (
+                  {filteredScheduleData.map((schedule: any) => (
                     <ScheduleCard key={schedule.id} schedule={schedule} />
                   ))}
                 </>
@@ -372,12 +419,10 @@ export default function UserDataTable() {
     return <Loading />;
   }
 
-  // Check if user is Admin and Teacher
-  if (userRole !== "Teacher") {
-    if (userRole !== "Head Of School") {
-      unauthorized();
-      return null;
-    }
+  // Check if user is Admin
+  if (userRole !== "Admin") {
+    unauthorized();
+    return null;
   }
 
   // Render dashboard only after authorization is confirmed
