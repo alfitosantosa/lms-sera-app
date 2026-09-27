@@ -741,6 +741,7 @@ export const QuestionScalarFieldEnum = {
   id: 'id',
   type: 'type',
   question: 'question',
+  imageUrl: 'imageUrl',
   points: 'points',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -764,6 +765,7 @@ export const ExamAttemptScalarFieldEnum = {
   id: 'id',
   examId: 'examId',
   studentId: 'studentId',
+  attemptNumber: 'attemptNumber',
   status: 'status',
   startedAt: 'startedAt',
   submittedAt: 'submittedAt',

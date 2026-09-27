@@ -16,3 +16,4 @@ export * from "./types/tahfidzgroup-types";
 export * from "./types/tahfidzrecord-types";
 export * from "./types/teacher-attendance-types";
 export * from "./types/error-types";
+export * from "./types/exam-types";

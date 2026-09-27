@@ -792,7 +792,6 @@ model TahfidzGroup {
   @@map("tahfidz_groups")
 }
 
-
 //examModels
 
 enum ExamStatus {
@@ -814,31 +813,31 @@ enum AttemptStatus {
 }
 
 model Exam {
-  id          String     @id @default(cuid())
+  id String @id @default(cuid())
 
   foundationId String
   majorId      String?
   classId      String?
   subjectId    String?
-  createdBy    String     // userId yang membuat exam (Teacher/Admin)
+  createdBy    String // userId yang membuat exam (Teacher/Admin)
 
   title       String
   description String?
 
-  duration    Int?       // dalam menit
+  duration     Int? // dalam menit
   passingScore Int?
 
-  status      ExamStatus @default(DRAFT)
+  status ExamStatus @default(DRAFT)
 
-  startAt     DateTime?
-  endAt       DateTime?
+  startAt DateTime?
+  endAt   DateTime?
 
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  creator     UserData   @relation("ExamCreator", fields: [createdBy], references: [id])
-  questions   ExamQuestion[]
-  attempts    ExamAttempt[]
+  creator   UserData       @relation("ExamCreator", fields: [createdBy], references: [id])
+  questions ExamQuestion[]
+  attempts  ExamAttempt[]
 
   @@index([foundationId])
   @@index([majorId])
@@ -862,48 +861,51 @@ model ExamQuestion {
 }
 
 model Question {
-  id        String       @id @default(cuid())
-  type      QuestionType
-  question  String
-  points    Int          @default(1)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  options   QuestionOption[]
+  id            String           @id @default(cuid())
+  type          QuestionType
+  question      String
+  imageUrl      String?
+  points        Int              @default(1)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  options       QuestionOption[]
   examQuestions ExamQuestion[]
   answers       ExamAnswer[]
-  
+
   @@map("question")
 }
 
 model QuestionOption {
-  id         String   @id @default(cuid())
+  id         String       @id @default(cuid())
   questionId String
-  option     String   // A, B, C, D
+  option     String // A, B, C, D
   text       String
-  isCorrect  Boolean  @default(false)
-  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  isCorrect  Boolean      @default(false)
+  question   Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
   answers    ExamAnswer[]
 
   @@map("question_option")
 }
 
 model ExamAttempt {
-  id          String        @id @default(cuid())
+  id String @id @default(cuid())
 
-  examId      String
-  studentId   String
+  examId        String
+  studentId     String
+  attemptNumber Int    @default(1)
 
-  status      AttemptStatus  @default(IN_PROGRESS)
+  status AttemptStatus @default(IN_PROGRESS)
 
-  startedAt   DateTime       @default(now())
+  startedAt   DateTime  @default(now())
   submittedAt DateTime?
 
-  score       Int?
+  score Int?
 
-  exam        Exam           @relation(fields: [examId], references: [id], onDelete: Cascade)
-  student     UserData       @relation("StudentExamAttempt", fields: [studentId], references: [id], onDelete: Cascade)
-  answers     ExamAnswer[]
+  exam    Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student UserData     @relation("StudentExamAttempt", fields: [studentId], references: [id], onDelete: Cascade)
+  answers ExamAnswer[]
 
+  @@unique([examId, studentId, attemptNumber])
   @@index([examId])
   @@index([studentId])
   @@map("exam_attempt")
@@ -918,9 +920,9 @@ model ExamAnswer {
   isCorrect        Boolean?
   points           Int?
 
-  attempt          ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  question         Question @relation(fields: [questionId], references: [id])
-  selectedOption   QuestionOption? @relation(fields: [selectedOptionId], references: [id])
+  attempt        ExamAttempt     @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question       Question        @relation(fields: [questionId], references: [id])
+  selectedOption QuestionOption? @relation(fields: [selectedOptionId], references: [id])
 
   @@unique([attemptId, questionId])
   @@map("exam_answer")

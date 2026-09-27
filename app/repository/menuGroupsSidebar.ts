@@ -352,6 +352,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/admin/academic/specialschedule",
           icon: "calendar",
         },
+        {
+          title: "Ujian",
+          url: "/dashboard/teacher/exam",
+          icon: "file",
+        },
       ],
     },
 
@@ -523,6 +528,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/teacher/calender",
           icon: "calendar",
         },
+        {
+          title: "Ujian",
+          url: "/dashboard/teacher/exam",
+          icon: "file",
+        },
       ],
     },
 
@@ -575,6 +585,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           title: "Kalender",
           url: "/dashboard/student/calender",
           icon: "calendar",
+        },
+        {
+          title: "Ujian",
+          url: "/dashboard/student/exam",
+          icon: "file",
         },
       ],
     },
