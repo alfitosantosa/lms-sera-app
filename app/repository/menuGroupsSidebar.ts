@@ -609,8 +609,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        // { title: "Home", url: "/", icon: "home" },
-        { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -625,22 +623,6 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         {
           title: "Portal Orang Tua",
           url: "/dashboard/parent",
-          icon: "users",
-        },
-      ],
-    },
-  ],
-  // =====================================================
-  // adminschool
-  // =====================================================
-  adminschool: [
-    //for admin school
-    {
-      title: "Utama",
-      items: [
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
           icon: "users",
         },
       ],

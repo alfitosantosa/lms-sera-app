@@ -85,7 +85,13 @@ export const ModelName = {
   TahfidzRecord: 'TahfidzRecord',
   SurahQuran: 'SurahQuran',
   TeacherAttendance: 'TeacherAttendance',
-  TahfidzGroup: 'TahfidzGroup'
+  TahfidzGroup: 'TahfidzGroup',
+  Exam: 'Exam',
+  ExamQuestion: 'ExamQuestion',
+  Question: 'Question',
+  QuestionOption: 'QuestionOption',
+  ExamAttempt: 'ExamAttempt',
+  ExamAnswer: 'ExamAnswer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -697,6 +703,87 @@ export const TahfidzGroupScalarFieldEnum = {
 } as const
 
 export type TahfidzGroupScalarFieldEnum = (typeof TahfidzGroupScalarFieldEnum)[keyof typeof TahfidzGroupScalarFieldEnum]
+
+
+export const ExamScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  majorId: 'majorId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  createdBy: 'createdBy',
+  title: 'title',
+  description: 'description',
+  duration: 'duration',
+  passingScore: 'passingScore',
+  status: 'status',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
+
+
+export const ExamQuestionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  questionId: 'questionId',
+  order: 'order',
+  points: 'points'
+} as const
+
+export type ExamQuestionScalarFieldEnum = (typeof ExamQuestionScalarFieldEnum)[keyof typeof ExamQuestionScalarFieldEnum]
+
+
+export const QuestionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  question: 'question',
+  points: 'points',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const QuestionOptionScalarFieldEnum = {
+  id: 'id',
+  questionId: 'questionId',
+  option: 'option',
+  text: 'text',
+  isCorrect: 'isCorrect'
+} as const
+
+export type QuestionOptionScalarFieldEnum = (typeof QuestionOptionScalarFieldEnum)[keyof typeof QuestionOptionScalarFieldEnum]
+
+
+export const ExamAttemptScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  status: 'status',
+  startedAt: 'startedAt',
+  submittedAt: 'submittedAt',
+  score: 'score'
+} as const
+
+export type ExamAttemptScalarFieldEnum = (typeof ExamAttemptScalarFieldEnum)[keyof typeof ExamAttemptScalarFieldEnum]
+
+
+export const ExamAnswerScalarFieldEnum = {
+  id: 'id',
+  attemptId: 'attemptId',
+  questionId: 'questionId',
+  selectedOptionId: 'selectedOptionId',
+  answerText: 'answerText',
+  isCorrect: 'isCorrect',
+  points: 'points'
+} as const
+
+export type ExamAnswerScalarFieldEnum = (typeof ExamAnswerScalarFieldEnum)[keyof typeof ExamAnswerScalarFieldEnum]
 
 
 export const SortOrder = {

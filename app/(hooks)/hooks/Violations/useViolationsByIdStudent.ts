@@ -19,5 +19,6 @@ export const useGetViolationsByIdStudent = (id: string) => {
         console.error(error);
       }
     },
+    enabled: !!id,
   });
 };

@@ -192,3 +192,33 @@ export type TeacherAttendance = Prisma.TeacherAttendanceModel
  * 
  */
 export type TahfidzGroup = Prisma.TahfidzGroupModel
+/**
+ * Model Exam
+ * 
+ */
+export type Exam = Prisma.ExamModel
+/**
+ * Model ExamQuestion
+ * 
+ */
+export type ExamQuestion = Prisma.ExamQuestionModel
+/**
+ * Model Question
+ * 
+ */
+export type Question = Prisma.QuestionModel
+/**
+ * Model QuestionOption
+ * 
+ */
+export type QuestionOption = Prisma.QuestionOptionModel
+/**
+ * Model ExamAttempt
+ * 
+ */
+export type ExamAttempt = Prisma.ExamAttemptModel
+/**
+ * Model ExamAnswer
+ * 
+ */
+export type ExamAnswer = Prisma.ExamAnswerModel

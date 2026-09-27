@@ -146,6 +146,8 @@ model UserData {
   tahfidzRecordsAsTeacher TahfidzRecord[]        @relation("TahfidzTeacher")
   createdAttendances      TeacherAttendance[]    @relation("CreatedAttendance")
   teacherAttendances      TeacherAttendance[]    @relation("TeacherAttendance")
+  createdExams            Exam[]                 @relation("ExamCreator")
+  examAttempts            ExamAttempt[]          @relation("StudentExamAttempt")
   academicYear            AcademicYear?          @relation("UserAcademicYear", fields: [academicYearId], references: [id])
   branch                  Branch?                @relation("UserBranch", fields: [branchId], references: [id])
   class                   Class?                 @relation("UserClass", fields: [classId], references: [id])
@@ -788,4 +790,138 @@ model TahfidzGroup {
 
   @@index([grade])
   @@map("tahfidz_groups")
+}
+
+
+//examModels
+
+enum ExamStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  ESSAY
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+}
+
+model Exam {
+  id          String     @id @default(cuid())
+
+  foundationId String
+  majorId      String?
+  classId      String?
+  subjectId    String?
+  createdBy    String     // userId yang membuat exam (Teacher/Admin)
+
+  title       String
+  description String?
+
+  duration    Int?       // dalam menit
+  passingScore Int?
+
+  status      ExamStatus @default(DRAFT)
+
+  startAt     DateTime?
+  endAt       DateTime?
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  creator     UserData   @relation("ExamCreator", fields: [createdBy], references: [id])
+  questions   ExamQuestion[]
+  attempts    ExamAttempt[]
+
+  @@index([foundationId])
+  @@index([majorId])
+  @@index([classId])
+  @@index([subjectId])
+  @@index([createdBy])
+  @@map("exam")
+}
+
+model ExamQuestion {
+  id         String   @id @default(cuid())
+  examId     String
+  questionId String
+  order      Int
+  points     Int      @default(1)
+  exam       Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id])
+
+  @@unique([examId, questionId])
+  @@map("exam_question")
+}
+
+model Question {
+  id        String       @id @default(cuid())
+  type      QuestionType
+  question  String
+  points    Int          @default(1)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  options   QuestionOption[]
+  examQuestions ExamQuestion[]
+  answers       ExamAnswer[]
+  
+  @@map("question")
+}
+
+model QuestionOption {
+  id         String   @id @default(cuid())
+  questionId String
+  option     String   // A, B, C, D
+  text       String
+  isCorrect  Boolean  @default(false)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answers    ExamAnswer[]
+
+  @@map("question_option")
+}
+
+model ExamAttempt {
+  id          String        @id @default(cuid())
+
+  examId      String
+  studentId   String
+
+  status      AttemptStatus  @default(IN_PROGRESS)
+
+  startedAt   DateTime       @default(now())
+  submittedAt DateTime?
+
+  score       Int?
+
+  exam        Exam           @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student     UserData       @relation("StudentExamAttempt", fields: [studentId], references: [id], onDelete: Cascade)
+  answers     ExamAnswer[]
+
+  @@index([examId])
+  @@index([studentId])
+  @@map("exam_attempt")
+}
+
+model ExamAnswer {
+  id               String   @id @default(cuid())
+  attemptId        String
+  questionId       String
+  selectedOptionId String?
+  answerText       String?
+  isCorrect        Boolean?
+  points           Int?
+
+  attempt          ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question         Question @relation(fields: [questionId], references: [id])
+  selectedOption   QuestionOption? @relation(fields: [selectedOptionId], references: [id])
+
+  @@unique([attemptId, questionId])
+  @@map("exam_answer")
 }
