@@ -60,6 +60,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "@/lib/authClients";
+import { useBranch } from "@/app/(context)/BranchContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ColumnDef,
@@ -442,12 +443,12 @@ function DeleteAttendanceDialog({
 
 // Main DataTable Component
 function AttendanceDataTable() {
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
@@ -466,7 +467,7 @@ function AttendanceDataTable() {
   });
   const [globalFilter, setGlobalFilter] = useState<string>("");
 
-  // Use the attendance by date hook
+  // Use the attendance by date hook with branchId filter
   const {
     data: attendanceByDate = [],
     isLoading: isLoadingAttendanceByDate,
@@ -474,6 +475,7 @@ function AttendanceDataTable() {
   } = useAttendanceByDate({
     fromdate: dateRange?.from || new Date(),
     todate: dateRange?.to || new Date(),
+    branchId: selectedBranchId || undefined,
   });
 
   useEffect(() => {

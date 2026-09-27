@@ -4,11 +4,20 @@ import { CACHE_STRATEGIES } from "@/app/client/providers";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetPaymentTypes = () => {
+export const useGetPaymentTypes = (filters?: { branchId?: string }) => {
   return useQuery({
-    queryKey: ["paymentTypes"],
+    queryKey: ["paymentTypes", filters],
     queryFn: async () => {
-      const res = await apiGet<PaymentTypeTypes[]>("/api/paymenttype");
+      const params = new URLSearchParams();
+
+      if (filters?.branchId) {
+        params.append("branchId", filters.branchId);
+      }
+
+      const url = params.toString()
+        ? `/api/paymenttype?${params.toString()}`
+        : "/api/paymenttype";
+      const res = await apiGet<PaymentTypeTypes[]>(url);
       return res.data;
     },
     // ✅ Payment types are static - cache for 1 hour

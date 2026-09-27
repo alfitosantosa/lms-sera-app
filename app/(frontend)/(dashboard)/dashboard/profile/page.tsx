@@ -39,20 +39,13 @@ import {
   UserPlus,
   GoalIcon,
   Landmark,
-  Globe,
   GraduationCapIcon,
   EyeOffIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetBetterAuthById } from "@/app/(hooks)/hooks/Users/useBetterAuth";
-import {
-  type ComponentType,
-  type ReactNode,
-  use,
-  useEffect,
-  useState,
-} from "react";
+import { type ComponentType, type ReactNode, useEffect, useState } from "react";
 import { foundationTypes } from "@/app/(types)/types/foundation-types";
 import { DialogEditFoundation } from "@/components/dialog/DialogEditFoundation";
 

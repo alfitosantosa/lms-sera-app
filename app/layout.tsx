@@ -7,7 +7,8 @@ import { type Metadata, type Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import { ReactQueryProvider } from "./client/providers";
-import { ReactNode } from "react";
+import { BranchProvider } from "./(context)/BranchContext";
+import { ReactNode, Suspense } from "react";
 
 // Optimized font loading with next/font
 const inter = Inter({
@@ -51,7 +52,11 @@ export default function RootLayout({
         <Toaster />
         <ReactQueryProvider>
           <TooltipProvider>
-            <ConditionalLayout>{children}</ConditionalLayout>
+            <Suspense fallback={null}>
+              <BranchProvider>
+                <ConditionalLayout>{children}</ConditionalLayout>
+              </BranchProvider>
+            </Suspense>
           </TooltipProvider>
         </ReactQueryProvider>
       </body>

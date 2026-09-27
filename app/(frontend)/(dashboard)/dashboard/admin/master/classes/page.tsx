@@ -9,6 +9,7 @@ import {
 } from "@/app/(hooks)/hooks/Classes/useClass";
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBranch } from "@/app/(context)/BranchContext";
 import { type AcademicYearDataTypes } from "@/app/(types)/types/academicyear-types";
 import {
   type ClassDataTypes,
@@ -354,7 +355,16 @@ function ClassDataTable() {
   // Filter states
   const [academicYearFilter, setAcademicYearFilter] = useState<string>("all");
 
-  const { data: classes = [], isLoading, refetch } = useGetClasses();
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
+  const {
+    data: classes = [],
+    isLoading,
+    refetch,
+  } = useGetClasses({
+    branchId: selectedBranchId || undefined,
+  });
   const { data: academicYears = [] } = useGetAcademicYears();
 
   const handleSuccess = () => {

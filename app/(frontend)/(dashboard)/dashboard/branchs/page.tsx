@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useState, useEffect, useRef,type ChangeEvent } from "react";
 
 import {
   useCreateBranch,
@@ -108,7 +108,7 @@ export type BranchData = {
 const branchSchema = z.object({
   code: z
     .string()
-    .min(1, "Kode Branch wajib diisi")
+    .min(1, "Kode Sekolah wajib diisi")
     .max(10, "Kode maksimal 10 karakter"),
   name: z
     .string()
@@ -411,7 +411,7 @@ function BranchFormDialog({
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {editData ? "Edit Branch" : "Tambah Branch Baru"}
+            {editData ? "Edit Sekolah" : "Tambah Sekolah Baru"}
           </DialogTitle>
         </DialogHeader>
 
@@ -420,7 +420,7 @@ function BranchFormDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="code">
-                Kode Branch <span className="text-destructive">*</span>
+                Kode Sekolah <span className="text-destructive">*</span>
               </Label>
               <Input id="code" placeholder="SMAIT001" {...register("code")} />
               {errors.code && (
@@ -579,7 +579,7 @@ function BranchDetailDialog({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
-                Kode Branch
+                Kode Sekolah
               </p>
               <p className="font-mono text-lg font-bold">{branchData.code}</p>
             </div>
@@ -874,7 +874,7 @@ function BranchDataTable() {
       accessorKey: "description",
       header: "Deskripsi",
       cell: ({ row }) => (
-        <div className="text-muted-foreground max-w-[180px] truncate text-sm">
+        <div className="text-muted-foreground max-w-45 truncate text-sm">
           {(row.getValue("description") as string) || "-"}
         </div>
       ),
@@ -883,7 +883,7 @@ function BranchDataTable() {
       accessorKey: "address",
       header: "Alamat",
       cell: ({ row }) => (
-        <div className="text-muted-foreground max-w-[160px] truncate text-sm">
+        <div className="text-muted-foreground max-w-40 truncate text-sm">
           {(row.getValue("address") as string) || "-"}
         </div>
       ),
@@ -1059,7 +1059,7 @@ function BranchDataTable() {
         <div className="relative">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            placeholder="Cari nama atau kode Branch..."
+            placeholder="Cari nama atau kode Sekolah..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(e) =>
               table.getColumn("name")?.setFilterValue(e.target.value)

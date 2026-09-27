@@ -9,6 +9,7 @@ import {
   useUpdateSpecialSchedule,
 } from "@/app/(hooks)/hooks/SpecialSchedules/useSpecialSchedule";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBranch } from "@/app/(context)/BranchContext";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -449,11 +450,16 @@ function SpecialScheduleDataTable() {
   >(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
 
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
   const {
     data: specialSchedules = [],
     isLoading,
     refetch,
-  } = useGetSpecialSchedules();
+  } = useGetSpecialSchedules({
+    branchId: selectedBranchId || undefined,
+  });
 
   const handleSuccess = () => {
     refetch();

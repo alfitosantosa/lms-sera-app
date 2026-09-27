@@ -14,11 +14,20 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 //   });
 // };
 
-export const useGetClasses = () => {
+export const useGetClasses = (filters?: { branchId?: string }) => {
   return useQuery<ClassDataTypes[]>({
-    queryKey: ["classes"],
+    queryKey: ["classes", filters],
     queryFn: async () => {
-      const res = await apiGet<ClassDataTypes[]>("/api/class");
+      const params = new URLSearchParams();
+
+      if (filters?.branchId) {
+        params.append("branchId", filters.branchId);
+      }
+
+      const url = params.toString()
+        ? `/api/class?${params.toString()}`
+        : "/api/class";
+      const res = await apiGet<ClassDataTypes[]>(url);
       return res.data;
     },
   });

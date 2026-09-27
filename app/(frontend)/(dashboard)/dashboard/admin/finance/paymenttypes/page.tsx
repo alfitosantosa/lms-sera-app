@@ -9,6 +9,7 @@ import {
   useUpdatePaymentType,
 } from "@/app/(hooks)/hooks/Payments/usePaymentType";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBranch } from "@/app/(context)/BranchContext";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -793,7 +794,16 @@ function PaymentTypeDataTable() {
   const [selectedPaymentType, setSelectedPaymentType] =
     useState<PaymentTypeData | null>(null);
 
-  const { data: paymentTypes = [], isLoading, refetch } = useGetPaymentTypes();
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
+  const {
+    data: paymentTypes = [],
+    isLoading,
+    refetch,
+  } = useGetPaymentTypes({
+    branchId: selectedBranchId || undefined,
+  });
   const { data: branchs = [] } = useGetBranchs();
 
   // Filter payment types by selected branch

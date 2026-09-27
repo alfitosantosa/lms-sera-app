@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
   BarChart3,
@@ -55,7 +55,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/authClients";
-import { useState, type ElementType } from "react";
+import { useEffect, useState, type ElementType } from "react";
 import {
   Select,
   SelectContent,
@@ -66,6 +66,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
+import { useBranch } from "@/app/(context)/BranchContext";
 
 // Icon mapping
 const iconMap: Record<string, ElementType> = {
@@ -95,13 +96,31 @@ type MenuItem = {
 export function AppSidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { data: session, isPending: isSessionPending } = useSession();
   const { data: userData, isLoading: isUserDataLoading } =
     useGetUserByIdBetterAuth(session?.user?.id ?? "");
-  const [school, setSchool] = useState("all");
+
+  // Use Branch Context
+  const { selectedBranchId, setSelectedBranchId } = useBranch();
+
+  // Local state for Select component (synced with context)
+  const [school, setSchool] = useState<string>("all");
 
   // Call all hooks at the top level, before any early returns
   const { data: branches, isPending: isBranchesPending } = useGetBranchs();
+
+  // Sync local state with context and URL on mount
+  useEffect(() => {
+    const branchIdFromUrl = searchParams?.get("branchId");
+    if (branchIdFromUrl) {
+      setSchool(branchIdFromUrl);
+    } else if (selectedBranchId) {
+      setSchool(selectedBranchId);
+    } else {
+      setSchool("all");
+    }
+  }, [searchParams, selectedBranchId]);
 
   // Show loading state while data is being fetched
   if (isSessionPending || isUserDataLoading || isBranchesPending) {
@@ -129,6 +148,11 @@ export function AppSidebar() {
   const getRoleMenuKey = (role: string): string => {
     const r = role.toLowerCase();
 
+    // Admin School role - always use schooladministrator menu
+    if (r.includes("admin school")) {
+      return "schooladministrator";
+    }
+
     // If admin/yayasan selects a specific school, use schooladministrator menu
     if (
       (r.includes("admin") || r.includes("yayasan")) &&
@@ -150,9 +174,6 @@ export function AppSidebar() {
       return "teacher";
     if (r.includes("student") || r.includes("siswa")) return "student";
     if (r.includes("parent") || r.includes("orang tua")) return "parent";
-    if (r.includes("admin school") || r.includes("orang tua"))
-      return "schoolAdministrator";
-    if (r.includes("admin") && school) return "schoolAdministrator";
 
     // Default fallback to student
     return "student";
@@ -218,47 +239,21 @@ export function AppSidebar() {
       .slice(0, 2);
   };
 
-  // Function to modify menu URLs when school is selected
-  const modifyMenuUrlsForSchool = (
-    items: MenuItem[],
-    branchId: string,
-  ): MenuItem[] => {
-    return items.map((item) => {
-      const modifiedItem = { ...item };
+  // Handle school selection change
+  const handleSchoolChange = (value: string) => {
+    setSchool(value);
 
-      // Jika ada sub-items, modify recursively
-      if (modifiedItem.items && modifiedItem.items.length > 0) {
-        modifiedItem.items = modifyMenuUrlsForSchool(
-          modifiedItem.items,
-          branchId,
-        );
-      }
-
-      // Modify URL: tambahkan /branch/{branchId} setelah /dashboard
-      // Contoh: /dashboard/admin/... -> /dashboard/school/{branchId}/...
-      if (
-        modifiedItem.url &&
-        modifiedItem.url.startsWith("/dashboard") &&
-        !modifiedItem.url.includes("/school/")
-      ) {
-        modifiedItem.url = modifiedItem.url.replace(
-          "/dashboard",
-          `/dashboard/school/${branchId}`,
-        );
-      }
-
-      return modifiedItem;
-    });
+    if (value === "all") {
+      // Clear branch filter - remove query param
+      setSelectedBranchId(null);
+      router.push(pathname);
+    } else {
+      // Set branch filter - add query param
+      setSelectedBranchId(value);
+      const newUrl = `${pathname}?branchId=${value}`;
+      router.push(newUrl);
+    }
   };
-
-  // Apply URL modification if school is selected
-  const finalMenuGroups =
-    school && school !== "all"
-      ? currentMenuGroups.map((group) => ({
-          ...group,
-          items: modifyMenuUrlsForSchool(group.items, school),
-        }))
-      : currentMenuGroups;
 
   const handleSignOut = async () => {
     await signOut();
@@ -297,7 +292,7 @@ export function AppSidebar() {
 
       {/* ── Menu Navigation Content ── */}
       <SidebarContent className="scrollbar-thin overflow-y-auto px-3 py-3">
-        {finalMenuGroups.map((group, groupIndex) => {
+        {currentMenuGroups.map((group, groupIndex) => {
           const filteredItems = filterMenuByPermissions(group.items);
           if (filteredItems.length === 0) return null;
 
@@ -411,7 +406,7 @@ export function AppSidebar() {
               <label className="text-muted-foreground text-[10px] font-medium uppercase tracking-wider">
                 Pilih Sekolah
               </label>
-              <Select value={school} onValueChange={setSchool}>
+              <Select value={school} onValueChange={handleSchoolChange}>
                 <SelectTrigger className="h-9 w-full text-xs">
                   <SelectValue placeholder="Semua Sekolah" />
                 </SelectTrigger>

@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // apiPost/apiPut/apiDelete tidak melempar error pada status 4xx/5xx,
 // jadi pesan error dari backend (mis. validasi jurusan 400/403) harus diangkat manual.
-const unwrap = <T>(res: { status: number; data: T }, fallback: string): T => {
+const unwrap = <T,>(res: { status: number; data: T }, fallback: string): T => {
   if (res.status >= 400) {
     const body = (res.data ?? {}) as { error?: string; message?: string };
     throw new Error(body.error || body.message || fallback);
@@ -17,11 +17,20 @@ const unwrap = <T>(res: { status: number; data: T }, fallback: string): T => {
   return res.data;
 };
 
-export const useGetTahfidzGroup = () => {
+export const useGetTahfidzGroup = (filters?: { branchId?: string }) => {
   return useQuery<TahfidzGroupData[]>({
-    queryKey: ["tahfidzgroup"],
+    queryKey: ["tahfidzgroup", filters],
     queryFn: async (): Promise<TahfidzGroupData[]> => {
-      const res = await apiGet<TahfidzGroupData[]>("/api/tahfidzgroup");
+      const params = new URLSearchParams();
+
+      if (filters?.branchId) {
+        params.append("branchId", filters.branchId);
+      }
+
+      const url = params.toString()
+        ? `/api/tahfidzgroup?${params.toString()}`
+        : "/api/tahfidzgroup";
+      const res = await apiGet<TahfidzGroupData[]>(url);
       return res.data;
     },
   });

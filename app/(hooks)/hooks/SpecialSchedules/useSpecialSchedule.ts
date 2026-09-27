@@ -3,13 +3,20 @@ import { type SpecialScheduleData } from "@/app/(frontend)/(dashboard)/dashboard
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetSpecialSchedules = () => {
+export const useGetSpecialSchedules = (filters?: { branchId?: string }) => {
   return useQuery({
-    queryKey: ["specialSchedules"],
+    queryKey: ["specialSchedules", filters],
     queryFn: async () => {
-      const response = await apiGet<SpecialScheduleData[]>(
-        "/api/specialschedule",
-      );
+      const params = new URLSearchParams();
+
+      if (filters?.branchId) {
+        params.append("branchId", filters.branchId);
+      }
+
+      const url = params.toString()
+        ? `/api/specialschedule?${params.toString()}`
+        : "/api/specialschedule";
+      const response = await apiGet<SpecialScheduleData[]>(url);
       return response.data;
     },
   });

@@ -11,6 +11,7 @@ import {
   useGetViolations,
   useUpdateViolation,
 } from "@/app/(hooks)/hooks/Violations/useViolations";
+import { useBranch } from "@/app/(context)/BranchContext";
 import { type ClassDataTypes, type UserDataTypes } from "@/app/(types)";
 import {
   type ViolationTypes,
@@ -642,11 +643,8 @@ function DeleteViolationDialog({
 // Main DataTable Component
 function ViolationDataTable({ foundationId }: { foundationId: string }) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
@@ -661,7 +659,16 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
   const [classFilter, setClassFilter] = useState<string>("all");
   const [globalFilter, setGlobalFilter] = useState<string>("");
 
-  const { data: violations = [], isLoading, refetch } = useGetViolations();
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
+  const {
+    data: violations = [],
+    isLoading,
+    refetch,
+  } = useGetViolations({
+    branchId: selectedBranchId || undefined,
+  });
   const { data: classes } = useGetClasses();
 
   const handleSuccess = () => {

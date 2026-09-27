@@ -5,12 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 export const useAttendanceByDate = ({
   fromdate,
   todate,
+  branchId,
 }: {
   fromdate?: Date;
   todate?: Date;
+  branchId?: string;
 }) => {
   return useQuery({
-    queryKey: ["attendances-by-date", fromdate, todate],
+    queryKey: ["attendances-by-date", fromdate, todate, branchId],
     queryFn: async () => {
       if (!fromdate || !todate) return [];
 
@@ -22,14 +24,19 @@ export const useAttendanceByDate = ({
         return `${year}-${month}-${day}`;
       };
 
+      const params: Record<string, string> = {
+        fromdate: formatLocalDate(fromdate),
+        todate: formatLocalDate(todate),
+      };
+
+      // Add branchId if provided
+      if (branchId) {
+        params.branchId = branchId;
+      }
+
       const response = await apiGet<attendanceTypes[]>(
         "/api/attendance/filterdate",
-        {
-          params: {
-            fromdate: formatLocalDate(fromdate),
-            todate: formatLocalDate(todate),
-          },
-        },
+        { params },
       );
       return response.data;
     },

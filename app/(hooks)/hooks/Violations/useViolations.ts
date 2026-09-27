@@ -2,12 +2,21 @@ import { type ViolationInput, type ViolationTypes } from "@/app/(types)";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetViolations = () => {
+export const useGetViolations = (filters?: { branchId?: string }) => {
   return useQuery({
-    queryKey: ["violations"],
+    queryKey: ["violations", filters],
     queryFn: async () => {
       try {
-        const response = await apiGet<ViolationTypes[]>("/api/violations");
+        const params = new URLSearchParams();
+
+        if (filters?.branchId) {
+          params.append("branchId", filters.branchId);
+        }
+
+        const url = params.toString()
+          ? `/api/violations?${params.toString()}`
+          : "/api/violations";
+        const response = await apiGet<ViolationTypes[]>(url);
         return response.data;
       } catch (error) {
         console.error(error);

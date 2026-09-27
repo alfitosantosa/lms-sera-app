@@ -22,15 +22,26 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
+  const branchId = request.nextUrl.searchParams.get("branchId");
   const t = await resolveFoundation(request, explicit);
   if (!t.ok) return t.response;
 
   try {
+    // Build where clause
+    const whereClause: any = {
+      branch: { foundationId: t.foundationId },
+    };
+
+    // Filter by branch if provided (Pattern 1: Direct branchId)
+    if (branchId) {
+      whereClause.branchId = branchId;
+    }
+
     // ✅ Optimized: Field-selection to keep only accessed fields
     // Dropping: _count.schedules, _count.violations (not accessed)
     // Keeping: id, name, grade, capacity, branchId, academicYearId, branch.id/name, academicYear.id/year, _count.students
     const classes = await prisma.class.findMany({
-      where: { branch: { foundationId: t.foundationId } },
+      where: whereClause,
       select: {
         id: true,
         name: true,

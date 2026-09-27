@@ -258,13 +258,13 @@ export const menuGroups: Record<string, MenuGroup[]> = {
   ],
 
   // =====================================================
-  // TU
+  // SCHOOL ADMINISTRATOR (TU)
+  // Reuses existing admin/treasurer pages with branch filtering
   // =====================================================
   schooladministrator: [
     {
       title: "Utama",
       items: [
-        // { title: "Home", url: "/", icon: "home" },
         {
           title: "Profile",
           url: "/dashboard/profile",
@@ -283,12 +283,17 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Dashboard Transaksi",
-          url: "/dashboard/principal/finance/chart",
+          url: "/dashboard/admin/finance/payments/chart",
           icon: "chart",
         },
         {
           title: "Dashboard Tagihan",
-          url: "/dashboard/principal/finance/billing/chart",
+          url: "/dashboard/admin/finance/billing/chart",
+          icon: "chart",
+        },
+        {
+          title: "Dashboard Saldo",
+          url: "/dashboard/admin/finance/accountbank/chart",
           icon: "chart",
         },
       ],
@@ -297,6 +302,21 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Akademik",
       items: [
+        {
+          title: "Kelas",
+          url: "/dashboard/admin/master/classes",
+          icon: "academic",
+          items: [
+            {
+              title: "Kelas",
+              url: "/dashboard/admin/master/classes",
+            },
+            {
+              title: "Grup Tahfidz",
+              url: "/dashboard/admin/master/classes/tahfidz",
+            },
+          ],
+        },
         {
           title: "Absensi",
           url: "/dashboard/attendance",
@@ -321,22 +341,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
               title: "Per Kelas",
               url: "/dashboard/recapattendance/class",
             },
-            {
-              title: "Per Siswa",
-              url: "/dashboard/recapattendance/student",
-            },
           ],
         },
         {
-          title: "Kalender",
-          url: "/dashboard/calender/principal",
+          title: "Jadwal Khusus",
+          url: "/dashboard/admin/academic/specialschedule",
           icon: "calendar",
-          items: [
-            {
-              title: "List Kalender",
-              url: "/dashboard/calender/list/principal",
-            },
-          ],
         },
       ],
     },
@@ -355,15 +365,31 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Keuangan",
       items: [
-        // {
-        //   title: "Data Tagihan",
-        //   url: "/dashboard/principal/finance/billing",
-        //   icon: "file",
-        // },
-        // {
-        //   title: "Data Transaksi",
-        //   url: "/dashboard/principal",
-        // },
+        {
+          title: "Jenis Tagihan",
+          url: "/dashboard/treasurer/paymenttype",
+          icon: "payment",
+        },
+        {
+          title: "Data Tagihan",
+          url: "/dashboard/treasurer/billing",
+          icon: "file",
+        },
+        {
+          title: "Data Transaksi",
+          url: "/dashboard/treasurer/payment",
+          icon: "payment",
+        },
+        {
+          title: "Account Bank",
+          url: "/dashboard/admin/finance/accountbank",
+          icon: "bank",
+        },
+        {
+          title: "Informasi Siswa",
+          url: "/dashboard/treasurer/studentinformation",
+          icon: "users",
+        },
       ],
     },
   ],

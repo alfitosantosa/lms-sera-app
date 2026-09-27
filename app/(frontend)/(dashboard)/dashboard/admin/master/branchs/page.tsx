@@ -393,10 +393,10 @@ function BranchFormDialog({
           ...data,
           id: editData.id,
         });
-        toast.success("Branch berhasil diperbarui!");
+        toast.success("Sekolah berhasil diperbarui!");
       } else {
         await createBranch.mutateAsync(data);
-        toast.success("Branch berhasil dibuat!");
+        toast.success("Sekolah berhasil dibuat!");
       }
       reset();
       onOpenChange(false);
@@ -411,7 +411,7 @@ function BranchFormDialog({
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {editData ? "Edit Branch" : "Tambah Branch Baru"}
+            {editData ? "Edit Sekolah" : "Tambah Sekolah Baru"}
           </DialogTitle>
         </DialogHeader>
 
@@ -420,7 +420,7 @@ function BranchFormDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="code">
-                Kode Branch <span className="text-destructive">*</span>
+                Kode Sekolah <span className="text-destructive">*</span>
               </Label>
               <Input id="code" placeholder="SMAIT001" {...register("code")} />
               {errors.code && (
@@ -450,7 +450,7 @@ function BranchFormDialog({
 
           <div className="space-y-2">
             <Label htmlFor="name">
-              Nama Branch <span className="text-destructive">*</span>
+              Nama Sekolah <span className="text-destructive">*</span>
             </Label>
             <Input
               id="name"
@@ -469,7 +469,7 @@ function BranchFormDialog({
             </Label>
             <Textarea
               id="description"
-              placeholder="Deskripsi singkat tentang Branch..."
+              placeholder="Deskripsi singkat tentang Sekolah..."
               rows={2}
               {...register("description")}
             />
@@ -482,7 +482,7 @@ function BranchFormDialog({
             </Label>
             <Textarea
               id="address"
-              placeholder="Alamat lengkap branch..."
+              placeholder="Alamat lengkap Sekolah..."
               rows={2}
               {...register("address")}
             />
@@ -571,7 +571,7 @@ function BranchDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Detail Branch</DialogTitle>
+          <DialogTitle>Detail Sekolah</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-5">
@@ -579,7 +579,7 @@ function BranchDetailDialog({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
-                Kode Branch
+                Kode Sekolah
               </p>
               <p className="font-mono text-lg font-bold">{branchData.code}</p>
             </div>
@@ -598,7 +598,7 @@ function BranchDetailDialog({
 
           <div>
             <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
-              Nama Branch
+              Nama Sekolah
             </p>
             <p className="text-base font-semibold">{branchData.name}</p>
           </div>
@@ -772,13 +772,13 @@ function DeleteBranchDialog({
                     ) : null}
                   </ul>
                   <p className="text-destructive text-sm font-medium">
-                    Menghapus Branch akan menghapus semua data terkait. Tindakan
+                    Menghapus Sekolah akan menghapus semua data terkait. Tindakan
                     ini tidak dapat dibatalkan.
                   </p>
                 </div>
               ) : (
                 <p>
-                  Apakah Anda yakin ingin menghapus branch{" "}
+                  Apakah Anda yakin ingin menghapus Sekolah{" "}
                   <strong>{branchData?.name}</strong>? Tindakan ini tidak dapat
                   dibatalkan.
                 </p>
@@ -863,7 +863,7 @@ function BranchDataTable() {
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nama Branch <ArrowUpDown className="ml-2 h-4 w-4" />
+          Nama Sekolah <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
       cell: ({ row }) => (
@@ -997,7 +997,7 @@ function BranchDataTable() {
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(m.id)}
               >
-                Copy ID Branch
+                Copy ID Sekolah
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -1053,13 +1053,13 @@ function BranchDataTable() {
 
   return (
     <div className="">
-      <div className="text-3xl font-bold">Branch</div>
+      <div className="text-3xl font-bold">Sekolah</div>
 
       <div className="flex items-center justify-between py-4">
         <div className="relative">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            placeholder="Cari nama atau kode Branch..."
+            placeholder="Cari nama atau kode Sekolah..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(e) =>
               table.getColumn("name")?.setFilterValue(e.target.value)
@@ -1096,7 +1096,7 @@ function BranchDataTable() {
 
           <Button onClick={() => setCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Tambah Branch
+            Tambah Sekolah
           </Button>
         </div>
       </div>
@@ -1142,7 +1142,7 @@ function BranchDataTable() {
                   colSpan={columns.length}
                   className="text-muted-foreground h-24 text-center"
                 >
-                  Tidak ada data Branch.
+                  Tidak ada data Sekolah.
                 </TableCell>
               </TableRow>
             )}

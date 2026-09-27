@@ -9,6 +9,7 @@ import {
   useUpdateTahfidzGroup,
 } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
+import { useBranch } from "@/app/(context)/BranchContext";
 import {
   getErrorMessage,
   type TahfidzGrade,
@@ -341,11 +342,8 @@ function DeleteTahfidzGroupDialog({
 // Main DataTable Component
 function TahfidzGroupDataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   // Dialog states
@@ -358,7 +356,16 @@ function TahfidzGroupDataTable() {
   // Filter states
   const [gradeFilter, setGradeFilter] = useState<string>("all");
 
-  const { data: tahfidzGroups = [], isLoading, refetch } = useGetTahfidzGroup();
+  // Branch context for filtering
+  const { selectedBranchId } = useBranch();
+
+  const {
+    data: tahfidzGroups = [],
+    isLoading,
+    refetch,
+  } = useGetTahfidzGroup({
+    branchId: selectedBranchId || undefined,
+  });
 
   const handleSuccess = () => {
     refetch();

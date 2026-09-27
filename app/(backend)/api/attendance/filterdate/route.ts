@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
 
   const fromdate = request.nextUrl.searchParams.get("fromdate");
   const todate = request.nextUrl.searchParams.get("todate");
+  const branchId = request.nextUrl.searchParams.get("branchId");
 
   if (!fromdate || !todate) {
     return NextResponse.json(
@@ -31,20 +32,38 @@ export async function GET(request: NextRequest) {
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(23, 59, 59, 999);
 
-    const attendances = await prisma.attendance.findMany({
-      where: {
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-        schedule: { academicYear: { foundationId: t.foundationId } },
-        student: { foundationId: t.foundationId },
+    // Build where clause
+    const whereClause: any = {
+      date: {
+        gte: startDate,
+        lte: endDate,
       },
+      schedule: { academicYear: { foundationId: t.foundationId } },
+      student: { foundationId: t.foundationId },
+    };
+
+    // Filter by branch if provided (Pattern 3: Deep nested via Schedule → Class)
+    if (branchId) {
+      whereClause.schedule = {
+        ...whereClause.schedule,
+        class: {
+          branchId: branchId,
+        },
+      };
+    }
+
+    const attendances = await prisma.attendance.findMany({
+      where: whereClause,
       include: {
         student: true,
         schedule: {
           include: {
             subject: true,
+            class: {
+              include: {
+                branch: true,
+              },
+            },
           },
         },
       },
