@@ -144,11 +144,8 @@ const DAYS_MAP = {
 // Main DataTable Component
 export default function ScheduleDataTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   const [classFilter, setClassFilter] = useState<string>("all");
@@ -424,7 +421,7 @@ export default function ScheduleDataTable() {
 
   return (
     <>
-      <div className="mx-auto my-8 min-h-screen max-w-7xl p-6">
+      <div className="max-w-8xl">
         <div className="mb-6 text-3xl font-bold">Jadwal Pelajaran</div>
         {/* student data  */}
 

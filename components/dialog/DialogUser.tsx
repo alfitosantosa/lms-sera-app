@@ -853,6 +853,11 @@ export function UserFormDialog({
         submitData.address = data.address || null;
         submitData.parentPhone = data.parentPhone || null;
         submitData.nik = data.nik || null;
+      } else if (selectedRole?.name.trim() === "Admin School") {
+        submitData.employeeId = data.employeeId || null;
+        submitData.address = data.address || null;
+        submitData.parentPhone = data.parentPhone || null;
+        submitData.nik = data.nik || null;
       }
 
       // Handle Better Auth User connection
@@ -1219,6 +1224,109 @@ export function UserFormDialog({
         );
 
       case "treasurer":
+        return (
+          <>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="employeeId">ID Pegawai *</Label>
+                <Input
+                  id="employeeId"
+                  placeholder="EMP001"
+                  {...register("employeeId")}
+                />
+                {errors.employeeId && (
+                  <p className="text-destructive text-sm">
+                    {errors.employeeId.message}
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="position">Jabatan</Label>
+                <Input
+                  id="position"
+                  placeholder="Guru Matematika"
+                  {...register("position")}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="birthPlace">Tempat Lahir *</Label>
+                <Input
+                  id="birthPlace"
+                  placeholder="Jakarta"
+                  {...register("birthPlace")}
+                />
+                {errors.birthPlace && (
+                  <p className="text-destructive text-sm">
+                    {errors.birthPlace.message}
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="birthDate">Tanggal Lahir *</Label>
+                <Input id="birthDate" type="date" {...register("birthDate")} />
+                {errors.birthDate && (
+                  <p className="text-destructive text-sm">
+                    {errors.birthDate.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="address">Alamat *</Label>
+                <Textarea
+                  id="address"
+                  placeholder="Alamat lengkap guru"
+                  {...register("address")}
+                />
+                {errors.address && (
+                  <p className="text-destructive text-sm">
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="parentPhone">No. Hanphone</Label>
+                <Input
+                  id="parentPhone"
+                  placeholder="08123456789"
+                  {...register("parentPhone")}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Branch *</Label>
+                <Select
+                  onValueChange={(value) => setValue("branchId", value)}
+                  value={watch("branchId")}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Branch" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {branchsLoading ? (
+                      <SelectItem value="" disabled>
+                        Loading...
+                      </SelectItem>
+                    ) : (
+                      branchs.map((branch) => (
+                        <SelectItem key={branch.id} value={branch.id}>
+                          {branch.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </>
+        );
+      case "admin school":
         return (
           <>
             <div className="grid grid-cols-2 gap-4">

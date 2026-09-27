@@ -140,7 +140,7 @@ export function AppSidebar() {
     );
   }
 
-  const userRole = userData?.role?.name || "Student";
+  const userRole = userData?.role?.name || "null";
   const userRoleLower = userRole.toLowerCase();
   const permissions = userData?.role?.permissions || [];
 
@@ -174,22 +174,23 @@ export function AppSidebar() {
       return "teacher";
     if (r.includes("student") || r.includes("siswa")) return "student";
     if (r.includes("parent") || r.includes("orang tua")) return "parent";
+    if (r.includes("admin school")) return "adminschool";
 
     // Default fallback to student
-    return "student";
+    return "null";
   };
 
   const roleMenuKey = getRoleMenuKey(userRole);
   const currentMenuGroups = menuGroups[roleMenuKey] || menuGroups.student;
 
-  // console.log("🔑 Role Debug:", {
-  //   userRole,
-  //   roleMenuKey,
-  //   hasMenuGroups: !!menuGroups[roleMenuKey],
-  //   menuGroupKeys: Object.keys(menuGroups),
-  //   currentMenuGroupsLength: currentMenuGroups?.length,
-  //   firstGroup: currentMenuGroups?.[0]?.title,
-  // });
+  console.log("🔑 Role Debug:", {
+    userRole,
+    roleMenuKey,
+    hasMenuGroups: !!menuGroups[roleMenuKey],
+    menuGroupKeys: Object.keys(menuGroups),
+    currentMenuGroupsLength: currentMenuGroups?.length,
+    firstGroup: currentMenuGroups?.[0]?.title,
+  });
 
   // Filter menu items based on permissions
   const filterMenuByPermissions = (items: MenuItem[]): MenuItem[] => {
@@ -205,7 +206,8 @@ export function AppSidebar() {
       userRoleLower.includes("siswa") ||
       userRoleLower.includes("parent") ||
       userRoleLower.includes("orang tua") ||
-      userRoleLower.includes("admin school")
+      userRoleLower.includes("admin school") ||
+      userRoleLower.includes("null")
     ) {
       return items;
     }
@@ -237,22 +239,6 @@ export function AppSidebar() {
       .join("")
       .toUpperCase()
       .slice(0, 2);
-  };
-
-  // Handle school selection change
-  const handleSchoolChange = (value: string) => {
-    setSchool(value);
-
-    if (value === "all") {
-      // Clear branch filter - remove query param
-      setSelectedBranchId(null);
-      router.push(pathname);
-    } else {
-      // Set branch filter - add query param
-      setSelectedBranchId(value);
-      const newUrl = `${pathname}?branchId=${value}`;
-      router.push(newUrl);
-    }
   };
 
   const handleSignOut = async () => {
@@ -397,34 +383,6 @@ export function AppSidebar() {
 
       {/* ── User Profile Footer ── */}
       <SidebarFooter className="border-border bg-sidebar space-y-2 border-t p-3">
-        {/* School Selector - Only for Admin/Yayasan */}
-        {(userRoleLower.includes("admin") ||
-          userRoleLower.includes("yayasan")) &&
-          branches &&
-          branches.length > 0 && (
-            <div className="space-y-1.5">
-              <label className="text-muted-foreground text-[10px] font-medium uppercase tracking-wider">
-                Pilih Sekolah
-              </label>
-              <Select value={school} onValueChange={handleSchoolChange}>
-                <SelectTrigger className="h-9 w-full text-xs">
-                  <SelectValue placeholder="Semua Sekolah" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>List Sekolah</SelectLabel>
-                    <SelectItem value="all">Semua Sekolah</SelectItem>
-                    {branches.map((item) => (
-                      <SelectItem key={item.id} value={item.id}>
-                        {item.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -449,7 +407,7 @@ export function AppSidebar() {
                   {userData?.name || "Pengguna"}
                 </span>
                 <span className="text-muted-foreground truncate text-[10px] capitalize">
-                  {userData?.role?.name || "Siswa"}
+                  {userData?.role?.name || "Pengguna"}
                 </span>
               </div>
 

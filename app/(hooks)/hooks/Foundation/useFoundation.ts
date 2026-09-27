@@ -10,8 +10,14 @@ import {
 } from "@/app/(types)/types/foundation-types";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
+import { validate } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // QUERY KEYS
@@ -129,6 +135,8 @@ export const useDeleteFoundation = () => {
 };
 
 export const useFoundationAssignUser = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (data: FoundationAssignUserTypes) => {
       const response = await apiPost("/api/foundation/assign", data);
@@ -136,6 +144,8 @@ export const useFoundationAssignUser = () => {
     },
     onSuccess: () => {
       toast.success("Berhasil Masuk Menggunakan Code Yayasan");
+      //invalidate betterauth getUserData users-profile
+      queryClient.invalidateQueries({ queryKey: ["users-profile"] });
     },
     onError: (error) => {
       errorHandlerFrontend(error);

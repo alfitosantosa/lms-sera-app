@@ -355,40 +355,40 @@ export const menuGroups: Record<string, MenuGroup[]> = {
       title: "Pelanggaran",
       items: [
         {
+          title: "Tipe Pelanggaran",
+          url: "/dashboard/admin/discipline/typeviolations",
+          icon: "violation",
+        },
+        {
           title: "Data Pelanggaran",
-          url: "/dashboard/violations",
+          url: "/dashboard/admin/discipline/violations",
           icon: "violation",
         },
       ],
     },
 
     {
-      title: "Keuangan",
+      title: "Informasi",
       items: [
-        {
-          title: "Jenis Tagihan",
-          url: "/dashboard/treasurer/paymenttype",
-          icon: "payment",
-        },
-        {
-          title: "Data Tagihan",
-          url: "/dashboard/treasurer/billing",
-          icon: "file",
-        },
-        {
-          title: "Data Transaksi",
-          url: "/dashboard/treasurer/payment",
-          icon: "payment",
-        },
-        {
-          title: "Account Bank",
-          url: "/dashboard/admin/finance/accountbank",
-          icon: "bank",
-        },
         {
           title: "Informasi Siswa",
           url: "/dashboard/treasurer/studentinformation",
           icon: "users",
+        },
+      ],
+    },
+    {
+      title: "Utilitas",
+      items: [
+        {
+          title: "Upload Siswa",
+          url: "/dashboard/admin/utility/upload/users",
+          icon: "users",
+        },
+        {
+          title: "Upload Schedule",
+          url: "/dashboard/admin/utility/upload/schedules",
+          icon: "calendar",
         },
       ],
     },
@@ -635,6 +635,38 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         {
           title: "Portal Orang Tua",
           url: "/dashboard/parent",
+          icon: "users",
+        },
+      ],
+    },
+  ],
+  // =====================================================
+  // adminschool
+  // =====================================================
+  adminschool: [
+    //for admin school
+    {
+      title: "Utama",
+      items: [
+        {
+          title: "Profile",
+          url: "/dashboard/profile",
+          icon: "users",
+        },
+      ],
+    },
+  ],
+
+  // =====================================================
+  // NULL
+  // =====================================================
+  null: [
+    {
+      title: "Utama",
+      items: [
+        {
+          title: "Profile",
+          url: "/dashboard/profile",
           icon: "users",
         },
       ],
