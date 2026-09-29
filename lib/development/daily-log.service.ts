@@ -1,6 +1,7 @@
 import {
   type BulkDailyLogInput,
   type DailyLogInput,
+  type DailyLogUpdateInput,
   type DateRange,
   type TimelineEntryDTO,
 } from "@/app/(types)";
@@ -121,6 +122,64 @@ function requireTeacherId(actor: DevelopmentActor): string {
   return actor.userDataId;
 }
 
+/**
+ * Semua referensi tenant (mata pelajaran, indikator, skala) wajib milik
+ * yayasan actor — dijaga di satu tempat agar create/bulk/PATCH tidak berbeda.
+ * Lookup dibatch per koleksi id (bukan per observasi).
+ */
+export async function assertReferencesInFoundation(
+  foundationId: string,
+  refs: {
+    subjectId?: string | null;
+    indicatorIds?: string[];
+    scaleIds?: string[];
+  },
+): Promise<void> {
+  const subjectId = refs.subjectId ?? null;
+  const indicatorIds = [...new Set(refs.indicatorIds ?? [])];
+  const scaleIds = [...new Set(refs.scaleIds ?? [])];
+
+  const [subject, indicators, scales] = await Promise.all([
+    subjectId
+      ? prisma.subject.findFirst({
+          where: { id: subjectId, branch: { foundationId } },
+          select: { id: true },
+        })
+      : null,
+    indicatorIds.length
+      ? prisma.developmentIndicator.findMany({
+          where: {
+            id: { in: indicatorIds },
+            developmentArea: { foundationId },
+          },
+          select: { id: true },
+        })
+      : [],
+    scaleIds.length
+      ? prisma.assessmentScale.findMany({
+          where: { id: { in: scaleIds }, foundationId },
+          select: { id: true },
+        })
+      : [],
+  ]);
+
+  if (subjectId && !subject) {
+    throw new DailyLogServiceError(
+      "Mata pelajaran tidak ditemukan di yayasan ini",
+      400,
+    );
+  }
+  if (indicators.length !== indicatorIds.length) {
+    throw new DailyLogServiceError(
+      "Indikator tidak ditemukan di yayasan ini",
+      400,
+    );
+  }
+  if (scales.length !== scaleIds.length) {
+    throw new DailyLogServiceError("Skala tidak ditemukan di yayasan ini", 400);
+  }
+}
+
 /** Log harus berada dalam periode penilaian berstatus OPEN. */
 export async function assertOpenPeriod(foundationId: string, date: Date) {
   const period = await prisma.assessmentPeriod.findFirst({
@@ -204,6 +263,7 @@ export async function createDailyLog(
   // kiriman client hanya dipakai sebagai validasi, bukan sumber kebenaran.
   const outOfScope =
     !student.classId ||
+    !student.branchId ||
     (input.classId !== undefined && input.classId !== student.classId) ||
     (input.branchId !== undefined && input.branchId !== student.branchId);
   if (outOfScope) {
@@ -212,6 +272,11 @@ export async function createDailyLog(
 
   await unwrapClass(await assertClassAccess(actor, student.classId));
   await assertOpenPeriod(actor.foundationId, input.date);
+  await assertReferencesInFoundation(actor.foundationId, {
+    subjectId: input.subjectId,
+    indicatorIds: input.observations.map((o) => o.indicatorId),
+    scaleIds: input.observations.flatMap((o) => (o.scaleId ? [o.scaleId] : [])),
+  });
 
   return prisma.$transaction(async (tx) => {
     const log = await tx.dailyLog.create({
@@ -272,6 +337,11 @@ export async function bulkCreateDailyLogs(
   const teacherId = requireTeacherId(actor);
   await unwrapClass(await assertClassAccess(actor, input.classId));
   await assertOpenPeriod(actor.foundationId, input.date);
+  await assertReferencesInFoundation(actor.foundationId, {
+    subjectId: input.subjectId,
+    indicatorIds: input.entries.map((e) => e.indicatorId),
+    scaleIds: input.entries.flatMap((e) => (e.scaleId ? [e.scaleId] : [])),
+  });
 
   const studentIds = input.entries.map((e) => e.studentId);
   if (new Set(studentIds).size !== studentIds.length) {
@@ -492,6 +562,73 @@ export async function getOwnedDailyLog(actor: DevelopmentActor, id: string) {
   }
   await unwrapStudent(await assertStudentAccess(actor, log.studentId));
   return log;
+}
+
+export async function updateDailyLog(
+  actor: DevelopmentActor,
+  id: string,
+  input: DailyLogUpdateInput,
+): Promise<DailyLogFull> {
+  const log = await getOwnedDailyLog(actor, id);
+  assertLogWritable(actor, log, "update");
+  if (input.date) await assertOpenPeriod(actor.foundationId, input.date);
+  await assertReferencesInFoundation(actor.foundationId, {
+    subjectId: input.subjectId,
+    indicatorIds: input.observations?.map((o) => o.indicatorId) ?? [],
+    scaleIds:
+      input.observations?.flatMap((o) => (o.scaleId ? [o.scaleId] : [])) ?? [],
+  });
+
+  return prisma.$transaction(async (tx) => {
+    if (input.observations) {
+      await tx.dailyObservation.deleteMany({ where: { dailyLogId: log.id } });
+      await tx.dailyObservation.createMany({
+        data: input.observations.map((o) => observationRow(log.id, o)),
+      });
+    }
+    if (input.evidences) {
+      await tx.evidence.deleteMany({ where: { dailyLogId: log.id } });
+      await tx.evidence.createMany({
+        data: input.evidences.map((e) => evidenceRow(log.id, e, actor.userDataId)),
+      });
+    }
+
+    const row = await tx.dailyLog.update({
+      where: { id: log.id },
+      data: {
+        ...(input.date !== undefined ? { date: input.date } : {}),
+        ...(input.subjectId !== undefined
+          ? { subjectId: input.subjectId ?? null }
+          : {}),
+        ...(input.activity !== undefined ? { activity: input.activity } : {}),
+        ...(input.achievement !== undefined
+          ? { achievement: input.achievement ?? null }
+          : {}),
+        ...(input.challenge !== undefined
+          ? { challenge: input.challenge ?? null }
+          : {}),
+        ...(input.teacherNote !== undefined
+          ? { teacherNote: input.teacherNote ?? null }
+          : {}),
+        ...(input.parentVisible !== undefined
+          ? { parentVisible: input.parentVisible }
+          : {}),
+      },
+      include: dailyLogInclude,
+    });
+
+    await writeAudit(tx, {
+      foundationId: actor.foundationId,
+      actorId: actor.userId,
+      action: "dailyLog.updated",
+      entity: "DailyLog",
+      entityId: log.id,
+      before: log,
+      after: row,
+    });
+
+    return row;
+  });
 }
 
 /**

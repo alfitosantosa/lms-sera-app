@@ -4,8 +4,12 @@ import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * Identitas + tenant pemanggil API modul pengembangan siswa.
- * `userDataId` adalah id `user_data` (dipakai sebagai teacherId/actorId).
+ * `userDataId` adalah id `user_data` (dipakai sebagai teacherId).
  * `classId` adalah kelas wali kelas bila ada (kolom `UserData.classId`).
+ * `userId` adalah id `user` (Better Auth) — id ini yang ditulis ke
+ * `AuditLog.actorId` karena selalu ada walau akun belum punya baris UserData;
+ * baris audit dijodohkan ke pengguna domain sekolah lewat `UserData.userId`
+ * yang unik.
  */
 export type DevelopmentActor = {
   userId: string; // User.id

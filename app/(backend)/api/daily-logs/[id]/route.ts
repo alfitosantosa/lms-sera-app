@@ -2,12 +2,9 @@ import { dailyLogUpdateSchema } from "@/app/(types)";
 import { writeAudit } from "@/lib/development/audit";
 import {
   assertLogWritable,
-  assertOpenPeriod,
   dailyLogErrorResponse,
-  dailyLogInclude,
-  evidenceRow,
   getOwnedDailyLog,
-  observationRow,
+  updateDailyLog,
 } from "@/lib/development/daily-log.service";
 import {
   developmentError,
@@ -40,7 +37,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
 
 /**
  * PATCH /api/daily-logs/[id]
- * Ubah log — hanya saat DRAFT (guru pemilik) atau oleh staff.
+ * Ubah log — hanya saat DRAFT (guru pemilik) atau oleh admin.
  */
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
   const { id } = await params;
@@ -63,65 +60,10 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
   if (!parsed.success) {
     return developmentError(parsed.error.issues[0].message, 400);
   }
-  const data = parsed.data;
 
   try {
-    const log = await getOwnedDailyLog(actor, id);
-    assertLogWritable(actor, log, "update");
-    if (data.date) await assertOpenPeriod(actor.foundationId, data.date);
-
-    const updated = await prisma.$transaction(async (tx) => {
-      if (data.observations) {
-        await tx.dailyObservation.deleteMany({ where: { dailyLogId: log.id } });
-        await tx.dailyObservation.createMany({
-          data: data.observations.map((o) => observationRow(log.id, o)),
-        });
-      }
-      if (data.evidences) {
-        await tx.evidence.deleteMany({ where: { dailyLogId: log.id } });
-        await tx.evidence.createMany({
-          data: data.evidences.map((e) => evidenceRow(log.id, e, actor.userDataId)),
-        });
-      }
-
-      const row = await tx.dailyLog.update({
-        where: { id: log.id },
-        data: {
-          ...(data.date !== undefined ? { date: data.date } : {}),
-          ...(data.subjectId !== undefined
-            ? { subjectId: data.subjectId ?? null }
-            : {}),
-          ...(data.activity !== undefined ? { activity: data.activity } : {}),
-          ...(data.achievement !== undefined
-            ? { achievement: data.achievement ?? null }
-            : {}),
-          ...(data.challenge !== undefined
-            ? { challenge: data.challenge ?? null }
-            : {}),
-          ...(data.teacherNote !== undefined
-            ? { teacherNote: data.teacherNote ?? null }
-            : {}),
-          ...(data.parentVisible !== undefined
-            ? { parentVisible: data.parentVisible }
-            : {}),
-        },
-        include: dailyLogInclude,
-      });
-
-      await writeAudit(tx, {
-        foundationId: actor.foundationId,
-        actorId: actor.userId,
-        action: "dailyLog.updated",
-        entity: "DailyLog",
-        entityId: log.id,
-        before: log,
-        after: row,
-      });
-
-      return row;
-    });
-
-    return NextResponse.json({ success: true, data: updated });
+    const log = await updateDailyLog(actor, id, parsed.data);
+    return NextResponse.json({ success: true, data: log });
   } catch (error) {
     return dailyLogErrorResponse(error);
   }
