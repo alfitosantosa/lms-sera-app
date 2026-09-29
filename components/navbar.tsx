@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { NotificationBell } from "./notification-bell";
 
 const permissionLabels: Record<string, string> = {
   "/": "Home",
@@ -211,6 +212,9 @@ export default function Navbar() {
                 </SelectContent>
               </Select>
             )}
+
+            {/* Notification Bell */}
+            <NotificationBell />
 
             {/* Role Badge */}
             <div className="hidden md:block">

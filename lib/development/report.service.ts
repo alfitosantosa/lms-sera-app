@@ -21,6 +21,7 @@ import {
   type DevelopmentActor,
 } from "@/lib/development/development.guard";
 import { buildNarrativeDraft } from "@/lib/development/narrative";
+import { notifyReportPublished } from "@/lib/development/notify";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { type Prisma } from "@/prisma/generated/client";
@@ -874,7 +875,7 @@ export async function publishReport(
     );
   }
 
-  return prisma.$transaction(async (tx) => {
+  const published = await prisma.$transaction(async (tx) => {
     const { count } = await tx.studentReport.updateMany({
       where: { id, status: "APPROVED" },
       data: { status: "PUBLISHED", publishedAt: new Date() },
@@ -900,4 +901,10 @@ export async function publishReport(
     });
     return row;
   });
+
+  // Notifikasi SETELAH transaksi commit — kanal WhatsApp tidak boleh
+  // menggagalkan publikasi; `notifyReportPublished` menelan semua errornya.
+  await notifyReportPublished(published.id);
+
+  return published;
 }

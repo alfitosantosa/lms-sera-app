@@ -709,3 +709,17 @@ export type AssignmentSubmissionDTO = {
   assignment?: AssignmentRefDTO | null;
   evidences?: EvidenceDTO[];
 };
+
+/** Satu baris `notifications` milik aktor (Phase 9). */
+export type NotificationDTO = {
+  id: string;
+  title: string;
+  message: string;
+  type: string;
+  category: string | null;
+  isRead: boolean;
+  link: string | null;
+  data: unknown;
+  createdAt: string;
+  readAt: string | null;
+};

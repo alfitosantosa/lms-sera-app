@@ -1,3 +1,4 @@
+import { sendWhatsAppMessage } from "@/lib/botwa";
 import { type NextRequest, NextResponse } from "next/server";
 
 // Type definitions
@@ -25,76 +26,8 @@ interface BulkSendResponse {
   results: SendResult[];
 }
 
-// Helper function to format phone number for WhatsApp
-function formatPhoneNumber(phone: string): string {
-  // Remove all non-numeric characters
-  let cleaned = phone.replace(/\D/g, "");
-
-  // If starts with 0, replace with 62 (Indonesia)
-  if (cleaned.startsWith("0")) {
-    cleaned = "62" + cleaned.substring(1);
-  }
-
-  // If doesn't start with country code, add 62
-  if (!cleaned.startsWith("62")) {
-    cleaned = "62" + cleaned;
-  }
-
-  return cleaned;
-}
-
 // Helper function to delay execution
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Send single message to Evolution API
-async function sendWhatsAppMessage(
-  number: string,
-  text: string,
-): Promise<{ success: boolean; messageId?: string; error?: string }> {
-  const EVO_URL = process.env.NEXT_PUBLIC_EVO_URL;
-  const EVO_APIKEY = process.env.NEXT_PUBLIC_EVO_APIKEY;
-  const EVO_INSTANCE = process.env.NEXT_PUBLIC_EVO_INSTANCE || "fajarsentosa";
-
-  if (!EVO_URL || !EVO_APIKEY) {
-    return { success: false, error: "Evolution API configuration missing" };
-  }
-
-  try {
-    const response = await fetch(
-      `${EVO_URL}/message/sendText/${EVO_INSTANCE}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: EVO_APIKEY,
-        },
-        body: JSON.stringify({
-          number: formatPhoneNumber(number),
-          text: text,
-        }),
-      },
-    );
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      return {
-        success: false,
-        error: `API Error: ${response.status} - ${errorData}`,
-      };
-    }
-
-    const data = await response.json();
-    return {
-      success: true,
-      messageId: data?.key?.id || data?.id || "sent",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-    };
-  }
-}
 
 // GET - Check connection status
 export async function GET() {
@@ -217,8 +150,14 @@ export async function POST(request: NextRequest) {
         number: recipient.number,
         name: recipient.name,
         success: result.success,
-        messageId: result.messageId,
-        error: result.error,
+        messageId: result.success
+          ? result.data.key?.id || result.data.id || "sent"
+          : undefined,
+        error: result.success
+          ? undefined
+          : result.status
+            ? `API Error: ${result.status} - ${result.errorBody ?? ""}`
+            : result.error,
       });
 
       if (result.success) {
