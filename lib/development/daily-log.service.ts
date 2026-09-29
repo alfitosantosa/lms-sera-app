@@ -142,7 +142,12 @@ export async function assertReferencesInFoundation(
   const [subject, indicators, scales] = await Promise.all([
     subjectId
       ? prisma.subject.findFirst({
-          where: { id: subjectId, branch: { foundationId } },
+          // Sama seperti modul exam: mata pelajaran milik yayasan atau global
+          // (branchId null) — filter relasi `branch` saja akan mengecualikannya.
+          where: {
+            id: subjectId,
+            OR: [{ branch: { foundationId } }, { branchId: null }],
+          },
           select: { id: true },
         })
       : null,
