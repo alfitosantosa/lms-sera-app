@@ -8,7 +8,7 @@ import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // apiPost/apiPut/apiDelete tidak melempar error pada status 4xx/5xx,
-// jadi pesan error dari backend (mis. validasi jurusan 400/403) harus diangkat manual.
+// jadi pesan error dari backend (mis. validasi Sekolah 400/403) harus diangkat manual.
 const unwrap = <T,>(res: { status: number; data: T }, fallback: string): T => {
   if (res.status >= 400) {
     const body = (res.data ?? {}) as { error?: string; message?: string };

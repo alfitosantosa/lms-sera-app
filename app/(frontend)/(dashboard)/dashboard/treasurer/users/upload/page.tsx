@@ -600,10 +600,10 @@ function UploadUsers({ branchId }: { branchId: string }) {
         </Card>
 
         <Card className="p-4">
-          <div className="mb-2 text-xl font-bold">Data Jurusan</div>
+          <div className="mb-2 text-xl font-bold">Data Sekolah</div>
           <Table>
             <TableCaption>
-              Semua Data Jurusan - Copy ID untuk digunakan di Excel
+              Semua Data Sekolah - Copy ID untuk digunakan di Excel
             </TableCaption>
             <TableHeader>
               <TableRow>

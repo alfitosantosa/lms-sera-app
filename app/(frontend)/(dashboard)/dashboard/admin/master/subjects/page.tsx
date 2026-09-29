@@ -254,7 +254,7 @@ function SubjectFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Jurusan</Label>
+            <Label>Sekolah</Label>
             <Select
               value={selectedBranchId || "all"}
               onValueChange={(value) =>
@@ -262,10 +262,10 @@ function SubjectFormDialog({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Pilih Jurusan (Opsional)" />
+                <SelectValue placeholder="Pilih Sekolah (Opsional)" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Semua Jurusan</SelectItem>
+                <SelectItem value="all">Semua Sekolah</SelectItem>
                 {branchs?.map((branch: any) => (
                   <SelectItem key={branch.id} value={branch.id}>
                     {branch.name}
@@ -497,7 +497,7 @@ function SubjectDataTable() {
 
     {
       id: "branch",
-      accessorFn: (row) => row.branch?.name || "Semua Jurusan",
+      accessorFn: (row) => row.branch?.name || "Semua Sekolah",
       header: ({ column }) => {
         return (
           <Button
@@ -505,7 +505,7 @@ function SubjectDataTable() {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             <GraduationCap className="mr-2 h-4 w-4" />
-            Jurusan
+            Sekolah
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -517,7 +517,7 @@ function SubjectDataTable() {
             {branch ? (
               <Badge variant="outline">{branch.name}</Badge>
             ) : (
-              <Badge variant="secondary">Semua Jurusan</Badge>
+              <Badge variant="secondary">Semua Sekolah</Badge>
             )}
           </div>
         );
@@ -702,11 +702,11 @@ function SubjectDataTable() {
           {/* Branch Filter */}
           <Select value={branchFilter} onValueChange={setBranchFilter}>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Filter Jurusan" />
+              <SelectValue placeholder="Filter Sekolah" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua Jurusan</SelectItem>
-              <SelectItem value="none">Tanpa Jurusan</SelectItem>
+              <SelectItem value="all">Semua Sekolah</SelectItem>
+              <SelectItem value="none">Tanpa Sekolah</SelectItem>
               {branchs?.map((branch: any) => (
                 <SelectItem key={branch.id} value={branch.id}>
                   {branch.name}
@@ -767,7 +767,7 @@ function SubjectDataTable() {
                         case "name":
                           return "Nama Mata Pelajaran";
                         case "branch":
-                          return "Jurusan";
+                          return "Sekolah";
                         case "credits":
                           return "SKS";
                         case "isActive":
@@ -819,9 +819,9 @@ function SubjectDataTable() {
           )}
           {branchFilter !== "all" && (
             <Badge variant="secondary" className="gap-1">
-              Jurusan:{" "}
+              Sekolah:{" "}
               {branchFilter === "none"
-                ? "Tanpa Jurusan"
+                ? "Tanpa Sekolah"
                 : branchs?.find((m: any) => m.id === branchFilter)?.name}
               <X
                 className="h-3 w-3 cursor-pointer"

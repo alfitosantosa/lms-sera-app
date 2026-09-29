@@ -16,8 +16,8 @@ export const BranchSchema = z.object({
 export type BranchDataTypes = z.infer<typeof BranchSchema>;
 
 export const branchSchemaForm = z.object({
-  code: z.string().min(1, "Kode jurusan wajib diisi"),
-  name: z.string().min(1, "Nama jurusan wajib diisi"),
+  code: z.string().min(1, "Kode Sekolah wajib diisi"),
+  name: z.string().min(1, "Nama Sekolah wajib diisi"),
   description: z.string().optional(),
   address: z.string().optional(),
   phone: z.string().optional(),

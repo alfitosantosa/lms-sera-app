@@ -779,7 +779,7 @@ function PaymentTypeDataTable({
   if (!userBranchData?.id || !userBranchData?.name) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <p className="text-destructive">Data jurusan tidak lengkap.</p>
+        <p className="text-destructive">Data Sekolah tidak lengkap.</p>
       </div>
     );
   }
@@ -1039,10 +1039,10 @@ export default function PaymentTypeTable() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <p className="text-destructive text-lg font-semibold">
-            User tidak memiliki data jurusan.
+            User tidak memiliki data Sekolah.
           </p>
           <p className="text-muted-foreground mt-2">
-            Silakan hubungi administrator untuk mengatur jurusan Anda.
+            Silakan hubungi administrator untuk mengatur Sekolah Anda.
           </p>
         </div>
       </div>

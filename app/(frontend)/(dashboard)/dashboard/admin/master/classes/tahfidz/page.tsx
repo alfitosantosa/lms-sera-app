@@ -108,7 +108,7 @@ export type TahfidzGroupData = {
 const tahfidzGroupSchema = z.object({
   name: z.string().min(1, "Nama kelompok tahfidz wajib diisi"),
   grade: z.number().min(1, "Tingkat minimal 1").max(12, "Tingkat maksimal 12"),
-  branchId: z.string().min(1, "Jurusan wajib dipilih"),
+  branchId: z.string().min(1, "Sekolah wajib dipilih"),
   capacity: z
     .number()
     .min(1, "Kapasitas minimal 1")
@@ -221,13 +221,13 @@ function TahfidzGroupFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Jurusan</Label>
+            <Label>Sekolah</Label>
             <Select
               value={selectedBranchId}
               onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Pilih Jurusan" />
+                <SelectValue placeholder="Pilih Sekolah" />
               </SelectTrigger>
               <SelectContent>
                 {branchs?.map((branch) => (

@@ -431,17 +431,17 @@ export function Hero() {
                       {
                         id: "smk-it",
                         name: "SMK IT Santosa",
-                        desc: "510 siswa · 3 jurusan",
+                        desc: "510 siswa · 3 Sekolah",
                       },
                       {
                         id: "sma",
                         name: "SMA Santosa",
-                        desc: "420 siswa · 2 jurusan",
+                        desc: "420 siswa · 2 Sekolah",
                       },
                       {
                         id: "smp",
                         name: "SMP Santosa",
-                        desc: "380 siswa · 2 jurusan",
+                        desc: "380 siswa · 2 Sekolah",
                       },
                     ].map((school) => (
                       <button

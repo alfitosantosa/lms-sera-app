@@ -1,4 +1,4 @@
--- Unik global diubah menjadi unik per-tenant (per yayasan / per jurusan)
+-- Unik global diubah menjadi unik per-tenant (per yayasan / per Sekolah)
 -- agar yayasan kedua tidak bentrok membuat kode/tahun/role yang sama.
 
 -- DropIndex

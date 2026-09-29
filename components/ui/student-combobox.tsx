@@ -55,8 +55,8 @@ export function StudentCombobox({
     setSearchTerm("");
   };
 
-  const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleClear = (e?: React.SyntheticEvent) => {
+    e?.stopPropagation();
     onValueChange("");
     setSearchTerm("");
   };
@@ -100,9 +100,21 @@ export function StudentCombobox({
           </div>
           <div className="ml-2 flex shrink-0 items-center gap-1">
             {selectedStudent && !disabled && (
-              <Button onClick={handleClear}>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-label="Hapus pilihan siswa"
+                onClick={handleClear}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleClear(e);
+                  }
+                }}
+                className="hover:bg-accent flex items-center justify-center rounded-sm p-0.5"
+              >
                 <X className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100" />
-              </Button>
+              </span>
             )}
             <ChevronDown className="h-4 w-4 opacity-50" />
           </div>

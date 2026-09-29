@@ -232,6 +232,29 @@ export async function PUT(request: NextRequest) {
         return tenantForbidden("Data tidak ditemukan di yayasan ini");
     }
 
+    // Check for duplicate schedule (excluding current record)
+    const duplicateSchedule = await prisma.schedule.findFirst({
+      where: {
+        id: { not: id }, // Exclude current schedule
+        classId,
+        subjectId,
+        teacherId,
+        dayOfWeek,
+        startTime,
+        academicYear: { foundationId: t.foundationId },
+      },
+    });
+
+    if (duplicateSchedule) {
+      return NextResponse.json(
+        {
+          error:
+            "Jadwal dengan kombinasi kelas, mata pelajaran, guru, hari, dan jam yang sama sudah ada.",
+        },
+        { status: 409 },
+      );
+    }
+
     const schedule = await prisma.schedule.update({
       where: { id },
       data: {

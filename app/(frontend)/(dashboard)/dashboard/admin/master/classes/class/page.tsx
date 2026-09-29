@@ -194,13 +194,13 @@ function ClassFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Jurusan</Label>
+            <Label>Sekolah</Label>
             <Select
               value={selectedBranchId}
               onValueChange={(value) => setValue("branchId", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Pilih Jurusan" />
+                <SelectValue placeholder="Pilih Sekolah" />
               </SelectTrigger>
               <SelectContent>
                 {branchs?.map((branch) => (
@@ -422,7 +422,7 @@ function ClassDataTable() {
     },
     {
       accessorKey: "branch",
-      header: "Jurusan",
+      header: "Sekolah",
       cell: ({ row }) => {
         const branch = row.getValue("branch") as ClassDataTypes["branch"];
         return <div>{branch.name}</div>;

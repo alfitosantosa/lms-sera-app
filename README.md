@@ -33,7 +33,7 @@ Sistem manajemen sekolah berbasis web yang komprehensif untuk lms-platform-santo
 ### 🎯 Manajemen Akademik
 
 - **Tahun Akademik**: Kelola tahun ajaran dan periode akademik
-- **Jurusan**: Manajemen jurusan dan program studi
+- **Sekolah**: Manajemen Sekolah dan program studi
 - **Kelas**: Organisasi kelas dan pembagian siswa
 - **Mata Pelajaran**: Daftar dan manajemen mata pelajaran
 
@@ -335,7 +335,7 @@ pos-rahmany-new-2/
 │   │       ├── class/            # Class management
 │   │       ├── docs/             # API documentation (Swagger)
 │   │       ├── health/           # Health check endpoint
-│   │       ├── branch/            # Branch/Jurusan
+│   │       ├── branch/            # Branch/Sekolah
 │   │       ├── midtrans/         # Midtrans payment
 │   │       ├── payment/          # Payment system
 │   │       ├── paymenttype/      # Payment types
@@ -418,7 +418,7 @@ http://localhost:3000/api/docs
 | Kategori        | Endpoint                 | Deskripsi                |
 | --------------- | ------------------------ | ------------------------ |
 | **Academic**    | `/api/academicyear`      | Manajemen tahun akademik |
-| **Academic**    | `/api/branch`             | Manajemen jurusan        |
+| **Academic**    | `/api/branch`             | Manajemen Sekolah        |
 | **Academic**    | `/api/class`             | Manajemen kelas          |
 | **Academic**    | `/api/subjects`          | Manajemen mata pelajaran |
 | **Users**       | `/api/students`          | Manajemen siswa          |
@@ -470,7 +470,7 @@ Database menggunakan **PostgreSQL** dengan **Prisma ORM**.
 #### Academic Models
 
 - **AcademicYear**: Tahun ajaran
-- **Branch**: Jurusan/program studi
+- **Branch**: Sekolah/program studi
 - **Class**: Kelas
 - **Subject**: Mata pelajaran
 

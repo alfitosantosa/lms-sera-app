@@ -93,7 +93,7 @@ const accountBankSchema = z.object({
   accountName: z.string().min(1, "Nama pemilik akun wajib diisi"),
   accountBank: z.string().min(1, "Nama bank wajib diisi"),
   accountNumber: z.string().min(1, "Nomor rekening wajib diisi"),
-  branchId: z.string().min(1, "Jurusan wajib dipilih"),
+  branchId: z.string().min(1, "Sekolah wajib dipilih"),
 });
 
 type AccountBankFormValues = z.infer<typeof accountBankSchema>;
@@ -313,7 +313,7 @@ function AccountBankFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Jurusan</Label>
+            <Label>Sekolah</Label>
             <Select
               value={selectedBranchId}
               onValueChange={(value) => setValue("branchId", value)}
@@ -615,7 +615,7 @@ function AccountBankDashboard() {
         <div className="mb-6">
           <h1 className="mb-2 text-3xl font-bold">Dashboard Rekening Bank</h1>
           <p className="text-muted-foreground">
-            Kelola rekening bank untuk setiap jurusan
+            Kelola rekening bank untuk setiap Sekolah
           </p>
         </div>
 

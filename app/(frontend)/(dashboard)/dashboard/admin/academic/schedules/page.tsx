@@ -229,8 +229,8 @@ function ScheduleFormDialog({
 
   useEffect(() => {
     if (editData) {
-      setValue("classId", editData.classId);
-      setValue("tahfidzGroupId", editData.tahfidzGroupId);
+      setValue("classId", editData.classId || "");
+      setValue("tahfidzGroupId", editData.tahfidzGroupId || "");
       setValue("subjectId", editData.subjectId);
       setValue("teacherId", editData.teacherId);
       setValue("academicYearId", editData.academicYearId);
@@ -251,16 +251,17 @@ function ScheduleFormDialog({
     try {
       const submitData = {
         ...data,
-        classId: data.classId || null,
-        tahfidzGroupId: data.tahfidzGroupId || null,
+        classId: data.classId || "",
+        tahfidzGroupId: data.tahfidzGroupId || "",
         room: data.room || null,
       };
 
       if (editData) {
-        await updateSchedule.mutateAsync(submitData as ScheduleData);
+        await updateSchedule.mutateAsync({ id: editData.id, ...submitData });
+        console.log(submitData);
         toast.success("Jadwal berhasil diperbarui!");
       } else {
-        await createSchedule.mutateAsync(submitData as ScheduleData);
+        await createSchedule.mutateAsync(submitData);
         toast.success("Jadwal berhasil dibuat!");
       }
       reset();
@@ -323,10 +324,7 @@ function ScheduleFormDialog({
               <Select
                 value={selectedTahfidzGroupId || "none"}
                 onValueChange={(value: string) =>
-                  setValue(
-                    "tahfidzGroupId",
-                    value === "none" ? undefined : value,
-                  )
+                  setValue("tahfidzGroupId", value === "none" ? "" : value)
                 }
               >
                 <SelectTrigger>
@@ -337,7 +335,7 @@ function ScheduleFormDialog({
                   {tahfidzGroups?.map((tahfidzGroup: any) => (
                     <SelectItem
                       key={tahfidzGroup.id}
-                      value={tahfidzGroup.id || ""}
+                      value={tahfidzGroup.id || null}
                     >
                       {tahfidzGroup.name}
                     </SelectItem>

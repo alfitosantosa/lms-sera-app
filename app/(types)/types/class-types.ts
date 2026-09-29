@@ -37,7 +37,7 @@ export const classSchemaForm = z.object({
     .number()
     .min(1, "Tingkat kelas minimal 1")
     .max(12, "Tingkat kelas maksimal 12"),
-  branchId: z.string().min(1, "Jurusan wajib dipilih"),
+  branchId: z.string().min(1, "Sekolah wajib dipilih"),
   academicYearId: z.string().min(1, "Tahun ajaran wajib dipilih"),
   capacity: z
     .number()

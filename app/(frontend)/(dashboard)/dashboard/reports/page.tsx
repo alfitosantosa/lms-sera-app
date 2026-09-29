@@ -197,7 +197,7 @@ const filterOptions = {
   scope: [
     "Per Siswa",
     "Per Kelas",
-    "Per Jurusan",
+    "Per Sekolah",
     "Per Angkatan",
     "Satu Sekolah",
   ],
@@ -322,10 +322,10 @@ export default function ReportsModule() {
                   </div>
                 )}
 
-                {filters.scope === "Per Jurusan" && (
+                {filters.scope === "Per Sekolah" && (
                   <div>
                     <label className="mb-1 block text-sm font-medium">
-                      Jurusan
+                      Sekolah
                     </label>
                     <Select
                       value={filters.branch}
@@ -334,7 +334,7 @@ export default function ReportsModule() {
                       }
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih Jurusan" />
+                        <SelectValue placeholder="Pilih Sekolah" />
                       </SelectTrigger>
                       <SelectContent>
                         {filterOptions.branch.map((option) => (

@@ -34,12 +34,12 @@
 - **Isolasi Data** - Data antar yayasan terpisah dan aman
 - **Foundation Profile** - Nama, alamat, telepon, logo yayasan
 
-### Branch (Jurusan/Cabang)
+### Branch (Sekolah/Cabang)
 
-- **Multi-Branch per Foundation** - Setiap yayasan bisa memiliki beberapa jurusan/cabang
-- **Branch Code** - Kode unik per jurusan (e.g., SMK-IT, SMA-IT, SMP-IT)
+- **Multi-Branch per Foundation** - Setiap yayasan bisa memiliki beberapa Sekolah/cabang
+- **Branch Code** - Kode unik per Sekolah (e.g., SMK-IT, SMA-IT, SMP-IT)
 - **Branch Profile** - Alamat, telepon, admin, tanda tangan digital
-- **Isolasi Akun Bank** - Setiap jurusan memiliki rekening bank terpisah
+- **Isolasi Akun Bank** - Setiap Sekolah memiliki rekening bank terpisah
 
 ---
 
@@ -53,9 +53,9 @@
 - ✅ Tanggal mulai dan selesai semester
 - ✅ Multi tahun akademik untuk histori
 
-#### 1.2 Jurusan & Kelas
+#### 1.2 Sekolah & Kelas
 
-- ✅ Master data jurusan (Branch)
+- ✅ Master data Sekolah (Branch)
 - ✅ Manajemen kelas per tingkat (Grade 1-12)
 - ✅ Kapasitas kelas (default: 36 siswa)
 - ✅ Kelas per tahun akademik
@@ -65,7 +65,7 @@
 - ✅ Master data mata pelajaran (Subject)
 - ✅ Kode dan nama pelajaran
 - ✅ Jumlah SKS/kredits
-- ✅ Assignment per jurusan
+- ✅ Assignment per Sekolah
 
 #### 1.4 Jadwal Pelajaran
 
@@ -158,7 +158,7 @@
 
 #### 4.4 Rekening Bank
 
-- ✅ Multi rekening per jurusan
+- ✅ Multi rekening per Sekolah
 - ✅ Nama bank
 - ✅ Nomor rekening
 - ✅ Nama pemilik rekening
@@ -167,7 +167,7 @@
 
 - ✅ Chart total tunggakan per bulan
 - ✅ Filter by date range
-- ✅ Filter by branch/jurusan
+- ✅ Filter by branch/Sekolah
 - ✅ Filter by SKU Type
 - ✅ Top siswa dengan tunggakan tertinggi
 - ✅ Export Excel tunggakan
@@ -294,7 +294,7 @@
 - ✅ Alamat & telepon
 - ✅ Gender
 - ✅ Foto profil
-- ✅ Assignment ke yayasan & jurusan
+- ✅ Assignment ke yayasan & Sekolah
 - ✅ Assignment ke kelas
 - ✅ Status (active/inactive)
 - ✅ Employee ID untuk guru/staff
@@ -355,7 +355,7 @@
 
 #### 11.2 Dashboard Analytics
 
-- ✅ Total siswa per jurusan
+- ✅ Total siswa per Sekolah
 - ✅ Total guru aktif
 - ✅ Total tunggakan pembayaran
 - ✅ Rekap presensi real-time
@@ -399,8 +399,8 @@
 
 #### 13.2 Branch Management
 
-- ✅ CRUD jurusan per yayasan
-- ✅ Config akun bank per jurusan
+- ✅ CRUD Sekolah per yayasan
+- ✅ Config akun bank per Sekolah
 - ✅ Admin signature digital
 
 #### 13.3 User Management
@@ -552,7 +552,7 @@
 
 ### Academic
 
-- Jumlah siswa aktif per jurusan
+- Jumlah siswa aktif per Sekolah
 - Rata-rata kehadiran siswa
 - Rata-rata nilai per kelas
 - Progress hafalan tahfidz
