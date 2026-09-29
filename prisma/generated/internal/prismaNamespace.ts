@@ -445,6 +445,7 @@ export const ModelName = {
   DailyLog: 'DailyLog',
   DailyObservation: 'DailyObservation',
   Evidence: 'Evidence',
+  StudentAssessment: 'StudentAssessment',
   AuditLog: 'AuditLog'
 } as const
 
@@ -461,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "dailyLog" | "dailyObservation" | "evidence" | "auditLog"
+    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "dailyLog" | "dailyObservation" | "evidence" | "studentAssessment" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4017,6 +4018,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StudentAssessment: {
+      payload: Prisma.$StudentAssessmentPayload<ExtArgs>
+      fields: Prisma.StudentAssessmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentAssessmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentAssessmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentAssessmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentAssessmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        findMany: {
+          args: Prisma.StudentAssessmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>[]
+        }
+        create: {
+          args: Prisma.StudentAssessmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        createMany: {
+          args: Prisma.StudentAssessmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentAssessmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentAssessmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        update: {
+          args: Prisma.StudentAssessmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentAssessmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentAssessmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentAssessmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentAssessmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAssessmentPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentAssessmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentAssessment>
+        }
+        groupBy: {
+          args: Prisma.StudentAssessmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentAssessmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentAssessmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentAssessmentCountAggregateOutputType> | number
+        }
+      }
+    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -4926,6 +5001,25 @@ export const EvidenceScalarFieldEnum = {
 export type EvidenceScalarFieldEnum = (typeof EvidenceScalarFieldEnum)[keyof typeof EvidenceScalarFieldEnum]
 
 
+export const StudentAssessmentScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  branchId: 'branchId',
+  classId: 'classId',
+  studentId: 'studentId',
+  teacherId: 'teacherId',
+  periodId: 'periodId',
+  indicatorId: 'indicatorId',
+  scaleId: 'scaleId',
+  score: 'score',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentAssessmentScalarFieldEnum = (typeof StudentAssessmentScalarFieldEnum)[keyof typeof StudentAssessmentScalarFieldEnum]
+
+
 export const AuditLogScalarFieldEnum = {
   id: 'id',
   foundationId: 'foundationId',
@@ -5361,6 +5455,7 @@ export type GlobalOmitConfig = {
   dailyLog?: Prisma.DailyLogOmit
   dailyObservation?: Prisma.DailyObservationOmit
   evidence?: Prisma.EvidenceOmit
+  studentAssessment?: Prisma.StudentAssessmentOmit
   auditLog?: Prisma.AuditLogOmit
 }
 

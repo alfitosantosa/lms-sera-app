@@ -245,6 +245,7 @@ export type ClassWhereInput = {
   students?: Prisma.UserDataListRelationFilter
   violations?: Prisma.ViolationListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
+  studentAssessments?: Prisma.StudentAssessmentListRelationFilter
 }
 
 export type ClassOrderByWithRelationInput = {
@@ -264,6 +265,7 @@ export type ClassOrderByWithRelationInput = {
   students?: Prisma.UserDataOrderByRelationAggregateInput
   violations?: Prisma.ViolationOrderByRelationAggregateInput
   dailyLogs?: Prisma.DailyLogOrderByRelationAggregateInput
+  studentAssessments?: Prisma.StudentAssessmentOrderByRelationAggregateInput
 }
 
 export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -287,6 +289,7 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
   students?: Prisma.UserDataListRelationFilter
   violations?: Prisma.ViolationListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
+  studentAssessments?: Prisma.StudentAssessmentListRelationFilter
 }, "id" | "name_academicYearId">
 
 export type ClassOrderByWithAggregationInput = {
@@ -332,6 +335,7 @@ export type ClassCreateInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateInput = {
@@ -349,6 +353,7 @@ export type ClassUncheckedCreateInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassUpdateInput = {
@@ -366,6 +371,7 @@ export type ClassUpdateInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateInput = {
@@ -383,6 +389,7 @@ export type ClassUncheckedUpdateInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyInput = {
@@ -674,6 +681,20 @@ export type ClassUpdateOneRequiredWithoutDailyLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutDailyLogsInput, Prisma.ClassUpdateWithoutDailyLogsInput>, Prisma.ClassUncheckedUpdateWithoutDailyLogsInput>
 }
 
+export type ClassCreateNestedOneWithoutStudentAssessmentsInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedCreateWithoutStudentAssessmentsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutStudentAssessmentsInput
+  connect?: Prisma.ClassWhereUniqueInput
+}
+
+export type ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedCreateWithoutStudentAssessmentsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutStudentAssessmentsInput
+  upsert?: Prisma.ClassUpsertWithoutStudentAssessmentsInput
+  connect?: Prisma.ClassWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutStudentAssessmentsInput, Prisma.ClassUpdateWithoutStudentAssessmentsInput>, Prisma.ClassUncheckedUpdateWithoutStudentAssessmentsInput>
+}
+
 export type ClassCreateWithoutStudentsInput = {
   id?: string
   name: string
@@ -688,6 +709,7 @@ export type ClassCreateWithoutStudentsInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -704,6 +726,7 @@ export type ClassUncheckedCreateWithoutStudentsInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -736,6 +759,7 @@ export type ClassUpdateWithoutStudentsInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -752,6 +776,7 @@ export type ClassUncheckedUpdateWithoutStudentsInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutAcademicYearInput = {
@@ -768,6 +793,7 @@ export type ClassCreateWithoutAcademicYearInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutAcademicYearInput = {
@@ -784,6 +810,7 @@ export type ClassUncheckedCreateWithoutAcademicYearInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutAcademicYearInput = {
@@ -839,6 +866,7 @@ export type ClassCreateWithoutBranchInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutBranchInput = {
@@ -855,6 +883,7 @@ export type ClassUncheckedCreateWithoutBranchInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutBranchInput = {
@@ -897,6 +926,7 @@ export type ClassCreateWithoutSchedulesInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutSchedulesInput = {
@@ -913,6 +943,7 @@ export type ClassUncheckedCreateWithoutSchedulesInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutSchedulesInput = {
@@ -945,6 +976,7 @@ export type ClassUpdateWithoutSchedulesInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutSchedulesInput = {
@@ -961,6 +993,7 @@ export type ClassUncheckedUpdateWithoutSchedulesInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutViolationsInput = {
@@ -977,6 +1010,7 @@ export type ClassCreateWithoutViolationsInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutClassInput
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutViolationsInput = {
@@ -993,6 +1027,7 @@ export type ClassUncheckedCreateWithoutViolationsInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutClassInput
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutViolationsInput = {
@@ -1025,6 +1060,7 @@ export type ClassUpdateWithoutViolationsInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutClassNestedInput
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutViolationsInput = {
@@ -1041,6 +1077,7 @@ export type ClassUncheckedUpdateWithoutViolationsInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutClassNestedInput
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutGradeConfigurationsInput = {
@@ -1057,6 +1094,7 @@ export type ClassCreateWithoutGradeConfigurationsInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutGradeConfigurationsInput = {
@@ -1073,6 +1111,7 @@ export type ClassUncheckedCreateWithoutGradeConfigurationsInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutGradeConfigurationsInput = {
@@ -1105,6 +1144,7 @@ export type ClassUpdateWithoutGradeConfigurationsInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutGradeConfigurationsInput = {
@@ -1121,6 +1161,7 @@ export type ClassUncheckedUpdateWithoutGradeConfigurationsInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutReportCardsInput = {
@@ -1137,6 +1178,7 @@ export type ClassCreateWithoutReportCardsInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutReportCardsInput = {
@@ -1153,6 +1195,7 @@ export type ClassUncheckedCreateWithoutReportCardsInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutReportCardsInput = {
@@ -1185,6 +1228,7 @@ export type ClassUpdateWithoutReportCardsInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutReportCardsInput = {
@@ -1201,6 +1245,7 @@ export type ClassUncheckedUpdateWithoutReportCardsInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutAssignmentsInput = {
@@ -1217,6 +1262,7 @@ export type ClassCreateWithoutAssignmentsInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutAssignmentsInput = {
@@ -1233,6 +1279,7 @@ export type ClassUncheckedCreateWithoutAssignmentsInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutAssignmentsInput = {
@@ -1265,6 +1312,7 @@ export type ClassUpdateWithoutAssignmentsInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutAssignmentsInput = {
@@ -1281,6 +1329,7 @@ export type ClassUncheckedUpdateWithoutAssignmentsInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutDailyLogsInput = {
@@ -1297,6 +1346,7 @@ export type ClassCreateWithoutDailyLogsInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutClassInput
   students?: Prisma.UserDataCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutDailyLogsInput = {
@@ -1313,6 +1363,7 @@ export type ClassUncheckedCreateWithoutDailyLogsInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutClassInput
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutDailyLogsInput = {
@@ -1345,6 +1396,7 @@ export type ClassUpdateWithoutDailyLogsInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutClassNestedInput
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutDailyLogsInput = {
@@ -1361,6 +1413,91 @@ export type ClassUncheckedUpdateWithoutDailyLogsInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutClassNestedInput
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
+}
+
+export type ClassCreateWithoutStudentAssessmentsInput = {
+  id?: string
+  name: string
+  grade: number
+  capacity?: number
+  isActive?: boolean
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutClassInput
+  academicYear: Prisma.AcademicYearCreateNestedOneWithoutClassesInput
+  branch: Prisma.BranchCreateNestedOneWithoutClassesInput
+  gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutClassInput
+  reportCards?: Prisma.ReportCardCreateNestedManyWithoutClassInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutClassInput
+  students?: Prisma.UserDataCreateNestedManyWithoutClassInput
+  violations?: Prisma.ViolationCreateNestedManyWithoutClassInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutClassInput
+}
+
+export type ClassUncheckedCreateWithoutStudentAssessmentsInput = {
+  id?: string
+  name: string
+  grade: number
+  branchId: string
+  academicYearId: string
+  capacity?: number
+  isActive?: boolean
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutClassInput
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutClassInput
+  reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutClassInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutClassInput
+  students?: Prisma.UserDataUncheckedCreateNestedManyWithoutClassInput
+  violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutClassInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutClassInput
+}
+
+export type ClassCreateOrConnectWithoutStudentAssessmentsInput = {
+  where: Prisma.ClassWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClassCreateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedCreateWithoutStudentAssessmentsInput>
+}
+
+export type ClassUpsertWithoutStudentAssessmentsInput = {
+  update: Prisma.XOR<Prisma.ClassUpdateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedUpdateWithoutStudentAssessmentsInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedCreateWithoutStudentAssessmentsInput>
+  where?: Prisma.ClassWhereInput
+}
+
+export type ClassUpdateToOneWithWhereWithoutStudentAssessmentsInput = {
+  where?: Prisma.ClassWhereInput
+  data: Prisma.XOR<Prisma.ClassUpdateWithoutStudentAssessmentsInput, Prisma.ClassUncheckedUpdateWithoutStudentAssessmentsInput>
+}
+
+export type ClassUpdateWithoutStudentAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assignments?: Prisma.AssignmentUpdateManyWithoutClassNestedInput
+  academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutClassesNestedInput
+  branch?: Prisma.BranchUpdateOneRequiredWithoutClassesNestedInput
+  gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutClassNestedInput
+  reportCards?: Prisma.ReportCardUpdateManyWithoutClassNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutClassNestedInput
+  students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
+  violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+}
+
+export type ClassUncheckedUpdateWithoutStudentAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  grade?: Prisma.IntFieldUpdateOperationsInput | number
+  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  academicYearId?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutClassNestedInput
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutClassNestedInput
+  reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutClassNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutClassNestedInput
+  students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
+  violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyAcademicYearInput = {
@@ -1386,6 +1523,7 @@ export type ClassUpdateWithoutAcademicYearInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutAcademicYearInput = {
@@ -1402,6 +1540,7 @@ export type ClassUncheckedUpdateWithoutAcademicYearInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateManyWithoutAcademicYearInput = {
@@ -1436,6 +1575,7 @@ export type ClassUpdateWithoutBranchInput = {
   students?: Prisma.UserDataUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutBranchInput = {
@@ -1452,6 +1592,7 @@ export type ClassUncheckedUpdateWithoutBranchInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutClassNestedInput
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutClassNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutClassNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateManyWithoutBranchInput = {
@@ -1476,6 +1617,7 @@ export type ClassCountOutputType = {
   students: number
   violations: number
   dailyLogs: number
+  studentAssessments: number
 }
 
 export type ClassCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1486,6 +1628,7 @@ export type ClassCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   students?: boolean | ClassCountOutputTypeCountStudentsArgs
   violations?: boolean | ClassCountOutputTypeCountViolationsArgs
   dailyLogs?: boolean | ClassCountOutputTypeCountDailyLogsArgs
+  studentAssessments?: boolean | ClassCountOutputTypeCountStudentAssessmentsArgs
 }
 
 /**
@@ -1547,6 +1690,13 @@ export type ClassCountOutputTypeCountDailyLogsArgs<ExtArgs extends runtime.Types
   where?: Prisma.DailyLogWhereInput
 }
 
+/**
+ * ClassCountOutputType without action
+ */
+export type ClassCountOutputTypeCountStudentAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentAssessmentWhereInput
+}
+
 
 export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1565,6 +1715,7 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   students?: boolean | Prisma.Class$studentsArgs<ExtArgs>
   violations?: boolean | Prisma.Class$violationsArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Class$dailyLogsArgs<ExtArgs>
+  studentAssessments?: boolean | Prisma.Class$studentAssessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["class"]>
 
@@ -1613,6 +1764,7 @@ export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   students?: boolean | Prisma.Class$studentsArgs<ExtArgs>
   violations?: boolean | Prisma.Class$violationsArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Class$dailyLogsArgs<ExtArgs>
+  studentAssessments?: boolean | Prisma.Class$studentAssessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClassIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1636,6 +1788,7 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     students: Prisma.$UserDataPayload<ExtArgs>[]
     violations: Prisma.$ViolationPayload<ExtArgs>[]
     dailyLogs: Prisma.$DailyLogPayload<ExtArgs>[]
+    studentAssessments: Prisma.$StudentAssessmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2048,6 +2201,7 @@ export interface Prisma__ClassClient<T, Null = never, ExtArgs extends runtime.Ty
   students<T extends Prisma.Class$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   violations<T extends Prisma.Class$violationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$violationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ViolationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dailyLogs<T extends Prisma.Class$dailyLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$dailyLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studentAssessments<T extends Prisma.Class$studentAssessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$studentAssessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2650,6 +2804,30 @@ export type Class$dailyLogsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.DailyLogScalarFieldEnum | Prisma.DailyLogScalarFieldEnum[]
+}
+
+/**
+ * Class.studentAssessments
+ */
+export type Class$studentAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentAssessment
+   */
+  select?: Prisma.StudentAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentAssessment
+   */
+  omit?: Prisma.StudentAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentAssessmentInclude<ExtArgs> | null
+  where?: Prisma.StudentAssessmentWhereInput
+  orderBy?: Prisma.StudentAssessmentOrderByWithRelationInput | Prisma.StudentAssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentAssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
 }
 
 /**

@@ -99,6 +99,7 @@ export const ModelName = {
   DailyLog: 'DailyLog',
   DailyObservation: 'DailyObservation',
   Evidence: 'Evidence',
+  StudentAssessment: 'StudentAssessment',
   AuditLog: 'AuditLog'
 } as const
 
@@ -912,6 +913,25 @@ export const EvidenceScalarFieldEnum = {
 } as const
 
 export type EvidenceScalarFieldEnum = (typeof EvidenceScalarFieldEnum)[keyof typeof EvidenceScalarFieldEnum]
+
+
+export const StudentAssessmentScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  branchId: 'branchId',
+  classId: 'classId',
+  studentId: 'studentId',
+  teacherId: 'teacherId',
+  periodId: 'periodId',
+  indicatorId: 'indicatorId',
+  scaleId: 'scaleId',
+  score: 'score',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentAssessmentScalarFieldEnum = (typeof StudentAssessmentScalarFieldEnum)[keyof typeof StudentAssessmentScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {

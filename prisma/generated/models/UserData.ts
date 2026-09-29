@@ -407,6 +407,8 @@ export type UserDataWhereInput = {
   dailyLogsAsStudent?: Prisma.DailyLogListRelationFilter
   dailyLogsAsTeacher?: Prisma.DailyLogListRelationFilter
   evidencesUploaded?: Prisma.EvidenceListRelationFilter
+  assessmentsAsStudent?: Prisma.StudentAssessmentListRelationFilter
+  assessmentsAsTeacher?: Prisma.StudentAssessmentListRelationFilter
 }
 
 export type UserDataOrderByWithRelationInput = {
@@ -469,6 +471,8 @@ export type UserDataOrderByWithRelationInput = {
   dailyLogsAsStudent?: Prisma.DailyLogOrderByRelationAggregateInput
   dailyLogsAsTeacher?: Prisma.DailyLogOrderByRelationAggregateInput
   evidencesUploaded?: Prisma.EvidenceOrderByRelationAggregateInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentOrderByRelationAggregateInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentOrderByRelationAggregateInput
 }
 
 export type UserDataWhereUniqueInput = Prisma.AtLeast<{
@@ -534,6 +538,8 @@ export type UserDataWhereUniqueInput = Prisma.AtLeast<{
   dailyLogsAsStudent?: Prisma.DailyLogListRelationFilter
   dailyLogsAsTeacher?: Prisma.DailyLogListRelationFilter
   evidencesUploaded?: Prisma.EvidenceListRelationFilter
+  assessmentsAsStudent?: Prisma.StudentAssessmentListRelationFilter
+  assessmentsAsTeacher?: Prisma.StudentAssessmentListRelationFilter
 }, "id" | "id" | "userId">
 
 export type UserDataOrderByWithAggregationInput = {
@@ -661,6 +667,8 @@ export type UserDataCreateInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateInput = {
@@ -716,6 +724,8 @@ export type UserDataUncheckedCreateInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUpdateInput = {
@@ -771,6 +781,8 @@ export type UserDataUpdateInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateInput = {
@@ -826,6 +838,8 @@ export type UserDataUncheckedUpdateInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateManyInput = {
@@ -1656,6 +1670,34 @@ export type UserDataUpdateOneWithoutEvidencesUploadedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserDataUpdateToOneWithWhereWithoutEvidencesUploadedInput, Prisma.UserDataUpdateWithoutEvidencesUploadedInput>, Prisma.UserDataUncheckedUpdateWithoutEvidencesUploadedInput>
 }
 
+export type UserDataCreateNestedOneWithoutAssessmentsAsStudentInput = {
+  create?: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsStudentInput>
+  connectOrCreate?: Prisma.UserDataCreateOrConnectWithoutAssessmentsAsStudentInput
+  connect?: Prisma.UserDataWhereUniqueInput
+}
+
+export type UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput = {
+  create?: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsTeacherInput>
+  connectOrCreate?: Prisma.UserDataCreateOrConnectWithoutAssessmentsAsTeacherInput
+  connect?: Prisma.UserDataWhereUniqueInput
+}
+
+export type UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsStudentInput>
+  connectOrCreate?: Prisma.UserDataCreateOrConnectWithoutAssessmentsAsStudentInput
+  upsert?: Prisma.UserDataUpsertWithoutAssessmentsAsStudentInput
+  connect?: Prisma.UserDataWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserDataUpdateToOneWithWhereWithoutAssessmentsAsStudentInput, Prisma.UserDataUpdateWithoutAssessmentsAsStudentInput>, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsStudentInput>
+}
+
+export type UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput = {
+  create?: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsTeacherInput>
+  connectOrCreate?: Prisma.UserDataCreateOrConnectWithoutAssessmentsAsTeacherInput
+  upsert?: Prisma.UserDataUpsertWithoutAssessmentsAsTeacherInput
+  connect?: Prisma.UserDataWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserDataUpdateToOneWithWhereWithoutAssessmentsAsTeacherInput, Prisma.UserDataUpdateWithoutAssessmentsAsTeacherInput>, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsTeacherInput>
+}
+
 export type UserDataCreateWithoutFoundationInput = {
   id?: string
   address?: string | null
@@ -1708,6 +1750,8 @@ export type UserDataCreateWithoutFoundationInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutFoundationInput = {
@@ -1762,6 +1806,8 @@ export type UserDataUncheckedCreateWithoutFoundationInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutFoundationInput = {
@@ -1878,6 +1924,8 @@ export type UserDataCreateWithoutUserInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutUserInput = {
@@ -1932,6 +1980,8 @@ export type UserDataUncheckedCreateWithoutUserInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutUserInput = {
@@ -2002,6 +2052,8 @@ export type UserDataUpdateWithoutUserInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutUserInput = {
@@ -2056,6 +2108,8 @@ export type UserDataUncheckedUpdateWithoutUserInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutRoleInput = {
@@ -2110,6 +2164,8 @@ export type UserDataCreateWithoutRoleInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutRoleInput = {
@@ -2164,6 +2220,8 @@ export type UserDataUncheckedCreateWithoutRoleInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutRoleInput = {
@@ -2244,6 +2302,8 @@ export type UserDataCreateWithoutAcademicYearInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutAcademicYearInput = {
@@ -2298,6 +2358,8 @@ export type UserDataUncheckedCreateWithoutAcademicYearInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutAcademicYearInput = {
@@ -2378,6 +2440,8 @@ export type UserDataCreateWithoutBranchInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutBranchInput = {
@@ -2432,6 +2496,8 @@ export type UserDataUncheckedCreateWithoutBranchInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutBranchInput = {
@@ -2512,6 +2578,8 @@ export type UserDataCreateWithoutClassInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutClassInput = {
@@ -2566,6 +2634,8 @@ export type UserDataUncheckedCreateWithoutClassInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutClassInput = {
@@ -2646,6 +2716,8 @@ export type UserDataCreateWithoutSchedulesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutSchedulesInput = {
@@ -2700,6 +2772,8 @@ export type UserDataUncheckedCreateWithoutSchedulesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutSchedulesInput = {
@@ -2770,6 +2844,8 @@ export type UserDataUpdateWithoutSchedulesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutSchedulesInput = {
@@ -2824,6 +2900,8 @@ export type UserDataUncheckedUpdateWithoutSchedulesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutAttendancesInput = {
@@ -2878,6 +2956,8 @@ export type UserDataCreateWithoutAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutAttendancesInput = {
@@ -2932,6 +3012,8 @@ export type UserDataUncheckedCreateWithoutAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutAttendancesInput = {
@@ -3002,6 +3084,8 @@ export type UserDataUpdateWithoutAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutAttendancesInput = {
@@ -3056,6 +3140,8 @@ export type UserDataUncheckedUpdateWithoutAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutViolationsInput = {
@@ -3110,6 +3196,8 @@ export type UserDataCreateWithoutViolationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutViolationsInput = {
@@ -3164,6 +3252,8 @@ export type UserDataUncheckedCreateWithoutViolationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutViolationsInput = {
@@ -3234,6 +3324,8 @@ export type UserDataUpdateWithoutViolationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutViolationsInput = {
@@ -3288,6 +3380,8 @@ export type UserDataUncheckedUpdateWithoutViolationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutPaymentItemsInput = {
@@ -3342,6 +3436,8 @@ export type UserDataCreateWithoutPaymentItemsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutPaymentItemsInput = {
@@ -3396,6 +3492,8 @@ export type UserDataUncheckedCreateWithoutPaymentItemsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutPaymentItemsInput = {
@@ -3466,6 +3564,8 @@ export type UserDataUpdateWithoutPaymentItemsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutPaymentItemsInput = {
@@ -3520,6 +3620,8 @@ export type UserDataUncheckedUpdateWithoutPaymentItemsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutPaymentCreatedInput = {
@@ -3574,6 +3676,8 @@ export type UserDataCreateWithoutPaymentCreatedInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutPaymentCreatedInput = {
@@ -3628,6 +3732,8 @@ export type UserDataUncheckedCreateWithoutPaymentCreatedInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutPaymentCreatedInput = {
@@ -3687,6 +3793,8 @@ export type UserDataCreateWithoutPaymentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutPaymentsInput = {
@@ -3741,6 +3849,8 @@ export type UserDataUncheckedCreateWithoutPaymentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutPaymentsInput = {
@@ -3811,6 +3921,8 @@ export type UserDataUpdateWithoutPaymentCreatedInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutPaymentCreatedInput = {
@@ -3865,6 +3977,8 @@ export type UserDataUncheckedUpdateWithoutPaymentCreatedInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUpsertWithoutPaymentsInput = {
@@ -3930,6 +4044,8 @@ export type UserDataUpdateWithoutPaymentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutPaymentsInput = {
@@ -3984,6 +4100,8 @@ export type UserDataUncheckedUpdateWithoutPaymentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutGradesInput = {
@@ -4038,6 +4156,8 @@ export type UserDataCreateWithoutGradesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutGradesInput = {
@@ -4092,6 +4212,8 @@ export type UserDataUncheckedCreateWithoutGradesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutGradesInput = {
@@ -4162,6 +4284,8 @@ export type UserDataUpdateWithoutGradesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutGradesInput = {
@@ -4216,6 +4340,8 @@ export type UserDataUncheckedUpdateWithoutGradesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutReportCardsInput = {
@@ -4270,6 +4396,8 @@ export type UserDataCreateWithoutReportCardsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutReportCardsInput = {
@@ -4324,6 +4452,8 @@ export type UserDataUncheckedCreateWithoutReportCardsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutReportCardsInput = {
@@ -4394,6 +4524,8 @@ export type UserDataUpdateWithoutReportCardsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutReportCardsInput = {
@@ -4448,6 +4580,8 @@ export type UserDataUncheckedUpdateWithoutReportCardsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutTeacherAssignmentsInput = {
@@ -4502,6 +4636,8 @@ export type UserDataCreateWithoutTeacherAssignmentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutTeacherAssignmentsInput = {
@@ -4556,6 +4692,8 @@ export type UserDataUncheckedCreateWithoutTeacherAssignmentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutTeacherAssignmentsInput = {
@@ -4626,6 +4764,8 @@ export type UserDataUpdateWithoutTeacherAssignmentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutTeacherAssignmentsInput = {
@@ -4680,6 +4820,8 @@ export type UserDataUncheckedUpdateWithoutTeacherAssignmentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutStudentSubmissionsInput = {
@@ -4734,6 +4876,8 @@ export type UserDataCreateWithoutStudentSubmissionsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutStudentSubmissionsInput = {
@@ -4788,6 +4932,8 @@ export type UserDataUncheckedCreateWithoutStudentSubmissionsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutStudentSubmissionsInput = {
@@ -4858,6 +5004,8 @@ export type UserDataUpdateWithoutStudentSubmissionsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutStudentSubmissionsInput = {
@@ -4912,6 +5060,8 @@ export type UserDataUncheckedUpdateWithoutStudentSubmissionsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutNotificationsInput = {
@@ -4966,6 +5116,8 @@ export type UserDataCreateWithoutNotificationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutNotificationsInput = {
@@ -5020,6 +5172,8 @@ export type UserDataUncheckedCreateWithoutNotificationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutNotificationsInput = {
@@ -5090,6 +5244,8 @@ export type UserDataUpdateWithoutNotificationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutNotificationsInput = {
@@ -5144,6 +5300,8 @@ export type UserDataUncheckedUpdateWithoutNotificationsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutDashboardContentsInput = {
@@ -5198,6 +5356,8 @@ export type UserDataCreateWithoutDashboardContentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutDashboardContentsInput = {
@@ -5252,6 +5412,8 @@ export type UserDataUncheckedCreateWithoutDashboardContentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutDashboardContentsInput = {
@@ -5322,6 +5484,8 @@ export type UserDataUpdateWithoutDashboardContentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutDashboardContentsInput = {
@@ -5376,6 +5540,8 @@ export type UserDataUncheckedUpdateWithoutDashboardContentsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutAnnouncementsInput = {
@@ -5430,6 +5596,8 @@ export type UserDataCreateWithoutAnnouncementsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutAnnouncementsInput = {
@@ -5484,6 +5652,8 @@ export type UserDataUncheckedCreateWithoutAnnouncementsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutAnnouncementsInput = {
@@ -5554,6 +5724,8 @@ export type UserDataUpdateWithoutAnnouncementsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutAnnouncementsInput = {
@@ -5608,6 +5780,8 @@ export type UserDataUncheckedUpdateWithoutAnnouncementsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutTahfidzRecordsInput = {
@@ -5662,6 +5836,8 @@ export type UserDataCreateWithoutTahfidzRecordsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutTahfidzRecordsInput = {
@@ -5716,6 +5892,8 @@ export type UserDataUncheckedCreateWithoutTahfidzRecordsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutTahfidzRecordsInput = {
@@ -5775,6 +5953,8 @@ export type UserDataCreateWithoutTahfidzRecordsAsTeacherInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutTahfidzRecordsAsTeacherInput = {
@@ -5829,6 +6009,8 @@ export type UserDataUncheckedCreateWithoutTahfidzRecordsAsTeacherInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutTahfidzRecordsAsTeacherInput = {
@@ -5899,6 +6081,8 @@ export type UserDataUpdateWithoutTahfidzRecordsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutTahfidzRecordsInput = {
@@ -5953,6 +6137,8 @@ export type UserDataUncheckedUpdateWithoutTahfidzRecordsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUpsertWithoutTahfidzRecordsAsTeacherInput = {
@@ -6018,6 +6204,8 @@ export type UserDataUpdateWithoutTahfidzRecordsAsTeacherInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutTahfidzRecordsAsTeacherInput = {
@@ -6072,6 +6260,8 @@ export type UserDataUncheckedUpdateWithoutTahfidzRecordsAsTeacherInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutCreatedAttendancesInput = {
@@ -6126,6 +6316,8 @@ export type UserDataCreateWithoutCreatedAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutCreatedAttendancesInput = {
@@ -6180,6 +6372,8 @@ export type UserDataUncheckedCreateWithoutCreatedAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutCreatedAttendancesInput = {
@@ -6239,6 +6433,8 @@ export type UserDataCreateWithoutTeacherAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutTeacherAttendancesInput = {
@@ -6293,6 +6489,8 @@ export type UserDataUncheckedCreateWithoutTeacherAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutTeacherAttendancesInput = {
@@ -6363,6 +6561,8 @@ export type UserDataUpdateWithoutCreatedAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutCreatedAttendancesInput = {
@@ -6417,6 +6617,8 @@ export type UserDataUncheckedUpdateWithoutCreatedAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUpsertWithoutTeacherAttendancesInput = {
@@ -6482,6 +6684,8 @@ export type UserDataUpdateWithoutTeacherAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutTeacherAttendancesInput = {
@@ -6536,6 +6740,8 @@ export type UserDataUncheckedUpdateWithoutTeacherAttendancesInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutTahfidzGroupInput = {
@@ -6590,6 +6796,8 @@ export type UserDataCreateWithoutTahfidzGroupInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutTahfidzGroupInput = {
@@ -6644,6 +6852,8 @@ export type UserDataUncheckedCreateWithoutTahfidzGroupInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutTahfidzGroupInput = {
@@ -6724,6 +6934,8 @@ export type UserDataCreateWithoutCreatedExamsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutCreatedExamsInput = {
@@ -6778,6 +6990,8 @@ export type UserDataUncheckedCreateWithoutCreatedExamsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutCreatedExamsInput = {
@@ -6848,6 +7062,8 @@ export type UserDataUpdateWithoutCreatedExamsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutCreatedExamsInput = {
@@ -6902,6 +7118,8 @@ export type UserDataUncheckedUpdateWithoutCreatedExamsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutExamAttemptsInput = {
@@ -6956,6 +7174,8 @@ export type UserDataCreateWithoutExamAttemptsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutExamAttemptsInput = {
@@ -7010,6 +7230,8 @@ export type UserDataUncheckedCreateWithoutExamAttemptsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutExamAttemptsInput = {
@@ -7080,6 +7302,8 @@ export type UserDataUpdateWithoutExamAttemptsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutExamAttemptsInput = {
@@ -7134,6 +7358,8 @@ export type UserDataUncheckedUpdateWithoutExamAttemptsInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutDailyLogsAsStudentInput = {
@@ -7188,6 +7414,8 @@ export type UserDataCreateWithoutDailyLogsAsStudentInput = {
   violations?: Prisma.ViolationCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutDailyLogsAsStudentInput = {
@@ -7242,6 +7470,8 @@ export type UserDataUncheckedCreateWithoutDailyLogsAsStudentInput = {
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutDailyLogsAsStudentInput = {
@@ -7301,6 +7531,8 @@ export type UserDataCreateWithoutDailyLogsAsTeacherInput = {
   violations?: Prisma.ViolationCreateNestedManyWithoutStudentInput
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutDailyLogsAsTeacherInput = {
@@ -7355,6 +7587,8 @@ export type UserDataUncheckedCreateWithoutDailyLogsAsTeacherInput = {
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutDailyLogsAsTeacherInput = {
@@ -7425,6 +7659,8 @@ export type UserDataUpdateWithoutDailyLogsAsStudentInput = {
   violations?: Prisma.ViolationUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutDailyLogsAsStudentInput = {
@@ -7479,6 +7715,8 @@ export type UserDataUncheckedUpdateWithoutDailyLogsAsStudentInput = {
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUpsertWithoutDailyLogsAsTeacherInput = {
@@ -7544,6 +7782,8 @@ export type UserDataUpdateWithoutDailyLogsAsTeacherInput = {
   violations?: Prisma.ViolationUpdateManyWithoutStudentNestedInput
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutDailyLogsAsTeacherInput = {
@@ -7598,6 +7838,8 @@ export type UserDataUncheckedUpdateWithoutDailyLogsAsTeacherInput = {
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataCreateWithoutEvidencesUploadedInput = {
@@ -7652,6 +7894,8 @@ export type UserDataCreateWithoutEvidencesUploadedInput = {
   violations?: Prisma.ViolationCreateNestedManyWithoutStudentInput
   dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataUncheckedCreateWithoutEvidencesUploadedInput = {
@@ -7706,6 +7950,8 @@ export type UserDataUncheckedCreateWithoutEvidencesUploadedInput = {
   violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type UserDataCreateOrConnectWithoutEvidencesUploadedInput = {
@@ -7776,6 +8022,8 @@ export type UserDataUpdateWithoutEvidencesUploadedInput = {
   violations?: Prisma.ViolationUpdateManyWithoutStudentNestedInput
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutEvidencesUploadedInput = {
@@ -7830,6 +8078,488 @@ export type UserDataUncheckedUpdateWithoutEvidencesUploadedInput = {
   violations?: Prisma.ViolationUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
+}
+
+export type UserDataCreateWithoutAssessmentsAsStudentInput = {
+  id?: string
+  address?: string | null
+  avatarUrl?: string | null
+  birthDate?: Date | string | null
+  birthPlace?: string | null
+  employeeId?: string | null
+  endDate?: Date | string | null
+  enrollmentDate?: Date | string | null
+  gender?: string | null
+  graduationDate?: Date | string | null
+  nik?: string | null
+  nisn?: string | null
+  parentPhone?: string | null
+  position?: string | null
+  relation?: string | null
+  startDate?: Date | string | null
+  status?: string | null
+  studentIds?: Prisma.UserDataCreatestudentIdsInput | string[]
+  email?: string | null
+  name: string
+  isActive?: boolean
+  createdAt?: Date | string | null
+  updatedAt?: Date | string | null
+  Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
+  studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
+  teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
+  DashboardContents?: Prisma.DashboardContentCreateNestedManyWithoutUserInput
+  grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  paymentItems?: Prisma.PaymentItemsCreateNestedManyWithoutStudentInput
+  PaymentCreated?: Prisma.PaymentCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutStudentInput
+  reportCards?: Prisma.ReportCardCreateNestedManyWithoutStudentInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutTeacherInput
+  tahfidzRecords?: Prisma.TahfidzRecordCreateNestedManyWithoutStudentInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordCreateNestedManyWithoutTeacherInput
+  createdAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutCreatedByUserInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatorInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
+  branch?: Prisma.BranchCreateNestedOneWithoutStudentsInput
+  class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
+  tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
+  user?: Prisma.UserCreateNestedOneWithoutUserDataInput
+  violations?: Prisma.ViolationCreateNestedManyWithoutStudentInput
+  dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
+  dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
+  evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentCreateNestedManyWithoutTeacherInput
+}
+
+export type UserDataUncheckedCreateWithoutAssessmentsAsStudentInput = {
+  id?: string
+  userId?: string | null
+  academicYearId?: string | null
+  address?: string | null
+  avatarUrl?: string | null
+  birthDate?: Date | string | null
+  birthPlace?: string | null
+  classId?: string | null
+  employeeId?: string | null
+  endDate?: Date | string | null
+  enrollmentDate?: Date | string | null
+  gender?: string | null
+  graduationDate?: Date | string | null
+  branchId?: string | null
+  nik?: string | null
+  nisn?: string | null
+  parentPhone?: string | null
+  position?: string | null
+  relation?: string | null
+  roleId?: string | null
+  startDate?: Date | string | null
+  status?: string | null
+  studentIds?: Prisma.UserDataCreatestudentIdsInput | string[]
+  email?: string | null
+  name: string
+  isActive?: boolean
+  foundationId?: string | null
+  tahfidzGroupId?: string | null
+  createdAt?: Date | string | null
+  updatedAt?: Date | string | null
+  Announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutUserInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+  teacherAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
+  DashboardContents?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  paymentItems?: Prisma.PaymentItemsUncheckedCreateNestedManyWithoutStudentInput
+  PaymentCreated?: Prisma.PaymentUncheckedCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutStudentInput
+  reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutStudentInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutTeacherInput
+  tahfidzRecords?: Prisma.TahfidzRecordUncheckedCreateNestedManyWithoutStudentInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUncheckedCreateNestedManyWithoutTeacherInput
+  createdAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutCreatedByUserInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatorInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutStudentInput
+  dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
+  evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutTeacherInput
+}
+
+export type UserDataCreateOrConnectWithoutAssessmentsAsStudentInput = {
+  where: Prisma.UserDataWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsStudentInput>
+}
+
+export type UserDataCreateWithoutAssessmentsAsTeacherInput = {
+  id?: string
+  address?: string | null
+  avatarUrl?: string | null
+  birthDate?: Date | string | null
+  birthPlace?: string | null
+  employeeId?: string | null
+  endDate?: Date | string | null
+  enrollmentDate?: Date | string | null
+  gender?: string | null
+  graduationDate?: Date | string | null
+  nik?: string | null
+  nisn?: string | null
+  parentPhone?: string | null
+  position?: string | null
+  relation?: string | null
+  startDate?: Date | string | null
+  status?: string | null
+  studentIds?: Prisma.UserDataCreatestudentIdsInput | string[]
+  email?: string | null
+  name: string
+  isActive?: boolean
+  createdAt?: Date | string | null
+  updatedAt?: Date | string | null
+  Announcements?: Prisma.AnnouncementCreateNestedManyWithoutUserInput
+  studentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutStudentInput
+  teacherAssignments?: Prisma.AssignmentCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
+  DashboardContents?: Prisma.DashboardContentCreateNestedManyWithoutUserInput
+  grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  paymentItems?: Prisma.PaymentItemsCreateNestedManyWithoutStudentInput
+  PaymentCreated?: Prisma.PaymentCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutStudentInput
+  reportCards?: Prisma.ReportCardCreateNestedManyWithoutStudentInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutTeacherInput
+  tahfidzRecords?: Prisma.TahfidzRecordCreateNestedManyWithoutStudentInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordCreateNestedManyWithoutTeacherInput
+  createdAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutCreatedByUserInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatorInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  academicYear?: Prisma.AcademicYearCreateNestedOneWithoutStudentsInput
+  branch?: Prisma.BranchCreateNestedOneWithoutStudentsInput
+  class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutUserDataInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserDataInput
+  tahfidzGroup?: Prisma.TahfidzGroupCreateNestedOneWithoutStudentsInput
+  user?: Prisma.UserCreateNestedOneWithoutUserDataInput
+  violations?: Prisma.ViolationCreateNestedManyWithoutStudentInput
+  dailyLogsAsStudent?: Prisma.DailyLogCreateNestedManyWithoutStudentInput
+  dailyLogsAsTeacher?: Prisma.DailyLogCreateNestedManyWithoutTeacherInput
+  evidencesUploaded?: Prisma.EvidenceCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentCreateNestedManyWithoutStudentInput
+}
+
+export type UserDataUncheckedCreateWithoutAssessmentsAsTeacherInput = {
+  id?: string
+  userId?: string | null
+  academicYearId?: string | null
+  address?: string | null
+  avatarUrl?: string | null
+  birthDate?: Date | string | null
+  birthPlace?: string | null
+  classId?: string | null
+  employeeId?: string | null
+  endDate?: Date | string | null
+  enrollmentDate?: Date | string | null
+  gender?: string | null
+  graduationDate?: Date | string | null
+  branchId?: string | null
+  nik?: string | null
+  nisn?: string | null
+  parentPhone?: string | null
+  position?: string | null
+  relation?: string | null
+  roleId?: string | null
+  startDate?: Date | string | null
+  status?: string | null
+  studentIds?: Prisma.UserDataCreatestudentIdsInput | string[]
+  email?: string | null
+  name: string
+  isActive?: boolean
+  foundationId?: string | null
+  tahfidzGroupId?: string | null
+  createdAt?: Date | string | null
+  updatedAt?: Date | string | null
+  Announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutUserInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+  teacherAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
+  DashboardContents?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  paymentItems?: Prisma.PaymentItemsUncheckedCreateNestedManyWithoutStudentInput
+  PaymentCreated?: Prisma.PaymentUncheckedCreateNestedManyWithoutCreatedByInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutStudentInput
+  reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutStudentInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutTeacherInput
+  tahfidzRecords?: Prisma.TahfidzRecordUncheckedCreateNestedManyWithoutStudentInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUncheckedCreateNestedManyWithoutTeacherInput
+  createdAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutCreatedByUserInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatorInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  violations?: Prisma.ViolationUncheckedCreateNestedManyWithoutStudentInput
+  dailyLogsAsStudent?: Prisma.DailyLogUncheckedCreateNestedManyWithoutStudentInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUncheckedCreateNestedManyWithoutTeacherInput
+  evidencesUploaded?: Prisma.EvidenceUncheckedCreateNestedManyWithoutUploadedByInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutStudentInput
+}
+
+export type UserDataCreateOrConnectWithoutAssessmentsAsTeacherInput = {
+  where: Prisma.UserDataWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsTeacherInput>
+}
+
+export type UserDataUpsertWithoutAssessmentsAsStudentInput = {
+  update: Prisma.XOR<Prisma.UserDataUpdateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsStudentInput>
+  create: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsStudentInput>
+  where?: Prisma.UserDataWhereInput
+}
+
+export type UserDataUpdateToOneWithWhereWithoutAssessmentsAsStudentInput = {
+  where?: Prisma.UserDataWhereInput
+  data: Prisma.XOR<Prisma.UserDataUpdateWithoutAssessmentsAsStudentInput, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsStudentInput>
+}
+
+export type UserDataUpdateWithoutAssessmentsAsStudentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  enrollmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  graduationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nisn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentIds?: Prisma.UserDataUpdatestudentIdsInput | string[]
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+  teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
+  DashboardContents?: Prisma.DashboardContentUpdateManyWithoutUserNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  paymentItems?: Prisma.PaymentItemsUpdateManyWithoutStudentNestedInput
+  PaymentCreated?: Prisma.PaymentUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutStudentNestedInput
+  reportCards?: Prisma.ReportCardUpdateManyWithoutStudentNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutTeacherNestedInput
+  tahfidzRecords?: Prisma.TahfidzRecordUpdateManyWithoutStudentNestedInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUpdateManyWithoutTeacherNestedInput
+  createdAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutCreatedByUserNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatorNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutStudentsNestedInput
+  class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
+  tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
+  user?: Prisma.UserUpdateOneWithoutUserDataNestedInput
+  violations?: Prisma.ViolationUpdateManyWithoutStudentNestedInput
+  dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
+  evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
+}
+
+export type UserDataUncheckedUpdateWithoutAssessmentsAsStudentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  academicYearId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  enrollmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  graduationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nisn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentIds?: Prisma.UserDataUpdatestudentIdsInput | string[]
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tahfidzGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutUserNestedInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+  teacherAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+  DashboardContents?: Prisma.DashboardContentUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  paymentItems?: Prisma.PaymentItemsUncheckedUpdateManyWithoutStudentNestedInput
+  PaymentCreated?: Prisma.PaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutStudentNestedInput
+  reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutStudentNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+  tahfidzRecords?: Prisma.TahfidzRecordUncheckedUpdateManyWithoutStudentNestedInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  createdAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatorNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  violations?: Prisma.ViolationUncheckedUpdateManyWithoutStudentNestedInput
+  dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
+  evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
+}
+
+export type UserDataUpsertWithoutAssessmentsAsTeacherInput = {
+  update: Prisma.XOR<Prisma.UserDataUpdateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsTeacherInput>
+  create: Prisma.XOR<Prisma.UserDataCreateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedCreateWithoutAssessmentsAsTeacherInput>
+  where?: Prisma.UserDataWhereInput
+}
+
+export type UserDataUpdateToOneWithWhereWithoutAssessmentsAsTeacherInput = {
+  where?: Prisma.UserDataWhereInput
+  data: Prisma.XOR<Prisma.UserDataUpdateWithoutAssessmentsAsTeacherInput, Prisma.UserDataUncheckedUpdateWithoutAssessmentsAsTeacherInput>
+}
+
+export type UserDataUpdateWithoutAssessmentsAsTeacherInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  enrollmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  graduationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nisn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentIds?: Prisma.UserDataUpdatestudentIdsInput | string[]
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Announcements?: Prisma.AnnouncementUpdateManyWithoutUserNestedInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+  teacherAssignments?: Prisma.AssignmentUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
+  DashboardContents?: Prisma.DashboardContentUpdateManyWithoutUserNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  paymentItems?: Prisma.PaymentItemsUpdateManyWithoutStudentNestedInput
+  PaymentCreated?: Prisma.PaymentUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutStudentNestedInput
+  reportCards?: Prisma.ReportCardUpdateManyWithoutStudentNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutTeacherNestedInput
+  tahfidzRecords?: Prisma.TahfidzRecordUpdateManyWithoutStudentNestedInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUpdateManyWithoutTeacherNestedInput
+  createdAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutCreatedByUserNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatorNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  academicYear?: Prisma.AcademicYearUpdateOneWithoutStudentsNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutStudentsNestedInput
+  class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutUserDataNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserDataNestedInput
+  tahfidzGroup?: Prisma.TahfidzGroupUpdateOneWithoutStudentsNestedInput
+  user?: Prisma.UserUpdateOneWithoutUserDataNestedInput
+  violations?: Prisma.ViolationUpdateManyWithoutStudentNestedInput
+  dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
+  evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+}
+
+export type UserDataUncheckedUpdateWithoutAssessmentsAsTeacherInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  academicYearId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  birthPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  enrollmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  graduationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nisn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentIds?: Prisma.UserDataUpdatestudentIdsInput | string[]
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tahfidzGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutUserNestedInput
+  studentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+  teacherAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+  DashboardContents?: Prisma.DashboardContentUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  paymentItems?: Prisma.PaymentItemsUncheckedUpdateManyWithoutStudentNestedInput
+  PaymentCreated?: Prisma.PaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutStudentNestedInput
+  reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutStudentNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+  tahfidzRecords?: Prisma.TahfidzRecordUncheckedUpdateManyWithoutStudentNestedInput
+  tahfidzRecordsAsTeacher?: Prisma.TahfidzRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  createdAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatorNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  violations?: Prisma.ViolationUncheckedUpdateManyWithoutStudentNestedInput
+  dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
+  dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
+  evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type UserDataCreateManyFoundationInput = {
@@ -7916,6 +8646,8 @@ export type UserDataUpdateWithoutFoundationInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutFoundationInput = {
@@ -7970,6 +8702,8 @@ export type UserDataUncheckedUpdateWithoutFoundationInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutFoundationInput = {
@@ -8088,6 +8822,8 @@ export type UserDataUpdateWithoutRoleInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutRoleInput = {
@@ -8142,6 +8878,8 @@ export type UserDataUncheckedUpdateWithoutRoleInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutRoleInput = {
@@ -8260,6 +8998,8 @@ export type UserDataUpdateWithoutAcademicYearInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutAcademicYearInput = {
@@ -8314,6 +9054,8 @@ export type UserDataUncheckedUpdateWithoutAcademicYearInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutAcademicYearInput = {
@@ -8432,6 +9174,8 @@ export type UserDataUpdateWithoutBranchInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutBranchInput = {
@@ -8486,6 +9230,8 @@ export type UserDataUncheckedUpdateWithoutBranchInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutBranchInput = {
@@ -8604,6 +9350,8 @@ export type UserDataUpdateWithoutClassInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutClassInput = {
@@ -8658,6 +9406,8 @@ export type UserDataUncheckedUpdateWithoutClassInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutClassInput = {
@@ -8776,6 +9526,8 @@ export type UserDataUpdateWithoutTahfidzGroupInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateWithoutTahfidzGroupInput = {
@@ -8830,6 +9582,8 @@ export type UserDataUncheckedUpdateWithoutTahfidzGroupInput = {
   dailyLogsAsStudent?: Prisma.DailyLogUncheckedUpdateManyWithoutStudentNestedInput
   dailyLogsAsTeacher?: Prisma.DailyLogUncheckedUpdateManyWithoutTeacherNestedInput
   evidencesUploaded?: Prisma.EvidenceUncheckedUpdateManyWithoutUploadedByNestedInput
+  assessmentsAsStudent?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutStudentNestedInput
+  assessmentsAsTeacher?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type UserDataUncheckedUpdateManyWithoutTahfidzGroupInput = {
@@ -8892,6 +9646,8 @@ export type UserDataCountOutputType = {
   dailyLogsAsStudent: number
   dailyLogsAsTeacher: number
   evidencesUploaded: number
+  assessmentsAsStudent: number
+  assessmentsAsTeacher: number
 }
 
 export type UserDataCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8917,6 +9673,8 @@ export type UserDataCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   dailyLogsAsStudent?: boolean | UserDataCountOutputTypeCountDailyLogsAsStudentArgs
   dailyLogsAsTeacher?: boolean | UserDataCountOutputTypeCountDailyLogsAsTeacherArgs
   evidencesUploaded?: boolean | UserDataCountOutputTypeCountEvidencesUploadedArgs
+  assessmentsAsStudent?: boolean | UserDataCountOutputTypeCountAssessmentsAsStudentArgs
+  assessmentsAsTeacher?: boolean | UserDataCountOutputTypeCountAssessmentsAsTeacherArgs
 }
 
 /**
@@ -9083,6 +9841,20 @@ export type UserDataCountOutputTypeCountEvidencesUploadedArgs<ExtArgs extends ru
   where?: Prisma.EvidenceWhereInput
 }
 
+/**
+ * UserDataCountOutputType without action
+ */
+export type UserDataCountOutputTypeCountAssessmentsAsStudentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentAssessmentWhereInput
+}
+
+/**
+ * UserDataCountOutputType without action
+ */
+export type UserDataCountOutputTypeCountAssessmentsAsTeacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentAssessmentWhereInput
+}
+
 
 export type UserDataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -9144,6 +9916,8 @@ export type UserDataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   dailyLogsAsStudent?: boolean | Prisma.UserData$dailyLogsAsStudentArgs<ExtArgs>
   dailyLogsAsTeacher?: boolean | Prisma.UserData$dailyLogsAsTeacherArgs<ExtArgs>
   evidencesUploaded?: boolean | Prisma.UserData$evidencesUploadedArgs<ExtArgs>
+  assessmentsAsStudent?: boolean | Prisma.UserData$assessmentsAsStudentArgs<ExtArgs>
+  assessmentsAsTeacher?: boolean | Prisma.UserData$assessmentsAsTeacherArgs<ExtArgs>
   _count?: boolean | Prisma.UserDataCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userData"]>
 
@@ -9291,6 +10065,8 @@ export type UserDataInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   dailyLogsAsStudent?: boolean | Prisma.UserData$dailyLogsAsStudentArgs<ExtArgs>
   dailyLogsAsTeacher?: boolean | Prisma.UserData$dailyLogsAsTeacherArgs<ExtArgs>
   evidencesUploaded?: boolean | Prisma.UserData$evidencesUploadedArgs<ExtArgs>
+  assessmentsAsStudent?: boolean | Prisma.UserData$assessmentsAsStudentArgs<ExtArgs>
+  assessmentsAsTeacher?: boolean | Prisma.UserData$assessmentsAsTeacherArgs<ExtArgs>
   _count?: boolean | Prisma.UserDataCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserDataIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -9344,6 +10120,8 @@ export type $UserDataPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     dailyLogsAsStudent: Prisma.$DailyLogPayload<ExtArgs>[]
     dailyLogsAsTeacher: Prisma.$DailyLogPayload<ExtArgs>[]
     evidencesUploaded: Prisma.$EvidencePayload<ExtArgs>[]
+    assessmentsAsStudent: Prisma.$StudentAssessmentPayload<ExtArgs>[]
+    assessmentsAsTeacher: Prisma.$StudentAssessmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -9799,6 +10577,8 @@ export interface Prisma__UserDataClient<T, Null = never, ExtArgs extends runtime
   dailyLogsAsStudent<T extends Prisma.UserData$dailyLogsAsStudentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$dailyLogsAsStudentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dailyLogsAsTeacher<T extends Prisma.UserData$dailyLogsAsTeacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$dailyLogsAsTeacherArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evidencesUploaded<T extends Prisma.UserData$evidencesUploadedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$evidencesUploadedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessmentsAsStudent<T extends Prisma.UserData$assessmentsAsStudentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$assessmentsAsStudentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessmentsAsTeacher<T extends Prisma.UserData$assessmentsAsTeacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserData$assessmentsAsTeacherArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10917,6 +11697,54 @@ export type UserData$evidencesUploadedArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.EvidenceScalarFieldEnum | Prisma.EvidenceScalarFieldEnum[]
+}
+
+/**
+ * UserData.assessmentsAsStudent
+ */
+export type UserData$assessmentsAsStudentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentAssessment
+   */
+  select?: Prisma.StudentAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentAssessment
+   */
+  omit?: Prisma.StudentAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentAssessmentInclude<ExtArgs> | null
+  where?: Prisma.StudentAssessmentWhereInput
+  orderBy?: Prisma.StudentAssessmentOrderByWithRelationInput | Prisma.StudentAssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentAssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
+}
+
+/**
+ * UserData.assessmentsAsTeacher
+ */
+export type UserData$assessmentsAsTeacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentAssessment
+   */
+  select?: Prisma.StudentAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentAssessment
+   */
+  omit?: Prisma.StudentAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentAssessmentInclude<ExtArgs> | null
+  where?: Prisma.StudentAssessmentWhereInput
+  orderBy?: Prisma.StudentAssessmentOrderByWithRelationInput | Prisma.StudentAssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentAssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
 }
 
 /**

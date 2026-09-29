@@ -106,7 +106,8 @@ async function fail(response: NextResponse): Promise<never> {
   throw new DailyLogServiceError(body?.message ?? "Akses ditolak", response.status);
 }
 
-async function unwrapStudent(result: StudentAccess) {
+/** Dipakai service assessment (Phase 4) — jangan duplikasi pesan error guard. */
+export async function unwrapStudent(result: StudentAccess) {
   if (!result.ok) throw await fail(result.response);
   return result.student;
 }
@@ -115,7 +116,8 @@ export async function unwrapClass(result: ClassAccess) {
   if (!result.ok) throw await fail(result.response);
 }
 
-function requireTeacherId(actor: DevelopmentActor): string {
+/** teacherId wajib ada di akun staff; dipakai juga oleh service assessment. */
+export function requireTeacherId(actor: DevelopmentActor): string {
   if (!actor.userDataId) {
     throw new DailyLogServiceError("Akun tidak terhubung ke data guru", 400);
   }

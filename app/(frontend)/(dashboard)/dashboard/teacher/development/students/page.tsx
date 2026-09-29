@@ -108,18 +108,32 @@ export default function DevelopmentStudentsPage() {
                   </SelectContent>
                 </Select>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">Logbook hari ini</span>
-                  <span className="text-muted-foreground">
-                    {progress?.percentLogbook ?? 0}%
-                  </span>
+              <CardContent className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">Logbook hari ini</span>
+                    <span className="text-muted-foreground">
+                      {progress?.percentLogbook ?? 0}%
+                    </span>
+                  </div>
+                  <Progress value={progress?.percentLogbook ?? 0} />
+                  <p className="text-muted-foreground text-xs">
+                    {progress?.loggedToday ?? 0} dari{" "}
+                    {progress?.totalStudents ?? 0} siswa sudah dicatat hari ini
+                  </p>
                 </div>
-                <Progress value={progress?.percentLogbook ?? 0} />
-                <p className="text-muted-foreground text-xs">
-                  {progress?.loggedToday ?? 0} dari{" "}
-                  {progress?.totalStudents ?? 0} siswa sudah dicatat hari ini
-                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">Penilaian</span>
+                    <span className="text-muted-foreground">
+                      {progress?.percentAssessment ?? 0}%
+                    </span>
+                  </div>
+                  <Progress value={progress?.percentAssessment ?? 0} />
+                  <p className="text-muted-foreground text-xs">
+                    Capaian indikator pada periode penilaian aktif
+                  </p>
+                </div>
               </CardContent>
             </Card>
 

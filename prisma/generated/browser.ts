@@ -258,6 +258,11 @@ export type DailyObservation = Prisma.DailyObservationModel
  */
 export type Evidence = Prisma.EvidenceModel
 /**
+ * Model StudentAssessment
+ * 
+ */
+export type StudentAssessment = Prisma.StudentAssessmentModel
+/**
  * Model AuditLog
  * 
  */

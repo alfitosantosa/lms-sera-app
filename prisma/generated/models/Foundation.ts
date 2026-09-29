@@ -202,6 +202,7 @@ export type FoundationWhereInput = {
   assessmentScales?: Prisma.AssessmentScaleListRelationFilter
   developmentAreas?: Prisma.DevelopmentAreaListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
+  studentAssessments?: Prisma.StudentAssessmentListRelationFilter
 }
 
 export type FoundationOrderByWithRelationInput = {
@@ -223,6 +224,7 @@ export type FoundationOrderByWithRelationInput = {
   assessmentScales?: Prisma.AssessmentScaleOrderByRelationAggregateInput
   developmentAreas?: Prisma.DevelopmentAreaOrderByRelationAggregateInput
   dailyLogs?: Prisma.DailyLogOrderByRelationAggregateInput
+  studentAssessments?: Prisma.StudentAssessmentOrderByRelationAggregateInput
 }
 
 export type FoundationWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +249,7 @@ export type FoundationWhereUniqueInput = Prisma.AtLeast<{
   assessmentScales?: Prisma.AssessmentScaleListRelationFilter
   developmentAreas?: Prisma.DevelopmentAreaListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
+  studentAssessments?: Prisma.StudentAssessmentListRelationFilter
 }, "id" | "id" | "foundationCode">
 
 export type FoundationOrderByWithAggregationInput = {
@@ -292,6 +295,7 @@ export type FoundationCreateInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateInput = {
@@ -313,6 +317,7 @@ export type FoundationUncheckedCreateInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUpdateInput = {
@@ -334,6 +339,7 @@ export type FoundationUpdateInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateInput = {
@@ -355,6 +361,7 @@ export type FoundationUncheckedUpdateInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateManyInput = {
@@ -603,6 +610,20 @@ export type FoundationUpdateOneRequiredWithoutDailyLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FoundationUpdateToOneWithWhereWithoutDailyLogsInput, Prisma.FoundationUpdateWithoutDailyLogsInput>, Prisma.FoundationUncheckedUpdateWithoutDailyLogsInput>
 }
 
+export type FoundationCreateNestedOneWithoutStudentAssessmentsInput = {
+  create?: Prisma.XOR<Prisma.FoundationCreateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedCreateWithoutStudentAssessmentsInput>
+  connectOrCreate?: Prisma.FoundationCreateOrConnectWithoutStudentAssessmentsInput
+  connect?: Prisma.FoundationWhereUniqueInput
+}
+
+export type FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FoundationCreateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedCreateWithoutStudentAssessmentsInput>
+  connectOrCreate?: Prisma.FoundationCreateOrConnectWithoutStudentAssessmentsInput
+  upsert?: Prisma.FoundationUpsertWithoutStudentAssessmentsInput
+  connect?: Prisma.FoundationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FoundationUpdateToOneWithWhereWithoutStudentAssessmentsInput, Prisma.FoundationUpdateWithoutStudentAssessmentsInput>, Prisma.FoundationUncheckedUpdateWithoutStudentAssessmentsInput>
+}
+
 export type FoundationCreateWithoutUserInput = {
   id?: string
   name: string
@@ -621,6 +642,7 @@ export type FoundationCreateWithoutUserInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutUserInput = {
@@ -641,6 +663,7 @@ export type FoundationUncheckedCreateWithoutUserInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutUserInput = {
@@ -677,6 +700,7 @@ export type FoundationUpdateWithoutUserInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutUserInput = {
@@ -697,6 +721,7 @@ export type FoundationUncheckedUpdateWithoutUserInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutUserDataInput = {
@@ -717,6 +742,7 @@ export type FoundationCreateWithoutUserDataInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutUserDataInput = {
@@ -737,6 +763,7 @@ export type FoundationUncheckedCreateWithoutUserDataInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutUserDataInput = {
@@ -773,6 +800,7 @@ export type FoundationUpdateWithoutUserDataInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutUserDataInput = {
@@ -793,6 +821,7 @@ export type FoundationUncheckedUpdateWithoutUserDataInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutRoleInput = {
@@ -813,6 +842,7 @@ export type FoundationCreateWithoutRoleInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutRoleInput = {
@@ -833,6 +863,7 @@ export type FoundationUncheckedCreateWithoutRoleInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutRoleInput = {
@@ -869,6 +900,7 @@ export type FoundationUpdateWithoutRoleInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutRoleInput = {
@@ -889,6 +921,7 @@ export type FoundationUncheckedUpdateWithoutRoleInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutAcademicYearInput = {
@@ -909,6 +942,7 @@ export type FoundationCreateWithoutAcademicYearInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutAcademicYearInput = {
@@ -929,6 +963,7 @@ export type FoundationUncheckedCreateWithoutAcademicYearInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutAcademicYearInput = {
@@ -965,6 +1000,7 @@ export type FoundationUpdateWithoutAcademicYearInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutAcademicYearInput = {
@@ -985,6 +1021,7 @@ export type FoundationUncheckedUpdateWithoutAcademicYearInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutBranchInput = {
@@ -1005,6 +1042,7 @@ export type FoundationCreateWithoutBranchInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutBranchInput = {
@@ -1025,6 +1063,7 @@ export type FoundationUncheckedCreateWithoutBranchInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutBranchInput = {
@@ -1061,6 +1100,7 @@ export type FoundationUpdateWithoutBranchInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutBranchInput = {
@@ -1081,6 +1121,7 @@ export type FoundationUncheckedUpdateWithoutBranchInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutCalendarEventInput = {
@@ -1101,6 +1142,7 @@ export type FoundationCreateWithoutCalendarEventInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutCalendarEventInput = {
@@ -1121,6 +1163,7 @@ export type FoundationUncheckedCreateWithoutCalendarEventInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutCalendarEventInput = {
@@ -1157,6 +1200,7 @@ export type FoundationUpdateWithoutCalendarEventInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutCalendarEventInput = {
@@ -1177,6 +1221,7 @@ export type FoundationUncheckedUpdateWithoutCalendarEventInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutDashboardContentInput = {
@@ -1197,6 +1242,7 @@ export type FoundationCreateWithoutDashboardContentInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutDashboardContentInput = {
@@ -1217,6 +1263,7 @@ export type FoundationUncheckedCreateWithoutDashboardContentInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutDashboardContentInput = {
@@ -1253,6 +1300,7 @@ export type FoundationUpdateWithoutDashboardContentInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutDashboardContentInput = {
@@ -1273,6 +1321,7 @@ export type FoundationUncheckedUpdateWithoutDashboardContentInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutAnnouncementsInput = {
@@ -1293,6 +1342,7 @@ export type FoundationCreateWithoutAnnouncementsInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutAnnouncementsInput = {
@@ -1313,6 +1363,7 @@ export type FoundationUncheckedCreateWithoutAnnouncementsInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutAnnouncementsInput = {
@@ -1349,6 +1400,7 @@ export type FoundationUpdateWithoutAnnouncementsInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutAnnouncementsInput = {
@@ -1369,6 +1421,7 @@ export type FoundationUncheckedUpdateWithoutAnnouncementsInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutAssessmentPeriodsInput = {
@@ -1389,6 +1442,7 @@ export type FoundationCreateWithoutAssessmentPeriodsInput = {
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutAssessmentPeriodsInput = {
@@ -1409,6 +1463,7 @@ export type FoundationUncheckedCreateWithoutAssessmentPeriodsInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutAssessmentPeriodsInput = {
@@ -1445,6 +1500,7 @@ export type FoundationUpdateWithoutAssessmentPeriodsInput = {
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutAssessmentPeriodsInput = {
@@ -1465,6 +1521,7 @@ export type FoundationUncheckedUpdateWithoutAssessmentPeriodsInput = {
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutAssessmentScalesInput = {
@@ -1485,6 +1542,7 @@ export type FoundationCreateWithoutAssessmentScalesInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutAssessmentScalesInput = {
@@ -1505,6 +1563,7 @@ export type FoundationUncheckedCreateWithoutAssessmentScalesInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutAssessmentScalesInput = {
@@ -1541,6 +1600,7 @@ export type FoundationUpdateWithoutAssessmentScalesInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutAssessmentScalesInput = {
@@ -1561,6 +1621,7 @@ export type FoundationUncheckedUpdateWithoutAssessmentScalesInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutDevelopmentAreasInput = {
@@ -1581,6 +1642,7 @@ export type FoundationCreateWithoutDevelopmentAreasInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodCreateNestedManyWithoutFoundationInput
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutDevelopmentAreasInput = {
@@ -1601,6 +1663,7 @@ export type FoundationUncheckedCreateWithoutDevelopmentAreasInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedCreateNestedManyWithoutFoundationInput
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutDevelopmentAreasInput = {
@@ -1637,6 +1700,7 @@ export type FoundationUpdateWithoutDevelopmentAreasInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUpdateManyWithoutFoundationNestedInput
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutDevelopmentAreasInput = {
@@ -1657,6 +1721,7 @@ export type FoundationUncheckedUpdateWithoutDevelopmentAreasInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedUpdateManyWithoutFoundationNestedInput
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationCreateWithoutDailyLogsInput = {
@@ -1677,6 +1742,7 @@ export type FoundationCreateWithoutDailyLogsInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodCreateNestedManyWithoutFoundationInput
   assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationUncheckedCreateWithoutDailyLogsInput = {
@@ -1697,6 +1763,7 @@ export type FoundationUncheckedCreateWithoutDailyLogsInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedCreateNestedManyWithoutFoundationInput
   assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutFoundationInput
 }
 
 export type FoundationCreateOrConnectWithoutDailyLogsInput = {
@@ -1733,6 +1800,7 @@ export type FoundationUpdateWithoutDailyLogsInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUpdateManyWithoutFoundationNestedInput
   assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutFoundationNestedInput
 }
 
 export type FoundationUncheckedUpdateWithoutDailyLogsInput = {
@@ -1753,6 +1821,107 @@ export type FoundationUncheckedUpdateWithoutDailyLogsInput = {
   assessmentPeriods?: Prisma.AssessmentPeriodUncheckedUpdateManyWithoutFoundationNestedInput
   assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
   developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutFoundationNestedInput
+}
+
+export type FoundationCreateWithoutStudentAssessmentsInput = {
+  id?: string
+  name: string
+  imageUrl: string
+  foundationCode: string
+  address: string
+  phone: string
+  academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchCreateNestedManyWithoutFoundationInput
+  calendarEvent?: Prisma.CalendarEventCreateNestedManyWithoutFoundationInput
+  dashboardContent?: Prisma.DashboardContentCreateNestedManyWithoutFoundationInput
+  role?: Prisma.RoleCreateNestedManyWithoutFoundationInput
+  user?: Prisma.UserCreateNestedManyWithoutFoundationInput
+  userData?: Prisma.UserDataCreateNestedManyWithoutFoundationInput
+  assessmentPeriods?: Prisma.AssessmentPeriodCreateNestedManyWithoutFoundationInput
+  assessmentScales?: Prisma.AssessmentScaleCreateNestedManyWithoutFoundationInput
+  developmentAreas?: Prisma.DevelopmentAreaCreateNestedManyWithoutFoundationInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutFoundationInput
+}
+
+export type FoundationUncheckedCreateWithoutStudentAssessmentsInput = {
+  id?: string
+  name: string
+  imageUrl: string
+  foundationCode: string
+  address: string
+  phone: string
+  academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
+  branch?: Prisma.BranchUncheckedCreateNestedManyWithoutFoundationInput
+  calendarEvent?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFoundationInput
+  dashboardContent?: Prisma.DashboardContentUncheckedCreateNestedManyWithoutFoundationInput
+  role?: Prisma.RoleUncheckedCreateNestedManyWithoutFoundationInput
+  user?: Prisma.UserUncheckedCreateNestedManyWithoutFoundationInput
+  userData?: Prisma.UserDataUncheckedCreateNestedManyWithoutFoundationInput
+  assessmentPeriods?: Prisma.AssessmentPeriodUncheckedCreateNestedManyWithoutFoundationInput
+  assessmentScales?: Prisma.AssessmentScaleUncheckedCreateNestedManyWithoutFoundationInput
+  developmentAreas?: Prisma.DevelopmentAreaUncheckedCreateNestedManyWithoutFoundationInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutFoundationInput
+}
+
+export type FoundationCreateOrConnectWithoutStudentAssessmentsInput = {
+  where: Prisma.FoundationWhereUniqueInput
+  create: Prisma.XOR<Prisma.FoundationCreateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedCreateWithoutStudentAssessmentsInput>
+}
+
+export type FoundationUpsertWithoutStudentAssessmentsInput = {
+  update: Prisma.XOR<Prisma.FoundationUpdateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedUpdateWithoutStudentAssessmentsInput>
+  create: Prisma.XOR<Prisma.FoundationCreateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedCreateWithoutStudentAssessmentsInput>
+  where?: Prisma.FoundationWhereInput
+}
+
+export type FoundationUpdateToOneWithWhereWithoutStudentAssessmentsInput = {
+  where?: Prisma.FoundationWhereInput
+  data: Prisma.XOR<Prisma.FoundationUpdateWithoutStudentAssessmentsInput, Prisma.FoundationUncheckedUpdateWithoutStudentAssessmentsInput>
+}
+
+export type FoundationUpdateWithoutStudentAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUpdateManyWithoutFoundationNestedInput
+  calendarEvent?: Prisma.CalendarEventUpdateManyWithoutFoundationNestedInput
+  dashboardContent?: Prisma.DashboardContentUpdateManyWithoutFoundationNestedInput
+  role?: Prisma.RoleUpdateManyWithoutFoundationNestedInput
+  user?: Prisma.UserUpdateManyWithoutFoundationNestedInput
+  userData?: Prisma.UserDataUpdateManyWithoutFoundationNestedInput
+  assessmentPeriods?: Prisma.AssessmentPeriodUpdateManyWithoutFoundationNestedInput
+  assessmentScales?: Prisma.AssessmentScaleUpdateManyWithoutFoundationNestedInput
+  developmentAreas?: Prisma.DevelopmentAreaUpdateManyWithoutFoundationNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutFoundationNestedInput
+}
+
+export type FoundationUncheckedUpdateWithoutStudentAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
+  branch?: Prisma.BranchUncheckedUpdateManyWithoutFoundationNestedInput
+  calendarEvent?: Prisma.CalendarEventUncheckedUpdateManyWithoutFoundationNestedInput
+  dashboardContent?: Prisma.DashboardContentUncheckedUpdateManyWithoutFoundationNestedInput
+  role?: Prisma.RoleUncheckedUpdateManyWithoutFoundationNestedInput
+  user?: Prisma.UserUncheckedUpdateManyWithoutFoundationNestedInput
+  userData?: Prisma.UserDataUncheckedUpdateManyWithoutFoundationNestedInput
+  assessmentPeriods?: Prisma.AssessmentPeriodUncheckedUpdateManyWithoutFoundationNestedInput
+  assessmentScales?: Prisma.AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput
+  developmentAreas?: Prisma.DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutFoundationNestedInput
 }
 
 
@@ -1773,6 +1942,7 @@ export type FoundationCountOutputType = {
   assessmentScales: number
   developmentAreas: number
   dailyLogs: number
+  studentAssessments: number
 }
 
 export type FoundationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1788,6 +1958,7 @@ export type FoundationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   assessmentScales?: boolean | FoundationCountOutputTypeCountAssessmentScalesArgs
   developmentAreas?: boolean | FoundationCountOutputTypeCountDevelopmentAreasArgs
   dailyLogs?: boolean | FoundationCountOutputTypeCountDailyLogsArgs
+  studentAssessments?: boolean | FoundationCountOutputTypeCountStudentAssessmentsArgs
 }
 
 /**
@@ -1884,6 +2055,13 @@ export type FoundationCountOutputTypeCountDailyLogsArgs<ExtArgs extends runtime.
   where?: Prisma.DailyLogWhereInput
 }
 
+/**
+ * FoundationCountOutputType without action
+ */
+export type FoundationCountOutputTypeCountStudentAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentAssessmentWhereInput
+}
+
 
 export type FoundationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1904,6 +2082,7 @@ export type FoundationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   assessmentScales?: boolean | Prisma.Foundation$assessmentScalesArgs<ExtArgs>
   developmentAreas?: boolean | Prisma.Foundation$developmentAreasArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Foundation$dailyLogsArgs<ExtArgs>
+  studentAssessments?: boolean | Prisma.Foundation$studentAssessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.FoundationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["foundation"]>
 
@@ -1948,6 +2127,7 @@ export type FoundationInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   assessmentScales?: boolean | Prisma.Foundation$assessmentScalesArgs<ExtArgs>
   developmentAreas?: boolean | Prisma.Foundation$developmentAreasArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Foundation$dailyLogsArgs<ExtArgs>
+  studentAssessments?: boolean | Prisma.Foundation$studentAssessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.FoundationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FoundationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1968,6 +2148,7 @@ export type $FoundationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     assessmentScales: Prisma.$AssessmentScalePayload<ExtArgs>[]
     developmentAreas: Prisma.$DevelopmentAreaPayload<ExtArgs>[]
     dailyLogs: Prisma.$DailyLogPayload<ExtArgs>[]
+    studentAssessments: Prisma.$StudentAssessmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2382,6 +2563,7 @@ export interface Prisma__FoundationClient<T, Null = never, ExtArgs extends runti
   assessmentScales<T extends Prisma.Foundation$assessmentScalesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$assessmentScalesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentScalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   developmentAreas<T extends Prisma.Foundation$developmentAreasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$developmentAreasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevelopmentAreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dailyLogs<T extends Prisma.Foundation$dailyLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$dailyLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studentAssessments<T extends Prisma.Foundation$studentAssessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foundation$studentAssessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3095,6 +3277,30 @@ export type Foundation$dailyLogsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.DailyLogScalarFieldEnum | Prisma.DailyLogScalarFieldEnum[]
+}
+
+/**
+ * Foundation.studentAssessments
+ */
+export type Foundation$studentAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentAssessment
+   */
+  select?: Prisma.StudentAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentAssessment
+   */
+  omit?: Prisma.StudentAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentAssessmentInclude<ExtArgs> | null
+  where?: Prisma.StudentAssessmentWhereInput
+  orderBy?: Prisma.StudentAssessmentOrderByWithRelationInput | Prisma.StudentAssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentAssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
 }
 
 /**

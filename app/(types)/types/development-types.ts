@@ -341,6 +341,140 @@ export type ClassProgressDTO = {
   loggedToday: number;
   pendingToday: number;
   percentLogbook: number;
+  /** Penilaian per indikator (matrix) pada periode aktif — 0 bila belum ada. */
+  percentAssessment: number;
+};
+
+// =====================================================
+// ASSESSMENT (Phase 4)
+// =====================================================
+
+export const assessmentUpsertSchema = z.object({
+  studentId: z.string().min(1, "Siswa wajib dipilih"),
+  periodId: z.string().min(1, "Periode penilaian wajib dipilih"),
+  indicatorId: z.string().min(1, "Indikator wajib dipilih"),
+  scaleId: z.string().min(1, "Skala wajib dipilih"),
+  score: z.coerce.number().nullable().optional(),
+  note: z.string().nullable().optional(),
+  // Opsional seperti log harian: client mengunggah berkas dulu, kirim metadata.
+  evidences: z.array(evidenceInputSchema).optional(),
+});
+
+export const assessmentUpdateSchema = z.object({
+  scaleId: z.string().min(1).optional(),
+  score: z.coerce.number().nullable().optional(),
+  note: z.string().nullable().optional(),
+  evidences: z.array(evidenceInputSchema).optional(),
+});
+
+export const bulkAssessmentEntrySchema = z.object({
+  studentId: z.string().min(1, "Siswa wajib dipilih"),
+  scaleId: z.string().min(1, "Skala wajib dipilih"),
+  note: z.string().nullable().optional(),
+});
+
+export const bulkAssessmentInputSchema = z.object({
+  classId: z.string().min(1, "Kelas wajib dipilih"),
+  periodId: z.string().min(1, "Periode penilaian wajib dipilih"),
+  indicatorId: z.string().min(1, "Indikator wajib dipilih"),
+  entries: z.array(bulkAssessmentEntrySchema).min(1, "Minimal satu entri"),
+});
+
+export type AssessmentUpsertInput = z.infer<typeof assessmentUpsertSchema>;
+export type AssessmentUpdateInput = z.infer<typeof assessmentUpdateSchema>;
+export type BulkAssessmentEntryInput = z.infer<
+  typeof bulkAssessmentEntrySchema
+>;
+export type BulkAssessmentInput = z.infer<typeof bulkAssessmentInputSchema>;
+
+export type StudentAssessmentDTO = {
+  id: string;
+  foundationId: string;
+  branchId: string;
+  classId: string;
+  studentId: string;
+  teacherId: string;
+  periodId: string;
+  indicatorId: string;
+  scaleId: string;
+  score: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  student?: StudentRefDTO | null;
+  teacher?: TeacherRefDTO | null;
+  indicator?: {
+    id: string;
+    name: string;
+    developmentArea?: DevelopmentAreaRef | null;
+  } | null;
+  scale?: AssessmentScaleRefDTO | null;
+  period?: {
+    id: string;
+    name: string;
+    status: AssessmentPeriodStatusTypes;
+  } | null;
+  evidences?: EvidenceDTO[];
+};
+
+export type ClassMatrixIndicatorDTO = {
+  id: string;
+  name: string;
+  order: number;
+  area: DevelopmentAreaRef | null;
+};
+
+export type ClassMatrixCellDTO = {
+  studentId: string;
+  indicatorId: string;
+  assessmentId: string | null;
+  scaleId: string | null;
+  scale: AssessmentScaleRefDTO | null;
+  score: number | null;
+  note: string | null;
+  updatedAt: string | null;
+};
+
+export type ClassMatrixDTO = {
+  classId: string;
+  period: {
+    id: string;
+    name: string;
+    status: AssessmentPeriodStatusTypes;
+  } | null;
+  indicators: ClassMatrixIndicatorDTO[];
+  students: StudentRefDTO[];
+  cells: ClassMatrixCellDTO[];
+};
+
+export type StudentOverviewAreaDTO = {
+  areaId: string;
+  areaName: string;
+  count: number;
+  latest: {
+    indicatorId: string;
+    indicatorName: string;
+    scale: AssessmentScaleRefDTO | null;
+    periodName: string;
+    updatedAt: string;
+  } | null;
+  highest: {
+    indicatorId: string;
+    indicatorName: string;
+    scale: (AssessmentScaleRefDTO & { value: number }) | null;
+    periodName: string;
+    value: number;
+  } | null;
+};
+
+export type StudentOverviewDTO = {
+  student: {
+    id: string;
+    name: string;
+    nisn: string | null;
+    classId: string | null;
+  };
+  areas: StudentOverviewAreaDTO[];
 };
 
 export type TimelineEntryDTO = {

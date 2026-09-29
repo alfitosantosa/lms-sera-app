@@ -53,7 +53,10 @@ function buildQuery(filters?: Record<string, unknown>): string {
 // apiPost/apiPatch/apiDelete tidak melempar error pada status 4xx/5xx, jadi
 // pesan error Bahasa Indonesia dari backend (mis. "Periode penilaian belum
 // dibuka") harus diangkat manual di sini — bukan di setiap pemanggil.
-const unwrap = <T>(res: { status: number; data: T }, fallback: string): T => {
+export const unwrap = <T>(
+  res: { status: number; data: T },
+  fallback: string,
+): T => {
   if (res.status >= 400) {
     const body = (res.data ?? {}) as { error?: string; message?: string };
     throw new Error(body.error || body.message || fallback);

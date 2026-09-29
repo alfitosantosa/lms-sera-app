@@ -14,8 +14,9 @@ import { endOfDay, startOfDay } from "date-fns";
  * (bukan `/api/students`, yang tidak difilter per kelas), lalu log dihitung
  * lewat dua agregasi — bukan memuat seluruh baris log ke memori.
  *
- * `percentAssessment` baru ada di Phase 4 (matrix penilaian) dan `percentReport`
- * di Phase 6 — keduanya sengaja belum ada di sini.
+ * `percentLogbook` = siswa yang punya log hari ini. `percentAssessment`
+ * (Phase 4) = sel matriks terisi / (siswa × indikator aktif) pada periode
+ * aktif. `percentReport` menyusul di Phase 6.
  */
 export async function getClassProgress(
   actor: DevelopmentActor,
@@ -26,27 +27,58 @@ export async function getClassProgress(
   const today = new Date();
   const dayFilter = { gte: startOfDay(today), lte: endOfDay(today) };
 
-  const [students, totals, todayRows] = await Promise.all([
-    prisma.userData.findMany({
-      where: { classId, foundationId: actor.foundationId },
-      select: { id: true, name: true, nisn: true, avatarUrl: true },
-      orderBy: { name: "asc" },
-    }),
-    prisma.dailyLog.groupBy({
-      by: ["studentId"],
-      where: { classId, foundationId: actor.foundationId },
-      _count: { _all: true },
-      _max: { date: true },
-    }),
-    prisma.dailyLog.groupBy({
-      by: ["studentId"],
-      where: {
-        classId,
-        foundationId: actor.foundationId,
-        date: dayFilter,
-      },
-    }),
-  ]);
+  const [students, totals, todayRows, activePeriod, indicatorCount] =
+    await Promise.all([
+      prisma.userData.findMany({
+        where: { classId, foundationId: actor.foundationId },
+        select: { id: true, name: true, nisn: true, avatarUrl: true },
+        orderBy: { name: "asc" },
+      }),
+      prisma.dailyLog.groupBy({
+        by: ["studentId"],
+        where: { classId, foundationId: actor.foundationId },
+        _count: { _all: true },
+        _max: { date: true },
+      }),
+      prisma.dailyLog.groupBy({
+        by: ["studentId"],
+        where: {
+          classId,
+          foundationId: actor.foundationId,
+          date: dayFilter,
+        },
+      }),
+      prisma.assessmentPeriod.findFirst({
+        where: {
+          foundationId: actor.foundationId,
+          status: "OPEN",
+          startDate: { lte: today },
+          endDate: { gte: today },
+        },
+        select: { id: true },
+        orderBy: { startDate: "desc" },
+      }),
+      prisma.developmentIndicator.count({
+        where: {
+          isActive: true,
+          developmentArea: { foundationId: actor.foundationId },
+        },
+      }),
+    ]);
+
+  const assessmentCells = activePeriod
+    ? await prisma.studentAssessment.count({
+        where: {
+          classId,
+          foundationId: actor.foundationId,
+          periodId: activePeriod.id,
+          indicator: {
+            isActive: true,
+            developmentArea: { foundationId: actor.foundationId },
+          },
+        },
+      })
+    : 0;
 
   const totalByStudent = new Map(
     totals.map((row) => [row.studentId, row] as const),
@@ -56,6 +88,7 @@ export async function getClassProgress(
   const totalStudents = students.length;
   const loggedToday = students.filter((s) => loggedTodayIds.has(s.id)).length;
   const pendingToday = totalStudents - loggedToday;
+  const assessmentCellsTotal = totalStudents * indicatorCount;
 
   return {
     students: students.map((student) => {
@@ -75,5 +108,9 @@ export async function getClassProgress(
     pendingToday,
     percentLogbook:
       totalStudents === 0 ? 0 : Math.round((loggedToday / totalStudents) * 100),
+    percentAssessment:
+      assessmentCellsTotal === 0
+        ? 0
+        : Math.round((assessmentCells / assessmentCellsTotal) * 100),
   };
 }
