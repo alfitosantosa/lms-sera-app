@@ -3,7 +3,7 @@
 import { createPDFReportCard } from "@/app/(action)/createPDF/ReportCard/studentReport";
 import { type StudentReportDTO } from "@/app/(types)";
 import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
-import { toReportPdfData } from "@/lib/report/report.pdf.data";
+import { reportPdfContext, toReportPdfData } from "@/lib/report/report.pdf.data";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -36,12 +36,7 @@ export function useReportPdf() {
 
     setIsGenerating(true);
     try {
-      const data = toReportPdfData(report.snapshot, {
-        teacherNarrative: report.teacherNarrative,
-        homeroomNote: report.homeroomNote,
-        principalNote: report.principalNote,
-        approvedByName: report.approvedBy?.name ?? null,
-      });
+      const data = toReportPdfData(report.snapshot, reportPdfContext(report));
       await createPDFReportCard(data);
       return true;
     } catch (error) {

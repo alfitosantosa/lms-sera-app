@@ -42,6 +42,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { reportPdfContext } from "@/lib/report/report.pdf.data";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import {
@@ -96,11 +97,16 @@ export default function ReportEditorPage() {
     report?.status === "DRAFT" || report?.status === "REVIEW";
   const downloadReady = report ? canDownloadReportPdf(report) : false;
   const completion = report?.completion ?? report?.snapshot?.completion ?? null;
+  /**
+   * Sumber tampilan: dokumen beku bila ada, selain itu agregat pratinjau
+   * (`DRAFT`/`REVIEW`) dari respons detail — tidak ada agregasi di klien.
+   */
+  const documentData = report?.snapshot ?? report?.preview ?? null;
 
-  /** Kosongkan string kosong → `null` agar tidak menyimpan teks hampa. */
+  /** Kosongkan string kosong → `null`. `false` bila penyimpanan gagal. */
   const save = useCallback(
-    async (values: ReportUpdateInput) => {
-      if (!report) return;
+    async (values: ReportUpdateInput): Promise<boolean> => {
+      if (!report) return false;
       const normalize = (value: string | null | undefined) =>
         value && value.trim() !== "" ? value : null;
       const normalized = {
@@ -120,23 +126,14 @@ export default function ReportEditorPage() {
           },
           { keepDirtyValues: true },
         );
+        return true;
       } catch {
         // Pesan server sudah ditampilkan `errorHandlerFrontend` di dalam hook.
+        return false;
       }
     },
     [form, report, update],
   );
-
-  const submitReview = async () => {
-    if (!report) return;
-    await form.handleSubmit(save)();
-    if (form.formState.isDirty) return; // validasi gagal — jangan lanjut
-    try {
-      await review.mutateAsync(report.id);
-    } catch {
-      // Pesan 409 dari server sudah ditampilkan hook.
-    }
-  };
 
   const run = async (action: () => Promise<unknown>) => {
     try {
@@ -144,6 +141,22 @@ export default function ReportEditorPage() {
     } catch {
       // Pesan 409 dari server sudah ditampilkan hook.
     }
+  };
+
+  /**
+   * Simpan perubahan (bila ada) lalu kirim untuk tinjauan — dirantai di dalam
+   * handler valid `handleSubmit`, bukan lewat `formState.isDirty` yang bukan
+   * penanda validasi sukses.
+   */
+  const submitReview = () => {
+    if (!report) return;
+    return form.handleSubmit(async (values) => {
+      if (form.formState.isDirty) {
+        const saved = await save(values);
+        if (!saved) return;
+      }
+      await run(() => review.mutateAsync(report.id));
+    })();
   };
 
   if (isLoading) return <Loading />;
@@ -235,8 +248,8 @@ export default function ReportEditorPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {report.snapshot ? (
-                      report.snapshot.development.length === 0 ? (
+                    {documentData ? (
+                      documentData.development.length === 0 ? (
                         <p className="text-muted-foreground text-sm">
                           Belum ada data perkembangan.
                         </p>
@@ -251,7 +264,7 @@ export default function ReportEditorPage() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {report.snapshot.development.map((area) =>
+                            {documentData.development.map((area) =>
                               area.indicators.length === 0 ? (
                                 <TableRow key={area.area}>
                                   <TableCell className="font-medium">
@@ -292,10 +305,7 @@ export default function ReportEditorPage() {
                         <AlertCircle className="h-4 w-4" />
                         <AlertTitle>Rincian belum tersedia</AlertTitle>
                         <AlertDescription>
-                          Rapor baru berstatus{" "}
-                          {report.status === "DRAFT" ? "draft" : "tinjauan"} —
-                          snapshot hasil perkembangan dibekukan saat rapor
-                          disetujui.
+                          Data perkembangan belum dapat dimuat untuk rapor ini.
                         </AlertDescription>
                       </Alert>
                     )}
@@ -384,7 +394,7 @@ export default function ReportEditorPage() {
                         ) : (
                           <RefreshCw className="h-4 w-4" />
                         )}
-                        Regenerate Draft
+                        Buat Ulang Draf
                       </Button>
                     )}
 
@@ -395,7 +405,7 @@ export default function ReportEditorPage() {
                         ) : (
                           <Send className="h-4 w-4" />
                         )}
-                        Submit Review
+                        Kirim untuk Tinjauan
                       </Button>
                     )}
 
@@ -411,7 +421,7 @@ export default function ReportEditorPage() {
                         ) : (
                           <ShieldCheck className="h-4 w-4" />
                         )}
-                        Approve
+                        Setujui
                       </Button>
                     )}
 
@@ -427,7 +437,7 @@ export default function ReportEditorPage() {
                         ) : (
                           <Upload className="h-4 w-4" />
                         )}
-                        Publish
+                        Terbitkan
                       </Button>
                     )}
 
@@ -461,16 +471,22 @@ export default function ReportEditorPage() {
           </TabsContent>
 
           {/* ══════════ PRATINJAU ══════════ */}
-          <TabsContent value="preview" className="pt-4">
-            {report.snapshot ? (
+          <TabsContent value="preview" className="space-y-4 pt-4">
+            {!report.snapshot && (
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Pratinjau dari data terkini</AlertTitle>
+                <AlertDescription>
+                  Rapor belum disetujui. Tampilan ini dihitung dari data
+                  terkini dan dapat berubah; dokumen dibekukan saat rapor
+                  disetujui.
+                </AlertDescription>
+              </Alert>
+            )}
+            {documentData ? (
               <ReportPreview
-                snapshot={report.snapshot}
-                context={{
-                  teacherNarrative: report.teacherNarrative,
-                  homeroomNote: report.homeroomNote,
-                  principalNote: report.principalNote,
-                  approvedByName: report.approvedBy?.name ?? null,
-                }}
+                snapshot={documentData}
+                context={reportPdfContext(report)}
               />
             ) : (
               <Alert>

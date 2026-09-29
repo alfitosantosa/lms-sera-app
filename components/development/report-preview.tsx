@@ -1,4 +1,4 @@
-import { type ReportSnapshot } from "@/app/(types)";
+import { type ReportPreviewSnapshot } from "@/app/(types)";
 import {
   toReportPdfData,
   type ReportPdfContext,
@@ -134,7 +134,7 @@ function PreviewBody({ data }: { data: ReportPdfData }) {
         <>
           <SectionTitle>Hasil Akademik</SectionTitle>
           <DataTable
-            head={["Mata Pelajaran", "Nilai", "Grade", "Predikat"]}
+            head={["Mata Pelajaran", "Nilai", "Huruf", "Predikat"]}
             empty="Belum ada nilai akademik."
             rows={data.academic.map((row) => [
               row.subject,
@@ -200,24 +200,32 @@ function PreviewBody({ data }: { data: ReportPdfData }) {
       <SectionTitle>Tanda Tangan</SectionTitle>
       <div className="mt-2 grid grid-cols-3 gap-4 text-center text-sm">
         {[
-          { role: "Wali Kelas", name: data.signature.homeroomName },
-          { role: "Kepala Sekolah", name: data.signature.principalName },
-          { role: "Orang Tua / Wali", name: null },
-        ].map(({ role, name }) => (
-          <div key={role}>
+          {
+            role: data.signature.approverRole,
+            name: data.signature.approverName,
+            image: null,
+          },
+          {
+            role: "Kepala Sekolah",
+            name: data.signature.principalName,
+            image: data.signature.principalSignatureUrl,
+          },
+          { role: "Orang Tua / Wali", name: null, image: null },
+        ].map(({ role, name, image }) => (
+          <div key={role ?? "penyetuju"}>
             <div className="h-16">
-              {role === "Kepala Sekolah" && data.signature.branchSignatureUrl ? (
+              {image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={data.signature.branchSignatureUrl}
-                  alt={role}
+                  src={image}
+                  alt={role ?? "Tanda tangan"}
                   className="mx-auto h-16 object-contain"
                 />
               ) : null}
             </div>
             <div className="border-t pt-1">
               <p className="font-medium">{name ?? "\u00a0"}</p>
-              <p className="text-muted-foreground text-xs">{role}</p>
+              <p className="text-muted-foreground text-xs">{role ?? "\u00a0"}</p>
             </div>
           </div>
         ))}
@@ -236,7 +244,7 @@ export function ReportPreview({
   context,
   className,
 }: {
-  snapshot: ReportSnapshot;
+  snapshot: ReportPreviewSnapshot;
   context?: ReportPdfContext;
   className?: string;
 }) {

@@ -1,4 +1,8 @@
-import { type ReportSnapshot } from "@/app/(types)";
+import {
+  type ReportPreviewSnapshot,
+  type ReportSnapshot,
+  type StudentReportDTO,
+} from "@/app/(types)";
 
 /**
  * Bentuk data PDF rapor (PRD §64) — hasil pemetaan **murni** dari `snapshot`
@@ -30,19 +34,25 @@ export type ReportPdfAcademicRow = {
 };
 
 /**
- * Data yang dimiliki baris `StudentReport` tetapi **tidak** ikut membeku di
- * dalam `snapshot` (narasi adalah kolom terpisah, bukan bagian agregat).
+ * Data yang dimiliki baris `StudentReport` / relasinya tetapi **tidak** ikut
+ * membeku di dalam `snapshot` (narasi adalah kolom terpisah, branding adalah
+ * relasi `foundation`/`branch`, peran penyetuju berasal dari `approvedBy.role`).
  * Semuanya opsional: pemanggil tanpa data ini tetap mendapat bentuk lengkap.
  */
 export type ReportPdfContext = {
   teacherNarrative?: string | null;
   homeroomNote?: string | null;
   principalNote?: string | null;
-  /** Nama wali kelas yang menyetujui (`approvedBy.name`). */
-  approvedByName?: string | null;
-  /** Aset branding yayasan — tidak disimpan di snapshot. */
+  /** `approvedBy.name` — pengisi blok tanda tangan penyetuju. */
+  approverName?: string | null;
+  /** `approvedBy.role.name` — dilabeli Bahasa oleh mapper. */
+  approverRoleName?: string | null;
+  /** `branch.adminName` — pengisi baris "Kepala Sekolah". */
+  principalName?: string | null;
+  /** `branch.signatureUrl` — gambar tanda tangan baris "Kepala Sekolah". */
+  principalSignatureUrl?: string | null;
+  /** `foundation.imageUrl`. */
   logoUrl?: string | null;
-  branchSignatureUrl?: string | null;
 };
 
 export type ReportPdfData = {
@@ -78,9 +88,11 @@ export type ReportPdfData = {
     hasAny: boolean;
   };
   signature: {
-    branchSignatureUrl: string | null;
-    homeroomName: string | null;
+    /** Penyetuju rapor + label perannya (Bahasa, dari data). */
+    approverName: string | null;
+    approverRole: string | null;
     principalName: string | null;
+    principalSignatureUrl: string | null;
   };
 };
 
@@ -88,11 +100,45 @@ const semesterLabel = (semester: number): string =>
   semester === 2 ? "Semester 2 (Genap)" : "Semester 1 (Ganjil)";
 
 /**
+ * Label Bahasa untuk peran penyetuju berdasarkan `Role.name` dari DB.
+ * `null` bila peran tidak diketahui — baris dibiarkan kosong, bukan ditebak.
+ */
+function approverRoleLabel(roleName: string | null | undefined): string | null {
+  if (!roleName) return null;
+  if (/teacher|guru/i.test(roleName)) return "Wali Kelas";
+  if (/head of school|kepala sekolah|principal/i.test(roleName)) {
+    return "Kepala Sekolah";
+  }
+  if (/admin/i.test(roleName)) return "Administrator";
+  return roleName;
+}
+
+/**
+ * Konteks PDF dari DTO detail rapor — satu tempat agar unduhan PDF dan
+ * pratinjau memakai sumber branding/narasi yang sama, bukan menyalin pemetaan.
+ */
+export function reportPdfContext(report: StudentReportDTO): ReportPdfContext {
+  return {
+    teacherNarrative: report.teacherNarrative,
+    homeroomNote: report.homeroomNote,
+    principalNote: report.principalNote,
+    logoUrl: report.foundation?.imageUrl ?? null,
+    approverName: report.approvedBy?.name ?? null,
+    approverRoleName: report.approvedBy?.role?.name ?? null,
+    principalName: report.branch?.adminName ?? null,
+    principalSignatureUrl: report.branch?.signatureUrl ?? null,
+  };
+}
+
+/**
  * Pemetaan murni snapshot → data PDF. Tidak ada I/O, tidak ada `Date.now()`,
  * tidak ada query live — masukan yang sama selalu menghasilkan keluaran sama.
+ *
+ * Menerima `ReportSnapshot` (dokumen beku) maupun `ReportPreviewSnapshot`
+ * (agregat live DRAFT/REVIEW) — bentuknya identik setelah serialisasi.
  */
 export function toReportPdfData(
-  snapshot: ReportSnapshot,
+  snapshot: ReportPreviewSnapshot,
   context: ReportPdfContext = {},
 ): ReportPdfData {
   const development: ReportPdfDevelopmentRow[] = (
@@ -154,9 +200,10 @@ export function toReportPdfData(
       hasAny: Boolean(teacherNarrative || homeroomNote || principalNote),
     },
     signature: {
-      branchSignatureUrl: context.branchSignatureUrl ?? null,
-      homeroomName: context.approvedByName ?? null,
-      principalName: null,
+      approverName: context.approverName ?? null,
+      approverRole: approverRoleLabel(context.approverRoleName),
+      principalName: context.principalName ?? null,
+      principalSignatureUrl: context.principalSignatureUrl ?? null,
     },
   };
 }

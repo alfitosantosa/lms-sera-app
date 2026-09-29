@@ -145,6 +145,13 @@ export type ReportSnapshot = Omit<ReportAggregate, "period"> & {
   };
 };
 
+/**
+ * Bentuk JSON agregat live (tanpa `version`) — dipakai sebagai `preview`
+ * baca-saja untuk `DRAFT`/`REVIEW`; bentuknya identik dengan `snapshot` setelah
+ * serialisasi. Bukan dokumen beku.
+ */
+export type ReportPreviewSnapshot = Omit<ReportSnapshot, "version">;
+
 export type StudentReportRefDTO = {
   id: string;
   name: string;
@@ -175,5 +182,26 @@ export type StudentReportDTO = {
   student?: StudentReportRefDTO | null;
   period?: { id: string; name: string; status: string } | null;
   class?: { id: string; name: string } | null;
-  approvedBy?: { id: string; name: string } | null;
+  approvedBy?: {
+    id: string;
+    name: string;
+    /** Peran penyetuju — dipakai memberi label blok tanda tangan. */
+    role?: { name: string } | null;
+  } | null;
+  /**
+   * Branding + identitas dari `GET /api/reports/[id]` (dokumen cetak §64).
+   * Tidak ada pada respons daftar/mutasi.
+   */
+  foundation?: { id: string; name: string; imageUrl: string } | null;
+  branch?: {
+    id: string;
+    name: string;
+    adminName: string | null;
+    signatureUrl: string | null;
+  } | null;
+  /**
+   * Agregat live baca-saja untuk `DRAFT`/`REVIEW` — **bukan** dokumen beku dan
+   * `null` pada status `APPROVED`/`PUBLISHED` (di sana pakai `snapshot`).
+   */
+  preview?: ReportPreviewSnapshot | null;
 };

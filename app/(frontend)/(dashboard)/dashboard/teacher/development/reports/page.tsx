@@ -6,10 +6,6 @@ import {
   useGenerateReports,
   useGetReports,
 } from "@/app/(hooks)/hooks/Reports/useReports";
-import {
-  canDownloadReportPdf,
-  useReportPdf,
-} from "@/app/(hooks)/hooks/Reports/useReportPdf";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { ReportStatusBadge } from "@/components/development/report-status-badge";
 import Loading from "@/components/loading";
@@ -38,7 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useSession } from "@/lib/authClients";
-import { AlertCircle, Download, Eye, FilePlus2, Loader2 } from "lucide-react";
+import { AlertCircle, Eye, FilePlus2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -86,7 +82,6 @@ export default function TeacherReportsPage() {
     enabled: ready,
   });
   const generate = useGenerateReports();
-  const { download, isGenerating } = useReportPdf();
 
   const reports = data?.data ?? [];
   const total = data?.pagination.total ?? 0;
@@ -94,12 +89,16 @@ export default function TeacherReportsPage() {
 
   const handleGenerate = async () => {
     if (!ready) return;
-    const result = await generate.mutateAsync({ classId, periodId });
-    const failed = result.errors.length;
-    toast.success(
-      `Rapor dibuat: ${result.created} baru, ${result.updated} diperbarui.` +
-        (failed > 0 ? ` ${failed} siswa gagal.` : ""),
-    );
+    try {
+      const result = await generate.mutateAsync({ classId, periodId });
+      const failed = result.errors.length;
+      toast.success(
+        `Rapor dibuat: ${result.created} baru, ${result.updated} diperbarui.` +
+          (failed > 0 ? ` ${failed} siswa gagal.` : ""),
+      );
+    } catch {
+      // Pesan error server sudah ditampilkan `errorHandlerFrontend` di hook.
+    }
   };
 
   if (isSessionPending || isLoadingUser || isLoadingClasses) {
@@ -173,12 +172,12 @@ export default function TeacherReportsPage() {
                   ) : (
                     <FilePlus2 className="h-4 w-4" />
                   )}
-                  Generate Rapor Kelas
+                  Buat Draf Rapor
                 </Button>
               </CardHeader>
               <CardDescription className="px-6 pb-4">
-                Generate membuat/menyegarkan draft rapor seluruh siswa di kelas
-                ini. Narasi tidak diubah otomatis.
+                Tombol ini membuat/menyegarkan draft rapor seluruh siswa di
+                kelas ini. Narasi tidak diubah otomatis.
               </CardDescription>
             </Card>
 
@@ -227,8 +226,8 @@ export default function TeacherReportsPage() {
                             colSpan={5}
                             className="text-muted-foreground h-24 text-center"
                           >
-                            Belum ada rapor. Klik &ldquo;Generate Rapor
-                            Kelas&rdquo; untuk membuat draft.
+                            Belum ada rapor. Klik &ldquo;Buat Draf
+                            Rapor&rdquo; untuk membuat draft.
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -246,7 +245,7 @@ export default function TeacherReportsPage() {
                             <TableCell>
                               <ReportStatusBadge status={report.status} />
                             </TableCell>
-                            <TableCell className="flex justify-end gap-2">
+                            <TableCell className="text-right">
                               <Button asChild variant="outline" size="sm">
                                 <Link
                                   href={`/dashboard/teacher/development/reports/${report.id}`}
@@ -254,22 +253,6 @@ export default function TeacherReportsPage() {
                                   <Eye className="h-4 w-4" />
                                   Buka
                                 </Link>
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={
-                                  !canDownloadReportPdf(report) || isGenerating
-                                }
-                                title={
-                                  canDownloadReportPdf(report)
-                                    ? "Unduh PDF rapor"
-                                    : "PDF hanya tersedia setelah rapor disetujui"
-                                }
-                                onClick={() => void download(report)}
-                              >
-                                <Download className="h-4 w-4" />
-                                PDF
                               </Button>
                             </TableCell>
                           </TableRow>

@@ -277,7 +277,7 @@ function ReportDocument({ data }: { data: ReportPdfData }) {
             <View style={S.tableHead}>
               <Text style={[S.th, { width: "40%" }]}>Mata Pelajaran</Text>
               <Text style={[S.th, { width: "15%" }]}>Nilai</Text>
-              <Text style={[S.th, { width: "15%" }]}>Grade</Text>
+              <Text style={[S.th, { width: "15%" }]}>Huruf</Text>
               <Text style={[S.th, { width: "30%" }]}>Predikat</Text>
             </View>
             {data.academic.map((row) => (
@@ -340,13 +340,13 @@ function ReportDocument({ data }: { data: ReportPdfData }) {
           <View style={S.signCol}>
             <View style={S.signSpace} />
             <View style={S.signLine} />
-            <Text style={S.signName}>{data.signature.homeroomName ?? " "}</Text>
-            <Text style={S.signRole}>Wali Kelas</Text>
+            <Text style={S.signName}>{data.signature.approverName ?? " "}</Text>
+            <Text style={S.signRole}>{data.signature.approverRole ?? " "}</Text>
           </View>
           <View style={S.signCol}>
-            {data.signature.branchSignatureUrl ? (
+            {data.signature.principalSignatureUrl ? (
               <Image
-                src={data.signature.branchSignatureUrl}
+                src={data.signature.principalSignatureUrl}
                 style={S.signImage}
               />
             ) : (

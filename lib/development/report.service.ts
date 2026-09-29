@@ -5,6 +5,7 @@ import {
   type ReportCompletion,
   type ReportDevelopmentArea,
   type ReportDevelopmentIndicator,
+  type ReportSnapshot,
   type ReportUpdateInput,
 } from "@/app/(types)";
 import { toJson, writeAudit } from "@/lib/development/audit";
@@ -74,6 +75,32 @@ export const reportInclude = {
 export type StudentReportFull = Prisma.StudentReportGetPayload<{
   include: typeof reportInclude;
 }>;
+
+/**
+ * Include khusus `GET /api/reports/[id]`: menambah branding yayasan/cabang dan
+ * peran penyetuju yang dibutuhkan dokumen cetak (PRD §64). Dipisahkan dari
+ * `reportInclude` agar daftar rapor & respons mutasi tetap ringan.
+ */
+export const reportDetailInclude = {
+  ...reportInclude,
+  foundation: { select: { id: true, name: true, imageUrl: true } },
+  branch: {
+    select: { id: true, name: true, adminName: true, signatureUrl: true },
+  },
+  approvedBy: {
+    select: { id: true, name: true, role: { select: { name: true } } },
+  },
+} satisfies Prisma.StudentReportInclude;
+
+export type StudentReportDetail = Prisma.StudentReportGetPayload<{
+  include: typeof reportDetailInclude;
+}> & {
+  /**
+   * Agregat live untuk pratinjau `DRAFT`/`REVIEW`. `null` untuk status terkunci
+   * (`APPROVED`/`PUBLISHED`) — status terkunci selalu memakai `snapshot`.
+   */
+  preview: Omit<ReportSnapshot, "version"> | null;
+};
 
 /** Status terkini di dalam transaksi — untuk pesan 409 saat penulisan bersyarat gagal. */
 async function statusOr(
@@ -430,6 +457,37 @@ export async function getReport(
   if (!report) throw new ReportServiceError("Rapor tidak ditemukan", 404);
   await unwrapClass(await assertClassAccess(actor, report.classId));
   return report;
+}
+
+/**
+ * Detail rapor untuk `GET /api/reports/[id]`: menambah branding (logo yayasan,
+ * tanda tangan/kepala cabang) dan peran penyetuju, plus pratinjau agregat live
+ * untuk `DRAFT`/`REVIEW`.
+ *
+ * Jaminan dokumen beku tidak berubah: `preview` **tidak** ditulis ke `snapshot`
+ * dan **tidak** dihitung untuk status terkunci (`APPROVED`/`PUBLISHED`) — di
+ * sana konsumen wajib memakai `snapshot`.
+ */
+export async function getReportDetail(
+  actor: DevelopmentActor,
+  id: string,
+): Promise<StudentReportDetail> {
+  const report = await prisma.studentReport.findFirst({
+    where: { id, foundationId: actor.foundationId },
+    include: reportDetailInclude,
+  });
+  if (!report) throw new ReportServiceError("Rapor tidak ditemukan", 404);
+  await unwrapClass(await assertClassAccess(actor, report.classId));
+
+  const locked = report.status === "APPROVED" || report.status === "PUBLISHED";
+  if (locked) return { ...report, preview: null };
+
+  // `toJson` menyamakan bentuk JSON dengan `snapshot` (tanggal → ISO string),
+  // tetapi TIDAK dipersistensi — murni pratinjau baca-saja.
+  const preview = toJson(
+    await buildReportAggregate(report.studentId, report.periodId),
+  ) as unknown as Omit<ReportSnapshot, "version">;
+  return { ...report, preview };
 }
 
 /**

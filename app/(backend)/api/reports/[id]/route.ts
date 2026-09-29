@@ -5,7 +5,7 @@ import {
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
 import {
-  getReport,
+  getReportDetail,
   reportErrorResponse,
   updateReport,
 } from "@/lib/development/report.service";
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
   if (denied) return denied;
 
   try {
-    const row = await getReport(actor, id);
+    const row = await getReportDetail(actor, id);
     return NextResponse.json({ success: true, data: row });
   } catch (error) {
     return reportErrorResponse(error);

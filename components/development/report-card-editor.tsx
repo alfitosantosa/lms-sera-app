@@ -54,7 +54,7 @@ export type ReportCardEditorProps = {
   editable: boolean;
   isSaving?: boolean;
   /** Dipanggil oleh autosave dan tombol simpan. */
-  onSave: (values: ReportUpdateInput) => void | Promise<void>;
+  onSave: (values: ReportUpdateInput) => unknown;
   /** Menampilkan tombol simpan manual di dalam form. */
   showSaveButton?: boolean;
 };
