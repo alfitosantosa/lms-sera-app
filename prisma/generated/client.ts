@@ -246,3 +246,28 @@ export type ExamAttempt = Prisma.ExamAttemptModel
  * 
  */
 export type ExamAnswer = Prisma.ExamAnswerModel
+/**
+ * Model AssessmentPeriod
+ * 
+ */
+export type AssessmentPeriod = Prisma.AssessmentPeriodModel
+/**
+ * Model AssessmentScale
+ * 
+ */
+export type AssessmentScale = Prisma.AssessmentScaleModel
+/**
+ * Model DevelopmentArea
+ * 
+ */
+export type DevelopmentArea = Prisma.DevelopmentAreaModel
+/**
+ * Model DevelopmentIndicator
+ * 
+ */
+export type DevelopmentIndicator = Prisma.DevelopmentIndicatorModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel

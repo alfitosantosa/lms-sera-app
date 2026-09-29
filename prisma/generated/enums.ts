@@ -34,3 +34,43 @@ export const AttemptStatus = {
 } as const
 
 export type AttemptStatus = (typeof AttemptStatus)[keyof typeof AttemptStatus]
+
+
+export const AssessmentPeriodStatus = {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  LOCKED: 'LOCKED',
+  PUBLISHED: 'PUBLISHED'
+} as const
+
+export type AssessmentPeriodStatus = (typeof AssessmentPeriodStatus)[keyof typeof AssessmentPeriodStatus]
+
+
+export const DailyLogStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  REVIEWED: 'REVIEWED'
+} as const
+
+export type DailyLogStatus = (typeof DailyLogStatus)[keyof typeof DailyLogStatus]
+
+
+export const EvidenceType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  DOCUMENT: 'DOCUMENT',
+  AUDIO: 'AUDIO',
+  LINK: 'LINK'
+} as const
+
+export type EvidenceType = (typeof EvidenceType)[keyof typeof EvidenceType]
+
+
+export const ReportStatus = {
+  DRAFT: 'DRAFT',
+  REVIEW: 'REVIEW',
+  APPROVED: 'APPROVED',
+  PUBLISHED: 'PUBLISHED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

@@ -398,6 +398,23 @@ export type EnumAttemptStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumAttemptStatusFilter<$PrismaModel>
 }
 
+export type EnumAssessmentPeriodStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AssessmentPeriodStatus | Prisma.EnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel> | $Enums.AssessmentPeriodStatus
+}
+
+export type EnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AssessmentPeriodStatus | Prisma.EnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssessmentPeriodStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -755,6 +772,23 @@ export type NestedEnumAttemptStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttemptStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttemptStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumAssessmentPeriodStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AssessmentPeriodStatus | Prisma.EnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel> | $Enums.AssessmentPeriodStatus
+}
+
+export type NestedEnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AssessmentPeriodStatus | Prisma.EnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AssessmentPeriodStatus[] | Prisma.ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel> | $Enums.AssessmentPeriodStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
 }
 
 

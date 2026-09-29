@@ -10,20 +10,23 @@ datasource db {
 }
 
 model Foundation {
-  id               String             @id @unique @default(cuid())
-  name             String
-  imageUrl         String
-  foundationCode   String             @unique
-  address          String
-  phone            String
-  academicYear     AcademicYear[]
-  announcements    Announcement[]
-  branch           Branch[]
-  calendarEvent    CalendarEvent[]
-  dashboardContent DashboardContent[]
-  role             Role[]
-  user             User[]
-  userData         UserData[]
+  id                String             @id @unique @default(cuid())
+  name              String
+  imageUrl          String
+  foundationCode    String             @unique
+  address           String
+  phone             String
+  academicYear      AcademicYear[]
+  announcements     Announcement[]
+  branch            Branch[]
+  calendarEvent     CalendarEvent[]
+  dashboardContent  DashboardContent[]
+  role              Role[]
+  user              User[]
+  userData          UserData[]
+  assessmentPeriods AssessmentPeriod[]
+  assessmentScales  AssessmentScale[]
+  developmentAreas  DevelopmentArea[]
 
   @@map("foundation")
 }
@@ -201,6 +204,7 @@ model AcademicYear {
   schedules           Schedule[]
   students            UserData[]           @relation("UserAcademicYear")
   violationTypes      ViolationType[]
+  assessmentPeriods   AssessmentPeriod[]
 
   @@unique([foundationId, year])
   @@index([foundationId])
@@ -926,4 +930,130 @@ model ExamAnswer {
 
   @@unique([attemptId, questionId])
   @@map("exam_answer")
+}
+
+// =====================================================
+// STUDENT DEVELOPMENT MODULE — Phase 1 foundation
+// =====================================================
+
+enum AssessmentPeriodStatus {
+  DRAFT
+  OPEN
+  LOCKED
+  PUBLISHED
+}
+
+enum DailyLogStatus {
+  DRAFT
+  SUBMITTED
+  REVIEWED
+}
+
+enum EvidenceType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  AUDIO
+  LINK
+}
+
+enum ReportStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  PUBLISHED
+}
+
+model AssessmentPeriod {
+  id             String                 @id @default(cuid())
+  foundationId   String
+  academicYearId String?
+  name           String
+  semester       Int
+  startDate      DateTime
+  endDate        DateTime
+  status         AssessmentPeriodStatus @default(DRAFT)
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  foundation   Foundation    @relation(fields: [foundationId], references: [id])
+  academicYear AcademicYear? @relation(fields: [academicYearId], references: [id])
+
+  @@unique([foundationId, academicYearId, semester, name])
+  @@index([foundationId])
+  @@index([status])
+  @@map("assessment_periods")
+}
+
+model AssessmentScale {
+  id           String   @id @default(cuid())
+  foundationId String
+  code         String
+  label        String
+  description  String?
+  value        Int
+  color        String?
+  order        Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  foundation Foundation @relation(fields: [foundationId], references: [id])
+
+  @@unique([foundationId, code])
+  @@index([foundationId])
+  @@map("assessment_scales")
+}
+
+model DevelopmentArea {
+  id           String   @id @default(cuid())
+  foundationId String
+  name         String
+  description  String?
+  order        Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  foundation Foundation             @relation(fields: [foundationId], references: [id])
+  indicators DevelopmentIndicator[]
+
+  @@unique([foundationId, name])
+  @@index([foundationId])
+  @@map("development_areas")
+}
+
+model DevelopmentIndicator {
+  id                String   @id @default(cuid())
+  developmentAreaId String
+  code              String?
+  name              String
+  description       String?
+  order             Int      @default(0)
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  developmentArea DevelopmentArea @relation(fields: [developmentAreaId], references: [id], onDelete: Cascade)
+
+  @@unique([developmentAreaId, name])
+  @@index([developmentAreaId])
+  @@map("development_indicators")
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  foundationId String?
+  actorId      String
+  action       String
+  entity       String
+  entityId     String
+  before       Json?
+  after        Json?
+  createdAt    DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+  @@index([foundationId, createdAt])
+  @@map("audit_logs")
 }

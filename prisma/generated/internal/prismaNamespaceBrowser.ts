@@ -91,7 +91,12 @@ export const ModelName = {
   Question: 'Question',
   QuestionOption: 'QuestionOption',
   ExamAttempt: 'ExamAttempt',
-  ExamAnswer: 'ExamAnswer'
+  ExamAnswer: 'ExamAnswer',
+  AssessmentPeriod: 'AssessmentPeriod',
+  AssessmentScale: 'AssessmentScale',
+  DevelopmentArea: 'DevelopmentArea',
+  DevelopmentIndicator: 'DevelopmentIndicator',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -786,6 +791,83 @@ export const ExamAnswerScalarFieldEnum = {
 } as const
 
 export type ExamAnswerScalarFieldEnum = (typeof ExamAnswerScalarFieldEnum)[keyof typeof ExamAnswerScalarFieldEnum]
+
+
+export const AssessmentPeriodScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  academicYearId: 'academicYearId',
+  name: 'name',
+  semester: 'semester',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssessmentPeriodScalarFieldEnum = (typeof AssessmentPeriodScalarFieldEnum)[keyof typeof AssessmentPeriodScalarFieldEnum]
+
+
+export const AssessmentScaleScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  code: 'code',
+  label: 'label',
+  description: 'description',
+  value: 'value',
+  color: 'color',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssessmentScaleScalarFieldEnum = (typeof AssessmentScaleScalarFieldEnum)[keyof typeof AssessmentScaleScalarFieldEnum]
+
+
+export const DevelopmentAreaScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DevelopmentAreaScalarFieldEnum = (typeof DevelopmentAreaScalarFieldEnum)[keyof typeof DevelopmentAreaScalarFieldEnum]
+
+
+export const DevelopmentIndicatorScalarFieldEnum = {
+  id: 'id',
+  developmentAreaId: 'developmentAreaId',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DevelopmentIndicatorScalarFieldEnum = (typeof DevelopmentIndicatorScalarFieldEnum)[keyof typeof DevelopmentIndicatorScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  actorId: 'actorId',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  before: 'before',
+  after: 'after',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
 export const SortOrder = {
