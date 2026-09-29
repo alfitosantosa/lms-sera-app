@@ -312,6 +312,7 @@ export type GradeOrderByWithRelationInput = {
 
 export type GradeWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  studentId_scheduleId_gradeTypeId_title?: Prisma.GradeStudentIdScheduleIdGradeTypeIdTitleCompoundUniqueInput
   AND?: Prisma.GradeWhereInput | Prisma.GradeWhereInput[]
   OR?: Prisma.GradeWhereInput[]
   NOT?: Prisma.GradeWhereInput | Prisma.GradeWhereInput[]
@@ -331,7 +332,7 @@ export type GradeWhereUniqueInput = Prisma.AtLeast<{
   schedule?: Prisma.XOR<Prisma.ScheduleScalarRelationFilter, Prisma.ScheduleWhereInput>
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
-}, "id">
+}, "id" | "studentId_scheduleId_gradeTypeId_title">
 
 export type GradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -489,6 +490,13 @@ export type GradeListRelationFilter = {
 
 export type GradeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type GradeStudentIdScheduleIdGradeTypeIdTitleCompoundUniqueInput = {
+  studentId: string
+  scheduleId: string
+  gradeTypeId: string
+  title: string
 }
 
 export type GradeCountOrderByAggregateInput = {

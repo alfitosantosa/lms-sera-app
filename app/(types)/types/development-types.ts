@@ -493,3 +493,143 @@ export type TimelineEntryDTO = {
   }[];
   evidences: { type: EvidenceTypeTypes; url: string }[];
 };
+
+// =====================================================
+// ASSIGNMENT & GRADE (Phase 5)
+// =====================================================
+
+export const gradeTypeInputSchema = z.object({
+  name: z.string().min(1, "Nama jenis penilaian wajib diisi"),
+  description: z.string().nullable().optional(),
+  weight: z.coerce.number().int().min(0).default(0),
+  order: z.coerce.number().int().default(0),
+  isActive: z.boolean().default(true),
+});
+
+/**
+ * `scheduleId` wajib; `classId`/`subjectId`/`teacherId` TIDAK diterima dari
+ * client — backend menurunkannya dari jadwal yang dipilih.
+ */
+export const assignmentInputSchema = z.object({
+  scheduleId: z.string().min(1, "Jadwal wajib dipilih"),
+  title: z.string().min(1, "Judul tugas wajib diisi"),
+  description: z.string().min(1, "Deskripsi tugas wajib diisi"),
+  assignedDate: z.coerce.date().optional(),
+  dueDate: z.coerce.date(),
+  allowLateSubmission: z.boolean().default(false),
+  maxScore: z.coerce
+    .number()
+    .positive("Nilai maksimal harus lebih dari 0")
+    .default(100),
+  gradeTypeId: z.string().min(1).nullable().optional(),
+  developmentAreaId: z.string().min(1).nullable().optional(),
+  indicatorId: z.string().min(1).nullable().optional(),
+  isPublished: z.boolean().default(false),
+  attachments: z.array(evidenceInputSchema).default([]),
+});
+
+/** Jadwal tidak boleh dipindah setelah tugas dibuat (turunan teacherId). */
+export const assignmentUpdateSchema = assignmentInputSchema
+  .omit({ scheduleId: true })
+  .partial();
+
+export const assignmentSubmissionInputSchema = z.object({
+  notes: z.string().nullable().optional(),
+  attachments: z.array(evidenceInputSchema).default([]),
+});
+
+export const assignmentGradeInputSchema = z.object({
+  score: z.coerce.number().min(0, "Nilai tidak boleh negatif"),
+  feedback: z.string().nullable().optional(),
+  // Kosong → 400 "Jenis penilaian wajib dipilih" (dicek di service).
+  gradeTypeId: z.string().min(1).nullable().optional(),
+});
+
+export type GradeTypeInput = z.infer<typeof gradeTypeInputSchema>;
+export type AssignmentInput = z.infer<typeof assignmentInputSchema>;
+export type AssignmentUpdateInput = z.infer<typeof assignmentUpdateSchema>;
+export type AssignmentSubmissionInput = z.infer<
+  typeof assignmentSubmissionInputSchema
+>;
+export type AssignmentGradeInput = z.infer<typeof assignmentGradeInputSchema>;
+
+export type GradeTypeDTO = {
+  id: string;
+  name: string;
+  description: string | null;
+  code: string;
+  weight: number;
+  order: number;
+  isActive: boolean;
+};
+
+export type AssignmentRefDTO = {
+  id: string;
+  title: string;
+  dueDate: string;
+  maxScore: number;
+  isPublished: boolean;
+  classId: string;
+  subjectId: string;
+};
+
+export type AssignmentDTO = {
+  id: string;
+  scheduleId: string;
+  classId: string;
+  subjectId: string;
+  teacherId: string;
+  title: string;
+  description: string;
+  attachments: EvidenceInput[] | null;
+  assignmentType: string | null;
+  assignedDate: string;
+  dueDate: string;
+  allowLateSubmission: boolean;
+  maxScore: number;
+  gradeTypeId: string | null;
+  developmentAreaId: string | null;
+  indicatorId: string | null;
+  isPublished: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  class?: { id: string; name: string } | null;
+  subject?: { id: string; name: string; code: string | null } | null;
+  teacher?: { id: string; name: string } | null;
+  schedule?: {
+    id: string;
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+  } | null;
+  gradeType?: GradeTypeDTO | null;
+  developmentArea?: DevelopmentAreaRef | null;
+  indicator?: {
+    id: string;
+    name: string;
+    developmentArea?: DevelopmentAreaRef | null;
+  } | null;
+  _count?: { submissions: number };
+};
+
+export type AssignmentSubmissionDTO = {
+  id: string;
+  assignmentId: string;
+  studentId: string;
+  attachments: EvidenceInput[] | null;
+  notes: string | null;
+  submittedAt: string;
+  isLate: boolean;
+  score: number | null;
+  feedback: string | null;
+  gradedAt: string | null;
+  gradedBy: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  student?: StudentRefDTO | null;
+  assignment?: AssignmentRefDTO | null;
+  evidences?: EvidenceDTO[];
+};

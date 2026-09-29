@@ -251,6 +251,7 @@ export type DevelopmentIndicatorWhereInput = {
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaScalarRelationFilter, Prisma.DevelopmentAreaWhereInput>
   observations?: Prisma.DailyObservationListRelationFilter
   assessments?: Prisma.StudentAssessmentListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
 }
 
 export type DevelopmentIndicatorOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type DevelopmentIndicatorOrderByWithRelationInput = {
   developmentArea?: Prisma.DevelopmentAreaOrderByWithRelationInput
   observations?: Prisma.DailyObservationOrderByRelationAggregateInput
   assessments?: Prisma.StudentAssessmentOrderByRelationAggregateInput
+  assignments?: Prisma.AssignmentOrderByRelationAggregateInput
 }
 
 export type DevelopmentIndicatorWhereUniqueInput = Prisma.AtLeast<{
@@ -285,6 +287,7 @@ export type DevelopmentIndicatorWhereUniqueInput = Prisma.AtLeast<{
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaScalarRelationFilter, Prisma.DevelopmentAreaWhereInput>
   observations?: Prisma.DailyObservationListRelationFilter
   assessments?: Prisma.StudentAssessmentListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
 }, "id" | "developmentAreaId_name">
 
 export type DevelopmentIndicatorOrderByWithAggregationInput = {
@@ -331,6 +334,7 @@ export type DevelopmentIndicatorCreateInput = {
   developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
   assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateInput = {
@@ -345,6 +349,7 @@ export type DevelopmentIndicatorUncheckedCreateInput = {
   updatedAt?: Date | string
   observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
   assessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUpdateInput = {
@@ -359,6 +364,7 @@ export type DevelopmentIndicatorUpdateInput = {
   developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
   assessments?: Prisma.StudentAssessmentUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateInput = {
@@ -373,6 +379,7 @@ export type DevelopmentIndicatorUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
   assessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorCreateManyInput = {
@@ -408,6 +415,11 @@ export type DevelopmentIndicatorUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DevelopmentIndicatorNullableScalarRelationFilter = {
+  is?: Prisma.DevelopmentIndicatorWhereInput | null
+  isNot?: Prisma.DevelopmentIndicatorWhereInput | null
 }
 
 export type DevelopmentIndicatorListRelationFilter = {
@@ -472,6 +484,22 @@ export type DevelopmentIndicatorSumOrderByAggregateInput = {
 export type DevelopmentIndicatorScalarRelationFilter = {
   is?: Prisma.DevelopmentIndicatorWhereInput
   isNot?: Prisma.DevelopmentIndicatorWhereInput
+}
+
+export type DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.DevelopmentIndicatorCreateOrConnectWithoutAssignmentsInput
+  connect?: Prisma.DevelopmentIndicatorWhereUniqueInput
+}
+
+export type DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.DevelopmentIndicatorCreateOrConnectWithoutAssignmentsInput
+  upsert?: Prisma.DevelopmentIndicatorUpsertWithoutAssignmentsInput
+  disconnect?: Prisma.DevelopmentIndicatorWhereInput | boolean
+  delete?: Prisma.DevelopmentIndicatorWhereInput | boolean
+  connect?: Prisma.DevelopmentIndicatorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DevelopmentIndicatorUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUpdateWithoutAssignmentsInput>, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutAssignmentsInput>
 }
 
 export type DevelopmentIndicatorCreateNestedManyWithoutDevelopmentAreaInput = {
@@ -544,6 +572,78 @@ export type DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput =
   update?: Prisma.XOR<Prisma.XOR<Prisma.DevelopmentIndicatorUpdateToOneWithWhereWithoutAssessmentsInput, Prisma.DevelopmentIndicatorUpdateWithoutAssessmentsInput>, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutAssessmentsInput>
 }
 
+export type DevelopmentIndicatorCreateWithoutAssignmentsInput = {
+  id?: string
+  code?: string | null
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
+  observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
+  assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutIndicatorInput
+}
+
+export type DevelopmentIndicatorUncheckedCreateWithoutAssignmentsInput = {
+  id?: string
+  developmentAreaId: string
+  code?: string | null
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
+  assessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutIndicatorInput
+}
+
+export type DevelopmentIndicatorCreateOrConnectWithoutAssignmentsInput = {
+  where: Prisma.DevelopmentIndicatorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutAssignmentsInput>
+}
+
+export type DevelopmentIndicatorUpsertWithoutAssignmentsInput = {
+  update: Prisma.XOR<Prisma.DevelopmentIndicatorUpdateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutAssignmentsInput>
+  create: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutAssignmentsInput>
+  where?: Prisma.DevelopmentIndicatorWhereInput
+}
+
+export type DevelopmentIndicatorUpdateToOneWithWhereWithoutAssignmentsInput = {
+  where?: Prisma.DevelopmentIndicatorWhereInput
+  data: Prisma.XOR<Prisma.DevelopmentIndicatorUpdateWithoutAssignmentsInput, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutAssignmentsInput>
+}
+
+export type DevelopmentIndicatorUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
+  observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
+  assessments?: Prisma.StudentAssessmentUpdateManyWithoutIndicatorNestedInput
+}
+
+export type DevelopmentIndicatorUncheckedUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
+  assessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutIndicatorNestedInput
+}
+
 export type DevelopmentIndicatorCreateWithoutDevelopmentAreaInput = {
   id?: string
   code?: string | null
@@ -555,6 +655,7 @@ export type DevelopmentIndicatorCreateWithoutDevelopmentAreaInput = {
   updatedAt?: Date | string
   observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
   assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput = {
@@ -568,6 +669,7 @@ export type DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput = {
   updatedAt?: Date | string
   observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
   assessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorCreateOrConnectWithoutDevelopmentAreaInput = {
@@ -622,6 +724,7 @@ export type DevelopmentIndicatorCreateWithoutObservationsInput = {
   updatedAt?: Date | string
   developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
   assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateWithoutObservationsInput = {
@@ -635,6 +738,7 @@ export type DevelopmentIndicatorUncheckedCreateWithoutObservationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorCreateOrConnectWithoutObservationsInput = {
@@ -664,6 +768,7 @@ export type DevelopmentIndicatorUpdateWithoutObservationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
   assessments?: Prisma.StudentAssessmentUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput = {
@@ -677,6 +782,7 @@ export type DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorCreateWithoutAssessmentsInput = {
@@ -690,6 +796,7 @@ export type DevelopmentIndicatorCreateWithoutAssessmentsInput = {
   updatedAt?: Date | string
   developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateWithoutAssessmentsInput = {
@@ -703,6 +810,7 @@ export type DevelopmentIndicatorUncheckedCreateWithoutAssessmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorCreateOrConnectWithoutAssessmentsInput = {
@@ -732,6 +840,7 @@ export type DevelopmentIndicatorUpdateWithoutAssessmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateWithoutAssessmentsInput = {
@@ -745,6 +854,7 @@ export type DevelopmentIndicatorUncheckedUpdateWithoutAssessmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorCreateManyDevelopmentAreaInput = {
@@ -769,6 +879,7 @@ export type DevelopmentIndicatorUpdateWithoutDevelopmentAreaInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
   assessments?: Prisma.StudentAssessmentUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateWithoutDevelopmentAreaInput = {
@@ -782,6 +893,7 @@ export type DevelopmentIndicatorUncheckedUpdateWithoutDevelopmentAreaInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
   assessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutIndicatorNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaInput = {
@@ -803,11 +915,13 @@ export type DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaInput =
 export type DevelopmentIndicatorCountOutputType = {
   observations: number
   assessments: number
+  assignments: number
 }
 
 export type DevelopmentIndicatorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   observations?: boolean | DevelopmentIndicatorCountOutputTypeCountObservationsArgs
   assessments?: boolean | DevelopmentIndicatorCountOutputTypeCountAssessmentsArgs
+  assignments?: boolean | DevelopmentIndicatorCountOutputTypeCountAssignmentsArgs
 }
 
 /**
@@ -834,6 +948,13 @@ export type DevelopmentIndicatorCountOutputTypeCountAssessmentsArgs<ExtArgs exte
   where?: Prisma.StudentAssessmentWhereInput
 }
 
+/**
+ * DevelopmentIndicatorCountOutputType without action
+ */
+export type DevelopmentIndicatorCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssignmentWhereInput
+}
+
 
 export type DevelopmentIndicatorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -848,6 +969,7 @@ export type DevelopmentIndicatorSelect<ExtArgs extends runtime.Types.Extensions.
   developmentArea?: boolean | Prisma.DevelopmentAreaDefaultArgs<ExtArgs>
   observations?: boolean | Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>
   assessments?: boolean | Prisma.DevelopmentIndicator$assessmentsArgs<ExtArgs>
+  assignments?: boolean | Prisma.DevelopmentIndicator$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DevelopmentIndicatorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["developmentIndicator"]>
 
@@ -894,6 +1016,7 @@ export type DevelopmentIndicatorInclude<ExtArgs extends runtime.Types.Extensions
   developmentArea?: boolean | Prisma.DevelopmentAreaDefaultArgs<ExtArgs>
   observations?: boolean | Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>
   assessments?: boolean | Prisma.DevelopmentIndicator$assessmentsArgs<ExtArgs>
+  assignments?: boolean | Prisma.DevelopmentIndicator$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DevelopmentIndicatorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DevelopmentIndicatorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -909,6 +1032,7 @@ export type $DevelopmentIndicatorPayload<ExtArgs extends runtime.Types.Extension
     developmentArea: Prisma.$DevelopmentAreaPayload<ExtArgs>
     observations: Prisma.$DailyObservationPayload<ExtArgs>[]
     assessments: Prisma.$StudentAssessmentPayload<ExtArgs>[]
+    assignments: Prisma.$AssignmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1317,6 +1441,7 @@ export interface Prisma__DevelopmentIndicatorClient<T, Null = never, ExtArgs ext
   developmentArea<T extends Prisma.DevelopmentAreaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentAreaDefaultArgs<ExtArgs>>): Prisma.Prisma__DevelopmentAreaClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   observations<T extends Prisma.DevelopmentIndicator$observationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyObservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assessments<T extends Prisma.DevelopmentIndicator$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicator$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignments<T extends Prisma.DevelopmentIndicator$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicator$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1801,6 +1926,30 @@ export type DevelopmentIndicator$assessmentsArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
+}
+
+/**
+ * DevelopmentIndicator.assignments
+ */
+export type DevelopmentIndicator$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Assignment
+   */
+  select?: Prisma.AssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Assignment
+   */
+  omit?: Prisma.AssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssignmentInclude<ExtArgs> | null
+  where?: Prisma.AssignmentWhereInput
+  orderBy?: Prisma.AssignmentOrderByWithRelationInput | Prisma.AssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.AssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
 }
 
 /**

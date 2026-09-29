@@ -302,3 +302,49 @@ export async function bootstrapDevelopment(
     return { areas: DEFAULT_AREAS.length, indicators, scales };
   });
 }
+
+export type DefaultGradeType = {
+  code: string;
+  name: string;
+  description: string;
+  weight: number;
+  order: number;
+};
+
+/**
+ * Jenis penilaian default. `GradeType` tidak punya `foundationId` (global,
+ * dipakai bersama `GradeConfiguration`), jadi seed ini berlaku global.
+ */
+export const DEFAULT_GRADE_TYPES: DefaultGradeType[] = [
+  {
+    code: "TUGAS",
+    name: "Tugas",
+    description: "Nilai tugas harian",
+    weight: 0,
+    order: 1,
+  },
+];
+
+/**
+ * Pastikan jenis penilaian default ada (idempotent, upsert per `code`) supaya
+ * form penilaian tugas tidak pernah kosong. Seperti `bootstrapDevelopment`,
+ * aman dipanggil berulang.
+ */
+export async function bootstrapGradeTypes(): Promise<number> {
+  return prisma.$transaction(async (tx) => {
+    for (const type of DEFAULT_GRADE_TYPES) {
+      await tx.gradeType.upsert({
+        where: { code: type.code },
+        create: {
+          code: type.code,
+          name: type.name,
+          description: type.description,
+          weight: type.weight,
+          order: type.order,
+        },
+        update: { name: type.name, description: type.description },
+      });
+    }
+    return DEFAULT_GRADE_TYPES.length;
+  });
+}

@@ -48,6 +48,8 @@ export type AssignmentMinAggregateOutputType = {
   allowLateSubmission: boolean | null
   maxScore: runtime.Decimal | null
   gradeTypeId: string | null
+  developmentAreaId: string | null
+  indicatorId: string | null
   isPublished: boolean | null
   isActive: boolean | null
   createdAt: Date | null
@@ -69,6 +71,8 @@ export type AssignmentMaxAggregateOutputType = {
   allowLateSubmission: boolean | null
   maxScore: runtime.Decimal | null
   gradeTypeId: string | null
+  developmentAreaId: string | null
+  indicatorId: string | null
   isPublished: boolean | null
   isActive: boolean | null
   createdAt: Date | null
@@ -91,6 +95,8 @@ export type AssignmentCountAggregateOutputType = {
   allowLateSubmission: number
   maxScore: number
   gradeTypeId: number
+  developmentAreaId: number
+  indicatorId: number
   isPublished: number
   isActive: number
   createdAt: number
@@ -122,6 +128,8 @@ export type AssignmentMinAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
+  developmentAreaId?: true
+  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
@@ -143,6 +151,8 @@ export type AssignmentMaxAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
+  developmentAreaId?: true
+  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
@@ -165,6 +175,8 @@ export type AssignmentCountAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
+  developmentAreaId?: true
+  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
@@ -274,6 +286,8 @@ export type AssignmentGroupByOutputType = {
   allowLateSubmission: boolean
   maxScore: runtime.Decimal
   gradeTypeId: string | null
+  developmentAreaId: string | null
+  indicatorId: string | null
   isPublished: boolean
   isActive: boolean
   createdAt: Date
@@ -319,6 +333,8 @@ export type AssignmentWhereInput = {
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -326,7 +342,9 @@ export type AssignmentWhereInput = {
   createdBy?: Prisma.StringFilter<"Assignment"> | string
   submissions?: Prisma.AssignmentSubmissionListRelationFilter
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
+  developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaNullableScalarRelationFilter, Prisma.DevelopmentAreaWhereInput> | null
   gradeType?: Prisma.XOR<Prisma.GradeTypeNullableScalarRelationFilter, Prisma.GradeTypeWhereInput> | null
+  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorNullableScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput> | null
   schedule?: Prisma.XOR<Prisma.ScheduleScalarRelationFilter, Prisma.ScheduleWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
@@ -347,6 +365,8 @@ export type AssignmentOrderByWithRelationInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -354,7 +374,9 @@ export type AssignmentOrderByWithRelationInput = {
   createdBy?: Prisma.SortOrder
   submissions?: Prisma.AssignmentSubmissionOrderByRelationAggregateInput
   class?: Prisma.ClassOrderByWithRelationInput
+  developmentArea?: Prisma.DevelopmentAreaOrderByWithRelationInput
   gradeType?: Prisma.GradeTypeOrderByWithRelationInput
+  indicator?: Prisma.DevelopmentIndicatorOrderByWithRelationInput
   schedule?: Prisma.ScheduleOrderByWithRelationInput
   subject?: Prisma.SubjectOrderByWithRelationInput
   teacher?: Prisma.UserDataOrderByWithRelationInput
@@ -378,6 +400,8 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -385,7 +409,9 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.StringFilter<"Assignment"> | string
   submissions?: Prisma.AssignmentSubmissionListRelationFilter
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
+  developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaNullableScalarRelationFilter, Prisma.DevelopmentAreaWhereInput> | null
   gradeType?: Prisma.XOR<Prisma.GradeTypeNullableScalarRelationFilter, Prisma.GradeTypeWhereInput> | null
+  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorNullableScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput> | null
   schedule?: Prisma.XOR<Prisma.ScheduleScalarRelationFilter, Prisma.ScheduleWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
@@ -406,6 +432,8 @@ export type AssignmentOrderByWithAggregationInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -436,6 +464,8 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   allowLateSubmission?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalWithAggregatesFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  developmentAreaId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
@@ -460,7 +490,9 @@ export type AssignmentCreateInput = {
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
@@ -481,6 +513,8 @@ export type AssignmentUncheckedCreateInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -506,7 +540,9 @@ export type AssignmentUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
@@ -527,6 +563,8 @@ export type AssignmentUncheckedUpdateInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -550,6 +588,8 @@ export type AssignmentCreateManyInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -589,6 +629,8 @@ export type AssignmentUncheckedUpdateManyInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -621,6 +663,8 @@ export type AssignmentCountOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -646,6 +690,8 @@ export type AssignmentMaxOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -667,6 +713,8 @@ export type AssignmentMinOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -907,6 +955,90 @@ export type AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssignmentUpdateToOneWithWhereWithoutSubmissionsInput, Prisma.AssignmentUpdateWithoutSubmissionsInput>, Prisma.AssignmentUncheckedUpdateWithoutSubmissionsInput>
 }
 
+export type AssignmentCreateNestedManyWithoutDevelopmentAreaInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput> | Prisma.AssignmentCreateWithoutDevelopmentAreaInput[] | Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput | Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput[]
+  createMany?: Prisma.AssignmentCreateManyDevelopmentAreaInputEnvelope
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+}
+
+export type AssignmentUncheckedCreateNestedManyWithoutDevelopmentAreaInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput> | Prisma.AssignmentCreateWithoutDevelopmentAreaInput[] | Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput | Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput[]
+  createMany?: Prisma.AssignmentCreateManyDevelopmentAreaInputEnvelope
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+}
+
+export type AssignmentUpdateManyWithoutDevelopmentAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput> | Prisma.AssignmentCreateWithoutDevelopmentAreaInput[] | Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput | Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput[]
+  upsert?: Prisma.AssignmentUpsertWithWhereUniqueWithoutDevelopmentAreaInput | Prisma.AssignmentUpsertWithWhereUniqueWithoutDevelopmentAreaInput[]
+  createMany?: Prisma.AssignmentCreateManyDevelopmentAreaInputEnvelope
+  set?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  disconnect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  delete?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  update?: Prisma.AssignmentUpdateWithWhereUniqueWithoutDevelopmentAreaInput | Prisma.AssignmentUpdateWithWhereUniqueWithoutDevelopmentAreaInput[]
+  updateMany?: Prisma.AssignmentUpdateManyWithWhereWithoutDevelopmentAreaInput | Prisma.AssignmentUpdateManyWithWhereWithoutDevelopmentAreaInput[]
+  deleteMany?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
+}
+
+export type AssignmentUncheckedUpdateManyWithoutDevelopmentAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput> | Prisma.AssignmentCreateWithoutDevelopmentAreaInput[] | Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput | Prisma.AssignmentCreateOrConnectWithoutDevelopmentAreaInput[]
+  upsert?: Prisma.AssignmentUpsertWithWhereUniqueWithoutDevelopmentAreaInput | Prisma.AssignmentUpsertWithWhereUniqueWithoutDevelopmentAreaInput[]
+  createMany?: Prisma.AssignmentCreateManyDevelopmentAreaInputEnvelope
+  set?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  disconnect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  delete?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  update?: Prisma.AssignmentUpdateWithWhereUniqueWithoutDevelopmentAreaInput | Prisma.AssignmentUpdateWithWhereUniqueWithoutDevelopmentAreaInput[]
+  updateMany?: Prisma.AssignmentUpdateManyWithWhereWithoutDevelopmentAreaInput | Prisma.AssignmentUpdateManyWithWhereWithoutDevelopmentAreaInput[]
+  deleteMany?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
+}
+
+export type AssignmentCreateNestedManyWithoutIndicatorInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput> | Prisma.AssignmentCreateWithoutIndicatorInput[] | Prisma.AssignmentUncheckedCreateWithoutIndicatorInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutIndicatorInput | Prisma.AssignmentCreateOrConnectWithoutIndicatorInput[]
+  createMany?: Prisma.AssignmentCreateManyIndicatorInputEnvelope
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+}
+
+export type AssignmentUncheckedCreateNestedManyWithoutIndicatorInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput> | Prisma.AssignmentCreateWithoutIndicatorInput[] | Prisma.AssignmentUncheckedCreateWithoutIndicatorInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutIndicatorInput | Prisma.AssignmentCreateOrConnectWithoutIndicatorInput[]
+  createMany?: Prisma.AssignmentCreateManyIndicatorInputEnvelope
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+}
+
+export type AssignmentUpdateManyWithoutIndicatorNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput> | Prisma.AssignmentCreateWithoutIndicatorInput[] | Prisma.AssignmentUncheckedCreateWithoutIndicatorInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutIndicatorInput | Prisma.AssignmentCreateOrConnectWithoutIndicatorInput[]
+  upsert?: Prisma.AssignmentUpsertWithWhereUniqueWithoutIndicatorInput | Prisma.AssignmentUpsertWithWhereUniqueWithoutIndicatorInput[]
+  createMany?: Prisma.AssignmentCreateManyIndicatorInputEnvelope
+  set?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  disconnect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  delete?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  update?: Prisma.AssignmentUpdateWithWhereUniqueWithoutIndicatorInput | Prisma.AssignmentUpdateWithWhereUniqueWithoutIndicatorInput[]
+  updateMany?: Prisma.AssignmentUpdateManyWithWhereWithoutIndicatorInput | Prisma.AssignmentUpdateManyWithWhereWithoutIndicatorInput[]
+  deleteMany?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
+}
+
+export type AssignmentUncheckedUpdateManyWithoutIndicatorNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput> | Prisma.AssignmentCreateWithoutIndicatorInput[] | Prisma.AssignmentUncheckedCreateWithoutIndicatorInput[]
+  connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutIndicatorInput | Prisma.AssignmentCreateOrConnectWithoutIndicatorInput[]
+  upsert?: Prisma.AssignmentUpsertWithWhereUniqueWithoutIndicatorInput | Prisma.AssignmentUpsertWithWhereUniqueWithoutIndicatorInput[]
+  createMany?: Prisma.AssignmentCreateManyIndicatorInputEnvelope
+  set?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  disconnect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  delete?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  connect?: Prisma.AssignmentWhereUniqueInput | Prisma.AssignmentWhereUniqueInput[]
+  update?: Prisma.AssignmentUpdateWithWhereUniqueWithoutIndicatorInput | Prisma.AssignmentUpdateWithWhereUniqueWithoutIndicatorInput[]
+  updateMany?: Prisma.AssignmentUpdateManyWithWhereWithoutIndicatorInput | Prisma.AssignmentUpdateManyWithWhereWithoutIndicatorInput[]
+  deleteMany?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
+}
+
 export type AssignmentCreateWithoutTeacherInput = {
   id?: string
   title: string
@@ -924,7 +1056,9 @@ export type AssignmentCreateWithoutTeacherInput = {
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
 }
@@ -943,6 +1077,8 @@ export type AssignmentUncheckedCreateWithoutTeacherInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -995,6 +1131,8 @@ export type AssignmentScalarWhereInput = {
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -1018,7 +1156,9 @@ export type AssignmentCreateWithoutClassInput = {
   updatedAt?: Date | string
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
@@ -1038,6 +1178,8 @@ export type AssignmentUncheckedCreateWithoutClassInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1089,7 +1231,9 @@ export type AssignmentCreateWithoutSubjectInput = {
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
 }
@@ -1108,6 +1252,8 @@ export type AssignmentUncheckedCreateWithoutSubjectInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1159,7 +1305,9 @@ export type AssignmentCreateWithoutScheduleInput = {
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
 }
@@ -1178,6 +1326,8 @@ export type AssignmentUncheckedCreateWithoutScheduleInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1229,6 +1379,8 @@ export type AssignmentCreateWithoutGradeTypeInput = {
   createdBy: string
   submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
@@ -1248,6 +1400,8 @@ export type AssignmentUncheckedCreateWithoutGradeTypeInput = {
   dueDate: Date | string
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1298,7 +1452,9 @@ export type AssignmentCreateWithoutSubmissionsInput = {
   updatedAt?: Date | string
   createdBy: string
   class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
   gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
   schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
   subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
@@ -1319,6 +1475,8 @@ export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1358,7 +1516,9 @@ export type AssignmentUpdateWithoutSubmissionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
@@ -1379,11 +1539,161 @@ export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type AssignmentCreateWithoutDevelopmentAreaInput = {
+  id?: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+  class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  indicator?: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssignmentsInput
+  schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+  teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
+}
+
+export type AssignmentUncheckedCreateWithoutDevelopmentAreaInput = {
+  id?: string
+  scheduleId: string
+  classId: string
+  subjectId: string
+  teacherId: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: string | null
+  indicatorId?: string | null
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+}
+
+export type AssignmentCreateOrConnectWithoutDevelopmentAreaInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput>
+}
+
+export type AssignmentCreateManyDevelopmentAreaInputEnvelope = {
+  data: Prisma.AssignmentCreateManyDevelopmentAreaInput | Prisma.AssignmentCreateManyDevelopmentAreaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssignmentUpsertWithWhereUniqueWithoutDevelopmentAreaInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssignmentUpdateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedUpdateWithoutDevelopmentAreaInput>
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedCreateWithoutDevelopmentAreaInput>
+}
+
+export type AssignmentUpdateWithWhereUniqueWithoutDevelopmentAreaInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssignmentUpdateWithoutDevelopmentAreaInput, Prisma.AssignmentUncheckedUpdateWithoutDevelopmentAreaInput>
+}
+
+export type AssignmentUpdateManyWithWhereWithoutDevelopmentAreaInput = {
+  where: Prisma.AssignmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AssignmentUpdateManyMutationInput, Prisma.AssignmentUncheckedUpdateManyWithoutDevelopmentAreaInput>
+}
+
+export type AssignmentCreateWithoutIndicatorInput = {
+  id?: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  submissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+  class: Prisma.ClassCreateNestedOneWithoutAssignmentsInput
+  developmentArea?: Prisma.DevelopmentAreaCreateNestedOneWithoutAssignmentsInput
+  gradeType?: Prisma.GradeTypeCreateNestedOneWithoutAssignmentsInput
+  schedule: Prisma.ScheduleCreateNestedOneWithoutAssignmentsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutAssignmentsInput
+  teacher: Prisma.UserDataCreateNestedOneWithoutTeacherAssignmentsInput
+}
+
+export type AssignmentUncheckedCreateWithoutIndicatorInput = {
+  id?: string
+  scheduleId: string
+  classId: string
+  subjectId: string
+  teacherId: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+  submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+}
+
+export type AssignmentCreateOrConnectWithoutIndicatorInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput>
+}
+
+export type AssignmentCreateManyIndicatorInputEnvelope = {
+  data: Prisma.AssignmentCreateManyIndicatorInput | Prisma.AssignmentCreateManyIndicatorInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssignmentUpsertWithWhereUniqueWithoutIndicatorInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssignmentUpdateWithoutIndicatorInput, Prisma.AssignmentUncheckedUpdateWithoutIndicatorInput>
+  create: Prisma.XOR<Prisma.AssignmentCreateWithoutIndicatorInput, Prisma.AssignmentUncheckedCreateWithoutIndicatorInput>
+}
+
+export type AssignmentUpdateWithWhereUniqueWithoutIndicatorInput = {
+  where: Prisma.AssignmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssignmentUpdateWithoutIndicatorInput, Prisma.AssignmentUncheckedUpdateWithoutIndicatorInput>
+}
+
+export type AssignmentUpdateManyWithWhereWithoutIndicatorInput = {
+  where: Prisma.AssignmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AssignmentUpdateManyMutationInput, Prisma.AssignmentUncheckedUpdateManyWithoutIndicatorInput>
 }
 
 export type AssignmentCreateManyTeacherInput = {
@@ -1400,6 +1710,8 @@ export type AssignmentCreateManyTeacherInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1424,7 +1736,9 @@ export type AssignmentUpdateWithoutTeacherInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
 }
@@ -1443,6 +1757,8 @@ export type AssignmentUncheckedUpdateWithoutTeacherInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1465,6 +1781,8 @@ export type AssignmentUncheckedUpdateManyWithoutTeacherInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1486,6 +1804,8 @@ export type AssignmentCreateManyClassInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1509,7 +1829,9 @@ export type AssignmentUpdateWithoutClassInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
@@ -1529,6 +1851,8 @@ export type AssignmentUncheckedUpdateWithoutClassInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1551,6 +1875,8 @@ export type AssignmentUncheckedUpdateManyWithoutClassInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1572,6 +1898,8 @@ export type AssignmentCreateManySubjectInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1596,7 +1924,9 @@ export type AssignmentUpdateWithoutSubjectInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
 }
@@ -1615,6 +1945,8 @@ export type AssignmentUncheckedUpdateWithoutSubjectInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1637,6 +1969,8 @@ export type AssignmentUncheckedUpdateManyWithoutSubjectInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1658,6 +1992,8 @@ export type AssignmentCreateManyScheduleInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1682,7 +2018,9 @@ export type AssignmentUpdateWithoutScheduleInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
   gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
 }
@@ -1701,6 +2039,8 @@ export type AssignmentUncheckedUpdateWithoutScheduleInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1723,6 +2063,8 @@ export type AssignmentUncheckedUpdateManyWithoutScheduleInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1744,6 +2086,8 @@ export type AssignmentCreateManyGradeTypeInput = {
   dueDate: Date | string
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
@@ -1768,6 +2112,8 @@ export type AssignmentUpdateWithoutGradeTypeInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
@@ -1787,6 +2133,8 @@ export type AssignmentUncheckedUpdateWithoutGradeTypeInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1809,6 +2157,196 @@ export type AssignmentUncheckedUpdateManyWithoutGradeTypeInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type AssignmentCreateManyDevelopmentAreaInput = {
+  id?: string
+  scheduleId: string
+  classId: string
+  subjectId: string
+  teacherId: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: string | null
+  indicatorId?: string | null
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+}
+
+export type AssignmentUpdateWithoutDevelopmentAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneWithoutAssignmentsNestedInput
+  schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+  teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
+}
+
+export type AssignmentUncheckedUpdateWithoutDevelopmentAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  classId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+}
+
+export type AssignmentUncheckedUpdateManyWithoutDevelopmentAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  classId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type AssignmentCreateManyIndicatorInput = {
+  id?: string
+  scheduleId: string
+  classId: string
+  subjectId: string
+  teacherId: string
+  title: string
+  description: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: string | null
+  assignedDate?: Date | string
+  dueDate: Date | string
+  allowLateSubmission?: boolean
+  maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: string | null
+  developmentAreaId?: string | null
+  isPublished?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy: string
+}
+
+export type AssignmentUpdateWithoutIndicatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  submissions?: Prisma.AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput
+  gradeType?: Prisma.GradeTypeUpdateOneWithoutAssignmentsNestedInput
+  schedule?: Prisma.ScheduleUpdateOneRequiredWithoutAssignmentsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutAssignmentsNestedInput
+  teacher?: Prisma.UserDataUpdateOneRequiredWithoutTeacherAssignmentsNestedInput
+}
+
+export type AssignmentUncheckedUpdateWithoutIndicatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  classId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+}
+
+export type AssignmentUncheckedUpdateManyWithoutIndicatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  classId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  assignmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1862,6 +2400,8 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -1869,7 +2409,9 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdBy?: boolean
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
@@ -1891,13 +2433,17 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
@@ -1918,13 +2464,17 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
@@ -1945,6 +2495,8 @@ export type AssignmentSelectScalar = {
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -1952,11 +2504,13 @@ export type AssignmentSelectScalar = {
   createdBy?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scheduleId" | "classId" | "subjectId" | "teacherId" | "title" | "description" | "attachments" | "assignmentType" | "assignedDate" | "dueDate" | "allowLateSubmission" | "maxScore" | "gradeTypeId" | "isPublished" | "isActive" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scheduleId" | "classId" | "subjectId" | "teacherId" | "title" | "description" | "attachments" | "assignmentType" | "assignedDate" | "dueDate" | "allowLateSubmission" | "maxScore" | "gradeTypeId" | "developmentAreaId" | "indicatorId" | "isPublished" | "isActive" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
@@ -1964,14 +2518,18 @@ export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
 }
 export type AssignmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
+  indicator?: boolean | Prisma.Assignment$indicatorArgs<ExtArgs>
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
@@ -1982,7 +2540,9 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     submissions: Prisma.$AssignmentSubmissionPayload<ExtArgs>[]
     class: Prisma.$ClassPayload<ExtArgs>
+    developmentArea: Prisma.$DevelopmentAreaPayload<ExtArgs> | null
     gradeType: Prisma.$GradeTypePayload<ExtArgs> | null
+    indicator: Prisma.$DevelopmentIndicatorPayload<ExtArgs> | null
     schedule: Prisma.$SchedulePayload<ExtArgs>
     subject: Prisma.$SubjectPayload<ExtArgs>
     teacher: Prisma.$UserDataPayload<ExtArgs>
@@ -2002,6 +2562,8 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     allowLateSubmission: boolean
     maxScore: runtime.Decimal
     gradeTypeId: string | null
+    developmentAreaId: string | null
+    indicatorId: string | null
     isPublished: boolean
     isActive: boolean
     createdAt: Date
@@ -2403,7 +2965,9 @@ export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   submissions<T extends Prisma.Assignment$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   class<T extends Prisma.ClassDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  developmentArea<T extends Prisma.Assignment$developmentAreaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$developmentAreaArgs<ExtArgs>>): Prisma.Prisma__DevelopmentAreaClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   gradeType<T extends Prisma.Assignment$gradeTypeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$gradeTypeArgs<ExtArgs>>): Prisma.Prisma__GradeTypeClient<runtime.Types.Result.GetResult<Prisma.$GradeTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  indicator<T extends Prisma.Assignment$indicatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assignment$indicatorArgs<ExtArgs>>): Prisma.Prisma__DevelopmentIndicatorClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentIndicatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   schedule<T extends Prisma.ScheduleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ScheduleDefaultArgs<ExtArgs>>): Prisma.Prisma__ScheduleClient<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -2450,6 +3014,8 @@ export interface AssignmentFieldRefs {
   readonly allowLateSubmission: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly maxScore: Prisma.FieldRef<"Assignment", 'Decimal'>
   readonly gradeTypeId: Prisma.FieldRef<"Assignment", 'String'>
+  readonly developmentAreaId: Prisma.FieldRef<"Assignment", 'String'>
+  readonly indicatorId: Prisma.FieldRef<"Assignment", 'String'>
   readonly isPublished: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Assignment", 'DateTime'>
@@ -2880,6 +3446,25 @@ export type Assignment$submissionsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * Assignment.developmentArea
+ */
+export type Assignment$developmentAreaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevelopmentArea
+   */
+  select?: Prisma.DevelopmentAreaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DevelopmentArea
+   */
+  omit?: Prisma.DevelopmentAreaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevelopmentAreaInclude<ExtArgs> | null
+  where?: Prisma.DevelopmentAreaWhereInput
+}
+
+/**
  * Assignment.gradeType
  */
 export type Assignment$gradeTypeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2896,6 +3481,25 @@ export type Assignment$gradeTypeArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.GradeTypeInclude<ExtArgs> | null
   where?: Prisma.GradeTypeWhereInput
+}
+
+/**
+ * Assignment.indicator
+ */
+export type Assignment$indicatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevelopmentIndicator
+   */
+  select?: Prisma.DevelopmentIndicatorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DevelopmentIndicator
+   */
+  omit?: Prisma.DevelopmentIndicatorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DevelopmentIndicatorInclude<ExtArgs> | null
+  where?: Prisma.DevelopmentIndicatorWhereInput
 }
 
 /**

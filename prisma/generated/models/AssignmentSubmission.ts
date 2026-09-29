@@ -285,6 +285,7 @@ export type AssignmentSubmissionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"AssignmentSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssignmentSubmission"> | Date | string
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
+  evidences?: Prisma.EvidenceListRelationFilter
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
 }
 
@@ -304,6 +305,7 @@ export type AssignmentSubmissionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   assignment?: Prisma.AssignmentOrderByWithRelationInput
+  evidences?: Prisma.EvidenceOrderByRelationAggregateInput
   student?: Prisma.UserDataOrderByWithRelationInput
 }
 
@@ -327,6 +329,7 @@ export type AssignmentSubmissionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"AssignmentSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssignmentSubmission"> | Date | string
   assignment?: Prisma.XOR<Prisma.AssignmentScalarRelationFilter, Prisma.AssignmentWhereInput>
+  evidences?: Prisma.EvidenceListRelationFilter
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
 }, "id" | "assignmentId_studentId">
 
@@ -386,6 +389,7 @@ export type AssignmentSubmissionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutSubmissionInput
   student: Prisma.UserDataCreateNestedOneWithoutStudentSubmissionsInput
 }
 
@@ -404,6 +408,7 @@ export type AssignmentSubmissionUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type AssignmentSubmissionUpdateInput = {
@@ -420,6 +425,7 @@ export type AssignmentSubmissionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutSubmissionNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentSubmissionsNestedInput
 }
 
@@ -438,6 +444,7 @@ export type AssignmentSubmissionUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type AssignmentSubmissionCreateManyInput = {
@@ -561,6 +568,11 @@ export type AssignmentSubmissionSumOrderByAggregateInput = {
   score?: Prisma.SortOrder
 }
 
+export type AssignmentSubmissionNullableScalarRelationFilter = {
+  is?: Prisma.AssignmentSubmissionWhereInput | null
+  isNot?: Prisma.AssignmentSubmissionWhereInput | null
+}
+
 export type AssignmentSubmissionCreateNestedManyWithoutStudentInput = {
   create?: Prisma.XOR<Prisma.AssignmentSubmissionCreateWithoutStudentInput, Prisma.AssignmentSubmissionUncheckedCreateWithoutStudentInput> | Prisma.AssignmentSubmissionCreateWithoutStudentInput[] | Prisma.AssignmentSubmissionUncheckedCreateWithoutStudentInput[]
   connectOrCreate?: Prisma.AssignmentSubmissionCreateOrConnectWithoutStudentInput | Prisma.AssignmentSubmissionCreateOrConnectWithoutStudentInput[]
@@ -645,6 +657,22 @@ export type AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput 
   deleteMany?: Prisma.AssignmentSubmissionScalarWhereInput | Prisma.AssignmentSubmissionScalarWhereInput[]
 }
 
+export type AssignmentSubmissionCreateNestedOneWithoutEvidencesInput = {
+  create?: Prisma.XOR<Prisma.AssignmentSubmissionCreateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedCreateWithoutEvidencesInput>
+  connectOrCreate?: Prisma.AssignmentSubmissionCreateOrConnectWithoutEvidencesInput
+  connect?: Prisma.AssignmentSubmissionWhereUniqueInput
+}
+
+export type AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput = {
+  create?: Prisma.XOR<Prisma.AssignmentSubmissionCreateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedCreateWithoutEvidencesInput>
+  connectOrCreate?: Prisma.AssignmentSubmissionCreateOrConnectWithoutEvidencesInput
+  upsert?: Prisma.AssignmentSubmissionUpsertWithoutEvidencesInput
+  disconnect?: Prisma.AssignmentSubmissionWhereInput | boolean
+  delete?: Prisma.AssignmentSubmissionWhereInput | boolean
+  connect?: Prisma.AssignmentSubmissionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssignmentSubmissionUpdateToOneWithWhereWithoutEvidencesInput, Prisma.AssignmentSubmissionUpdateWithoutEvidencesInput>, Prisma.AssignmentSubmissionUncheckedUpdateWithoutEvidencesInput>
+}
+
 export type AssignmentSubmissionCreateWithoutStudentInput = {
   id?: string
   attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -659,6 +687,7 @@ export type AssignmentSubmissionCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutSubmissionInput
 }
 
 export type AssignmentSubmissionUncheckedCreateWithoutStudentInput = {
@@ -675,6 +704,7 @@ export type AssignmentSubmissionUncheckedCreateWithoutStudentInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type AssignmentSubmissionCreateOrConnectWithoutStudentInput = {
@@ -736,6 +766,7 @@ export type AssignmentSubmissionCreateWithoutAssignmentInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutSubmissionInput
   student: Prisma.UserDataCreateNestedOneWithoutStudentSubmissionsInput
 }
 
@@ -753,6 +784,7 @@ export type AssignmentSubmissionUncheckedCreateWithoutAssignmentInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type AssignmentSubmissionCreateOrConnectWithoutAssignmentInput = {
@@ -779,6 +811,90 @@ export type AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput = {
 export type AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput = {
   where: Prisma.AssignmentSubmissionScalarWhereInput
   data: Prisma.XOR<Prisma.AssignmentSubmissionUpdateManyMutationInput, Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentInput>
+}
+
+export type AssignmentSubmissionCreateWithoutEvidencesInput = {
+  id?: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: string | null
+  submittedAt?: Date | string
+  isLate?: boolean
+  score?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  feedback?: string | null
+  gradedAt?: Date | string | null
+  gradedBy?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignment: Prisma.AssignmentCreateNestedOneWithoutSubmissionsInput
+  student: Prisma.UserDataCreateNestedOneWithoutStudentSubmissionsInput
+}
+
+export type AssignmentSubmissionUncheckedCreateWithoutEvidencesInput = {
+  id?: string
+  assignmentId: string
+  studentId: string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: string | null
+  submittedAt?: Date | string
+  isLate?: boolean
+  score?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  feedback?: string | null
+  gradedAt?: Date | string | null
+  gradedBy?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssignmentSubmissionCreateOrConnectWithoutEvidencesInput = {
+  where: Prisma.AssignmentSubmissionWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssignmentSubmissionCreateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedCreateWithoutEvidencesInput>
+}
+
+export type AssignmentSubmissionUpsertWithoutEvidencesInput = {
+  update: Prisma.XOR<Prisma.AssignmentSubmissionUpdateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedUpdateWithoutEvidencesInput>
+  create: Prisma.XOR<Prisma.AssignmentSubmissionCreateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedCreateWithoutEvidencesInput>
+  where?: Prisma.AssignmentSubmissionWhereInput
+}
+
+export type AssignmentSubmissionUpdateToOneWithWhereWithoutEvidencesInput = {
+  where?: Prisma.AssignmentSubmissionWhereInput
+  data: Prisma.XOR<Prisma.AssignmentSubmissionUpdateWithoutEvidencesInput, Prisma.AssignmentSubmissionUncheckedUpdateWithoutEvidencesInput>
+}
+
+export type AssignmentSubmissionUpdateWithoutEvidencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  score?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gradedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+  student?: Prisma.UserDataUpdateOneRequiredWithoutStudentSubmissionsNestedInput
+}
+
+export type AssignmentSubmissionUncheckedUpdateWithoutEvidencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  assignmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  attachments?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  score?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gradedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AssignmentSubmissionCreateManyStudentInput = {
@@ -811,6 +927,7 @@ export type AssignmentSubmissionUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignment?: Prisma.AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutSubmissionNestedInput
 }
 
 export type AssignmentSubmissionUncheckedUpdateWithoutStudentInput = {
@@ -827,6 +944,7 @@ export type AssignmentSubmissionUncheckedUpdateWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type AssignmentSubmissionUncheckedUpdateManyWithoutStudentInput = {
@@ -874,6 +992,7 @@ export type AssignmentSubmissionUpdateWithoutAssignmentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.EvidenceUpdateManyWithoutSubmissionNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentSubmissionsNestedInput
 }
 
@@ -891,6 +1010,7 @@ export type AssignmentSubmissionUncheckedUpdateWithoutAssignmentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentInput = {
@@ -910,6 +1030,35 @@ export type AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentInput = {
 }
 
 
+/**
+ * Count Type AssignmentSubmissionCountOutputType
+ */
+
+export type AssignmentSubmissionCountOutputType = {
+  evidences: number
+}
+
+export type AssignmentSubmissionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  evidences?: boolean | AssignmentSubmissionCountOutputTypeCountEvidencesArgs
+}
+
+/**
+ * AssignmentSubmissionCountOutputType without action
+ */
+export type AssignmentSubmissionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssignmentSubmissionCountOutputType
+   */
+  select?: Prisma.AssignmentSubmissionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AssignmentSubmissionCountOutputType without action
+ */
+export type AssignmentSubmissionCountOutputTypeCountEvidencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvidenceWhereInput
+}
+
 
 export type AssignmentSubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -927,7 +1076,9 @@ export type AssignmentSubmissionSelect<ExtArgs extends runtime.Types.Extensions.
   createdAt?: boolean
   updatedAt?: boolean
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
+  evidences?: boolean | Prisma.AssignmentSubmission$evidencesArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.AssignmentSubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assignmentSubmission"]>
 
 export type AssignmentSubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -988,7 +1139,9 @@ export type AssignmentSubmissionSelectScalar = {
 export type AssignmentSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assignmentId" | "studentId" | "attachments" | "notes" | "submittedAt" | "isLate" | "score" | "feedback" | "gradedAt" | "gradedBy" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["assignmentSubmission"]>
 export type AssignmentSubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
+  evidences?: boolean | Prisma.AssignmentSubmission$evidencesArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.AssignmentSubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssignmentSubmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignment?: boolean | Prisma.AssignmentDefaultArgs<ExtArgs>
@@ -1003,6 +1156,7 @@ export type $AssignmentSubmissionPayload<ExtArgs extends runtime.Types.Extension
   name: "AssignmentSubmission"
   objects: {
     assignment: Prisma.$AssignmentPayload<ExtArgs>
+    evidences: Prisma.$EvidencePayload<ExtArgs>[]
     student: Prisma.$UserDataPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1415,6 +1569,7 @@ readonly fields: AssignmentSubmissionFieldRefs;
 export interface Prisma__AssignmentSubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assignment<T extends Prisma.AssignmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssignmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssignmentClient<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  evidences<T extends Prisma.AssignmentSubmission$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssignmentSubmission$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   student<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1857,6 +2012,30 @@ export type AssignmentSubmissionDeleteManyArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many AssignmentSubmissions to delete.
    */
   limit?: number
+}
+
+/**
+ * AssignmentSubmission.evidences
+ */
+export type AssignmentSubmission$evidencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Evidence
+   */
+  select?: Prisma.EvidenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Evidence
+   */
+  omit?: Prisma.EvidenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvidenceInclude<ExtArgs> | null
+  where?: Prisma.EvidenceWhereInput
+  orderBy?: Prisma.EvidenceOrderByWithRelationInput | Prisma.EvidenceOrderByWithRelationInput[]
+  cursor?: Prisma.EvidenceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EvidenceScalarFieldEnum | Prisma.EvidenceScalarFieldEnum[]
 }
 
 /**

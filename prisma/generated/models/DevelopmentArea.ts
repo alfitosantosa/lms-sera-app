@@ -242,6 +242,7 @@ export type DevelopmentAreaWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentArea"> | Date | string
   foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   indicators?: Prisma.DevelopmentIndicatorListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
 }
 
 export type DevelopmentAreaOrderByWithRelationInput = {
@@ -255,6 +256,7 @@ export type DevelopmentAreaOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   foundation?: Prisma.FoundationOrderByWithRelationInput
   indicators?: Prisma.DevelopmentIndicatorOrderByRelationAggregateInput
+  assignments?: Prisma.AssignmentOrderByRelationAggregateInput
 }
 
 export type DevelopmentAreaWhereUniqueInput = Prisma.AtLeast<{
@@ -272,6 +274,7 @@ export type DevelopmentAreaWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentArea"> | Date | string
   foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   indicators?: Prisma.DevelopmentIndicatorListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
 }, "id" | "foundationId_name">
 
 export type DevelopmentAreaOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type DevelopmentAreaCreateInput = {
   updatedAt?: Date | string
   foundation: Prisma.FoundationCreateNestedOneWithoutDevelopmentAreasInput
   indicators?: Prisma.DevelopmentIndicatorCreateNestedManyWithoutDevelopmentAreaInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaUncheckedCreateInput = {
@@ -326,6 +330,7 @@ export type DevelopmentAreaUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   indicators?: Prisma.DevelopmentIndicatorUncheckedCreateNestedManyWithoutDevelopmentAreaInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaUpdateInput = {
@@ -338,6 +343,7 @@ export type DevelopmentAreaUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foundation?: Prisma.FoundationUpdateOneRequiredWithoutDevelopmentAreasNestedInput
   indicators?: Prisma.DevelopmentIndicatorUpdateManyWithoutDevelopmentAreaNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaUncheckedUpdateInput = {
@@ -350,6 +356,7 @@ export type DevelopmentAreaUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   indicators?: Prisma.DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaCreateManyInput = {
@@ -392,6 +399,11 @@ export type DevelopmentAreaListRelationFilter = {
 
 export type DevelopmentAreaOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type DevelopmentAreaNullableScalarRelationFilter = {
+  is?: Prisma.DevelopmentAreaWhereInput | null
+  isNot?: Prisma.DevelopmentAreaWhereInput | null
 }
 
 export type DevelopmentAreaFoundationIdNameCompoundUniqueInput = {
@@ -487,6 +499,22 @@ export type DevelopmentAreaUncheckedUpdateManyWithoutFoundationNestedInput = {
   deleteMany?: Prisma.DevelopmentAreaScalarWhereInput | Prisma.DevelopmentAreaScalarWhereInput[]
 }
 
+export type DevelopmentAreaCreateNestedOneWithoutAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentAreaCreateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.DevelopmentAreaCreateOrConnectWithoutAssignmentsInput
+  connect?: Prisma.DevelopmentAreaWhereUniqueInput
+}
+
+export type DevelopmentAreaUpdateOneWithoutAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentAreaCreateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.DevelopmentAreaCreateOrConnectWithoutAssignmentsInput
+  upsert?: Prisma.DevelopmentAreaUpsertWithoutAssignmentsInput
+  disconnect?: Prisma.DevelopmentAreaWhereInput | boolean
+  delete?: Prisma.DevelopmentAreaWhereInput | boolean
+  connect?: Prisma.DevelopmentAreaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DevelopmentAreaUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.DevelopmentAreaUpdateWithoutAssignmentsInput>, Prisma.DevelopmentAreaUncheckedUpdateWithoutAssignmentsInput>
+}
+
 export type DevelopmentAreaCreateNestedOneWithoutIndicatorsInput = {
   create?: Prisma.XOR<Prisma.DevelopmentAreaCreateWithoutIndicatorsInput, Prisma.DevelopmentAreaUncheckedCreateWithoutIndicatorsInput>
   connectOrCreate?: Prisma.DevelopmentAreaCreateOrConnectWithoutIndicatorsInput
@@ -510,6 +538,7 @@ export type DevelopmentAreaCreateWithoutFoundationInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   indicators?: Prisma.DevelopmentIndicatorCreateNestedManyWithoutDevelopmentAreaInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaUncheckedCreateWithoutFoundationInput = {
@@ -521,6 +550,7 @@ export type DevelopmentAreaUncheckedCreateWithoutFoundationInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   indicators?: Prisma.DevelopmentIndicatorUncheckedCreateNestedManyWithoutDevelopmentAreaInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaCreateOrConnectWithoutFoundationInput = {
@@ -563,6 +593,70 @@ export type DevelopmentAreaScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentArea"> | Date | string
 }
 
+export type DevelopmentAreaCreateWithoutAssignmentsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  foundation: Prisma.FoundationCreateNestedOneWithoutDevelopmentAreasInput
+  indicators?: Prisma.DevelopmentIndicatorCreateNestedManyWithoutDevelopmentAreaInput
+}
+
+export type DevelopmentAreaUncheckedCreateWithoutAssignmentsInput = {
+  id?: string
+  foundationId: string
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  indicators?: Prisma.DevelopmentIndicatorUncheckedCreateNestedManyWithoutDevelopmentAreaInput
+}
+
+export type DevelopmentAreaCreateOrConnectWithoutAssignmentsInput = {
+  where: Prisma.DevelopmentAreaWhereUniqueInput
+  create: Prisma.XOR<Prisma.DevelopmentAreaCreateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedCreateWithoutAssignmentsInput>
+}
+
+export type DevelopmentAreaUpsertWithoutAssignmentsInput = {
+  update: Prisma.XOR<Prisma.DevelopmentAreaUpdateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedUpdateWithoutAssignmentsInput>
+  create: Prisma.XOR<Prisma.DevelopmentAreaCreateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedCreateWithoutAssignmentsInput>
+  where?: Prisma.DevelopmentAreaWhereInput
+}
+
+export type DevelopmentAreaUpdateToOneWithWhereWithoutAssignmentsInput = {
+  where?: Prisma.DevelopmentAreaWhereInput
+  data: Prisma.XOR<Prisma.DevelopmentAreaUpdateWithoutAssignmentsInput, Prisma.DevelopmentAreaUncheckedUpdateWithoutAssignmentsInput>
+}
+
+export type DevelopmentAreaUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDevelopmentAreasNestedInput
+  indicators?: Prisma.DevelopmentIndicatorUpdateManyWithoutDevelopmentAreaNestedInput
+}
+
+export type DevelopmentAreaUncheckedUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  indicators?: Prisma.DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
+}
+
 export type DevelopmentAreaCreateWithoutIndicatorsInput = {
   id?: string
   name: string
@@ -572,6 +666,7 @@ export type DevelopmentAreaCreateWithoutIndicatorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   foundation: Prisma.FoundationCreateNestedOneWithoutDevelopmentAreasInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaUncheckedCreateWithoutIndicatorsInput = {
@@ -583,6 +678,7 @@ export type DevelopmentAreaUncheckedCreateWithoutIndicatorsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutDevelopmentAreaInput
 }
 
 export type DevelopmentAreaCreateOrConnectWithoutIndicatorsInput = {
@@ -610,6 +706,7 @@ export type DevelopmentAreaUpdateWithoutIndicatorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foundation?: Prisma.FoundationUpdateOneRequiredWithoutDevelopmentAreasNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaUncheckedUpdateWithoutIndicatorsInput = {
@@ -621,6 +718,7 @@ export type DevelopmentAreaUncheckedUpdateWithoutIndicatorsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaCreateManyFoundationInput = {
@@ -642,6 +740,7 @@ export type DevelopmentAreaUpdateWithoutFoundationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   indicators?: Prisma.DevelopmentIndicatorUpdateManyWithoutDevelopmentAreaNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaUncheckedUpdateWithoutFoundationInput = {
@@ -653,6 +752,7 @@ export type DevelopmentAreaUncheckedUpdateWithoutFoundationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   indicators?: Prisma.DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutDevelopmentAreaNestedInput
 }
 
 export type DevelopmentAreaUncheckedUpdateManyWithoutFoundationInput = {
@@ -672,10 +772,12 @@ export type DevelopmentAreaUncheckedUpdateManyWithoutFoundationInput = {
 
 export type DevelopmentAreaCountOutputType = {
   indicators: number
+  assignments: number
 }
 
 export type DevelopmentAreaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   indicators?: boolean | DevelopmentAreaCountOutputTypeCountIndicatorsArgs
+  assignments?: boolean | DevelopmentAreaCountOutputTypeCountAssignmentsArgs
 }
 
 /**
@@ -695,6 +797,13 @@ export type DevelopmentAreaCountOutputTypeCountIndicatorsArgs<ExtArgs extends ru
   where?: Prisma.DevelopmentIndicatorWhereInput
 }
 
+/**
+ * DevelopmentAreaCountOutputType without action
+ */
+export type DevelopmentAreaCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssignmentWhereInput
+}
+
 
 export type DevelopmentAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -707,6 +816,7 @@ export type DevelopmentAreaSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updatedAt?: boolean
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   indicators?: boolean | Prisma.DevelopmentArea$indicatorsArgs<ExtArgs>
+  assignments?: boolean | Prisma.DevelopmentArea$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DevelopmentAreaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["developmentArea"]>
 
@@ -749,6 +859,7 @@ export type DevelopmentAreaOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type DevelopmentAreaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   indicators?: boolean | Prisma.DevelopmentArea$indicatorsArgs<ExtArgs>
+  assignments?: boolean | Prisma.DevelopmentArea$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DevelopmentAreaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DevelopmentAreaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -763,6 +874,7 @@ export type $DevelopmentAreaPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     foundation: Prisma.$FoundationPayload<ExtArgs>
     indicators: Prisma.$DevelopmentIndicatorPayload<ExtArgs>[]
+    assignments: Prisma.$AssignmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1169,6 +1281,7 @@ export interface Prisma__DevelopmentAreaClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   indicators<T extends Prisma.DevelopmentArea$indicatorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentArea$indicatorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevelopmentIndicatorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignments<T extends Prisma.DevelopmentArea$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentArea$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1628,6 +1741,30 @@ export type DevelopmentArea$indicatorsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.DevelopmentIndicatorScalarFieldEnum | Prisma.DevelopmentIndicatorScalarFieldEnum[]
+}
+
+/**
+ * DevelopmentArea.assignments
+ */
+export type DevelopmentArea$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Assignment
+   */
+  select?: Prisma.AssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Assignment
+   */
+  omit?: Prisma.AssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssignmentInclude<ExtArgs> | null
+  where?: Prisma.AssignmentWhereInput
+  orderBy?: Prisma.AssignmentOrderByWithRelationInput | Prisma.AssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.AssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
 }
 
 /**

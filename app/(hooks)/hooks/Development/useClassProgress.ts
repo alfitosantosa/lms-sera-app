@@ -46,15 +46,15 @@ const isTeacherRole = (roleName: string) => {
 };
 
 /**
- * Kelas yang boleh dipilih guru di modul pengembangan.
+ * Jadwal yang boleh dipilih aktor di modul pengembangan.
  *
- * Guru: kelas dari jadwal mengajarnya (id kelas unik), bukan daftar kelas
- * yayasan. Admin/Admin Sekolah tidak punya jadwal, jadi memakai seluruh jadwal
- * yayasan — guard backend tetap menentukan boleh/tidaknya akses.
+ * Guru: jadwal mengajarnya sendiri. Admin/Admin Sekolah tidak punya jadwal,
+ * jadi memakai seluruh jadwal yayasan — guard backend tetap menentukan
+ * boleh/tidaknya akses.
  */
-export const useAccessibleClasses = (
+export const useAccessibleSchedules = (
   userData?: UserDataTypes | null,
-): { classes: ClassOption[]; isLoading: boolean; isTeacher: boolean } => {
+): { schedules: ScheduleTypes[]; isLoading: boolean; isTeacher: boolean } => {
   const roleName = userData?.role?.name ?? "";
   const isTeacher = isTeacherRole(roleName);
   const isAdminLike =
@@ -74,11 +74,25 @@ export const useAccessibleClasses = (
     },
   });
 
+  return {
+    schedules: isTeacher ? teacherSchedules : isAdminLike ? allSchedules : [],
+    isLoading: isTeacher ? isLoadingTeacher : isAdminLike && isLoadingAll,
+    isTeacher,
+  };
+};
+
+/**
+ * Kelas yang boleh dipilih guru di modul pengembangan (turunan unik dari
+ * jadwal yang boleh diakses).
+ */
+export const useAccessibleClasses = (
+  userData?: UserDataTypes | null,
+): { classes: ClassOption[]; isLoading: boolean; isTeacher: boolean } => {
+  const { schedules, isLoading, isTeacher } = useAccessibleSchedules(userData);
+
   const classes = useMemo(() => {
-    if (!isTeacher && !isAdminLike) return [];
-    const source = isTeacher ? teacherSchedules : allSchedules;
     const byId = new Map<string, ClassOption>();
-    for (const schedule of source) {
+    for (const schedule of schedules) {
       if (schedule.classId) {
         byId.set(schedule.classId, {
           id: schedule.classId,
@@ -87,11 +101,7 @@ export const useAccessibleClasses = (
       }
     }
     return [...byId.values()].sort((a, b) => a.name.localeCompare(b.name));
-  }, [isTeacher, isAdminLike, teacherSchedules, allSchedules]);
+  }, [schedules]);
 
-  return {
-    classes,
-    isLoading: isTeacher ? isLoadingTeacher : isAdminLike && isLoadingAll,
-    isTeacher,
-  };
+  return { classes, isLoading, isTeacher };
 };

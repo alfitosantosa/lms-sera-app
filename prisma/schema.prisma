@@ -564,6 +564,7 @@ model Grade {
   student     UserData  @relation("StudentGrade", fields: [studentId], references: [id], onDelete: Cascade)
   subject     Subject   @relation(fields: [subjectId], references: [id])
 
+  @@unique([studentId, scheduleId, gradeTypeId, title])
   @@index([studentId])
   @@index([scheduleId])
   @@index([subjectId])
@@ -636,6 +637,8 @@ model Assignment {
   allowLateSubmission Boolean                @default(false)
   maxScore            Decimal                @default(100)
   gradeTypeId         String?
+  developmentAreaId   String?
+  indicatorId         String?
   isPublished         Boolean                @default(false)
   isActive            Boolean                @default(true)
   createdAt           DateTime               @default(now())
@@ -643,7 +646,9 @@ model Assignment {
   createdBy           String
   submissions         AssignmentSubmission[]
   class               Class                  @relation(fields: [classId], references: [id])
+  developmentArea     DevelopmentArea?       @relation(fields: [developmentAreaId], references: [id])
   gradeType           GradeType?             @relation(fields: [gradeTypeId], references: [id])
+  indicator           DevelopmentIndicator?  @relation(fields: [indicatorId], references: [id])
   schedule            Schedule               @relation(fields: [scheduleId], references: [id])
   subject             Subject                @relation(fields: [subjectId], references: [id])
   teacher             UserData               @relation("TeacherAssignment", fields: [teacherId], references: [id])
@@ -673,6 +678,7 @@ model AssignmentSubmission {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  evidences    Evidence[]
   student      UserData   @relation("StudentSubmission", fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([assignmentId, studentId])
@@ -1032,6 +1038,7 @@ model DevelopmentArea {
 
   foundation Foundation             @relation(fields: [foundationId], references: [id])
   indicators DevelopmentIndicator[]
+  assignments Assignment[]
 
   @@unique([foundationId, name])
   @@index([foundationId])
@@ -1052,6 +1059,7 @@ model DevelopmentIndicator {
   developmentArea DevelopmentArea    @relation(fields: [developmentAreaId], references: [id], onDelete: Cascade)
   observations    DailyObservation[]
   assessments     StudentAssessment[]
+  assignments     Assignment[]
 
   @@unique([developmentAreaId, name])
   @@index([developmentAreaId])
@@ -1129,6 +1137,7 @@ model Evidence {
 
   dailyLog   DailyLog?        @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
   assessment StudentAssessment? @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  submission AssignmentSubmission? @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   uploadedBy UserData?        @relation("EvidenceUploader", fields: [uploadedById], references: [id])
 
   @@index([dailyLogId])

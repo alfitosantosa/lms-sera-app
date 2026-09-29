@@ -572,6 +572,8 @@ export const AssignmentScalarFieldEnum = {
   allowLateSubmission: 'allowLateSubmission',
   maxScore: 'maxScore',
   gradeTypeId: 'gradeTypeId',
+  developmentAreaId: 'developmentAreaId',
+  indicatorId: 'indicatorId',
   isPublished: 'isPublished',
   isActive: 'isActive',
   createdAt: 'createdAt',

@@ -40,7 +40,7 @@ export type DailyLogFilters = {
   enabled?: boolean;
 };
 
-function buildQuery(filters?: Record<string, unknown>): string {
+export function buildQuery(filters?: Record<string, unknown>): string {
   const params = new URLSearchParams();
   Object.entries(filters ?? {}).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
