@@ -923,7 +923,7 @@ function ScaleTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-muted-foreground text-sm">
-          Skala capaian perkembangan (mis. BB, MB, BSH, BSB).
+          Skala capaian perkembangan yang berlaku di yayasan Anda.
         </p>
         <Button onClick={() => setDialogOpen(true)}>Tambah Skala</Button>
       </div>
@@ -993,7 +993,7 @@ function ScaleTab() {
                     <FormItem>
                       <FormLabel>Kode</FormLabel>
                       <FormControl>
-                        <Input placeholder="Contoh: BSH" {...field} />
+                        <Input placeholder="Kode skala" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

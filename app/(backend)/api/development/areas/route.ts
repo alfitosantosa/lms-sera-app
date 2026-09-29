@@ -5,13 +5,12 @@ import {
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
 import { prisma } from "@/lib/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * GET /api/development/areas?isActive=
- * Daftar area pengembangan + jumlah indikator.
+ * Daftar area pengembangan + jumlah indikator (lengkap, tanpa paginasi).
  */
 export async function GET(request: NextRequest) {
   const actorResult = await resolveDevelopmentActor(request);
@@ -28,22 +27,13 @@ export async function GET(request: NextRequest) {
   };
 
   try {
-    const { page, limit, skip } = getPaginationQuery(request);
-    const [areas, total] = await Promise.all([
-      prisma.developmentArea.findMany({
-        where,
-        orderBy: [{ order: "asc" }, { name: "asc" }],
-        skip,
-        take: limit,
-        include: { _count: { select: { indicators: true } } },
-      }),
-      prisma.developmentArea.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      success: true,
-      ...createPaginationResponse(areas, total, page, limit),
+    const areas = await prisma.developmentArea.findMany({
+      where,
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+      include: { _count: { select: { indicators: true } } },
     });
+
+    return NextResponse.json({ success: true, data: areas });
   } catch (error) {
     return handlePrismaError(error);
   }

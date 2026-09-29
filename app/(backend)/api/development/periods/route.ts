@@ -8,13 +8,13 @@ import {
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
 import { prisma } from "@/lib/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * GET /api/development/periods?academicYearId=&status=
- * Daftar periode penilaian milik yayasan pemanggil.
+ * Daftar periode penilaian milik yayasan pemanggil (lengkap, tanpa paginasi —
+ * metadata konfigurasi yayasan tidak boleh terpotong diam-diam).
  */
 export async function GET(request: NextRequest) {
   const actorResult = await resolveDevelopmentActor(request);
@@ -37,22 +37,13 @@ export async function GET(request: NextRequest) {
   };
 
   try {
-    const { page, limit, skip } = getPaginationQuery(request);
-    const [periods, total] = await Promise.all([
-      prisma.assessmentPeriod.findMany({
-        where,
-        orderBy: [{ startDate: "desc" }],
-        skip,
-        take: limit,
-        include: { academicYear: { select: { id: true, year: true } } },
-      }),
-      prisma.assessmentPeriod.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      success: true,
-      ...createPaginationResponse(periods, total, page, limit),
+    const periods = await prisma.assessmentPeriod.findMany({
+      where,
+      orderBy: [{ startDate: "desc" }],
+      include: { academicYear: { select: { id: true, year: true } } },
     });
+
+    return NextResponse.json({ success: true, data: periods });
   } catch (error) {
     return handlePrismaError(error);
   }

@@ -5,13 +5,12 @@ import {
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
 import { prisma } from "@/lib/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * GET /api/development/scales?isActive=
- * Daftar skala penilaian, urut `order asc`.
+ * Daftar skala penilaian, urut `order asc` (lengkap, tanpa paginasi).
  */
 export async function GET(request: NextRequest) {
   const actorResult = await resolveDevelopmentActor(request);
@@ -28,21 +27,12 @@ export async function GET(request: NextRequest) {
   };
 
   try {
-    const { page, limit, skip } = getPaginationQuery(request);
-    const [scales, total] = await Promise.all([
-      prisma.assessmentScale.findMany({
-        where,
-        orderBy: [{ order: "asc" }, { value: "asc" }],
-        skip,
-        take: limit,
-      }),
-      prisma.assessmentScale.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      success: true,
-      ...createPaginationResponse(scales, total, page, limit),
+    const scales = await prisma.assessmentScale.findMany({
+      where,
+      orderBy: [{ order: "asc" }, { value: "asc" }],
     });
+
+    return NextResponse.json({ success: true, data: scales });
   } catch (error) {
     return handlePrismaError(error);
   }
