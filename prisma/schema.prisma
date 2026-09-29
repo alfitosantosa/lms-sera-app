@@ -27,6 +27,7 @@ model Foundation {
   assessmentPeriods AssessmentPeriod[]
   assessmentScales  AssessmentScale[]
   developmentAreas  DevelopmentArea[]
+  dailyLogs         DailyLog[]
 
   @@map("foundation")
 }
@@ -159,6 +160,9 @@ model UserData {
   tahfidzGroup            TahfidzGroup?          @relation("UserTahfidzGroup", fields: [tahfidzGroupId], references: [id])
   user                    User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   violations              Violation[]            @relation("StudentViolation")
+  dailyLogsAsStudent      DailyLog[]             @relation("StudentDailyLogs")
+  dailyLogsAsTeacher      DailyLog[]             @relation("TeacherDailyLogs")
+  evidencesUploaded       Evidence[]             @relation("EvidenceUploader")
 
   @@index([foundationId])
   @@index([academicYearId])
@@ -231,6 +235,7 @@ model Branch {
   payments     Payment[]
   subjects     Subject[]
   students     UserData[]    @relation("UserBranch")
+  dailyLogs    DailyLog[]
 
   @@unique([foundationId, code])
   @@index([foundationId])
@@ -253,6 +258,7 @@ model Class {
   schedules           Schedule[]
   students            UserData[]           @relation("UserClass")
   violations          Violation[]
+  dailyLogs           DailyLog[]
 
   @@unique([name, academicYearId])
   @@map("classes")
@@ -272,6 +278,7 @@ model Subject {
   reportCards         ReportCard[]
   schedules           Schedule[]
   branch              Branch?              @relation(fields: [branchId], references: [id])
+  dailyLogs           DailyLog[]
 
   @@unique([branchId, code])
   @@map("subjects")
@@ -998,7 +1005,8 @@ model AssessmentScale {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  foundation Foundation @relation(fields: [foundationId], references: [id])
+  foundation   Foundation         @relation(fields: [foundationId], references: [id])
+  observations DailyObservation[]
 
   @@unique([foundationId, code])
   @@index([foundationId])
@@ -1034,11 +1042,91 @@ model DevelopmentIndicator {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  developmentArea DevelopmentArea @relation(fields: [developmentAreaId], references: [id], onDelete: Cascade)
+  developmentArea DevelopmentArea    @relation(fields: [developmentAreaId], references: [id], onDelete: Cascade)
+  observations    DailyObservation[]
 
   @@unique([developmentAreaId, name])
   @@index([developmentAreaId])
   @@map("development_indicators")
+}
+
+model DailyLog {
+  id            String         @id @default(cuid())
+  foundationId  String
+  branchId      String
+  classId       String
+  studentId     String
+  teacherId     String
+  subjectId     String?
+  date          DateTime
+  activity      String
+  achievement   String?
+  challenge     String?
+  teacherNote   String?
+  status        DailyLogStatus @default(DRAFT)
+  parentVisible Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  foundation   Foundation         @relation(fields: [foundationId], references: [id])
+  branch       Branch             @relation(fields: [branchId], references: [id])
+  class        Class              @relation(fields: [classId], references: [id])
+  subject      Subject?           @relation(fields: [subjectId], references: [id])
+  student      UserData           @relation("StudentDailyLogs", fields: [studentId], references: [id])
+  teacher      UserData           @relation("TeacherDailyLogs", fields: [teacherId], references: [id])
+  observations DailyObservation[]
+  evidences    Evidence[]
+
+  @@index([foundationId, branchId, classId])
+  @@index([studentId, date])
+  @@index([classId, date])
+  @@index([teacherId, date])
+  @@map("daily_logs")
+}
+
+model DailyObservation {
+  id          String   @id @default(cuid())
+  dailyLogId  String
+  indicatorId String
+  scaleId     String?
+  observation String
+  note        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  dailyLog  DailyLog             @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
+  indicator DevelopmentIndicator @relation(fields: [indicatorId], references: [id])
+  scale     AssessmentScale?     @relation(fields: [scaleId], references: [id])
+
+  @@index([dailyLogId])
+  @@index([indicatorId])
+  @@map("daily_observations")
+}
+
+model Evidence {
+  id           String       @id @default(cuid())
+  dailyLogId   String?
+  assessmentId String? // relasi ditambahkan di Phase 4
+  submissionId String? // relasi ditambahkan di Phase 5
+  reportId     String? // relasi ditambahkan di Phase 6
+  type         EvidenceType
+  url          String
+  fileName     String?
+  mimeType     String?
+  fileSize     Int?
+  title        String?
+  description  String?
+  uploadedById String?
+  createdAt    DateTime     @default(now())
+
+  dailyLog   DailyLog? @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
+  uploadedBy UserData? @relation("EvidenceUploader", fields: [uploadedById], references: [id])
+
+  @@index([dailyLogId])
+  @@index([assessmentId])
+  @@index([submissionId])
+  @@index([reportId])
+  @@map("evidences")
 }
 
 model AuditLog {

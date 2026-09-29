@@ -30,7 +30,7 @@ const STAFF_ROLE_NAMES: Record<string, true> = {
 };
 
 // Admin yayasan & admin sekolah: lolos scope kelas tanpa cek Schedule.
-const ADMIN_ROLE_NAMES: Record<string, true> = {
+export const ADMIN_ROLE_NAMES: Record<string, true> = {
   admin: true,
   "admin school": true,
 };
@@ -153,6 +153,36 @@ export async function assertStudentAccess(
     return {
       ok: false,
       response: developmentError("Siswa tidak ditemukan di yayasan ini", 404),
+    };
+  }
+
+  // Phase 2 (additif): orang tua hanya boleh mengakses anaknya sendiri,
+  // siswa hanya boleh mengakses dirinya sendiri. Staff tidak terpengaruh.
+  if (actor.isParent) {
+    const parent = actor.userDataId
+      ? await prisma.userData.findUnique({
+          where: { id: actor.userDataId },
+          select: { studentIds: true },
+        })
+      : null;
+    if (!parent?.studentIds.includes(studentId)) {
+      return {
+        ok: false,
+        response: developmentError(
+          "Anda tidak memiliki akses ke data siswa ini",
+          403,
+        ),
+      };
+    }
+  }
+
+  if (actor.isStudent && actor.userDataId !== studentId) {
+    return {
+      ok: false,
+      response: developmentError(
+        "Anda tidak memiliki akses ke data siswa ini",
+        403,
+      ),
     };
   }
 

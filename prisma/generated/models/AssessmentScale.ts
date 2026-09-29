@@ -269,6 +269,7 @@ export type AssessmentScaleWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"AssessmentScale"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssessmentScale"> | Date | string
   foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  observations?: Prisma.DailyObservationListRelationFilter
 }
 
 export type AssessmentScaleOrderByWithRelationInput = {
@@ -284,6 +285,7 @@ export type AssessmentScaleOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   foundation?: Prisma.FoundationOrderByWithRelationInput
+  observations?: Prisma.DailyObservationOrderByRelationAggregateInput
 }
 
 export type AssessmentScaleWhereUniqueInput = Prisma.AtLeast<{
@@ -303,6 +305,7 @@ export type AssessmentScaleWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"AssessmentScale"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssessmentScale"> | Date | string
   foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  observations?: Prisma.DailyObservationListRelationFilter
 }, "id" | "foundationId_code">
 
 export type AssessmentScaleOrderByWithAggregationInput = {
@@ -353,6 +356,7 @@ export type AssessmentScaleCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentScalesInput
+  observations?: Prisma.DailyObservationCreateNestedManyWithoutScaleInput
 }
 
 export type AssessmentScaleUncheckedCreateInput = {
@@ -367,6 +371,7 @@ export type AssessmentScaleUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutScaleInput
 }
 
 export type AssessmentScaleUpdateInput = {
@@ -381,6 +386,7 @@ export type AssessmentScaleUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentScalesNestedInput
+  observations?: Prisma.DailyObservationUpdateManyWithoutScaleNestedInput
 }
 
 export type AssessmentScaleUncheckedUpdateInput = {
@@ -395,6 +401,7 @@ export type AssessmentScaleUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutScaleNestedInput
 }
 
 export type AssessmentScaleCreateManyInput = {
@@ -505,6 +512,11 @@ export type AssessmentScaleSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
 }
 
+export type AssessmentScaleNullableScalarRelationFilter = {
+  is?: Prisma.AssessmentScaleWhereInput | null
+  isNot?: Prisma.AssessmentScaleWhereInput | null
+}
+
 export type AssessmentScaleCreateNestedManyWithoutFoundationInput = {
   create?: Prisma.XOR<Prisma.AssessmentScaleCreateWithoutFoundationInput, Prisma.AssessmentScaleUncheckedCreateWithoutFoundationInput> | Prisma.AssessmentScaleCreateWithoutFoundationInput[] | Prisma.AssessmentScaleUncheckedCreateWithoutFoundationInput[]
   connectOrCreate?: Prisma.AssessmentScaleCreateOrConnectWithoutFoundationInput | Prisma.AssessmentScaleCreateOrConnectWithoutFoundationInput[]
@@ -547,6 +559,22 @@ export type AssessmentScaleUncheckedUpdateManyWithoutFoundationNestedInput = {
   deleteMany?: Prisma.AssessmentScaleScalarWhereInput | Prisma.AssessmentScaleScalarWhereInput[]
 }
 
+export type AssessmentScaleCreateNestedOneWithoutObservationsInput = {
+  create?: Prisma.XOR<Prisma.AssessmentScaleCreateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedCreateWithoutObservationsInput>
+  connectOrCreate?: Prisma.AssessmentScaleCreateOrConnectWithoutObservationsInput
+  connect?: Prisma.AssessmentScaleWhereUniqueInput
+}
+
+export type AssessmentScaleUpdateOneWithoutObservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentScaleCreateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedCreateWithoutObservationsInput>
+  connectOrCreate?: Prisma.AssessmentScaleCreateOrConnectWithoutObservationsInput
+  upsert?: Prisma.AssessmentScaleUpsertWithoutObservationsInput
+  disconnect?: Prisma.AssessmentScaleWhereInput | boolean
+  delete?: Prisma.AssessmentScaleWhereInput | boolean
+  connect?: Prisma.AssessmentScaleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentScaleUpdateToOneWithWhereWithoutObservationsInput, Prisma.AssessmentScaleUpdateWithoutObservationsInput>, Prisma.AssessmentScaleUncheckedUpdateWithoutObservationsInput>
+}
+
 export type AssessmentScaleCreateWithoutFoundationInput = {
   id?: string
   code: string
@@ -558,6 +586,7 @@ export type AssessmentScaleCreateWithoutFoundationInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationCreateNestedManyWithoutScaleInput
 }
 
 export type AssessmentScaleUncheckedCreateWithoutFoundationInput = {
@@ -571,6 +600,7 @@ export type AssessmentScaleUncheckedCreateWithoutFoundationInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutScaleInput
 }
 
 export type AssessmentScaleCreateOrConnectWithoutFoundationInput = {
@@ -616,6 +646,78 @@ export type AssessmentScaleScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"AssessmentScale"> | Date | string
 }
 
+export type AssessmentScaleCreateWithoutObservationsInput = {
+  id?: string
+  code: string
+  label: string
+  description?: string | null
+  value: number
+  color?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentScalesInput
+}
+
+export type AssessmentScaleUncheckedCreateWithoutObservationsInput = {
+  id?: string
+  foundationId: string
+  code: string
+  label: string
+  description?: string | null
+  value: number
+  color?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssessmentScaleCreateOrConnectWithoutObservationsInput = {
+  where: Prisma.AssessmentScaleWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentScaleCreateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedCreateWithoutObservationsInput>
+}
+
+export type AssessmentScaleUpsertWithoutObservationsInput = {
+  update: Prisma.XOR<Prisma.AssessmentScaleUpdateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedUpdateWithoutObservationsInput>
+  create: Prisma.XOR<Prisma.AssessmentScaleCreateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedCreateWithoutObservationsInput>
+  where?: Prisma.AssessmentScaleWhereInput
+}
+
+export type AssessmentScaleUpdateToOneWithWhereWithoutObservationsInput = {
+  where?: Prisma.AssessmentScaleWhereInput
+  data: Prisma.XOR<Prisma.AssessmentScaleUpdateWithoutObservationsInput, Prisma.AssessmentScaleUncheckedUpdateWithoutObservationsInput>
+}
+
+export type AssessmentScaleUpdateWithoutObservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  value?: Prisma.IntFieldUpdateOperationsInput | number
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentScalesNestedInput
+}
+
+export type AssessmentScaleUncheckedUpdateWithoutObservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  value?: Prisma.IntFieldUpdateOperationsInput | number
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type AssessmentScaleCreateManyFoundationInput = {
   id?: string
   code: string
@@ -640,6 +742,7 @@ export type AssessmentScaleUpdateWithoutFoundationInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUpdateManyWithoutScaleNestedInput
 }
 
 export type AssessmentScaleUncheckedUpdateWithoutFoundationInput = {
@@ -653,6 +756,7 @@ export type AssessmentScaleUncheckedUpdateWithoutFoundationInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutScaleNestedInput
 }
 
 export type AssessmentScaleUncheckedUpdateManyWithoutFoundationInput = {
@@ -669,6 +773,35 @@ export type AssessmentScaleUncheckedUpdateManyWithoutFoundationInput = {
 }
 
 
+/**
+ * Count Type AssessmentScaleCountOutputType
+ */
+
+export type AssessmentScaleCountOutputType = {
+  observations: number
+}
+
+export type AssessmentScaleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  observations?: boolean | AssessmentScaleCountOutputTypeCountObservationsArgs
+}
+
+/**
+ * AssessmentScaleCountOutputType without action
+ */
+export type AssessmentScaleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssessmentScaleCountOutputType
+   */
+  select?: Prisma.AssessmentScaleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AssessmentScaleCountOutputType without action
+ */
+export type AssessmentScaleCountOutputTypeCountObservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyObservationWhereInput
+}
+
 
 export type AssessmentScaleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -683,6 +816,8 @@ export type AssessmentScaleSelect<ExtArgs extends runtime.Types.Extensions.Inter
   createdAt?: boolean
   updatedAt?: boolean
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  observations?: boolean | Prisma.AssessmentScale$observationsArgs<ExtArgs>
+  _count?: boolean | Prisma.AssessmentScaleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentScale"]>
 
 export type AssessmentScaleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -732,6 +867,8 @@ export type AssessmentScaleSelectScalar = {
 export type AssessmentScaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "foundationId" | "code" | "label" | "description" | "value" | "color" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["assessmentScale"]>
 export type AssessmentScaleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  observations?: boolean | Prisma.AssessmentScale$observationsArgs<ExtArgs>
+  _count?: boolean | Prisma.AssessmentScaleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssessmentScaleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
@@ -744,6 +881,7 @@ export type $AssessmentScalePayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "AssessmentScale"
   objects: {
     foundation: Prisma.$FoundationPayload<ExtArgs>
+    observations: Prisma.$DailyObservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1152,6 +1290,7 @@ readonly fields: AssessmentScaleFieldRefs;
 export interface Prisma__AssessmentScaleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  observations<T extends Prisma.AssessmentScale$observationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentScale$observationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyObservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1590,6 +1729,30 @@ export type AssessmentScaleDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many AssessmentScales to delete.
    */
   limit?: number
+}
+
+/**
+ * AssessmentScale.observations
+ */
+export type AssessmentScale$observationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyObservation
+   */
+  select?: Prisma.DailyObservationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyObservation
+   */
+  omit?: Prisma.DailyObservationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyObservationInclude<ExtArgs> | null
+  where?: Prisma.DailyObservationWhereInput
+  orderBy?: Prisma.DailyObservationOrderByWithRelationInput | Prisma.DailyObservationOrderByWithRelationInput[]
+  cursor?: Prisma.DailyObservationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyObservationScalarFieldEnum | Prisma.DailyObservationScalarFieldEnum[]
 }
 
 /**

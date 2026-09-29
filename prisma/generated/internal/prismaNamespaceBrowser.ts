@@ -96,6 +96,9 @@ export const ModelName = {
   AssessmentScale: 'AssessmentScale',
   DevelopmentArea: 'DevelopmentArea',
   DevelopmentIndicator: 'DevelopmentIndicator',
+  DailyLog: 'DailyLog',
+  DailyObservation: 'DailyObservation',
+  Evidence: 'Evidence',
   AuditLog: 'AuditLog'
 } as const
 
@@ -853,6 +856,62 @@ export const DevelopmentIndicatorScalarFieldEnum = {
 } as const
 
 export type DevelopmentIndicatorScalarFieldEnum = (typeof DevelopmentIndicatorScalarFieldEnum)[keyof typeof DevelopmentIndicatorScalarFieldEnum]
+
+
+export const DailyLogScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  branchId: 'branchId',
+  classId: 'classId',
+  studentId: 'studentId',
+  teacherId: 'teacherId',
+  subjectId: 'subjectId',
+  date: 'date',
+  activity: 'activity',
+  achievement: 'achievement',
+  challenge: 'challenge',
+  teacherNote: 'teacherNote',
+  status: 'status',
+  parentVisible: 'parentVisible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyLogScalarFieldEnum = (typeof DailyLogScalarFieldEnum)[keyof typeof DailyLogScalarFieldEnum]
+
+
+export const DailyObservationScalarFieldEnum = {
+  id: 'id',
+  dailyLogId: 'dailyLogId',
+  indicatorId: 'indicatorId',
+  scaleId: 'scaleId',
+  observation: 'observation',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyObservationScalarFieldEnum = (typeof DailyObservationScalarFieldEnum)[keyof typeof DailyObservationScalarFieldEnum]
+
+
+export const EvidenceScalarFieldEnum = {
+  id: 'id',
+  dailyLogId: 'dailyLogId',
+  assessmentId: 'assessmentId',
+  submissionId: 'submissionId',
+  reportId: 'reportId',
+  type: 'type',
+  url: 'url',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  fileSize: 'fileSize',
+  title: 'title',
+  description: 'description',
+  uploadedById: 'uploadedById',
+  createdAt: 'createdAt'
+} as const
+
+export type EvidenceScalarFieldEnum = (typeof EvidenceScalarFieldEnum)[keyof typeof EvidenceScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {

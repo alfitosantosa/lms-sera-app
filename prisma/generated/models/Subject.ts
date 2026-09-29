@@ -238,6 +238,7 @@ export type SubjectWhereInput = {
   reportCards?: Prisma.ReportCardListRelationFilter
   schedules?: Prisma.ScheduleListRelationFilter
   branch?: Prisma.XOR<Prisma.BranchNullableScalarRelationFilter, Prisma.BranchWhereInput> | null
+  dailyLogs?: Prisma.DailyLogListRelationFilter
 }
 
 export type SubjectOrderByWithRelationInput = {
@@ -254,6 +255,7 @@ export type SubjectOrderByWithRelationInput = {
   reportCards?: Prisma.ReportCardOrderByRelationAggregateInput
   schedules?: Prisma.ScheduleOrderByRelationAggregateInput
   branch?: Prisma.BranchOrderByWithRelationInput
+  dailyLogs?: Prisma.DailyLogOrderByRelationAggregateInput
 }
 
 export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   reportCards?: Prisma.ReportCardListRelationFilter
   schedules?: Prisma.ScheduleListRelationFilter
   branch?: Prisma.XOR<Prisma.BranchNullableScalarRelationFilter, Prisma.BranchWhereInput> | null
+  dailyLogs?: Prisma.DailyLogListRelationFilter
 }, "id" | "branchId_code">
 
 export type SubjectOrderByWithAggregationInput = {
@@ -317,6 +320,7 @@ export type SubjectCreateInput = {
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateInput = {
@@ -332,6 +336,7 @@ export type SubjectUncheckedCreateInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUpdateInput = {
@@ -347,6 +352,7 @@ export type SubjectUpdateInput = {
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateInput = {
@@ -362,6 +368,7 @@ export type SubjectUncheckedUpdateInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateManyInput = {
@@ -570,6 +577,22 @@ export type SubjectUpdateOneRequiredWithoutAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.SubjectUpdateWithoutAssignmentsInput>, Prisma.SubjectUncheckedUpdateWithoutAssignmentsInput>
 }
 
+export type SubjectCreateNestedOneWithoutDailyLogsInput = {
+  create?: Prisma.XOR<Prisma.SubjectCreateWithoutDailyLogsInput, Prisma.SubjectUncheckedCreateWithoutDailyLogsInput>
+  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutDailyLogsInput
+  connect?: Prisma.SubjectWhereUniqueInput
+}
+
+export type SubjectUpdateOneWithoutDailyLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectCreateWithoutDailyLogsInput, Prisma.SubjectUncheckedCreateWithoutDailyLogsInput>
+  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutDailyLogsInput
+  upsert?: Prisma.SubjectUpsertWithoutDailyLogsInput
+  disconnect?: Prisma.SubjectWhereInput | boolean
+  delete?: Prisma.SubjectWhereInput | boolean
+  connect?: Prisma.SubjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutDailyLogsInput, Prisma.SubjectUpdateWithoutDailyLogsInput>, Prisma.SubjectUncheckedUpdateWithoutDailyLogsInput>
+}
+
 export type SubjectCreateWithoutBranchInput = {
   id?: string
   code: string
@@ -582,6 +605,7 @@ export type SubjectCreateWithoutBranchInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutBranchInput = {
@@ -596,6 +620,7 @@ export type SubjectUncheckedCreateWithoutBranchInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutBranchInput = {
@@ -649,6 +674,7 @@ export type SubjectCreateWithoutSchedulesInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutSchedulesInput = {
@@ -663,6 +689,7 @@ export type SubjectUncheckedCreateWithoutSchedulesInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutSubjectInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutSchedulesInput = {
@@ -693,6 +720,7 @@ export type SubjectUpdateWithoutSchedulesInput = {
   grades?: Prisma.GradeUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutSchedulesInput = {
@@ -707,6 +735,7 @@ export type SubjectUncheckedUpdateWithoutSchedulesInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutSubjectNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutGradeConfigurationsInput = {
@@ -721,6 +750,7 @@ export type SubjectCreateWithoutGradeConfigurationsInput = {
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutGradeConfigurationsInput = {
@@ -735,6 +765,7 @@ export type SubjectUncheckedCreateWithoutGradeConfigurationsInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutGradeConfigurationsInput = {
@@ -765,6 +796,7 @@ export type SubjectUpdateWithoutGradeConfigurationsInput = {
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutGradeConfigurationsInput = {
@@ -779,6 +811,7 @@ export type SubjectUncheckedUpdateWithoutGradeConfigurationsInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutGradesInput = {
@@ -793,6 +826,7 @@ export type SubjectCreateWithoutGradesInput = {
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutGradesInput = {
@@ -807,6 +841,7 @@ export type SubjectUncheckedCreateWithoutGradesInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutGradesInput = {
@@ -837,6 +872,7 @@ export type SubjectUpdateWithoutGradesInput = {
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutGradesInput = {
@@ -851,6 +887,7 @@ export type SubjectUncheckedUpdateWithoutGradesInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutReportCardsInput = {
@@ -865,6 +902,7 @@ export type SubjectCreateWithoutReportCardsInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutReportCardsInput = {
@@ -879,6 +917,7 @@ export type SubjectUncheckedCreateWithoutReportCardsInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutSubjectInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutReportCardsInput = {
@@ -909,6 +948,7 @@ export type SubjectUpdateWithoutReportCardsInput = {
   grades?: Prisma.GradeUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutReportCardsInput = {
@@ -923,6 +963,7 @@ export type SubjectUncheckedUpdateWithoutReportCardsInput = {
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutSubjectNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutAssignmentsInput = {
@@ -937,6 +978,7 @@ export type SubjectCreateWithoutAssignmentsInput = {
   reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
   branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutAssignmentsInput = {
@@ -951,6 +993,7 @@ export type SubjectUncheckedCreateWithoutAssignmentsInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
   reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutAssignmentsInput = {
@@ -981,6 +1024,7 @@ export type SubjectUpdateWithoutAssignmentsInput = {
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
   branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutAssignmentsInput = {
@@ -991,6 +1035,83 @@ export type SubjectUncheckedUpdateWithoutAssignmentsInput = {
   branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutSubjectNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
+  reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
+}
+
+export type SubjectCreateWithoutDailyLogsInput = {
+  id?: string
+  code: string
+  name: string
+  description?: string | null
+  credits?: number
+  isActive?: boolean
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutSubjectInput
+  gradeConfigurations?: Prisma.GradeConfigurationCreateNestedManyWithoutSubjectInput
+  grades?: Prisma.GradeCreateNestedManyWithoutSubjectInput
+  reportCards?: Prisma.ReportCardCreateNestedManyWithoutSubjectInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutSubjectInput
+  branch?: Prisma.BranchCreateNestedOneWithoutSubjectsInput
+}
+
+export type SubjectUncheckedCreateWithoutDailyLogsInput = {
+  id?: string
+  code: string
+  name: string
+  description?: string | null
+  branchId?: string | null
+  credits?: number
+  isActive?: boolean
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutSubjectInput
+  gradeConfigurations?: Prisma.GradeConfigurationUncheckedCreateNestedManyWithoutSubjectInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutSubjectInput
+  reportCards?: Prisma.ReportCardUncheckedCreateNestedManyWithoutSubjectInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutSubjectInput
+}
+
+export type SubjectCreateOrConnectWithoutDailyLogsInput = {
+  where: Prisma.SubjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.SubjectCreateWithoutDailyLogsInput, Prisma.SubjectUncheckedCreateWithoutDailyLogsInput>
+}
+
+export type SubjectUpsertWithoutDailyLogsInput = {
+  update: Prisma.XOR<Prisma.SubjectUpdateWithoutDailyLogsInput, Prisma.SubjectUncheckedUpdateWithoutDailyLogsInput>
+  create: Prisma.XOR<Prisma.SubjectCreateWithoutDailyLogsInput, Prisma.SubjectUncheckedCreateWithoutDailyLogsInput>
+  where?: Prisma.SubjectWhereInput
+}
+
+export type SubjectUpdateToOneWithWhereWithoutDailyLogsInput = {
+  where?: Prisma.SubjectWhereInput
+  data: Prisma.XOR<Prisma.SubjectUpdateWithoutDailyLogsInput, Prisma.SubjectUncheckedUpdateWithoutDailyLogsInput>
+}
+
+export type SubjectUpdateWithoutDailyLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assignments?: Prisma.AssignmentUpdateManyWithoutSubjectNestedInput
+  gradeConfigurations?: Prisma.GradeConfigurationUpdateManyWithoutSubjectNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutSubjectNestedInput
+  reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutSubjectsNestedInput
+}
+
+export type SubjectUncheckedUpdateWithoutDailyLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutSubjectNestedInput
   gradeConfigurations?: Prisma.GradeConfigurationUncheckedUpdateManyWithoutSubjectNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
@@ -1018,6 +1139,7 @@ export type SubjectUpdateWithoutBranchInput = {
   grades?: Prisma.GradeUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutBranchInput = {
@@ -1032,6 +1154,7 @@ export type SubjectUncheckedUpdateWithoutBranchInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutSubjectNestedInput
   reportCards?: Prisma.ReportCardUncheckedUpdateManyWithoutSubjectNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutSubjectNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateManyWithoutBranchInput = {
@@ -1054,6 +1177,7 @@ export type SubjectCountOutputType = {
   grades: number
   reportCards: number
   schedules: number
+  dailyLogs: number
 }
 
 export type SubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1062,6 +1186,7 @@ export type SubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   grades?: boolean | SubjectCountOutputTypeCountGradesArgs
   reportCards?: boolean | SubjectCountOutputTypeCountReportCardsArgs
   schedules?: boolean | SubjectCountOutputTypeCountSchedulesArgs
+  dailyLogs?: boolean | SubjectCountOutputTypeCountDailyLogsArgs
 }
 
 /**
@@ -1109,6 +1234,13 @@ export type SubjectCountOutputTypeCountSchedulesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ScheduleWhereInput
 }
 
+/**
+ * SubjectCountOutputType without action
+ */
+export type SubjectCountOutputTypeCountDailyLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyLogWhereInput
+}
+
 
 export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1124,6 +1256,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   reportCards?: boolean | Prisma.Subject$reportCardsArgs<ExtArgs>
   schedules?: boolean | Prisma.Subject$schedulesArgs<ExtArgs>
   branch?: boolean | Prisma.Subject$branchArgs<ExtArgs>
+  dailyLogs?: boolean | Prisma.Subject$dailyLogsArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -1167,6 +1300,7 @@ export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   reportCards?: boolean | Prisma.Subject$reportCardsArgs<ExtArgs>
   schedules?: boolean | Prisma.Subject$schedulesArgs<ExtArgs>
   branch?: boolean | Prisma.Subject$branchArgs<ExtArgs>
+  dailyLogs?: boolean | Prisma.Subject$dailyLogsArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1185,6 +1319,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     reportCards: Prisma.$ReportCardPayload<ExtArgs>[]
     schedules: Prisma.$SchedulePayload<ExtArgs>[]
     branch: Prisma.$BranchPayload<ExtArgs> | null
+    dailyLogs: Prisma.$DailyLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1594,6 +1729,7 @@ export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends runtime.
   reportCards<T extends Prisma.Subject$reportCardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$reportCardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   schedules<T extends Prisma.Subject$schedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branch<T extends Prisma.Subject$branchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$branchArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  dailyLogs<T extends Prisma.Subject$dailyLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$dailyLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2167,6 +2303,30 @@ export type Subject$branchArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.BranchInclude<ExtArgs> | null
   where?: Prisma.BranchWhereInput
+}
+
+/**
+ * Subject.dailyLogs
+ */
+export type Subject$dailyLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyLog
+   */
+  select?: Prisma.DailyLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyLog
+   */
+  omit?: Prisma.DailyLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyLogInclude<ExtArgs> | null
+  where?: Prisma.DailyLogWhereInput
+  orderBy?: Prisma.DailyLogOrderByWithRelationInput | Prisma.DailyLogOrderByWithRelationInput[]
+  cursor?: Prisma.DailyLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyLogScalarFieldEnum | Prisma.DailyLogScalarFieldEnum[]
 }
 
 /**

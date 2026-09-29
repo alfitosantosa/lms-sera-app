@@ -267,6 +267,21 @@ export type DevelopmentArea = Prisma.DevelopmentAreaModel
  */
 export type DevelopmentIndicator = Prisma.DevelopmentIndicatorModel
 /**
+ * Model DailyLog
+ * 
+ */
+export type DailyLog = Prisma.DailyLogModel
+/**
+ * Model DailyObservation
+ * 
+ */
+export type DailyObservation = Prisma.DailyObservationModel
+/**
+ * Model Evidence
+ * 
+ */
+export type Evidence = Prisma.EvidenceModel
+/**
  * Model AuditLog
  * 
  */

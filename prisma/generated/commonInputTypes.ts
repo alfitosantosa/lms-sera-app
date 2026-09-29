@@ -415,6 +415,40 @@ export type EnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
 }
 
+export type EnumDailyLogStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyLogStatus | Prisma.EnumDailyLogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel> | $Enums.DailyLogStatus
+}
+
+export type EnumDailyLogStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyLogStatus | Prisma.EnumDailyLogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyLogStatusWithAggregatesFilter<$PrismaModel> | $Enums.DailyLogStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel>
+}
+
+export type EnumEvidenceTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceType | Prisma.EnumEvidenceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel> | $Enums.EvidenceType
+}
+
+export type EnumEvidenceTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceType | Prisma.EnumEvidenceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceTypeWithAggregatesFilter<$PrismaModel> | $Enums.EvidenceType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -789,6 +823,40 @@ export type NestedEnumAssessmentPeriodStatusWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAssessmentPeriodStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDailyLogStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyLogStatus | Prisma.EnumDailyLogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel> | $Enums.DailyLogStatus
+}
+
+export type NestedEnumDailyLogStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyLogStatus | Prisma.EnumDailyLogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyLogStatus[] | Prisma.ListEnumDailyLogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyLogStatusWithAggregatesFilter<$PrismaModel> | $Enums.DailyLogStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDailyLogStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumEvidenceTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceType | Prisma.EnumEvidenceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel> | $Enums.EvidenceType
+}
+
+export type NestedEnumEvidenceTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceType | Prisma.EnumEvidenceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceType[] | Prisma.ListEnumEvidenceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceTypeWithAggregatesFilter<$PrismaModel> | $Enums.EvidenceType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEvidenceTypeFilter<$PrismaModel>
 }
 
 

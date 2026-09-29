@@ -249,6 +249,7 @@ export type DevelopmentIndicatorWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"DevelopmentIndicator"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentIndicator"> | Date | string
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaScalarRelationFilter, Prisma.DevelopmentAreaWhereInput>
+  observations?: Prisma.DailyObservationListRelationFilter
 }
 
 export type DevelopmentIndicatorOrderByWithRelationInput = {
@@ -262,6 +263,7 @@ export type DevelopmentIndicatorOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   developmentArea?: Prisma.DevelopmentAreaOrderByWithRelationInput
+  observations?: Prisma.DailyObservationOrderByRelationAggregateInput
 }
 
 export type DevelopmentIndicatorWhereUniqueInput = Prisma.AtLeast<{
@@ -279,6 +281,7 @@ export type DevelopmentIndicatorWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"DevelopmentIndicator"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentIndicator"> | Date | string
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaScalarRelationFilter, Prisma.DevelopmentAreaWhereInput>
+  observations?: Prisma.DailyObservationListRelationFilter
 }, "id" | "developmentAreaId_name">
 
 export type DevelopmentIndicatorOrderByWithAggregationInput = {
@@ -323,6 +326,7 @@ export type DevelopmentIndicatorCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
+  observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateInput = {
@@ -335,6 +339,7 @@ export type DevelopmentIndicatorUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUpdateInput = {
@@ -347,6 +352,7 @@ export type DevelopmentIndicatorUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
+  observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateInput = {
@@ -359,6 +365,7 @@ export type DevelopmentIndicatorUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorCreateManyInput = {
@@ -455,6 +462,11 @@ export type DevelopmentIndicatorSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
 }
 
+export type DevelopmentIndicatorScalarRelationFilter = {
+  is?: Prisma.DevelopmentIndicatorWhereInput
+  isNot?: Prisma.DevelopmentIndicatorWhereInput
+}
+
 export type DevelopmentIndicatorCreateNestedManyWithoutDevelopmentAreaInput = {
   create?: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutDevelopmentAreaInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput> | Prisma.DevelopmentIndicatorCreateWithoutDevelopmentAreaInput[] | Prisma.DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput[]
   connectOrCreate?: Prisma.DevelopmentIndicatorCreateOrConnectWithoutDevelopmentAreaInput | Prisma.DevelopmentIndicatorCreateOrConnectWithoutDevelopmentAreaInput[]
@@ -497,6 +509,20 @@ export type DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaNestedI
   deleteMany?: Prisma.DevelopmentIndicatorScalarWhereInput | Prisma.DevelopmentIndicatorScalarWhereInput[]
 }
 
+export type DevelopmentIndicatorCreateNestedOneWithoutObservationsInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutObservationsInput>
+  connectOrCreate?: Prisma.DevelopmentIndicatorCreateOrConnectWithoutObservationsInput
+  connect?: Prisma.DevelopmentIndicatorWhereUniqueInput
+}
+
+export type DevelopmentIndicatorUpdateOneRequiredWithoutObservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutObservationsInput>
+  connectOrCreate?: Prisma.DevelopmentIndicatorCreateOrConnectWithoutObservationsInput
+  upsert?: Prisma.DevelopmentIndicatorUpsertWithoutObservationsInput
+  connect?: Prisma.DevelopmentIndicatorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DevelopmentIndicatorUpdateToOneWithWhereWithoutObservationsInput, Prisma.DevelopmentIndicatorUpdateWithoutObservationsInput>, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput>
+}
+
 export type DevelopmentIndicatorCreateWithoutDevelopmentAreaInput = {
   id?: string
   code?: string | null
@@ -506,6 +532,7 @@ export type DevelopmentIndicatorCreateWithoutDevelopmentAreaInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput = {
@@ -517,6 +544,7 @@ export type DevelopmentIndicatorUncheckedCreateWithoutDevelopmentAreaInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  observations?: Prisma.DailyObservationUncheckedCreateNestedManyWithoutIndicatorInput
 }
 
 export type DevelopmentIndicatorCreateOrConnectWithoutDevelopmentAreaInput = {
@@ -560,6 +588,70 @@ export type DevelopmentIndicatorScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"DevelopmentIndicator"> | Date | string
 }
 
+export type DevelopmentIndicatorCreateWithoutObservationsInput = {
+  id?: string
+  code?: string | null
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  developmentArea: Prisma.DevelopmentAreaCreateNestedOneWithoutIndicatorsInput
+}
+
+export type DevelopmentIndicatorUncheckedCreateWithoutObservationsInput = {
+  id?: string
+  developmentAreaId: string
+  code?: string | null
+  name: string
+  description?: string | null
+  order?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DevelopmentIndicatorCreateOrConnectWithoutObservationsInput = {
+  where: Prisma.DevelopmentIndicatorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutObservationsInput>
+}
+
+export type DevelopmentIndicatorUpsertWithoutObservationsInput = {
+  update: Prisma.XOR<Prisma.DevelopmentIndicatorUpdateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput>
+  create: Prisma.XOR<Prisma.DevelopmentIndicatorCreateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedCreateWithoutObservationsInput>
+  where?: Prisma.DevelopmentIndicatorWhereInput
+}
+
+export type DevelopmentIndicatorUpdateToOneWithWhereWithoutObservationsInput = {
+  where?: Prisma.DevelopmentIndicatorWhereInput
+  data: Prisma.XOR<Prisma.DevelopmentIndicatorUpdateWithoutObservationsInput, Prisma.DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput>
+}
+
+export type DevelopmentIndicatorUpdateWithoutObservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  developmentArea?: Prisma.DevelopmentAreaUpdateOneRequiredWithoutIndicatorsNestedInput
+}
+
+export type DevelopmentIndicatorUncheckedUpdateWithoutObservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DevelopmentIndicatorCreateManyDevelopmentAreaInput = {
   id?: string
   code?: string | null
@@ -580,6 +672,7 @@ export type DevelopmentIndicatorUpdateWithoutDevelopmentAreaInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateWithoutDevelopmentAreaInput = {
@@ -591,6 +684,7 @@ export type DevelopmentIndicatorUncheckedUpdateWithoutDevelopmentAreaInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  observations?: Prisma.DailyObservationUncheckedUpdateManyWithoutIndicatorNestedInput
 }
 
 export type DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaInput = {
@@ -605,6 +699,35 @@ export type DevelopmentIndicatorUncheckedUpdateManyWithoutDevelopmentAreaInput =
 }
 
 
+/**
+ * Count Type DevelopmentIndicatorCountOutputType
+ */
+
+export type DevelopmentIndicatorCountOutputType = {
+  observations: number
+}
+
+export type DevelopmentIndicatorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  observations?: boolean | DevelopmentIndicatorCountOutputTypeCountObservationsArgs
+}
+
+/**
+ * DevelopmentIndicatorCountOutputType without action
+ */
+export type DevelopmentIndicatorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DevelopmentIndicatorCountOutputType
+   */
+  select?: Prisma.DevelopmentIndicatorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DevelopmentIndicatorCountOutputType without action
+ */
+export type DevelopmentIndicatorCountOutputTypeCountObservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyObservationWhereInput
+}
+
 
 export type DevelopmentIndicatorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -617,6 +740,8 @@ export type DevelopmentIndicatorSelect<ExtArgs extends runtime.Types.Extensions.
   createdAt?: boolean
   updatedAt?: boolean
   developmentArea?: boolean | Prisma.DevelopmentAreaDefaultArgs<ExtArgs>
+  observations?: boolean | Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DevelopmentIndicatorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["developmentIndicator"]>
 
 export type DevelopmentIndicatorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -660,6 +785,8 @@ export type DevelopmentIndicatorSelectScalar = {
 export type DevelopmentIndicatorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "developmentAreaId" | "code" | "name" | "description" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["developmentIndicator"]>
 export type DevelopmentIndicatorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   developmentArea?: boolean | Prisma.DevelopmentAreaDefaultArgs<ExtArgs>
+  observations?: boolean | Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DevelopmentIndicatorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DevelopmentIndicatorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   developmentArea?: boolean | Prisma.DevelopmentAreaDefaultArgs<ExtArgs>
@@ -672,6 +799,7 @@ export type $DevelopmentIndicatorPayload<ExtArgs extends runtime.Types.Extension
   name: "DevelopmentIndicator"
   objects: {
     developmentArea: Prisma.$DevelopmentAreaPayload<ExtArgs>
+    observations: Prisma.$DailyObservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1078,6 +1206,7 @@ readonly fields: DevelopmentIndicatorFieldRefs;
 export interface Prisma__DevelopmentIndicatorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   developmentArea<T extends Prisma.DevelopmentAreaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentAreaDefaultArgs<ExtArgs>>): Prisma.Prisma__DevelopmentAreaClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  observations<T extends Prisma.DevelopmentIndicator$observationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicator$observationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyObservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1514,6 +1643,30 @@ export type DevelopmentIndicatorDeleteManyArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many DevelopmentIndicators to delete.
    */
   limit?: number
+}
+
+/**
+ * DevelopmentIndicator.observations
+ */
+export type DevelopmentIndicator$observationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyObservation
+   */
+  select?: Prisma.DailyObservationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyObservation
+   */
+  omit?: Prisma.DailyObservationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyObservationInclude<ExtArgs> | null
+  where?: Prisma.DailyObservationWhereInput
+  orderBy?: Prisma.DailyObservationOrderByWithRelationInput | Prisma.DailyObservationOrderByWithRelationInput[]
+  cursor?: Prisma.DailyObservationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyObservationScalarFieldEnum | Prisma.DailyObservationScalarFieldEnum[]
 }
 
 /**

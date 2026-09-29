@@ -442,6 +442,9 @@ export const ModelName = {
   AssessmentScale: 'AssessmentScale',
   DevelopmentArea: 'DevelopmentArea',
   DevelopmentIndicator: 'DevelopmentIndicator',
+  DailyLog: 'DailyLog',
+  DailyObservation: 'DailyObservation',
+  Evidence: 'Evidence',
   AuditLog: 'AuditLog'
 } as const
 
@@ -458,7 +461,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "auditLog"
+    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "dailyLog" | "dailyObservation" | "evidence" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3792,6 +3795,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DailyLog: {
+      payload: Prisma.$DailyLogPayload<ExtArgs>
+      fields: Prisma.DailyLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        findMany: {
+          args: Prisma.DailyLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>[]
+        }
+        create: {
+          args: Prisma.DailyLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        createMany: {
+          args: Prisma.DailyLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        update: {
+          args: Prisma.DailyLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyLogPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyLog>
+        }
+        groupBy: {
+          args: Prisma.DailyLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyObservation: {
+      payload: Prisma.$DailyObservationPayload<ExtArgs>
+      fields: Prisma.DailyObservationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyObservationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyObservationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyObservationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyObservationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        findMany: {
+          args: Prisma.DailyObservationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>[]
+        }
+        create: {
+          args: Prisma.DailyObservationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        createMany: {
+          args: Prisma.DailyObservationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyObservationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyObservationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        update: {
+          args: Prisma.DailyObservationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyObservationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyObservationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyObservationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyObservationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyObservationPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyObservationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyObservation>
+        }
+        groupBy: {
+          args: Prisma.DailyObservationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyObservationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyObservationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyObservationCountAggregateOutputType> | number
+        }
+      }
+    }
+    Evidence: {
+      payload: Prisma.$EvidencePayload<ExtArgs>
+      fields: Prisma.EvidenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EvidenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EvidenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        findFirst: {
+          args: Prisma.EvidenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EvidenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        findMany: {
+          args: Prisma.EvidenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>[]
+        }
+        create: {
+          args: Prisma.EvidenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        createMany: {
+          args: Prisma.EvidenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EvidenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>[]
+        }
+        delete: {
+          args: Prisma.EvidenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        update: {
+          args: Prisma.EvidenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        deleteMany: {
+          args: Prisma.EvidenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EvidenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EvidenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>[]
+        }
+        upsert: {
+          args: Prisma.EvidenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidencePayload>
+        }
+        aggregate: {
+          args: Prisma.EvidenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEvidence>
+        }
+        groupBy: {
+          args: Prisma.EvidenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvidenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EvidenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvidenceCountAggregateOutputType> | number
+        }
+      }
+    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -4645,6 +4870,62 @@ export const DevelopmentIndicatorScalarFieldEnum = {
 export type DevelopmentIndicatorScalarFieldEnum = (typeof DevelopmentIndicatorScalarFieldEnum)[keyof typeof DevelopmentIndicatorScalarFieldEnum]
 
 
+export const DailyLogScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  branchId: 'branchId',
+  classId: 'classId',
+  studentId: 'studentId',
+  teacherId: 'teacherId',
+  subjectId: 'subjectId',
+  date: 'date',
+  activity: 'activity',
+  achievement: 'achievement',
+  challenge: 'challenge',
+  teacherNote: 'teacherNote',
+  status: 'status',
+  parentVisible: 'parentVisible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyLogScalarFieldEnum = (typeof DailyLogScalarFieldEnum)[keyof typeof DailyLogScalarFieldEnum]
+
+
+export const DailyObservationScalarFieldEnum = {
+  id: 'id',
+  dailyLogId: 'dailyLogId',
+  indicatorId: 'indicatorId',
+  scaleId: 'scaleId',
+  observation: 'observation',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyObservationScalarFieldEnum = (typeof DailyObservationScalarFieldEnum)[keyof typeof DailyObservationScalarFieldEnum]
+
+
+export const EvidenceScalarFieldEnum = {
+  id: 'id',
+  dailyLogId: 'dailyLogId',
+  assessmentId: 'assessmentId',
+  submissionId: 'submissionId',
+  reportId: 'reportId',
+  type: 'type',
+  url: 'url',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  fileSize: 'fileSize',
+  title: 'title',
+  description: 'description',
+  uploadedById: 'uploadedById',
+  createdAt: 'createdAt'
+} as const
+
+export type EvidenceScalarFieldEnum = (typeof EvidenceScalarFieldEnum)[keyof typeof EvidenceScalarFieldEnum]
+
+
 export const AuditLogScalarFieldEnum = {
   id: 'id',
   foundationId: 'foundationId',
@@ -4853,6 +5134,34 @@ export type EnumAssessmentPeriodStatusFieldRefInput<$PrismaModel> = FieldRefInpu
 export type ListEnumAssessmentPeriodStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssessmentPeriodStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'DailyLogStatus'
+ */
+export type EnumDailyLogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyLogStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DailyLogStatus[]'
+ */
+export type ListEnumDailyLogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyLogStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EvidenceType'
+ */
+export type EnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceType'>
+    
+
+
+/**
+ * Reference to a field of type 'EvidenceType[]'
+ */
+export type ListEnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5049,6 +5358,9 @@ export type GlobalOmitConfig = {
   assessmentScale?: Prisma.AssessmentScaleOmit
   developmentArea?: Prisma.DevelopmentAreaOmit
   developmentIndicator?: Prisma.DevelopmentIndicatorOmit
+  dailyLog?: Prisma.DailyLogOmit
+  dailyObservation?: Prisma.DailyObservationOmit
+  evidence?: Prisma.EvidenceOmit
   auditLog?: Prisma.AuditLogOmit
 }
 
