@@ -29,6 +29,7 @@ model Foundation {
   developmentAreas  DevelopmentArea[]
   dailyLogs         DailyLog[]
   studentAssessments StudentAssessment[]
+  studentReports    StudentReport[]
 
   @@map("foundation")
 }
@@ -146,6 +147,8 @@ model UserData {
   PaymentCreated          Payment[]              @relation("CreatedPayment")
   payments                Payment[]              @relation("StudentPayment")
   reportCards             ReportCard[]           @relation("StudentReportCard")
+  studentReports          StudentReport[]        @relation("StudentReportCard")
+  approvedReports         StudentReport[]        @relation("ReportApprover")
   schedules               Schedule[]             @relation("TeacherSchedule")
   tahfidzRecords          TahfidzRecord[]        @relation("TahfidzStudent")
   tahfidzRecordsAsTeacher TahfidzRecord[]        @relation("TahfidzTeacher")
@@ -240,6 +243,7 @@ model Branch {
   students     UserData[]    @relation("UserBranch")
   dailyLogs    DailyLog[]
   studentAssessments StudentAssessment[]
+  studentReports StudentReport[]
 
   @@unique([foundationId, code])
   @@index([foundationId])
@@ -264,6 +268,7 @@ model Class {
   violations          Violation[]
   dailyLogs           DailyLog[]
   studentAssessments  StudentAssessment[]
+  studentReports      StudentReport[]
 
   @@unique([name, academicYearId])
   @@map("classes")
@@ -997,6 +1002,7 @@ model AssessmentPeriod {
   foundation   Foundation    @relation(fields: [foundationId], references: [id])
   academicYear AcademicYear? @relation(fields: [academicYearId], references: [id])
   assessments  StudentAssessment[]
+  studentReports StudentReport[]
 
   @@unique([foundationId, academicYearId, semester, name])
   @@index([foundationId])
@@ -1138,6 +1144,7 @@ model Evidence {
   dailyLog   DailyLog?        @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
   assessment StudentAssessment? @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   submission AssignmentSubmission? @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  studentReport StudentReport?    @relation(fields: [reportId], references: [id], onDelete: Cascade)
   uploadedBy UserData?        @relation("EvidenceUploader", fields: [uploadedById], references: [id])
 
   @@index([dailyLogId])
@@ -1177,6 +1184,42 @@ model StudentAssessment {
   @@index([studentId, periodId])
   @@index([classId, periodId])
   @@map("student_assessments")
+}
+
+model StudentReport {
+  id               String       @id @default(cuid())
+  foundationId     String
+  branchId         String
+  classId          String
+  studentId        String
+  periodId         String
+  status           ReportStatus @default(DRAFT)
+  teacherNarrative String?
+  homeroomNote     String?
+  principalNote    String?
+  snapshot         Json?
+  completion       Json?
+  generatedAt      DateTime?
+  approvedAt       DateTime?
+  publishedAt      DateTime?
+  approvedById     String?
+  createdById      String
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  foundation Foundation       @relation(fields: [foundationId], references: [id])
+  branch     Branch           @relation(fields: [branchId], references: [id])
+  class      Class            @relation(fields: [classId], references: [id])
+  student    UserData         @relation("StudentReportCard", fields: [studentId], references: [id])
+  period     AssessmentPeriod @relation(fields: [periodId], references: [id])
+  approvedBy UserData?        @relation("ReportApprover", fields: [approvedById], references: [id])
+  evidences  Evidence[]
+
+  @@unique([studentId, periodId])
+  @@index([foundationId, branchId, classId])
+  @@index([classId, periodId])
+  @@index([status])
+  @@map("student_reports")
 }
 
 model AuditLog {

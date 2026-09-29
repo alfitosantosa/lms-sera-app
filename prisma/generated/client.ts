@@ -287,6 +287,11 @@ export type Evidence = Prisma.EvidenceModel
  */
 export type StudentAssessment = Prisma.StudentAssessmentModel
 /**
+ * Model StudentReport
+ * 
+ */
+export type StudentReport = Prisma.StudentReportModel
+/**
  * Model AuditLog
  * 
  */

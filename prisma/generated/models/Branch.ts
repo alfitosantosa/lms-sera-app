@@ -247,6 +247,7 @@ export type BranchWhereInput = {
   students?: Prisma.UserDataListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
   studentAssessments?: Prisma.StudentAssessmentListRelationFilter
+  studentReports?: Prisma.StudentReportListRelationFilter
 }
 
 export type BranchOrderByWithRelationInput = {
@@ -271,6 +272,7 @@ export type BranchOrderByWithRelationInput = {
   students?: Prisma.UserDataOrderByRelationAggregateInput
   dailyLogs?: Prisma.DailyLogOrderByRelationAggregateInput
   studentAssessments?: Prisma.StudentAssessmentOrderByRelationAggregateInput
+  studentReports?: Prisma.StudentReportOrderByRelationAggregateInput
 }
 
 export type BranchWhereUniqueInput = Prisma.AtLeast<{
@@ -299,6 +301,7 @@ export type BranchWhereUniqueInput = Prisma.AtLeast<{
   students?: Prisma.UserDataListRelationFilter
   dailyLogs?: Prisma.DailyLogListRelationFilter
   studentAssessments?: Prisma.StudentAssessmentListRelationFilter
+  studentReports?: Prisma.StudentReportListRelationFilter
 }, "id" | "foundationId_code">
 
 export type BranchOrderByWithAggregationInput = {
@@ -358,6 +361,7 @@ export type BranchCreateInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateInput = {
@@ -381,6 +385,7 @@ export type BranchUncheckedCreateInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUpdateInput = {
@@ -404,6 +409,7 @@ export type BranchUpdateInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateInput = {
@@ -427,6 +433,7 @@ export type BranchUncheckedUpdateInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateManyInput = {
@@ -701,6 +708,20 @@ export type BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BranchUpdateToOneWithWhereWithoutStudentAssessmentsInput, Prisma.BranchUpdateWithoutStudentAssessmentsInput>, Prisma.BranchUncheckedUpdateWithoutStudentAssessmentsInput>
 }
 
+export type BranchCreateNestedOneWithoutStudentReportsInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutStudentReportsInput, Prisma.BranchUncheckedCreateWithoutStudentReportsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutStudentReportsInput
+  connect?: Prisma.BranchWhereUniqueInput
+}
+
+export type BranchUpdateOneRequiredWithoutStudentReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.BranchCreateWithoutStudentReportsInput, Prisma.BranchUncheckedCreateWithoutStudentReportsInput>
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutStudentReportsInput
+  upsert?: Prisma.BranchUpsertWithoutStudentReportsInput
+  connect?: Prisma.BranchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BranchUpdateToOneWithWhereWithoutStudentReportsInput, Prisma.BranchUpdateWithoutStudentReportsInput>, Prisma.BranchUncheckedUpdateWithoutStudentReportsInput>
+}
+
 export type BranchCreateWithoutFoundationInput = {
   id?: string
   code: string
@@ -721,6 +742,7 @@ export type BranchCreateWithoutFoundationInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutFoundationInput = {
@@ -743,6 +765,7 @@ export type BranchUncheckedCreateWithoutFoundationInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutFoundationInput = {
@@ -809,6 +832,7 @@ export type BranchCreateWithoutStudentsInput = {
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutStudentsInput = {
@@ -831,6 +855,7 @@ export type BranchUncheckedCreateWithoutStudentsInput = {
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutStudentsInput = {
@@ -869,6 +894,7 @@ export type BranchUpdateWithoutStudentsInput = {
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutStudentsInput = {
@@ -891,6 +917,7 @@ export type BranchUncheckedUpdateWithoutStudentsInput = {
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutClassesInput = {
@@ -913,6 +940,7 @@ export type BranchCreateWithoutClassesInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutClassesInput = {
@@ -935,6 +963,7 @@ export type BranchUncheckedCreateWithoutClassesInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutClassesInput = {
@@ -973,6 +1002,7 @@ export type BranchUpdateWithoutClassesInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutClassesInput = {
@@ -995,6 +1025,7 @@ export type BranchUncheckedUpdateWithoutClassesInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutSubjectsInput = {
@@ -1017,6 +1048,7 @@ export type BranchCreateWithoutSubjectsInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutSubjectsInput = {
@@ -1039,6 +1071,7 @@ export type BranchUncheckedCreateWithoutSubjectsInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutSubjectsInput = {
@@ -1077,6 +1110,7 @@ export type BranchUpdateWithoutSubjectsInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutSubjectsInput = {
@@ -1099,6 +1133,7 @@ export type BranchUncheckedUpdateWithoutSubjectsInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutPaymenttypeInput = {
@@ -1121,6 +1156,7 @@ export type BranchCreateWithoutPaymenttypeInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutPaymenttypeInput = {
@@ -1143,6 +1179,7 @@ export type BranchUncheckedCreateWithoutPaymenttypeInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutPaymenttypeInput = {
@@ -1181,6 +1218,7 @@ export type BranchUpdateWithoutPaymenttypeInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutPaymenttypeInput = {
@@ -1203,6 +1241,7 @@ export type BranchUncheckedUpdateWithoutPaymenttypeInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutPaymentsInput = {
@@ -1225,6 +1264,7 @@ export type BranchCreateWithoutPaymentsInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutPaymentsInput = {
@@ -1247,6 +1287,7 @@ export type BranchUncheckedCreateWithoutPaymentsInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutPaymentsInput = {
@@ -1285,6 +1326,7 @@ export type BranchUpdateWithoutPaymentsInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutPaymentsInput = {
@@ -1307,6 +1349,7 @@ export type BranchUncheckedUpdateWithoutPaymentsInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutAccountBankInput = {
@@ -1329,6 +1372,7 @@ export type BranchCreateWithoutAccountBankInput = {
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutAccountBankInput = {
@@ -1351,6 +1395,7 @@ export type BranchUncheckedCreateWithoutAccountBankInput = {
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutAccountBankInput = {
@@ -1389,6 +1434,7 @@ export type BranchUpdateWithoutAccountBankInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutAccountBankInput = {
@@ -1411,6 +1457,7 @@ export type BranchUncheckedUpdateWithoutAccountBankInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutDailyLogsInput = {
@@ -1433,6 +1480,7 @@ export type BranchCreateWithoutDailyLogsInput = {
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutDailyLogsInput = {
@@ -1455,6 +1503,7 @@ export type BranchUncheckedCreateWithoutDailyLogsInput = {
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutDailyLogsInput = {
@@ -1493,6 +1542,7 @@ export type BranchUpdateWithoutDailyLogsInput = {
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutDailyLogsInput = {
@@ -1515,6 +1565,7 @@ export type BranchUncheckedUpdateWithoutDailyLogsInput = {
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateWithoutStudentAssessmentsInput = {
@@ -1537,6 +1588,7 @@ export type BranchCreateWithoutStudentAssessmentsInput = {
   subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportCreateNestedManyWithoutBranchInput
 }
 
 export type BranchUncheckedCreateWithoutStudentAssessmentsInput = {
@@ -1559,6 +1611,7 @@ export type BranchUncheckedCreateWithoutStudentAssessmentsInput = {
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutBranchInput
   students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
   dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
+  studentReports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchCreateOrConnectWithoutStudentAssessmentsInput = {
@@ -1597,6 +1650,7 @@ export type BranchUpdateWithoutStudentAssessmentsInput = {
   subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutStudentAssessmentsInput = {
@@ -1619,6 +1673,115 @@ export type BranchUncheckedUpdateWithoutStudentAssessmentsInput = {
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutBranchNestedInput
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
+}
+
+export type BranchCreateWithoutStudentReportsInput = {
+  id?: string
+  code: string
+  name: string
+  description?: string | null
+  isActive?: boolean
+  address?: string | null
+  phone?: string | null
+  adminName?: string | null
+  signatureUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accountBank?: Prisma.AccountBankCreateNestedManyWithoutBranchsInput
+  foundation?: Prisma.FoundationCreateNestedOneWithoutBranchInput
+  classes?: Prisma.ClassCreateNestedManyWithoutBranchInput
+  paymenttype?: Prisma.PaymentTypeCreateNestedManyWithoutBranchInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutBranchInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutBranchInput
+  students?: Prisma.UserDataCreateNestedManyWithoutBranchInput
+  dailyLogs?: Prisma.DailyLogCreateNestedManyWithoutBranchInput
+  studentAssessments?: Prisma.StudentAssessmentCreateNestedManyWithoutBranchInput
+}
+
+export type BranchUncheckedCreateWithoutStudentReportsInput = {
+  id?: string
+  code: string
+  name: string
+  description?: string | null
+  isActive?: boolean
+  address?: string | null
+  phone?: string | null
+  adminName?: string | null
+  signatureUrl?: string | null
+  foundationId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accountBank?: Prisma.AccountBankUncheckedCreateNestedManyWithoutBranchsInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBranchInput
+  paymenttype?: Prisma.PaymentTypeUncheckedCreateNestedManyWithoutBranchInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBranchInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutBranchInput
+  students?: Prisma.UserDataUncheckedCreateNestedManyWithoutBranchInput
+  dailyLogs?: Prisma.DailyLogUncheckedCreateNestedManyWithoutBranchInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedCreateNestedManyWithoutBranchInput
+}
+
+export type BranchCreateOrConnectWithoutStudentReportsInput = {
+  where: Prisma.BranchWhereUniqueInput
+  create: Prisma.XOR<Prisma.BranchCreateWithoutStudentReportsInput, Prisma.BranchUncheckedCreateWithoutStudentReportsInput>
+}
+
+export type BranchUpsertWithoutStudentReportsInput = {
+  update: Prisma.XOR<Prisma.BranchUpdateWithoutStudentReportsInput, Prisma.BranchUncheckedUpdateWithoutStudentReportsInput>
+  create: Prisma.XOR<Prisma.BranchCreateWithoutStudentReportsInput, Prisma.BranchUncheckedCreateWithoutStudentReportsInput>
+  where?: Prisma.BranchWhereInput
+}
+
+export type BranchUpdateToOneWithWhereWithoutStudentReportsInput = {
+  where?: Prisma.BranchWhereInput
+  data: Prisma.XOR<Prisma.BranchUpdateWithoutStudentReportsInput, Prisma.BranchUncheckedUpdateWithoutStudentReportsInput>
+}
+
+export type BranchUpdateWithoutStudentReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountBank?: Prisma.AccountBankUpdateManyWithoutBranchsNestedInput
+  foundation?: Prisma.FoundationUpdateOneWithoutBranchNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBranchNestedInput
+  paymenttype?: Prisma.PaymentTypeUpdateManyWithoutBranchNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutBranchNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutBranchNestedInput
+  students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
+  dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+}
+
+export type BranchUncheckedUpdateWithoutStudentReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foundationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountBank?: Prisma.AccountBankUncheckedUpdateManyWithoutBranchsNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutBranchNestedInput
+  paymenttype?: Prisma.PaymentTypeUncheckedUpdateManyWithoutBranchNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutBranchNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutBranchNestedInput
+  students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
+  dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
+  studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchCreateManyFoundationInput = {
@@ -1655,6 +1818,7 @@ export type BranchUpdateWithoutFoundationInput = {
   students?: Prisma.UserDataUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateWithoutFoundationInput = {
@@ -1677,6 +1841,7 @@ export type BranchUncheckedUpdateWithoutFoundationInput = {
   students?: Prisma.UserDataUncheckedUpdateManyWithoutBranchNestedInput
   dailyLogs?: Prisma.DailyLogUncheckedUpdateManyWithoutBranchNestedInput
   studentAssessments?: Prisma.StudentAssessmentUncheckedUpdateManyWithoutBranchNestedInput
+  studentReports?: Prisma.StudentReportUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchUncheckedUpdateManyWithoutFoundationInput = {
@@ -1707,6 +1872,7 @@ export type BranchCountOutputType = {
   students: number
   dailyLogs: number
   studentAssessments: number
+  studentReports: number
 }
 
 export type BranchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1718,6 +1884,7 @@ export type BranchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   students?: boolean | BranchCountOutputTypeCountStudentsArgs
   dailyLogs?: boolean | BranchCountOutputTypeCountDailyLogsArgs
   studentAssessments?: boolean | BranchCountOutputTypeCountStudentAssessmentsArgs
+  studentReports?: boolean | BranchCountOutputTypeCountStudentReportsArgs
 }
 
 /**
@@ -1786,6 +1953,13 @@ export type BranchCountOutputTypeCountStudentAssessmentsArgs<ExtArgs extends run
   where?: Prisma.StudentAssessmentWhereInput
 }
 
+/**
+ * BranchCountOutputType without action
+ */
+export type BranchCountOutputTypeCountStudentReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentReportWhereInput
+}
+
 
 export type BranchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1809,6 +1983,7 @@ export type BranchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   students?: boolean | Prisma.Branch$studentsArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Branch$dailyLogsArgs<ExtArgs>
   studentAssessments?: boolean | Prisma.Branch$studentAssessmentsArgs<ExtArgs>
+  studentReports?: boolean | Prisma.Branch$studentReportsArgs<ExtArgs>
   _count?: boolean | Prisma.BranchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["branch"]>
 
@@ -1870,6 +2045,7 @@ export type BranchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   students?: boolean | Prisma.Branch$studentsArgs<ExtArgs>
   dailyLogs?: boolean | Prisma.Branch$dailyLogsArgs<ExtArgs>
   studentAssessments?: boolean | Prisma.Branch$studentAssessmentsArgs<ExtArgs>
+  studentReports?: boolean | Prisma.Branch$studentReportsArgs<ExtArgs>
   _count?: boolean | Prisma.BranchCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BranchIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1891,6 +2067,7 @@ export type $BranchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     students: Prisma.$UserDataPayload<ExtArgs>[]
     dailyLogs: Prisma.$DailyLogPayload<ExtArgs>[]
     studentAssessments: Prisma.$StudentAssessmentPayload<ExtArgs>[]
+    studentReports: Prisma.$StudentReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2308,6 +2485,7 @@ export interface Prisma__BranchClient<T, Null = never, ExtArgs extends runtime.T
   students<T extends Prisma.Branch$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dailyLogs<T extends Prisma.Branch$dailyLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$dailyLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studentAssessments<T extends Prisma.Branch$studentAssessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$studentAssessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studentReports<T extends Prisma.Branch$studentReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branch$studentReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2958,6 +3136,30 @@ export type Branch$studentAssessmentsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.StudentAssessmentScalarFieldEnum | Prisma.StudentAssessmentScalarFieldEnum[]
+}
+
+/**
+ * Branch.studentReports
+ */
+export type Branch$studentReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentReport
+   */
+  select?: Prisma.StudentReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentReport
+   */
+  omit?: Prisma.StudentReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentReportInclude<ExtArgs> | null
+  where?: Prisma.StudentReportWhereInput
+  orderBy?: Prisma.StudentReportOrderByWithRelationInput | Prisma.StudentReportOrderByWithRelationInput[]
+  cursor?: Prisma.StudentReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentReportScalarFieldEnum | Prisma.StudentReportScalarFieldEnum[]
 }
 
 /**

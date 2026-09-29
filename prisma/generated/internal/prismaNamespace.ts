@@ -446,6 +446,7 @@ export const ModelName = {
   DailyObservation: 'DailyObservation',
   Evidence: 'Evidence',
   StudentAssessment: 'StudentAssessment',
+  StudentReport: 'StudentReport',
   AuditLog: 'AuditLog'
 } as const
 
@@ -462,7 +463,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "dailyLog" | "dailyObservation" | "evidence" | "studentAssessment" | "auditLog"
+    modelProps: "foundation" | "user" | "session" | "account" | "verification" | "userData" | "role" | "academicYear" | "branch" | "class" | "subject" | "schedule" | "attendance" | "violationType" | "violation" | "paymentType" | "paymentItems" | "payment" | "paymentTransaction" | "accountBank" | "calendarEvent" | "gradeType" | "gradeConfiguration" | "grade" | "reportCard" | "gradeScale" | "assignment" | "assignmentSubmission" | "notification" | "dashboardContent" | "announcement" | "tahfidzRecord" | "surahQuran" | "teacherAttendance" | "tahfidzGroup" | "exam" | "examQuestion" | "question" | "questionOption" | "examAttempt" | "examAnswer" | "assessmentPeriod" | "assessmentScale" | "developmentArea" | "developmentIndicator" | "dailyLog" | "dailyObservation" | "evidence" | "studentAssessment" | "studentReport" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4092,6 +4093,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StudentReport: {
+      payload: Prisma.$StudentReportPayload<ExtArgs>
+      fields: Prisma.StudentReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        findMany: {
+          args: Prisma.StudentReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>[]
+        }
+        create: {
+          args: Prisma.StudentReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        createMany: {
+          args: Prisma.StudentReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        update: {
+          args: Prisma.StudentReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentReportPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentReport>
+        }
+        groupBy: {
+          args: Prisma.StudentReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentReportCountAggregateOutputType> | number
+        }
+      }
+    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -5022,6 +5097,31 @@ export const StudentAssessmentScalarFieldEnum = {
 export type StudentAssessmentScalarFieldEnum = (typeof StudentAssessmentScalarFieldEnum)[keyof typeof StudentAssessmentScalarFieldEnum]
 
 
+export const StudentReportScalarFieldEnum = {
+  id: 'id',
+  foundationId: 'foundationId',
+  branchId: 'branchId',
+  classId: 'classId',
+  studentId: 'studentId',
+  periodId: 'periodId',
+  status: 'status',
+  teacherNarrative: 'teacherNarrative',
+  homeroomNote: 'homeroomNote',
+  principalNote: 'principalNote',
+  snapshot: 'snapshot',
+  completion: 'completion',
+  generatedAt: 'generatedAt',
+  approvedAt: 'approvedAt',
+  publishedAt: 'publishedAt',
+  approvedById: 'approvedById',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentReportScalarFieldEnum = (typeof StudentReportScalarFieldEnum)[keyof typeof StudentReportScalarFieldEnum]
+
+
 export const AuditLogScalarFieldEnum = {
   id: 'id',
   foundationId: 'foundationId',
@@ -5258,6 +5358,20 @@ export type EnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 export type ListEnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceType[]'>
     
 
+
+/**
+ * Reference to a field of type 'ReportStatus'
+ */
+export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportStatus[]'
+ */
+export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5458,6 +5572,7 @@ export type GlobalOmitConfig = {
   dailyObservation?: Prisma.DailyObservationOmit
   evidence?: Prisma.EvidenceOmit
   studentAssessment?: Prisma.StudentAssessmentOmit
+  studentReport?: Prisma.StudentReportOmit
   auditLog?: Prisma.AuditLogOmit
 }
 

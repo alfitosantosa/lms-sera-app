@@ -18,3 +18,4 @@ export * from "./types/teacher-attendance-types";
 export * from "./types/error-types";
 export * from "./types/exam-types";
 export * from "./types/development-types";
+export * from "./types/report-types";
