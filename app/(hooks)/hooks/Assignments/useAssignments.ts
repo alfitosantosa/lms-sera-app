@@ -203,17 +203,27 @@ export const useGetGradeTypes = ({ enabled = true } = {}) => {
     queryKey: ["grade-types"],
     enabled,
     queryFn: async () => {
-      const response = await apiGet<{
-        success: boolean;
-        message?: string;
-        data: GradeTypeDTO[];
-      }>("/api/grade-types");
-      if (!response.data?.success) {
-        throw new Error(
-          response.data?.message ?? "Gagal memuat jenis penilaian",
-        );
-      }
-      return response.data.data ?? [];
+      const fetchTypes = async () => {
+        const response = await apiGet<{
+          success: boolean;
+          message?: string;
+          data: GradeTypeDTO[];
+        }>("/api/grade-types");
+        if (!response.data?.success) {
+          throw new Error(
+            response.data?.message ?? "Gagal memuat jenis penilaian",
+          );
+        }
+        return response.data.data ?? [];
+      };
+
+      const types = await fetchTypes();
+      if (types.length > 0) return types;
+
+      // Daftar kosong → seed default lewat endpoint eksplisit (GET tidak boleh
+      // menulis), lalu muat ulang supaya form penilaian tidak pernah mati.
+      await apiPost("/api/grade-types/bootstrap");
+      return fetchTypes();
     },
   });
 };

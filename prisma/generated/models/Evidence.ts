@@ -39,7 +39,6 @@ export type EvidenceMinAggregateOutputType = {
   dailyLogId: string | null
   assessmentId: string | null
   submissionId: string | null
-  reportId: string | null
   type: $Enums.EvidenceType | null
   url: string | null
   fileName: string | null
@@ -56,7 +55,6 @@ export type EvidenceMaxAggregateOutputType = {
   dailyLogId: string | null
   assessmentId: string | null
   submissionId: string | null
-  reportId: string | null
   type: $Enums.EvidenceType | null
   url: string | null
   fileName: string | null
@@ -73,7 +71,6 @@ export type EvidenceCountAggregateOutputType = {
   dailyLogId: number
   assessmentId: number
   submissionId: number
-  reportId: number
   type: number
   url: number
   fileName: number
@@ -100,7 +97,6 @@ export type EvidenceMinAggregateInputType = {
   dailyLogId?: true
   assessmentId?: true
   submissionId?: true
-  reportId?: true
   type?: true
   url?: true
   fileName?: true
@@ -117,7 +113,6 @@ export type EvidenceMaxAggregateInputType = {
   dailyLogId?: true
   assessmentId?: true
   submissionId?: true
-  reportId?: true
   type?: true
   url?: true
   fileName?: true
@@ -134,7 +129,6 @@ export type EvidenceCountAggregateInputType = {
   dailyLogId?: true
   assessmentId?: true
   submissionId?: true
-  reportId?: true
   type?: true
   url?: true
   fileName?: true
@@ -238,7 +232,6 @@ export type EvidenceGroupByOutputType = {
   dailyLogId: string | null
   assessmentId: string | null
   submissionId: string | null
-  reportId: string | null
   type: $Enums.EvidenceType
   url: string
   fileName: string | null
@@ -278,7 +271,6 @@ export type EvidenceWhereInput = {
   dailyLogId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   assessmentId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   submissionId?: Prisma.StringNullableFilter<"Evidence"> | string | null
-  reportId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   type?: Prisma.EnumEvidenceTypeFilter<"Evidence"> | $Enums.EvidenceType
   url?: Prisma.StringFilter<"Evidence"> | string
   fileName?: Prisma.StringNullableFilter<"Evidence"> | string | null
@@ -291,7 +283,6 @@ export type EvidenceWhereInput = {
   dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   assessment?: Prisma.XOR<Prisma.StudentAssessmentNullableScalarRelationFilter, Prisma.StudentAssessmentWhereInput> | null
   submission?: Prisma.XOR<Prisma.AssignmentSubmissionNullableScalarRelationFilter, Prisma.AssignmentSubmissionWhereInput> | null
-  studentReport?: Prisma.XOR<Prisma.StudentReportNullableScalarRelationFilter, Prisma.StudentReportWhereInput> | null
   uploadedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
 
@@ -300,7 +291,6 @@ export type EvidenceOrderByWithRelationInput = {
   dailyLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   assessmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   submissionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  reportId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -313,7 +303,6 @@ export type EvidenceOrderByWithRelationInput = {
   dailyLog?: Prisma.DailyLogOrderByWithRelationInput
   assessment?: Prisma.StudentAssessmentOrderByWithRelationInput
   submission?: Prisma.AssignmentSubmissionOrderByWithRelationInput
-  studentReport?: Prisma.StudentReportOrderByWithRelationInput
   uploadedBy?: Prisma.UserDataOrderByWithRelationInput
 }
 
@@ -325,7 +314,6 @@ export type EvidenceWhereUniqueInput = Prisma.AtLeast<{
   dailyLogId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   assessmentId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   submissionId?: Prisma.StringNullableFilter<"Evidence"> | string | null
-  reportId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   type?: Prisma.EnumEvidenceTypeFilter<"Evidence"> | $Enums.EvidenceType
   url?: Prisma.StringFilter<"Evidence"> | string
   fileName?: Prisma.StringNullableFilter<"Evidence"> | string | null
@@ -338,7 +326,6 @@ export type EvidenceWhereUniqueInput = Prisma.AtLeast<{
   dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   assessment?: Prisma.XOR<Prisma.StudentAssessmentNullableScalarRelationFilter, Prisma.StudentAssessmentWhereInput> | null
   submission?: Prisma.XOR<Prisma.AssignmentSubmissionNullableScalarRelationFilter, Prisma.AssignmentSubmissionWhereInput> | null
-  studentReport?: Prisma.XOR<Prisma.StudentReportNullableScalarRelationFilter, Prisma.StudentReportWhereInput> | null
   uploadedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id">
 
@@ -347,7 +334,6 @@ export type EvidenceOrderByWithAggregationInput = {
   dailyLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   assessmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   submissionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  reportId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -372,7 +358,6 @@ export type EvidenceScalarWhereWithAggregatesInput = {
   dailyLogId?: Prisma.StringNullableWithAggregatesFilter<"Evidence"> | string | null
   assessmentId?: Prisma.StringNullableWithAggregatesFilter<"Evidence"> | string | null
   submissionId?: Prisma.StringNullableWithAggregatesFilter<"Evidence"> | string | null
-  reportId?: Prisma.StringNullableWithAggregatesFilter<"Evidence"> | string | null
   type?: Prisma.EnumEvidenceTypeWithAggregatesFilter<"Evidence"> | $Enums.EvidenceType
   url?: Prisma.StringWithAggregatesFilter<"Evidence"> | string
   fileName?: Prisma.StringNullableWithAggregatesFilter<"Evidence"> | string | null
@@ -397,7 +382,6 @@ export type EvidenceCreateInput = {
   dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
-  studentReport?: Prisma.StudentReportCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
 
@@ -406,7 +390,6 @@ export type EvidenceUncheckedCreateInput = {
   dailyLogId?: string | null
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -431,7 +414,6 @@ export type EvidenceUpdateInput = {
   dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
-  studentReport?: Prisma.StudentReportUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
 
@@ -440,7 +422,6 @@ export type EvidenceUncheckedUpdateInput = {
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -457,7 +438,6 @@ export type EvidenceCreateManyInput = {
   dailyLogId?: string | null
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -486,7 +466,6 @@ export type EvidenceUncheckedUpdateManyInput = {
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -513,7 +492,6 @@ export type EvidenceCountOrderByAggregateInput = {
   dailyLogId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  reportId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
@@ -534,7 +512,6 @@ export type EvidenceMaxOrderByAggregateInput = {
   dailyLogId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  reportId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
@@ -551,7 +528,6 @@ export type EvidenceMinOrderByAggregateInput = {
   dailyLogId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   submissionId?: Prisma.SortOrder
-  reportId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
@@ -739,48 +715,6 @@ export type EvidenceUncheckedUpdateManyWithoutAssessmentNestedInput = {
   deleteMany?: Prisma.EvidenceScalarWhereInput | Prisma.EvidenceScalarWhereInput[]
 }
 
-export type EvidenceCreateNestedManyWithoutStudentReportInput = {
-  create?: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput> | Prisma.EvidenceCreateWithoutStudentReportInput[] | Prisma.EvidenceUncheckedCreateWithoutStudentReportInput[]
-  connectOrCreate?: Prisma.EvidenceCreateOrConnectWithoutStudentReportInput | Prisma.EvidenceCreateOrConnectWithoutStudentReportInput[]
-  createMany?: Prisma.EvidenceCreateManyStudentReportInputEnvelope
-  connect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-}
-
-export type EvidenceUncheckedCreateNestedManyWithoutStudentReportInput = {
-  create?: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput> | Prisma.EvidenceCreateWithoutStudentReportInput[] | Prisma.EvidenceUncheckedCreateWithoutStudentReportInput[]
-  connectOrCreate?: Prisma.EvidenceCreateOrConnectWithoutStudentReportInput | Prisma.EvidenceCreateOrConnectWithoutStudentReportInput[]
-  createMany?: Prisma.EvidenceCreateManyStudentReportInputEnvelope
-  connect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-}
-
-export type EvidenceUpdateManyWithoutStudentReportNestedInput = {
-  create?: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput> | Prisma.EvidenceCreateWithoutStudentReportInput[] | Prisma.EvidenceUncheckedCreateWithoutStudentReportInput[]
-  connectOrCreate?: Prisma.EvidenceCreateOrConnectWithoutStudentReportInput | Prisma.EvidenceCreateOrConnectWithoutStudentReportInput[]
-  upsert?: Prisma.EvidenceUpsertWithWhereUniqueWithoutStudentReportInput | Prisma.EvidenceUpsertWithWhereUniqueWithoutStudentReportInput[]
-  createMany?: Prisma.EvidenceCreateManyStudentReportInputEnvelope
-  set?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  disconnect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  delete?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  connect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  update?: Prisma.EvidenceUpdateWithWhereUniqueWithoutStudentReportInput | Prisma.EvidenceUpdateWithWhereUniqueWithoutStudentReportInput[]
-  updateMany?: Prisma.EvidenceUpdateManyWithWhereWithoutStudentReportInput | Prisma.EvidenceUpdateManyWithWhereWithoutStudentReportInput[]
-  deleteMany?: Prisma.EvidenceScalarWhereInput | Prisma.EvidenceScalarWhereInput[]
-}
-
-export type EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput = {
-  create?: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput> | Prisma.EvidenceCreateWithoutStudentReportInput[] | Prisma.EvidenceUncheckedCreateWithoutStudentReportInput[]
-  connectOrCreate?: Prisma.EvidenceCreateOrConnectWithoutStudentReportInput | Prisma.EvidenceCreateOrConnectWithoutStudentReportInput[]
-  upsert?: Prisma.EvidenceUpsertWithWhereUniqueWithoutStudentReportInput | Prisma.EvidenceUpsertWithWhereUniqueWithoutStudentReportInput[]
-  createMany?: Prisma.EvidenceCreateManyStudentReportInputEnvelope
-  set?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  disconnect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  delete?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  connect?: Prisma.EvidenceWhereUniqueInput | Prisma.EvidenceWhereUniqueInput[]
-  update?: Prisma.EvidenceUpdateWithWhereUniqueWithoutStudentReportInput | Prisma.EvidenceUpdateWithWhereUniqueWithoutStudentReportInput[]
-  updateMany?: Prisma.EvidenceUpdateManyWithWhereWithoutStudentReportInput | Prisma.EvidenceUpdateManyWithWhereWithoutStudentReportInput[]
-  deleteMany?: Prisma.EvidenceScalarWhereInput | Prisma.EvidenceScalarWhereInput[]
-}
-
 export type EvidenceCreateWithoutUploadedByInput = {
   id?: string
   type: $Enums.EvidenceType
@@ -794,7 +728,6 @@ export type EvidenceCreateWithoutUploadedByInput = {
   dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
-  studentReport?: Prisma.StudentReportCreateNestedOneWithoutEvidencesInput
 }
 
 export type EvidenceUncheckedCreateWithoutUploadedByInput = {
@@ -802,7 +735,6 @@ export type EvidenceUncheckedCreateWithoutUploadedByInput = {
   dailyLogId?: string | null
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -847,7 +779,6 @@ export type EvidenceScalarWhereInput = {
   dailyLogId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   assessmentId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   submissionId?: Prisma.StringNullableFilter<"Evidence"> | string | null
-  reportId?: Prisma.StringNullableFilter<"Evidence"> | string | null
   type?: Prisma.EnumEvidenceTypeFilter<"Evidence"> | $Enums.EvidenceType
   url?: Prisma.StringFilter<"Evidence"> | string
   fileName?: Prisma.StringNullableFilter<"Evidence"> | string | null
@@ -871,7 +802,6 @@ export type EvidenceCreateWithoutSubmissionInput = {
   createdAt?: Date | string
   dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
-  studentReport?: Prisma.StudentReportCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
 
@@ -879,7 +809,6 @@ export type EvidenceUncheckedCreateWithoutSubmissionInput = {
   id?: string
   dailyLogId?: string | null
   assessmentId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -929,7 +858,6 @@ export type EvidenceCreateWithoutDailyLogInput = {
   createdAt?: Date | string
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
-  studentReport?: Prisma.StudentReportCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
 
@@ -937,7 +865,6 @@ export type EvidenceUncheckedCreateWithoutDailyLogInput = {
   id?: string
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -987,7 +914,6 @@ export type EvidenceCreateWithoutAssessmentInput = {
   createdAt?: Date | string
   dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
-  studentReport?: Prisma.StudentReportCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
 
@@ -995,7 +921,6 @@ export type EvidenceUncheckedCreateWithoutAssessmentInput = {
   id?: string
   dailyLogId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -1033,70 +958,11 @@ export type EvidenceUpdateManyWithWhereWithoutAssessmentInput = {
   data: Prisma.XOR<Prisma.EvidenceUpdateManyMutationInput, Prisma.EvidenceUncheckedUpdateManyWithoutAssessmentInput>
 }
 
-export type EvidenceCreateWithoutStudentReportInput = {
-  id?: string
-  type: $Enums.EvidenceType
-  url: string
-  fileName?: string | null
-  mimeType?: string | null
-  fileSize?: number | null
-  title?: string | null
-  description?: string | null
-  createdAt?: Date | string
-  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
-  assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
-  submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
-  uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
-}
-
-export type EvidenceUncheckedCreateWithoutStudentReportInput = {
-  id?: string
-  dailyLogId?: string | null
-  assessmentId?: string | null
-  submissionId?: string | null
-  type: $Enums.EvidenceType
-  url: string
-  fileName?: string | null
-  mimeType?: string | null
-  fileSize?: number | null
-  title?: string | null
-  description?: string | null
-  uploadedById?: string | null
-  createdAt?: Date | string
-}
-
-export type EvidenceCreateOrConnectWithoutStudentReportInput = {
-  where: Prisma.EvidenceWhereUniqueInput
-  create: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput>
-}
-
-export type EvidenceCreateManyStudentReportInputEnvelope = {
-  data: Prisma.EvidenceCreateManyStudentReportInput | Prisma.EvidenceCreateManyStudentReportInput[]
-  skipDuplicates?: boolean
-}
-
-export type EvidenceUpsertWithWhereUniqueWithoutStudentReportInput = {
-  where: Prisma.EvidenceWhereUniqueInput
-  update: Prisma.XOR<Prisma.EvidenceUpdateWithoutStudentReportInput, Prisma.EvidenceUncheckedUpdateWithoutStudentReportInput>
-  create: Prisma.XOR<Prisma.EvidenceCreateWithoutStudentReportInput, Prisma.EvidenceUncheckedCreateWithoutStudentReportInput>
-}
-
-export type EvidenceUpdateWithWhereUniqueWithoutStudentReportInput = {
-  where: Prisma.EvidenceWhereUniqueInput
-  data: Prisma.XOR<Prisma.EvidenceUpdateWithoutStudentReportInput, Prisma.EvidenceUncheckedUpdateWithoutStudentReportInput>
-}
-
-export type EvidenceUpdateManyWithWhereWithoutStudentReportInput = {
-  where: Prisma.EvidenceScalarWhereInput
-  data: Prisma.XOR<Prisma.EvidenceUpdateManyMutationInput, Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportInput>
-}
-
 export type EvidenceCreateManyUploadedByInput = {
   id?: string
   dailyLogId?: string | null
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -1120,7 +986,6 @@ export type EvidenceUpdateWithoutUploadedByInput = {
   dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
-  studentReport?: Prisma.StudentReportUpdateOneWithoutEvidencesNestedInput
 }
 
 export type EvidenceUncheckedUpdateWithoutUploadedByInput = {
@@ -1128,7 +993,6 @@ export type EvidenceUncheckedUpdateWithoutUploadedByInput = {
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1144,7 +1008,6 @@ export type EvidenceUncheckedUpdateManyWithoutUploadedByInput = {
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1159,7 +1022,6 @@ export type EvidenceCreateManySubmissionInput = {
   id?: string
   dailyLogId?: string | null
   assessmentId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -1183,7 +1045,6 @@ export type EvidenceUpdateWithoutSubmissionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
-  studentReport?: Prisma.StudentReportUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
 
@@ -1191,7 +1052,6 @@ export type EvidenceUncheckedUpdateWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1207,7 +1067,6 @@ export type EvidenceUncheckedUpdateManyWithoutSubmissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1223,7 +1082,6 @@ export type EvidenceCreateManyDailyLogInput = {
   id?: string
   assessmentId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -1247,7 +1105,6 @@ export type EvidenceUpdateWithoutDailyLogInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
-  studentReport?: Prisma.StudentReportUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
 
@@ -1255,7 +1112,6 @@ export type EvidenceUncheckedUpdateWithoutDailyLogInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1271,7 +1127,6 @@ export type EvidenceUncheckedUpdateManyWithoutDailyLogInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1287,7 +1142,6 @@ export type EvidenceCreateManyAssessmentInput = {
   id?: string
   dailyLogId?: string | null
   submissionId?: string | null
-  reportId?: string | null
   type: $Enums.EvidenceType
   url: string
   fileName?: string | null
@@ -1311,7 +1165,6 @@ export type EvidenceUpdateWithoutAssessmentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
-  studentReport?: Prisma.StudentReportUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
 
@@ -1319,7 +1172,6 @@ export type EvidenceUncheckedUpdateWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1334,71 +1186,6 @@ export type EvidenceUncheckedUpdateWithoutAssessmentInput = {
 export type EvidenceUncheckedUpdateManyWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type EvidenceCreateManyStudentReportInput = {
-  id?: string
-  dailyLogId?: string | null
-  assessmentId?: string | null
-  submissionId?: string | null
-  type: $Enums.EvidenceType
-  url: string
-  fileName?: string | null
-  mimeType?: string | null
-  fileSize?: number | null
-  title?: string | null
-  description?: string | null
-  uploadedById?: string | null
-  createdAt?: Date | string
-}
-
-export type EvidenceUpdateWithoutStudentReportInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
-  assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
-  submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
-  uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
-}
-
-export type EvidenceUncheckedUpdateWithoutStudentReportInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type EvidenceUncheckedUpdateManyWithoutStudentReportInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  dailyLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  assessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumEvidenceTypeFieldUpdateOperationsInput | $Enums.EvidenceType
   url?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1418,7 +1205,6 @@ export type EvidenceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   dailyLogId?: boolean
   assessmentId?: boolean
   submissionId?: boolean
-  reportId?: boolean
   type?: boolean
   url?: boolean
   fileName?: boolean
@@ -1431,7 +1217,6 @@ export type EvidenceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
 
@@ -1440,7 +1225,6 @@ export type EvidenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   dailyLogId?: boolean
   assessmentId?: boolean
   submissionId?: boolean
-  reportId?: boolean
   type?: boolean
   url?: boolean
   fileName?: boolean
@@ -1453,7 +1237,6 @@ export type EvidenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
 
@@ -1462,7 +1245,6 @@ export type EvidenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   dailyLogId?: boolean
   assessmentId?: boolean
   submissionId?: boolean
-  reportId?: boolean
   type?: boolean
   url?: boolean
   fileName?: boolean
@@ -1475,7 +1257,6 @@ export type EvidenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
 
@@ -1484,7 +1265,6 @@ export type EvidenceSelectScalar = {
   dailyLogId?: boolean
   assessmentId?: boolean
   submissionId?: boolean
-  reportId?: boolean
   type?: boolean
   url?: boolean
   fileName?: boolean
@@ -1496,26 +1276,23 @@ export type EvidenceSelectScalar = {
   createdAt?: boolean
 }
 
-export type EvidenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dailyLogId" | "assessmentId" | "submissionId" | "reportId" | "type" | "url" | "fileName" | "mimeType" | "fileSize" | "title" | "description" | "uploadedById" | "createdAt", ExtArgs["result"]["evidence"]>
+export type EvidenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dailyLogId" | "assessmentId" | "submissionId" | "type" | "url" | "fileName" | "mimeType" | "fileSize" | "title" | "description" | "uploadedById" | "createdAt", ExtArgs["result"]["evidence"]>
 export type EvidenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
 export type EvidenceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
 export type EvidenceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
-  studentReport?: boolean | Prisma.Evidence$studentReportArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
 
@@ -1525,7 +1302,6 @@ export type $EvidencePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     dailyLog: Prisma.$DailyLogPayload<ExtArgs> | null
     assessment: Prisma.$StudentAssessmentPayload<ExtArgs> | null
     submission: Prisma.$AssignmentSubmissionPayload<ExtArgs> | null
-    studentReport: Prisma.$StudentReportPayload<ExtArgs> | null
     uploadedBy: Prisma.$UserDataPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1533,7 +1309,6 @@ export type $EvidencePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     dailyLogId: string | null
     assessmentId: string | null
     submissionId: string | null
-    reportId: string | null
     type: $Enums.EvidenceType
     url: string
     fileName: string | null
@@ -1940,7 +1715,6 @@ export interface Prisma__EvidenceClient<T, Null = never, ExtArgs extends runtime
   dailyLog<T extends Prisma.Evidence$dailyLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$dailyLogArgs<ExtArgs>>): Prisma.Prisma__DailyLogClient<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assessment<T extends Prisma.Evidence$assessmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$assessmentArgs<ExtArgs>>): Prisma.Prisma__StudentAssessmentClient<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   submission<T extends Prisma.Evidence$submissionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$submissionArgs<ExtArgs>>): Prisma.Prisma__AssignmentSubmissionClient<runtime.Types.Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  studentReport<T extends Prisma.Evidence$studentReportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$studentReportArgs<ExtArgs>>): Prisma.Prisma__StudentReportClient<runtime.Types.Result.GetResult<Prisma.$StudentReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   uploadedBy<T extends Prisma.Evidence$uploadedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$uploadedByArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1975,7 +1749,6 @@ export interface EvidenceFieldRefs {
   readonly dailyLogId: Prisma.FieldRef<"Evidence", 'String'>
   readonly assessmentId: Prisma.FieldRef<"Evidence", 'String'>
   readonly submissionId: Prisma.FieldRef<"Evidence", 'String'>
-  readonly reportId: Prisma.FieldRef<"Evidence", 'String'>
   readonly type: Prisma.FieldRef<"Evidence", 'EvidenceType'>
   readonly url: Prisma.FieldRef<"Evidence", 'String'>
   readonly fileName: Prisma.FieldRef<"Evidence", 'String'>
@@ -2440,25 +2213,6 @@ export type Evidence$submissionArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.AssignmentSubmissionInclude<ExtArgs> | null
   where?: Prisma.AssignmentSubmissionWhereInput
-}
-
-/**
- * Evidence.studentReport
- */
-export type Evidence$studentReportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StudentReport
-   */
-  select?: Prisma.StudentReportSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the StudentReport
-   */
-  omit?: Prisma.StudentReportOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudentReportInclude<ExtArgs> | null
-  where?: Prisma.StudentReportWhereInput
 }
 
 /**

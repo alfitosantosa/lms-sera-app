@@ -292,7 +292,6 @@ export type StudentReportWhereInput = {
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
   approvedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
-  evidences?: Prisma.EvidenceListRelationFilter
 }
 
 export type StudentReportOrderByWithRelationInput = {
@@ -321,7 +320,6 @@ export type StudentReportOrderByWithRelationInput = {
   student?: Prisma.UserDataOrderByWithRelationInput
   period?: Prisma.AssessmentPeriodOrderByWithRelationInput
   approvedBy?: Prisma.UserDataOrderByWithRelationInput
-  evidences?: Prisma.EvidenceOrderByRelationAggregateInput
 }
 
 export type StudentReportWhereUniqueInput = Prisma.AtLeast<{
@@ -354,7 +352,6 @@ export type StudentReportWhereUniqueInput = Prisma.AtLeast<{
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
   approvedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
-  evidences?: Prisma.EvidenceListRelationFilter
 }, "id" | "studentId_periodId">
 
 export type StudentReportOrderByWithAggregationInput = {
@@ -427,7 +424,6 @@ export type StudentReportCreateInput = {
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateInput = {
@@ -450,7 +446,6 @@ export type StudentReportUncheckedCreateInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUpdateInput = {
@@ -473,7 +468,6 @@ export type StudentReportUpdateInput = {
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateInput = {
@@ -496,7 +490,6 @@ export type StudentReportUncheckedUpdateInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportCreateManyInput = {
@@ -567,11 +560,6 @@ export type StudentReportListRelationFilter = {
 
 export type StudentReportOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type StudentReportNullableScalarRelationFilter = {
-  is?: Prisma.StudentReportWhereInput | null
-  isNot?: Prisma.StudentReportWhereInput | null
 }
 
 export type StudentReportStudentIdPeriodIdCompoundUniqueInput = {
@@ -893,22 +881,6 @@ export type StudentReportUncheckedUpdateManyWithoutPeriodNestedInput = {
   deleteMany?: Prisma.StudentReportScalarWhereInput | Prisma.StudentReportScalarWhereInput[]
 }
 
-export type StudentReportCreateNestedOneWithoutEvidencesInput = {
-  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutEvidencesInput, Prisma.StudentReportUncheckedCreateWithoutEvidencesInput>
-  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutEvidencesInput
-  connect?: Prisma.StudentReportWhereUniqueInput
-}
-
-export type StudentReportUpdateOneWithoutEvidencesNestedInput = {
-  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutEvidencesInput, Prisma.StudentReportUncheckedCreateWithoutEvidencesInput>
-  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutEvidencesInput
-  upsert?: Prisma.StudentReportUpsertWithoutEvidencesInput
-  disconnect?: Prisma.StudentReportWhereInput | boolean
-  delete?: Prisma.StudentReportWhereInput | boolean
-  connect?: Prisma.StudentReportWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StudentReportUpdateToOneWithWhereWithoutEvidencesInput, Prisma.StudentReportUpdateWithoutEvidencesInput>, Prisma.StudentReportUncheckedUpdateWithoutEvidencesInput>
-}
-
 export type EnumReportStatusFieldUpdateOperationsInput = {
   set?: $Enums.ReportStatus
 }
@@ -932,7 +904,6 @@ export type StudentReportCreateWithoutFoundationInput = {
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutFoundationInput = {
@@ -954,7 +925,6 @@ export type StudentReportUncheckedCreateWithoutFoundationInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutFoundationInput = {
@@ -1027,7 +997,6 @@ export type StudentReportCreateWithoutStudentInput = {
   class: Prisma.ClassCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutStudentInput = {
@@ -1049,7 +1018,6 @@ export type StudentReportUncheckedCreateWithoutStudentInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutStudentInput = {
@@ -1081,7 +1049,6 @@ export type StudentReportCreateWithoutApprovedByInput = {
   class: Prisma.ClassCreateNestedOneWithoutStudentReportsInput
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutApprovedByInput = {
@@ -1103,7 +1070,6 @@ export type StudentReportUncheckedCreateWithoutApprovedByInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutApprovedByInput = {
@@ -1167,7 +1133,6 @@ export type StudentReportCreateWithoutBranchInput = {
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutBranchInput = {
@@ -1189,7 +1154,6 @@ export type StudentReportUncheckedCreateWithoutBranchInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutBranchInput = {
@@ -1237,7 +1201,6 @@ export type StudentReportCreateWithoutClassInput = {
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutClassInput = {
@@ -1259,7 +1222,6 @@ export type StudentReportUncheckedCreateWithoutClassInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutClassInput = {
@@ -1307,7 +1269,6 @@ export type StudentReportCreateWithoutPeriodInput = {
   class: Prisma.ClassCreateNestedOneWithoutStudentReportsInput
   student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
   approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportUncheckedCreateWithoutPeriodInput = {
@@ -1329,7 +1290,6 @@ export type StudentReportUncheckedCreateWithoutPeriodInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  evidences?: Prisma.EvidenceUncheckedCreateNestedManyWithoutStudentReportInput
 }
 
 export type StudentReportCreateOrConnectWithoutPeriodInput = {
@@ -1356,110 +1316,6 @@ export type StudentReportUpdateWithWhereUniqueWithoutPeriodInput = {
 export type StudentReportUpdateManyWithWhereWithoutPeriodInput = {
   where: Prisma.StudentReportScalarWhereInput
   data: Prisma.XOR<Prisma.StudentReportUpdateManyMutationInput, Prisma.StudentReportUncheckedUpdateManyWithoutPeriodInput>
-}
-
-export type StudentReportCreateWithoutEvidencesInput = {
-  id?: string
-  status?: $Enums.ReportStatus
-  teacherNarrative?: string | null
-  homeroomNote?: string | null
-  principalNote?: string | null
-  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  completion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  generatedAt?: Date | string | null
-  approvedAt?: Date | string | null
-  publishedAt?: Date | string | null
-  createdById: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentReportsInput
-  branch: Prisma.BranchCreateNestedOneWithoutStudentReportsInput
-  class: Prisma.ClassCreateNestedOneWithoutStudentReportsInput
-  student: Prisma.UserDataCreateNestedOneWithoutStudentReportsInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutStudentReportsInput
-  approvedBy?: Prisma.UserDataCreateNestedOneWithoutApprovedReportsInput
-}
-
-export type StudentReportUncheckedCreateWithoutEvidencesInput = {
-  id?: string
-  foundationId: string
-  branchId: string
-  classId: string
-  studentId: string
-  periodId: string
-  status?: $Enums.ReportStatus
-  teacherNarrative?: string | null
-  homeroomNote?: string | null
-  principalNote?: string | null
-  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  completion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  generatedAt?: Date | string | null
-  approvedAt?: Date | string | null
-  publishedAt?: Date | string | null
-  approvedById?: string | null
-  createdById: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type StudentReportCreateOrConnectWithoutEvidencesInput = {
-  where: Prisma.StudentReportWhereUniqueInput
-  create: Prisma.XOR<Prisma.StudentReportCreateWithoutEvidencesInput, Prisma.StudentReportUncheckedCreateWithoutEvidencesInput>
-}
-
-export type StudentReportUpsertWithoutEvidencesInput = {
-  update: Prisma.XOR<Prisma.StudentReportUpdateWithoutEvidencesInput, Prisma.StudentReportUncheckedUpdateWithoutEvidencesInput>
-  create: Prisma.XOR<Prisma.StudentReportCreateWithoutEvidencesInput, Prisma.StudentReportUncheckedCreateWithoutEvidencesInput>
-  where?: Prisma.StudentReportWhereInput
-}
-
-export type StudentReportUpdateToOneWithWhereWithoutEvidencesInput = {
-  where?: Prisma.StudentReportWhereInput
-  data: Prisma.XOR<Prisma.StudentReportUpdateWithoutEvidencesInput, Prisma.StudentReportUncheckedUpdateWithoutEvidencesInput>
-}
-
-export type StudentReportUpdateWithoutEvidencesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
-  teacherNarrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  homeroomNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  principalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  completion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  generatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentReportsNestedInput
-  branch?: Prisma.BranchUpdateOneRequiredWithoutStudentReportsNestedInput
-  class?: Prisma.ClassUpdateOneRequiredWithoutStudentReportsNestedInput
-  student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
-  approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-}
-
-export type StudentReportUncheckedUpdateWithoutEvidencesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  foundationId?: Prisma.StringFieldUpdateOperationsInput | string
-  branchId?: Prisma.StringFieldUpdateOperationsInput | string
-  classId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  periodId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
-  teacherNarrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  homeroomNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  principalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  completion?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  generatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  approvedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentReportCreateManyFoundationInput = {
@@ -1502,7 +1358,6 @@ export type StudentReportUpdateWithoutFoundationInput = {
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutFoundationInput = {
@@ -1524,7 +1379,6 @@ export type StudentReportUncheckedUpdateWithoutFoundationInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutFoundationInput = {
@@ -1609,7 +1463,6 @@ export type StudentReportUpdateWithoutStudentInput = {
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutStudentInput = {
@@ -1631,7 +1484,6 @@ export type StudentReportUncheckedUpdateWithoutStudentInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutStudentInput = {
@@ -1674,7 +1526,6 @@ export type StudentReportUpdateWithoutApprovedByInput = {
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentReportsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutApprovedByInput = {
@@ -1696,7 +1547,6 @@ export type StudentReportUncheckedUpdateWithoutApprovedByInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutApprovedByInput = {
@@ -1760,7 +1610,6 @@ export type StudentReportUpdateWithoutBranchInput = {
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutBranchInput = {
@@ -1782,7 +1631,6 @@ export type StudentReportUncheckedUpdateWithoutBranchInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutBranchInput = {
@@ -1846,7 +1694,6 @@ export type StudentReportUpdateWithoutClassInput = {
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutClassInput = {
@@ -1868,7 +1715,6 @@ export type StudentReportUncheckedUpdateWithoutClassInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutClassInput = {
@@ -1932,7 +1778,6 @@ export type StudentReportUpdateWithoutPeriodInput = {
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentReportsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutStudentReportsNestedInput
   approvedBy?: Prisma.UserDataUpdateOneWithoutApprovedReportsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutPeriodInput = {
@@ -1954,7 +1799,6 @@ export type StudentReportUncheckedUpdateWithoutPeriodInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  evidences?: Prisma.EvidenceUncheckedUpdateManyWithoutStudentReportNestedInput
 }
 
 export type StudentReportUncheckedUpdateManyWithoutPeriodInput = {
@@ -1978,35 +1822,6 @@ export type StudentReportUncheckedUpdateManyWithoutPeriodInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-
-/**
- * Count Type StudentReportCountOutputType
- */
-
-export type StudentReportCountOutputType = {
-  evidences: number
-}
-
-export type StudentReportCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  evidences?: boolean | StudentReportCountOutputTypeCountEvidencesArgs
-}
-
-/**
- * StudentReportCountOutputType without action
- */
-export type StudentReportCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StudentReportCountOutputType
-   */
-  select?: Prisma.StudentReportCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * StudentReportCountOutputType without action
- */
-export type StudentReportCountOutputTypeCountEvidencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.EvidenceWhereInput
-}
 
 
 export type StudentReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2035,8 +1850,6 @@ export type StudentReportSelect<ExtArgs extends runtime.Types.Extensions.Interna
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
   approvedBy?: boolean | Prisma.StudentReport$approvedByArgs<ExtArgs>
-  evidences?: boolean | Prisma.StudentReport$evidencesArgs<ExtArgs>
-  _count?: boolean | Prisma.StudentReportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentReport"]>
 
 export type StudentReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2125,8 +1938,6 @@ export type StudentReportInclude<ExtArgs extends runtime.Types.Extensions.Intern
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
   approvedBy?: boolean | Prisma.StudentReport$approvedByArgs<ExtArgs>
-  evidences?: boolean | Prisma.StudentReport$evidencesArgs<ExtArgs>
-  _count?: boolean | Prisma.StudentReportCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudentReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
@@ -2154,7 +1965,6 @@ export type $StudentReportPayload<ExtArgs extends runtime.Types.Extensions.Inter
     student: Prisma.$UserDataPayload<ExtArgs>
     period: Prisma.$AssessmentPeriodPayload<ExtArgs>
     approvedBy: Prisma.$UserDataPayload<ExtArgs> | null
-    evidences: Prisma.$EvidencePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2576,7 +2386,6 @@ export interface Prisma__StudentReportClient<T, Null = never, ExtArgs extends ru
   student<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   period<T extends Prisma.AssessmentPeriodDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriodDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentPeriodClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   approvedBy<T extends Prisma.StudentReport$approvedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentReport$approvedByArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  evidences<T extends Prisma.StudentReport$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentReport$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3042,30 +2851,6 @@ export type StudentReport$approvedByArgs<ExtArgs extends runtime.Types.Extension
    */
   include?: Prisma.UserDataInclude<ExtArgs> | null
   where?: Prisma.UserDataWhereInput
-}
-
-/**
- * StudentReport.evidences
- */
-export type StudentReport$evidencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Evidence
-   */
-  select?: Prisma.EvidenceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Evidence
-   */
-  omit?: Prisma.EvidenceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EvidenceInclude<ExtArgs> | null
-  where?: Prisma.EvidenceWhereInput
-  orderBy?: Prisma.EvidenceOrderByWithRelationInput | Prisma.EvidenceOrderByWithRelationInput[]
-  cursor?: Prisma.EvidenceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.EvidenceScalarFieldEnum | Prisma.EvidenceScalarFieldEnum[]
 }
 
 /**

@@ -1,5 +1,4 @@
 import { gradeTypeInputSchema } from "@/app/(types)";
-import { bootstrapGradeTypes } from "@/lib/development/development.defaults";
 import {
   ADMIN_ROLE_NAMES,
   developmentError,
@@ -37,9 +36,9 @@ async function uniqueGradeTypeCode(name: string): Promise<string> {
 
 /**
  * GET /api/grade-types
- * Daftar jenis penilaian aktif. Sekaligus memastikan default ("Tugas") ada
- * (idempotent, seperti `/api/development/bootstrap`) supaya form penilaian
- * tidak pernah kosong.
+ * Daftar jenis penilaian aktif. **Tidak** melakukan seed: seeding default
+ * "Tugas" hanya lewat `POST /api/grade-types/bootstrap` (eksplisit), supaya
+ * GET tidak pernah menulis ke tabel global `grade_types`.
  */
 export async function GET(request: NextRequest) {
   const actorResult = await resolveDevelopmentActor(request);
@@ -50,7 +49,6 @@ export async function GET(request: NextRequest) {
   if (denied) return denied;
 
   try {
-    await bootstrapGradeTypes();
     const data = await prisma.gradeType.findMany({
       orderBy: [{ order: "asc" }, { name: "asc" }],
     });

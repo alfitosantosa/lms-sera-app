@@ -124,22 +124,38 @@ function evidenceRows(evidences: EvidenceInput[], uploadedById: string | null) {
 /**
  * Aturan kunci seragam (menggantikan "DELETE hanya jika belum PUBLISHED"):
  * tidak ada mutasi saat periode `LOCKED` **atau** `PUBLISHED`.
+ *
+ * WAJIB dipanggil DI DALAM transaksi penulisan: pengecekannya adalah
+ * penulisan bersyarat (`updateMany` pada status periode), bukan baca terpisah.
+ * Kunci periode yang berjalan bersamaan menunggu row-lock ini — bukan lolos
+ * di sela baca-lalu-tulis seperti pola lama (`prisma.assessmentPeriod.findFirst`
+ * di luar transaksi).
  */
 export async function assertPeriodWritable(
+  tx: Prisma.TransactionClient,
   foundationId: string,
   periodId: string,
-): Promise<{ id: string; name: string; status: string }> {
-  const period = await prisma.assessmentPeriod.findFirst({
-    where: { id: periodId, foundationId },
-    select: { id: true, name: true, status: true },
+): Promise<void> {
+  const { count } = await tx.assessmentPeriod.updateMany({
+    // `updatedAt` = sentinel penulisan; efek utamanya mengambil row-lock baris
+    // periode sehingga PATCH status periode tidak bisa menyusup di antaranya.
+    where: {
+      id: periodId,
+      foundationId,
+      status: { notIn: ["LOCKED", "PUBLISHED"] },
+    },
+    data: { updatedAt: new Date() },
   });
-  if (!period) {
+  if (count > 0) return;
+
+  const exists = await tx.assessmentPeriod.findFirst({
+    where: { id: periodId, foundationId },
+    select: { id: true },
+  });
+  if (!exists) {
     throw new AssessmentServiceError("Periode penilaian tidak ditemukan", 404);
   }
-  if (period.status === "LOCKED" || period.status === "PUBLISHED") {
-    throw new AssessmentServiceError("Periode penilaian sudah dikunci", 409);
-  }
-  return period;
+  throw new AssessmentServiceError("Periode penilaian sudah dikunci", 409);
 }
 
 /**
@@ -162,9 +178,9 @@ export async function upsertAssessment(
     indicatorIds: [input.indicatorId],
     scaleIds: [input.scaleId],
   });
-  await assertPeriodWritable(actor.foundationId, input.periodId);
 
   return prisma.$transaction(async (tx) => {
+    await assertPeriodWritable(tx, actor.foundationId, input.periodId);
     const where = {
       studentId_periodId_indicatorId: {
         studentId: student.id,
@@ -232,9 +248,10 @@ export async function upsertAssessment(
 }
 
 /**
- * Upsert matriks kelas × satu indikator. Seluruh validasi (kelas, periode,
- * referensi, keanggotaan siswa) selesai sebelum transaksi — penolakan tidak
- * meninggalkan baris parsial.
+ * Upsert matriks kelas × satu indikator. Validasi kelas, referensi, dan
+ * keanggotaan siswa selesai sebelum transaksi; kunci periode dicek DI DALAM
+ * transaksi (penulisan bersyarat) supaya periode yang dikunci bersamaan tidak
+ * pernah terisi baris baru.
  */
 export async function bulkUpsertAssessments(
   actor: DevelopmentActor,
@@ -242,7 +259,6 @@ export async function bulkUpsertAssessments(
 ): Promise<{ count: number }> {
   const teacherId = requireTeacherId(actor);
   await unwrapClass(await assertClassAccess(actor, input.classId));
-  await assertPeriodWritable(actor.foundationId, input.periodId);
   await assertReferencesInFoundation(actor.foundationId, {
     indicatorIds: [input.indicatorId],
     scaleIds: input.entries.map((e) => e.scaleId),
@@ -267,6 +283,7 @@ export async function bulkUpsertAssessments(
   }
 
   return prisma.$transaction(async (tx) => {
+    await assertPeriodWritable(tx, actor.foundationId, input.periodId);
     // ponytail: upsert berurutan; satukan jadi satu raw upsert bila matriks kelas jadi sangat besar
     for (const entry of input.entries) {
       const where = {
@@ -463,7 +480,6 @@ export async function updateAssessment(
   input: AssessmentUpdateInput,
 ): Promise<StudentAssessmentFull> {
   const row = await getAssessment(actor, id);
-  await assertPeriodWritable(actor.foundationId, row.periodId);
   if (input.scaleId) {
     await assertReferencesInFoundation(actor.foundationId, {
       scaleIds: [input.scaleId],
@@ -471,6 +487,7 @@ export async function updateAssessment(
   }
 
   return prisma.$transaction(async (tx) => {
+    await assertPeriodWritable(tx, actor.foundationId, row.periodId);
     const updated = await tx.studentAssessment.update({
       where: { id: row.id },
       data: {
@@ -509,9 +526,9 @@ export async function deleteAssessment(
   id: string,
 ): Promise<void> {
   const row = await getAssessment(actor, id);
-  await assertPeriodWritable(actor.foundationId, row.periodId);
 
   await prisma.$transaction(async (tx) => {
+    await assertPeriodWritable(tx, actor.foundationId, row.periodId);
     await writeAudit(tx, {
       foundationId: actor.foundationId,
       actorId: actor.userId,

@@ -31,7 +31,7 @@ import {
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { ArrowUpDown, ImageIcon, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
 type DailyLogTableProps = {
   logs: DailyLogDTO[];
@@ -48,6 +48,11 @@ type DailyLogTableProps = {
    * pencarian disembunyikan — filter klien hanya akan menyaring satu halaman.
    */
   onPageChange?: (page: number) => void;
+  /**
+   * Kolom "Aksi" opsional per baris (mis. Kirim/Edit/Hapus/Tinjau dan
+   * pengalih visibilitas orang tua). Tanpa prop ini tabel tetap read-only.
+   */
+  renderRowActions?: (log: DailyLogDTO) => ReactNode;
 };
 
 /** Ringkasan skala per log — label/warna dari `AssessmentScale`, bukan literal. */
@@ -89,13 +94,14 @@ export function DailyLogTable({
   page = 1,
   hasMore = false,
   onPageChange,
+  renderRowActions,
 }: DailyLogTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const serverPaged = Boolean(onPageChange);
 
-  const columns = useMemo<ColumnDef<DailyLogDTO>[]>(
-    () => [
+  const columns = useMemo<ColumnDef<DailyLogDTO>[]>(() => {
+    const base: ColumnDef<DailyLogDTO>[] = [
       {
         id: "student",
         accessorFn: (row) => row.student?.name ?? "-",
@@ -177,9 +183,19 @@ export function DailyLogTable({
           );
         },
       },
-    ],
-    [],
-  );
+    ];
+
+    if (renderRowActions) {
+      base.push({
+        id: "actions",
+        header: "Aksi",
+        enableSorting: false,
+        cell: ({ row }) => renderRowActions(row.original),
+      });
+    }
+
+    return base;
+  }, [renderRowActions]);
 
   const table = useReactTable({
     data: logs,

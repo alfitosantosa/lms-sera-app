@@ -8,6 +8,7 @@ import {
 import { useCreateDailyLog } from "@/app/(hooks)/hooks/Development/useDailyLogs";
 import { ObservationTemplatePicker } from "@/components/development/observation-template-picker";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -54,6 +55,7 @@ export function QuickLogDialog({
   const [indicatorId, setIndicatorId] = useState("");
   const [scaleId, setScaleId] = useState("");
   const [note, setNote] = useState("");
+  const [parentVisible, setParentVisible] = useState(false);
 
   const { data: indicators = [] } = useGetIndicators({ isActive: true });
   const { data: scales = [] } = useGetScales({ isActive: true });
@@ -66,6 +68,7 @@ export function QuickLogDialog({
     setIndicatorId("");
     setScaleId("");
     setNote("");
+    setParentVisible(false);
   }, [open]);
 
   const indicatorGroups = new Map<string, typeof indicators>();
@@ -93,7 +96,7 @@ export function QuickLogDialog({
         classId,
         date: new Date(),
         activity: activity.trim(),
-        parentVisible: false,
+        parentVisible,
         observations: [
           {
             indicatorId,
@@ -216,6 +219,14 @@ export function QuickLogDialog({
               rows={3}
             />
           </div>
+
+          <label className="flex items-center gap-2 text-sm">
+            <Checkbox
+              checked={parentVisible}
+              onCheckedChange={(value) => setParentVisible(value === true)}
+            />
+            Terlihat oleh orang tua
+          </label>
         </div>
 
         <DialogFooter>

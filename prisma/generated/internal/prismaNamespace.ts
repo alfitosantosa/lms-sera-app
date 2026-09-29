@@ -5063,7 +5063,6 @@ export const EvidenceScalarFieldEnum = {
   dailyLogId: 'dailyLogId',
   assessmentId: 'assessmentId',
   submissionId: 'submissionId',
-  reportId: 'reportId',
   type: 'type',
   url: 'url',
   fileName: 'fileName',

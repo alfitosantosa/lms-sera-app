@@ -17,13 +17,28 @@ import {
 import {
   useBulkCreateDailyLogs,
   useCreateDailyLog,
+  useDeleteDailyLog,
   useGetDailyLogs,
+  useReviewDailyLog,
+  useSubmitDailyLog,
+  useUpdateDailyLog,
 } from "@/app/(hooks)/hooks/Development/useDailyLogs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { DailyLogTable } from "@/components/development/daily-log-table";
+import { DailyLogEditDialog } from "@/components/development/daily-log-edit-dialog";
 import { EvidenceUploader } from "@/components/development/evidence-uploader";
 import { ObservationTemplatePicker } from "@/components/development/observation-template-picker";
 import Loading from "@/components/loading";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,6 +74,8 @@ type RowState = {
   indicatorId: string;
   scaleId: string;
   observation: string;
+  /** Bawaan per baris; disalin ke `DailyLog.parentVisible` saat disimpan. */
+  parentVisible: boolean;
   evidences: EvidenceInput[];
 };
 
@@ -70,6 +87,7 @@ const EMPTY_ROW: RowState = {
   indicatorId: "",
   scaleId: "",
   observation: "",
+  parentVisible: false,
   evidences: EMPTY_EVIDENCES,
 };
 
@@ -95,6 +113,10 @@ export default function DailyLogbookPage() {
   const [rows, setRows] = useState<Record<string, RowState>>({});
   const [logPage, setLogPage] = useState(1);
   const [savingStudentId, setSavingStudentId] = useState("");
+  /** Bawaan bulk: "Terlihat oleh orang tua" untuk "Simpan Semua". */
+  const [bulkParentVisible, setBulkParentVisible] = useState(false);
+  const [editingLog, setEditingLog] = useState<DailyLogDTO | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DailyLogDTO | null>(null);
 
   const requestedClassId = searchParams.get("classId") ?? "";
 
@@ -122,6 +144,10 @@ export default function DailyLogbookPage() {
   });
   const bulkCreate = useBulkCreateDailyLogs();
   const createLog = useCreateDailyLog();
+  const updateLog = useUpdateDailyLog();
+  const submitLog = useSubmitDailyLog();
+  const reviewLog = useReviewDailyLog();
+  const deleteLog = useDeleteDailyLog();
 
   // Kembali ke halaman 1 saat kelas/tanggal berganti.
   useEffect(() => {
@@ -148,6 +174,112 @@ export default function DailyLogbookPage() {
     }
     return [...groups.entries()];
   }, [indicators]);
+
+  const roleName = (userData?.role?.name ?? "").toLowerCase().trim();
+  const isAdmin = roleName === "admin" || roleName === "admin school";
+  const isOwnLog = (log: DailyLogDTO) => log.teacherId === userData?.id;
+  // Cermin `assertLogWritable`/`submitDailyLog` di server: draft milik sendiri,
+  // atau admin. Aksi yang akan 403 tidak pernah ditampilkan.
+  const canEditLog = (log: DailyLogDTO) =>
+    isAdmin || (isOwnLog(log) && log.status === "DRAFT");
+  const canSubmitLog = (log: DailyLogDTO) =>
+    log.status === "DRAFT" && (isAdmin || isOwnLog(log));
+
+  const handleToggleVisibility = (log: DailyLogDTO, next: boolean) => {
+    updateLog.mutate(
+      { id: log.id, data: { parentVisible: next } },
+      {
+        onSuccess: () =>
+          toast.success(
+            next
+              ? "Log terlihat oleh orang tua"
+              : "Log disembunyikan dari orang tua",
+          ),
+      },
+    );
+  };
+
+  const handleSubmitLog = (log: DailyLogDTO) => {
+    submitLog.mutate(log.id, {
+      onSuccess: () => toast.success("Log dikirim untuk ditinjau"),
+    });
+  };
+
+  const handleReviewLog = (log: DailyLogDTO) => {
+    reviewLog.mutate(log.id, { onSuccess: () => toast.success("Log ditinjau") });
+  };
+
+  const handleDeleteLog = (log: DailyLogDTO) => {
+    deleteLog.mutate(log.id, {
+      onSuccess: () => {
+        toast.success("Log dihapus");
+        setDeleteTarget(null);
+      },
+    });
+  };
+
+  const renderRowActions = (log: DailyLogDTO) => (
+    <div className="flex flex-wrap items-center gap-3">
+      <label className="flex items-center gap-2 text-xs">
+        <Checkbox
+          checked={log.parentVisible}
+          disabled={!canEditLog(log) || updateLog.isPending}
+          onCheckedChange={(value) =>
+            handleToggleVisibility(log, value === true)
+          }
+          aria-label="Terlihat oleh orang tua"
+        />
+        <span>
+          {log.parentVisible ? "Terlihat orang tua" : "Tersembunyi"}
+        </span>
+      </label>
+      <div className="flex flex-wrap gap-1">
+        {canSubmitLog(log) && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            disabled={submitLog.isPending}
+            onClick={() => handleSubmitLog(log)}
+          >
+            Kirim
+          </Button>
+        )}
+        {canEditLog(log) && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setEditingLog(log)}
+          >
+            Edit
+          </Button>
+        )}
+        {log.status === "DRAFT" && (isAdmin || isOwnLog(log)) && (
+          <Button
+            type="button"
+            size="sm"
+            variant="destructive"
+            disabled={deleteLog.isPending}
+            onClick={() => setDeleteTarget(log)}
+          >
+            Hapus
+          </Button>
+        )}
+        {log.status === "SUBMITTED" && (
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            disabled={reviewLog.isPending}
+            onClick={() => handleReviewLog(log)}
+          >
+            Tinjau
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 
   const updateRow = (studentId: string, patch: Partial<RowState>) => {
     setRows((current) => ({
@@ -192,7 +324,7 @@ export default function DailyLogbookPage() {
       {
         classId,
         date: new Date(date),
-        parentVisible: false,
+        parentVisible: bulkParentVisible,
         entries: entries.map(({ student, row }) => ({
           studentId: student.id,
           activity: row.activity.trim(),
@@ -228,7 +360,7 @@ export default function DailyLogbookPage() {
         classId,
         date: new Date(date),
         activity: row.activity.trim(),
-        parentVisible: false,
+        parentVisible: row.parentVisible,
         observations: [
           {
             indicatorId: row.indicatorId,
@@ -392,7 +524,16 @@ export default function DailyLogbookPage() {
                   ))
                 )}
 
-                <div className="flex flex-col items-end gap-1 pt-2">
+                <div className="flex w-full flex-col items-end gap-1 pt-2">
+                  <label className="flex items-center gap-2 text-sm">
+                    <Checkbox
+                      checked={bulkParentVisible}
+                      onCheckedChange={(value) =>
+                        setBulkParentVisible(value === true)
+                      }
+                    />
+                    Terlihat oleh orang tua
+                  </label>
                   <Button
                     type="button"
                     onClick={handleBulkSave}
@@ -422,11 +563,49 @@ export default function DailyLogbookPage() {
                 page={logPage}
                 hasMore={logs?.pagination?.hasMore}
                 onPageChange={setLogPage}
+                renderRowActions={renderRowActions}
               />
             </div>
           </>
         )}
       </div>
+
+      <DailyLogEditDialog
+        open={editingLog !== null}
+        onOpenChange={(open) => {
+          if (!open) setEditingLog(null);
+        }}
+        log={editingLog}
+        scales={scales}
+        indicatorGroups={indicatorGroups}
+      />
+
+      <AlertDialog
+        open={deleteTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Hapus log harian?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Log {deleteTarget?.student?.name ?? "siswa ini"} akan dihapus
+              permanen beserta observasi dan buktinya.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Batal</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (deleteTarget) handleDeleteLog(deleteTarget);
+              }}
+            >
+              Hapus
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
@@ -462,6 +641,15 @@ function StudentRow({
         {student.hasLogToday && (
           <Badge variant="secondary">Sudah dicatat</Badge>
         )}
+        <label className="ml-auto flex items-center gap-2 text-xs">
+          <Checkbox
+            checked={row.parentVisible}
+            onCheckedChange={(value) =>
+              onChange({ parentVisible: value === true })
+            }
+          />
+          Terlihat oleh orang tua
+        </label>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
         <div className="space-y-1">

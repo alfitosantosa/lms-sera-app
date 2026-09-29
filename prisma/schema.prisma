@@ -1130,7 +1130,6 @@ model Evidence {
   dailyLogId   String?
   assessmentId String? // relasi ditambahkan di Phase 4
   submissionId String? // relasi ditambahkan di Phase 5
-  reportId     String? // relasi ditambahkan di Phase 6
   type         EvidenceType
   url          String
   fileName     String?
@@ -1144,13 +1143,11 @@ model Evidence {
   dailyLog   DailyLog?        @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
   assessment StudentAssessment? @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   submission AssignmentSubmission? @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-  studentReport StudentReport?    @relation(fields: [reportId], references: [id], onDelete: Cascade)
   uploadedBy UserData?        @relation("EvidenceUploader", fields: [uploadedById], references: [id])
 
   @@index([dailyLogId])
   @@index([assessmentId])
   @@index([submissionId])
-  @@index([reportId])
   @@map("evidences")
 }
 
@@ -1213,7 +1210,6 @@ model StudentReport {
   student    UserData         @relation("StudentReportCard", fields: [studentId], references: [id])
   period     AssessmentPeriod @relation(fields: [periodId], references: [id])
   approvedBy UserData?        @relation("ReportApprover", fields: [approvedById], references: [id])
-  evidences  Evidence[]
 
   @@unique([studentId, periodId])
   @@index([foundationId, branchId, classId])

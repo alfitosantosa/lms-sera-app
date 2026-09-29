@@ -485,6 +485,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "attendance",
         },
         {
+          title: "Tugas & Nilai",
+          url: "/dashboard/teacher/development/assignments",
+          icon: "file",
+        },
+        {
           title: "Rapor",
           url: "/dashboard/teacher/development/reports",
           icon: "file",
@@ -662,6 +667,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           title: "Penilaian",
           url: "/dashboard/teacher/development/assessments",
           icon: "attendance",
+        },
+        {
+          title: "Tugas & Nilai",
+          url: "/dashboard/teacher/development/assignments",
+          icon: "file",
         },
         {
           title: "Rapor",
