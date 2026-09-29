@@ -13,6 +13,7 @@ import {
   developmentError,
   type DevelopmentActor,
 } from "@/lib/development/development.guard";
+import { notifyDailyLogCreated } from "@/lib/development/notify";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { type Prisma } from "@/prisma/generated/client";
@@ -575,7 +576,7 @@ export async function submitDailyLog(
     );
   }
 
-  return prisma.$transaction(async (tx) => {
+  const submitted = await prisma.$transaction(async (tx) => {
     // Penulisan bersyarat: status dicek DI DALAM transaksi agar submit yang
     // tiba saat review berjalan tidak menimpa status yang lebih baru.
     const { count } = await tx.dailyLog.updateMany({
@@ -605,6 +606,14 @@ export async function submitDailyLog(
 
     return updated;
   });
+
+  // Notifikasi SETELAH commit, hanya untuk log `parentVisible` — itu titik
+  // orang tua boleh melihat log ini (model log tidak punya status "published").
+  // `reviewDailyLog` sengaja tidak memanggil notifikasi: satu log, satu kali.
+  // `notifyDailyLogCreated` menelan semua errornya, jadi submit tetap sukses.
+  if (submitted.parentVisible) await notifyDailyLogCreated(submitted.id);
+
+  return submitted;
 }
 
 export async function reviewDailyLog(

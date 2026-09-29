@@ -50,6 +50,13 @@ export type WhatsAppResponsePayload = {
   messageId?: string;
 };
 
+/**
+ * Batas tunggu Evolution API. Tanpa ini pemanggil (mis. publish rapor yang
+ * transaksinya sudah commit) bisa menggantung sampai fetch-nya menyerah
+ * sendiri — respons sukses terlihat seperti gagal.
+ */
+const SEND_TIMEOUT_MS = 10_000;
+
 export type WhatsAppSendResult =
   | { success: true; data: WhatsAppResponsePayload }
   | {
@@ -84,6 +91,9 @@ export async function sendWhatsAppMessage(
           number: formatPhoneNumber(number),
           text: text,
         }),
+        // Timeout wajib: pemanggil di jalur publish sudah commit dan tidak
+        // boleh menunggu Evolution API tanpa batas.
+        signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
       },
     );
 

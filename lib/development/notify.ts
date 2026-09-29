@@ -7,11 +7,13 @@ import { writeAudit } from "./audit";
 /**
  * Notifikasi modul pengembangan siswa (Phase 9).
  *
- * Dua kanal: baris `Notification` in-app (kanal andal — selalu ditulis) dan
- * WhatsApp lewat `lib/botwa`. WhatsApp **tidak pernah** menggagalkan pemanggil:
- * kegagalannya dicatat sebagai `AuditLog` (`notification.whatsapp.failed`) lalu
- * ditelan. Fungsi di file ini juga tidak pernah melempar — pemanggilnya
- * (`publishReport`) harus tetap sukses walau seluruh kanal notifikasi mati.
+ * Dua kanal: baris `Notification` in-app (kanal andal — selalu ditulis dan
+ * ditunggu) dan WhatsApp lewat `lib/botwa` (best-effort, dilepas ke latar).
+ * WhatsApp **tidak pernah** menggagalkan pemanggil: kegagalannya dicatat
+ * sebagai `AuditLog` (`notification.whatsapp.failed`) lalu ditelan. Fungsi di
+ * file ini juga tidak pernah melempar — pemanggilnya (`publishReport`,
+ * `submitDailyLog`, `gradeSubmission`) harus tetap sukses walau seluruh kanal
+ * notifikasi mati.
  */
 
 const CATEGORY = "development";
@@ -49,37 +51,31 @@ async function parentRecipients(
   }));
 }
 
-/**
- * Tulis notifikasi in-app untuk semua penerima, lalu (best-effort) kirim
- * WhatsApp ke penerima yang punya nomor. Satu kegagalan WhatsApp tidak
- * menghentikan penerima berikutnya dan tidak dilempar ke pemanggil.
- */
-async function deliver(input: {
+type Delivery = {
   foundationId: string;
-  actorId: string;
+  /**
+   * `User.id` pemilik peristiwa (bukan `UserData.id` — kontrak `AuditLog`
+   * sama seperti ~21 call site `writeAudit` lainnya). `null` = tidak bisa
+   * diresolusi; audit kegagalan dilewati daripada salah kunci.
+   */
+  actorId: string | null;
   entity: string;
   entityId: string;
   title: string;
   template: (link: string) => string;
   recipients: Recipient[];
-}): Promise<void> {
-  for (const recipient of input.recipients) {
-    const link = PATH[recipient.audience];
-    const message = input.template(link);
+};
 
-    await prisma.notification.create({
-      data: {
-        userId: recipient.id,
-        title: input.title,
-        message,
-        type: "development",
-        category: CATEGORY,
-        link,
-        data: { entity: input.entity, entityId: input.entityId },
-      },
-    });
-
-    // WhatsApp hanya untuk orang tua yang nomornya terisi.
+/**
+ * WhatsApp best-effort untuk semua penerima ber-nomor. Selalu berjalan di
+ * latar (dipanggil dengan `void`), tidak pernah melempar, dan mencatat tiap
+ * kegagalan ke `AuditLog` sebelum melanjutkan ke penerima berikutnya.
+ */
+async function sendWhatsAppMessages(
+  input: Delivery,
+  messages: { recipient: Recipient; link: string; message: string }[],
+): Promise<void> {
+  for (const { recipient, link, message } of messages) {
     if (recipient.audience !== "parent" || !recipient.phone?.trim()) continue;
 
     try {
@@ -88,6 +84,13 @@ async function deliver(input: {
         APP_URL ? input.template(`${APP_URL}${link}`) : message,
       );
       if (result.success) continue;
+
+      if (!input.actorId) {
+        console.error(
+          "notify: WhatsApp gagal dan User.id pelaku tidak dapat diresolusi — audit dilewati",
+        );
+        continue;
+      }
 
       await writeAudit(prisma, {
         foundationId: input.foundationId,
@@ -110,6 +113,36 @@ async function deliver(input: {
 }
 
 /**
+ * Tulis notifikasi in-app untuk semua penerima (ditunggu — kanal andal), lalu
+ * lepas WhatsApp ke latar supaya pemanggil yang transaksinya sudah commit tidak
+ * menunggu jaringan.
+ */
+async function deliver(input: Delivery): Promise<void> {
+  const messages = input.recipients.map((recipient) => {
+    const link = PATH[recipient.audience];
+    return { recipient, link, message: input.template(link) };
+  });
+
+  for (const { recipient, link, message } of messages) {
+    await prisma.notification.create({
+      data: {
+        userId: recipient.id,
+        title: input.title,
+        message,
+        type: "development",
+        category: CATEGORY,
+        link,
+        data: { entity: input.entity, entityId: input.entityId },
+      },
+    });
+  }
+
+  void sendWhatsAppMessages(input, messages).catch((error) => {
+    console.error("notify: kanal WhatsApp gagal", error);
+  });
+}
+
+/**
  * Rapor `PUBLISHED` → orang tua. Dipanggil setelah transaksi publish commit.
  */
 export async function notifyReportPublished(reportId: string): Promise<void> {
@@ -121,8 +154,8 @@ export async function notifyReportPublished(reportId: string): Promise<void> {
         foundationId: true,
         studentId: true,
         publishedAt: true,
-        approvedById: true,
         createdById: true,
+        approvedBy: { select: { userId: true } },
         student: { select: { name: true } },
         period: { select: { name: true } },
       },
@@ -141,7 +174,8 @@ export async function notifyReportPublished(reportId: string): Promise<void> {
 
     await deliver({
       foundationId: report.foundationId,
-      actorId: report.approvedById ?? report.createdById,
+      // `createdById` sudah `User.id`; `approvedBy.userId` juga (nullable).
+      actorId: report.approvedBy?.userId ?? report.createdById,
       entity: "StudentReport",
       entityId: report.id,
       title: `Rapor ${studentName} telah dipublikasikan`,
@@ -155,8 +189,10 @@ export async function notifyReportPublished(reportId: string): Promise<void> {
 }
 
 /**
- * Log harian baru → orang tua. Log yang belum `parentVisible` dilewati: isinya
- * memang belum boleh diketahui orang tua, dan notifikasi memuat ringkasannya.
+ * Log harian `parentVisible` → orang tua. Dipanggil setelah `submitDailyLog`
+ * commit (log tidak punya status "published"; `parentVisible` adalah titik
+ * orang tua boleh melihatnya), dan **tidak** dari `reviewDailyLog` supaya satu
+ * log tidak pernah dinotifikasi dua kali.
  */
 export async function notifyDailyLogCreated(dailyLogId: string): Promise<void> {
   try {
@@ -166,12 +202,12 @@ export async function notifyDailyLogCreated(dailyLogId: string): Promise<void> {
         id: true,
         foundationId: true,
         studentId: true,
-        teacherId: true,
         date: true,
         activity: true,
         achievement: true,
         parentVisible: true,
         student: { select: { name: true } },
+        teacher: { select: { userId: true } },
         observations: {
           select: { scale: { select: { code: true } } },
         },
@@ -192,7 +228,7 @@ export async function notifyDailyLogCreated(dailyLogId: string): Promise<void> {
 
     await deliver({
       foundationId: log.foundationId,
-      actorId: log.teacherId,
+      actorId: log.teacher.userId,
       entity: "DailyLog",
       entityId: log.id,
       title: `Perkembangan ${studentName} telah diperbarui`,
@@ -216,6 +252,7 @@ export async function notifyDailyLogCreated(dailyLogId: string): Promise<void> {
 
 /**
  * Tugas dinilai → siswa (halaman siswa) dan orang tua (halaman orang tua).
+ * Dipanggil setelah transaksi penilaian commit.
  */
 export async function notifyAssignmentGraded(
   submissionId: string,
@@ -231,13 +268,23 @@ export async function notifyAssignmentGraded(
         gradedAt: true,
         gradedBy: true,
         student: { select: { name: true, foundationId: true } },
-        assignment: { select: { title: true, teacherId: true } },
+        assignment: {
+          select: { title: true, teacher: { select: { userId: true } } },
+        },
       },
     });
     if (!submission) return;
 
     const foundationId = submission.student.foundationId;
     if (!foundationId) return;
+
+    // `gradedBy` menyimpan `UserData.id`; audit butuh `User.id`-nya.
+    const grader = submission.gradedBy
+      ? await prisma.userData.findUnique({
+          where: { id: submission.gradedBy },
+          select: { userId: true },
+        })
+      : null;
 
     const parents = await parentRecipients(submission.studentId, foundationId);
     const recipients: Recipient[] = [
@@ -256,7 +303,7 @@ export async function notifyAssignmentGraded(
 
     await deliver({
       foundationId,
-      actorId: submission.gradedBy ?? submission.assignment.teacherId,
+      actorId: grader?.userId ?? submission.assignment.teacher.userId,
       entity: "AssignmentSubmission",
       entityId: submission.id,
       title: `Tugas ${title} telah dinilai`,
@@ -267,7 +314,8 @@ export async function notifyAssignmentGraded(
           `Tanggal: ${gradeDate}`,
           `Nilai: ${score}`,
         ];
-        if (submission.feedback?.trim()) lines.push(`Catatan: ${submission.feedback}`);
+        if (submission.feedback?.trim())
+          lines.push(`Catatan: ${submission.feedback}`);
         lines.push("", `Lihat tugas: ${link}`);
         return lines.join("\n");
       },

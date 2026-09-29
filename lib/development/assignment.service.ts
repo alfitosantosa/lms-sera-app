@@ -16,6 +16,7 @@ import {
   developmentError,
   type DevelopmentActor,
 } from "@/lib/development/development.guard";
+import { notifyAssignmentGraded } from "@/lib/development/notify";
 import { handlePrismaError } from "@/lib/errorHandlerBackend";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/prisma/generated/client";
@@ -594,7 +595,7 @@ export async function gradeSubmission(
   const now = new Date();
   const gradeTypeId = input.gradeTypeId;
 
-  return prisma.$transaction(async (tx) => {
+  const gradedResult = await prisma.$transaction(async (tx) => {
     const graded = await tx.assignmentSubmission.update({
       where: { id: submission.id },
       data: {
@@ -686,4 +687,11 @@ export async function gradeSubmission(
 
     return { submission: graded, grade, evidence };
   });
+
+  // Notifikasi SETELAH commit penilaian; `notifyAssignmentGraded` menelan
+  // semua errornya (termasuk WhatsApp yang mati) sehingga penilaian tetap
+  // berhasil walau kanal notifikasi gagal.
+  await notifyAssignmentGraded(gradedResult.submission.id);
+
+  return gradedResult;
 }
