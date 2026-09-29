@@ -21,8 +21,11 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
   if (!actorResult.ok) return actorResult.response;
   const { actor } = actorResult;
 
-  const denied = requireStaff(actor);
-  if (denied) return denied;
+  // Staf lewat seperti biasa; orang tua/siswa hanya rapor `PUBLISHED` anaknya
+  // sendiri — aturan tersebut ditegakkan di `getReportDetail`, bukan di sini.
+  if (!actor.isStaff && !actor.isParent && !actor.isStudent) {
+    return developmentError("Akses ditolak", 403);
+  }
 
   try {
     const row = await getReportDetail(actor, id);

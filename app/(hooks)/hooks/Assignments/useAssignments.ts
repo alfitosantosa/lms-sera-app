@@ -32,6 +32,7 @@ function invalidateAssignmentQueries(queryClient: QueryClient) {
   queryClient.invalidateQueries({ queryKey: ["assignments"] });
   queryClient.invalidateQueries({ queryKey: ["assignment-submissions"] });
   queryClient.invalidateQueries({ queryKey: ["student-timeline"] });
+  queryClient.invalidateQueries({ queryKey: ["development-me"] });
 }
 
 export type AssignmentFilters = {

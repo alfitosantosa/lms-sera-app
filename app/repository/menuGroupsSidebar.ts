@@ -747,6 +747,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/student/development/assignments",
           icon: "file",
         },
+        {
+          title: "Perkembangan Saya",
+          url: "/dashboard/student/development",
+          icon: "chart",
+        },
       ],
     },
   ],
@@ -773,6 +778,22 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           title: "Portal Orang Tua",
           url: "/dashboard/parent",
           icon: "users",
+        },
+      ],
+    },
+
+    {
+      title: "Pengembangan Anak",
+      items: [
+        {
+          title: "Perkembangan Anak",
+          url: "/dashboard/parent/development",
+          icon: "chart",
+        },
+        {
+          title: "Rapor Anak",
+          url: "/dashboard/parent/development/report",
+          icon: "file",
         },
       ],
     },

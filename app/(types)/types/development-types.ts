@@ -641,6 +641,55 @@ export type AssignmentDTO = {
   _count?: { submissions: number };
 };
 
+// =====================================================
+// PORTAL ORANG TUA & SISWA (Phase 8)
+// =====================================================
+
+/**
+ * Catatan guru yang boleh dibaca orang tua/siswa. Diturunkan dari timeline —
+ * sumber yang sama yang sudah memaksa `parentVisible: true`, bukan query kedua
+ * yang bisa berbeda filternya.
+ */
+export type DevelopmentMeNoteDTO = {
+  logId: string;
+  date: string;
+  activity: string;
+  teacherNote: string;
+  teacherName: string | null;
+};
+
+/** Rapor yang boleh dilihat orang tua/siswa — selalu `PUBLISHED`. */
+export type DevelopmentMeReportDTO = {
+  id: string;
+  periodId: string;
+  periodName: string;
+  publishedAt: string | null;
+};
+
+/** Satu anak (atau diri sendiri untuk siswa) dalam ringkasan portal. */
+export type DevelopmentMeStudentDTO = {
+  student: {
+    id: string;
+    name: string;
+    nisn: string | null;
+    classId: string | null;
+  };
+  areas: StudentOverviewAreaDTO[];
+  /** Timeline lengkap yang boleh dilihat aktor (query sudah menyaring). */
+  timeline: TimelineEntryDTO[];
+  teacherNotes: DevelopmentMeNoteDTO[];
+  reports: DevelopmentMeReportDTO[];
+};
+
+/**
+ * `GET /api/development/me` — identitas selalu dari sesi; tidak ada
+ * `studentId`/`parentId` dari klien yang bisa menimpanya.
+ */
+export type DevelopmentMeDTO = {
+  role: "parent" | "student";
+  students: DevelopmentMeStudentDTO[];
+};
+
 export type AssignmentSubmissionDTO = {
   id: string;
   assignmentId: string;

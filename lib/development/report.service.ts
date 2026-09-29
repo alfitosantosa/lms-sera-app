@@ -477,7 +477,18 @@ export async function getReportDetail(
     include: reportDetailInclude,
   });
   if (!report) throw new ReportServiceError("Rapor tidak ditemukan", 404);
-  await unwrapClass(await assertClassAccess(actor, report.classId));
+
+  // Orang tua/siswa: hanya anak sendiri / dirinya (assertStudentAccess), dan
+  // hanya rapor yang sudah terbit. Selain PUBLISHED tidak ada bentuk respons
+  // lain — bukan versi tersunting, bukan pratinjau: 404.
+  if (actor.isParent || actor.isStudent) {
+    await unwrapStudent(await assertStudentAccess(actor, report.studentId));
+    if (report.status !== "PUBLISHED") {
+      throw new ReportServiceError("Rapor tidak ditemukan", 404);
+    }
+  } else {
+    await unwrapClass(await assertClassAccess(actor, report.classId));
+  }
 
   const locked = report.status === "APPROVED" || report.status === "PUBLISHED";
   if (locked) return { ...report, preview: null };

@@ -25,6 +25,7 @@ function invalidateLogQueries(queryClient: QueryClient) {
   queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
   queryClient.invalidateQueries({ queryKey: ["class-progress"] });
   queryClient.invalidateQueries({ queryKey: ["student-timeline"] });
+  queryClient.invalidateQueries({ queryKey: ["development-me"] });
 }
 
 export type DailyLogFilters = {

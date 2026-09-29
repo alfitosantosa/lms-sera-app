@@ -22,6 +22,7 @@ import {
  */
 function invalidateReportQueries(queryClient: QueryClient) {
   queryClient.invalidateQueries({ queryKey: ["reports"] });
+  queryClient.invalidateQueries({ queryKey: ["development-me"] });
 }
 
 export type ReportFilters = {

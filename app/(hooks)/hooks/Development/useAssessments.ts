@@ -27,6 +27,7 @@ function invalidateAssessmentQueries(queryClient: QueryClient) {
   queryClient.invalidateQueries({ queryKey: ["class-matrix"] });
   queryClient.invalidateQueries({ queryKey: ["student-overview"] });
   queryClient.invalidateQueries({ queryKey: ["class-progress"] });
+  queryClient.invalidateQueries({ queryKey: ["development-me"] });
 }
 
 export type AssessmentFilters = {
