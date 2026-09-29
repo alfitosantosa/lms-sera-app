@@ -6,6 +6,7 @@ import {
 } from "@/app/(types)";
 import { writeAudit } from "@/lib/development/audit";
 import {
+  DailyLogServiceError,
   assertReferencesInFoundation,
   unwrapClass,
 } from "@/lib/development/daily-log.service";
@@ -38,6 +39,12 @@ export class AssignmentServiceError extends Error {
 /** Terjemahkan error service/Prisma menjadi respons HTTP modul pengembangan. */
 export function assignmentErrorResponse(error: unknown): NextResponse {
   if (error instanceof AssignmentServiceError) {
+    return developmentError(error.message, error.status);
+  }
+  // Helper yang dipakai ulang dari modul daily-log (validasi referensi,
+  // akses kelas) melempar error-nya sendiri; tanpa cabang ini 400/403-nya
+  // berubah jadi 500.
+  if (error instanceof DailyLogServiceError) {
     return developmentError(error.message, error.status);
   }
   return handlePrismaError(error);
@@ -411,6 +418,26 @@ export async function updateAssignment(
       },
       include: assignmentInclude,
     });
+
+    // `Grade` memakai judul tugas sebagai bagian kunci upsert: kalau judul
+    // berubah, baris nilai yang sudah ada harus ikut berganti judul dalam
+    // transaksi yang sama supaya penilaian ulang tidak membuat baris kedua.
+    if (input.title !== undefined && input.title !== existing.title) {
+      const submissions = await tx.assignmentSubmission.findMany({
+        where: { assignmentId: id },
+        select: { studentId: true },
+      });
+      if (submissions.length > 0) {
+        await tx.grade.updateMany({
+          where: {
+            studentId: { in: submissions.map((row) => row.studentId) },
+            scheduleId: existing.scheduleId,
+            title: existing.title,
+          },
+          data: { title: assignment.title },
+        });
+      }
+    }
 
     await writeAudit(tx, {
       foundationId: actor.foundationId,

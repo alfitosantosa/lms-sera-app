@@ -477,7 +477,7 @@ export type StudentOverviewDTO = {
   areas: StudentOverviewAreaDTO[];
 };
 
-export type TimelineEntryDTO = {
+export type TimelineLogEntryDTO = {
   kind: "log";
   id: string;
   date: string;
@@ -493,6 +493,33 @@ export type TimelineEntryDTO = {
   }[];
   evidences: { type: EvidenceTypeTypes; url: string }[];
 };
+
+/**
+ * Bukti tugas yang ditautkan ke indikator perkembangan (Phase 5, PRD §15).
+ * Muncul di timeline yang sama dengan log harian.
+ */
+export type TimelineAssignmentEvidenceDTO = {
+  kind: "assignment-evidence";
+  id: string;
+  date: string;
+  parentVisible: boolean;
+  assignmentId: string;
+  assignmentTitle: string;
+  subject: string | null;
+  score: number | null;
+  maxScore: number | null;
+  feedback: string | null;
+  type: EvidenceTypeTypes;
+  url: string;
+};
+
+export type TimelineEntryDTO =
+  TimelineLogEntryDTO | TimelineAssignmentEvidenceDTO;
+
+/** Type guard: konsumen grafik/bukti hanya peduli entri log harian. */
+export const isLogEntry = (
+  entry: TimelineEntryDTO,
+): entry is TimelineLogEntryDTO => entry.kind === "log";
 
 // =====================================================
 // ASSIGNMENT & GRADE (Phase 5)

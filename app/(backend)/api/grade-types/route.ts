@@ -1,6 +1,7 @@
 import { gradeTypeInputSchema } from "@/app/(types)";
 import { bootstrapGradeTypes } from "@/lib/development/development.defaults";
 import {
+  ADMIN_ROLE_NAMES,
   developmentError,
   requireStaff,
   resolveDevelopmentActor,
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-/** POST /api/grade-types */
+/** POST /api/grade-types — hanya admin: `GradeType` global untuk semua yayasan. */
 export async function POST(request: NextRequest) {
   const actorResult = await resolveDevelopmentActor(request);
   if (!actorResult.ok) return actorResult.response;
@@ -67,6 +68,13 @@ export async function POST(request: NextRequest) {
 
   const denied = requireStaff(actor);
   if (denied) return denied;
+
+  if (ADMIN_ROLE_NAMES[actor.roleName] !== true) {
+    return developmentError(
+      "Hanya admin yang dapat menambah jenis penilaian",
+      403,
+    );
+  }
 
   let body: unknown;
   try {

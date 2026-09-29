@@ -1,6 +1,9 @@
 "use client";
 
-import { type TimelineEntryDTO } from "@/app/(types)/types/development-types";
+import {
+  isLogEntry,
+  type TimelineEntryDTO,
+} from "@/app/(types)/types/development-types";
 import {
   useGetDailyLogs,
   useGetStudentTimeline,
@@ -41,6 +44,7 @@ function latestScaleByArea(entries: TimelineEntryDTO[]): AreaSnapshot[] {
   const byArea = new Map<string, AreaSnapshot>();
 
   for (const entry of chronological) {
+    if (!isLogEntry(entry)) continue;
     for (const observation of entry.observations) {
       const area = observation.area ?? "Umum";
       const previous = byArea.get(area);
@@ -76,7 +80,7 @@ export default function StudentDevelopmentProfilePage() {
 
   const snapshots = useMemo(() => latestScaleByArea(entries), [entries]);
   const evidences = useMemo(
-    () => entries.flatMap((entry) => entry.evidences),
+    () => entries.filter(isLogEntry).flatMap((entry) => entry.evidences),
     [entries],
   );
   const studentName = (logs?.data ?? [])[0]?.student?.name;

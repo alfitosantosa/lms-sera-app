@@ -1,6 +1,6 @@
 "use client";
 
-import { type TimelineEntryDTO } from "@/app/(types)";
+import { isLogEntry, type TimelineEntryDTO } from "@/app/(types)";
 import { useGetScales } from "@/app/(hooks)/hooks/Development/useDevelopmentConfig";
 import {
   Card,
@@ -56,6 +56,7 @@ export function StudentProgressChart({ entries }: StudentProgressChartProps) {
   );
 
   for (const entry of chronological) {
+    if (!isLogEntry(entry)) continue;
     const date = new Date(entry.date);
     const key = format(date, "yyyy-MM");
     for (const observation of entry.observations) {

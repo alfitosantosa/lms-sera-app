@@ -139,8 +139,10 @@ function AssignmentRow({ assignment }: { assignment: AssignmentDTO }) {
 }
 
 export default function StudentAssignmentsPage() {
-  const assignmentsQuery = useGetAssignments({ limit: 100 });
+  const [listPage, setListPage] = useState(1);
+  const assignmentsQuery = useGetAssignments({ page: listPage, limit: 20 });
   const assignments = assignmentsQuery.data?.data ?? [];
+  const pagination = assignmentsQuery.data?.pagination;
 
   return (
     <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
@@ -180,6 +182,33 @@ export default function StudentAssignmentsPage() {
               assignments.map((assignment) => (
                 <AssignmentRow key={assignment.id} assignment={assignment} />
               ))
+            )}
+
+            {pagination && pagination.pages > 1 && (
+              <div className="flex items-center justify-between pt-2">
+                <p className="text-muted-foreground text-sm">
+                  Halaman {pagination.page} dari {pagination.pages} (
+                  {pagination.total} tugas)
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={pagination.page <= 1}
+                    onClick={() => setListPage((page) => Math.max(1, page - 1))}
+                  >
+                    Sebelumnya
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!pagination.hasMore}
+                    onClick={() => setListPage((page) => page + 1)}
+                  >
+                    Berikutnya
+                  </Button>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>

@@ -149,8 +149,10 @@ export default function TeacherAssignmentsPage() {
   const { data: gradeTypes = [] } = useGetGradeTypes();
   const { data: indicators = [] } = useGetIndicators({ isActive: true });
 
-  const assignmentsQuery = useGetAssignments({ limit: 100 });
+  const [listPage, setListPage] = useState(1);
+  const assignmentsQuery = useGetAssignments({ page: listPage, limit: 20 });
   const assignments = assignmentsQuery.data?.data ?? [];
+  const pagination = assignmentsQuery.data?.pagination;
   const create = useCreateAssignment();
 
   const [selectedId, setSelectedId] = useState("");
@@ -432,6 +434,33 @@ export default function TeacherAssignmentsPage() {
                   ))}
                 </TableBody>
               </Table>
+            )}
+
+            {pagination && pagination.pages > 1 && (
+              <div className="flex items-center justify-between pt-4">
+                <p className="text-muted-foreground text-sm">
+                  Halaman {pagination.page} dari {pagination.pages} (
+                  {pagination.total} tugas)
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={pagination.page <= 1}
+                    onClick={() => setListPage((page) => Math.max(1, page - 1))}
+                  >
+                    Sebelumnya
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!pagination.hasMore}
+                    onClick={() => setListPage((page) => page + 1)}
+                  >
+                    Berikutnya
+                  </Button>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>

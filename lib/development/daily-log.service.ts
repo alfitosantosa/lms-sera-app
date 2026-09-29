@@ -455,7 +455,7 @@ export async function getStudentTimeline(
     include: dailyLogInclude,
   });
 
-  return logs.map((log) => ({
+  const logEntries: TimelineEntryDTO[] = logs.map((log) => ({
     kind: "log" as const,
     id: log.id,
     date: log.date.toISOString(),
@@ -480,6 +480,79 @@ export async function getStudentTimeline(
     })),
     evidences: log.evidences.map((e) => ({ type: e.type, url: e.url })),
   }));
+
+  // Bukti tugas (Phase 5): evidence LINK yang menunjuk pengumpulan siswa ini.
+  // Hanya tugas pada yayasan actor; orang tua/siswa hanya yang sudah terbit
+  // (`isPublished`), konsisten dengan aturan visibilitas log harian.
+  const assignmentEvidences = await prisma.evidence.findMany({
+    where: {
+      type: "LINK",
+      submission: {
+        studentId: student.id,
+        assignment: {
+          class: { branch: { foundationId: actor.foundationId } },
+          ...(publishedOnly ? { isPublished: true } : {}),
+        },
+      },
+      ...(range.fromDate || range.toDate
+        ? {
+            createdAt: {
+              ...(range.fromDate ? { gte: range.fromDate } : {}),
+              ...(range.toDate ? { lte: range.toDate } : {}),
+            },
+          }
+        : {}),
+    },
+    include: {
+      submission: {
+        select: {
+          score: true,
+          feedback: true,
+          assignment: {
+            select: {
+              id: true,
+              title: true,
+              maxScore: true,
+              isPublished: true,
+              subject: { select: { name: true } },
+            },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const assignmentEntries: TimelineEntryDTO[] = assignmentEvidences.flatMap(
+    (evidence) => {
+      const assignment = evidence.submission?.assignment;
+      if (!assignment) return [];
+      return [
+        {
+          kind: "assignment-evidence" as const,
+          id: evidence.id,
+          date: evidence.createdAt.toISOString(),
+          parentVisible: assignment.isPublished,
+          assignmentId: assignment.id,
+          assignmentTitle: assignment.title,
+          subject: assignment.subject?.name ?? null,
+          score:
+            evidence.submission?.score === null ||
+            evidence.submission?.score === undefined
+              ? null
+              : Number(evidence.submission.score),
+          maxScore: Number(assignment.maxScore),
+          feedback: evidence.submission?.feedback ?? null,
+          type: evidence.type,
+          url: evidence.url,
+        },
+      ];
+    },
+  );
+
+  return [...logEntries, ...assignmentEntries].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 }
 
 export async function submitDailyLog(
