@@ -8,6 +8,7 @@ import {
   parseDateParam,
 } from "@/lib/development/daily-log.service";
 import {
+  assertStudentAccess,
   developmentError,
   requireStaff,
   resolveDevelopmentActor,
@@ -56,6 +57,13 @@ export async function GET(request: NextRequest) {
   const teacherId = searchParams.get("teacherId");
   const fromDate = parseDateParam(searchParams.get("fromdate"));
   const toDate = parseDateParam(searchParams.get("todate"));
+
+  // Filter per siswa tetap harus lewat aturan akses siswa (guru hanya kelas
+  // yang diajarnya; orang tua/siswa hanya dirinya) — sama seperti endpoint lain.
+  if (studentId) {
+    const access = await assertStudentAccess(actor, studentId);
+    if (!access.ok) return access.response;
+  }
 
   const statusParam = searchParams.get("status");
   const status = statusParam

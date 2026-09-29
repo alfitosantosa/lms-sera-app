@@ -38,6 +38,16 @@ type DailyLogTableProps = {
   isLoading?: boolean;
   searchPlaceholder?: string;
   emptyMessage?: string;
+  /** Total baris di server untuk query ini (dari `pagination.total`). */
+  total?: number;
+  /** Halaman server saat ini (1-based). Diisi bersama `onPageChange`. */
+  page?: number;
+  hasMore?: boolean;
+  /**
+   * Bila diisi, tabel memakai paging server (bukan paging klien) dan
+   * pencarian disembunyikan — filter klien hanya akan menyaring satu halaman.
+   */
+  onPageChange?: (page: number) => void;
 };
 
 /** Ringkasan skala per log — label/warna dari `AssessmentScale`, bukan literal. */
@@ -75,9 +85,14 @@ export function DailyLogTable({
   isLoading = false,
   searchPlaceholder = "Cari siswa atau kegiatan...",
   emptyMessage = "Belum ada log.",
+  total,
+  page = 1,
+  hasMore = false,
+  onPageChange,
 }: DailyLogTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const serverPaged = Boolean(onPageChange);
 
   const columns = useMemo<ColumnDef<DailyLogDTO>[]>(
     () => [
@@ -189,8 +204,11 @@ export function DailyLogTable({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    ...(serverPaged ? {} : { getPaginationRowModel: getPaginationRowModel() }),
   });
+
+  const shownCount = table.getFilteredRowModel().rows.length;
+  const totalCount = total ?? shownCount;
 
   if (isLoading) {
     return (
@@ -206,15 +224,21 @@ export function DailyLogTable({
 
   return (
     <div className="space-y-4">
-      <div className="relative w-full sm:max-w-xs">
-        <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-        <Input
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          placeholder={searchPlaceholder}
-          className="pl-9"
-        />
-      </div>
+      {serverPaged ? (
+        <p className="text-muted-foreground text-xs">
+          Daftar log berpaginasi di server — gunakan tombol halaman.
+        </p>
+      ) : (
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <Input
+            value={globalFilter}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            placeholder={searchPlaceholder}
+            className="pl-9"
+          />
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-md border">
         <Table>
@@ -265,22 +289,28 @@ export function DailyLogTable({
       {table.getRowModel().rows.length > 0 && (
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground text-xs">
-            {table.getFilteredRowModel().rows.length} log
+            {shownCount >= totalCount
+              ? `${totalCount} log`
+              : `Menampilkan ${shownCount} dari ${totalCount} log`}
           </p>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
+              onClick={() =>
+                serverPaged ? onPageChange?.(page - 1) : table.previousPage()
+              }
+              disabled={serverPaged ? page <= 1 : !table.getCanPreviousPage()}
             >
               Sebelumnya
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
+              onClick={() =>
+                serverPaged ? onPageChange?.(page + 1) : table.nextPage()
+              }
+              disabled={serverPaged ? !hasMore : !table.getCanNextPage()}
             >
               Berikutnya
             </Button>

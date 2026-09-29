@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccessibleClasses } from "@/app/(hooks)/hooks/Development/useClassProgress";
-import { useGetDailyLogs } from "@/app/(hooks)/hooks/Development/useDailyLogs";
+import { fetchAllDailyLogs } from "@/app/(hooks)/hooks/Development/useDailyLogs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { DailyLogTable } from "@/components/development/daily-log-table";
 import Loading from "@/components/loading";
@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/kibo-ui/calendar";
 import { useSession } from "@/lib/authClients";
 import { CHART_SERIES } from "@/lib/charts";
+import { useQuery } from "@tanstack/react-query";
 import { format, isSameDay } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { AlertCircle, CalendarDays } from "lucide-react";
@@ -117,6 +118,10 @@ export default function LogbookCalendarPage() {
   );
 }
 
+const MONTH_PAGE_LIMIT = 100;
+/** Batas aman loop: 20 x 100 log per bulan. */
+const MONTH_MAX_PAGES = 20;
+
 function LogbookCalendar({ classId }: { classId: string }) {
   const [month] = useCalendarMonth();
   const [year] = useCalendarYear();
@@ -125,15 +130,19 @@ function LogbookCalendar({ classId }: { classId: string }) {
   const fromdate = format(new Date(year, month, 1), "yyyy-MM-dd");
   const todate = format(new Date(year, month + 1, 0), "yyyy-MM-dd");
 
-  const { data: logs, isLoading } = useGetDailyLogs({
-    classId,
-    fromdate,
-    todate,
-    limit: 100,
+  // Seluruh log bulan ini diambil (loop sampai `hasMore` habis) supaya penanda
+  // tanggal dan daftar per tanggal tidak terpotong pada limit satu request.
+  const { data, isLoading } = useQuery({
+    queryKey: ["daily-logs", "calendar", classId, fromdate, todate],
     enabled: classId !== "",
+    queryFn: () =>
+      fetchAllDailyLogs(
+        { classId, fromdate, todate, limit: MONTH_PAGE_LIMIT },
+        { maxPages: MONTH_MAX_PAGES },
+      ),
   });
 
-  const logList = logs?.data ?? [];
+  const logList = data?.logs ?? [];
 
   const features: Feature[] = logList.map((log) => ({
     id: log.id,
@@ -168,11 +177,28 @@ function LogbookCalendar({ classId }: { classId: string }) {
       </CalendarBody>
 
       <div className="space-y-3 border-t p-4">
+        {data?.truncated && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Sebagian log belum dimuat</AlertTitle>
+            <AlertDescription>
+              Bulan ini memuat lebih dari {MONTH_MAX_PAGES * MONTH_PAGE_LIMIT}{" "}
+              log. Penanda tanggal hanya menampilkan sebagian data (menampilkan{" "}
+              {logList.length} dari {data.total} log).
+            </AlertDescription>
+          </Alert>
+        )}
         <h2 className="text-foreground font-semibold">
           {selectedDate
             ? `Log ${format(selectedDate, "d MMMM yyyy", { locale: localeId })}`
             : "Pilih tanggal pada kalender"}
         </h2>
+        {selectedDate && (
+          <p className="text-muted-foreground text-xs">
+            {selectedLogs.length} log pada tanggal ini (dari {logList.length}{" "}
+            log bulan ini).
+          </p>
+        )}
         {selectedDate && (
           <DailyLogTable
             logs={selectedLogs}

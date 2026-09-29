@@ -3,6 +3,7 @@
 import {
   type ClassProgressStudentDTO,
   type DailyLogDTO,
+  type EvidenceInput,
 } from "@/app/(types)/types/development-types";
 import {
   useAccessibleClasses,
@@ -15,10 +16,12 @@ import {
 } from "@/app/(hooks)/hooks/Development/useDevelopmentConfig";
 import {
   useBulkCreateDailyLogs,
+  useCreateDailyLog,
   useGetDailyLogs,
 } from "@/app/(hooks)/hooks/Development/useDailyLogs";
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { DailyLogTable } from "@/components/development/daily-log-table";
+import { EvidenceUploader } from "@/components/development/evidence-uploader";
 import { ObservationTemplatePicker } from "@/components/development/observation-template-picker";
 import Loading from "@/components/loading";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -56,7 +59,10 @@ type RowState = {
   indicatorId: string;
   scaleId: string;
   observation: string;
+  evidences: EvidenceInput[];
 };
+
+const EMPTY_EVIDENCES: EvidenceInput[] = [];
 
 const EMPTY_ROW: RowState = {
   selected: false,
@@ -64,7 +70,11 @@ const EMPTY_ROW: RowState = {
   indicatorId: "",
   scaleId: "",
   observation: "",
+  evidences: EMPTY_EVIDENCES,
 };
+
+/** Halaman daftar log tersimpan — paginasi server, bukan potongan diam-diam. */
+const LOG_PAGE_LIMIT = 20;
 
 function todayInputValue() {
   return format(new Date(), "yyyy-MM-dd");
@@ -83,6 +93,8 @@ export default function DailyLogbookPage() {
   const [date, setDate] = useState(todayInputValue);
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState<Record<string, RowState>>({});
+  const [logPage, setLogPage] = useState(1);
+  const [savingStudentId, setSavingStudentId] = useState("");
 
   const requestedClassId = searchParams.get("classId") ?? "";
 
@@ -104,10 +116,17 @@ export default function DailyLogbookPage() {
     classId,
     fromdate: date,
     todate: date,
-    limit: 100,
+    page: logPage,
+    limit: LOG_PAGE_LIMIT,
     enabled: classId !== "",
   });
   const bulkCreate = useBulkCreateDailyLogs();
+  const createLog = useCreateDailyLog();
+
+  // Kembali ke halaman 1 saat kelas/tanggal berganti.
+  useEffect(() => {
+    setLogPage(1);
+  }, [classId, date]);
 
   const activePeriod = periods[0];
   const students = progress?.students ?? [];
@@ -159,6 +178,15 @@ export default function DailyLogbookPage() {
       toast.error("Beberapa siswa tercentang belum lengkap");
       return;
     }
+    const withEvidence = selectedStudents.filter(
+      (student) => (rows[student.id] ?? EMPTY_ROW).evidences.length > 0,
+    );
+    if (withEvidence.length > 0) {
+      toast.error(
+        `${withEvidence.length} siswa punya bukti — simpan siswa tersebut satu per satu lewat tombol Simpan di barisnya.`,
+      );
+      return;
+    }
 
     bulkCreate.mutate(
       {
@@ -178,6 +206,48 @@ export default function DailyLogbookPage() {
           toast.success(`${count} log harian tersimpan`);
           setRows({});
         },
+      },
+    );
+  };
+
+  const handleRowSave = (student: ClassProgressStudentDTO) => {
+    const row = rows[student.id] ?? EMPTY_ROW;
+    if (
+      row.activity.trim() === "" ||
+      row.indicatorId === "" ||
+      row.observation.trim() === ""
+    ) {
+      toast.error("Isi kegiatan, indikator, dan catatan siswa ini");
+      return;
+    }
+
+    setSavingStudentId(student.id);
+    createLog.mutate(
+      {
+        studentId: student.id,
+        classId,
+        date: new Date(date),
+        activity: row.activity.trim(),
+        parentVisible: false,
+        observations: [
+          {
+            indicatorId: row.indicatorId,
+            scaleId: row.scaleId || null,
+            observation: row.observation.trim(),
+          },
+        ],
+        evidences: row.evidences,
+      },
+      {
+        onSuccess: () => {
+          toast.success(`Log ${student.name} tersimpan`);
+          setRows((current) => {
+            const next = { ...current };
+            delete next[student.id];
+            return next;
+          });
+        },
+        onSettled: () => setSavingStudentId(""),
       },
     );
   };
@@ -312,15 +382,17 @@ export default function DailyLogbookPage() {
                       row={rows[student.id] ?? EMPTY_ROW}
                       scales={scales}
                       indicatorGroups={indicatorGroups}
+                      isSaving={savingStudentId === student.id}
                       onChange={(patch) => updateRow(student.id, patch)}
                       onCopyPrevious={(previous) =>
                         applyPreviousToRow(student.id, previous)
                       }
+                      onSave={() => handleRowSave(student)}
                     />
                   ))
                 )}
 
-                <div className="flex justify-end pt-2">
+                <div className="flex flex-col items-end gap-1 pt-2">
                   <Button
                     type="button"
                     onClick={handleBulkSave}
@@ -331,6 +403,9 @@ export default function DailyLogbookPage() {
                     <Save className="h-4 w-4" />
                     Simpan Semua
                   </Button>
+                  <p className="text-muted-foreground text-xs">
+                    Siswa dengan bukti disimpan satu per satu.
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -343,6 +418,10 @@ export default function DailyLogbookPage() {
                 logs={logs?.data ?? []}
                 isLoading={isLoadingLogs}
                 emptyMessage="Belum ada log pada tanggal ini."
+                total={logs?.pagination?.total}
+                page={logPage}
+                hasMore={logs?.pagination?.hasMore}
+                onPageChange={setLogPage}
               />
             </div>
           </>
@@ -357,15 +436,19 @@ function StudentRow({
   row,
   scales,
   indicatorGroups,
+  isSaving,
   onChange,
   onCopyPrevious,
+  onSave,
 }: {
   student: ClassProgressStudentDTO;
   row: RowState;
   scales: { id: string; label: string; color: string | null }[];
   indicatorGroups: [string, { id: string; name: string }[]][];
+  isSaving: boolean;
   onChange: (patch: Partial<RowState>) => void;
   onCopyPrevious: (previous: DailyLogDTO) => void;
+  onSave: () => void;
 }) {
   return (
     <div className="rounded-md border p-3">
@@ -446,6 +529,22 @@ function StudentRow({
             placeholder="Hasil observasi"
           />
         </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
+        <EvidenceUploader
+          value={row.evidences}
+          onChange={(evidences) => onChange({ evidences })}
+        />
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          <Save className="h-4 w-4" />
+          {isSaving ? "Menyimpan..." : "Simpan"}
+        </Button>
       </div>
     </div>
   );

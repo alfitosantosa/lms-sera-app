@@ -226,10 +226,16 @@ export default function TeacherDevelopmentPage() {
               <h2 className="text-foreground text-xl font-semibold">
                 Aktivitas Terbaru
               </h2>
+              <p className="text-muted-foreground text-sm">
+                10 log terbaru dari{" "}
+                {recentLogs?.pagination?.total ?? recentLogs?.data?.length ?? 0}{" "}
+                log kelas ini.
+              </p>
               <DailyLogTable
                 logs={recentLogs?.data ?? []}
                 isLoading={isLoadingProgress || isLoadingLogs}
                 emptyMessage="Belum ada log harian di kelas ini."
+                total={recentLogs?.pagination?.total}
               />
             </div>
           </div>

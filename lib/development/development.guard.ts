@@ -132,7 +132,13 @@ export function requireParent(actor: DevelopmentActor): NextResponse | null {
   return null;
 }
 
-/** Student harus ada di foundation actor; kembalikan record scope atau NextResponse error. */
+/**
+ * Student harus ada di foundation actor; kembalikan record scope atau NextResponse error.
+ * - `admin`/`admin school`: lolos selama satu yayasan.
+ * - `teacher`: hanya untuk siswa di kelas yang diajarnya (`Schedule` aktif).
+ * - orang tua: hanya anak yang terdaftar di `studentIds`.
+ * - siswa: hanya dirinya sendiri.
+ */
 export async function assertStudentAccess(
   actor: DevelopmentActor,
   studentId: string,
@@ -190,6 +196,21 @@ export async function assertStudentAccess(
     };
   }
 
+  // Phase 3: guru hanya boleh mengakses siswa di kelas yang diajarnya.
+  // Admin (`admin`/`admin school`) tetap lolos selama masih satu yayasan.
+  if (actor.roleName === "teacher") {
+    const teachesClass =
+      actor.userDataId !== null &&
+      student.classId !== null &&
+      (await teacherTeachesClass(actor.userDataId, student.classId));
+    if (!teachesClass) {
+      return {
+        ok: false,
+        response: developmentError("Anda tidak mengajar kelas siswa ini", 403),
+      };
+    }
+  }
+
   return {
     ok: true,
     student: {
@@ -199,6 +220,23 @@ export async function assertStudentAccess(
       foundationId: student.foundationId ?? actor.foundationId,
     },
   };
+}
+
+/**
+ * Sumber tunggal cek "guru mengajar kelas ini": `Schedule` aktif dengan
+ * `teacherId` guru tersebut. Dipakai `assertClassAccess` dan
+ * `assertStudentAccess` agar keduanya tidak bisa berbeda.
+ */
+async function teacherTeachesClass(
+  userDataId: string,
+  classId: string,
+): Promise<boolean> {
+  // ponytail: wali-kelas not modeled; teacher access is schedule-derived, add a homeroom flag if per-class homeroom rights are needed
+  const schedule = await prisma.schedule.findFirst({
+    where: { classId, teacherId: userDataId, isActive: true },
+    select: { id: true },
+  });
+  return schedule !== null;
 }
 
 /** Teacher harus punya akses ke class (via Schedule.teacherId); admin lolos. */
@@ -226,12 +264,8 @@ export async function assertClassAccess(
         response: developmentError("Akses kelas ditolak", 403),
       };
     }
-    // ponytail: wali-kelas not modeled; teacher access is schedule-derived, add a homeroom flag if per-class homeroom rights are needed
-    const schedule = await prisma.schedule.findFirst({
-      where: { classId, teacherId: actor.userDataId, isActive: true },
-      select: { id: true },
-    });
-    if (schedule) return { ok: true };
+    if (await teacherTeachesClass(actor.userDataId, classId))
+      return { ok: true };
     return {
       ok: false,
       response: developmentError("Anda tidak mengajar kelas ini", 403),

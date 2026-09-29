@@ -79,6 +79,59 @@ export const useGetDailyLogs = ({
   });
 };
 
+export type DailyLogPage = {
+  data: DailyLogDTO[];
+  pagination: PaginationResponse<DailyLogDTO>["pagination"];
+};
+
+/**
+ * Kumpulkan seluruh halaman sampai `hasMore` habis.
+ * `fetchPage` disuntikkan supaya loop-nya bisa diuji tanpa sesi HTTP dan supaya
+ * tidak ada pemanggil yang diam-diam berhenti di satu halaman.
+ */
+export async function collectAllPages(
+  fetchPage: (page: number, limit: number) => Promise<DailyLogPage>,
+  { limit = 100, maxPages = 20 }: { limit?: number; maxPages?: number } = {},
+): Promise<{ logs: DailyLogDTO[]; total: number; truncated: boolean }> {
+  const logs: DailyLogDTO[] = [];
+  let total = 0;
+
+  for (let page = 1; page <= maxPages; page++) {
+    const result = await fetchPage(page, limit);
+    logs.push(...result.data);
+    total = result.pagination.total;
+    if (!result.pagination.hasMore) return { logs, total, truncated: false };
+  }
+
+  return { logs, total, truncated: true };
+}
+
+/**
+ * Seluruh log untuk satu filter (kalender butuh satu bulan penuh, bukan satu
+ * halaman). `truncated` berarti batas `maxPages` tercapai — UI wajib
+ * memberitahukannya, bukan menampilkan data sebagian tanpa keterangan.
+ */
+export async function fetchAllDailyLogs(
+  filters: DailyLogFilters,
+  options?: { limit?: number; maxPages?: number },
+) {
+  const { enabled: _enabled, page: _page, ...rest } = filters;
+
+  return collectAllPages(async (page, limit) => {
+    const query = buildQuery({ ...rest, page, limit });
+    const response = await apiGet<
+      { success: boolean; message?: string } & PaginationResponse<DailyLogDTO>
+    >(`/api/daily-logs?${query}`);
+    if (!response.data?.success) {
+      throw new Error(response.data?.message ?? "Gagal memuat log harian");
+    }
+    return {
+      data: response.data.data ?? [],
+      pagination: response.data.pagination,
+    };
+  }, options);
+}
+
 export const useGetDailyLog = (id?: string) => {
   return useQuery({
     queryKey: ["daily-logs", "detail", id],
