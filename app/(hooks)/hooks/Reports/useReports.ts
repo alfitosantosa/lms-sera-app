@@ -70,6 +70,21 @@ export const useGetReports = ({
   });
 };
 
+/** GET /api/reports/[id] — detail + `snapshot` tersimpan (bukan aggregat live). */
+export const useGetReport = (id: string, enabled = true) => {
+  return useQuery({
+    queryKey: reportKeys(id),
+    enabled: enabled && id !== "",
+    queryFn: async (): Promise<StudentReportDTO> => {
+      const response = await apiGet<{
+        success: boolean;
+        data: StudentReportDTO;
+      }>(`/api/reports/${id}`);
+      return unwrap(response, "Gagal memuat rapor").data;
+    },
+  });
+};
+
 /** POST /api/reports/generate — massal satu kelas atau satu siswa. */
 export const useGenerateReports = () => {
   const queryClient = useQueryClient();
