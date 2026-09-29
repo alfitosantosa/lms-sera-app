@@ -128,6 +128,12 @@ export function requireTeacherId(actor: DevelopmentActor): string {
  * Semua referensi tenant (mata pelajaran, indikator, skala) wajib milik
  * yayasan actor — dijaga di satu tempat agar create/bulk/PATCH tidak berbeda.
  * Lookup dibatch per koleksi id (bukan per observasi).
+ *
+ * `isActive: true` juga disyaratkan untuk indikator & skala: baris nonaktif
+ * tidak muncul di picker/`getClassMatrix`/`percentAssessment`, jadi menulis
+ * dengan referensi nonaktif hanya menghasilkan baris yang tak pernah terhitung.
+ * Ceiling: memperbaiki nilai yang indikatornya dinonaktifkan *setelah* dicatat
+ * juga ikut ditolak — admin mengaktifkan ulang indikator untuk mengoreksi.
  */
 export async function assertReferencesInFoundation(
   foundationId: string,
@@ -157,6 +163,7 @@ export async function assertReferencesInFoundation(
       ? prisma.developmentIndicator.findMany({
           where: {
             id: { in: indicatorIds },
+            isActive: true,
             developmentArea: { foundationId },
           },
           select: { id: true },
@@ -164,7 +171,7 @@ export async function assertReferencesInFoundation(
       : [],
     scaleIds.length
       ? prisma.assessmentScale.findMany({
-          where: { id: { in: scaleIds }, foundationId },
+          where: { id: { in: scaleIds }, isActive: true, foundationId },
           select: { id: true },
         })
       : [],

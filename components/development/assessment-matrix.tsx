@@ -122,6 +122,14 @@ export function AssessmentMatrix({
     setSavingKey(key);
     try {
       await onSelect(entry);
+      // Hapus override setelah simpan berhasil: pemanggil sudah menunggu
+      // refetch, jadi sel langsung memakai nilai server dan override tidak
+      // lagi menutupi perubahan berikutnya (mis. "Isi semua").
+      setOptimistic((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
     } catch {
       // Rollback: hapus override optimistik → sel kembali ke nilai server.
       setOptimistic((prev) => {

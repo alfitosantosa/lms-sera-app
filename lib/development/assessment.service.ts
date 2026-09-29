@@ -190,8 +190,10 @@ export async function upsertAssessment(
           where: { id: existing.id },
           data: {
             scaleId: input.scaleId,
-            score: input.score ?? null,
-            note: input.note ?? null,
+            // Field yang tidak dikirim tidak di-null-kan (matrix hanya kirim
+            // scaleId, jangan hapus catatan/nilai yang sudah ada).
+            ...(input.score !== undefined ? { score: input.score ?? null } : {}),
+            ...(input.note !== undefined ? { note: input.note ?? null } : {}),
             ...(input.evidences ? { evidences } : {}),
           },
           include: assessmentInclude,
@@ -292,7 +294,11 @@ export async function bulkUpsertAssessments(
           scaleId: entry.scaleId,
           note: entry.note ?? null,
         },
-        update: { scaleId: entry.scaleId, note: entry.note ?? null },
+        update: {
+          scaleId: entry.scaleId,
+          // Entri bulk tanpa `note` tidak boleh menghapus catatan lama.
+          ...(entry.note !== undefined ? { note: entry.note ?? null } : {}),
+        },
         select: { id: true, scaleId: true, score: true, note: true },
       });
 

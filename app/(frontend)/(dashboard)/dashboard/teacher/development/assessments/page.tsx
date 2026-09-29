@@ -223,14 +223,18 @@ export default function TeacherAssessmentsPage() {
                         color: scale.color,
                       }))}
                       disabled={locked || scales.length === 0}
-                      onSelect={(entry) =>
-                        upsert.mutateAsync({
+                      onSelect={async (entry) => {
+                        const saved = await upsert.mutateAsync({
                           studentId: entry.studentId,
                           periodId: matrix.period?.id ?? periodId,
                           indicatorId: entry.indicatorId,
                           scaleId: entry.scaleId,
-                        })
-                      }
+                        });
+                        // Sel menunggu data server sebelum override optimistik
+                        // dilepas (lihat AssessmentMatrix) agar tidak berkedip.
+                        await matrixQuery.refetch();
+                        return saved;
+                      }}
                       onBulkApply={(indicatorId, scaleId) =>
                         bulk.mutateAsync({
                           classId,
