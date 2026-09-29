@@ -96,7 +96,7 @@ type StudentAccess =
     }
   | { ok: false; response: NextResponse };
 
-type ClassAccess = { ok: true } | { ok: false; response: NextResponse };
+export type ClassAccess = { ok: true } | { ok: false; response: NextResponse };
 
 /** Terjemahkan respons guard menjadi error service. */
 async function fail(response: NextResponse): Promise<never> {
@@ -111,7 +111,7 @@ async function unwrapStudent(result: StudentAccess) {
   return result.student;
 }
 
-async function unwrapClass(result: ClassAccess) {
+export async function unwrapClass(result: ClassAccess) {
   if (!result.ok) throw await fail(result.response);
 }
 

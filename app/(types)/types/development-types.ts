@@ -321,6 +321,28 @@ export type DailyLogDTO = {
   _count?: { evidences: number };
 };
 
+// =====================================================
+// CLASS PROGRESS (Phase 3 — dashboard guru)
+// =====================================================
+
+export type ClassProgressStudentDTO = {
+  id: string;
+  name: string;
+  nisn: string | null;
+  avatarUrl: string | null;
+  logCount: number;
+  hasLogToday: boolean;
+  lastLogAt: string | null;
+};
+
+export type ClassProgressDTO = {
+  students: ClassProgressStudentDTO[];
+  totalStudents: number;
+  loggedToday: number;
+  pendingToday: number;
+  percentLogbook: number;
+};
+
 export type TimelineEntryDTO = {
   kind: "log";
   id: string;

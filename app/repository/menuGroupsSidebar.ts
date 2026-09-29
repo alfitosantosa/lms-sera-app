@@ -270,8 +270,32 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    {
+      title: "Pengembangan Siswa",
+      items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard/teacher/development",
+          icon: "academic",
+        },
+        {
+          title: "Buku Catatan Harian",
+          url: "/dashboard/teacher/development/logbook",
+          icon: "file",
+        },
+        {
+          title: "Kalender Logbook",
+          url: "/dashboard/teacher/development/logbook/calendar",
+          icon: "calendar",
+        },
+        {
+          title: "Perkembangan Siswa",
+          url: "/dashboard/teacher/development/students",
+          icon: "chart",
+        },
+      ],
+    },
   ],
-
   // =====================================================
   // SCHOOL ADMINISTRATOR (TU)
   // Reuses existing admin/treasurer pages with branch filtering
@@ -417,8 +441,32 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    {
+      title: "Pengembangan Siswa",
+      items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard/teacher/development",
+          icon: "academic",
+        },
+        {
+          title: "Buku Catatan Harian",
+          url: "/dashboard/teacher/development/logbook",
+          icon: "file",
+        },
+        {
+          title: "Kalender Logbook",
+          url: "/dashboard/teacher/development/logbook/calendar",
+          icon: "calendar",
+        },
+        {
+          title: "Perkembangan Siswa",
+          url: "/dashboard/teacher/development/students",
+          icon: "chart",
+        },
+      ],
+    },
   ],
-
   // =====================================================
   // TREASURER
   // =====================================================
@@ -562,8 +610,32 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    {
+      title: "Pengembangan Siswa",
+      items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard/teacher/development",
+          icon: "academic",
+        },
+        {
+          title: "Buku Catatan Harian",
+          url: "/dashboard/teacher/development/logbook",
+          icon: "file",
+        },
+        {
+          title: "Kalender Logbook",
+          url: "/dashboard/teacher/development/logbook/calendar",
+          icon: "calendar",
+        },
+        {
+          title: "Perkembangan Siswa",
+          url: "/dashboard/teacher/development/students",
+          icon: "chart",
+        },
+      ],
+    },
   ],
-
   // =====================================================
   // STUDENT
   // =====================================================

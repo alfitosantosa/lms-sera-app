@@ -8,8 +8,24 @@ import {
   type TimelineEntryDTO,
 } from "@/app/(types)";
 import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/apiClients";
+import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
 import { type PaginationResponse } from "@/lib/pagination";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
+/**
+ * Semua mutasi log harian mengubah daftar log, progress kelas (jumlah log hari
+ * ini), dan timeline siswa — satu tempat agar tidak ada layar yang tertinggal.
+ */
+function invalidateLogQueries(queryClient: QueryClient) {
+  queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+  queryClient.invalidateQueries({ queryKey: ["class-progress"] });
+  queryClient.invalidateQueries({ queryKey: ["student-timeline"] });
+}
 
 export type DailyLogFilters = {
   classId?: string;
@@ -20,6 +36,8 @@ export type DailyLogFilters = {
   status?: string;
   page?: number;
   limit?: number;
+  /** Bukan query param — menahan query sampai kelas dipilih. */
+  enabled?: boolean;
 };
 
 function buildQuery(filters?: Record<string, unknown>): string {
@@ -32,9 +50,24 @@ function buildQuery(filters?: Record<string, unknown>): string {
   return params.toString();
 }
 
-export const useGetDailyLogs = (filters?: DailyLogFilters) => {
+// apiPost/apiPatch/apiDelete tidak melempar error pada status 4xx/5xx, jadi
+// pesan error Bahasa Indonesia dari backend (mis. "Periode penilaian belum
+// dibuka") harus diangkat manual di sini — bukan di setiap pemanggil.
+const unwrap = <T>(res: { status: number; data: T }, fallback: string): T => {
+  if (res.status >= 400) {
+    const body = (res.data ?? {}) as { error?: string; message?: string };
+    throw new Error(body.error || body.message || fallback);
+  }
+  return res.data;
+};
+
+export const useGetDailyLogs = ({
+  enabled = true,
+  ...filters
+}: DailyLogFilters = {}) => {
   return useQuery({
     queryKey: ["daily-logs", filters],
+    enabled,
     queryFn: async () => {
       const query = buildQuery(filters);
       const url = query ? `/api/daily-logs?${query}` : "/api/daily-logs";
@@ -67,13 +100,13 @@ export const useCreateDailyLog = () => {
         "/api/daily-logs",
         data,
       );
-      return response.data?.data;
+      return unwrap(response, "Gagal menyimpan log harian").data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -92,13 +125,13 @@ export const useUpdateDailyLog = () => {
         `/api/daily-logs/${id}`,
         data,
       );
-      return response.data?.data;
+      return unwrap(response, "Gagal memperbarui log harian").data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -108,13 +141,13 @@ export const useDeleteDailyLog = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await apiDelete(`/api/daily-logs/${id}`);
-      return response.data;
+      return unwrap(response, "Gagal menghapus log harian");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -126,13 +159,13 @@ export const useSubmitDailyLog = () => {
       const response = await apiPost<{ success: boolean; data: DailyLogDTO }>(
         `/api/daily-logs/${id}/submit`,
       );
-      return response.data?.data;
+      return unwrap(response, "Gagal mengirim log harian").data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -144,13 +177,13 @@ export const useReviewDailyLog = () => {
       const response = await apiPost<{ success: boolean; data: DailyLogDTO }>(
         `/api/daily-logs/${id}/review`,
       );
-      return response.data?.data;
+      return unwrap(response, "Gagal meninjau log harian").data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -163,14 +196,13 @@ export const useBulkCreateDailyLogs = () => {
         "/api/daily-logs/bulk",
         data,
       );
-      return response.data?.count ?? 0;
+      return unwrap(response, "Gagal menyimpan log harian").count ?? 0;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["daily-logs"] });
-      queryClient.invalidateQueries({ queryKey: ["student-timeline"] });
+      invalidateLogQueries(queryClient);
     },
     onError: (error) => {
-      console.error(error);
+      errorHandlerFrontend(error);
     },
   });
 };
@@ -189,9 +221,15 @@ export const useGetStudentTimeline = (
       }`;
       const response = await apiGet<{
         success: boolean;
+        message?: string;
         data: TimelineEntryDTO[];
       }>(url);
-      return response.data?.data ?? [];
+      if (!response.data?.success) {
+        throw new Error(
+          response.data?.message ?? "Gagal memuat timeline siswa",
+        );
+      }
+      return response.data.data;
     },
   });
 };
