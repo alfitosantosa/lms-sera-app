@@ -4,6 +4,7 @@ import {
   developmentError,
   requireStaff,
   resolveDevelopmentActor,
+  teacherClassIds,
 } from "@/lib/development/development.guard";
 import {
   reportErrorResponse,
@@ -47,10 +48,13 @@ export async function GET(request: NextRequest) {
     const access = await assertClassAccess(actor, classId);
     if (!access.ok) return access.response;
   }
+  // Tanpa filter kelas: guru hanya melihat kelas yang diajarnya (admin null).
+  const classScope = classId ? null : await teacherClassIds(actor);
 
   const where: Prisma.StudentReportWhereInput = {
     foundationId: actor.foundationId,
     ...(classId ? { classId } : {}),
+    ...(classScope ? { classId: { in: classScope } } : {}),
     ...(periodId ? { periodId } : {}),
     ...(status ? { status } : {}),
   };

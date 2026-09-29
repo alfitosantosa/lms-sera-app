@@ -8,10 +8,12 @@ import {
   parseDateParam,
 } from "@/lib/development/daily-log.service";
 import {
+  assertClassAccess,
   assertStudentAccess,
   developmentError,
   requireStaff,
   resolveDevelopmentActor,
+  teacherClassIds,
 } from "@/lib/development/development.guard";
 import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
 import { prisma } from "@/lib/prisma";
@@ -64,6 +66,12 @@ export async function GET(request: NextRequest) {
     const access = await assertStudentAccess(actor, studentId);
     if (!access.ok) return access.response;
   }
+  if (classId) {
+    const access = await assertClassAccess(actor, classId);
+    if (!access.ok) return access.response;
+  }
+  // Tanpa filter kelas: guru hanya melihat kelas yang diajarnya (admin null).
+  const classScope = classId ? null : await teacherClassIds(actor);
 
   const statusParam = searchParams.get("status");
   const status = statusParam
@@ -76,6 +84,7 @@ export async function GET(request: NextRequest) {
   const where: Prisma.DailyLogWhereInput = {
     foundationId: actor.foundationId,
     ...(classId ? { classId } : {}),
+    ...(classScope ? { classId: { in: classScope } } : {}),
     ...(studentId ? { studentId } : {}),
     ...(teacherId ? { teacherId } : {}),
     ...(status?.success ? { status: status.data } : {}),

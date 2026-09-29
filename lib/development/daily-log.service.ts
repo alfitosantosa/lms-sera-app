@@ -576,9 +576,20 @@ export async function submitDailyLog(
   }
 
   return prisma.$transaction(async (tx) => {
-    const updated = await tx.dailyLog.update({
-      where: { id: log.id },
+    // Penulisan bersyarat: status dicek DI DALAM transaksi agar submit yang
+    // tiba saat review berjalan tidak menimpa status yang lebih baru.
+    const { count } = await tx.dailyLog.updateMany({
+      where: { id: log.id, status: "DRAFT" },
       data: { status: "SUBMITTED" },
+    });
+    if (count === 0) {
+      throw new DailyLogServiceError(
+        "Hanya log berstatus draft yang dapat dikirim",
+        400,
+      );
+    }
+    const updated = await tx.dailyLog.findUniqueOrThrow({
+      where: { id: log.id },
       include: dailyLogInclude,
     });
 
@@ -618,9 +629,18 @@ export async function reviewDailyLog(
   }
 
   return prisma.$transaction(async (tx) => {
-    const updated = await tx.dailyLog.update({
-      where: { id: log.id },
+    const { count } = await tx.dailyLog.updateMany({
+      where: { id: log.id, status: "SUBMITTED" },
       data: { status: "REVIEWED" },
+    });
+    if (count === 0) {
+      throw new DailyLogServiceError(
+        "Hanya log berstatus submitted yang dapat ditinjau",
+        400,
+      );
+    }
+    const updated = await tx.dailyLog.findUniqueOrThrow({
+      where: { id: log.id },
       include: dailyLogInclude,
     });
 
@@ -666,7 +686,46 @@ export async function updateDailyLog(
       input.observations?.flatMap((o) => (o.scaleId ? [o.scaleId] : [])) ?? [],
   });
 
+  const data = {
+    ...(input.date !== undefined ? { date: input.date } : {}),
+    ...(input.subjectId !== undefined
+      ? { subjectId: input.subjectId ?? null }
+      : {}),
+    ...(input.activity !== undefined ? { activity: input.activity } : {}),
+    ...(input.achievement !== undefined
+      ? { achievement: input.achievement ?? null }
+      : {}),
+    ...(input.challenge !== undefined
+      ? { challenge: input.challenge ?? null }
+      : {}),
+    ...(input.teacherNote !== undefined
+      ? { teacherNote: input.teacherNote ?? null }
+      : {}),
+    ...(input.parentVisible !== undefined
+      ? { parentVisible: input.parentVisible }
+      : {}),
+  };
+
   return prisma.$transaction(async (tx) => {
+    // Penulisan bersyarat: perubahan hanya ditulis bila status masih sama
+    // dengan saat dibaca, sehingga PATCH yang kalah balapan tidak menimpa
+    // log yang baru dikirim/ditinjau.
+    const { count } = await tx.dailyLog.updateMany({
+      where: { id: log.id, status: log.status },
+      data,
+    });
+    if (count === 0) {
+      const current = await tx.dailyLog.findUnique({
+        where: { id: log.id },
+        select: { status: true, teacherId: true },
+      });
+      if (current) assertLogWritable(actor, current, "update");
+      throw new DailyLogServiceError(
+        "Log harian berubah saat diproses, silakan muat ulang",
+        409,
+      );
+    }
+
     if (input.observations) {
       await tx.dailyObservation.deleteMany({ where: { dailyLogId: log.id } });
       await tx.dailyObservation.createMany({
@@ -680,27 +739,8 @@ export async function updateDailyLog(
       });
     }
 
-    const row = await tx.dailyLog.update({
+    const row = await tx.dailyLog.findUniqueOrThrow({
       where: { id: log.id },
-      data: {
-        ...(input.date !== undefined ? { date: input.date } : {}),
-        ...(input.subjectId !== undefined
-          ? { subjectId: input.subjectId ?? null }
-          : {}),
-        ...(input.activity !== undefined ? { activity: input.activity } : {}),
-        ...(input.achievement !== undefined
-          ? { achievement: input.achievement ?? null }
-          : {}),
-        ...(input.challenge !== undefined
-          ? { challenge: input.challenge ?? null }
-          : {}),
-        ...(input.teacherNote !== undefined
-          ? { teacherNote: input.teacherNote ?? null }
-          : {}),
-        ...(input.parentVisible !== undefined
-          ? { parentVisible: input.parentVisible }
-          : {}),
-      },
       include: dailyLogInclude,
     });
 

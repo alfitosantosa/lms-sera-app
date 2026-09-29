@@ -274,3 +274,26 @@ export async function assertClassAccess(
 
   return { ok: false, response: developmentError("Akses kelas ditolak", 403) };
 }
+
+/**
+ * Id kelas yang diajar seorang guru (dari `Schedule` aktif), atau `null` untuk
+ * `admin`/`admin school` yang memang tidak dibatasi kelas.
+ *
+ * Endpoint daftar memakainya saat **tidak** ada filter `classId`: guru hanya
+ * boleh melihat baris kelas yang diajarnya, sedangkan admin melihat seluruh
+ * yayasan. Guru tanpa jadwal mengembalikan `[]` (daftar kosong), bukan seluruh
+ * yayasan — sumber tunggal agar daftar log/penilaian/rapor tidak pernah bocor.
+ */
+export async function teacherClassIds(
+  actor: DevelopmentActor,
+): Promise<string[] | null> {
+  if (ADMIN_ROLE_NAMES[actor.roleName] === true) return null;
+  if (actor.roleName !== "teacher" || !actor.userDataId) return [];
+
+  const schedules = await prisma.schedule.findMany({
+    where: { teacherId: actor.userDataId, isActive: true, classId: { not: null } },
+    select: { classId: true },
+    distinct: ["classId"],
+  });
+  return schedules.flatMap((s) => (s.classId ? [s.classId] : []));
+}

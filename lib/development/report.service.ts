@@ -75,6 +75,19 @@ export type StudentReportFull = Prisma.StudentReportGetPayload<{
   include: typeof reportInclude;
 }>;
 
+/** Status terkini di dalam transaksi — untuk pesan 409 saat penulisan bersyarat gagal. */
+async function statusOr(
+  tx: Prisma.TransactionClient,
+  id: string,
+  fallback: string,
+): Promise<string> {
+  const row = await tx.studentReport.findUnique({
+    where: { id },
+    select: { status: true },
+  });
+  return row?.status ?? fallback;
+}
+
 /** Status riil `attendances.status` yang dihitung (nilai lain diabaikan). */
 const ATTENDANCE_STATUSES = [
   "present",
@@ -589,9 +602,17 @@ export async function updateReport(
   };
 
   return prisma.$transaction(async (tx) => {
-    const row = await tx.studentReport.update({
-      where: { id },
+    // Penulisan bersyarat: status diperiksa DI DALAM transaksi, sehingga PATCH
+    // yang tiba saat approve berjalan tidak bisa menulis ke rapor APPROVED.
+    const { count } = await tx.studentReport.updateMany({
+      where: { id, status: { in: ["DRAFT", "REVIEW"] } },
       data: input,
+    });
+    if (count === 0) {
+      throw new ReportServiceError(LOCKED_MESSAGE, 409);
+    }
+    const row = await tx.studentReport.findUniqueOrThrow({
+      where: { id },
       include: reportInclude,
     });
     await writeAudit(tx, {
@@ -625,8 +646,8 @@ export async function regenerateNarrative(
   const narrative = buildNarrativeDraft(aggregate);
 
   return prisma.$transaction(async (tx) => {
-    const row = await tx.studentReport.update({
-      where: { id },
+    const { count } = await tx.studentReport.updateMany({
+      where: { id, status: { in: ["DRAFT", "REVIEW"] } },
       data: {
         teacherNarrative: narrative,
         completion: toJson(
@@ -640,6 +661,12 @@ export async function regenerateNarrative(
           ),
         ),
       },
+    });
+    if (count === 0) {
+      throw new ReportServiceError(LOCKED_MESSAGE, 409);
+    }
+    const row = await tx.studentReport.findUniqueOrThrow({
+      where: { id },
       include: reportInclude,
     });
     await writeAudit(tx, {
@@ -669,9 +696,18 @@ export async function reviewReport(
   }
 
   return prisma.$transaction(async (tx) => {
-    const row = await tx.studentReport.update({
-      where: { id },
+    const { count } = await tx.studentReport.updateMany({
+      where: { id, status: "DRAFT" },
       data: { status: "REVIEW" },
+    });
+    if (count === 0) {
+      throw new ReportServiceError(
+        `Rapor tidak dapat ditinjau dari status ${await statusOr(tx, id, report.status)}`,
+        409,
+      );
+    }
+    const row = await tx.studentReport.findUniqueOrThrow({
+      where: { id },
       include: reportInclude,
     });
     await writeAudit(tx, {
@@ -713,8 +749,10 @@ export async function approveReport(
   const snapshot = toJson({ version: 1, ...aggregate });
 
   return prisma.$transaction(async (tx) => {
-    const row = await tx.studentReport.update({
-      where: { id },
+    // Snapshot hanya ditulis bila status masih REVIEW DI DALAM transaksi —
+    // approve ganda tidak boleh menimpa snapshot yang sudah dibekukan.
+    const { count } = await tx.studentReport.updateMany({
+      where: { id, status: "REVIEW" },
       data: {
         status: "APPROVED",
         approvedAt: new Date(),
@@ -722,6 +760,15 @@ export async function approveReport(
         snapshot,
         completion: toJson(aggregate.completion),
       },
+    });
+    if (count === 0) {
+      throw new ReportServiceError(
+        `Rapor tidak dapat disetujui dari status ${await statusOr(tx, id, report.status)}`,
+        409,
+      );
+    }
+    const row = await tx.studentReport.findUniqueOrThrow({
+      where: { id },
       include: reportInclude,
     });
     await writeAudit(tx, {
@@ -759,9 +806,18 @@ export async function publishReport(
   }
 
   return prisma.$transaction(async (tx) => {
-    const row = await tx.studentReport.update({
-      where: { id },
+    const { count } = await tx.studentReport.updateMany({
+      where: { id, status: "APPROVED" },
       data: { status: "PUBLISHED", publishedAt: new Date() },
+    });
+    if (count === 0) {
+      throw new ReportServiceError(
+        `Rapor tidak dapat dipublikasikan dari status ${await statusOr(tx, id, report.status)}`,
+        409,
+      );
+    }
+    const row = await tx.studentReport.findUniqueOrThrow({
+      where: { id },
       include: reportInclude,
     });
     await writeAudit(tx, {
