@@ -211,5 +211,3 @@ export function EntryPanel({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
-

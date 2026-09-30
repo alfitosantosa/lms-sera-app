@@ -113,85 +113,86 @@
   --radius-2xl: calc(var(--radius) + 6px);
   --radius-3xl: calc(var(--radius) + 14px);
 
-  /* Ink-tinted elevation — never black (DESIGN.md §4) */
-  --shadow-2xs: 0 1px 2px 0 oklch(0.15 0.03 250 / 4%);
+  /* Ink-tinted elevation — never black (DESIGN.md §4). Hue 268 = logo indigo. */
+  --shadow-2xs: 0 1px 2px 0 oklch(0.15 0.05 268 / 4%);
   --shadow-xs:
-    0 1px 2px 0 oklch(0.15 0.03 250 / 5%), 0 1px 3px 0 oklch(0.15 0.03 250 / 4%);
+    0 1px 2px 0 oklch(0.15 0.05 268 / 5%), 0 1px 3px 0 oklch(0.15 0.05 268 / 4%);
   --shadow-sm:
-    0 1px 3px 0 oklch(0.15 0.03 250 / 7%),
-    0 1px 2px -1px oklch(0.15 0.03 250 / 5%);
+    0 1px 3px 0 oklch(0.15 0.05 268 / 7%),
+    0 1px 2px -1px oklch(0.15 0.05 268 / 5%);
   --shadow-md:
-    0 4px 12px -2px oklch(0.15 0.03 250 / 8%),
-    0 2px 6px -2px oklch(0.15 0.03 250 / 5%);
+    0 4px 12px -2px oklch(0.15 0.05 268 / 8%),
+    0 2px 6px -2px oklch(0.15 0.05 268 / 5%);
   --shadow-lg:
-    0 12px 30px -6px oklch(0.15 0.03 250 / 10%),
-    0 4px 12px -4px oklch(0.15 0.03 250 / 6%);
+    0 12px 30px -6px oklch(0.15 0.05 268 / 10%),
+    0 4px 12px -4px oklch(0.15 0.05 268 / 6%);
   --shadow-xl:
-    0 20px 50px -12px oklch(0.15 0.03 250 / 12%),
-    0 8px 20px -8px oklch(0.15 0.03 250 / 6%);
-  --shadow-2xl: 0 32px 64px -16px oklch(0.15 0.03 250 / 16%);
+    0 20px 50px -12px oklch(0.15 0.05 268 / 12%),
+    0 8px 20px -8px oklch(0.15 0.05 268 / 6%);
+  --shadow-2xl: 0 32px 64px -16px oklch(0.15 0.05 268 / 16%);
 }
 
 /*
  * Design system — single source of truth. See DESIGN.md.
  *
- * The metaphor is a school register: paper, ruled columns, ink, one stamp.
+ * Brand colour is taken from the Santosa Tech Indonesia logo: #3e58eb
+ * (royal indigo-blue). Every brand tone below is a shade or tint of that hue.
+ *
  * Three ink roles carry all meaning:
- *   ink (--primary)     = an action being taken
- *   stamp (--brand-accent / --success) = settled, verified, paid
+ *   brand blue (--primary)  = an action being taken
+ *   stamp (--success)       = settled, verified, paid
  *   margin red (--margin / --destructive) = owing, absent, wrong
  *
- * Contrast — verified by `bun scripts/color-audit.mjs`, which parses this file.
- * Light (WCAG AA, on paper #FBFAF4): ink 14.4 · ink-2 9.0 · muted 5.0 ·
- * stamp 7.4 · margin 5.9 · every `-strong` on its `-chip` >= 4.5.
+ * Contrast — re-run `bun scripts/color-audit.mjs` after editing. Spot checks
+ * on white: primary 5.5 · primary-hover 6.9 · brand-accent 8.0 ·
+ * ink 16.8 · muted 6.3 · ring 4.3 (>= 3 for non-text).
  */
 :root {
   --radius: 0.625rem;
 
-  /* Surfaces and ink — a cool neutral ground, white sheet, near-black ink. */
-  --background: #f7f7f8;
-  --foreground: #16283a;
+  /* Surfaces and ink — a faintly blue ground, white sheet, indigo-black ink. */
+  --background: #f6f7fb;
+  --foreground: #141b3a;
   --card: #ffffff;
-  --card-foreground: #16283a;
+  --card-foreground: #141b3a;
   --popover: #ffffff;
-  --popover-foreground: #16283a;
-  --secondary: #f2f2f4;
-  --secondary-foreground: #40566b;
-  --muted: #f2f2f4;
-  --muted-foreground: #5f5f6b;
-  --accent: #eaeaef;
-  --accent-foreground: #16283a;
-  --border: #d6d6db;
-  --input: #d6d6db;
-  /* Focus reads as interaction, not as the stamp ink. */
-  --ring: #7c3aed;
+  --popover-foreground: #141b3a;
+  --secondary: #f0f2f8;
+  --secondary-foreground: #3d4566;
+  --muted: #f0f2f8;
+  --muted-foreground: #5b5f73;
+  --accent: #e6e9f6;
+  --accent-foreground: #141b3a;
+  --border: #d8dbe8;
+  --input: #d8dbe8;
+  /* Focus ring: the lighter logo blue. */
+  --ring: #4f6bff;
 
-  /* Brand — an ink-filled action, and the green of the approved stamp */
-  --primary: #16283a;
+  /* Brand — the logo blue as the action fill, and its tint / deep accent */
+  --primary: #3e58eb;
   --primary-foreground: #ffffff;
-  --primary-hover: #24405a;
-  --primary-active: #0e1d2a;
-  --brand-tint: #e3efe7;
-  --brand-accent: #1b5e43;
+  --primary-hover: #3049d6;
+  --primary-active: #2438b8;
+  --brand-tint: #e8ecfe;
+  --brand-accent: #2b3fc4;
 
-  /* Interaction — the one hue that carries no data meaning. Links, the ring,
-     a checked box, and the wash a focused field takes. AA on the ground: the
-     text tone clears 4.5:1, the ring clears 3:1. */
-  --interactive: #6d28d9;
-  --interactive-fill: #7c3aed;
-  --interactive-border: #a78bfa;
-  --interactive-surface: #f6f3ff;
+  /* Interaction — links, the ring, a checked box, and the wash a focused
+     field takes. Same family as the brand so the UI reads as one colour. */
+  --interactive: #3148d8;
+  --interactive-fill: #3e58eb;
+  --interactive-border: #9fb0ff;
+  --interactive-surface: #f3f5ff;
   /* The red margin rule that opens a register sheet */
   --margin: #b4322a;
 
-  /* Inverse surfaces (the landing hero, the closing CTA band) */
-  --navy: #10263a;
-  --navy-foreground: #f7f6ef;
-  --navy-muted: #a9bccb;
+  /* Inverse surfaces (the landing hero, the closing CTA band) — deep indigo */
+  --navy: #0f1a4a;
+  --navy-foreground: #f5f6ff;
+  --navy-muted: #aab4d8;
   --navy-border: oklch(1 0 0 / 10%);
-  /* Inverse-surface tones. The light-theme semantic tokens (--info, --success,
-     --brand-accent) fall below 4.5:1 on navy — use these on bg-navy bands. */
-  --navy-accent: #9cc8ae;
+  /* Inverse-surface tones. The light-theme semantic tokens fall below 4.5:1
+     on navy — use these on bg-navy bands. */
+  --navy-accent: #aab8ff;
   --navy-info: #6fd3e8;
   --navy-success: #7fe0be;
 
@@ -220,89 +221,90 @@
   --caution-chip: #fbe5d3;
   --caution-border: #efc79f;
   --caution-strong: #7a3a0f;
+  /* Info stays a cooler, teal-leaning blue so it never reads as a button. */
   --info: #14568c;
   --info-solid: #14568c;
   --info-surface: #f0f5fb;
   --info-chip: #dce9f7;
   --info-border: #b3cde8;
   --info-strong: #0e3f69;
-  --tertiary: #5f4ab8;
+  --tertiary: #7c3aed;
   --tertiary-solid: #6d28d9;
   --tertiary-surface: #f7f4ff;
   --tertiary-chip: #ede9fe;
   --tertiary-border: #d6ccfb;
   --tertiary-strong: #4c1d95;
 
-  /* Data visualisation — ten hues, all >= 3:1 on white.
+  /* Data visualisation — ten hues, all >= 3:1 on white. chart-1 is the logo.
      Consumed as `var(--chart-N)` by lib/charts.ts, not as utilities. */
-  --chart-1: #16283a;
+  --chart-1: #3e58eb;
   --chart-2: #1b5e43;
   --chart-3: #0e7c86;
   --chart-4: #14568c;
-  --chart-5: #5f4ab8;
+  --chart-5: #7c3aed;
   --chart-6: #a62920;
   --chart-7: #c2410c;
   --chart-8: #8a5a00;
   --chart-9: #4f7a1f;
   --chart-10: #a5367a;
 
-  /* Application sidebar — a panel on the ground. Where you are is an ink pill. */
+  /* Application sidebar — a panel on the ground. Where you are is a brand pill. */
   --sidebar: #ffffff;
-  --sidebar-foreground: #16283a;
-  --sidebar-primary: #16283a;
+  --sidebar-foreground: #141b3a;
+  --sidebar-primary: #3e58eb;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f2f2f4;
-  --sidebar-accent-foreground: #16283a;
-  --sidebar-active: #16283a;
+  --sidebar-accent: #f0f2f8;
+  --sidebar-accent-foreground: #141b3a;
+  --sidebar-active: #3e58eb;
   --sidebar-active-foreground: #ffffff;
-  --sidebar-border: #e3e3e8;
-  --sidebar-ring: #7c3aed;
+  --sidebar-border: #e3e5ef;
+  --sidebar-ring: #4f6bff;
 }
 
 /*
  * Dark theme is not wired at runtime (no ThemeProvider; `.dark` is never
  * applied — see components/ui/sonner.tsx). Kept coherent for whenever it is.
- * ponytail: `--primary` stays a mid pine fill so the 90-odd `bg-*-solid`
+ * ponytail: `--primary` stays a mid blue fill so the 90-odd `bg-*-solid`
  * buttons that inherit `text-primary-foreground` keep light-on-dark text;
- * `text-primary` therefore sits at 2.9:1 here. If dark mode goes live, add a
- * `--solid-foreground` token and point the Button variants at it instead.
+ * `text-primary` therefore reads low on dark surfaces. If dark mode goes live,
+ * add a `--solid-foreground` token and point the Button variants at it instead.
  */
 .dark {
-  --background: #0e0e11;
-  --foreground: #f4f4f5;
-  --card: #17171b;
-  --card-foreground: #f4f4f5;
-  --popover: #17171b;
-  --popover-foreground: #f4f4f5;
-  --secondary: #1d1d22;
-  --secondary-foreground: #d4d4d8;
-  --muted: #1d1d22;
-  --muted-foreground: #a1a1aa;
-  --accent: #24242a;
-  --accent-foreground: #f4f4f5;
-  --border: #33333c;
-  --input: #33333c;
-  --ring: #a78bfa;
+  --background: #0d0f1a;
+  --foreground: #f1f2fa;
+  --card: #161929;
+  --card-foreground: #f1f2fa;
+  --popover: #161929;
+  --popover-foreground: #f1f2fa;
+  --secondary: #1c2033;
+  --secondary-foreground: #d3d6e8;
+  --muted: #1c2033;
+  --muted-foreground: #a2a7c2;
+  --accent: #252a42;
+  --accent-foreground: #f1f2fa;
+  --border: #32374f;
+  --input: #32374f;
+  --ring: #8fa2ff;
 
-  --primary: #2f6e52;
+  --primary: #4860ea;
   --primary-foreground: #ffffff;
-  --primary-hover: #3a8362;
-  --primary-active: #275c45;
-  --brand-tint: #173a2e;
-  --brand-accent: #7cc3a1;
+  --primary-hover: #5a72f0;
+  --primary-active: #3a50d0;
+  --brand-tint: #1a2250;
+  --brand-accent: #9fb0ff;
 
   --margin: #e0766b;
 
-  --interactive: #c4b5fd;
-  --interactive-fill: #8b5cf6;
-  --interactive-border: #7c3aed;
-  --interactive-surface: #241f3a;
+  --interactive: #aab8ff;
+  --interactive-fill: #5b74f0;
+  --interactive-border: #4860ea;
+  --interactive-surface: #1c2350;
 
-  --navy: #08151f;
-  --navy-foreground: #f7f6ef;
-  --navy-muted: #a9bccb;
+  --navy: #080d2b;
+  --navy-foreground: #f5f6ff;
+  --navy-muted: #aab4d8;
   --navy-border: oklch(1 0 0 / 10%);
-  --navy-accent: #9cc8ae;
+  --navy-accent: #aab8ff;
   --navy-info: #6fd3e8;
   --navy-success: #7fe0be;
 
@@ -343,7 +345,7 @@
   --tertiary-border: #4c3f80;
   --tertiary-strong: #e4ddfb;
 
-  --chart-1: #9fb6ce;
+  --chart-1: #8fa2ff;
   --chart-2: #7cc3a1;
   --chart-3: #5fc7d4;
   --chart-4: #8cc4f0;
@@ -354,16 +356,16 @@
   --chart-9: #a7b8c6;
   --chart-10: #eba0c8;
 
-  --sidebar: #17171b;
-  --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #f4f4f5;
-  --sidebar-primary-foreground: #17171b;
-  --sidebar-accent: #24242a;
-  --sidebar-accent-foreground: #f4f4f5;
-  --sidebar-active: #f4f4f5;
-  --sidebar-active-foreground: #17171b;
-  --sidebar-border: #33333c;
-  --sidebar-ring: #a78bfa;
+  --sidebar: #161929;
+  --sidebar-foreground: #f1f2fa;
+  --sidebar-primary: #eef0ff;
+  --sidebar-primary-foreground: #161929;
+  --sidebar-accent: #252a42;
+  --sidebar-accent-foreground: #f1f2fa;
+  --sidebar-active: #eef0ff;
+  --sidebar-active-foreground: #161929;
+  --sidebar-border: #32374f;
+  --sidebar-ring: #8fa2ff;
 }
 
 @layer base {
