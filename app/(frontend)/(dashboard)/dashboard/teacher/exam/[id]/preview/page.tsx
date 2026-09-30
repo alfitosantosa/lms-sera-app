@@ -120,7 +120,7 @@ export default function ExamPreviewPage() {
       </Card>
 
       {questions.length === 0 ? (
-        <div className="text-muted-foreground rounded-lg border border-dashed p-8 text-center text-sm">
+        <div className="text-muted-foreground rounded-3xl border border-dashed p-8 text-center text-sm">
           Belum ada soal pada ujian ini.
         </div>
       ) : (

@@ -133,7 +133,7 @@ function TeacherAttendancePage() {
   return (
     <div className="">
       <div className="space-y-1 sm:space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           Absensi Guru
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base">
@@ -294,7 +294,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="border-border w-full rounded-lg border px-3 py-2 text-xs font-medium sm:w-auto sm:text-sm"
+            className="border-border w-full rounded-2xl border px-3 py-2 text-xs font-medium sm:w-auto sm:text-sm"
           />
           <span className="text-muted-foreground text-xs sm:text-sm">
             {format(new Date(date), "EEEE, dd MMMM yyyy", { locale: id })}
@@ -346,7 +346,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                   <label className="mb-2 block text-xs font-medium sm:text-sm">
                     Pilih Guru ({selectedTeachers.length})
                   </label>
-                  <div className="border-border max-h-40 space-y-2 overflow-y-auto rounded-lg border p-2 sm:max-h-48 sm:p-3">
+                  <div className="border-border max-h-40 space-y-2 overflow-y-auto rounded-3xl border p-2 sm:max-h-48 sm:p-3">
                     {teachers.map((teacher: any) => (
                       <div
                         key={teacher.id}
@@ -370,7 +370,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                               );
                             }
                           }}
-                          className="border-border h-4 w-4 shrink-0 cursor-pointer rounded"
+                          className="border-border h-4 w-4 shrink-0 cursor-pointer rounded-full"
                         />
                         <label
                           htmlFor={`teacher-${teacher.id}`}
@@ -460,7 +460,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
               <CardContent className="pt-4 sm:pt-6">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div
-                    className={`rounded-lg p-1.5 sm:p-2 ${config?.bg} shrink-0`}
+                    className={`rounded-full p-1.5 sm:p-2 ${config?.bg} shrink-0`}
                   >
                     <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
@@ -493,7 +493,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="bg-muted h-12 animate-pulse rounded-lg sm:h-14"
+                  className="bg-muted h-12 animate-pulse rounded-3xl sm:h-14"
                 />
               ))}
             </div>
@@ -512,7 +512,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                 return (
                   <div
                     key={record.id}
-                    className="bg-muted/50 border-border hover:border-border flex flex-col gap-2 rounded-lg border p-3 transition sm:flex-row sm:items-center sm:justify-between sm:gap-0"
+                    className="bg-muted/50 border-border hover:border-border flex flex-col gap-2 rounded-3xl border p-3 transition sm:flex-row sm:items-center sm:justify-between sm:gap-0"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-xs font-semibold sm:text-sm">
@@ -528,7 +528,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
                           <p className="text-muted-foreground text-xs">
                             Check-in
                           </p>
-                          <p className="font-mono text-xs font-semibold sm:text-sm">
+                          <p className="text-xs font-semibold sm:text-sm">
                             {format(new Date(record.checkinTime), "HH:mm")}
                           </p>
                         </div>
@@ -580,7 +580,7 @@ function CheckinTab({ adminId }: CheckinTabProps) {
 
           {editingRecord && (
             <div className="space-y-4">
-              <div className="bg-info-surface border-info-border rounded-lg border p-3">
+              <div className="bg-info-surface border-info-border rounded-3xl border p-3">
                 <p className="text-info-strong text-xs font-semibold sm:text-sm">
                   {editingRecord.teacher?.name}
                 </p>
@@ -761,7 +761,7 @@ function ReportsTab() {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="border-border w-full rounded-lg border px-3 py-2 text-xs sm:text-sm"
+              className="border-border w-full rounded-2xl border px-3 py-2 text-xs sm:text-sm"
             />
           </div>
           <div className="flex-1">
@@ -772,7 +772,7 @@ function ReportsTab() {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="border-border w-full rounded-lg border px-3 py-2 text-xs sm:text-sm"
+              className="border-border w-full rounded-2xl border px-3 py-2 text-xs sm:text-sm"
             />
           </div>
           <Button className="w-full text-xs sm:w-auto sm:text-sm">
@@ -912,7 +912,7 @@ function ReportsTab() {
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}
-                  className="bg-muted h-12 animate-pulse rounded-lg sm:h-14"
+                  className="bg-muted h-12 animate-pulse rounded-3xl sm:h-14"
                 />
               ))}
             </div>
@@ -928,7 +928,7 @@ function ReportsTab() {
               {reports.map((teacher: any) => (
                 <div
                   key={teacher.id}
-                  className="border-border overflow-hidden rounded-lg border"
+                  className="border-border overflow-hidden rounded-3xl border"
                 >
                   {/* Summary Row */}
                   <div
@@ -980,25 +980,25 @@ function ReportsTab() {
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Hadir</p>
-                          <span className="bg-success-chip text-success-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-success-chip text-success-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.presentDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Sakit</p>
-                          <span className="bg-warning-chip text-warning-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-warning-chip text-warning-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.sickDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Izin</p>
-                          <span className="bg-info-chip text-info-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-info-chip text-info-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.leaveDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Alfa</p>
-                          <span className="bg-destructive-chip text-destructive-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-destructive-chip text-destructive-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.absentDays || 0}
                           </span>
                         </div>
@@ -1006,7 +1006,7 @@ function ReportsTab() {
                           <p className="text-muted-foreground text-xs">
                             Terlambat
                           </p>
-                          <span className="bg-caution-chip text-caution-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-caution-chip text-caution-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.lateDays || 0}
                           </span>
                         </div>
@@ -1031,25 +1031,25 @@ function ReportsTab() {
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Hadir</p>
-                          <span className="bg-success-chip text-success-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-success-chip text-success-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.presentDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Sakit</p>
-                          <span className="bg-warning-chip text-warning-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-warning-chip text-warning-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.sickDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Izin</p>
-                          <span className="bg-info-chip text-info-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-info-chip text-info-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.leaveDays || 0}
                           </span>
                         </div>
                         <div className="text-center">
                           <p className="text-muted-foreground text-xs">Alfa</p>
-                          <span className="bg-destructive-chip text-destructive-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-destructive-chip text-destructive-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.absentDays || 0}
                           </span>
                         </div>
@@ -1057,7 +1057,7 @@ function ReportsTab() {
                           <p className="text-muted-foreground text-xs">
                             Terlambat
                           </p>
-                          <span className="bg-caution-chip text-caution-strong inline-block rounded px-2 py-1 text-xs font-semibold">
+                          <span className="bg-caution-chip text-caution-strong inline-block rounded-full px-2 py-1 text-xs font-semibold">
                             {teacher.statistics?.lateDays || 0}
                           </span>
                         </div>
@@ -1105,7 +1105,7 @@ function ReportsTab() {
                                         <p className="text-muted-foreground text-xs">
                                           Jam Masuk
                                         </p>
-                                        <p className="font-mono text-xs font-semibold sm:text-sm">
+                                        <p className="text-xs font-semibold sm:text-sm">
                                           {format(
                                             new Date(attendance.checkinTime),
                                             "HH:mm",

@@ -75,7 +75,7 @@ export function ExamTimer({ initialSeconds, onExpire }: ExamTimerProps) {
       <CardContent className="flex items-center justify-between gap-2">
         <span
           className={cn(
-            "font-mono text-3xl font-semibold tabular-nums",
+            "text-3xl font-semibold tracking-tight tabular-nums",
             urgent && "text-destructive-strong",
           )}
         >

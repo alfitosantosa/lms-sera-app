@@ -226,10 +226,10 @@ export default function TeacherAssignmentsPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">Tugas & Nilai</h1>
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">Tugas & Nilai</h1>
           <p className="text-muted-foreground">
             Buat tugas, nilai pengumpulan siswa, dan tautkan ke indikator
             perkembangan.
@@ -490,7 +490,7 @@ export default function TeacherAssignmentsPage() {
                   {(submissionsQuery.data ?? []).map((submission) => (
                     <div
                       key={submission.id}
-                      className="space-y-2 rounded-lg border p-4"
+                      className="space-y-2 rounded-3xl border p-4"
                     >
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="font-medium">

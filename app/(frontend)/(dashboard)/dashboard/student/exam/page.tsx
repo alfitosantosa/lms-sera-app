@@ -100,7 +100,7 @@ export default function StudentExamListPage() {
 
   return (
     <div className="max-w-8xl">
-      <div className="mb-6 text-3xl font-bold">Ujian Saya</div>
+      <div className="mb-6 text-3xl font-semibold tracking-tight">Ujian Saya</div>
 
       {isLoading ? (
         <ExamStateSkeleton />
@@ -172,7 +172,7 @@ export default function StudentExamListPage() {
                   </div>
 
                   {finished && attempt && (
-                    <div className="bg-muted flex items-center justify-between rounded-lg border p-3">
+                    <div className="bg-muted flex items-center justify-between rounded-3xl border p-3">
                       <span>Nilai</span>
                       <span className="font-semibold">
                         {attempt.score ?? "-"}

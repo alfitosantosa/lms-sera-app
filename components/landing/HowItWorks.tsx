@@ -23,8 +23,8 @@ export function HowItWorks() {
   return (
     <section id="cara-kerja" className="bg-secondary py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="border-margin max-w-[68ch] border-l-2 pl-6">
-          <h2 className="font-display text-foreground text-3xl tracking-tight">
+        <div className="max-w-[68ch]">
+          <h2 className="text-foreground text-3xl font-semibold tracking-tight">
             Satu catatan masuk, tiga langkah sampai ke orang tua.
           </h2>
           <p className="text-muted-foreground mt-3 text-base leading-relaxed">
@@ -33,43 +33,27 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="border-border text-secondary-foreground mt-12 grid grid-cols-[3rem_1fr] gap-x-8 border-t-2 pt-3 sm:grid-cols-[3rem_14rem_1fr]">
-          <span className="font-display text-[11px] tracking-wide uppercase">
-            No.
-          </span>
-          <span className="font-display text-[11px] tracking-wide uppercase">
-            Langkah
-          </span>
-          <span className="font-display hidden text-[11px] tracking-wide uppercase sm:block">
-            Yang tercatat
-          </span>
-        </div>
-
-        <ol>
+        <ol className="mt-12 grid gap-6 lg:grid-cols-3">
           {steps.map((step, index) => (
             <li
               key={step.title}
-              className="border-border grid grid-cols-[3rem_1fr] gap-x-8 gap-y-3 border-b py-8 sm:grid-cols-[3rem_14rem_1fr]"
+              className="border-border bg-card rounded-3xl border p-6"
             >
-              <span className="font-display text-muted-foreground text-2xl leading-none tabular-nums">
+              <span className="text-muted-foreground text-2xl leading-none font-semibold tracking-tight tabular-nums">
                 {index + 1}
               </span>
-              <div>
-                <h3 className="font-display text-foreground text-lg tracking-tight">
-                  {step.title}
-                </h3>
-                <span className="border-border bg-card text-secondary-foreground mt-2 inline-block rounded-sm border px-2 py-0.5 text-[11px]">
-                  {step.actor}
-                </span>
-              </div>
-              <div>
-                <p className="text-secondary-foreground max-w-[68ch] text-sm leading-relaxed">
-                  {step.body}
-                </p>
-                <p className="text-muted-foreground mt-3 font-mono text-xs">
-                  Tercatat di: {step.tables}
-                </p>
-              </div>
+              <h3 className="text-foreground mt-4 text-lg font-semibold tracking-tight">
+                {step.title}
+              </h3>
+              <span className="border-border bg-secondary text-secondary-foreground mt-2 inline-block rounded-full border px-2 py-0.5 text-xs">
+                {step.actor}
+              </span>
+              <p className="text-secondary-foreground mt-4 max-w-[68ch] text-sm leading-relaxed">
+                {step.body}
+              </p>
+              <p className="text-muted-foreground mt-3 font-mono text-xs">
+                Tercatat di: {step.tables}
+              </p>
             </li>
           ))}
         </ol>

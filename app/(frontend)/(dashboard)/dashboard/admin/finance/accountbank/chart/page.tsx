@@ -166,7 +166,7 @@ function CustomTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-background/95 min-w-[180px] rounded-xl border p-3 shadow-xl backdrop-blur">
+    <div className="bg-background/95 min-w-[180px] rounded-3xl border border-border p-3 shadow-xl backdrop-blur">
       <p className="text-muted-foreground mb-2 text-xs font-semibold">
         {label}
       </p>
@@ -240,7 +240,7 @@ function KPICard({
                 <Icon className="h-5 w-5" style={{ color }} />
               </div>
             </div>
-            <div className="text-2xl font-bold tracking-tight">{value}</div>
+            <div className="text-2xl font-semibold tracking-tight">{value}</div>
             <div className="mt-1 flex items-center justify-between">
               {sub && <p className="text-muted-foreground text-xs">{sub}</p>}
               {badge && (
@@ -275,7 +275,7 @@ function ChartSkeleton() {
       {[80, 60, 90, 50, 70, 40, 85].map((h, i) => (
         <div key={i} className="flex items-end gap-1" style={{ height: 16 }}>
           <Skeleton
-            className="h-full w-full rounded"
+            className="h-full w-full rounded-lg"
             style={{ opacity: h / 100 }}
           />
         </div>
@@ -397,7 +397,7 @@ function AccountBankBalanceDashboard({
       {/* ── Page Header ── */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-semibold tracking-tight">
             Dashboard Saldo Account Bank
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
@@ -848,7 +848,7 @@ function AccountBankBalanceDashboard({
                           className="flex items-center gap-2 text-xs"
                         >
                           <span
-                            className="h-2.5 w-2.5 shrink-0 rounded-sm"
+                            className="h-2.5 w-2.5 shrink-0 rounded-full"
                             style={{
                               backgroundColor:
                                 CHART_PALETTE[i % CHART_PALETTE.length],
@@ -981,7 +981,7 @@ function AccountBankBalanceDashboard({
                             <td className="px-4 py-2.5">
                               <div className="flex items-center gap-2">
                                 <span
-                                  className="h-2.5 w-2.5 shrink-0 rounded-sm"
+                                  className="h-2.5 w-2.5 shrink-0 rounded-full"
                                   style={{
                                     backgroundColor:
                                       CHART_PALETTE[i % CHART_PALETTE.length],

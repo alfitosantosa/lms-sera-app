@@ -64,10 +64,10 @@ export default function DevelopmentStudentsPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">
             Perkembangan Siswa
           </h1>
           <p className="text-muted-foreground">

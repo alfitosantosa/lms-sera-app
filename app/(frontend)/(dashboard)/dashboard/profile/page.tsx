@@ -14,13 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Shield,
   User,
   Mail,
@@ -46,7 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetBetterAuthById } from "@/app/(hooks)/hooks/Users/useBetterAuth";
 import { type ComponentType, type ReactNode, useEffect, useState } from "react";
-import { foundationTypes } from "@/app/(types)/types/foundation-types";
+import type { foundationTypes } from "@/app/(types)/types/foundation-types";
 import { DialogEditFoundation } from "@/components/dialog/DialogEditFoundation";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -68,18 +61,6 @@ interface StatCardProps {
   variant?: StatCardVariant;
 }
 
-interface DataTableProps {
-  data: Record<string, any>;
-  title: string;
-  description?: string;
-  Icon?: ReactNode;
-}
-
-interface DataRowProps {
-  label: string;
-  value: any;
-}
-
 // ═══════════════════════════════════════════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -99,17 +80,6 @@ const DATE_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
   minute: "2-digit",
 };
 
-// Foundation fields we render explicitly, in order. Anything else on the
-// foundation object still shows up via the generic DataTable fallback below.
-const FOUNDATION_FIELD_ORDER = [
-  "name",
-  "address",
-  "phone",
-  "email",
-  "website",
-  "description",
-] as const;
-
 // ═══════════════════════════════════════════════════════════════════════════
 // UTILITY FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -126,45 +96,6 @@ const isEmpty = (value: any): boolean => {
 const formatDate = (date: string | Date): string => {
   const dateObj = date instanceof Date ? date : new Date(date);
   return dateObj.toLocaleString("id-ID", DATE_FORMAT_OPTIONS);
-};
-
-const formatValue = (val: any): ReactNode => {
-  if (typeof val === "boolean") {
-    return (
-      <Badge variant={val ? "default" : "secondary"}>
-        {val ? "Yes" : "No"}
-      </Badge>
-    );
-  }
-
-  if (val instanceof Date || (typeof val === "string" && val.includes("T"))) {
-    return formatDate(val);
-  }
-
-  if (Array.isArray(val)) {
-    if (val.length === 0) {
-      return <span className="text-muted-foreground text-sm">Empty array</span>;
-    }
-    return (
-      <div className="flex flex-wrap gap-1">
-        {val.map((item, idx) => (
-          <Badge key={idx} variant="outline" className="text-xs">
-            {String(item)}
-          </Badge>
-        ))}
-      </div>
-    );
-  }
-
-  if (typeof val === "object") {
-    return (
-      <pre className="bg-muted max-w-md overflow-x-auto rounded p-2 text-xs">
-        {JSON.stringify(val, null, 2)}
-      </pre>
-    );
-  }
-
-  return <span className="font-mono text-sm">{String(val)}</span>;
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -200,7 +131,7 @@ const InfoItem = ({ icon: Icon, label, value }: InfoItemProps) => {
   if (isEmpty(value)) return null;
 
   return (
-    <div className="bg-card hover:bg-muted/50 flex items-start gap-3 rounded-lg border p-3 transition-colors">
+    <div className="bg-card hover:bg-muted/50 flex items-start gap-3 rounded-3xl border p-3 transition-colors">
       <Icon className="text-muted-foreground mt-0.5 h-5 w-5 shrink-0" />
       <div className="min-w-0 flex-1">
         <p className="text-muted-foreground mb-1 text-xs font-medium">
@@ -209,44 +140,6 @@ const InfoItem = ({ icon: Icon, label, value }: InfoItemProps) => {
         <div className="text-sm font-medium">{value}</div>
       </div>
     </div>
-  );
-};
-
-const DataRow = ({ label, value }: DataRowProps) => {
-  if (isEmpty(value)) return null;
-
-  return (
-    <TableRow>
-      <TableHead className="w-50 font-medium">{label}</TableHead>
-      <TableCell>{formatValue(value)}</TableCell>
-    </TableRow>
-  );
-};
-
-const DataTable = ({ data, title, description, Icon }: DataTableProps) => {
-  const entries = Object.entries(data).filter(([_, value]) => !isEmpty(value));
-
-  if (entries.length === 0) return null;
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          {Icon}
-          {title}
-        </CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableBody>
-            {entries.map(([key, value]) => (
-              <DataRow key={key} label={key} value={value} />
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
   );
 };
 
@@ -268,15 +161,15 @@ const EmptyProfileState = ({
   console.log("foundation", hasFoundation);
 
   return (
-    <div className="from-background via-muted/20 to-background min-h-screen bg-gradient-to-br px-4 py-12">
+    <div className="bg-background min-h-screen px-4 py-12">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Hero Card with Session Info */}
-        <Card className="border-2 shadow-xl">
+        <Card>
           <CardHeader className="pb-4 text-center">
             <div className="flex flex-col items-center space-y-4">
               {/* Profile Photo */}
               <div className="relative">
-                <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-lg">
+                <div className="h-32 w-32 overflow-hidden rounded-full">
                   {session?.user?.image || userBetterAuth?.image ? (
                     <Image
                       src={session.user?.image || userBetterAuth?.image}
@@ -288,7 +181,7 @@ const EmptyProfileState = ({
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="from-primary/20 to-primary/5 flex h-full w-full items-center justify-center bg-gradient-to-br">
+                    <div className="bg-secondary flex h-full w-full items-center justify-center">
                       <User className="text-muted-foreground h-16 w-16" />
                     </div>
                   )}
@@ -297,7 +190,6 @@ const EmptyProfileState = ({
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
                   <Badge
                     variant={hasFoundation ? "default" : "secondary"}
-                    className="shadow-md"
                   >
                     <AlertCircle className="mr-1 h-3 w-3" />
                     {hasFoundation ? "Menunggu Aktivasi" : "Belum Terdaftar"}
@@ -307,7 +199,7 @@ const EmptyProfileState = ({
 
               {/* User Info */}
               <div className="space-y-2">
-                <CardTitle className="text-2xl">
+                <CardTitle className="text-2xl tracking-tight">
                   {session?.user?.name ||
                     userBetterAuth?.name ||
                     "Pengguna Baru"}
@@ -386,7 +278,7 @@ const EmptyProfileState = ({
                   <Key className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
                     <p className="text-muted-foreground text-xs">User ID</p>
-                    <p className="bg-background rounded px-2 py-1 font-mono text-sm text-xs">
+                    <p className="bg-background rounded-lg px-2 py-1 font-mono text-xs">
                       {session?.user?.id || "Tidak tersedia"}
                     </p>
                   </div>
@@ -523,12 +415,12 @@ const UserProfileSkeleton = ({ message }: { message?: string }) => (
 // ═══════════════════════════════════════════════════════════════════════════
 
 const UserHeroSection = ({ user }: { user: any }) => (
-  <Card className="border-2 shadow-lg">
+  <Card>
     <CardHeader className="pb-4">
       <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
         {user?.avatarUrl && (
           <div className="relative">
-            <div className="border-background ring-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-xl ring-4">
+            <div className="h-32 w-32 overflow-hidden rounded-full">
               <Image
                 src={user.avatarUrl}
                 alt={user?.name || "User Avatar"}
@@ -539,14 +431,14 @@ const UserHeroSection = ({ user }: { user: any }) => (
               />
             </div>
             {user?.isActive && (
-              <div className="bg-success-solid border-background absolute -right-1 -bottom-1 flex h-8 w-8 items-center justify-center rounded-full border-4">
+              <div className="bg-success-solid border-background absolute -right-1 -bottom-1 flex h-8 w-8 items-center justify-center rounded-full border">
                 <CheckCircle className="h-4 w-4 text-white" />
               </div>
             )}
           </div>
         )}
         <div className="flex-1 text-center md:text-left">
-          <CardTitle className="mb-2 text-3xl md:text-4xl">
+          <CardTitle className="mb-2 text-3xl tracking-tight md:text-4xl">
             {user?.name || "User"}
           </CardTitle>
           <CardDescription className="mb-4 text-lg">
@@ -665,9 +557,8 @@ const ProfessionalInformationCard = ({ data }: { data: any }) => {
   );
 };
 
-// New: Foundation Information Card — shown whenever `foundation` is present
-// on the user record. Known fields render as friendly InfoItems; anything
-// extra on the foundation object still shows up via the DataTable fallback.
+// Foundation Information Card — shown whenever `foundation` is present
+// on the user record. Known fields render as friendly InfoItems.
 const FoundationInformationCard = ({
   foundation,
   Role,
@@ -709,7 +600,7 @@ const FoundationInformationCard = ({
   return (
     <>
       {hasKnownData && (
-        <Card className="border-primary/10 bg-primary/5 border-2">
+        <Card className="bg-primary/5">
           <CardHeader>
             <div className="flex w-full mx-auto justify-between items-center">
               <div className="flex-1">
@@ -838,7 +729,7 @@ export default function Home() {
   } = user;
 
   return (
-    <div className="from-background to-muted/20 min-h-screen bg-linear-to-br px-4 py-8">
+    <div className="bg-background min-h-screen px-4 py-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Hero Section */}
         <UserHeroSection user={user} />

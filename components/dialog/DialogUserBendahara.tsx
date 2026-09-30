@@ -188,7 +188,7 @@ function AvatarUpload({
                 alt="Avatar preview"
                 width={96}
                 height={96}
-                className="h-24 w-24 rounded-full border-2 object-cover"
+                className="border-border h-24 w-24 rounded-full border-2 object-cover"
               />
               <div className="bg-navy/50 absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
@@ -203,7 +203,7 @@ function AvatarUpload({
               </div>
             </div>
           ) : (
-            <div className="bg-muted flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
+            <div className="bg-muted border-border flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
               <User className="text-muted-foreground h-10 w-10" />
             </div>
           )}
@@ -257,7 +257,7 @@ function AvatarUpload({
               <Image
                 src={previewUrl}
                 alt="Avatar preview"
-                className="max-h-[70vh] max-w-full rounded-lg"
+                className="max-h-[70vh] max-w-full rounded-2xl"
                 width={500}
                 height={500}
               />
@@ -422,7 +422,7 @@ export function StudentFormDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* ── Auto-assigned info banner ── */}
-          <div className="border-border bg-muted/50 rounded-lg border px-4 py-3">
+          <div className="border-border bg-muted/50 rounded-3xl border px-4 py-3">
             <p className="text-foreground text-sm font-medium">
               Informasi Auto-Assign
             </p>
@@ -439,8 +439,8 @@ export function StudentFormDialog({
 
           {/* ── Section: Informasi Dasar ── */}
           <div className="space-y-4">
-            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
-              Informasi Dasar
+            <h3 className="text-muted-foreground text-sm font-semibold">
+              Informasi dasar
             </h3>
 
             <div className="grid grid-cols-2 gap-4">
@@ -524,7 +524,7 @@ export function StudentFormDialog({
 
           {/* ── Section: Identitas ── */}
           <div className="space-y-4">
-            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+            <h3 className="text-muted-foreground text-sm font-semibold">
               Identitas
             </h3>
 
@@ -627,7 +627,7 @@ export function StudentFormDialog({
 
           {/* ── Section: Akademik ── */}
           <div className="space-y-4">
-            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
+            <h3 className="text-muted-foreground text-sm font-semibold">
               Akademik
             </h3>
 
@@ -749,8 +749,8 @@ export function StudentFormDialog({
 
           {/* ── Section: Foto Profil ── */}
           <div className="space-y-4">
-            <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
-              Foto Profil
+            <h3 className="text-muted-foreground text-sm font-semibold">
+              Foto profil
             </h3>
             <AvatarUpload
               currentAvatarUrl={watch("avatarUrl")}

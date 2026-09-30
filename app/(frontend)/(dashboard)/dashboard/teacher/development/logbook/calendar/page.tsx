@@ -59,10 +59,10 @@ export default function LogbookCalendarPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">
             Kalender Logbook
           </h1>
           <p className="text-muted-foreground">
@@ -107,7 +107,7 @@ export default function LogbookCalendarPage() {
             <CalendarProvider
               locale="id-ID"
               startDay={1}
-              className="rounded-xl border shadow-sm"
+              className="rounded-3xl border"
             >
               <LogbookCalendar classId={classId} />
             </CalendarProvider>

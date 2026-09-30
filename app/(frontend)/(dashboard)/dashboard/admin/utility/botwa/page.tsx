@@ -9,7 +9,7 @@ export default function WaPage() {
 
   return (
     <div className="max-w-8xl">
-      <div className="mb-3 text-3xl font-bold">
+      <div className="mb-3 text-3xl font-semibold tracking-tight">
         WhatsApp Bot Connection Status
       </div>
       <Card>

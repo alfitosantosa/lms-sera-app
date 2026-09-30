@@ -191,7 +191,7 @@ function RecapAttendance() {
     <>
       <div className="mx-auto min-h-screen max-w-7xl space-y-4 p-4 sm:space-y-6 sm:p-6">
         <div className="space-y-1 sm:space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             Rekap Absensi Siswa
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
@@ -256,7 +256,7 @@ function RecapAttendance() {
             </div>
 
             {selectedStudent && (
-              <div className="bg-info-surface border-info-border mt-4 rounded-lg border p-3">
+              <div className="bg-info-surface border-info-border mt-4 rounded-2xl border p-3">
                 <div className="flex flex-row items-center gap-3">
                   <ImageWithFallback
                     src={selectedStudent.avatarUrl || DEFAULT_AVATAR}
@@ -298,7 +298,7 @@ function RecapAttendance() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="border-border w-full rounded-lg border px-3 py-2 text-xs sm:text-sm"
+                className="border-border w-full rounded-2xl border px-3 py-2 text-xs sm:text-sm"
               />
             </div>
             <div className="flex-1">
@@ -309,7 +309,7 @@ function RecapAttendance() {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="border-border w-full rounded-lg border px-3 py-2 text-xs sm:text-sm"
+                className="border-border w-full rounded-2xl border px-3 py-2 text-xs sm:text-sm"
               />
             </div>
           </CardContent>
@@ -412,7 +412,7 @@ function RecapAttendance() {
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="bg-muted h-12 animate-pulse rounded-lg sm:h-14"
+                    className="bg-muted h-12 animate-pulse rounded-3xl sm:h-14"
                   />
                 ))}
               </div>
@@ -444,7 +444,7 @@ function RecapAttendance() {
                     return (
                       <div
                         key={attendance.id}
-                        className="border-border overflow-hidden rounded-lg border"
+                        className="border-border overflow-hidden rounded-3xl border"
                       >
                         {/* Summary Row */}
                         <div

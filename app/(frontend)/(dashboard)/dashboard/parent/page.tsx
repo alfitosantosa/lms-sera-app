@@ -93,7 +93,7 @@ function SimpleTable({ columns, data, emptyMessage = "Tidak ada data" }: any) {
 
   return (
     <div className="space-y-4">
-      <div className="overflow-x-auto rounded-md border">
+      <div className="overflow-x-auto rounded-3xl border">
         <table className="w-full">
           <thead>
             <tr className="bg-muted/50 border-b">
@@ -445,7 +445,7 @@ export default function ParentPage() {
         <div className="mx-auto max-w-7xl space-y-6 p-6">
           {/* Header */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold">Dashboard Orang Tua</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">Dashboard Orang Tua</h1>
             <p className="text-muted-foreground">
               Pantau perkembangan anak Anda di{" "}
               {process.env.NEXT_PUBLIC_CLIENT_NAME}
@@ -541,7 +541,7 @@ export default function ParentPage() {
                 </Avatar>
                 <div className="flex-1 space-y-3">
                   <div>
-                    <h3 className="text-2xl font-bold">
+                    <h3 className="text-2xl font-semibold tracking-tight">
                       {selectedStudent?.name}
                     </h3>
                     <p className="text-muted-foreground">
@@ -592,7 +592,7 @@ export default function ParentPage() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex items-baseline gap-2">
-                    <div className="text-3xl font-bold">
+                    <div className="text-3xl font-semibold tracking-tight">
                       {attendanceStats.percentage.toFixed(1)}%
                     </div>
                     <span className="text-muted-foreground text-sm">
@@ -636,7 +636,7 @@ export default function ParentPage() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex items-baseline gap-2">
-                    <div className="text-3xl font-bold">
+                    <div className="text-3xl font-semibold tracking-tight">
                       {violationStats.totalPoints}
                     </div>
                     <span className="text-muted-foreground text-sm">poin</span>
@@ -714,7 +714,7 @@ export default function ParentPage() {
                 <CardContent>
                   {loadingViolations ? (
                     <div className="py-12 text-center">
-                      <div className="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2"></div>
+                      <div className="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b"></div>
                       <p className="text-muted-foreground">
                         Memuat data pelanggaran...
                       </p>

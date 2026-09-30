@@ -222,7 +222,7 @@ function SignatureUpload({
           {previewUrl ? (
             <div className="group relative">
               {/* Tanda tangan ditampilkan dalam kotak persegi panjang landscape */}
-              <div className="bg-card flex h-20 w-36 items-center justify-center overflow-hidden rounded-md border-2">
+              <div className="bg-card flex h-20 w-36 items-center justify-center overflow-hidden rounded-2xl border-2">
                 <Image
                   src={previewUrl}
                   alt="Preview tanda tangan"
@@ -232,7 +232,7 @@ function SignatureUpload({
                 />
               </div>
               {/* Overlay hover untuk preview fullscreen */}
-              <div className="bg-navy/40 absolute inset-0 flex items-center justify-center rounded-md opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="bg-navy/40 absolute inset-0 flex items-center justify-center rounded-2xl opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
                   type="button"
                   size="sm"
@@ -246,7 +246,7 @@ function SignatureUpload({
             </div>
           ) : (
             /* Placeholder ketika belum ada tanda tangan */
-            <div className="bg-muted flex h-20 w-36 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed">
+            <div className="bg-muted flex h-20 w-36 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed">
               <PenLine className="text-muted-foreground h-6 w-6" />
               <span className="text-muted-foreground text-xs">Belum ada</span>
             </div>
@@ -304,11 +304,11 @@ function SignatureUpload({
             <DialogHeader>
               <DialogTitle>Preview Tanda Tangan</DialogTitle>
             </DialogHeader>
-            <div className="bg-muted/50 flex min-h-32 items-center justify-center rounded-lg p-4">
+            <div className="bg-muted/50 flex min-h-32 items-center justify-center rounded-3xl p-4">
               <Image
                 src={previewUrl}
                 alt="Preview tanda tangan"
-                className="max-h-64 max-w-full rounded object-contain"
+                className="max-h-64 max-w-full rounded-2xl object-contain"
                 width={400}
                 height={200}
               />
@@ -578,13 +578,13 @@ function BranchDetailDialog({
           {/* Header info */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+              <p className="text-muted-foreground mb-1 text-xs">
                 Kode Sekolah
               </p>
               <p className="font-mono text-lg font-bold">{branchData.code}</p>
             </div>
             <div>
-              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+              <p className="text-muted-foreground mb-1 text-xs">
                 Status
               </p>
               <Badge
@@ -597,7 +597,7 @@ function BranchDetailDialog({
           </div>
 
           <div>
-            <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+            <p className="text-muted-foreground mb-1 text-xs">
               Nama Sekolah
             </p>
             <p className="text-base font-semibold">{branchData.name}</p>
@@ -605,7 +605,7 @@ function BranchDetailDialog({
 
           {branchData.description && (
             <div>
-              <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+              <p className="text-muted-foreground mb-1 text-xs">
                 Deskripsi
               </p>
               <p className="text-sm">{branchData.description}</p>
@@ -615,7 +615,7 @@ function BranchDetailDialog({
           <div className="grid grid-cols-2 gap-4">
             {branchData.address && (
               <div>
-                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                <p className="text-muted-foreground mb-1 text-xs">
                   Alamat
                 </p>
                 <p className="text-sm">{branchData.address}</p>
@@ -623,7 +623,7 @@ function BranchDetailDialog({
             )}
             {branchData.phone && (
               <div>
-                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                <p className="text-muted-foreground mb-1 text-xs">
                   Telepon
                 </p>
                 <p className="text-sm">{branchData.phone}</p>
@@ -631,7 +631,7 @@ function BranchDetailDialog({
             )}
             {branchData.adminName && (
               <div>
-                <p className="text-muted-foreground mb-1 text-xs tracking-wide uppercase">
+                <p className="text-muted-foreground mb-1 text-xs">
                   Bendahara
                 </p>
                 <p className="text-sm font-medium">{branchData.adminName}</p>
@@ -642,7 +642,7 @@ function BranchDetailDialog({
           {/* Tanda tangan preview */}
           {branchData.signatureUrl && (
             <div>
-              <p className="text-muted-foreground mb-2 text-xs tracking-wide uppercase">
+              <p className="text-muted-foreground mb-2 text-xs">
                 Tanda Tangan Bendahara
               </p>
               <div className="bg-muted/50 inline-flex rounded-lg border p-3">
@@ -661,7 +661,7 @@ function BranchDetailDialog({
 
           {/* Statistik */}
           <div>
-            <p className="text-muted-foreground mb-3 text-xs tracking-wide uppercase">
+            <p className="text-muted-foreground mb-3 text-xs">
               Statistik
             </p>
             <div className="grid grid-cols-4 gap-3">
@@ -693,9 +693,9 @@ function BranchDetailDialog({
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className={`rounded-lg p-3 text-center ${stat.bg} border`}
+                  className={`rounded-3xl p-3 text-center ${stat.bg} border`}
                 >
-                  <div className={`text-2xl font-bold ${stat.color}`}>
+                  <div className={`text-2xl font-semibold tracking-tight ${stat.color}`}>
                     {stat.value}
                   </div>
                   <div className="text-muted-foreground mt-0.5 text-xs">
@@ -919,7 +919,7 @@ function BranchDataTable() {
           );
         }
         return (
-          <div className="bg-muted/50 flex h-8 w-16 items-center justify-center overflow-hidden rounded border">
+          <div className="bg-muted/50 flex h-8 w-16 items-center justify-center overflow-hidden rounded-lg border">
             <Image
               src={url}
               alt="Tanda tangan"
@@ -1053,7 +1053,7 @@ function BranchDataTable() {
 
   return (
     <div className="">
-      <div className="text-3xl font-bold">Sekolah</div>
+      <div className="text-3xl font-semibold tracking-tight">Sekolah</div>
 
       <div className="flex items-center justify-between py-4">
         <div className="relative">
@@ -1101,7 +1101,7 @@ function BranchDataTable() {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (

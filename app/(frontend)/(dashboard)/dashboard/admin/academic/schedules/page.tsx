@@ -686,7 +686,7 @@ function ScheduleDataTable() {
         );
       },
       cell: ({ row }) => (
-        <div className="font-mono">
+        <div>
           {row.original.startTime} - {row.original.endTime}
         </div>
       ),
@@ -939,7 +939,7 @@ function ScheduleDataTable() {
   return (
     <>
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Jadwal Pelajaran</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Jadwal Pelajaran</div>
 
         <div className="flex items-center justify-between py-4">
           <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -1172,7 +1172,7 @@ function ScheduleDataTable() {
           </div>
         )}
 
-        <div className="w-full overflow-hidden rounded-md border">
+        <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -1289,12 +1289,12 @@ function ScheduleDataTable() {
 
         {/* Summary Statistics */}
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border border-border p-4">
             <div className="flex items-center space-x-2">
               <Calendar className="text-info h-5 w-5" />
               <h3 className="font-semibold">Total Jadwal</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">{schedules.length}</p>
+            <p className="mt-2 text-2xl font-semibold tracking-tight">{schedules.length}</p>
             {table.getFilteredRowModel().rows.length !== schedules.length && (
               <p className="text-muted-foreground text-sm">
                 ({table.getFilteredRowModel().rows.length} terfilter)
@@ -1302,12 +1302,12 @@ function ScheduleDataTable() {
             )}
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border border-border p-4">
             <div className="flex items-center space-x-2">
               <Users className="text-success h-5 w-5" />
               <h3 className="font-semibold">Kelas Aktif</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table
@@ -1318,12 +1318,12 @@ function ScheduleDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border border-border p-4">
             <div className="flex items-center space-x-2">
               <BookOpen className="text-tertiary h-5 w-5" />
               <h3 className="font-semibold">Mata Pelajaran</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table
@@ -1334,12 +1334,12 @@ function ScheduleDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border border-border p-4">
             <div className="flex items-center space-x-2">
               <GraduationCap className="text-caution h-5 w-5" />
               <h3 className="font-semibold">Guru Mengajar</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table

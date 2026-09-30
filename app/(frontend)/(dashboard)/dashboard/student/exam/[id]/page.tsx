@@ -78,7 +78,7 @@ export default function StudentExamDetailPage() {
   if (isLoading) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Detail Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Detail Ujian</div>
         <ExamStateSkeleton cards={2} />
       </div>
     );
@@ -87,7 +87,7 @@ export default function StudentExamDetailPage() {
   if (!detail) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Detail Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Detail Ujian</div>
         <ExamStateUnavailable
           message={examErrorMessage(
             rawDetail,
@@ -102,7 +102,7 @@ export default function StudentExamDetailPage() {
   return (
     <div className="max-w-8xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-bold">{detail.title}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">{detail.title}</h1>
         <Badge variant={detail.status === "PUBLISHED" ? "default" : "secondary"}>
           {EXAM_STATUS_LABELS[detail.status] ?? detail.status}
         </Badge>

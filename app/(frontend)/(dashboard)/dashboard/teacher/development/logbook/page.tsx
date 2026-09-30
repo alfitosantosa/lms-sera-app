@@ -398,10 +398,10 @@ export default function DailyLogbookPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">
             Buku Catatan Harian
           </h1>
           <p className="text-muted-foreground">
@@ -630,7 +630,7 @@ function StudentRow({
   onSave: () => void;
 }) {
   return (
-    <div className="rounded-md border p-3">
+    <div className="rounded-3xl border p-3">
       <div className="mb-3 flex items-center gap-3">
         <Checkbox
           checked={row.selected}

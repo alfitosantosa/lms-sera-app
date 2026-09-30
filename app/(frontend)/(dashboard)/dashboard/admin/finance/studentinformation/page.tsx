@@ -470,7 +470,7 @@ function BillingTab({
         </div>
 
         {unpaidItems.length === 0 ? (
-          <div className="bg-success-surface flex flex-col items-center justify-center rounded-lg border py-8">
+          <div className="bg-success-surface flex flex-col items-center justify-center rounded-3xl border border-border py-8">
             <CheckCircle2 className="text-success mb-2 h-10 w-10" />
             <p className="text-success-strong text-sm font-medium">
               Semua tagihan sudah lunas!
@@ -583,7 +583,7 @@ function TransactionsTab({ payments }: { payments: Payment[] }) {
 
   if (payments.length === 0) {
     return (
-      <div className="bg-muted/20 flex flex-col items-center justify-center rounded-lg border py-10">
+      <div className="bg-muted/20 flex flex-col items-center justify-center rounded-3xl border border-border py-10">
         <Receipt className="text-muted-foreground mb-2 h-10 w-10" />
         <p className="text-muted-foreground text-sm">
           Belum ada riwayat transaksi
@@ -731,7 +731,7 @@ function StudentInformation() {
     <div className="space-y-6">
       {/* ── Page Header ── */}
       <div>
-        <h1 className="text-3xl font-bold">Informasi Siswa</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Informasi Siswa</h1>
         <p className="text-muted-foreground mt-1 text-sm">
           Branch:{" "}
           <span className="text-foreground font-medium">Seluruh Branch</span>
@@ -747,7 +747,7 @@ function StudentInformation() {
             Cari & Pilih Siswa
           </Label>
           {isLoadingStudents ? (
-            <div className="bg-muted h-10 animate-pulse rounded-md" />
+            <div className="bg-muted h-10 animate-pulse rounded-2xl" />
           ) : (
             <StudentCombobox
               students={allStudents as any[]}
@@ -765,7 +765,7 @@ function StudentInformation() {
       ) : isLoadingDetail ? (
         <div className="flex items-center justify-center py-16">
           <div className="space-y-2 text-center">
-            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2" />
+            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b" />
             <p className="text-muted-foreground text-sm">
               Memuat data siswa...
             </p>

@@ -43,7 +43,7 @@ function SubmissionPanel({ assignment }: { assignment: AssignmentDTO }) {
 
   if (mine) {
     return (
-      <div className="bg-muted/30 space-y-2 rounded-lg border p-4 text-sm">
+      <div className="bg-muted/30 space-y-2 rounded-3xl border p-4 text-sm">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={mine.status === "graded" ? "default" : "secondary"}>
             {mine.status === "graded" ? "Sudah dinilai" : "Sudah dikirim"}
@@ -73,7 +73,7 @@ function SubmissionPanel({ assignment }: { assignment: AssignmentDTO }) {
   const blocked = overdue && !assignment.allowLateSubmission;
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
+    <div className="space-y-3 rounded-3xl border p-4">
       {blocked ? (
         <p className="text-destructive text-sm">
           Tenggat pengumpulan sudah lewat.
@@ -112,7 +112,7 @@ function AssignmentRow({ assignment }: { assignment: AssignmentDTO }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
+    <div className="space-y-3 rounded-3xl border p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="font-medium">{assignment.title}</p>
@@ -145,10 +145,10 @@ export default function StudentAssignmentsPage() {
   const pagination = assignmentsQuery.data?.pagination;
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="mx-auto max-w-5xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">Tugas Saya</h1>
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">Tugas Saya</h1>
           <p className="text-muted-foreground">
             Kumpulkan tugas sebelum tenggat dan lihat catatan guru.
           </p>

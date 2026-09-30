@@ -137,7 +137,7 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
           <CreditCard className="text-muted-foreground h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalAccounts}</div>
+          <div className="text-2xl font-semibold tracking-tight">{totalAccounts}</div>
           <p className="text-muted-foreground text-xs">
             Total rekening terdaftar
           </p>
@@ -150,7 +150,7 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
           <Landmark className="text-info h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-info text-2xl font-bold">{uniqueBanks}</div>
+          <div className="text-info text-2xl font-semibold tracking-tight">{uniqueBanks}</div>
           <p className="text-muted-foreground text-xs">
             Bank berbeda terdaftar
           </p>
@@ -165,7 +165,7 @@ function StatisticsCards({ accounts }: { accounts: AccountBankTypes[] }) {
           <Users className="text-tertiary h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-tertiary text-2xl font-bold">
+          <div className="text-tertiary text-2xl font-semibold tracking-tight">
             {uniqueBranchs}
           </div>
           <p className="text-muted-foreground text-xs">
@@ -613,7 +613,7 @@ function AccountBankDashboard() {
     <>
       <div className="">
         <div className="mb-6">
-          <h1 className="mb-2 text-3xl font-bold">Dashboard Rekening Bank</h1>
+          <h1 className="mb-2 text-3xl font-semibold tracking-tight">Dashboard Rekening Bank</h1>
           <p className="text-muted-foreground">
             Kelola rekening bank untuk setiap Sekolah
           </p>
@@ -688,7 +688,7 @@ function AccountBankDashboard() {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

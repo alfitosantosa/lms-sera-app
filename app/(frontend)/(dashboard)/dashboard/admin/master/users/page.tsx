@@ -642,7 +642,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
 
   return (
     <div className="max-w-8xl">
-      <div className="text-3xl font-bold">Users Menu</div>
+      <div className="text-3xl font-semibold tracking-tight">Users Menu</div>
 
       <div className="flex flex-wrap items-start justify-between gap-4 py-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -814,7 +814,7 @@ function UserDashboard({ foundationId }: { foundationId: string }) {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

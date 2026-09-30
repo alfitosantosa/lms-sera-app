@@ -184,7 +184,7 @@ function RecapAttendanceByClass() {
       <div className="max-w-8xl">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-foreground text-3xl font-bold tracking-tight">
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">
             Rekap Absensi Kelas
           </h1>
           <p className="text-muted-foreground">
@@ -193,7 +193,7 @@ function RecapAttendanceByClass() {
         </div>
 
         {/* Filter Section */}
-        <Card className="shadow-sm">
+        <Card>
           <CardHeader className="bg-muted/50 border-b">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Users className="text-muted-foreground h-5 w-5" />
@@ -253,7 +253,7 @@ function RecapAttendanceByClass() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="border-border focus:ring-info w-full rounded-lg border px-3 py-2 focus:border-transparent focus:ring-2"
+                  className="border-border focus:ring-info w-full rounded-2xl border px-3 py-2 focus:border-transparent focus:ring-2"
                 />
               </div>
 
@@ -265,7 +265,7 @@ function RecapAttendanceByClass() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="border-border focus:ring-info w-full rounded-lg border px-3 py-2 focus:border-transparent focus:ring-2"
+                  className="border-border focus:ring-info w-full rounded-2xl border px-3 py-2 focus:border-transparent focus:ring-2"
                 />
               </div>
             </div>
@@ -284,8 +284,8 @@ function RecapAttendanceByClass() {
         {/* Class Info & Statistics */}
         {selectedClass && (
           <>
-            <Card className="border-l-info border-l-4 shadow-sm">
-              <CardHeader className="from-info-surface bg-gradient-to-r to-transparent">
+            <Card className="border-l-info border-l">
+              <CardHeader className="bg-info-surface">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Users className="text-info h-5 w-5" />
                   {selectedClass.name}
@@ -298,8 +298,8 @@ function RecapAttendanceByClass() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-                  <div className="bg-muted/50 border-border rounded-lg border p-4 text-center">
-                    <p className="text-foreground text-3xl font-bold">
+                  <div className="bg-muted/50 border-border rounded-3xl border p-4 text-center">
+                    <p className="text-foreground text-3xl font-semibold tracking-tight">
                       {stats.total}
                     </p>
                     <p className="text-muted-foreground mt-1 text-sm">Total</p>
@@ -311,14 +311,14 @@ function RecapAttendanceByClass() {
                     return (
                       <div
                         key={key}
-                        className={`${config.bg} border-border rounded-lg border p-4`}
+                        className={`${config.bg} border-border rounded-3xl border p-4`}
                       >
                         <div className="flex flex-col items-center gap-2">
                           <div className="bg-card rounded-full p-2">
                             <Icon className={`h-5 w-5 ${config.text}`} />
                           </div>
                           <div className="text-center">
-                            <p className="text-foreground text-2xl font-bold">
+                            <p className="text-foreground text-2xl font-semibold tracking-tight">
                               {count}
                             </p>
                             <p className="text-foreground mt-1 text-xs">
@@ -334,7 +334,7 @@ function RecapAttendanceByClass() {
             </Card>
 
             {/* Daily Attendance Details */}
-            <Card className="shadow-sm">
+            <Card>
               <CardHeader className="bg-muted/50 border-b">
                 <div className="flex items-center justify-between">
                   <div>
@@ -357,7 +357,7 @@ function RecapAttendanceByClass() {
                     {[...Array(5)].map((_, i) => (
                       <div
                         key={i}
-                        className="bg-muted h-24 animate-pulse rounded-lg"
+                        className="bg-muted h-24 animate-pulse rounded-3xl"
                       />
                     ))}
                   </div>
@@ -379,9 +379,9 @@ function RecapAttendanceByClass() {
                       return (
                         <div
                           key={date}
-                          className="border-border overflow-hidden rounded-lg border transition-shadow hover:shadow-md"
+                          className="border-border overflow-hidden rounded-3xl border"
                         >
-                          <div className="from-muted/50 border-b bg-gradient-to-r to-transparent p-4">
+                          <div className="border-b bg-secondary p-4">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                               <h3 className="text-foreground font-semibold">
                                 {format(new Date(date), "EEEE, dd MMMM yyyy", {
@@ -514,7 +514,7 @@ function RecapAttendanceByClass() {
 
         {/* Empty State when no class selected */}
         {!selectedClass && (
-          <Card className="shadow-sm">
+          <Card>
             <CardContent className="py-12">
               <div className="text-center">
                 <Users className="text-muted-foreground mx-auto mb-4 h-16 w-16" />

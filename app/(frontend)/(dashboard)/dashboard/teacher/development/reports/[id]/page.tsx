@@ -163,7 +163,7 @@ export default function ReportEditorPage() {
 
   if (error || !report) {
     return (
-      <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+      <div className="bg-background min-h-screen">
         <div className="max-w-7xl space-y-6">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -184,13 +184,13 @@ export default function ReportEditorPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         {/* ── Kepala ── */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-foreground text-3xl font-bold">
+              <h1 className="text-foreground text-3xl font-semibold tracking-tight">
                 {report.student?.name ?? "Rapor"}
               </h1>
               <ReportStatusBadge status={report.status} />
@@ -357,7 +357,7 @@ export default function ReportEditorPage() {
                             <CheckCircle2
                               className={
                                 done
-                                  ? "h-4 w-4 text-emerald-600"
+                                  ? "h-4 w-4 text-success"
                                   : "text-muted-foreground/40 h-4 w-4"
                               }
                             />

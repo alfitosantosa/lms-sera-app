@@ -358,7 +358,7 @@ function PeriodTab() {
         </Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow>
@@ -508,7 +508,7 @@ function AreaTab() {
         <Button onClick={() => setDialogOpen(true)}>Tambah Area</Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow>
@@ -725,7 +725,7 @@ function IndicatorTab() {
         </Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow>
@@ -928,7 +928,7 @@ function ScaleTab() {
         <Button onClick={() => setDialogOpen(true)}>Tambah Skala</Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow>
@@ -1142,7 +1142,7 @@ function DevelopmentConfig() {
     <div className="space-y-6 p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-semibold tracking-tight">
             Pengembangan Siswa — Konfigurasi
           </h1>
           <p className="text-muted-foreground text-sm">

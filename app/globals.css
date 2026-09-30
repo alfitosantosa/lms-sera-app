@@ -9,9 +9,6 @@
   --font-sans:
     var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  /* Display = the printed form header. Register headings only, never body. */
-  --font-display:
-    var(--font-bitter), ui-serif, Georgia, "Times New Roman", serif;
   /* Arabic script — surah names from `surah_quran.name`. */
   --font-arabic: var(--font-naskh), "Noto Naskh Arabic", serif;
   --font-mono:
@@ -101,10 +98,20 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* Interaction — the state a control is in when you touch it. Not a data
+     status: see the four-ink table in DESIGN.md §1. */
+  --color-interactive: var(--interactive);
+  --color-interactive-fill: var(--interactive-fill);
+  --color-interactive-border: var(--interactive-border);
+  --color-interactive-surface: var(--interactive-surface);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* The house style's two working radii: fields and buttons ride `rounded-2xl`,
+     panels and asides ride `rounded-3xl`. Everything derives from --radius. */
+  --radius-2xl: calc(var(--radius) + 6px);
+  --radius-3xl: calc(var(--radius) + 14px);
 
   /* Ink-tinted elevation — never black (DESIGN.md §4) */
   --shadow-2xs: 0 1px 2px 0 oklch(0.15 0.03 250 / 4%);
@@ -139,37 +146,45 @@
  * stamp 7.4 · margin 5.9 · every `-strong` on its `-chip` >= 4.5.
  */
 :root {
-  --radius: 0.375rem;
+  --radius: 0.625rem;
 
-  /* Surfaces and ink — paper, the sheet, the greenbar band */
-  --background: #fbfaf4;
+  /* Surfaces and ink — a cool neutral ground, white sheet, near-black ink. */
+  --background: #f7f7f8;
   --foreground: #16283a;
   --card: #ffffff;
   --card-foreground: #16283a;
   --popover: #ffffff;
   --popover-foreground: #16283a;
-  --secondary: #f4f7ef;
+  --secondary: #f2f2f4;
   --secondary-foreground: #40566b;
-  --muted: #f4f7ef;
-  --muted-foreground: #5c6e80;
-  --accent: #ebf1e4;
+  --muted: #f2f2f4;
+  --muted-foreground: #5f5f6b;
+  --accent: #eaeaef;
   --accent-foreground: #16283a;
-  --border: #c6ced6;
-  --input: #c6ced6;
-  --ring: #1b5e43;
+  --border: #d6d6db;
+  --input: #d6d6db;
+  /* Focus reads as interaction, not as the stamp ink. */
+  --ring: #7c3aed;
 
   /* Brand — an ink-filled action, and the green of the approved stamp */
   --primary: #16283a;
-  --primary-foreground: #fbfaf4;
+  --primary-foreground: #ffffff;
   --primary-hover: #24405a;
   --primary-active: #0e1d2a;
   --brand-tint: #e3efe7;
   --brand-accent: #1b5e43;
 
+  /* Interaction — the one hue that carries no data meaning. Links, the ring,
+     a checked box, and the wash a focused field takes. AA on the ground: the
+     text tone clears 4.5:1, the ring clears 3:1. */
+  --interactive: #6d28d9;
+  --interactive-fill: #7c3aed;
+  --interactive-border: #a78bfa;
+  --interactive-surface: #f6f3ff;
   /* The red margin rule that opens a register sheet */
   --margin: #b4322a;
 
-  /* Inverse surfaces (Architecture / closing CTA bands) */
+  /* Inverse surfaces (the landing hero, the closing CTA band) */
   --navy: #10263a;
   --navy-foreground: #f7f6ef;
   --navy-muted: #a9bccb;
@@ -231,17 +246,17 @@
   --chart-9: #4f7a1f;
   --chart-10: #a5367a;
 
-  /* Application sidebar — the desk the sheet lies on */
-  --sidebar: #f4f7ef;
+  /* Application sidebar — a panel on the ground. Where you are is an ink pill. */
+  --sidebar: #ffffff;
   --sidebar-foreground: #16283a;
   --sidebar-primary: #16283a;
-  --sidebar-primary-foreground: #fbfaf4;
-  --sidebar-accent: #ebf1e4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f2f2f4;
   --sidebar-accent-foreground: #16283a;
-  --sidebar-active: #e3efe7;
-  --sidebar-active-foreground: #156047;
-  --sidebar-border: #d6dee6;
-  --sidebar-ring: #1b5e43;
+  --sidebar-active: #16283a;
+  --sidebar-active-foreground: #ffffff;
+  --sidebar-border: #e3e3e8;
+  --sidebar-ring: #7c3aed;
 }
 
 /*
@@ -253,21 +268,21 @@
  * `--solid-foreground` token and point the Button variants at it instead.
  */
 .dark {
-  --background: #0b1b29;
-  --foreground: #f2f4ee;
-  --card: #122a3c;
-  --card-foreground: #f2f4ee;
-  --popover: #122a3c;
-  --popover-foreground: #f2f4ee;
-  --secondary: #15293a;
-  --secondary-foreground: #d6e0e6;
-  --muted: #15293a;
-  --muted-foreground: #a7b8c6;
-  --accent: #1b3244;
-  --accent-foreground: #f2f4ee;
-  --border: #3a566e;
-  --input: #466483;
-  --ring: #7cc3a1;
+  --background: #0e0e11;
+  --foreground: #f4f4f5;
+  --card: #17171b;
+  --card-foreground: #f4f4f5;
+  --popover: #17171b;
+  --popover-foreground: #f4f4f5;
+  --secondary: #1d1d22;
+  --secondary-foreground: #d4d4d8;
+  --muted: #1d1d22;
+  --muted-foreground: #a1a1aa;
+  --accent: #24242a;
+  --accent-foreground: #f4f4f5;
+  --border: #33333c;
+  --input: #33333c;
+  --ring: #a78bfa;
 
   --primary: #2f6e52;
   --primary-foreground: #ffffff;
@@ -277,6 +292,11 @@
   --brand-accent: #7cc3a1;
 
   --margin: #e0766b;
+
+  --interactive: #c4b5fd;
+  --interactive-fill: #8b5cf6;
+  --interactive-border: #7c3aed;
+  --interactive-surface: #241f3a;
 
   --navy: #08151f;
   --navy-foreground: #f7f6ef;
@@ -334,16 +354,16 @@
   --chart-9: #a7b8c6;
   --chart-10: #eba0c8;
 
-  --sidebar: #08151f;
-  --sidebar-foreground: #f2f4ee;
-  --sidebar-primary: #7cc3a1;
-  --sidebar-primary-foreground: #0b1b29;
-  --sidebar-accent: #16293a;
-  --sidebar-accent-foreground: #f2f4ee;
-  --sidebar-active: #1d3a4e;
-  --sidebar-active-foreground: #7cc3a1;
-  --sidebar-border: #2a4459;
-  --sidebar-ring: #7cc3a1;
+  --sidebar: #17171b;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #f4f4f5;
+  --sidebar-primary-foreground: #17171b;
+  --sidebar-accent: #24242a;
+  --sidebar-accent-foreground: #f4f4f5;
+  --sidebar-active: #f4f4f5;
+  --sidebar-active-foreground: #17171b;
+  --sidebar-border: #33333c;
+  --sidebar-ring: #a78bfa;
 }
 
 @layer base {
@@ -360,54 +380,73 @@
   [data-slot="table-head"] {
     font-variant-numeric: tabular-nums;
   }
-  /* The printed form header of a register sheet. */
+  /* Column headers: the body family, one weight up. */
   th {
-    @apply font-display font-semibold;
+    @apply font-semibold;
   }
 }
 
 /*
- * The one orchestrated motion on the landing: a register being marked down the
- * column, then the stamp landing. Stagger with `--mark-delay` / `--stamp-delay`.
- * The `prefers-reduced-motion` block below collapses both to their end state.
+ * The house style's one orchestrated moment, from the reference sign-in: the
+ * screen assembles itself. Each element arrives from 30px below, out of an 8px
+ * blur, over 800ms — stagger them in 100ms steps with `animate-delay-*`.
+ *
+ * Entry screens and the landing hero only. A dashboard that re-animates on
+ * every navigation taxes the people who use it forty times a day.
  */
-@utility mark-in {
-  animation: mark-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: var(--mark-delay, 0ms);
+@utility animate-element {
+  animation: cascade-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes mark-in {
+@utility animate-aside {
+  animation: cascade-right 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-card {
+  animation: cascade-card 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* `animate-delay-300` → 300ms. Any step works; the reference uses 100…1400. */
+@utility animate-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
+}
+
+@keyframes cascade-in {
   from {
     opacity: 0;
-    transform: scale(0.55);
+    filter: blur(8px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: none;
+    filter: blur(0);
+    transform: translateY(0);
   }
 }
 
-/* A rubber stamp sits at an angle and never quite registers. */
-@utility stamp {
-  transform: rotate(-7deg);
-}
-
-@utility stamp-in {
-  animation: stamp-in 420ms cubic-bezier(0.2, 1.3, 0.4, 1) both;
-  animation-delay: var(--stamp-delay, 0ms);
-}
-
-@keyframes stamp-in {
+@keyframes cascade-right {
   from {
     opacity: 0;
-    transform: rotate(-7deg) scale(1.5);
-  }
-  55% {
-    opacity: 1;
+    filter: blur(8px);
+    transform: translateX(-50px);
   }
   to {
     opacity: 1;
-    transform: rotate(-7deg) scale(1);
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes cascade-card {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -416,8 +455,8 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
-    /* The register's marks are staggered; a surviving delay would hold them at
-       their invisible `from` state before snapping in. */
+    /* The cascade is staggered; a surviving delay would hold elements at their
+       invisible `from` state before snapping them in. */
     animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

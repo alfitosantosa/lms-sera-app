@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Camera, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
@@ -9,14 +8,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleMark } from "@/components/entry/GoogleMark";
+import { EntryAside } from "@/components/entry/EntryAside";
 import {
-  FieldGroup,
-  Sheet,
-  SheetActions,
-  SheetHeading,
-  SheetMasthead,
-  SheetPage,
-} from "@/components/entry/Sheet";
+  EntryBanner,
+  EntryDivider,
+  EntryField,
+  EntryFooter,
+  EntryForm,
+  EntryGroup,
+  EntryHeading,
+  EntryLink,
+  EntryScreen,
+} from "@/components/entry/Entry";
 import { signIn, signUp } from "@/lib/authClients";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -147,58 +150,42 @@ export default function SignUp() {
   };
 
   return (
-    <SheetPage>
-      <SheetMasthead label="PENDAFTARAN AKUN" />
+    <EntryScreen aside={<EntryAside />}>
+      <EntryForm>
+        <EntryBanner />
 
-      <Sheet>
-        <SheetHeading
+        <EntryHeading
           title="Buat akun"
           description="Akun ini dipakai untuk masuk ke portal sekolah. Data profil bisa dilengkapi setelah akun aktif."
         />
 
-        <form onSubmit={handleSignUp}>
-          <FieldGroup label="IDENTITAS">
+        <form onSubmit={handleSignUp} className="flex flex-col gap-6">
+          <EntryGroup
+            label="Identitas"
+            delay="animate-element animate-delay-300"
+          >
             <div className="grid gap-5 sm:grid-cols-2">
-              <div className="space-y-1.5">
-                <Label
-                  htmlFor="first-name"
-                  className="text-secondary-foreground text-[13px] font-medium"
-                >
-                  Nama depan
-                </Label>
+              <EntryField label="Nama depan" htmlFor="first-name">
                 <Input
                   id="first-name"
                   placeholder="Ahmad"
                   required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="h-11"
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label
-                  htmlFor="last-name"
-                  className="text-secondary-foreground text-[13px] font-medium"
-                >
-                  Nama belakang
-                </Label>
+              </EntryField>
+
+              <EntryField label="Nama belakang" htmlFor="last-name">
                 <Input
                   id="last-name"
                   placeholder="Ramadhan"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="h-11"
                 />
-              </div>
+              </EntryField>
             </div>
 
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="email"
-                className="text-secondary-foreground text-[13px] font-medium"
-              >
-                Email
-              </Label>
+            <EntryField label="Email" htmlFor="email">
               <Input
                 id="email"
                 type="email"
@@ -207,19 +194,18 @@ export default function SignUp() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-11"
               />
-            </div>
-          </FieldGroup>
+            </EntryField>
+          </EntryGroup>
 
-          <FieldGroup label="KATA SANDI">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="password"
-                className="text-secondary-foreground text-[13px] font-medium"
-              >
-                Kata sandi (min. 8 karakter)
-              </Label>
+          <EntryGroup
+            label="Kata sandi"
+            delay="animate-element animate-delay-400"
+          >
+            <EntryField
+              label="Kata sandi (min. 8 karakter)"
+              htmlFor="password"
+            >
               <Input
                 id="password"
                 type="password"
@@ -228,17 +214,13 @@ export default function SignUp() {
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-11"
               />
-            </div>
+            </EntryField>
 
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="password_confirmation"
-                className="text-secondary-foreground text-[13px] font-medium"
-              >
-                Konfirmasi kata sandi
-              </Label>
+            <EntryField
+              label="Konfirmasi kata sandi"
+              htmlFor="password_confirmation"
+            >
               <Input
                 id="password_confirmation"
                 type="password"
@@ -247,40 +229,36 @@ export default function SignUp() {
                 autoComplete="new-password"
                 value={passwordConfirmation}
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
-                className="h-11"
               />
-            </div>
-          </FieldGroup>
+            </EntryField>
+          </EntryGroup>
 
-          <FieldGroup label="FOTO PROFIL (OPSIONAL)">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="image"
-                className="text-secondary-foreground text-[13px] font-medium"
-              >
-                Foto profil (opsional, maks 2MB)
-              </Label>
+          <EntryGroup
+            label="Foto profil"
+            delay="animate-element animate-delay-500"
+          >
+            <EntryField label="Foto profil (opsional, maks 2MB)" htmlFor="image">
               <div className="flex items-center gap-3">
                 {imagePreview ? (
-                  <div className="border-primary/30 relative h-12 w-12 overflow-hidden rounded-sm border">
+                  <div className="border-border relative size-12 shrink-0 overflow-hidden rounded-xl border">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={imagePreview}
-                      alt="Preview"
+                      alt="Pratinjau foto profil"
                       className="h-full w-full object-cover"
                     />
                     <button
                       type="button"
                       onClick={handleRemoveImage}
-                      className="bg-navy/60 absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity hover:opacity-100"
+                      className="bg-foreground/50 focus-visible:ring-ring/80 absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:outline-none"
                       aria-label="Hapus foto"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="size-4" />
                     </button>
                   </div>
                 ) : (
-                  <div className="border-border bg-secondary text-muted-foreground flex h-12 w-12 items-center justify-center rounded-sm border border-dashed">
-                    <Camera className="h-5 w-5" />
+                  <div className="border-border bg-secondary text-muted-foreground flex size-12 shrink-0 items-center justify-center rounded-xl border border-dashed">
+                    <Camera className="size-5" />
                   </div>
                 )}
 
@@ -290,64 +268,48 @@ export default function SignUp() {
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    className="file:bg-brand-tint file:text-primary h-11 text-xs file:mr-2 file:rounded-md file:border-0 file:text-xs file:font-semibold"
+                    className="file:bg-secondary file:rounded-lg h-11 text-xs file:mr-3 file:border-0 file:text-xs file:font-semibold"
                   />
                 </div>
               </div>
-            </div>
-          </FieldGroup>
-
-          <SheetActions
-            aside={
-              <>
-                Sudah punya akun?{" "}
-                <Link
-                  href="/auth/sign-in"
-                  className="text-primary font-medium underline-offset-4 hover:underline"
-                >
-                  Masuk
-                </Link>
-              </>
-            }
-          >
-            <Button
-              type="submit"
-              size="lg"
-              disabled={loading}
-              className="w-full sm:w-auto"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin" />
-                  Mendaftarkan...
-                </>
-              ) : (
-                "Buat akun"
-              )}
-            </Button>
-          </SheetActions>
-        </form>
-
-        <div className="border-border border-t px-6 py-6">
-          <div className="flex items-center gap-4">
-            <span className="border-border h-px flex-1 border-t" />
-            <span className="text-muted-foreground text-xs">atau</span>
-            <span className="border-border h-px flex-1 border-t" />
-          </div>
+            </EntryField>
+          </EntryGroup>
 
           <Button
-            type="button"
-            variant="outline"
+            type="submit"
             size="lg"
             disabled={loading}
-            onClick={handleGoogleSignUp}
-            className="mt-4 w-full"
+            className="animate-element animate-delay-600 w-full"
           >
-            <GoogleMark />
-            Daftar dengan Google
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Mendaftarkan...
+              </>
+            ) : (
+              "Buat akun"
+            )}
           </Button>
-        </div>
-      </Sheet>
-    </SheetPage>
+        </form>
+
+        <EntryDivider label="atau lanjut dengan" />
+
+        <Button
+          type="button"
+          variant="outline"
+          size="lg"
+          disabled={loading}
+          onClick={handleGoogleSignUp}
+          className="animate-element animate-delay-800 w-full"
+        >
+          <GoogleMark />
+          Daftar dengan Google
+        </Button>
+
+        <EntryFooter>
+          Sudah punya akun? <EntryLink href="/auth/sign-in">Masuk</EntryLink>
+        </EntryFooter>
+      </EntryForm>
+    </EntryScreen>
   );
 }

@@ -42,15 +42,15 @@ export const EmptyProfileState = ({
   const isWaitingForAdmin = isWaitingForAdminId && !hasUserData;
 
   return (
-    <div className="from-background via-muted/20 to-background min-h-screen bg-gradient-to-br px-4 py-12">
+    <div className="bg-background min-h-screen px-4 py-12">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Hero Card with Session Info */}
-        <Card className="border-2 shadow-xl">
+        <Card>
           <CardHeader className="pb-4 text-center">
             <div className="flex flex-col items-center space-y-4">
               {/* Profile Photo */}
               <div className="relative">
-                <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-4 shadow-lg">
+                <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-2">
                   {session?.user?.image || userBetterAuth?.image ? (
                     <Image
                       src={session.user?.image || userBetterAuth?.image}
@@ -62,17 +62,14 @@ export const EmptyProfileState = ({
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="from-primary/20 to-primary/5 flex h-full w-full items-center justify-center bg-gradient-to-br">
+                    <div className="bg-secondary flex h-full w-full items-center justify-center">
                       <User className="text-muted-foreground h-16 w-16" />
                     </div>
                   )}
                 </div>
                 {/* Status Badge */}
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
-                  <Badge
-                    variant={isWaitingForAdmin ? "default" : "secondary"}
-                    className="shadow-md"
-                  >
+                  <Badge variant={isWaitingForAdmin ? "default" : "secondary"}>
                     <AlertCircle className="mr-1 h-3 w-3" />
                     {isWaitingForAdmin
                       ? "Menunggu Aktivasi"
@@ -83,7 +80,7 @@ export const EmptyProfileState = ({
 
               {/* User Info */}
               <div className="space-y-2">
-                <CardTitle className="text-2xl">
+                <CardTitle className="text-2xl tracking-tight">
                   {session?.user?.name ||
                     userBetterAuth?.name ||
                     "Pengguna Baru"}
@@ -142,7 +139,7 @@ export const EmptyProfileState = ({
                       <p className="text-muted-foreground text-xs">
                         Kode Yayasan
                       </p>
-                      <p className="bg-background text-success-strong rounded px-2 py-1 font-mono text-sm text-xs">
+                      <p className="bg-background text-success-strong rounded-full px-2 py-1 font-mono text-sm text-xs">
                         {userBetterAuth?.foundation?.foundationCode || "N/A"}
                       </p>
                     </div>
@@ -203,7 +200,7 @@ export const EmptyProfileState = ({
                   <Key className="text-muted-foreground mt-0.5 h-4 w-4" />
                   <div className="flex-1">
                     <p className="text-muted-foreground text-xs">User ID</p>
-                    <p className="bg-background rounded px-2 py-1 font-mono text-sm text-xs">
+                    <p className="bg-background rounded-full px-2 py-1 font-mono text-sm text-xs">
                       {session?.user?.id ||
                         userBetterAuth?.id ||
                         "Tidak tersedia"}
@@ -256,12 +253,12 @@ export const EmptyProfileState = ({
             </div>
 
             {/* Help Text */}
-            <div className="border-t pt-4 text-center">
+            <div className="border-border border-t pt-4 text-center">
               <p className="text-muted-foreground text-sm">
                 Butuh bantuan?{" "}
                 <a
                   href="mailto:santosatechid@gmail.com"
-                  className="text-primary hover:underline"
+                  className="text-interactive hover:underline"
                 >
                   Hubungi Administrator
                 </a>

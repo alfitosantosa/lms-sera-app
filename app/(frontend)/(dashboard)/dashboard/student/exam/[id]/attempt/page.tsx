@@ -351,7 +351,7 @@ export default function StudentExamAttemptPage() {
   if (sessionQuery.isLoading) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Mengerjakan Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Mengerjakan Ujian</div>
         <ExamStateSkeleton cards={2} />
       </div>
     );
@@ -360,7 +360,7 @@ export default function StudentExamAttemptPage() {
   if (!session) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Mengerjakan Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Mengerjakan Ujian</div>
         <ExamStateUnavailable
           message={examErrorMessage(
             rawSession,
@@ -375,7 +375,7 @@ export default function StudentExamAttemptPage() {
   if (!currentQuestion) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">{session.exam.title}</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">{session.exam.title}</div>
         <ExamStateUnavailable message="Ujian ini belum memiliki soal" />
       </div>
     );
@@ -384,7 +384,7 @@ export default function StudentExamAttemptPage() {
   return (
     <div className="max-w-8xl space-y-4">
       <div>
-        <h1 className="text-2xl font-bold">{session.exam.title}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{session.exam.title}</h1>
         <p className="text-muted-foreground text-sm">
           {session.exam.subjectName ?? "Tanpa mata pelajaran"} ·{" "}
           {session.exam.className ?? "Tanpa kelas"} · {questions.length} soal ·

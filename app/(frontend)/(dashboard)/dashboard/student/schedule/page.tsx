@@ -234,7 +234,7 @@ export default function ScheduleDataTable() {
         );
       },
       cell: ({ row }) => (
-        <div className="font-mono">
+        <div>
           {row.original.startTime} - {row.original.endTime}
         </div>
       ),
@@ -409,7 +409,7 @@ export default function ScheduleDataTable() {
       <div className="min-h-screen w-full">
         <div className="flex h-32 items-center justify-center">
           <div className="text-center">
-            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2"></div>
+            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b"></div>
             <p className="text-muted-foreground mt-2 text-sm">
               Memuat data jadwal...
             </p>
@@ -422,11 +422,11 @@ export default function ScheduleDataTable() {
   return (
     <>
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Jadwal Pelajaran</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Jadwal Pelajaran</div>
         {/* student data  */}
 
         {studentData && (
-          <div className="bg-info-surface border-info-border mb-6 rounded-lg border p-4">
+          <div className="bg-info-surface border-info-border mb-6 rounded-3xl border p-4">
             <div className="flex items-center gap-3">
               <Users className="text-info h-6 w-6" />
               <div>
@@ -572,7 +572,7 @@ export default function ScheduleDataTable() {
           </div>
         )}
 
-        <div className="w-full overflow-hidden rounded-md border">
+        <div className="w-full overflow-hidden rounded-3xl border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -686,12 +686,12 @@ export default function ScheduleDataTable() {
 
         {/* Summary Statistics */}
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <Calendar className="text-info h-5 w-5" />
               <h3 className="font-semibold">Total Jadwal</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">{schedules.length}</p>
+            <p className="mt-2 text-2xl font-semibold tracking-tight">{schedules.length}</p>
             {table.getFilteredRowModel().rows.length !== schedules.length && (
               <p className="text-muted-foreground text-sm">
                 ({table.getFilteredRowModel().rows.length} terfilter)
@@ -699,12 +699,12 @@ export default function ScheduleDataTable() {
             )}
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <Users className="text-success h-5 w-5" />
               <h3 className="font-semibold">Kelas Aktif</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table
@@ -715,12 +715,12 @@ export default function ScheduleDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <BookOpen className="text-tertiary h-5 w-5" />
               <h3 className="font-semibold">Mata Pelajaran</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table
@@ -731,12 +731,12 @@ export default function ScheduleDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <GraduationCap className="text-caution h-5 w-5" />
               <h3 className="font-semibold">Guru Mengajar</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
               {
                 new Set(
                   table

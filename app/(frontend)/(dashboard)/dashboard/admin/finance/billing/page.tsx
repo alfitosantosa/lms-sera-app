@@ -452,7 +452,7 @@ function SingleItemDialog({
 
           {/* Payment */}
           {unpaidItems.length > 0 && (
-            <div className="bg-info-surface border-info-border space-y-2 rounded-lg border p-3">
+            <div className="bg-info-surface border-info-border space-y-2 rounded-2xl border p-3">
               <Label className="text-info-strong text-sm font-semibold">
                 Tagihan Belum Lunas
               </Label>
@@ -460,7 +460,7 @@ function SingleItemDialog({
                 {unpaidItems.map((item) => (
                   <div
                     key={item.id}
-                    className="bg-card border-info-border flex justify-between rounded border p-2 text-xs"
+                    className="bg-card border-info-border flex justify-between rounded-lg border p-2 text-xs"
                   >
                     <span className="font-medium">{item.name}</span>
                     <span className="text-info font-semibold">
@@ -694,7 +694,7 @@ function SingleItemDialog({
 
           {/* Debug: Show current form values */}
           {process.env.NODE_ENV === "development" && (
-            <div className="bg-muted/50 space-y-2 rounded border p-3 text-xs">
+            <div className="bg-muted/50 space-y-2 rounded-2xl border border-border p-3 text-xs">
               <p className="font-semibold">Debug Form State:</p>
               <div className="space-y-1">
                 <p>• isValid: {isValid ? "✓ true" : "✗ false"}</p>
@@ -1294,7 +1294,7 @@ function BillingDataTable({
 
   return (
     <div className="">
-      <div className="mb-3 text-3xl font-bold">Data Tagihan</div>
+      <div className="mb-3 text-3xl font-semibold tracking-tight">Data Tagihan</div>
       <Badge>Seluruh Branch</Badge>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
@@ -1495,7 +1495,7 @@ function BillingDataTable({
       )}
 
       {/* Table */}
-      <div className="w-full overflow-hidden rounded-md border">
+      <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -1597,12 +1597,12 @@ function BillingDataTable({
 
       {/* Summary Cards */}
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <Package className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Item</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{totalItems}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{totalItems}</p>
           {filteredRows.length !== totalItems && (
             <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
@@ -1610,23 +1610,23 @@ function BillingDataTable({
           )}
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <BadgeCheck className="text-success h-5 w-5" />
             <h3 className="font-semibold">Sudah Lunas</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{paidCount}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{paidCount}</p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <Clock className="text-warning h-5 w-5" />
             <h3 className="font-semibold">Belum Lunas</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{unpaidCount}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{unpaidCount}</p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <CreditCard className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Total Subtotal</h3>

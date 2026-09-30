@@ -256,7 +256,7 @@ export function DailyLogTable({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-md border">
+      <div className="border-border bg-card overflow-hidden rounded-3xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

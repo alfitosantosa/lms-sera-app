@@ -453,7 +453,7 @@ Terima kasih.
             {isLoadingSchedule || isLoadingClass ? (
               <Loading />
             ) : currentSession ? (
-              <div className="bg-info-surface mb-4 rounded-lg p-4">
+              <div className="bg-info-surface mb-4 rounded-3xl p-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="flex items-center gap-2 font-semibold">
@@ -490,13 +490,13 @@ Terima kasih.
                 classData?.students.map((student) => (
                   <div
                     key={student.id}
-                    className="hover:bg-muted/50 flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3 transition-colors"
+                    className="hover:bg-muted/50 flex flex-wrap items-center justify-between gap-3 rounded-3xl border p-3 transition-colors"
                   >
                     <div
-                      className={`h-3 w-3 rounded-xl ${getStatusColor(attendanceData[student.id]?.status)}`}
+                      className={`h-3 w-3 rounded-full ${getStatusColor(attendanceData[student.id]?.status)}`}
                     ></div>
                     <div>
-                      <div className="flex w-full flex-wrap items-center gap-2 rounded-xl border p-4">
+                      <div className="flex w-full flex-wrap items-center gap-2 rounded-3xl border p-4">
                         <Image
                           src={
                             student?.avatarUrl
@@ -506,7 +506,7 @@ Terima kasih.
                           alt="Picture of the author"
                           width={60}
                           height={60}
-                          className="rounded-lg"
+                          className="rounded-full"
                         />
                         <div>
                           <p className="flex items-center gap-3 font-medium">
@@ -547,7 +547,7 @@ Terima kasih.
 
             <div className="mt-6 space-y-4">
               {/* WhatsApp Notification Option */}
-              <div className="bg-success-surface border-success-border flex items-center space-x-3 rounded-lg border p-4">
+              <div className="bg-success-surface border-success-border flex items-center space-x-3 rounded-3xl border p-4">
                 <Checkbox
                   id="sendWhatsApp"
                   checked={sendWhatsApp}
@@ -629,32 +629,32 @@ Terima kasih.
               <Loading />
             ) : (
               <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-                <div className="bg-success-surface rounded-lg p-4 text-center">
-                  <div className="text-success text-2xl font-bold">
+                <div className="bg-success-surface rounded-3xl p-4 text-center">
+                  <div className="text-success text-2xl font-semibold tracking-tight">
                     {stats.present}
                   </div>
                   <div className="text-muted-foreground text-sm">Hadir</div>
                 </div>
-                <div className="bg-info-surface rounded-lg p-4 text-center">
-                  <div className="text-info text-2xl font-bold">
+                <div className="bg-info-surface rounded-3xl p-4 text-center">
+                  <div className="text-info text-2xl font-semibold tracking-tight">
                     {stats.excused}
                   </div>
                   <div className="text-muted-foreground text-sm">Izin</div>
                 </div>
-                <div className="bg-tertiary-surface rounded-lg p-4 text-center">
-                  <div className="text-tertiary text-2xl font-bold">
+                <div className="bg-tertiary-surface rounded-3xl p-4 text-center">
+                  <div className="text-tertiary text-2xl font-semibold tracking-tight">
                     {stats.sick}
                   </div>
                   <div className="text-muted-foreground text-sm">Sakit</div>
                 </div>
-                <div className="bg-warning-surface rounded-lg p-4 text-center">
-                  <div className="text-warning text-2xl font-bold">
+                <div className="bg-warning-surface rounded-3xl p-4 text-center">
+                  <div className="text-warning text-2xl font-semibold tracking-tight">
                     {stats.late}
                   </div>
                   <div className="text-muted-foreground text-sm">Terlambat</div>
                 </div>
-                <div className="bg-destructive-surface rounded-lg p-4 text-center">
-                  <div className="text-destructive text-2xl font-bold">
+                <div className="bg-destructive-surface rounded-3xl p-4 text-center">
+                  <div className="text-destructive text-2xl font-semibold tracking-tight">
                     {stats.absent}
                   </div>
                   <div className="text-muted-foreground text-sm">

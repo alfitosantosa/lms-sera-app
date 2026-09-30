@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { type Metadata, type Viewport } from "next";
 import {
-  Bitter,
   IBM_Plex_Mono,
   IBM_Plex_Sans,
   Noto_Naskh_Arabic,
@@ -22,15 +21,6 @@ const plexSans = IBM_Plex_Sans({
   weight: ["400", "500", "600"],
   display: "swap", // Prevent FOIT (Flash of Invisible Text)
   variable: "--font-plex-sans",
-  preload: true,
-});
-
-// Display: the slab of a printed form header. Headings only, never body copy.
-const bitter = Bitter({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-  variable: "--font-bitter",
   preload: true,
 });
 
@@ -51,7 +41,7 @@ const naskh = Noto_Naskh_Arabic({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#fbfaf4",
+  themeColor: "#f7f7f8",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -81,7 +71,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${plexSans.variable} ${bitter.variable} ${plexMono.variable} ${naskh.variable}`}
+      className={`${plexSans.variable} ${plexMono.variable} ${naskh.variable}`}
       suppressHydrationWarning
     >
       <body className={plexSans.className} suppressHydrationWarning>

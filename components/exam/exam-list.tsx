@@ -183,7 +183,7 @@ export function ExamList() {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="border-border bg-card rounded-3xl border">
         <Table>
           <TableHeader>
             <TableRow>

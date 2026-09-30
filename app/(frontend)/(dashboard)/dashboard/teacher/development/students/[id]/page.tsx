@@ -90,11 +90,11 @@ export default function StudentDevelopmentProfilePage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-foreground text-3xl font-bold">
+            <h1 className="text-foreground text-3xl font-semibold tracking-tight">
               {studentName ?? "Profil Perkembangan"}
             </h1>
             <p className="text-muted-foreground">
@@ -195,7 +195,7 @@ export default function StudentDevelopmentProfilePage() {
                             key={index}
                             src={evidence.url}
                             alt={`Bukti ${index + 1}`}
-                            className="h-32 w-full rounded-md border object-cover"
+                            className="h-32 w-full rounded-3xl border object-cover"
                           />
                         ) : (
                           <a
@@ -203,7 +203,7 @@ export default function StudentDevelopmentProfilePage() {
                             href={evidence.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="flex h-32 flex-col items-center justify-center gap-2 rounded-md border text-sm"
+                            className="flex h-32 flex-col items-center justify-center gap-2 rounded-3xl border text-sm"
                           >
                             <FileText className="h-6 w-6" />
                             <Badge variant="secondary">{evidence.type}</Badge>

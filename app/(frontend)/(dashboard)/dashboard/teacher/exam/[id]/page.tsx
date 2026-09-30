@@ -108,7 +108,7 @@ export default function ExamDetailPage() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold">{exam.title}</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{exam.title}</h1>
             <Badge variant={exam.status === "DRAFT" ? "secondary" : "default"}>
               {EXAM_STATUS_LABELS[exam.status] ?? exam.status}
             </Badge>

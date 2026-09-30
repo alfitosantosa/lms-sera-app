@@ -31,7 +31,7 @@ export function StudentTimeline({
   }
 
   return (
-    <div className="relative space-y-6 border-l pl-6">
+    <div className="border-border relative space-y-6 border-l pl-6">
       {entries.map((entry) => (
         <div key={entry.id} className="relative">
           <span className="bg-primary absolute top-1.5 -left-[31px] h-3 w-3 rounded-full" />
@@ -61,7 +61,7 @@ export function StudentTimeline({
                 )}
                 <a
                   href={entry.url}
-                  className="text-primary inline-flex items-center gap-1 text-xs underline"
+                  className="text-interactive inline-flex items-center gap-1 text-xs underline"
                 >
                   <Paperclip className="h-3 w-3" />
                   {EVIDENCE_LABELS[entry.type] ?? entry.type}
@@ -85,7 +85,7 @@ export function StudentTimeline({
                 {entry.observations.map((observation, index) => (
                   <div
                     key={index}
-                    className="border-muted space-y-1 border-l-2 pl-3"
+                    className="border-border space-y-1 border-l pl-3"
                   >
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-sm font-medium">
@@ -136,7 +136,7 @@ export function StudentTimeline({
                           key={index}
                           src={evidence.url}
                           alt={`Bukti ${index + 1}`}
-                          className="h-16 w-16 rounded-md border object-cover"
+                          className="border-border h-16 w-16 rounded-2xl border object-cover"
                         />
                       ) : (
                         <a
@@ -144,7 +144,7 @@ export function StudentTimeline({
                           href={evidence.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-primary inline-flex items-center gap-1 text-xs underline"
+                          className="text-interactive inline-flex items-center gap-1 text-xs underline"
                         >
                           <FileText className="h-3 w-3" />
                           {EVIDENCE_LABELS[evidence.type] ?? evidence.type}

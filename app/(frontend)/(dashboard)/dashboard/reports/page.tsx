@@ -418,7 +418,7 @@ export default function ReportsModule() {
                 {currentCategory?.reports.map((report, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between rounded-lg border p-4"
+                    className="flex items-center justify-between rounded-3xl border p-4"
                   >
                     <div className="flex-1">
                       <h4 className="font-semibold">{report.name}</h4>
@@ -471,7 +471,7 @@ export default function ReportsModule() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-warning-surface border-warning-border rounded-lg border p-4">
+                <div className="bg-warning-surface border-warning-border rounded-3xl border p-4">
                   <div className="flex items-start space-x-3">
                     <AlertTriangle className="text-warning mt-0.5 h-5 w-5" />
                     <div>
@@ -505,20 +505,20 @@ export default function ReportsModule() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div className="bg-info-surface rounded-lg p-4 text-center">
-                  <div className="text-info text-2xl font-bold">127</div>
+                <div className="bg-info-surface rounded-3xl p-4 text-center">
+                  <div className="text-info text-2xl font-semibold tracking-tight">127</div>
                   <div className="text-muted-foreground text-sm">
                     Laporan Bulan Ini
                   </div>
                 </div>
-                <div className="bg-success-surface rounded-lg p-4 text-center">
-                  <div className="text-success text-2xl font-bold">1,247</div>
+                <div className="bg-success-surface rounded-3xl p-4 text-center">
+                  <div className="text-success text-2xl font-semibold tracking-tight">1,247</div>
                   <div className="text-muted-foreground text-sm">
                     Total Download
                   </div>
                 </div>
-                <div className="bg-tertiary-surface rounded-lg p-4 text-center">
-                  <div className="text-tertiary text-2xl font-bold">7</div>
+                <div className="bg-tertiary-surface rounded-3xl p-4 text-center">
+                  <div className="text-tertiary text-2xl font-semibold tracking-tight">7</div>
                   <div className="text-muted-foreground text-sm">
                     Kategori Laporan
                   </div>

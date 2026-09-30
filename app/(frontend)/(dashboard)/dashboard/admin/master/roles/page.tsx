@@ -425,7 +425,7 @@ function RoleFormDialog({
 
           <div className="space-y-3">
             <Label>Permissions</Label>
-            <div className="grid max-h-60 grid-cols-2 gap-2 overflow-y-auto rounded-lg border p-3">
+            <div className="grid max-h-60 grid-cols-2 gap-2 overflow-y-auto rounded-2xl border p-3">
               {availablePermissions.map((permission) => (
                 <div
                   key={permission.id}
@@ -737,7 +737,7 @@ function RoleDataTable({ foundationId }: { foundationId?: string }) {
   return (
     <>
       <div className="">
-        <div className="text-3xl font-bold">Roles Menu</div>
+        <div className="text-3xl font-semibold tracking-tight">Roles Menu</div>
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-2">
             <Input
@@ -787,7 +787,7 @@ function RoleDataTable({ foundationId }: { foundationId?: string }) {
           </div>
         </div>
 
-        <div className="rounded-md border">
+        <div className="rounded-3xl border border-border bg-card">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

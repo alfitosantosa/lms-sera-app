@@ -100,7 +100,7 @@ export function TeacherCombobox({
                     handleClear(e);
                   }
                 }}
-                className="hover:bg-accent flex items-center justify-center rounded-sm p-0.5"
+                className="hover:bg-accent flex items-center justify-center rounded-lg p-0.5"
               >
                 <X className="h-4 w-4 cursor-pointer opacity-50 hover:opacity-100" />
               </span>
@@ -141,7 +141,7 @@ export function TeacherCombobox({
                     key={teacher.id}
                     onClick={() => handleSelect(teacher)}
                     className={cn(
-                      "hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-2 rounded-md px-2 py-3",
+                      "hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg px-2 py-3",
                       value === teacher.id && "bg-accent",
                     )}
                   >

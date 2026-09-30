@@ -408,7 +408,7 @@ function UploadUsers({ branchId }: { branchId: string }) {
 
   return (
     <div className="">
-      <div className="mb-3 text-3xl font-bold">Upload Page</div>
+      <div className="mb-3 text-3xl font-semibold tracking-tight">Upload Page</div>
 
       <div className="mb-6">
         <Card className="p-6">
@@ -416,7 +416,7 @@ function UploadUsers({ branchId }: { branchId: string }) {
 
           <div className="space-y-4">
             {/* Instructions */}
-            <div className="bg-info-surface border-info-border rounded-lg border p-4">
+            <div className="bg-info-surface border-info-border rounded-3xl border p-4">
               <div className="flex items-start gap-2">
                 <AlertCircle className="text-info mt-0.5 h-5 w-5" />
                 <div className="text-info-strong text-sm">
@@ -457,7 +457,7 @@ function UploadUsers({ branchId }: { branchId: string }) {
                 <p className="text-sm font-semibold">File yang dipilih:</p>
                 {files.map((file, index) => (
                   <div
-                    className="flex items-center justify-between rounded-md border p-2"
+                    className="flex items-center justify-between rounded-lg border p-2"
                     key={index}
                   >
                     <div className="flex items-center gap-2">
@@ -483,7 +483,7 @@ function UploadUsers({ branchId }: { branchId: string }) {
             )}
 
             {previewData.length > 0 && (
-              <div className="rounded-lg border p-4">
+              <div className="rounded-3xl border p-4">
                 <p className="mb-2 text-sm font-semibold">
                   Preview Data (5 baris pertama):
                 </p>

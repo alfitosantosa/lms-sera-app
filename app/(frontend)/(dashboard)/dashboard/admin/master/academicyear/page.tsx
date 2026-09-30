@@ -512,7 +512,7 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
   return (
     <>
       <div>
-        <div className="text-3xl font-bold">Tahun Ajaran</div>
+        <div className="text-3xl font-semibold tracking-tight">Tahun Ajaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
@@ -575,7 +575,7 @@ function AcademicYearDataTable({ foundationId }: { foundationId?: string }) {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

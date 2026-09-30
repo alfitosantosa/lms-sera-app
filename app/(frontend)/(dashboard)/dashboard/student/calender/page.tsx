@@ -92,10 +92,10 @@ export default function CalendarPage() {
 
   // Status untuk berbagai jenis event
   const statuses = {
-    regularClass: { id: "1", name: "Kelas Reguler", color: "#3B82F6" }, // Blue
-    holiday: { id: "2", name: "Libur", color: "#EF4444" }, // Red
-    exam: { id: "3", name: "Ujian", color: "#F59E0B" }, // Orange
-    event: { id: "4", name: "Event", color: "#10B981" }, // Green
+    regularClass: { id: "1", name: "Kelas Reguler", color: "var(--color-info)" },
+    holiday: { id: "2", name: "Libur", color: "var(--color-destructive)" },
+    exam: { id: "3", name: "Ujian", color: "var(--color-caution)" },
+    event: { id: "4", name: "Event", color: "var(--color-success)" },
   };
 
   // Konversi schedules menjadi calendar features (jadwal mingguan berulang)
@@ -241,17 +241,17 @@ export default function CalendarPage() {
         {/* Header Info */}
         <div className="mb-6 space-y-4">
           <div>
-            <h1 className="text-3xl font-bold">Kalender Akademik</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">Kalender Akademik</h1>
             <p className="text-muted-foreground mt-1">
               Jadwal kelas dan event khusus tahun akademik
             </p>
           </div>
 
           {/* Legend */}
-          <div className="bg-muted/30 flex flex-wrap gap-4 rounded-lg p-4">
+          <div className="bg-muted/30 flex flex-wrap gap-4 rounded-3xl p-4">
             <div className="flex items-center gap-2">
               <div
-                className="h-4 w-4 rounded"
+                className="h-4 w-4 rounded-full"
                 style={{ backgroundColor: statuses.regularClass.color }}
               />
               <span className="text-sm font-medium">
@@ -260,7 +260,7 @@ export default function CalendarPage() {
             </div>
             <div className="flex items-center gap-2">
               <div
-                className="h-4 w-4 rounded"
+                className="h-4 w-4 rounded-full"
                 style={{ backgroundColor: statuses.holiday.color }}
               />
               <span className="text-sm font-medium">
@@ -269,14 +269,14 @@ export default function CalendarPage() {
             </div>
             <div className="flex items-center gap-2">
               <div
-                className="h-4 w-4 rounded"
+                className="h-4 w-4 rounded-full"
                 style={{ backgroundColor: statuses.exam.color }}
               />
               <span className="text-sm font-medium">{statuses.exam.name}</span>
             </div>
             <div className="flex items-center gap-2">
               <div
-                className="h-4 w-4 rounded"
+                className="h-4 w-4 rounded-full"
                 style={{ backgroundColor: statuses.event.color }}
               />
               <span className="text-sm font-medium">{statuses.event.name}</span>
@@ -285,21 +285,21 @@ export default function CalendarPage() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="bg-info-surface border-info-border rounded-lg border p-4">
+            <div className="bg-info-surface border-info-border rounded-3xl border p-4">
               <p className="text-info text-sm font-medium">Jadwal Reguler</p>
-              <p className="text-info-strong mt-1 text-2xl font-bold">
+              <p className="text-info-strong mt-1 text-2xl font-semibold tracking-tight">
                 {schedules.length}
               </p>
             </div>
-            <div className="bg-caution-surface border-caution-border rounded-lg border p-4">
+            <div className="bg-caution-surface border-caution-border rounded-3xl border p-4">
               <p className="text-caution text-sm font-medium">Event Khusus</p>
-              <p className="text-caution-strong mt-1 text-2xl font-bold">
+              <p className="text-caution-strong mt-1 text-2xl font-semibold tracking-tight">
                 {specialSchedules.filter((s) => s.isPublished).length}
               </p>
             </div>
-            <div className="bg-success-surface border-success-border rounded-lg border p-4">
+            <div className="bg-success-surface border-success-border rounded-3xl border p-4">
               <p className="text-success text-sm font-medium">Total Event</p>
-              <p className="text-success-strong mt-1 text-2xl font-bold">
+              <p className="text-success-strong mt-1 text-2xl font-semibold tracking-tight">
                 {allFeatures.length}
               </p>
             </div>
@@ -343,7 +343,7 @@ export default function CalendarPage() {
                   {selectedDateSchedules.map((schedule) => (
                     <div
                       key={schedule.id}
-                      className="hover:bg-muted/50 space-y-3 rounded-lg border p-4 transition-colors"
+                      className="hover:bg-muted/50 space-y-3 rounded-3xl border p-4 transition-colors"
                     >
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">

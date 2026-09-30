@@ -107,7 +107,7 @@ export function StudentSelectorByIdBranch({
             <div className="max-h-96 space-y-2 overflow-y-auto">
               {betterAuthsLoading ? (
                 <div className="flex items-center justify-center p-8">
-                  <div className="border-primary h-6 w-6 animate-spin rounded-full border-b-2"></div>
+                  <div className="border-primary h-6 w-6 animate-spin rounded-full border-b"></div>
                 </div>
               ) : filteredbetterAuths.length === 0 ? (
                 <div className="text-muted-foreground p-8 text-center">
@@ -119,7 +119,7 @@ export function StudentSelectorByIdBranch({
                 filteredbetterAuths.map((user: BetterAuthUser) => (
                   <div
                     key={user.id}
-                    className="hover:bg-muted flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
+                    className="hover:bg-muted border-border flex cursor-pointer items-center space-x-3 rounded-3xl border p-3"
                     onClick={() => handleSelect(user)}
                   >
                     <div className="flex">

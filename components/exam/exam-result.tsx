@@ -26,13 +26,15 @@ export function ExamResult({ result }: ExamResultProps) {
           <div className="flex flex-wrap items-center gap-6">
             <div>
               <p className="text-muted-foreground text-sm">Skor</p>
-              <p className="text-3xl font-bold">
+              <p className="text-3xl font-semibold tracking-tight">
                 {result.score ?? "-"} / {result.maxScore}
               </p>
             </div>
             <div>
               <p className="text-muted-foreground text-sm">Persentase</p>
-              <p className="text-3xl font-bold">{result.percentage}%</p>
+              <p className="text-3xl font-semibold tracking-tight">
+                {result.percentage}%
+              </p>
             </div>
             <Badge
               variant={
@@ -103,7 +105,7 @@ export function ExamResult({ result }: ExamResultProps) {
               {answer.type === "ESSAY" ? (
                 <div className="space-y-1">
                   <p className="text-muted-foreground text-sm">Jawaban Anda</p>
-                  <p className="bg-muted rounded-md border p-3 text-sm whitespace-pre-wrap">
+                  <p className="bg-muted border-border rounded-2xl border p-3 text-sm whitespace-pre-wrap">
                     {answer.answerText?.trim()
                       ? answer.answerText
                       : "Tidak dijawab"}
@@ -118,7 +120,7 @@ export function ExamResult({ result }: ExamResultProps) {
                 <div className="space-y-2">
                   <div
                     className={cn(
-                      "flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm",
+                      "border-border flex flex-wrap items-center justify-between gap-2 rounded-2xl border p-3 text-sm",
                       answer.isCorrect === false &&
                         "border-destructive-border bg-destructive-surface",
                     )}
@@ -129,7 +131,7 @@ export function ExamResult({ result }: ExamResultProps) {
                     </span>
                   </div>
                   {answer.correctOptionLabel && (
-                    <div className="border-success-border bg-success-surface flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm">
+                    <div className="border-success-border bg-success-surface flex flex-wrap items-center justify-between gap-2 rounded-2xl border p-3 text-sm">
                       <span className="text-muted-foreground">
                         Kunci Jawaban
                       </span>

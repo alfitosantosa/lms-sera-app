@@ -13,7 +13,7 @@ export default function DatePage() {
   return (
     <div className="space-y-8 p-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-semibold tracking-tight">
           Date Picker Test Page
         </h1>
         <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ export default function DatePage() {
 
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">State Value</h2>
-          <div className="bg-foreground rounded-md p-4">
+          <div className="bg-foreground rounded-3xl p-4">
             <pre className="text-background overscroll-x-auto text-xs">
               {JSON.stringify(date, null, 2)}
             </pre>

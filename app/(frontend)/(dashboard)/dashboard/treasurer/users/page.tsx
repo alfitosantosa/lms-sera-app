@@ -656,7 +656,7 @@ function UserDashboard({ branchData }: { branchData: branchTypes }) {
 
   return (
     <div className="">
-      <div className="text-3xl font-bold">Users Menu</div>
+      <div className="text-3xl font-semibold tracking-tight">Users Menu</div>
       <Badge className="mt-4">{branchData.name}</Badge>
       <div className="flex flex-wrap items-start justify-between gap-4 py-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -826,7 +826,7 @@ function UserDashboard({ branchData }: { branchData: branchTypes }) {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

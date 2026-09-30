@@ -603,7 +603,7 @@ function ViolationTypeDataTable() {
   return (
     <>
       <div className="">
-        <div className="text-3xl font-bold">Jenis Pelanggaran</div>
+        <div className="text-3xl font-semibold tracking-tight">Jenis Pelanggaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
@@ -664,7 +664,7 @@ function ViolationTypeDataTable() {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

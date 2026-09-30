@@ -57,7 +57,7 @@ export function NotificationBell() {
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-0">
-        <div className="border-b px-4 py-3">
+        <div className="border-border border-b px-4 py-3">
           <p className="text-sm font-semibold">Notifikasi</p>
         </div>
         <ScrollArea className="max-h-96">
@@ -66,7 +66,7 @@ export function NotificationBell() {
               Belum ada notifikasi
             </p>
           ) : (
-            <ul className="divide-y">
+            <ul className="divide-border divide-y">
               {items.map((notification) => (
                 <li key={notification.id}>
                   <button

@@ -187,7 +187,7 @@ function CustomTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-background/95 min-w-40 rounded-xl border p-3 shadow-xl backdrop-blur">
+    <div className="bg-background/95 min-w-40 rounded-3xl border p-3 shadow-xl backdrop-blur">
       <p className="text-muted-foreground mb-2 text-xs font-semibold">
         {label}
       </p>
@@ -216,17 +216,17 @@ function DashboardSkeleton() {
   return (
     <div className="mx-auto min-h-screen max-w-7xl space-y-6 p-6">
       {/* Header skeleton */}
-      <div className="from-info to-info h-32 animate-pulse rounded-2xl bg-linear-to-r" />
+      <div className="bg-info h-32 animate-pulse rounded-3xl" />
 
       {/* Filter skeleton */}
-      <div className="bg-card h-24 animate-pulse rounded-xl border" />
+      <div className="bg-card h-24 animate-pulse rounded-3xl border" />
 
       {/* KPI skeleton */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className="bg-card h-24 animate-pulse rounded-xl border"
+            className="bg-card h-24 animate-pulse rounded-3xl border"
           />
         ))}
       </div>
@@ -236,7 +236,7 @@ function DashboardSkeleton() {
         {Array.from({ length: 2 }).map((_, i) => (
           <div
             key={i}
-            className="bg-card h-80 animate-pulse rounded-xl border"
+            className="bg-card h-80 animate-pulse rounded-3xl border"
           />
         ))}
       </div>
@@ -426,7 +426,7 @@ export default function AttendanceDashboardPage() {
     <div className="bg-background min-h-screen p-6">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* ── Page Header ── */}
-        <div className="from-info-solid via-info-solid to-info-strong relative overflow-hidden rounded-2xl bg-linear-to-br text-white shadow-xl">
+        <div className="bg-info-solid relative overflow-hidden rounded-3xl text-white">
           {/* decorative circles */}
           <div className="bg-background/10 absolute -top-12 -right-12 h-48 w-48 rounded-full" />
           <div className="bg-background/10 absolute -bottom-8 -left-8 h-32 w-32 rounded-full" />
@@ -434,10 +434,10 @@ export default function AttendanceDashboardPage() {
           <div className="relative px-8 py-6">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <div>
-                <p className="text-info-chip mb-1 text-sm font-medium tracking-wide uppercase">
+                <p className="text-info-chip mb-1 text-sm">
                   Sistem Informasi Sekolah
                 </p>
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-3xl font-semibold tracking-tight">
                   Dashboard Kehadiran
                 </h1>
                 <p className="text-info-chip mt-1 text-sm">
@@ -447,7 +447,7 @@ export default function AttendanceDashboardPage() {
 
               <div className="flex flex-wrap items-center gap-3">
                 {/* Attendance rate pill */}
-                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-xl border px-4 py-3 backdrop-blur-sm">
+                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-2xl border px-4 py-3 backdrop-blur-sm">
                   <Activity className="text-success-chip h-5 w-5" />
                   <div>
                     <p className="text-info-chip text-xs">Tingkat Kehadiran</p>
@@ -456,7 +456,7 @@ export default function AttendanceDashboardPage() {
                 </div>
 
                 {/* Total records pill */}
-                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-xl border px-4 py-3 backdrop-blur-sm">
+                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-2xl border px-4 py-3 backdrop-blur-sm">
                   <Users className="text-info-chip h-5 w-5" />
                   <div>
                     <p className="text-info-chip text-xs">Total Record</p>
@@ -495,7 +495,7 @@ export default function AttendanceDashboardPage() {
             <div className="flex flex-wrap gap-4">
               {/* Date Range */}
               <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                <label className="text-muted-foreground text-xs font-medium">
                   Periode
                 </label>
                 <DatePickerWithRange date={dateRange} setDate={setDateRange} />
@@ -503,7 +503,7 @@ export default function AttendanceDashboardPage() {
 
               {/* Status */}
               <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                <label className="text-muted-foreground text-xs font-medium">
                   Status
                 </label>
                 <Select
@@ -534,7 +534,7 @@ export default function AttendanceDashboardPage() {
 
               {/* Class */}
               <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                <label className="text-muted-foreground text-xs font-medium">
                   Kelas
                 </label>
                 <Select value={selectedClass} onValueChange={setSelectedClass}>
@@ -554,7 +554,7 @@ export default function AttendanceDashboardPage() {
 
               {/* Subject */}
               <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                <label className="text-muted-foreground text-xs font-medium">
                   Mata Pelajaran
                 </label>
                 <Select
@@ -577,7 +577,7 @@ export default function AttendanceDashboardPage() {
 
               {/* Search */}
               <div className="space-y-1.5">
-                <label className="text-muted-foreground flex items-center gap-1 text-xs font-medium tracking-wide uppercase">
+                <label className="text-muted-foreground flex items-center gap-1 text-xs font-medium">
                   <Search className="h-3 w-3" />
                   Cari Siswa
                 </label>
@@ -656,12 +656,12 @@ export default function AttendanceDashboardPage() {
         {/* ── KPI Cards ── */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {/* Total */}
-          <Card className="border-l-border border-l-4">
+          <Card>
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-muted-foreground mb-1 text-xs">Total</p>
-                  <p className="text-foreground text-2xl font-bold">
+                  <p className="text-foreground text-2xl font-semibold tracking-tight">
                     {stats.total.toLocaleString("id-ID")}
                   </p>
                 </div>
@@ -681,7 +681,7 @@ export default function AttendanceDashboardPage() {
               stats.total > 0 ? ((count / stats.total) * 100).toFixed(0) : "0";
 
             return (
-              <Card key={key} className={`border-l-4 ${cfg.borderColor}`}>
+              <Card key={key}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div>
@@ -689,7 +689,7 @@ export default function AttendanceDashboardPage() {
                         {cfg.label}
                       </p>
                       <p
-                        className="text-2xl font-bold"
+                        className="text-2xl font-semibold tracking-tight"
                         style={{ color: cfg.chartColor }}
                       >
                         {count}
@@ -753,7 +753,7 @@ export default function AttendanceDashboardPage() {
                           if (!active || !payload?.length) return null;
                           const d = payload[0];
                           return (
-                            <div className="bg-background rounded-lg border p-2 text-xs shadow-md">
+                            <div className="bg-background rounded-3xl border p-2 text-xs shadow-md">
                               <p className="font-semibold">{d.name}</p>
                               <p style={{ color: d.payload.color }}>
                                 {d.value} siswa
@@ -774,7 +774,7 @@ export default function AttendanceDashboardPage() {
                       >
                         <span className="flex items-center gap-1.5">
                           <span
-                            className="h-2.5 w-2.5 rounded-sm"
+                            className="h-2.5 w-2.5 rounded-full"
                             style={{ backgroundColor: d.color }}
                           />
                           <span className="text-muted-foreground">

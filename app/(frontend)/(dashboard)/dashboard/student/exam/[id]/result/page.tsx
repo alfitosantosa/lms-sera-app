@@ -48,7 +48,7 @@ export default function StudentExamResultPage() {
   if (attemptStatus === "IN_PROGRESS") {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Hasil Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Hasil Ujian</div>
         <ExamStateUnavailable
           message="Ujian belum selesai dikerjakan"
           backHref={attemptUrl}
@@ -66,7 +66,7 @@ export default function StudentExamResultPage() {
   if (isLoading) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Hasil Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Hasil Ujian</div>
         <ExamStateSkeleton cards={2} />
       </div>
     );
@@ -75,7 +75,7 @@ export default function StudentExamResultPage() {
   if (!attemptId) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Hasil Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Hasil Ujian</div>
         <ExamStateUnavailable message="Anda belum mengerjakan ujian ini" />
       </div>
     );
@@ -84,7 +84,7 @@ export default function StudentExamResultPage() {
   if (!result) {
     return (
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Hasil Ujian</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Hasil Ujian</div>
         <ExamStateUnavailable
           message={
             isExamApiError(resultQuery.data)
@@ -99,7 +99,7 @@ export default function StudentExamResultPage() {
 
   return (
     <div className="max-w-8xl space-y-4">
-      <h1 className="text-3xl font-bold">{result.examTitle}</h1>
+      <h1 className="text-3xl font-semibold tracking-tight">{result.examTitle}</h1>
       <ExamResult result={result} />
     </div>
   );

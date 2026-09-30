@@ -869,7 +869,7 @@ function TahfidzRecordDataTable() {
 
   return (
     <div className="">
-      <div className="mb-6 text-3xl font-bold">Data Rekaman Tahfidz</div>
+      <div className="mb-6 text-3xl font-semibold tracking-tight">Data Rekaman Tahfidz</div>
 
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
@@ -978,7 +978,7 @@ function TahfidzRecordDataTable() {
       )}
 
       {/* Table */}
-      <div className="w-full overflow-hidden rounded-md border">
+      <div className="w-full overflow-hidden rounded-3xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -1084,12 +1084,12 @@ function TahfidzRecordDataTable() {
 
       {/* Summary Cards */}
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <BookOpen className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Rekaman</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{totalRecords}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{totalRecords}</p>
           {filteredRows.length !== totalRecords && (
             <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
@@ -1097,32 +1097,32 @@ function TahfidzRecordDataTable() {
           )}
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <div className="bg-success-solid h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Nilai A</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {filteredRows.filter((r) => r.original.grade === "A").length}
           </p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <div className="bg-warning-solid h-3 w-3 rounded-full" />
             <h3 className="font-semibold">Belum Dinilai</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {filteredRows.filter((r) => !r.original.grade).length}
           </p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <User className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Jumlah Siswa</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {
               new Set(
                 filteredRows.map((r) => r.original.studentId).filter(Boolean),

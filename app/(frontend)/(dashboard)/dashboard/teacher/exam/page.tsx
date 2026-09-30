@@ -10,7 +10,7 @@ export default function TeacherExamPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Ujian</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Ujian</h1>
           <p className="text-muted-foreground text-sm">
             Kelola ujian, soal, dan hasil pengerjaan siswa.
           </p>

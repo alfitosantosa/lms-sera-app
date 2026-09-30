@@ -978,7 +978,7 @@ function PaymentFormDialog({
               )}
 
             {!selectedStudentId && !editData && (
-              <div className="bg-muted/20 rounded-lg border p-8 text-center">
+              <div className="bg-muted/20 rounded-3xl border p-8 text-center">
                 <User className="text-muted-foreground mx-auto mb-2 h-12 w-12" />
                 <p className="text-muted-foreground text-sm">
                   Pilih siswa terlebih dahulu untuk melihat tagihan
@@ -987,8 +987,8 @@ function PaymentFormDialog({
             )}
 
             {selectedStudentId && isLoadingUnpaid && (
-              <div className="rounded-lg border p-8 text-center">
-                <div className="border-primary mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2" />
+              <div className="rounded-3xl border p-8 text-center">
+                <div className="border-primary mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b" />
                 <p className="text-muted-foreground text-sm">
                   Memuat tagihan...
                 </p>
@@ -996,7 +996,7 @@ function PaymentFormDialog({
             )}
 
             {selectedStudentId && !isLoadingUnpaid && fields.length === 0 && (
-              <div className="bg-success-surface rounded-lg border p-8 text-center">
+              <div className="bg-success-surface rounded-3xl border p-8 text-center">
                 <BadgeCheck className="text-success mx-auto mb-2 h-12 w-12" />
                 <p className="text-success-strong text-sm font-medium">
                   Semua tagihan sudah lunas!
@@ -1233,7 +1233,7 @@ function PaymentFormDialog({
           {/* Debug: validation errors (development only) */}
           {process.env.NODE_ENV === "development" &&
             Object.keys(errors).length > 0 && (
-              <div className="text-destructive bg-destructive-surface border-destructive-border space-y-1 rounded border p-3 text-xs">
+              <div className="text-destructive bg-destructive-surface border-destructive-border space-y-1 rounded-3xl border p-3 text-xs">
                 <p className="font-semibold">❌ Validation Errors:</p>
                 {Object.entries(errors).map(([key, error]) => (
                   <p key={key}>
@@ -1774,7 +1774,7 @@ function PaymentDataTable({
 
   return (
     <div>
-      <div className="mb-3 text-3xl font-bold">Data Pembayaran</div>
+      <div className="mb-3 text-3xl font-semibold tracking-tight">Data Pembayaran</div>
       <Badge>{userDataBranch.name}</Badge>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-y-3 py-4">
@@ -1913,7 +1913,7 @@ function PaymentDataTable({
       )}
 
       {/* Table */}
-      <div className="w-full overflow-hidden rounded-md border">
+      <div className="w-full overflow-hidden rounded-3xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -2030,37 +2030,37 @@ function PaymentDataTable({
 
       {/* Summary Cards */}
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <CreditCard className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Transaksi</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{totalPayments}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{totalPayments}</p>
           {filteredRows.length !== totalPayments && (
             <p className="text-muted-foreground text-sm">
               ({filteredRows.length} terfilter)
             </p>
           )}
         </div>
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <BadgeCheck className="text-success h-5 w-5" />
             <h3 className="font-semibold">Lunas</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {filteredRows.filter((r) => r.original.status === "paid").length}
           </p>
         </div>
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <Clock className="text-warning h-5 w-5" />
             <h3 className="font-semibold">Menunggu</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {filteredRows.filter((r) => r.original.status === "pending").length}
           </p>
         </div>
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border p-4">
           <div className="flex items-center space-x-2">
             <CreditCard className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Total Terbayar</h3>

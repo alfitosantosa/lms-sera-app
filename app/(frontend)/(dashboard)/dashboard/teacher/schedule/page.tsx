@@ -96,7 +96,7 @@ const ScheduleCard = ({ schedule }: { schedule: ScheduleTypes }) => {
       : "Buat Absensi";
 
   return (
-    <Card className="transition-shadow duration-200 hover:shadow-lg">
+    <Card>
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="space-y-2">
@@ -261,13 +261,13 @@ function TeacherAttendancePage() {
 
   return (
     <>
-      <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+      <div className="bg-background min-h-screen">
         <div className="max-w-7xl">
           {/* Header Section */}
           <div className="mb-8">
             <div className="mb-2 flex items-center gap-2">
               <GraduationCap className="text-primary h-8 w-8" />
-              <h1 className="text-foreground text-4xl font-bold">
+              <h1 className="text-foreground text-4xl font-bold tracking-tight">
                 Jadwal Mengajar
               </h1>
             </div>

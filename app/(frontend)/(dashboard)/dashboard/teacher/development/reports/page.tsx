@@ -106,10 +106,10 @@ export default function TeacherReportsPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div>
-          <h1 className="text-foreground text-3xl font-bold">Rapor Siswa</h1>
+          <h1 className="text-foreground text-3xl font-semibold tracking-tight">Rapor Siswa</h1>
           <p className="text-muted-foreground">
             Draft rapor per kelas dan periode, dengan alur tinjau → setujui →
             publikasi.
@@ -199,7 +199,7 @@ export default function TeacherReportsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="overflow-hidden rounded-md border">
+                <div className="overflow-hidden rounded-3xl border">
                   <Table>
                     <TableHeader>
                       <TableRow>

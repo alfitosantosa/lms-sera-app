@@ -61,16 +61,12 @@ export function FinanceSection() {
   ];
 
   return (
-    <section id="keuangan" className="border-border bg-secondary border-y py-24">
+    <section id="keuangan" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="border-t-2 border-border pt-3">
-          <span className="font-display text-muted-foreground text-[11px] tracking-wide">
-            Keuangan cabang
-          </span>
-        </div>
+        <p className="text-muted-foreground text-sm">Keuangan cabang</p>
 
-        <div className="mt-8 border-margin border-l-2 pl-6">
-          <h2 className="font-display text-foreground text-3xl tracking-tight">
+        <div className="mt-4 max-w-[68ch]">
+          <h2 className="text-foreground text-3xl font-semibold tracking-tight">
             Tagihan, transfer, dan kwitansi dalam satu buku.
           </h2>
           <p className="text-secondary-foreground mt-3 max-w-[68ch] text-base leading-relaxed">
@@ -80,91 +76,90 @@ export function FinanceSection() {
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <div className="border-t-2 border-border pt-3">
-              <span className="font-display text-muted-foreground text-[11px] tracking-wide">
+            <div className="border-border bg-card rounded-3xl border p-6">
+              <h3 className="text-foreground text-sm font-semibold">
                 Rantai tagihan
-              </span>
-            </div>
+              </h3>
 
-            <table className="mt-5 w-full text-left text-sm">
-              <thead>
-                <tr className="border-border text-muted-foreground border-b">
-                  <th className="font-display py-2.5 pr-4 font-normal text-[11px] tracking-wide">
-                    Tahap
-                  </th>
-                  <th className="font-display py-2.5 font-normal text-[11px] tracking-wide">
-                    Isi catatan
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {chain.map((row, idx) => (
-                  <tr
-                    key={row.model}
-                    className="border-border odd:bg-accent/60 border-b align-top"
-                  >
-                    <td className="py-3 pr-4 whitespace-nowrap">
-                      <span className="text-muted-foreground tabular-nums">
-                        {idx + 1}.
-                      </span>{" "}
-                      <span className="text-brand-accent font-mono text-xs">
-                        {row.model}
-                      </span>
-                    </td>
-                    <td className="text-secondary-foreground py-3 text-xs leading-relaxed">
-                      {row.isi}
-                    </td>
+              <table className="mt-5 w-full text-left text-sm">
+                <thead>
+                  <tr className="border-border text-muted-foreground border-b">
+                    <th className="py-2.5 pr-4 text-xs font-medium">Tahap</th>
+                    <th className="py-2.5 text-xs font-medium">Isi catatan</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {chain.map((row, idx) => (
+                    <tr
+                      key={row.model}
+                      className="border-border odd:bg-accent/60 border-b last:border-b-0 align-top"
+                    >
+                      <td className="py-3 pr-4 whitespace-nowrap">
+                        <span className="text-muted-foreground tabular-nums">
+                          {idx + 1}.
+                        </span>{" "}
+                        <span className="text-foreground font-mono text-xs">
+                          {row.model}
+                        </span>
+                      </td>
+                      <td className="text-secondary-foreground py-3 text-xs leading-relaxed">
+                        {row.isi}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-            <p className="text-muted-foreground mt-4 text-xs">
-              Pembayaran online diproses Midtrans (Snap dan CoreApi);
-              kwitansinya dirender sebagai PDF dengan{" "}
-              <span className="font-mono">@react-pdf/renderer</span>.
-            </p>
+              <p className="text-muted-foreground mt-4 text-xs">
+                Pembayaran online diproses Midtrans (Snap dan CoreApi);
+                kwitansinya dirender sebagai PDF dengan{" "}
+                <span className="font-mono">@react-pdf/renderer</span>.
+              </p>
+            </div>
           </div>
 
           <div className="lg:col-span-5">
-            <div className="border-t-2 border-border pt-3">
-              <span className="font-display text-muted-foreground text-[11px] tracking-wide">
+            <div className="border-border bg-card rounded-3xl border p-6">
+              <h3 className="text-foreground text-sm font-semibold">
                 Status pembayaran
-              </span>
-            </div>
+              </h3>
 
-            <ul className="mt-5 space-y-4">
-              {lifecycle.map((stage) => (
-                <li key={stage.key} className="border-border border-b pb-4">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span
-                      className={`rounded-sm border px-2 py-0.5 text-xs font-medium ${stage.cls}`}
-                    >
-                      {stage.label}
-                    </span>
-                    <span className="text-muted-foreground font-mono text-[11px]">
-                      {stage.key}
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
-                    {stage.note}
-                  </p>
-                </li>
-              ))}
-            </ul>
+              <ul className="mt-5 space-y-4">
+                {lifecycle.map((stage) => (
+                  <li
+                    key={stage.key}
+                    className="border-border border-b pb-4 last:border-b-0 last:pb-0"
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span
+                        className={`rounded-full border px-2 py-0.5 text-xs font-medium ${stage.cls}`}
+                      >
+                        {stage.label}
+                      </span>
+                      <span className="text-muted-foreground font-mono text-xs">
+                        {stage.key}
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
+                      {stage.note}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t-2 border-border pt-6">
+        <div className="border-border bg-card mt-6 flex flex-wrap items-center justify-between gap-4 rounded-3xl border p-6">
           <p className="text-muted-foreground max-w-[68ch] text-xs">
             Rekening kas, jenis tagihan, dan kwitansi terpisah per cabang —
             yayasan tetap melihat rekap gabungannya.
           </p>
           <Button
             onClick={handleRegisterFoundation}
-            className="bg-primary hover:bg-primary-hover text-primary-foreground h-11 rounded-sm px-6 text-sm font-semibold"
+            className="bg-primary hover:bg-primary-hover text-primary-foreground h-11 px-6 text-sm font-semibold"
           >
             Daftarkan yayasan Anda
           </Button>

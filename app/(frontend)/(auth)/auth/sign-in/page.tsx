@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -10,13 +9,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleMark } from "@/components/entry/GoogleMark";
+import { EntryAside } from "@/components/entry/EntryAside";
 import {
-  Sheet,
-  SheetActions,
-  SheetHeading,
-  SheetMasthead,
-  SheetPage,
-} from "@/components/entry/Sheet";
+  EntryBanner,
+  EntryDivider,
+  EntryField,
+  EntryFooter,
+  EntryForm,
+  EntryHeading,
+  EntryLink,
+  EntryScreen,
+} from "@/components/entry/Entry";
 import { signIn } from "@/lib/authClients";
 import { type FormEvent, useState } from "react";
 
@@ -96,134 +99,111 @@ export default function SignIn() {
   };
 
   return (
-    <SheetPage>
-      <SheetMasthead label="MASUK AKUN" />
+    <EntryScreen aside={<EntryAside />}>
+      <EntryForm>
+        <EntryBanner />
 
-      <Sheet>
-        <SheetHeading
+        <EntryHeading
           title="Masuk ke akun Anda"
           description="Gunakan email dan kata sandi akun sekolah yang diberikan admin yayasan atau cabang Anda."
         />
 
-        <form onSubmit={handleEmailSignIn}>
-          <div className="border-border space-y-5 border-t px-6 py-6">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="email"
-                className="text-secondary-foreground text-[13px] font-medium"
+        <form onSubmit={handleEmailSignIn} className="flex flex-col gap-6">
+          <EntryField
+            label="Email sekolah"
+            htmlFor="email"
+            delay="animate-element animate-delay-300"
+          >
+            <Input
+              id="email"
+              type="email"
+              placeholder="nama@sekolah.com"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </EntryField>
+
+          <EntryField
+            label="Kata sandi"
+            htmlFor="password"
+            delay="animate-element animate-delay-400"
+            hint={
+              <button
+                type="button"
+                onClick={() =>
+                  toast.info(
+                    "Silakan hubungi staf admin/TU sekolah untuk mereset kata sandi Anda.",
+                  )
+                }
+                className="text-interactive focus-visible:ring-ring/80 rounded-lg text-xs font-medium underline-offset-4 hover:underline focus-visible:ring-[3px] focus-visible:outline-none"
               >
-                Email sekolah
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nama@sekolah.com"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-11"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <Label
-                  htmlFor="password"
-                  className="text-secondary-foreground text-[13px] font-medium"
-                >
-                  Kata sandi
-                </Label>
-                <button
-                  type="button"
-                  onClick={() =>
-                    toast.info(
-                      "Silakan hubungi staf admin/TU sekolah untuk mereset kata sandi Anda.",
-                    )
-                  }
-                  className="text-primary focus-visible:ring-ring/50 rounded-sm text-xs font-medium underline-offset-4 hover:underline focus-visible:ring-[3px] focus-visible:outline-none"
-                >
-                  Lupa kata sandi?
-                </button>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-11"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked === true)}
-              />
-              <Label
-                htmlFor="remember"
-                className="text-muted-foreground cursor-pointer text-xs font-normal"
-              >
-                Ingat sesi saya di perangkat ini
-              </Label>
-            </div>
-          </div>
-
-          <SheetActions
-            aside={
-              <>
-                Belum punya akun?{" "}
-                <Link
-                  href="/auth/sign-up"
-                  className="text-primary font-medium underline-offset-4 hover:underline"
-                >
-                  Buat akun
-                </Link>
-              </>
+                Lupa kata sandi?
+              </button>
             }
           >
-            <Button
-              type="submit"
-              size="lg"
-              disabled={loading}
-              className="w-full sm:w-auto"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin" />
-                  Memproses...
-                </>
-              ) : (
-                "Masuk"
-              )}
-            </Button>
-          </SheetActions>
-        </form>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </EntryField>
 
-        <div className="border-border border-t px-6 py-6">
-          <div className="flex items-center gap-4">
-            <span className="border-border h-px flex-1 border-t" />
-            <span className="text-muted-foreground text-xs">atau</span>
-            <span className="border-border h-px flex-1 border-t" />
+          <div className="animate-element animate-delay-500 flex items-center gap-3">
+            <Checkbox
+              id="remember"
+              checked={rememberMe}
+              onCheckedChange={(checked) => setRememberMe(checked === true)}
+            />
+            <Label
+              htmlFor="remember"
+              className="cursor-pointer text-sm font-normal"
+            >
+              Ingat sesi saya di perangkat ini
+            </Label>
           </div>
 
           <Button
-            type="button"
-            variant="outline"
+            type="submit"
             size="lg"
             disabled={loading}
-            onClick={handleGoogleSignIn}
-            className="mt-4 w-full"
+            className="animate-element animate-delay-600 w-full"
           >
-            <GoogleMark />
-            Masuk dengan Google
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Memproses...
+              </>
+            ) : (
+              "Masuk"
+            )}
           </Button>
-        </div>
-      </Sheet>
-    </SheetPage>
+        </form>
+
+        <EntryDivider label="atau lanjut dengan" />
+
+        <Button
+          type="button"
+          variant="outline"
+          size="lg"
+          disabled={loading}
+          onClick={handleGoogleSignIn}
+          className="animate-element animate-delay-800 w-full"
+        >
+          <GoogleMark />
+          Masuk dengan Google
+        </Button>
+
+        <EntryFooter>
+          Belum punya akun?{" "}
+          <EntryLink href="/auth/sign-up">Buat akun</EntryLink>
+        </EntryFooter>
+      </EntryForm>
+    </EntryScreen>
   );
 }

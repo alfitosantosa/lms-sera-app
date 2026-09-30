@@ -394,10 +394,10 @@ export default function ViolationDataTable() {
   return (
     <>
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Data Pelanggaran</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Data Pelanggaran</div>
 
         {dataStudent && (
-          <div className="bg-card mb-6 rounded-lg border p-6">
+          <div className="bg-card mb-6 rounded-3xl border border-border p-6">
             <div className="flex items-center space-x-4">
               <Image
                 className="rounded-full"
@@ -567,7 +567,7 @@ export default function ViolationDataTable() {
             </div>
           )}
 
-          <div className="w-full overflow-hidden rounded-md border">
+          <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -681,12 +681,12 @@ export default function ViolationDataTable() {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <AlertTriangle className="text-destructive h-5 w-5" />
                 <h3 className="font-semibold">Total Pelanggaran</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">{violations.length}</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight">{violations.length}</p>
               {table.getFilteredRowModel().rows.length !==
                 violations.length && (
                 <p className="text-muted-foreground text-sm">
@@ -695,12 +695,12 @@ export default function ViolationDataTable() {
               )}
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-destructive-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Aktif</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()
@@ -710,12 +710,12 @@ export default function ViolationDataTable() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-success-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Selesai</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()
@@ -725,12 +725,12 @@ export default function ViolationDataTable() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-warning-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Pending</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()

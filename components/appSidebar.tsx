@@ -126,7 +126,7 @@ export function AppSidebar() {
   if (isSessionPending || isUserDataLoading || isBranchesPending) {
     return (
       <Sidebar className="border-border bg-sidebar text-foreground border-r">
-        <SidebarHeader className="border-border bg-sidebar border-b px-5 py-4">
+        <SidebarHeader className="border-border bg-sidebar m-3 rounded-3xl border px-5 py-4">
           <div className="flex items-center gap-2.5">
             <span className="text-foreground text-[17px] font-extrabold">
               Sera
@@ -255,7 +255,7 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-border bg-sidebar text-foreground border-r">
       {/* ── Brand & Institution Header ── */}
-      <SidebarHeader className="border-border bg-sidebar border-b px-5 py-4">
+      <SidebarHeader className="border-border bg-sidebar m-3 rounded-3xl border px-5 py-4">
         <Link href="/" className="group flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
@@ -284,7 +284,7 @@ export function AppSidebar() {
 
           return (
             <SidebarGroup key={groupIndex} className="mb-2">
-              <SidebarGroupLabel className="text-muted-foreground mb-1 px-3 text-[10px] font-bold tracking-wider uppercase">
+              <SidebarGroupLabel className="text-muted-foreground mb-1 px-3 text-xs font-medium">
                 {group.title}
               </SidebarGroupLabel>
 
@@ -336,7 +336,7 @@ export function AppSidebar() {
                                         asChild
                                         isActive={isSubActive}
                                         onClick={() => router.push(subItem.url)}
-                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${isSubActive ? "bg-primary font-semibold text-white shadow-xs" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                                        className={`rounded-lg px-2.5 py-1.5 text-xs transition-all ${isSubActive ? "bg-primary text-primary-foreground font-semibold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                                       >
                                         <span>{subItem.title}</span>
                                       </SidebarMenuSubButton>
@@ -358,7 +358,7 @@ export function AppSidebar() {
                           onClick={() => router.push(item.url)}
                           className={`group/item w-full rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                             isActive
-                              ? "bg-primary/8 text-primary shadow-primary/10 font-bold shadow-sm"
+                              ? "bg-primary/8 text-primary font-bold"
                               : "text-secondary-foreground hover:bg-secondary hover:text-foreground"
                           }`}
                         >
@@ -386,7 +386,7 @@ export function AppSidebar() {
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="group hover:border-border hover:bg-secondary flex w-full items-center gap-2.5 rounded-xl border border-transparent p-2 text-left transition-all">
+            <button className="group hover:border-border hover:bg-secondary flex w-full items-center gap-2.5 rounded-2xl border border-transparent p-2 text-left transition-all">
               <Avatar className="border-border bg-brand-tint text-primary h-8 w-8 rounded-full border">
                 {userData?.avatarUrl && (
                   <Image
@@ -418,7 +418,7 @@ export function AppSidebar() {
           <DropdownMenuContent
             align="end"
             side="right"
-            className="border-border w-56 rounded-xl p-1.5 shadow-lg"
+            className="border-border w-56 rounded-3xl p-1.5 shadow-lg"
           >
             <DropdownMenuLabel className="text-muted-foreground px-2 py-1.5 text-xs">
               <div>Akun Terhubung</div>

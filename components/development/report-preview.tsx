@@ -19,7 +19,7 @@ const fmtDate = (value: string | null | undefined) => {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-foreground mt-6 mb-2 border-b pb-1 text-sm font-semibold tracking-wide uppercase">
+    <h3 className="text-foreground mt-6 mb-2 border-b pb-1 text-sm font-semibold">
       {children}
     </h3>
   );
@@ -90,7 +90,7 @@ function PreviewBody({ data }: { data: ReportPdfData }) {
           />
         ) : null}
         <div>
-          <p className="text-lg font-bold">{data.school.foundationName}</p>
+          <p className="text-lg font-semibold">{data.school.foundationName}</p>
           <p className="text-muted-foreground text-sm">
             {data.school.branchName} · Kelas {data.school.className}
           </p>
@@ -159,7 +159,10 @@ function PreviewBody({ data }: { data: ReportPdfData }) {
               ["Alfa", data.attendance.absent],
               ["Persentase", `${data.attendance.percent}%`],
             ].map(([label, value]) => (
-              <div key={String(label)} className="rounded border p-2 text-center">
+              <div
+                key={String(label)}
+                className="border-border rounded-2xl border p-2 text-center"
+              >
                 <p className="text-muted-foreground text-xs">{label}</p>
                 <p className="font-semibold">{value}</p>
               </div>
@@ -252,8 +255,8 @@ export function ReportPreview({
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-3xl rounded-lg border bg-white p-8 shadow-sm",
-        "print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none",
+        "border-border bg-card mx-auto w-full max-w-3xl rounded-3xl border p-8",
+        "print:max-w-none print:border-0 print:p-0",
         className,
       )}
     >

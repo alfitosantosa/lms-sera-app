@@ -75,12 +75,12 @@ export default function TeacherDevelopmentPage() {
   }
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl">
         <div className="mb-8">
           <div className="mb-2 flex items-center gap-2">
             <GraduationCap className="text-primary h-8 w-8" />
-            <h1 className="text-foreground text-4xl font-bold">
+            <h1 className="text-foreground text-4xl font-bold tracking-tight">
               Pengembangan Siswa
             </h1>
           </div>
@@ -166,7 +166,7 @@ export default function TeacherDevelopmentPage() {
                   <CardDescription>Jumlah Siswa</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-3xl font-bold">
+                  <p className="text-3xl font-semibold tracking-tight">
                     {progress?.totalStudents ?? 0}
                   </p>
                 </CardContent>
@@ -176,7 +176,7 @@ export default function TeacherDevelopmentPage() {
                   <CardDescription>Sudah Dicatat Hari Ini</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-success-strong text-3xl font-bold">
+                  <p className="text-success-strong text-3xl font-semibold tracking-tight">
                     {progress?.loggedToday ?? 0}
                   </p>
                 </CardContent>
@@ -186,7 +186,7 @@ export default function TeacherDevelopmentPage() {
                   <CardDescription>Belum Dicatat</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="text-warning-strong text-3xl font-bold">
+                  <p className="text-warning-strong text-3xl font-semibold tracking-tight">
                     {progress?.pendingToday ?? 0}
                   </p>
                   <Progress value={progress?.percentLogbook ?? 0} />

@@ -504,7 +504,7 @@ function UploadBilling({
     <div className="">
       {/* ── Page Header ── */}
       <div>
-        <div className="mb-1 text-3xl font-bold">Upload Tagihan</div>
+        <div className="mb-1 text-3xl font-semibold tracking-tight">Upload Tagihan</div>
         {branchName && (
           <Badge variant="secondary" className="text-sm">
             Branch: {branchName}
@@ -514,7 +514,7 @@ function UploadBilling({
 
       {/* ── Success Result Banner ── */}
       {uploadResult && (
-        <div className="bg-success-surface border-success-border flex items-start gap-3 rounded-lg border p-4">
+        <div className="bg-success-surface border-success-border flex items-start gap-3 rounded-3xl border p-4">
           <CheckCircle2 className="text-success mt-0.5 h-5 w-5 shrink-0" />
           <div>
             <p className="text-success-strong font-semibold">
@@ -577,7 +577,7 @@ function UploadBilling({
           <div className="text-lg font-semibold">Download Template Excel</div>
         </div>
 
-        <div className="bg-info-surface border-info-border mb-4 rounded-lg border p-4">
+        <div className="bg-info-surface border-info-border mb-4 rounded-3xl border p-4">
           <div className="flex items-start gap-2">
             <AlertCircle className="text-info mt-0.5 h-5 w-5 shrink-0" />
             <div className="text-info-strong space-y-1 text-sm">
@@ -660,7 +660,7 @@ function UploadBilling({
               {files.map((file, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between rounded-md border p-2"
+                  className="flex items-center justify-between rounded-lg border p-2"
                 >
                   <div className="flex items-center gap-2">
                     <FileText className="text-muted-foreground h-4 w-4" />
@@ -729,7 +729,7 @@ function UploadBilling({
 
           {/* Preview table */}
           {previewRows.length > 0 && (
-            <div className="overflow-hidden rounded-lg border">
+            <div className="overflow-hidden rounded-3xl border">
               <div className="bg-muted/40 flex items-center justify-between border-b px-4 py-2">
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <Info className="h-4 w-4" />
@@ -1008,7 +1008,7 @@ function UploadBilling({
                   return (
                     <div
                       key={num}
-                      className="flex items-center justify-between rounded border px-2 py-1 text-sm"
+                      className="flex items-center justify-between rounded-lg border px-2 py-1 text-sm"
                     >
                       <span className="text-muted-foreground">{name}</span>
                       <div className="flex items-center gap-1">
@@ -1036,7 +1036,7 @@ function UploadBilling({
                 {YEARS.map((y) => (
                   <div
                     key={y}
-                    className="flex items-center justify-between rounded border px-2 py-1 text-sm"
+                    className="flex items-center justify-between rounded-lg border px-2 py-1 text-sm"
                   >
                     <span className="text-muted-foreground">Tahun {y}</span>
                     <div className="flex items-center gap-1">

@@ -683,7 +683,7 @@ function SubjectDataTable() {
 
   return (
     <>
-      <div className="mb-6 text-3xl font-bold">Data Mata Pelajaran</div>
+      <div className="mb-6 text-3xl font-semibold tracking-tight">Data Mata Pelajaran</div>
 
       <div className="flex items-center justify-between py-4">
         <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -841,7 +841,7 @@ function SubjectDataTable() {
         </div>
       )}
 
-      <div className="w-full overflow-hidden rounded-md border">
+      <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -955,12 +955,12 @@ function SubjectDataTable() {
 
       {/* Summary Statistics */}
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <BookOpen className="text-info h-5 w-5" />
             <h3 className="font-semibold">Total Mata Pelajaran</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">{subjects.length}</p>
+          <p className="mt-2 text-2xl font-semibold tracking-tight">{subjects.length}</p>
           {table.getFilteredRowModel().rows.length !== subjects.length && (
             <p className="text-muted-foreground text-sm">
               ({table.getFilteredRowModel().rows.length} terfilter)
@@ -968,12 +968,12 @@ function SubjectDataTable() {
           )}
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <div className="bg-success h-3 w-3 rounded-full"></div>
             <h3 className="font-semibold">Aktif</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {
               table
                 .getFilteredRowModel()
@@ -982,12 +982,12 @@ function SubjectDataTable() {
           </p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <div className="bg-muted-foreground h-3 w-3 rounded-full"></div>
             <h3 className="font-semibold">Tidak Aktif</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {
               table
                 .getFilteredRowModel()
@@ -996,12 +996,12 @@ function SubjectDataTable() {
           </p>
         </div>
 
-        <div className="bg-card rounded-lg border p-4">
+        <div className="bg-card rounded-3xl border border-border p-4">
           <div className="flex items-center space-x-2">
             <Hash className="text-tertiary h-5 w-5" />
             <h3 className="font-semibold">Total SKS</h3>
           </div>
-          <p className="mt-2 text-2xl font-bold">
+          <p className="mt-2 text-2xl font-semibold tracking-tight">
             {table
               .getFilteredRowModel()
               .rows.reduce((total, row) => total + row.original.credits, 0)}

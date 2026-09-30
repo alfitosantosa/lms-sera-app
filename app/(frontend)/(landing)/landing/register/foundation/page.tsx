@@ -21,14 +21,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EntryAside } from "@/components/entry/EntryAside";
 import {
-  FieldGroup,
-  Sheet,
-  SheetActions,
-  SheetHeading,
-  SheetMasthead,
-  SheetPage,
-} from "@/components/entry/Sheet";
+  EntryFooter,
+  EntryForm,
+  EntryGroup,
+  EntryHeading,
+  EntryLink,
+  EntryScreen,
+} from "@/components/entry/Entry";
 
 // Hooks
 import {
@@ -38,7 +39,6 @@ import {
 import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
-import Link from "next/link";
 
 // Form Schema untuk Daftarkan Yayasan
 const foundationSchema = z.object({
@@ -101,14 +101,9 @@ const delay = (ms: number): Promise<void> => {
   return promise;
 };
 
-/* Field labels are set as a printed form sets them — sentence case, one weight
-   up from the value beneath. See DESIGN.md §3. */
-const LABEL = "text-secondary-foreground text-[13px] font-medium";
-
-/* The mode selector sits on the sheet's top edge as two cells, the active one
-   marked by the rule under it. */
+/* The mode selector is a segmented control: the active mode is an ink pill. */
 const MODE =
-  "text-muted-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground h-auto flex-1 items-center justify-center rounded-none border-0 border-b-2 border-transparent bg-transparent px-4 py-3 text-[13px] font-medium whitespace-nowrap shadow-none transition-colors data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:px-5";
+  "text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border-0 bg-transparent px-4 text-sm font-medium whitespace-nowrap shadow-none transition-colors data-[state=active]:shadow-none sm:flex-none sm:px-5";
 
 export default function RegisterFoundation() {
   const router = useRouter();
@@ -320,22 +315,25 @@ export default function RegisterFoundation() {
   };
 
   return (
-    <SheetPage>
-      <SheetMasthead label="PENDAFTARAN YAYASAN" />
+    <EntryScreen aside={<EntryAside />}>
+      <EntryForm>
+        <EntryHeading
+          title="Yayasan Anda"
+          description="Daftarkan yayasan baru, atau gabung ke yayasan yang sudah terdaftar dengan kodenya."
+        />
 
-      {session.data?.user && (
-        <p className="text-muted-foreground mt-3 text-xs">
-          Mendaftar sebagai{" "}
-          <span className="text-foreground font-medium">
-            {session.data.user.name}
-          </span>
-          {session.data.user.email ? ` (${session.data.user.email})` : ""}
-        </p>
-      )}
+        {session.data?.user && (
+          <p className="animate-element animate-delay-200 text-muted-foreground text-sm">
+            Mendaftar sebagai{" "}
+            <span className="text-foreground font-medium">
+              {session.data.user.name}
+            </span>
+            {session.data.user.email ? ` (${session.data.user.email})` : ""}
+          </p>
+        )}
 
-      <Sheet>
         <Tabs defaultValue="register" className="gap-0">
-          <TabsList className="border-border h-auto w-full justify-start rounded-none border-b bg-transparent p-0">
+          <TabsList className="animate-element animate-delay-300 bg-secondary h-auto w-full justify-start gap-1 rounded-2xl p-1">
             <TabsTrigger value="register" className={MODE}>
               Yayasan baru
             </TabsTrigger>
@@ -344,29 +342,36 @@ export default function RegisterFoundation() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="register">
-            <SheetHeading
-              title="Daftarkan yayasan Anda"
-              description="Isi identitas yayasan. Kode yayasan dibuat otomatis dari namanya, dan dipakai pengguna lain untuk masuk ke yayasan ini."
-            />
+          <TabsContent value="register" className="mt-6">
+            <div className="animate-element animate-delay-400">
+              <h2 className="text-lg font-semibold tracking-tight">
+                Daftarkan yayasan Anda
+              </h2>
+              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                Isi identitas yayasan. Kode yayasan dibuat otomatis dari
+                namanya, dan dipakai pengguna lain untuk masuk ke yayasan ini.
+              </p>
+            </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FieldGroup label="IDENTITAS YAYASAN">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
+                <EntryGroup
+                  label="Identitas yayasan"
+                  delay="animate-element animate-delay-500"
+                >
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Nama yayasan *</FormLabel>
+                        <FormLabel>Nama yayasan *</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Yayasan Pendidikan Nusantara"
-                            className="h-11"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Nama resmi yayasan. Tercetak pada rapor siswa.
                         </FormDescription>
                         <FormMessage />
@@ -379,16 +384,16 @@ export default function RegisterFoundation() {
                     name="foundationCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Kode yayasan *</FormLabel>
+                        <FormLabel>Kode yayasan *</FormLabel>
                         <FormControl>
                           <Input
                             disabled
                             placeholder="YAYASAN_NUSANTARA_A7B9"
-                            className="bg-muted h-11 font-mono text-xs"
+                            className="bg-muted font-mono text-xs"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Dibuat otomatis dari nama yayasan. Bagikan kode ini
                           kepada guru, siswa, dan orang tua agar akun mereka
                           masuk ke yayasan ini.
@@ -397,23 +402,25 @@ export default function RegisterFoundation() {
                       </FormItem>
                     )}
                   />
-                </FieldGroup>
+                </EntryGroup>
 
-                <FieldGroup label="ALAMAT & KONTAK">
+                <EntryGroup
+                  label="Alamat & kontak"
+                  delay="animate-element animate-delay-600"
+                  >
                   <FormField
                     control={form.control}
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Alamat lengkap *</FormLabel>
+                        <FormLabel>Alamat lengkap *</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Jl. Pendidikan No. 123, Bandung 40123"
-                            className="min-h-[100px]"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Alamat kantor pusat yayasan.
                         </FormDescription>
                         <FormMessage />
@@ -426,34 +433,33 @@ export default function RegisterFoundation() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Nomor telepon *</FormLabel>
+                        <FormLabel>Nomor telepon *</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="+62 22 1234567"
-                            className="h-11"
-                            {...field}
-                          />
+                          <Input placeholder="+62 22 1234567" {...field} />
                         </FormControl>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Nomor yang dapat dihubungi cabang dan orang tua.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </FieldGroup>
+                </EntryGroup>
 
-                <FieldGroup label="LOGO YAYASAN (OPSIONAL)">
+                <EntryGroup
+                  label="Logo yayasan"
+                  delay="animate-element animate-delay-700"
+                >
                   <FormField
                     control={form.control}
                     name="imageUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Logo yayasan</FormLabel>
+                        <FormLabel>Logo yayasan</FormLabel>
                         <div className="space-y-3">
                           {field.value && (
-                            <div className="border-border flex items-center gap-3 border px-3 py-2">
-                              <span className="bg-muted h-12 w-12 overflow-hidden rounded-sm">
+                            <div className="border-border flex items-center gap-3 rounded-2xl border px-4 py-3">
+                              <span className="bg-secondary size-12 shrink-0 overflow-hidden rounded-xl">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={field.value}
@@ -461,7 +467,7 @@ export default function RegisterFoundation() {
                                   className="h-full w-full object-cover"
                                 />
                               </span>
-                              <span className="text-xs">
+                              <span className="text-muted-foreground text-xs">
                                 Logo terpasang. Pilih gambar lain untuk
                                 menggantinya.
                               </span>
@@ -496,21 +502,21 @@ export default function RegisterFoundation() {
                             </FormControl>
                           </div>
                         </div>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Format JPG atau PNG, maksimal 2MB.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </FieldGroup>
+                </EntryGroup>
 
-                <SheetActions aside="Setelah terdaftar, Anda diarahkan ke profil untuk melengkapi data.">
+                <div className="animate-element animate-delay-800 mt-6 flex flex-col gap-3">
                   <Button
                     type="submit"
                     size="lg"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto"
+                    className="w-full"
                   >
                     {isSubmitting ? (
                       <>
@@ -521,38 +527,53 @@ export default function RegisterFoundation() {
                       "Daftarkan yayasan"
                     )}
                   </Button>
-                </SheetActions>
+                  <p className="text-muted-foreground text-center text-xs">
+                    Setelah terdaftar, Anda diarahkan ke profil untuk melengkapi
+                    data.
+                  </p>
+                </div>
               </form>
             </Form>
           </TabsContent>
 
-          <TabsContent value="inputID">
-            <SheetHeading
-              title="Gabung dengan kode yayasan"
-              description="Masukkan kode yayasan yang diberikan admin. Akun ini langsung terhubung ke yayasan tersebut."
-            />
+          <TabsContent value="inputID" className="mt-6">
+            <div className="animate-element animate-delay-400">
+              <h2 className="text-lg font-semibold tracking-tight">
+                Gabung dengan kode yayasan
+              </h2>
+              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                Masukkan kode yayasan yang diberikan admin. Akun ini langsung
+                terhubung ke yayasan tersebut.
+              </p>
+            </div>
 
             <Form {...codeForm}>
-              <form onSubmit={codeForm.handleSubmit(handleInputCodeFoundation)}>
-                <FieldGroup label="KODE YAYASAN">
+              <form
+                onSubmit={codeForm.handleSubmit(handleInputCodeFoundation)}
+                className="mt-6"
+              >
+                <EntryGroup
+                  label="Kode yayasan"
+                  delay="animate-element animate-delay-500"
+                >
                   <FormField
                     control={codeForm.control}
                     name="foundationCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className={LABEL}>Kode yayasan *</FormLabel>
+                        <FormLabel>Kode yayasan *</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="YAYASAN_NUSANTARA_A7B9"
                             autoComplete="off"
-                            className="h-11 font-mono text-xs uppercase"
+                            className="font-mono text-xs uppercase"
                             {...field}
                             onChange={(e) =>
                               field.onChange(e.target.value.toUpperCase())
                             }
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
+                        <FormDescription>
                           Contoh format: YAYASAN_NUSANTARA_A7B9. Minta kode ini
                           dari admin yayasan.
                         </FormDescription>
@@ -560,14 +581,14 @@ export default function RegisterFoundation() {
                       </FormItem>
                     )}
                   />
-                </FieldGroup>
+                </EntryGroup>
 
-                <SheetActions>
+                <div className="animate-element animate-delay-600 mt-6">
                   <Button
                     type="submit"
                     size="lg"
                     disabled={isJoining}
-                    className="w-full sm:w-auto"
+                    className="w-full"
                   >
                     {isJoining ? (
                       <>
@@ -578,34 +599,29 @@ export default function RegisterFoundation() {
                       "Gabung dengan yayasan"
                     )}
                   </Button>
-                </SheetActions>
+                </div>
               </form>
             </Form>
           </TabsContent>
         </Tabs>
-      </Sheet>
 
-      <p className="text-muted-foreground mt-4 text-xs">
-        Sudah memiliki akun yayasan?{" "}
-        <Link
-          href="/auth/sign-in"
-          className="text-primary rounded-sm font-medium underline-offset-4 hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
-        >
-          Masuk
-        </Link>
-      </p>
+        <EntryFooter delay="animate-delay-900">
+          Sudah memiliki akun yayasan?{" "}
+          <EntryLink href="/auth/sign-in">Masuk</EntryLink>
+        </EntryFooter>
 
-      {/* DEBUG: Show form values in development */}
-      {process.env.NODE_ENV === "development" && (
-        <div className="border-border bg-card mt-3 border px-4 py-3">
-          <p className="text-muted-foreground font-mono text-[11px]">
-            debug: form.watch()
-          </p>
-          <pre className="text-muted-foreground mt-2 overflow-x-auto font-mono text-[11px]">
-            {JSON.stringify(form.watch(), null, 2)}
-          </pre>
-        </div>
-      )}
-    </SheetPage>
+        {/* DEBUG: Show form values in development */}
+        {process.env.NODE_ENV === "development" && (
+          <div className="border-border bg-card rounded-2xl border px-4 py-3">
+            <p className="text-muted-foreground font-mono text-[11px]">
+              debug: form.watch()
+            </p>
+            <pre className="text-muted-foreground mt-2 overflow-x-auto font-mono text-[11px]">
+              {JSON.stringify(form.watch(), null, 2)}
+            </pre>
+          </div>
+        )}
+      </EntryForm>
+    </EntryScreen>
   );
 }

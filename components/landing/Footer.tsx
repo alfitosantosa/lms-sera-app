@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SeraLogo } from "@/components/SeraLogo";
 import { Separator } from "@/components/ui/separator";
 
 const LINK_COLUMNS = [
@@ -22,19 +23,13 @@ const LINK_COLUMNS = [
     ],
   },
   {
-    title: "Arsitektur",
+    title: "Sekolah & data",
     links: [
-      { label: "Multi-cabang dalam satu yayasan", href: "#arsitektur" },
-      { label: "Peran & hak akses", href: "#arsitektur" },
-      { label: "Import data Excel", href: "#arsitektur" },
-    ],
-  },
-  {
-    title: "Cakupan",
-    links: [
-      { label: "Cakupan modul", href: "#cakupan" },
-      { label: "Cakupan cabang SMP, SMA, SMK IT", href: "#arsitektur" },
-      { label: "Pertanyaan umum", href: "#faq" },
+      { label: "Cara kerja sistemnya", href: "#cara-kerja" },
+      { label: "Isolasi data tiap cabang", href: "#faq" },
+      { label: "Peran & hak akses", href: "#faq" },
+      { label: "Impor data lama dari Excel", href: "#faq" },
+      { label: "Halaman untuk orang tua", href: "/landing/welcome" },
     ],
   },
 ];
@@ -45,22 +40,20 @@ export function Footer() {
   return (
     <footer className="border-border bg-background text-secondary-foreground border-t px-6 pt-16 pb-12">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-8 pb-12 sm:grid-cols-6">
-          {/* Register masthead */}
+        <div className="grid grid-cols-2 gap-8 pb-12 sm:grid-cols-5">
+          {/* The masthead, closed the way it opened. */}
           <div className="col-span-2 space-y-4">
             <Link
               href="/"
-              className="text-foreground font-display flex items-center gap-2 text-xl tracking-tight"
+              className="focus-visible:ring-ring/80 inline-block rounded-2xl focus-visible:ring-[3px] focus-visible:outline-none"
             >
-              <span className="bg-primary h-3 w-3 rounded-[1px]" />
-              <span>Sera</span>
-              <span className="border-border text-muted-foreground rounded-sm border px-1.5 py-0.5 text-[10px]">
-                Register sekolah
-              </span>
+              <SeraLogo
+                markClassName="h-10 w-auto"
+                subtitle="Sistem informasi sekolah"
+              />
             </Link>
 
             <p className="text-muted-foreground max-w-xs text-xs leading-relaxed">
-              Sistem informasi sekolah untuk yayasan pendidikan di Indonesia.
               Presensi, rapor, tahfidz, dan pembayaran SPP dalam satu catatan.
               Dikembangkan oleh PT Santosa Tech Indonesia.
             </p>
@@ -74,7 +67,7 @@ export function Footer() {
 
           {LINK_COLUMNS.map((column) => (
             <div key={column.title}>
-              <h4 className="border-border font-display text-foreground border-t-2 pt-3 text-[11px] tracking-wide">
+              <h4 className="text-foreground text-sm font-semibold">
                 {column.title}
               </h4>
               <ul className="text-muted-foreground mt-4 space-y-2.5 text-xs">
@@ -82,7 +75,7 @@ export function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="hover:text-primary inline-block py-1 transition-colors hover:underline hover:underline-offset-4"
+                      className="hover:text-interactive inline-block py-1 transition-colors hover:underline hover:underline-offset-4"
                     >
                       {link.label}
                     </a>

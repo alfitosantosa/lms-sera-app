@@ -110,7 +110,7 @@ export function EvidenceUploader({
               <img
                 src={evidence.url}
                 alt={evidence.fileName ?? `Bukti ${index + 1}`}
-                className="h-16 w-16 rounded-md border object-cover"
+                className="border-border h-16 w-16 rounded-2xl border object-cover"
               />
               <Button
                 type="button"

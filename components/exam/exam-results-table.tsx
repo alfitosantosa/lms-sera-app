@@ -45,7 +45,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
               Jumlah Peserta
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl font-semibold">
+          <CardContent className="text-2xl font-semibold tracking-tight">
             {data.rows.length}
           </CardContent>
         </Card>
@@ -55,7 +55,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
               Rata-rata Skor
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl font-semibold">
+          <CardContent className="text-2xl font-semibold tracking-tight">
             {averageScore === null ? "-" : `${averageScore} / ${data.exam.maxScore}`}
           </CardContent>
         </Card>
@@ -65,7 +65,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
               Lulus
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl font-semibold">
+          <CardContent className="text-2xl font-semibold tracking-tight">
             {passedCount} siswa
           </CardContent>
         </Card>
@@ -75,7 +75,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
               Belum Mengerjakan
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-2xl font-semibold">
+          <CardContent className="text-2xl font-semibold tracking-tight">
             {data.notAttempted.length} siswa
           </CardContent>
         </Card>
@@ -83,7 +83,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
 
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Hasil Pengerjaan</h3>
-        <div className="rounded-md border">
+        <div className="border-border bg-card rounded-3xl border">
           <Table>
             <TableHeader>
               <TableRow>
@@ -127,7 +127,9 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
                     </TableCell>
                     <TableCell className="text-center">
                       {row.passed === true ? (
-                        <Badge className="bg-green-600 text-white">Lulus</Badge>
+                        <Badge className="bg-success-solid text-white">
+                          Lulus
+                        </Badge>
                       ) : row.passed === false ? (
                         <Badge variant="destructive">Tidak Lulus</Badge>
                       ) : (
@@ -149,7 +151,7 @@ export function ExamResultsTable({ data }: { data: ExamResultsDTO }) {
             Semua siswa sudah mengerjakan ujian ini.
           </p>
         ) : (
-          <ul className="divide-y rounded-md border">
+          <ul className="border-border bg-card divide-border divide-y rounded-3xl border">
             {data.notAttempted.map((student) => (
               <li
                 key={student.studentId}

@@ -42,10 +42,10 @@ export function ScaleSelector({
             title={scale.label}
             onClick={() => onChange(scale.id)}
             className={cn(
-              "focus-visible:ring-ring inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none",
+              "focus-visible:ring-ring/80 inline-flex items-center gap-1 rounded-lg border px-1.5 py-0.5 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none",
               active
                 ? "bg-muted text-foreground border-transparent"
-                : "border-input text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                : "border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               disabled && "cursor-not-allowed opacity-50",
             )}
             style={

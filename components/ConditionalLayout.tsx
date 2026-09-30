@@ -38,8 +38,8 @@ export default function ConditionalLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="flex min-h-screen flex-col">
-        <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky shrink-0 items-center gap-2 border-b px-4 py-7 backdrop-blur md:px-6">
+      <SidebarInset className="bg-background flex min-h-screen flex-col">
+        <header className="bg-background/95 supports-backdrop-filter:bg-background/60 border-border sticky shrink-0 items-center gap-2 border-b px-4 py-7 backdrop-blur md:px-6">
           <SidebarTrigger className="" />
           <div className="flex-1" />
         </header>

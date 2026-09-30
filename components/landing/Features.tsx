@@ -70,8 +70,8 @@ export function Features() {
   return (
     <section id="fitur" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="border-margin max-w-[68ch] border-l-2 pl-6">
-          <h2 className="font-display text-foreground text-3xl tracking-tight">
+        <div className="max-w-[68ch]">
+          <h2 className="text-foreground text-3xl font-semibold tracking-tight">
             Register modul: apa yang dicatat, dan tabel yang menyimpannya.
           </h2>
           <p className="text-muted-foreground mt-3 text-base leading-relaxed">
@@ -82,25 +82,25 @@ export function Features() {
           </p>
         </div>
 
-        <div className="mt-12 overflow-x-auto">
+        <div className="border-border bg-card mt-12 overflow-x-auto rounded-3xl border">
           <table className="w-full border-collapse text-left">
             <thead>
-              <tr className="border-border border-t-2">
+              <tr className="border-border border-b">
                 <th
                   scope="col"
-                  className="font-display text-secondary-foreground py-3 pr-6 text-[11px] tracking-wide uppercase"
+                  className="text-secondary-foreground px-5 py-3 pr-6 text-xs font-medium"
                 >
                   Domain
                 </th>
                 <th
                   scope="col"
-                  className="font-display text-secondary-foreground py-3 pr-8 text-[11px] tracking-wide uppercase"
+                  className="text-secondary-foreground px-5 py-3 pr-8 text-xs font-medium"
                 >
                   Yang dicatat
                 </th>
                 <th
                   scope="col"
-                  className="font-display text-secondary-foreground py-3 text-[11px] tracking-wide uppercase"
+                  className="text-secondary-foreground px-5 py-3 text-xs font-medium"
                 >
                   Tabel
                 </th>
@@ -110,18 +110,18 @@ export function Features() {
               {domains.map((domain) => (
                 <tr
                   key={domain.name}
-                  className="border-border odd:bg-accent/60 border-b"
+                  className="border-border odd:bg-accent/60 border-b last:border-b-0"
                 >
                   <th
                     scope="row"
-                    className="font-display text-foreground py-5 pr-6 align-top text-base font-normal tracking-tight whitespace-nowrap"
+                    className="text-foreground px-5 py-5 pr-6 align-top text-base font-normal tracking-tight whitespace-nowrap"
                   >
                     {domain.name}
                   </th>
-                  <td className="text-secondary-foreground py-5 pr-8 align-top text-sm leading-relaxed">
+                  <td className="text-secondary-foreground px-5 py-5 pr-8 align-top text-sm leading-relaxed">
                     {domain.records}
                   </td>
-                  <td className="py-5 align-top">
+                  <td className="px-5 py-5 align-top">
                     <ul className="flex flex-wrap gap-x-4 gap-y-1">
                       {domain.tables.map((table) => (
                         <li

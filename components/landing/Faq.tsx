@@ -36,11 +36,10 @@ export function Faq() {
   ];
 
   return (
-    <section id="faq" className="border-border bg-secondary border-t py-24">
+    <section id="faq" className="bg-secondary py-24">
       <div className="mx-auto max-w-3xl px-6">
-        {/* Section Header */}
-        <div className="border-margin border-l-2 pl-6">
-          <h2 className="font-display text-foreground text-3xl tracking-tight">
+        <div className="max-w-[68ch]">
+          <h2 className="text-foreground text-3xl font-semibold tracking-tight">
             Pertanyaan yang muncul sebelum data dipindahkan.
           </h2>
           <p className="text-secondary-foreground mt-3 max-w-[68ch] text-base leading-relaxed">
@@ -50,19 +49,18 @@ export function Faq() {
           </p>
         </div>
 
-        {/* Register of questions */}
-        <div className="border-border mt-12 border-b">
+        <div className="border-border bg-card mt-12 overflow-hidden rounded-3xl border">
           <Accordion type="single" collapsible>
             {faqs.map((faq, idx) => (
               <AccordionItem
                 key={idx}
                 value={`faq-${idx}`}
-                className="border-border odd:bg-accent/60 border-t px-5 md:px-6"
+                className="border-border px-5 md:px-6"
               >
-                <AccordionTrigger className="text-foreground hover:text-brand-accent py-5 text-left text-sm font-medium hover:underline">
+                <AccordionTrigger className="text-foreground hover:text-interactive py-5 text-left text-sm font-medium">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-secondary-foreground pb-5 text-sm leading-relaxed">
+                <AccordionContent className="text-secondary-foreground text-sm leading-relaxed">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

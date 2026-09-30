@@ -763,7 +763,7 @@ function SpecialScheduleDataTable() {
   return (
     <>
       <div className="max-w-8xl ">
-        <div className="mb-6 text-3xl font-bold">Acara Khusus</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Acara Khusus</div>
 
         <div className="flex items-center justify-between py-4">
           <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -942,7 +942,7 @@ function SpecialScheduleDataTable() {
           </div>
         )}
 
-        <div className="w-full overflow-hidden rounded-md border">
+        <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

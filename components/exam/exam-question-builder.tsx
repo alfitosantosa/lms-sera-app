@@ -274,9 +274,8 @@ function QuestionForm({
             <div
               key={`${option.option}-${index}`}
               className={cn(
-                "flex items-center gap-3 rounded-md border p-2",
-                option.isCorrect &&
-                  "border-green-500/50 bg-green-50/60 dark:bg-green-950/20",
+                "border-border flex items-center gap-3 rounded-3xl border p-2",
+                option.isCorrect && "border-success-border bg-success-surface",
               )}
             >
               <Checkbox
@@ -412,7 +411,7 @@ export function ExamQuestionBuilder({
       )}
 
       {sorted.length === 0 ? (
-        <div className="text-muted-foreground rounded-lg border border-dashed p-8 text-center text-sm">
+        <div className="text-muted-foreground border-border rounded-3xl border border-dashed p-8 text-center text-sm">
           Belum ada soal pada ujian ini.
         </div>
       ) : (

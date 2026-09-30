@@ -457,7 +457,7 @@ function DataTableBetterAuth() {
     <>
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-3xl font-bold">BetterAuth Users</div>
+          <div className="text-3xl font-semibold tracking-tight">BetterAuth Users</div>
           <p>Manage and view all BetterAuth users from the database.</p>
         </div>
         {isAdmin && (
@@ -501,7 +501,7 @@ function DataTableBetterAuth() {
         </DropdownMenu>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

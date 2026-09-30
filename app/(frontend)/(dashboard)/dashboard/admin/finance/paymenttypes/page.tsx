@@ -856,7 +856,7 @@ function PaymentTypeDataTable() {
 
   return (
     <div className="">
-      <div className="mb-6 text-3xl font-bold">Jenis Tagihan</div>
+      <div className="mb-6 text-3xl font-semibold tracking-tight">Jenis Tagihan</div>
 
       {/* Filter and Actions Bar */}
       <div className="flex items-center justify-between py-4">
@@ -933,7 +933,7 @@ function PaymentTypeDataTable() {
       </div>
 
       {/* Data Table */}
-      <div className="rounded-md border">
+      <div className="rounded-3xl border border-border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

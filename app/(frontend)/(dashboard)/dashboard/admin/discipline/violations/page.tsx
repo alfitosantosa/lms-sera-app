@@ -227,7 +227,7 @@ function SearchableStudentSelect({
               placeholder="Cari nama siswa..."
               value={searchTerm}
               onValueChange={setSearchTerm}
-              className="placeholder:text-muted-foreground flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              className="placeholder:text-muted-foreground flex h-11 w-full rounded-2xl bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
           <CommandEmpty className="py-6 text-center text-sm">
@@ -411,8 +411,8 @@ function ViolationFormDialog({
             <div className="space-y-2">
               <Label>Siswa</Label>
               {usersLoading ? (
-                <div className="flex h-10 items-center justify-center rounded-md border">
-                  <div className="border-primary h-4 w-4 animate-spin rounded-full border-b-2"></div>
+                <div className="flex h-10 items-center justify-center rounded-2xl border border-border">
+                  <div className="border-primary h-4 w-4 animate-spin rounded-full border-b"></div>
                 </div>
               ) : (
                 <SearchableStudentSelect
@@ -974,7 +974,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
   return (
     <>
       <div className="max-w-8xl">
-        <div className="mb-6 text-3xl font-bold">Data Pelanggaran</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Data Pelanggaran</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between gap-2 py-4">
             <div className="flex flex-wrap gap-2">
@@ -1132,7 +1132,7 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
             </div>
           )}
 
-          <div className="w-full overflow-hidden rounded-md border">
+          <div className="w-full overflow-hidden rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -1247,12 +1247,12 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
 
           {/* Summary Statistics */}
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <AlertTriangle className="text-destructive h-5 w-5" />
                 <h3 className="font-semibold">Total Pelanggaran</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">{violations.length}</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight">{violations.length}</p>
               {table.getFilteredRowModel().rows.length !==
                 violations.length && (
                 <p className="text-muted-foreground text-sm">
@@ -1261,12 +1261,12 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
               )}
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-destructive-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Aktif</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()
@@ -1276,12 +1276,12 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-success-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Selesai</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()
@@ -1291,12 +1291,12 @@ function ViolationDataTable({ foundationId }: { foundationId: string }) {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg border p-4">
+            <div className="bg-card rounded-3xl border border-border p-4">
               <div className="flex items-center space-x-2">
                 <div className="bg-warning-solid h-3 w-3 rounded-full"></div>
                 <h3 className="font-semibold">Pending</h3>
               </div>
-              <p className="mt-2 text-2xl font-bold">
+              <p className="mt-2 text-2xl font-semibold tracking-tight">
                 {
                   table
                     .getFilteredRowModel()

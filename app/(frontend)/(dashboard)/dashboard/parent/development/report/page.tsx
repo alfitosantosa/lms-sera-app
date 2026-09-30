@@ -57,11 +57,11 @@ export default function ParentReportPage() {
   if (isLoadingSummary || isLoadingChildren) return <Loading />;
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-5xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-foreground text-3xl font-bold">Rapor Anak</h1>
+            <h1 className="text-foreground text-3xl font-semibold tracking-tight">Rapor Anak</h1>
             <p className="text-muted-foreground">
               Rapor yang sudah diterbitkan sekolah
             </p>

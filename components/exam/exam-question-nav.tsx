@@ -59,7 +59,7 @@ export function ExamQuestionNav({
             Terjawab {answered.size} dari {questions.length} soal
           </span>
           <span className="flex items-center gap-1">
-            <span className="bg-primary inline-block size-3 rounded" />
+            <span className="bg-primary inline-block size-3 rounded-full" />
             sudah dijawab
           </span>
         </div>

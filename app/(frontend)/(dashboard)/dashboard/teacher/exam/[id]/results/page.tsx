@@ -65,7 +65,7 @@ export default function ExamResultsPage() {
 
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-semibold">{results.exam.title}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{results.exam.title}</h1>
           <Badge
             variant={results.exam.status === "DRAFT" ? "secondary" : "default"}
           >

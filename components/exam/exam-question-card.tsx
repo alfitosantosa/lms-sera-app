@@ -96,9 +96,8 @@ export function ExamQuestionCard({
                 <li
                   key={option.id}
                   className={cn(
-                    "flex items-start gap-3 rounded-md border p-2 text-sm",
-                    isKey &&
-                      "border-green-500/50 bg-green-50/60 dark:bg-green-950/20",
+                    "border-border flex items-start gap-3 rounded-3xl border p-2 text-sm",
+                    isKey && "border-success-border bg-success-surface",
                   )}
                 >
                   <Badge
@@ -112,10 +111,10 @@ export function ExamQuestionCard({
                   </span>
                   {isKey && (
                     <span className="flex shrink-0 items-center gap-1">
-                      <Check className="size-4 text-green-600 dark:text-green-500" />
+                      <Check className="text-success size-4" />
                       <Badge
                         variant="outline"
-                        className="border-green-500/50 text-green-700 dark:text-green-400"
+                        className="border-success-border text-success-strong"
                       >
                         Kunci
                       </Badge>

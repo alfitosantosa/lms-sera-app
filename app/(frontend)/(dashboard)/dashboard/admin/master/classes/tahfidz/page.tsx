@@ -560,7 +560,7 @@ function TahfidzGroupDataTable() {
   return (
     <>
       <div className="">
-        <div className="mb-6 text-3xl font-bold">Kelompok Tahfidz</div>
+        <div className="mb-6 text-3xl font-semibold tracking-tight">Kelompok Tahfidz</div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -579,7 +579,7 @@ function TahfidzGroupDataTable() {
               <select
                 value={gradeFilter}
                 onChange={(e) => setGradeFilter(e.target.value)}
-                className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-10 w-[180px] items-center justify-between rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                className="border-border bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-10 w-[180px] items-center justify-between rounded-2xl border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="all">Semua Tingkat</option>
                 {uniqueGrades.map((grade: TahfidzGrade) => (
@@ -640,7 +640,7 @@ function TahfidzGroupDataTable() {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border border-border bg-card">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

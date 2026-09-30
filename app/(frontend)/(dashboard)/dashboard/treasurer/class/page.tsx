@@ -529,7 +529,7 @@ function ClassDataTable({ id }: { id: string }) {
   return (
     <>
       <div>
-        <div className="text-3xl font-bold">Data Kelas </div>
+        <div className="text-3xl font-semibold tracking-tight">Data Kelas </div>
         <div className="mx-auto">
           <div className="flex items-center justify-between py-4">
             <div className="flex flex-wrap items-center space-x-2 gap-y-2">
@@ -613,7 +613,7 @@ function ClassDataTable({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

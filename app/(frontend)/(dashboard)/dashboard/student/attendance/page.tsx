@@ -551,9 +551,9 @@ export default function AttendanceDataTable() {
   return (
     <>
       <div className="max-w-7xl ">
-        <div className="mb-2 text-3xl font-bold">Data Kehadiran Siswa</div>
+        <div className="mb-2 text-3xl font-semibold tracking-tight">Data Kehadiran Siswa</div>
         {studentData && (
-          <div className="bg-info-surface border-info-border mb-6 rounded-lg border p-4">
+          <div className="bg-info-surface border-info-border mb-6 rounded-3xl border p-4">
             <div className="flex items-center gap-3">
               <Users className="text-info h-6 w-6" />
               <div>
@@ -789,7 +789,7 @@ export default function AttendanceDataTable() {
           </div>
         )}
 
-        <div className="w-full overflow-hidden rounded-md border">
+        <div className="w-full overflow-hidden rounded-3xl border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -909,12 +909,12 @@ export default function AttendanceDataTable() {
 
         {/* Summary Statistics */}
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <CheckCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
-            <p className="mt-2 text-2xl font-bold">{stats.total}</p>
+            <p className="mt-2 text-2xl font-semibold tracking-tight">{stats.total}</p>
             {table.getFilteredRowModel().rows.length !== attendances.length && (
               <p className="text-muted-foreground text-sm">
                 ({table.getFilteredRowModel().rows.length} terfilter)
@@ -922,12 +922,12 @@ export default function AttendanceDataTable() {
             )}
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <CheckCircle className="text-success h-5 w-5" />
               <h3 className="font-semibold">Hadir</h3>
             </div>
-            <p className="text-success mt-2 text-2xl font-bold">
+            <p className="text-success mt-2 text-2xl font-semibold tracking-tight">
               {stats.present}
             </p>
             <p className="text-muted-foreground text-sm">
@@ -937,12 +937,12 @@ export default function AttendanceDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <XCircle className="text-destructive h-5 w-5" />
               <h3 className="font-semibold">Tidak Hadir</h3>
             </div>
-            <p className="text-destructive mt-2 text-2xl font-bold">
+            <p className="text-destructive mt-2 text-2xl font-semibold tracking-tight">
               {stats.absent}
             </p>
             <p className="text-muted-foreground text-sm">
@@ -952,12 +952,12 @@ export default function AttendanceDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <Clock className="text-warning h-5 w-5" />
               <h3 className="font-semibold">Terlambat</h3>
             </div>
-            <p className="text-warning mt-2 text-2xl font-bold">{stats.late}</p>
+            <p className="text-warning mt-2 text-2xl font-semibold tracking-tight">{stats.late}</p>
             <p className="text-muted-foreground text-sm">
               {stats.total > 0
                 ? `${Math.round((stats.late / stats.total) * 100)}%`
@@ -965,12 +965,12 @@ export default function AttendanceDataTable() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg border p-4">
+          <div className="bg-card rounded-3xl border p-4">
             <div className="flex items-center space-x-2">
               <AlertCircle className="text-info h-5 w-5" />
               <h3 className="font-semibold">Izin dan sakit</h3>
             </div>
-            <p className="text-info mt-2 text-2xl font-bold">
+            <p className="text-info mt-2 text-2xl font-semibold tracking-tight">
               {stats.excused + stats.sick}
             </p>
             <p className="text-muted-foreground text-sm">

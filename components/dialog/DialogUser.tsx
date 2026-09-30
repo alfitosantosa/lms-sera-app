@@ -219,7 +219,7 @@ function StudentSelector({
 
       {/* Selected Students Display */}
       {selectedStudents.length > 0 && (
-        <div className="bg-muted/30 flex flex-wrap gap-2 rounded-md border p-3">
+        <div className="bg-muted/30 border-border flex flex-wrap gap-2 rounded-3xl border p-3">
           {selectedStudents.map((student) => (
             <Badge
               key={student.id}
@@ -278,7 +278,7 @@ function StudentSelector({
             </div>
 
             {/* Student List */}
-            <div className="max-h-96 space-y-2 overflow-y-auto rounded-md border p-2">
+            <div className="border-border max-h-96 space-y-2 overflow-y-auto rounded-3xl border p-2">
               {filteredStudents.length === 0 ? (
                 <div className="text-muted-foreground p-8 text-center">
                   {searchTerm
@@ -289,7 +289,7 @@ function StudentSelector({
                 filteredStudents.map((student) => (
                   <div
                     key={student.id}
-                    className="hover:bg-muted flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
+                    className="hover:bg-muted border-border flex cursor-pointer items-center space-x-3 rounded-3xl border p-3"
                     onClick={() => toggleStudent(student.id)}
                   >
                     <Checkbox
@@ -457,7 +457,7 @@ function AvatarUpload({
                 alt="Avatar preview"
                 width={20}
                 height={20}
-                className="h-24 w-24 rounded-full border-2 object-cover"
+                className="border-border h-24 w-24 rounded-full border-2 object-cover"
               />
               <div className="bg-navy/50 absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity group-hover:opacity-100">
                 <Button
@@ -472,7 +472,7 @@ function AvatarUpload({
               </div>
             </div>
           ) : (
-            <div className="bg-muted flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
+            <div className="bg-muted border-border flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed">
               <User className="text-muted-foreground h-10 w-10" />
             </div>
           )}
@@ -532,7 +532,7 @@ function AvatarUpload({
               <Image
                 src={previewUrl}
                 alt="Avatar preview"
-                className="max-h-[70vh] max-w-full rounded-lg"
+                className="max-h-[70vh] max-w-full rounded-2xl"
                 width={500}
                 height={500}
               />
@@ -643,7 +643,7 @@ function BetterAuthSelector({
             <div className="max-h-96 space-y-2 overflow-y-auto">
               {betterAuthsLoading ? (
                 <div className="flex items-center justify-center p-8">
-                  <div className="border-primary h-6 w-6 animate-spin rounded-full border-b-2"></div>
+                  <div className="border-primary h-6 w-6 animate-spin rounded-full border-b"></div>
                 </div>
               ) : filteredbetterAuths.length === 0 ? (
                 <div className="text-muted-foreground p-8 text-center">
@@ -655,7 +655,7 @@ function BetterAuthSelector({
                 filteredbetterAuths.map((user: BetterAuthUser) => (
                   <div
                     key={user.id}
-                    className="hover:bg-muted flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
+                    className="hover:bg-muted border-border flex cursor-pointer items-center space-x-3 rounded-3xl border p-3"
                     onClick={() => handleSelect(user)}
                   >
                     <div className="flex">
@@ -1166,8 +1166,8 @@ export function UserFormDialog({
           <>
             {/* Student Selection for Parent */}
             {userLoading ? (
-              <div className="flex h-20 items-center justify-center rounded-md border">
-                <div className="border-primary h-6 w-6 animate-spin rounded-full border-b-2"></div>
+              <div className="border-border flex h-20 items-center justify-center rounded-3xl border">
+                <div className="border-primary h-6 w-6 animate-spin rounded-full border-b"></div>
               </div>
             ) : (
               <StudentSelector
@@ -1447,7 +1447,7 @@ export function UserFormDialog({
           </DialogHeader>
           <div className="flex h-32 items-center justify-center">
             <div className="text-center">
-              <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2"></div>
+              <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b"></div>
               <p className="text-muted-foreground mt-2 text-sm">
                 Memuat data...
               </p>
@@ -1712,11 +1712,11 @@ export function DeleteUserBulkDialog({
               </p>
 
               {userDatas && userDatas.length > 0 && (
-                <div className="bg-muted/30 max-h-60 space-y-2 overflow-y-auto rounded-md border p-3">
+                <div className="bg-muted/30 border-border max-h-60 space-y-2 overflow-y-auto rounded-3xl border p-3">
                   {userDatas.map((data) => (
                     <div
                       key={data.id}
-                      className="bg-background flex items-center gap-3 rounded-md border p-2"
+                      className="bg-background border-border flex items-center gap-3 rounded-3xl border p-2"
                     >
                       {data.avatarUrl ? (
                         <Image

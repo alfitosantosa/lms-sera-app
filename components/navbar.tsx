@@ -128,7 +128,7 @@ export default function Navbar() {
       <div className="w-full">
         <div className="flex h-32 items-center justify-center">
           <div className="text-center">
-            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2"></div>
+            <div className="border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b"></div>
             <p className="text-muted-foreground mt-2 text-sm">
               Memuat data anda...
             </p>
@@ -141,7 +141,7 @@ export default function Navbar() {
   // Not logged in - show navbar with login button
   if (!userData) {
     return (
-      <header className="bg-background border-b shadow-sm">
+      <header className="bg-background border-border border-b">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
@@ -173,7 +173,7 @@ export default function Navbar() {
 
   // Logged in - show full navbar with avatar and menu
   return (
-    <header className="bg-background border-b shadow-sm">
+    <header className="bg-background border-border border-b">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center space-x-4">

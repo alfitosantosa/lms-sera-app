@@ -183,7 +183,7 @@ function StatisticsCards({
           <DollarSign className="text-muted-foreground h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalPayments}</div>
+          <div className="text-2xl font-semibold tracking-tight">{totalPayments}</div>
           <p className="text-muted-foreground text-xs">
             Total transaksi pembayaran
           </p>
@@ -196,7 +196,7 @@ function StatisticsCards({
           <CheckCircle className="text-success h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-success text-2xl font-bold">{paidPayments}</div>
+          <div className="text-success text-2xl font-semibold tracking-tight">{paidPayments}</div>
           <p className="text-muted-foreground text-xs">
             {formatCurrency(totalRevenue)}
           </p>
@@ -209,7 +209,7 @@ function StatisticsCards({
           <Clock className="text-warning h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-warning text-2xl font-bold">
+          <div className="text-warning text-2xl font-semibold tracking-tight">
             {pendingPayments}
           </div>
           <p className="text-muted-foreground text-xs">Menunggu pembayaran</p>
@@ -222,7 +222,7 @@ function StatisticsCards({
           <XCircle className="text-destructive h-4 w-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-destructive text-2xl font-bold">
+          <div className="text-destructive text-2xl font-semibold tracking-tight">
             {overduePayments}
           </div>
           <p className="text-muted-foreground text-xs">Melewati jatuh tempo</p>
@@ -745,7 +745,7 @@ function PaymentDashboard({ userId }: { userId: string }) {
     <>
       <div className="max-w-7xl">
         <div className="mb-6">
-          <h1 className="mb-2 text-3xl font-bold">Dashboard Pembayaran</h1>
+          <h1 className="mb-2 text-3xl font-semibold tracking-tight">Dashboard Pembayaran</h1>
           <p className="text-muted-foreground">
             Kelola pembayaran SPP dan pembayaran sekolah lainnya
           </p>
@@ -783,7 +783,7 @@ function PaymentDashboard({ userId }: { userId: string }) {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-3xl border">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

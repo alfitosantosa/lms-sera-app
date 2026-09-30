@@ -20,7 +20,7 @@ import Link from "next/link";
 
 export default function MiddlewarePage() {
   return (
-    <div className="from-muted/40 to-info-surface flex min-h-[calc(100vh-80px)] items-center justify-center bg-linear-to-br px-4 py-10">
+    <div className="bg-background flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-10">
       <div className="w-full max-w-4xl space-y-6">
         {/* Main Alert */}
         <Alert variant="destructive" className="border-destructive/50">

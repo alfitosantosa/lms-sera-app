@@ -65,11 +65,11 @@ export default function ParentDevelopmentPage() {
   if (isLoadingSummary || isLoadingChildren) return <Loading />;
 
   return (
-    <div className="from-muted/40 to-muted/60 min-h-screen bg-linear-to-br">
+    <div className="bg-background min-h-screen">
       <div className="max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-foreground text-3xl font-bold">
+            <h1 className="text-foreground text-3xl font-semibold tracking-tight">
               Perkembangan Anak
             </h1>
             <p className="text-muted-foreground">
@@ -181,7 +181,7 @@ export default function ParentDevelopmentPage() {
                       selected.teacherNotes.map((note) => (
                         <div
                           key={note.logId}
-                          className="space-y-1 rounded-lg border p-4"
+                          className="space-y-1 rounded-3xl border p-4"
                         >
                           <p className="text-muted-foreground text-xs">
                             {longDate(note.date)}

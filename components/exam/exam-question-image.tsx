@@ -18,7 +18,7 @@ export function ExamQuestionImage({ src, alt }: ExamQuestionImageProps) {
 
   if (failed) {
     return (
-      <div className="bg-muted text-muted-foreground flex h-40 w-full max-w-[600px] items-center justify-center rounded-lg border text-sm">
+      <div className="bg-muted text-muted-foreground border-border flex h-40 w-full max-w-[600px] items-center justify-center rounded-2xl border text-sm">
         Gambar soal tidak dapat dimuat
       </div>
     );
@@ -32,7 +32,7 @@ export function ExamQuestionImage({ src, alt }: ExamQuestionImageProps) {
       height={400}
       unoptimized={src.includes("file.santosatechid.cloud")}
       onError={() => setFailed(true)}
-      className="h-auto max-h-[420px] w-full max-w-[600px] rounded-lg border object-contain"
+      className="border-border h-auto max-h-[420px] w-full max-w-[600px] rounded-2xl border object-contain"
     />
   );
 }
