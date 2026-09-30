@@ -10,61 +10,59 @@ import {
 export function Faq() {
   const faqs = [
     {
-      q: "Apakah data antar sekolah dalam satu yayasan bisa saling bercampur?",
-      a: "Tidak sama sekali. Setiap unit sekolah memiliki tenantId unik yang diisolasi ketat di tingkat database dan ORM query middleware. Super Admin Yayasan dapat melihat rekapitulasi konsolidasi, namun guru dan staf administrasi masing-masing sekolah hanya memiliki hak akses ke data unit sekolahnya sendiri.",
+      q: "Bagaimana data antar sekolah di dalam satu yayasan dipisah?",
+      a: "Data melekat pada cabang, bukan pada satu kolam bersama. Yayasan terdaftar sebagai satu Foundation, dan setiap unit sekolah — SMP, SMA, SMK IT — adalah Branch dengan branchId sendiri. Setiap pengguna terdaftar pada satu cabang, sehingga guru, bendahara, dan orang tua hanya bekerja di data cabangnya. Rekening kas pun dicatat per cabang, jadi dana tiap unit tidak bercampur.",
     },
     {
-      q: "Bagaimana proses pembayaran SPP online terhubung ke rekening sekolah?",
-      a: "Sera terintegrasi resmi dengan Midtrans Payment Gateway. Sekolah dapat menghubungkan rekening kas bank yayasan (BCA, Mandiri, BRI, BNI, BSI). Saat orang tua membayar melalui Virtual Account atau QRIS, dana langsung diteruskan ke rekening sekolah dan status tagihan otomatis lunas dalam hitungan detik tanpa bukti transfer fisik.",
+      q: "Apakah kami bisa menambah cabang baru?",
+      a: "Bisa. Cabang baru didaftarkan di bawah yayasan yang sama dan langsung memakai modul yang sama, dengan data yang berdiri sendiri sejak baris pertama. Kode yayasan yang dipakai saat pendaftaran memastikan pengguna baru masuk ke yayasan yang benar, bukan ke yayasan lain.",
     },
     {
-      q: "Apakah orang tua siswa wajib mengunduh aplikasi khusus?",
-      a: "Tidak wajib. Portal orang tua dapat diakses langsung melalui browser ponsel pintar tanpa instalasi (PWA-ready). Selain itu, semua pemberitahuan mendesak seperti jam presensi masuk/pulang, alert pelanggaran, dan kuitansi pembayaran SPP dikirimkan secara otomatis ke nomor WhatsApp orang tua.",
+      q: "Bagaimana SPP online dan verifikasi transfer manual?",
+      a: "Setiap jenis pembayaran — bulanan maupun sekali bayar — punya nominalnya sendiri per cabang, dan tagihan tercatat per siswa per bulan. Orang tua dapat membayar daring lewat Midtrans (Snap maupun Core API), dan pembayaran yang berhasil langsung memperbarui status tagihan. Untuk transfer manual, bendahara mencatat referensi bank, tanggal transfer, dan status pembayaran, lalu kuitansi PDF bernomor diterbitkan dari sistem.",
     },
     {
-      q: "Berapa lama waktu yang dibutuhkan untuk migrasi data dari format Excel/spreadsheet lama?",
-      a: "Umumnya hanya memakan waktu 1 hari kerja. Tim teknis Sera menyediakan template impor data master siswa, guru, rombongan belajar, dan saldo tunggakan SPP. Kami juga siap membantu proses pemindahan data hingga tuntas tanpa biaya tambahan.",
+      q: "Bagaimana tahfidz dicatat?",
+      a: "Setoran hafalan disimpan per surah dengan ayat awal dan ayat akhir serta nilai A–E, sehingga capaian tiap siswa dapat dilihat urut. Siswa dibagi ke kelompok tahfidz, dan daftar surah sudah tersedia lengkap — nama Arab, nama latin, jumlah ayat, dan tempat turun — jadi guru tidak perlu menyusun acuan sendiri.",
     },
     {
-      q: "Apakah modul E-Rapor sudah sesuai dengan Kurikulum Merdeka terbaru?",
-      a: "Ya. Format penilaian dan cetak rapor di Sera telah sepenuhnya disesuaikan dengan panduan asesmen Kurikulum Merdeka Kementerian Pendidikan (mencakup Tujuan Pembelajaran, Capaian Pembelajaran, penilaian sumatif/formatif, dan Projek Penguatan Profil Pelajar Pancasila / P5).",
+      q: "Siapa saja yang bisa mengakses sistem?",
+      a: "Ada lima peran: admin, bendahara, guru, siswa, dan orang tua. Setiap akun melekat pada satu cabang dan satu peran, jadi yang tampil di layar mengikuti keduanya. Admin mengelola data cabang, bendahara mengurus tagihan dan pembayaran, guru mengisi presensi, nilai, dan setoran hafalan, sementara siswa dan orang tua melihat data yang bersangkutan dengan dirinya.",
     },
     {
-      q: "Bagaimana jika sekolah kami membutuhkan fitur khusus atau kustomisasi alur kerja?",
-      a: "Untuk yayasan dan sekolah dengan kebutuhan spesifik, paket Enterprise Yayasan menyediakan opsi kustomisasi alur kerja, integrasi API khusus, serta dedicated cloud instance yang dapat disesuaikan dengan SOP yayasan Anda.",
+      q: "Bagaimana impor data lama dari Excel?",
+      a: "Tersedia impor massal dari berkas Excel untuk data master seperti siswa, guru, dan kelas. Berkas diunggah lalu dibaca langsung oleh sistem, sehingga data lama tidak perlu diketik ulang satu per satu, dan setelah masuk data tersebut mengikuti struktur yayasan serta cabang yang sudah didaftarkan.",
     },
   ];
 
   return (
-    <section id="faq" className="bg-secondary border-border border-t py-24">
+    <section id="faq" className="border-border bg-secondary border-t py-24">
       <div className="mx-auto max-w-3xl px-6">
         {/* Section Header */}
-        <div className="text-center">
-          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
-            Pertanyaan Umum (FAQ)
-          </span>
-          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Semua yang perlu Anda ketahui sebelum mulai.
+        <div className="border-margin border-l-2 pl-6">
+          <h2 className="font-display text-foreground text-3xl tracking-tight">
+            Pertanyaan yang muncul sebelum data dipindahkan.
           </h2>
-          <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-            Jawaban atas pertanyaan umum seputar migrasi data, keamanan
-            multi-tenant, dan integrasi penagihan SPP.
+          <p className="text-secondary-foreground mt-3 max-w-[68ch] text-base leading-relaxed">
+            Enam hal yang paling sering ditanyakan yayasan: pemisahan data antar
+            unit, penambahan cabang, pembayaran SPP, pencatatan tahfidz, hak
+            akses, dan impor data lama.
           </p>
         </div>
 
-        {/* Accordion List */}
-        <div className="mt-12">
-          <Accordion type="single" collapsible className="space-y-3">
+        {/* Register of questions */}
+        <div className="border-border mt-12 border-b">
+          <Accordion type="single" collapsible>
             {faqs.map((faq, idx) => (
               <AccordionItem
                 key={idx}
                 value={`faq-${idx}`}
-                className="border-border bg-background data-[state=open]:border-primary/40 rounded-xl border px-5 shadow-xs transition-colors data-[state=open]:shadow-sm"
+                className="border-border odd:bg-accent/60 border-t px-5 md:px-6"
               >
-                <AccordionTrigger className="text-foreground hover:text-primary py-4 text-left text-sm font-bold hover:no-underline">
+                <AccordionTrigger className="text-foreground hover:text-brand-accent py-5 text-left text-sm font-medium hover:underline">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4 text-xs leading-relaxed">
+                <AccordionContent className="text-secondary-foreground pb-5 text-sm leading-relaxed">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>

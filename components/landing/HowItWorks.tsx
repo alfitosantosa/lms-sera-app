@@ -1,85 +1,78 @@
-import { UserCheck, GraduationCap, BookOpen, ArrowRight } from "lucide-react";
-import { Fragment } from "react/jsx-runtime";
-
-const flows = [
-  {
-    icon: UserCheck,
-    title: "Presensi & Kedisiplinan",
-    steps: [
-      "Siswa check-in di kelas",
-      "Kehadiran tercatat otomatis",
-      "Notif WhatsApp ke orang tua",
-    ],
-  },
-  {
-    icon: GraduationCap,
-    title: "Akademik & E-Rapor",
-    steps: [
-      "Guru input nilai & tugas",
-      "Sistem menghitung otomatis",
-      "E-rapor siap cetak",
-    ],
-  },
-  {
-    icon: BookOpen,
-    title: "Tahfidz Al-Qur'an",
-    steps: [
-      "Setoran surah dicatat",
-      "Progress hafalan tersimpan",
-      "Laporan mutaba'ah mingguan",
-    ],
-  },
-];
-
 export function HowItWorks() {
+  const steps = [
+    {
+      title: "Catat",
+      actor: "Guru",
+      body: "Guru membuka jadwal pelajaran hari itu, lalu mencatat kehadiran setiap siswa — hadir, sakit, izin, atau alfa. Satu catatan per siswa per jadwal, tersimpan saat itu juga. Check-in dan check-out guru tercatat terpisah di hari yang sama.",
+      tables: "Attendance, TeacherAttendance",
+    },
+    {
+      title: "Validasi",
+      actor: "Bendahara",
+      body: "Bendahara mencocokkan setoran orang tua dengan tagihan bulanan: nominal, bulan tagihan, dan rekening kas unit. Verifikasi transfer menautkan referensi bank dan tanggal transfer, lalu nomor kuitansi terbit sebagai bukti pembayaran.",
+      tables: "Payment, PaymentTransaction, AccountBank",
+    },
+    {
+      title: "Kirim",
+      actor: "Sistem",
+      body: "Ringkasan kehadiran, poin kedisiplinan, dan kuitansi pembayaran dikirim ke nomor WhatsApp orang tua melalui Evolution API — tanpa guru menulis satu pesan pun secara manual.",
+      tables: "Notification, Violation",
+    },
+  ];
+
   return (
-    <section id="cara-kerja" className="bg-secondary/40 py-24">
+    <section id="cara-kerja" className="bg-secondary py-24">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
-            Cara Kerja
-          </span>
-          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Setiap modul berjalan otomatis.
+        <div className="border-margin max-w-[68ch] border-l-2 pl-6">
+          <h2 className="font-display text-foreground text-3xl tracking-tight">
+            Satu catatan masuk, tiga langkah sampai ke orang tua.
           </h2>
           <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-            Tanpa entri data berulang — cukup satu pencatatan, sisanya mengalir
-            sendiri.
+            Alurnya sama di setiap unit: guru mencatat, bendahara memvalidasi,
+            sistem mengirim. Tidak ada entri ulang di aplikasi lain.
           </p>
         </div>
 
-        {/* Flow Rows */}
-        <div className="mt-14 space-y-5">
-          {flows.map((flow, idx) => (
-            <div
-              key={idx}
-              className="border-border bg-background rounded-2xl border p-6 sm:p-7"
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="bg-primary/10 text-primary flex h-9 w-9 items-center justify-center rounded-lg">
-                  <flow.icon className="h-5 w-5" />
-                </div>
-                <h3 className="text-foreground text-base font-bold">
-                  {flow.title}
-                </h3>
-              </div>
-
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
-                {flow.steps.map((step, sIdx) => (
-                  <Fragment key={sIdx}>
-                    <div className="border-border bg-secondary/50 text-secondary-foreground flex-1 rounded-lg border px-4 py-3 text-xs font-medium">
-                      {step}
-                    </div>
-                    {sIdx < flow.steps.length - 1 && (
-                      <ArrowRight className="text-muted-foreground/50 hidden h-4 w-4 flex-shrink-0 sm:block" />
-                    )}
-                  </Fragment>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="border-border text-secondary-foreground mt-12 grid grid-cols-[3rem_1fr] gap-x-8 border-t-2 pt-3 sm:grid-cols-[3rem_14rem_1fr]">
+          <span className="font-display text-[11px] tracking-wide uppercase">
+            No.
+          </span>
+          <span className="font-display text-[11px] tracking-wide uppercase">
+            Langkah
+          </span>
+          <span className="font-display hidden text-[11px] tracking-wide uppercase sm:block">
+            Yang tercatat
+          </span>
         </div>
+
+        <ol>
+          {steps.map((step, index) => (
+            <li
+              key={step.title}
+              className="border-border grid grid-cols-[3rem_1fr] gap-x-8 gap-y-3 border-b py-8 sm:grid-cols-[3rem_14rem_1fr]"
+            >
+              <span className="font-display text-muted-foreground text-2xl leading-none tabular-nums">
+                {index + 1}
+              </span>
+              <div>
+                <h3 className="font-display text-foreground text-lg tracking-tight">
+                  {step.title}
+                </h3>
+                <span className="border-border bg-card text-secondary-foreground mt-2 inline-block rounded-sm border px-2 py-0.5 text-[11px]">
+                  {step.actor}
+                </span>
+              </div>
+              <div>
+                <p className="text-secondary-foreground max-w-[68ch] text-sm leading-relaxed">
+                  {step.body}
+                </p>
+                <p className="text-muted-foreground mt-3 font-mono text-xs">
+                  Tercatat di: {step.tables}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

@@ -1,6 +1,3 @@
-"use client";
-
-
 import { Navbar } from "./Navbar";
 import { Hero } from "./Hero";
 import { SocialProof } from "./SocialProof";
@@ -13,42 +10,47 @@ import { Faq } from "./Faq";
 import { CtaSection } from "./CtaSection";
 import { Footer } from "./Footer";
 
+/**
+ * The page reads as one register, top to bottom: masthead, the sheet, the
+ * structure it runs on, the modules it records, then the closing band.
+ *
+ * Server component on purpose — the interactive parts (navbar sheet, finance
+ * and CTA routing, FAQ accordion) declare their own `"use client"`.
+ */
 export function LandingPage() {
   return (
-    <div className="bg-background text-foreground selection:bg-primary/20 selection:text-primary min-h-screen font-sans antialiased">
-      {/* 1. Frosted Navigation Bar */}
+    <div className="bg-background text-foreground min-h-[100dvh] selection:bg-brand-tint selection:text-foreground antialiased">
       <Navbar />
 
       <main>
-        {/* 2. Hero with Luminous Ambient Gradient & Interactive Preview */}
+        {/* Masthead and the live register */}
         <Hero />
 
-        {/* 3. Social Proof & Scale Statistics */}
+        {/* One yayasan, three cabang */}
         <SocialProof />
 
-        {/* 4. Core Features Bento Grid */}
+        {/* The module register: what is recorded, and the tables behind it */}
         <Features />
 
-        {/* 5. How Each Module Works (Automation Flows) */}
+        {/* Catat, validasi, kirim */}
         <HowItWorks />
 
-        {/* 6. Deep Navy Multi-Tenant & Role Access */}
+        {/* Foundation / Branch isolation, inverse band */}
         <Architecture />
 
-        {/* 6. Finance & Midtrans SPP Billing Showcase */}
+        {/* SPP, Midtrans, and branch accounting */}
         <FinanceSection />
 
-        {/* 7. Transparent Tiered Pricing */}
+        {/* Cakupan modul */}
         <Pricing />
 
-        {/* 8. Frequently Asked Questions Accordion */}
+        {/* Pertanyaan yang biasanya muncul */}
         <Faq />
 
-        {/* 9. High-Conversion CTA Band */}
+        {/* Closing band */}
         <CtaSection />
       </main>
 
-      {/* 10. Comprehensive Footer */}
       <Footer />
     </div>
   );

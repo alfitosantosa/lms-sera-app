@@ -1,111 +1,84 @@
 "use client";
 
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, ArrowRight, LogIn } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+const CLIENT_NAME = process.env.NEXT_PUBLIC_CLIENT_NAME || "Yayasan";
 
 export const NAV_LINKS = [
-  { label: "Fitur", href: "#fitur" },
+  { label: "Modul", href: "#fitur" },
   { label: "Arsitektur", href: "#arsitektur" },
   { label: "Keuangan", href: "#keuangan" },
-  { label: "Harga", href: "#harga" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Cakupan", href: "#cakupan" },
+  { label: "Pertanyaan", href: "#faq" },
 ];
 
+/**
+ * The register's top rule: a constant hairline, not a chrome effect that
+ * appears on scroll. Two actions only — masuk, and mendaftarkan yayasan.
+ */
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 12);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const handleNavigateSignIn = () => {
+  const goToRegister = () => {
     setMobileOpen(false);
-    router.push("/auth/sign-in");
+    router.push("/landing/register/foundation");
   };
 
-  const handleNavigateRegisterFoundation = () => {
+  const goToSignIn = () => {
     setMobileOpen(false);
     router.push("/auth/sign-in");
   };
 
   return (
-    <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-border bg-background/90 border-b shadow-[0_4px_20px_rgba(13,37,61,0.03)] backdrop-blur-md"
-          : "bg-background/60 border-b border-transparent backdrop-blur-md"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        {/* Brand Logo */}
-        <Link href="/" className="group flex items-center gap-2.5">
-          <span className="relative flex h-3 w-3">
-            <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" />
-            <span className="bg-primary relative inline-flex h-3 w-3 rounded-full" />
+    <nav className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur-sm">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-3.5">
+        <Link href="/" className="flex items-baseline gap-3">
+          <span className="font-display text-foreground text-lg font-semibold tracking-tight">
+            LMS
           </span>
-          <span className="text-foreground group-hover:text-primary text-[20px] font-bold tracking-tight transition-colors">
-            Sera
-          </span>
-          <span className="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-[11px] font-semibold">
-            LMS Yayasan
+          <span className="border-border text-muted-foreground hidden border-l pl-3 text-[11px] sm:inline">
+            {CLIENT_NAME}
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-7 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-secondary-foreground hover:text-primary text-[14px] font-medium transition-colors duration-200"
+              className="text-secondary-foreground hover:text-foreground text-sm underline-offset-4 transition-colors hover:underline"
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        {/* Desktop Actions */}
-        <div className="hidden items-center gap-4 md:flex">
-          <Button
-            variant="ghost"
-            onClick={handleNavigateSignIn}
-            className="text-secondary-foreground hover:bg-secondary hover:text-foreground text-[14px] font-medium"
-          >
+        <div className="hidden items-center gap-2 md:flex">
+          <Button variant="ghost" onClick={goToSignIn} className="text-sm">
             Masuk
           </Button>
-
-          <Button
-            onClick={handleNavigateRegisterFoundation}
-            className="group bg-primary shadow-primary/25 hover:bg-primary-hover hover:shadow-primary/35 active:bg-primary-active relative inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
-          >
-            <span>Daftar Yayasan</span>
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          <Button onClick={goToRegister} className="text-sm">
+            Daftar yayasan
           </Button>
         </div>
 
-        {/* Mobile Nav Hamburger */}
         <div className="flex md:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="outline"
                 size="icon"
-                className="border-border bg-background/80 h-9 w-9 rounded-lg"
+                className="h-10 w-10"
                 aria-label="Buka menu navigasi"
               >
-                <Menu className="text-foreground h-5 w-5" />
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent
@@ -113,64 +86,46 @@ export function Navbar() {
               className="flex w-full flex-col justify-between p-0 sm:w-84"
             >
               <div>
-                {/* Header */}
-                <div className="border-border flex items-center justify-between border-b p-5">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-primary h-2.5 w-2.5 rounded-full" />
-                    <span className="text-foreground text-lg font-bold">
-                      Sera
-                    </span>
-                    <span className="bg-primary/10 text-primary rounded px-1.5 py-0.5 text-[10px] font-bold">
-                      LMS
-                    </span>
-                  </div>
+                <div className="border-border flex items-center justify-between border-b px-5 py-4">
+                  <span className="font-display text-foreground font-semibold">
+                    LMS
+                  </span>
+                  <span className="text-muted-foreground text-[11px]">
+                    {CLIENT_NAME}
+                  </span>
                 </div>
 
-                {/* Navigation Links */}
-                <div className="space-y-1 px-5 py-6">
+                <nav className="flex flex-col py-2">
                   {NAV_LINKS.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className="text-secondary-foreground hover:bg-secondary hover:text-primary flex items-center justify-between rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors"
+                      className="text-secondary-foreground hover:bg-accent hover:text-foreground flex min-h-11 items-center px-5 py-2.5 text-[15px] transition-colors"
                     >
-                      <span>{link.label}</span>
-                      <ArrowRight className="text-muted-foreground h-4 w-4 opacity-50" />
+                      {link.label}
                     </a>
                   ))}
-                </div>
+                </nav>
 
-                <Separator className="bg-border" />
+                <Separator />
 
-                {/* Auth Actions */}
-                <div className="space-y-3 p-5">
-                  <Button
-                    onClick={handleNavigateRegisterFoundation}
-                    className="bg-primary hover:bg-primary-hover w-full justify-center gap-2 rounded-full py-5 font-semibold text-white shadow-sm"
-                  >
-                    <span>Daftar Akun Yayasan</span>
-                    <ArrowRight className="h-4 w-4" />
+                <div className="space-y-2 p-5">
+                  <Button onClick={goToRegister} className="w-full">
+                    Daftar yayasan
                   </Button>
-
-                  <Button
-                    variant="outline"
-                    onClick={handleNavigateSignIn}
-                    className="border-border text-secondary-foreground hover:bg-secondary w-full justify-center gap-2 rounded-full py-5 font-medium"
-                  >
-                    <LogIn className="h-4 w-4" />
-                    <span>Masuk ke Akun</span>
+                  <Button variant="outline" onClick={goToSignIn} className="w-full">
+                    Masuk
                   </Button>
                 </div>
               </div>
 
-              {/* Drawer Footer info */}
-              <div className="border-border bg-secondary text-muted-foreground border-t p-5 text-xs">
-                <p className="text-foreground font-semibold">
+              <div className="border-border text-muted-foreground border-t p-5 text-xs">
+                <p className="text-foreground font-medium">
                   PT Santosa Tech Indonesia
                 </p>
                 <p className="mt-0.5">
-                  Sistem Manajemen Sekolah & Multi-Tenant Terpadu
+                  Sistem manajemen sekolah multi-cabang untuk yayasan.
                 </p>
               </div>
             </SheetContent>

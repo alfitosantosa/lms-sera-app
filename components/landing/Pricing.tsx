@@ -1,207 +1,157 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+
+type ModuleGroup = {
+  group: string;
+  note: string;
+  items: string[];
+};
 
 export function Pricing() {
-  const [isAnnual, setIsAnnual] = useState(true);
   const router = useRouter();
 
-  const handleSelectPlan = () => {
+  const handleRegisterFoundation = () => {
     router.push("/landing/register/foundation");
   };
 
-  const plans = [
+  const groups: ModuleGroup[] = [
     {
-      name: "Starter",
-      desc: "Untuk sekolah mandiri yang baru mulai merapikan operasional harian dan presensi.",
-      monthlyPrice: "Rp 3.000",
-      annualPrice: "Rp 2.400",
-      unit: "per siswa / bulan",
-      featured: false,
-      features: [
-        "Presensi siswa & guru harian",
-        "Pencatatan pelanggaran & poin kedisiplinan",
-        "Portal web mobile untuk orang tua",
-        "Pencatatan nilai tugas & raport dasar",
-        "Akun guru dan staf tanpa batas",
-        "Dukungan teknis via WhatsApp & Email",
+      group: "Kesiswaan & presensi",
+      note: "Kelas, siswa, dan kehadiran harian.",
+      items: [
+        "Data siswa lengkap: NISN, NIK, kelas, dan cabang asal.",
+        "Presensi per jadwal pelajaran dengan empat status — hadir, sakit, izin, alfa — satu catatan per siswa, per jadwal, per tanggal.",
+        "Check-in dan check-out guru lewat TeacherAttendance.",
+        "Kapasitas kelas tercatat, bawaan 36 siswa.",
+        "Pelanggaran dengan jenis dan poin kedisiplinan.",
       ],
-      cta: "Mulai Paket Starter",
     },
     {
-      name: "Pro",
-      desc: "Solusi lengkap untuk sekolah modern dengan e-rapor, SPP online, dan notifikasi WhatsApp.",
-      monthlyPrice: "Rp 4.000",
-      annualPrice: "Rp 3.200",
-      unit: "per siswa / bulan",
-      featured: true,
-      features: [
-        "Semua fitur di paket Starter",
-        "E-Rapor Kurikulum Merdeka siap cetak",
-        "Payment gateway Midtrans (VA BCA/Mandiri/BRI/BSI, QRIS)",
-        "Notifikasi WhatsApp otomatis via Evolution API",
-        "Modul Tahfidz Al-Qur'an & Mutaba'ah yaumiyah",
-        "Bank soal & Ujian online CBT",
-        "Bantuan migrasi data spreadsheet tanpa biaya",
-        "Dukungan teknis prioritas 7 hari kerja",
+      group: "Akademik & ujian",
+      note: "Jadwal, penilaian, dan rapor.",
+      items: [
+        "Jadwal pelajaran dan mata pelajaran per kelas.",
+        "Bank soal, opsi jawaban, ujian daring, percobaan siswa, dan jawaban tersimpan.",
+        "E-rapor dengan tipe nilai, skala nilai, dan konfigurasi penilaian per cabang.",
+        "Tugas dan pengumpulan tugas siswa.",
       ],
-      cta: "Pilih Paket Pro",
     },
     {
-      name: "Enterprise Yayasan",
-      desc: "Dirancang khusus untuk yayasan pendidikan yang mengelola banyak unit sekolah sekaligus.",
-      monthlyPrice: "Kustom",
-      annualPrice: "Kustom",
-      unit: "disesuaikan skala unit yayasan",
-      featured: false,
-      features: [
-        "Semua fitur di paket Pro",
-        "Multi-sekolah dalam satu dasbor pusat yayasan",
-        "Laporan konsolidasi keuangan seluruh unit sekolah",
-        "Isolasi data multi-tenant tingkat database",
-        "Dedicated cloud instance & backup berkala",
-        "Pelatihan langsung untuk guru & staf administrasi",
-        "Dedicated Account Manager khusus yayasan",
-        "SLA ketersediaan sistem 99.9%",
+      group: "Tahfidz & asesmen perkembangan",
+      note: "Setoran hafalan dan catatan harian.",
+      items: [
+        "Setoran hafalan per surah dengan ayat awal dan ayat akhir serta nilai A–E.",
+        "Kelompok tahfidz untuk pembagian halaqah.",
+        "Daftar surah lengkap: nama Arab, nama latin, jumlah ayat, dan tempat turun.",
+        "Penilaian perkembangan: periode, area, indikator, catatan harian, observasi, dan bukti pendukung.",
       ],
-      cta: "Hubungi Tim Yayasan",
+    },
+    {
+      group: "Keuangan & SPP",
+      note: "Tagihan, pembayaran, dan kuitansi.",
+      items: [
+        "Jenis pembayaran bulanan dan non-bulanan dengan nominal per cabang.",
+        "Tagihan per siswa per bulan, dengan nomor kuitansi dan referensi bank.",
+        "Pembayaran daring via Midtrans Snap dan Core API; transfer manual diverifikasi dengan tanggal dan bukti transfer.",
+        "Kuitansi PDF dibuat langsung dari sistem.",
+        "Rekening kas terpisah untuk tiap cabang, termasuk pemisahan alokasi SPP, uang gedung, dan ujian.",
+      ],
+    },
+    {
+      group: "Komunikasi & pemberitahuan",
+      note: "Yang sampai ke orang tua.",
+      items: [
+        "Pemberitahuan WhatsApp ke orang tua lewat Evolution API.",
+        "Pengumuman sekolah dan notifikasi di dalam aplikasi.",
+        "Agenda dan kalender kegiatan sekolah.",
+        "Akses sesuai peran: admin, bendahara, guru, siswa, orang tua.",
+      ],
+    },
+    {
+      group: "Administrasi yayasan & data induk",
+      note: "Struktur dan pemeliharaan data.",
+      items: [
+        "Satu yayasan menaungi banyak cabang: SMP, SMA, dan SMK IT.",
+        "Kode yayasan dipakai saat pendaftaran, sehingga pengguna baru masuk ke yayasan yang benar.",
+        "Tahun ajaran, kalender akademik, dan jejak audit perubahan data.",
+        "Impor massal dari berkas Excel untuk data master.",
+      ],
     },
   ];
 
   return (
-    <section id="harga" className="bg-background py-24">
+    <section id="cakupan" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
-            Paket &amp; Investasi
+        {/* Column-label row */}
+        <div className="border-border border-t-2 pt-3">
+          <span className="font-display text-muted-foreground text-[11px] tracking-wide">
+            Cakupan modul
           </span>
-          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Harga transparan yang tumbuh bersama skala sekolah Anda.
-          </h2>
-          <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-            Dihitung per siswa aktif per bulan. Tanpa biaya lisensi server
-            tersembunyi, dan Anda bebas mengupgrade paket kapan saja.
-          </p>
-
-          {/* Billing Toggle */}
-          <div className="border-border bg-secondary mt-8 inline-flex items-center gap-3 rounded-full border p-1.5 text-xs font-medium">
-            <button
-              type="button"
-              onClick={() => setIsAnnual(false)}
-              className={`rounded-full px-4 py-2 transition-all ${
-                !isAnnual
-                  ? "bg-background text-foreground font-bold shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Tagihan Bulanan
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsAnnual(true)}
-              className={`flex items-center gap-1.5 rounded-full px-4 py-2 transition-all ${
-                isAnnual
-                  ? "bg-primary font-bold text-white shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <span>Tagihan Tahunan</span>
-              <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold text-white">
-                Hemat 20%
-              </span>
-            </button>
-          </div>
         </div>
 
-        {/* Pricing Cards Grid */}
-        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
-          {plans.map((p, idx) => {
-            const price = isAnnual ? p.annualPrice : p.monthlyPrice;
+        {/* Section Header */}
+        <div className="border-margin mt-8 max-w-2xl border-l-2 pl-6">
+          <h2 className="font-display text-foreground text-3xl tracking-tight">
+            Modul yang sudah berjalan untuk tiap cabang.
+          </h2>
+          <p className="text-secondary-foreground mt-3 max-w-[68ch] text-base leading-relaxed">
+            SMP, SMA, dan SMK IT memakai modul yang sama di dalam satu yayasan;
+            yang berbeda hanya data dan penggunanya. Daftar berikut menunjukkan
+            apa saja yang sudah tersedia di dalam sistem sebelum yayasan
+            memindahkan data lamanya.
+          </p>
+        </div>
 
-            return (
-              <Card
-                key={idx}
-                className={`relative flex flex-col justify-between rounded-2xl p-7 transition-all duration-300 ${
-                  p.featured
-                    ? "border-primary bg-navy border-2 text-white shadow-xl lg:-translate-y-2"
-                    : "border-border bg-background text-foreground hover:border-primary/30 border hover:shadow-lg"
-                }`}
-              >
-                {p.featured && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary border-none px-3.5 py-1 text-xs font-bold tracking-wider text-white uppercase shadow-sm">
-                      <Sparkles className="mr-1 h-3 w-3" /> Paling Populer
-                    </Badge>
-                  </div>
-                )}
+        {/* Module register */}
+        <dl className="border-border mt-12 border-t">
+          {groups.map((g) => (
+            <div
+              key={g.group}
+              className="border-border odd:bg-accent/60 grid gap-x-8 gap-y-3 border-b py-7 md:grid-cols-12 md:px-4"
+            >
+              <dt className="md:col-span-4">
+                <span className="font-display text-foreground block text-base">
+                  {g.group}
+                </span>
+                <span className="text-muted-foreground mt-1.5 block text-xs leading-relaxed">
+                  {g.note}
+                </span>
+              </dt>
+              <dd className="md:col-span-8">
+                <ul className="text-secondary-foreground space-y-1.5 text-sm leading-relaxed">
+                  {g.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))}
+        </dl>
 
-                <CardContent className="flex flex-1 flex-col p-0">
-                  <div className="text-xl font-extrabold">{p.name}</div>
-                  <p
-                    className={`mt-2 min-h-[44px] text-xs leading-relaxed ${
-                      p.featured ? "text-navy-muted" : "text-muted-foreground"
-                    }`}
-                  >
-                    {p.desc}
-                  </p>
+        <p className="text-muted-foreground mt-5 font-mono text-[11px]">
+          51 tabel data. PostgreSQL, Prisma, dan Next.js App Router
+        </p>
 
-                  <div className="border-border/40 my-6 border-y border-dashed py-4">
-                    <div className="flex items-baseline gap-1">
-                      <span className="[font-feature-settings:'tnum'_1] text-3xl font-black">
-                        {price}
-                      </span>
-                    </div>
-                    <div
-                      className={`mt-1 text-xs ${
-                        p.featured ? "text-navy-muted" : "text-muted-foreground"
-                      }`}
-                    >
-                      {p.unit}
-                    </div>
-                  </div>
-
-                  {/* Feature Checklist */}
-                  <ul className="mb-8 flex-1 space-y-3 text-xs">
-                    {p.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="flex items-start gap-2.5">
-                        <CheckCircle2
-                          className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
-                            p.featured ? "text-[#00d4ff]" : "text-primary"
-                          }`}
-                        />
-                        <span
-                          className={
-                            p.featured
-                              ? "text-navy-foreground"
-                              : "text-secondary-foreground"
-                          }
-                        >
-                          {feat}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    onClick={handleSelectPlan}
-                    className={`w-full rounded-full py-5 text-sm font-semibold transition-all ${
-                      p.featured
-                        ? "bg-primary hover:bg-primary-hover text-white shadow-md"
-                        : "border-primary bg-background text-primary hover:bg-primary/10 border"
-                    }`}
-                  >
-                    {p.cta}
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
+        {/* Closing action */}
+        <div className="border-border mt-12 flex flex-wrap items-center justify-between gap-5 border-t pt-8">
+          <div>
+            <p className="font-display text-foreground text-lg">
+              Mulai dari cabang pertama, lalu tambah cabang berikutnya.
+            </p>
+            <p className="text-muted-foreground mt-1 max-w-[68ch] text-sm leading-relaxed">
+              Pendaftaran akun yayasan memakai kode yayasan, sehingga cabang
+              yang menyusul langsung masuk ke struktur yang sama.
+            </p>
+          </div>
+          <Button
+            onClick={handleRegisterFoundation}
+            size="lg"
+            className="rounded-sm px-6"
+          >
+            Daftar Akun Yayasan
+          </Button>
         </div>
       </div>
     </section>

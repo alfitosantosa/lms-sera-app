@@ -1,147 +1,156 @@
-
-import { Lock, ShieldCheck, Database, Building2, Key } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-
 export function Architecture() {
-  const tenants = [
-    { name: "SMK IT Santosa", count: "510 siswa · SMK" },
-    { name: "SMA Santosa Al-Islamy", count: "420 siswa · SMA" },
-    { name: "SMP Cendekia Al-Islamy", count: "380 siswa · SMP" },
-    { name: "SD Islam Terpadu Harapan", count: "290 siswa · SD" },
-  ];
+  const branches = ["SMP IT", "SMA IT", "SMK IT"];
 
   const roles = [
     {
-      name: "Pengurus Yayasan",
-      desc: "Melihat laporan gabungan seluruh sekolah, arus kas yayasan, dan pengaturan semua unit sekolah.",
+      name: "admin",
+      scope: "Cabang",
+      reach: "Data induk cabang: UserData, Role, kelas, jadwal, dan pengaturan cabang.",
     },
     {
-      name: "Kepala Sekolah & Staf TU",
-      desc: "Mengatur kurikulum, data siswa, jadwal guru, dan penerbitan e-rapor di sekolahnya.",
+      name: "bendahara",
+      scope: "Cabang",
+      reach: "Payment, PaymentType, PaymentItems, dan AccountBank cabang; verifikasi transfer dan penerbitan kuitansi.",
     },
     {
-      name: "Guru & Wali Kelas",
-      desc: "Presensi harian siswa, input nilai tugas & ujian, catatan pelanggaran, dan setoran tahfidz.",
+      name: "guru",
+      scope: "Kelas yang diampu",
+      reach: "Schedule, Attendance, Assignment, AssignmentSubmission, TahfidzRecord, Violation.",
     },
     {
-      name: "Siswa",
-      desc: "Melihat jadwal pelajaran, tugas harian, status kehadiran, dan kartu ujian digital.",
+      name: "siswa",
+      scope: "Datanya sendiri",
+      reach: "Jadwal, Attendance, tugas, ExamAttempt, dan nilai miliknya.",
     },
     {
-      name: "Orang Tua / Wali Murid",
-      desc: "Menerima notifikasi WhatsApp kehadiran, memantau nilai, dan membayar SPP secara online.",
+      name: "orang tua",
+      scope: "Anaknya",
+      reach: "Ringkasan kehadiran, nilai rapor, tagihan Payment, dan notifikasi WhatsApp.",
     },
   ];
 
   return (
-    <section
-      id="arsitektur"
-      className="bg-navy relative overflow-hidden py-24 text-white"
-    >
-      {/* Background ambient glow */}
-      <div className="bg-primary/20 pointer-events-none absolute -top-40 left-1/3 h-[500px] w-[500px] rounded-full blur-[120px]" />
-      <div className="pointer-events-none absolute right-10 -bottom-40 h-[500px] w-[500px] rounded-full bg-[#00d4ff]/15 blur-[120px]" />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
-        {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="bg-primary/30 text-brand-accent inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
-            Privasi &amp; Keamanan Data
+    <section id="arsitektur" className="bg-navy py-24 text-navy-foreground">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="border-t-2 border-navy-muted/60 pt-3">
+          <span className="font-display text-navy-muted text-[11px] tracking-wide">
+            Arsitektur data
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Satu platform untuk seluruh sekolah di bawah yayasan Anda.
+        </div>
+
+        <div className="mt-8 max-w-2xl">
+          <h2 className="font-display text-navy-foreground text-3xl tracking-tight">
+            Satu yayasan, tiga cabang, data yang tidak pernah tertukar.
           </h2>
-          <p className="text-navy-muted mt-3 text-base leading-relaxed">
-            Setiap sekolah punya ruang data sendiri yang terkunci rapat — siswa,
-            keuangan, dan rapor tidak pernah tertukar antar sekolah.
+          <p className="text-navy-muted mt-3 max-w-[68ch] text-base leading-relaxed">
+            Yayasan terdaftar sebagai satu <span className="font-mono">Foundation</span>{" "}
+            yang menaungi cabang SMP, SMA, dan SMK IT. Setiap baris data
+            membawa <span className="font-mono">branchId</span>, jadi isi satu
+            cabang tidak pernah muncul di cabang lain — termasuk rekening kas
+            dan akun adminnya yang berdiri sendiri.
           </p>
         </div>
 
-        {/* 2-Column Grid */}
-        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
-          {/* Left Column: Multi-Tenant Data Isolation */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2 text-[#00d4ff]">
-              <Lock className="h-5 w-5" />
-              <h3 className="text-xl font-bold text-white">
-                Data Setiap Sekolah Terpisah Rapat
-              </h3>
+        <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <div className="border-t-2 border-navy-muted/60 pt-3">
+              <span className="font-display text-navy-muted text-[11px] tracking-wide">
+                Struktur kepemilikan data
+              </span>
             </div>
-            <p className="text-navy-muted text-sm leading-relaxed">
-              Setiap sekolah punya ruang datanya sendiri di dalam sistem. Data
-              sekolah yang satu tidak bisa dilihat atau tercampur dengan sekolah
-              yang lain — sudah terjamin sejak dari desainnya.
-            </p>
 
-            <Card className="rounded-2xl border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
-              <CardContent className="space-y-3 p-0">
-                <div className="text-navy-muted flex items-center justify-between border-b border-white/10 pb-2 text-xs">
-                  <span>Unit Sekolah Aktif</span>
-                  <span>Status Data</span>
-                </div>
-                {tenants.map((t, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] p-3 text-xs"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Building2 className="text-primary h-4 w-4" />
-                      <div>
-                        <div className="font-semibold text-white">{t.name}</div>
-                        <div className="text-navy-muted text-[11px]">
-                          {t.count}
-                        </div>
+            <div className="mt-5 border border-navy-border">
+              <div className="border-b border-navy-border px-5 py-3">
+                <span className="text-navy-accent font-mono text-xs">
+                  &lt;Foundation&gt;
+                </span>
+                <p className="text-navy-muted mt-1 text-xs">
+                  Kode yayasan dipakai saat pendaftaran, sehingga pengguna baru
+                  masuk ke yayasan yang benar.
+                </p>
+              </div>
+
+              <div className="space-y-5 px-5 py-5">
+                {branches.map((branch) => (
+                  <div key={branch} className="border-margin border-l-2 pl-5">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="text-navy-foreground font-display text-sm">
+                        &lt;Branch&gt; {branch}
+                      </span>
+                      <span className="text-navy-muted font-mono text-[11px]">
+                        branchId
+                      </span>
+                    </div>
+                    <div className="mt-2 space-y-1.5 text-xs">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-navy-info font-mono text-[11px]">
+                          &lt;AccountBank&gt;
+                        </span>
+                        <span className="text-navy-muted">
+                          rekening kas cabang ini saja
+                        </span>
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-navy-info font-mono text-[11px]">
+                          admin
+                        </span>
+                        <span className="text-navy-muted">
+                          akun pengelola cabang ini saja
+                        </span>
                       </div>
                     </div>
-                    <Badge className="border-none bg-[#00d924]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#a5d6a7]">
-                      Terkunci
-                    </Badge>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
-
-            <div className="text-navy-muted flex flex-wrap gap-4 text-xs">
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-[#00d4ff]" />
-                Data terenkripsi &amp; aman
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Database className="h-4 w-4 text-[#00d4ff]" />
-                Backup otomatis setiap hari
               </div>
             </div>
+
+            <p className="text-navy-muted mt-4 font-mono text-[11px]">
+              51 tabel data, isolasi per Foundation dan Branch
+            </p>
           </div>
 
-          {/* Right Column: Role Hierarchy */}
-          <div className="space-y-6">
-            <div className="text-brand-accent flex items-center gap-2">
-              <Key className="h-5 w-5" />
-              <h3 className="text-xl font-bold text-white">
-                Hak Akses Sesuai Peran
-              </h3>
+          <div className="lg:col-span-7">
+            <div className="border-t-2 border-navy-muted/60 pt-3">
+              <span className="font-display text-navy-muted text-[11px] tracking-wide">
+                Peran dan jangkauan data
+              </span>
             </div>
-            <p className="text-navy-muted text-sm leading-relaxed">
-              Setiap pengguna hanya melihat data sesuai perannya — dari pengurus
-              yayasan, kepala sekolah, guru, hingga orang tua — secara aman.
-            </p>
 
-            <div className="space-y-3">
-              {roles.map((r, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3.5 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 transition-colors hover:bg-white/[0.06]"
-                >
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{r.name}</h4>
-                    <p className="text-navy-muted mt-0.5 text-xs leading-relaxed">
-                      {r.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <table className="mt-5 w-full text-left text-sm">
+              <thead>
+                <tr className="text-navy-muted border-b border-navy-border text-[11px]">
+                  <th className="font-display py-2.5 pr-4 font-normal tracking-wide">
+                    Peran
+                  </th>
+                  <th className="font-display py-2.5 pr-4 font-normal tracking-wide">
+                    Jangkauan
+                  </th>
+                  <th className="font-display py-2.5 font-normal tracking-wide">
+                    Yang dapat diraih
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {roles.map((role) => (
+                  <tr
+                    key={role.name}
+                    className="odd:bg-white/[0.04] border-b border-navy-border align-top"
+                  >
+                    <td className="py-3 pr-4">
+                      <span className="text-navy-accent font-mono text-xs">
+                        {role.name}
+                      </span>
+                    </td>
+                    <td className="text-navy-muted py-3 pr-4 text-xs">
+                      {role.scope}
+                    </td>
+                    <td className="text-navy-foreground py-3 text-xs leading-relaxed">
+                      {role.reach}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

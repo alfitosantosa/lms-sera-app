@@ -321,12 +321,12 @@ export default function RegisterFoundation() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-[100dvh]">
       {/* Header with Breadcrumb */}
       <div className="absolute top-6 left-6 z-20">
         <Link
           href="/"
-          className="border-border bg-background/80 text-secondary-foreground hover:border-primary/40 hover:bg-background hover:text-primary inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-xs backdrop-blur-md transition-all"
+          className="border-border bg-background/80 text-secondary-foreground hover:border-tertiary-border hover:bg-background hover:text-primary inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-xs backdrop-blur-md transition-all active:translate-y-[1px]"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Beranda</span>
@@ -336,8 +336,8 @@ export default function RegisterFoundation() {
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto w-full max-w-2xl">
           {/* Header Section */}
-          <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+          <div className="mb-8">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full">
               <Building2 className="text-info h-8 w-8" />
             </div>
             <h1 className="mb-2 text-3xl font-bold tracking-tight">
@@ -739,7 +739,7 @@ export default function RegisterFoundation() {
           </div>
 
           {/* Footer Info */}
-          <div className="mt-8 text-center">
+          <div className="mt-8">
             <p className="text-muted-foreground text-sm">
               Sudah memiliki akun yayasan?{" "}
               <Button

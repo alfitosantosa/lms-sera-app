@@ -1,4 +1,3 @@
-export * from "./GradientMesh";
 export * from "./Navbar";
 export * from "./Hero";
 export * from "./SocialProof";

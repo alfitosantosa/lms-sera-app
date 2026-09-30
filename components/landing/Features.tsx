@@ -1,123 +1,147 @@
-
-import {
-  ClipboardCheck,
-  GraduationCap,
-  Wallet,
-  Users,
-  BookOpen,
-  MessageSquare,
-  ArrowUpRight,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-
 export function Features() {
-  const features = [
+  const domains = [
     {
-      icon: ClipboardCheck,
-      title: "Kedisiplinan & Presensi Terpusat",
-      desc: "Presensi harian terhubung langsung ke alur pelanggaran. Poin kedisiplinan terhitung otomatis dengan notifikasi berjenjang ke wali kelas lalu orang tua.",
-      metricLabel: "Notifikasi terkirim hari ini",
-      metricValue: "128 Presensi",
-      accent: "from-primary to-brand-accent",
+      name: "Akademik",
+      records:
+        "Kelas, mata pelajaran, jadwal pelajaran, tahun ajaran, tugas, dan pengumpulan tugas siswa.",
+      tables: [
+        "Class",
+        "Subject",
+        "Schedule",
+        "AcademicYear",
+        "Assignment",
+        "AssignmentSubmission",
+      ],
     },
     {
-      icon: GraduationCap,
-      title: "Akademik & E-Rapor Kurikulum Merdeka",
-      desc: "Jadwal, bank soal, distribusi tugas, hingga rapor akhir siap cetak — mengikuti standar Kurikulum Merdeka tanpa entri data dua kali.",
-      metricLabel: "Status rapor akhir semester",
-      metricValue: "842 / 842 Siap Cetak",
-      accent: "from-[#ea2261] to-[#f96bee]",
+      name: "Presensi",
+      records:
+        "Kehadiran siswa per jadwal — hadir, sakit, izin, alfa — serta check-in dan check-out guru.",
+      tables: ["Attendance", "TeacherAttendance"],
     },
     {
-      icon: Wallet,
-      title: "Keuangan & SPP Online Midtrans",
-      desc: "SPP terhubung payment gateway resmi (Virtual Account BCA/Mandiri/BRI/BSI, QRIS). Tunggakan terekap otomatis per siswa dan rekening kas yayasan.",
-      metricLabel: "Collection rate bulan ini",
-      metricValue: "94.8% Terbayar",
-      accent: "from-[#0a7a4a] to-[#00d924]",
+      name: "Tahfidz",
+      records:
+        "Setoran ayat per surah dengan nilai A–E, katalog surah dan jumlah ayatnya, serta kelompok halaqah.",
+      tables: ["TahfidzRecord", "SurahQuran", "TahfidzGroup"],
     },
     {
-      icon: Users,
-      title: "Portal Mobile Orang Tua",
-      desc: "Orang tua memantau presensi, poin kedisiplinan, dan tagihan anak secara langsung dari ponsel — tanpa menghubungi wali kelas satu per satu.",
-      metricLabel: "Akun orang tua terhubung",
-      metricValue: "96% Terverifikasi",
-      accent: "from-[#0070f3] to-[#00dfd8]",
+      name: "Keuangan",
+      records:
+        "Tagihan bulanan, jenis pembayaran dan nominalnya, transaksi pembayaran online, serta rekening kas tiap unit.",
+      tables: [
+        "Payment",
+        "PaymentType",
+        "PaymentItems",
+        "PaymentTransaction",
+        "AccountBank",
+      ],
     },
     {
-      icon: BookOpen,
-      title: "Tahfidz Al-Qur'an & Mutaba'ah",
-      desc: "Pencatatan setoran ayat, mutaba'ah yaumiyah harian, dan evaluasi tajwid berstandar pesantren untuk membina hafalan santri/siswa.",
-      metricLabel: "Katalog Surah & Juz",
-      metricValue: "30 Juz Lengkap",
-      accent: "from-[#9b6829] to-[#ffb86c]",
+      name: "Penilaian & Rapor",
+      records:
+        "Bank soal dan pilihan jawaban, pelaksanaan ujian, jawaban siswa, nilai, serta rapor per mata pelajaran.",
+      tables: [
+        "Exam",
+        "ExamQuestion",
+        "Question",
+        "QuestionOption",
+        "ExamAttempt",
+        "ExamAnswer",
+        "Grade",
+        "ReportCard",
+        "GradeScale",
+      ],
     },
     {
-      icon: MessageSquare,
-      title: "Otomasi WhatsApp (Evolution API)",
-      desc: "Integrasi bot WhatsApp resmi untuk notifikasi jam kehadiran, alert keterlambatan siswa, dan bukti kuitansi pembayaran SPP langsung ke nomor orang tua.",
-      metricLabel: "Kecepatan pengiriman pesan",
-      metricValue: "< 3 Detik Instan",
-      accent: "from-[#25d366] to-[#128c7e]",
+      name: "Kedisiplinan",
+      records:
+        "Pelanggaran siswa beserta jenis dan bobot poinnya, terekap per siswa dalam satu tahun ajaran.",
+      tables: ["Violation", "ViolationType"],
+    },
+    {
+      name: "Komunikasi",
+      records:
+        "Pengumuman sekolah, notifikasi ke pengguna, dan agenda kalender kegiatan yayasan maupun unit.",
+      tables: ["Announcement", "Notification", "CalendarEvent"],
     },
   ];
 
   return (
     <section id="fitur" className="bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="bg-primary/10 text-primary inline-block rounded-full px-3.5 py-1 text-xs font-semibold">
-            Modul &amp; Fitur Unggulan
-          </span>
-          <h2 className="text-foreground mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Enam pilar operasional sekolah Anda dalam satu sistem.
+        <div className="border-margin max-w-[68ch] border-l-2 pl-6">
+          <h2 className="font-display text-foreground text-3xl tracking-tight">
+            Register modul: apa yang dicatat, dan tabel yang menyimpannya.
           </h2>
           <p className="text-muted-foreground mt-3 text-base leading-relaxed">
-            Dari bel masuk pagi hingga e-rapor akhir semester, setiap proses
-            berjalan otomatis tanpa perlu entri data berulang di berbagai
-            aplikasi berbeda.
+            Tujuh domain berjalan di atas satu basis data yang sama untuk SMP,
+            SMA, dan SMK IT dalam satu yayasan. Setiap baris di bawah ini adalah
+            modul yang dipakai harian oleh guru, bendahara, siswa, dan orang
+            tua.
           </p>
         </div>
 
-        {/* Bento Grid */}
-        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feat, idx) => (
-            <Card
-              key={idx}
-              className="group border-border bg-background hover:border-primary/40 relative flex flex-col justify-between overflow-hidden rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(13,37,61,0.06)]"
-            >
-              <CardContent className="space-y-4 p-0">
-                {/* Icon with gradient badge */}
-                <div className="flex items-center justify-between">
-                  <div className="bg-secondary text-primary group-hover:bg-primary flex h-12 w-12 items-center justify-center rounded-xl transition-colors group-hover:text-white">
-                    <feat.icon className="h-6 w-6" />
-                  </div>
-                  <ArrowUpRight className="text-muted-foreground h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-
-                <h3 className="text-foreground group-hover:text-primary text-lg font-bold transition-colors">
-                  {feat.title}
-                </h3>
-
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {feat.desc}
-                </p>
-              </CardContent>
-
-              <div className="border-border/60 mt-6 border-t pt-4">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">
-                    {feat.metricLabel}
-                  </span>
-                  <span className="text-foreground [font-feature-settings:'tnum'_1] font-semibold">
-                    {feat.metricValue}
-                  </span>
-                </div>
-              </div>
-            </Card>
-          ))}
+        <div className="mt-12 overflow-x-auto">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="border-border border-t-2">
+                <th
+                  scope="col"
+                  className="font-display text-secondary-foreground py-3 pr-6 text-[11px] tracking-wide uppercase"
+                >
+                  Domain
+                </th>
+                <th
+                  scope="col"
+                  className="font-display text-secondary-foreground py-3 pr-8 text-[11px] tracking-wide uppercase"
+                >
+                  Yang dicatat
+                </th>
+                <th
+                  scope="col"
+                  className="font-display text-secondary-foreground py-3 text-[11px] tracking-wide uppercase"
+                >
+                  Tabel
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {domains.map((domain) => (
+                <tr
+                  key={domain.name}
+                  className="border-border odd:bg-accent/60 border-b"
+                >
+                  <th
+                    scope="row"
+                    className="font-display text-foreground py-5 pr-6 align-top text-base font-normal tracking-tight whitespace-nowrap"
+                  >
+                    {domain.name}
+                  </th>
+                  <td className="text-secondary-foreground py-5 pr-8 align-top text-sm leading-relaxed">
+                    {domain.records}
+                  </td>
+                  <td className="py-5 align-top">
+                    <ul className="flex flex-wrap gap-x-4 gap-y-1">
+                      {domain.tables.map((table) => (
+                        <li
+                          key={table}
+                          className="font-mono text-foreground text-xs"
+                        >
+                          {table}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+
+        <p className="text-muted-foreground mt-4 text-xs">
+          Nama tabel mengikuti skema basis data aplikasi.
+        </p>
       </div>
     </section>
   );
