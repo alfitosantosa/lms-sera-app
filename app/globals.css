@@ -6,9 +6,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans:
+    var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Display = the printed form header. Register headings only, never body. */
+  --font-display:
+    var(--font-bitter), ui-serif, Georgia, "Times New Roman", serif;
+  /* Arabic script — surah names from `surah_quran.name`. */
+  --font-arabic: var(--font-naskh), "Noto Naskh Arabic", serif;
   --font-mono:
-    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    var(--font-plex-mono), ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+    Consolas, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -80,10 +88,15 @@
   --color-primary-active: var(--primary-active);
   --color-brand-tint: var(--brand-tint);
   --color-brand-accent: var(--brand-accent);
+  /* The red margin rule of a register sheet. Structural, never decorative. */
+  --color-margin: var(--margin);
   --color-navy: var(--navy);
   --color-navy-foreground: var(--navy-foreground);
   --color-navy-muted: var(--navy-muted);
   --color-navy-border: var(--navy-border);
+  --color-navy-accent: var(--navy-accent);
+  --color-navy-info: var(--navy-info);
+  --color-navy-success: var(--navy-success);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -113,196 +126,224 @@
 }
 
 /*
- * Sera design system — single source of truth.
- * Mirrors the landing page palette (components/landing/*). See DESIGN.md.
- * Contrast (WCAG AA, on white): ink 15.6 · ink-2 11.7 · muted 4.8 · brand 6.2 ·
- * success 5.4 · warning 7.1 · destructive 5.6 · info 6.0.
+ * Design system — single source of truth. See DESIGN.md.
+ *
+ * The metaphor is a school register: paper, ruled columns, ink, one stamp.
+ * Three ink roles carry all meaning:
+ *   ink (--primary)     = an action being taken
+ *   stamp (--brand-accent / --success) = settled, verified, paid
+ *   margin red (--margin / --destructive) = owing, absent, wrong
+ *
+ * Contrast — verified by `bun scripts/color-audit.mjs`, which parses this file.
+ * Light (WCAG AA, on paper #FBFAF4): ink 14.4 · ink-2 9.0 · muted 5.0 ·
+ * stamp 7.4 · margin 5.9 · every `-strong` on its `-chip` >= 4.5.
  */
 :root {
-  --radius: 0.75rem;
+  --radius: 0.375rem;
 
-  /* Surfaces and ink */
-  --background: #ffffff;
-  --foreground: #0d253d;
+  /* Surfaces and ink — paper, the sheet, the greenbar band */
+  --background: #fbfaf4;
+  --foreground: #16283a;
   --card: #ffffff;
-  --card-foreground: #0d253d;
+  --card-foreground: #16283a;
   --popover: #ffffff;
-  --popover-foreground: #0d253d;
-  --secondary: #f6f9fc;
-  --secondary-foreground: #273951;
-  --muted: #f6f9fc;
-  --muted-foreground: #64748d;
-  --accent: #f6f9fc;
-  --accent-foreground: #0d253d;
-  --border: #e3e8ee;
-  --input: #e3e8ee;
-  --ring: #533afd;
+  --popover-foreground: #16283a;
+  --secondary: #f4f7ef;
+  --secondary-foreground: #40566b;
+  --muted: #f4f7ef;
+  --muted-foreground: #5c6e80;
+  --accent: #ebf1e4;
+  --accent-foreground: #16283a;
+  --border: #c6ced6;
+  --input: #c6ced6;
+  --ring: #1b5e43;
 
-  /* Brand */
-  --primary: #533afd;
-  --primary-foreground: #ffffff;
-  --primary-hover: #4434d4;
-  --primary-active: #2e2b8c;
-  --brand-tint: #ebe8ff;
-  --brand-accent: #7b46ff;
+  /* Brand — an ink-filled action, and the green of the approved stamp */
+  --primary: #16283a;
+  --primary-foreground: #fbfaf4;
+  --primary-hover: #24405a;
+  --primary-active: #0e1d2a;
+  --brand-tint: #e3efe7;
+  --brand-accent: #1b5e43;
 
-  /* Inverse navy surfaces (landing Architecture / featured pricing) */
-  --navy: #0a2540;
-  --navy-foreground: #ffffff;
-  --navy-muted: #adbdcc;
+  /* The red margin rule that opens a register sheet */
+  --margin: #b4322a;
+
+  /* Inverse surfaces (Architecture / closing CTA bands) */
+  --navy: #10263a;
+  --navy-foreground: #f7f6ef;
+  --navy-muted: #a9bccb;
   --navy-border: oklch(1 0 0 / 10%);
+  /* Inverse-surface tones. The light-theme semantic tokens (--info, --success,
+     --brand-accent) fall below 4.5:1 on navy — use these on bg-navy bands. */
+  --navy-accent: #9cc8ae;
+  --navy-info: #6fd3e8;
+  --navy-success: #7fe0be;
 
   /* Status: text tone, solid button fill, tinted surfaces */
-  --destructive: #c81e4f;
-  --destructive-solid: #c81e4f;
-  --destructive-surface: #fff1f5;
-  --destructive-chip: #fde2e9;
-  --destructive-border: #f7b8cd;
-  --destructive-strong: #9f1239;
-  --success: #0a7a4a;
-  --success-solid: #0a7a4a;
-  --success-surface: #f2fbf7;
-  --success-chip: #d3f5e4;
-  --success-border: #a8e6c6;
-  --success-strong: #08603a;
-  --warning: #92400e;
-  --warning-solid: #92400e;
-  --warning-surface: #fffbeb;
-  --warning-chip: #fef3c7;
-  --warning-border: #fde68a;
-  --warning-strong: #78350f;
-  --caution: #9a3412;
-  --caution-solid: #c2410c;
-  --caution-surface: #fff7ed;
-  --caution-chip: #ffedd5;
-  --caution-border: #fed7aa;
-  --caution-strong: #7c2d12;
-  --info: #0b5cd5;
-  --info-solid: #0b5cd5;
-  --info-surface: #f2f7ff;
-  --info-chip: #e0ecfd;
-  --info-border: #bcd7fb;
-  --info-strong: #1e40af;
-  --tertiary: #7b46ff;
+  --destructive: #a62920;
+  --destructive-solid: #a62920;
+  --destructive-surface: #fdf1ef;
+  --destructive-chip: #f9deda;
+  --destructive-border: #e8b4ae;
+  --destructive-strong: #7f1d14;
+  --success: #156047;
+  --success-solid: #156047;
+  --success-surface: #eff6f2;
+  --success-chip: #d6e9e1;
+  --success-border: #a9cfc0;
+  --success-strong: #0e4531;
+  --warning: #8a5a00;
+  --warning-solid: #8a5a00;
+  --warning-surface: #fff8e8;
+  --warning-chip: #fdf0ce;
+  --warning-border: #e7ce8e;
+  --warning-strong: #6b4500;
+  --caution: #9a4a14;
+  --caution-solid: #b45309;
+  --caution-surface: #fdf4ec;
+  --caution-chip: #fbe5d3;
+  --caution-border: #efc79f;
+  --caution-strong: #7a3a0f;
+  --info: #14568c;
+  --info-solid: #14568c;
+  --info-surface: #f0f5fb;
+  --info-chip: #dce9f7;
+  --info-border: #b3cde8;
+  --info-strong: #0e3f69;
+  --tertiary: #5f4ab8;
   --tertiary-solid: #6d28d9;
   --tertiary-surface: #f7f4ff;
   --tertiary-chip: #ede9fe;
-  --tertiary-border: #ddd1fe;
-  --tertiary-strong: #5b21b6;
+  --tertiary-border: #d6ccfb;
+  --tertiary-strong: #4c1d95;
 
-  /* Data visualisation — landing accent ramp */
-  --chart-1: #533afd;
-  --chart-2: #7b46ff;
-  --chart-3: #00d4ff;
-  --chart-4: #0a7a4a;
-  --chart-5: #ea2261;
-  --chart-6: #0070f3;
-  --chart-7: #9b6829;
-  --chart-8: #f96bee;
-  --chart-9: #00dfd8;
-  --chart-10: #ffb86c;
+  /* Data visualisation — ten hues, all >= 3:1 on white.
+     Consumed as `var(--chart-N)` by lib/charts.ts, not as utilities. */
+  --chart-1: #16283a;
+  --chart-2: #1b5e43;
+  --chart-3: #0e7c86;
+  --chart-4: #14568c;
+  --chart-5: #5f4ab8;
+  --chart-6: #a62920;
+  --chart-7: #c2410c;
+  --chart-8: #8a5a00;
+  --chart-9: #4f7a1f;
+  --chart-10: #a5367a;
 
-  /* Application sidebar */
-  --sidebar: #ffffff;
-  --sidebar-foreground: #0d253d;
-  --sidebar-primary: #533afd;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f6f9fc;
-  --sidebar-accent-foreground: #0d253d;
-  --sidebar-active: #ebe8ff;
-  --sidebar-active-foreground: #533afd;
-  --sidebar-border: #e3e8ee;
-  --sidebar-ring: #533afd;
+  /* Application sidebar — the desk the sheet lies on */
+  --sidebar: #f4f7ef;
+  --sidebar-foreground: #16283a;
+  --sidebar-primary: #16283a;
+  --sidebar-primary-foreground: #fbfaf4;
+  --sidebar-accent: #ebf1e4;
+  --sidebar-accent-foreground: #16283a;
+  --sidebar-active: #e3efe7;
+  --sidebar-active-foreground: #156047;
+  --sidebar-border: #d6dee6;
+  --sidebar-ring: #1b5e43;
 }
 
+/*
+ * Dark theme is not wired at runtime (no ThemeProvider; `.dark` is never
+ * applied — see components/ui/sonner.tsx). Kept coherent for whenever it is.
+ * ponytail: `--primary` stays a mid pine fill so the 90-odd `bg-*-solid`
+ * buttons that inherit `text-primary-foreground` keep light-on-dark text;
+ * `text-primary` therefore sits at 2.9:1 here. If dark mode goes live, add a
+ * `--solid-foreground` token and point the Button variants at it instead.
+ */
 .dark {
-  /* Navy scale — the landing's own dark sections */
-  --background: #0a2540;
-  --foreground: #f6f9fc;
-  --card: oklch(1 0 0 / 4%);
-  --card-foreground: #f6f9fc;
-  --popover: #0d2946;
-  --popover-foreground: #f6f9fc;
-  --secondary: oklch(1 0 0 / 6%);
-  --secondary-foreground: #f6f9fc;
-  --muted: oklch(1 0 0 / 6%);
-  --muted-foreground: #adbdcc;
-  --accent: oklch(1 0 0 / 8%);
-  --accent-foreground: #f6f9fc;
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: #b9b9f9;
+  --background: #0b1b29;
+  --foreground: #f2f4ee;
+  --card: #122a3c;
+  --card-foreground: #f2f4ee;
+  --popover: #122a3c;
+  --popover-foreground: #f2f4ee;
+  --secondary: #15293a;
+  --secondary-foreground: #d6e0e6;
+  --muted: #15293a;
+  --muted-foreground: #a7b8c6;
+  --accent: #1b3244;
+  --accent-foreground: #f2f4ee;
+  --border: #3a566e;
+  --input: #466483;
+  --ring: #7cc3a1;
 
-  --primary: #533afd;
+  --primary: #2f6e52;
   --primary-foreground: #ffffff;
-  --primary-hover: #6b54ff;
-  --primary-active: #4434d4;
-  --brand-tint: oklch(0.62 0.24 285 / 20%);
-  --brand-accent: #b9b9f9;
+  --primary-hover: #3a8362;
+  --primary-active: #275c45;
+  --brand-tint: #173a2e;
+  --brand-accent: #7cc3a1;
 
-  --navy: #071d33;
-  --navy-foreground: #ffffff;
-  --navy-muted: #adbdcc;
+  --margin: #e0766b;
+
+  --navy: #08151f;
+  --navy-foreground: #f7f6ef;
+  --navy-muted: #a9bccb;
   --navy-border: oklch(1 0 0 / 10%);
+  --navy-accent: #9cc8ae;
+  --navy-info: #6fd3e8;
+  --navy-success: #7fe0be;
 
-  --destructive: #f96bee;
-  --destructive-solid: #c81e4f;
-  --destructive-surface: oklch(0.42 0.16 350 / 24%);
-  --destructive-chip: oklch(0.42 0.16 350 / 38%);
-  --destructive-border: oklch(0.55 0.19 350 / 45%);
-  --destructive-strong: #ffb3ef;
-  --success: #00d924;
-  --success-solid: #0a7a4a;
-  --success-surface: oklch(0.42 0.12 155 / 22%);
-  --success-chip: oklch(0.46 0.14 155 / 36%);
-  --success-border: oklch(0.58 0.16 155 / 45%);
-  --success-strong: #7cf29b;
-  --warning: #ffb86c;
-  --warning-solid: #92400e;
-  --warning-surface: oklch(0.44 0.11 70 / 22%);
-  --warning-chip: oklch(0.48 0.12 70 / 36%);
-  --warning-border: oklch(0.6 0.14 70 / 45%);
-  --warning-strong: #ffd7a8;
-  --caution: #ff9d6c;
-  --caution-solid: #c2410c;
-  --caution-surface: oklch(0.44 0.12 45 / 22%);
-  --caution-chip: oklch(0.48 0.14 45 / 36%);
-  --caution-border: oklch(0.6 0.16 45 / 45%);
-  --caution-strong: #ffc4a8;
-  --info: #00d4ff;
-  --info-solid: #0b5cd5;
-  --info-surface: oklch(0.44 0.11 240 / 22%);
-  --info-chip: oklch(0.48 0.13 240 / 36%);
-  --info-border: oklch(0.6 0.15 240 / 45%);
-  --info-strong: #a5e8ff;
-  --tertiary: #b9b9f9;
+  --destructive: #ff9c90;
+  --destructive-solid: #a62920;
+  --destructive-surface: #3a1a17;
+  --destructive-chip: #4c211c;
+  --destructive-border: #7a3a32;
+  --destructive-strong: #ffc6be;
+  --success: #7cc3a1;
+  --success-solid: #156047;
+  --success-surface: #15332a;
+  --success-chip: #1c4335;
+  --success-border: #316a52;
+  --success-strong: #a8dcc2;
+  --warning: #f0c571;
+  --warning-solid: #8a5a00;
+  --warning-surface: #33290f;
+  --warning-chip: #423516;
+  --warning-border: #6b5524;
+  --warning-strong: #f8dfae;
+  --caution: #f0a878;
+  --caution-solid: #9e4708;
+  --caution-surface: #362112;
+  --caution-chip: #472b17;
+  --caution-border: #744c2a;
+  --caution-strong: #f8c9a6;
+  --info: #8cc4f0;
+  --info-solid: #14568c;
+  --info-surface: #13293c;
+  --info-chip: #193650;
+  --info-border: #2d5478;
+  --info-strong: #bce0fa;
+  --tertiary: #c9bcf5;
   --tertiary-solid: #6d28d9;
-  --tertiary-surface: oklch(0.44 0.14 290 / 22%);
-  --tertiary-chip: oklch(0.48 0.16 290 / 36%);
-  --tertiary-border: oklch(0.6 0.17 290 / 45%);
-  --tertiary-strong: #ddd1fe;
+  --tertiary-surface: #241f3d;
+  --tertiary-chip: #2e2750;
+  --tertiary-border: #4c3f80;
+  --tertiary-strong: #e4ddfb;
 
-  --chart-1: #b9b9f9;
-  --chart-2: #7b46ff;
-  --chart-3: #00d4ff;
-  --chart-4: #00d924;
-  --chart-5: #f96bee;
-  --chart-6: #7aa7ff;
-  --chart-7: #ffb86c;
-  --chart-8: #ffb3ef;
-  --chart-9: #00dfd8;
-  --chart-10: #ffd7a8;
+  --chart-1: #9fb6ce;
+  --chart-2: #7cc3a1;
+  --chart-3: #5fc7d4;
+  --chart-4: #8cc4f0;
+  --chart-5: #c9bcf5;
+  --chart-6: #ff9c90;
+  --chart-7: #f0a878;
+  --chart-8: #f0c571;
+  --chart-9: #a7b8c6;
+  --chart-10: #eba0c8;
 
-  --sidebar: #071d33;
-  --sidebar-foreground: #f6f9fc;
-  --sidebar-primary: #533afd;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: oklch(1 0 0 / 6%);
-  --sidebar-accent-foreground: #f6f9fc;
-  --sidebar-active: oklch(0.62 0.24 285 / 24%);
-  --sidebar-active-foreground: #b9b9f9;
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: #b9b9f9;
+  --sidebar: #08151f;
+  --sidebar-foreground: #f2f4ee;
+  --sidebar-primary: #7cc3a1;
+  --sidebar-primary-foreground: #0b1b29;
+  --sidebar-accent: #16293a;
+  --sidebar-accent-foreground: #f2f4ee;
+  --sidebar-active: #1d3a4e;
+  --sidebar-active-foreground: #7cc3a1;
+  --sidebar-border: #2a4459;
+  --sidebar-ring: #7cc3a1;
 }
 
 @layer base {
@@ -319,6 +360,55 @@
   [data-slot="table-head"] {
     font-variant-numeric: tabular-nums;
   }
+  /* The printed form header of a register sheet. */
+  th {
+    @apply font-display font-semibold;
+  }
+}
+
+/*
+ * The one orchestrated motion on the landing: a register being marked down the
+ * column, then the stamp landing. Stagger with `--mark-delay` / `--stamp-delay`.
+ * The `prefers-reduced-motion` block below collapses both to their end state.
+ */
+@utility mark-in {
+  animation: mark-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--mark-delay, 0ms);
+}
+
+@keyframes mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A rubber stamp sits at an angle and never quite registers. */
+@utility stamp {
+  transform: rotate(-7deg);
+}
+
+@utility stamp-in {
+  animation: stamp-in 420ms cubic-bezier(0.2, 1.3, 0.4, 1) both;
+  animation-delay: var(--stamp-delay, 0ms);
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-7deg) scale(1.5);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-7deg) scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -326,6 +416,9 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* The register's marks are staggered; a surviving delay would hold them at
+       their invisible `from` state before snapping in. */
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

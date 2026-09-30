@@ -157,34 +157,34 @@ const C = {
   // Navy palette — formal, mirrors --navy from app/globals.css.
   // react-pdf cannot resolve CSS variables, so these are the design system's
   // values expressed as literals. See DESIGN.md §1.
-  navy: "#0a2540",
-  navyMid: "#12385c",
-  navyLt: "#1f5380",
-  navyFade: "#eef3fa",
+  navy: "#10263A",
+  navyMid: "#1b3a55",
+  navyLt: "#2c5680",
+  navyFade: "#eff3f7",
 
   // Text — --foreground / --secondary-foreground / --muted-foreground
-  ink: "#0d253d",
-  sub: "#273951",
-  muted: "#64748d",
-  faint: "#94a3b8",
+  ink: "#16283A",
+  sub: "#40566b",
+  muted: "#5C6E80",
+  faint: "#6e8296",
 
   // Surface — --card / --secondary / --border
   white: "#FFFFFF",
-  offWhite: "#F6F9FC",
-  stripe: "#F6F9FC",
-  border: "#D7DEE8",
-  borderLt: "#E3E8EE",
+  offWhite: "#F4F7EF",
+  stripe: "#F4F7EF",
+  border: "#C6CED6",
+  borderLt: "#C6CED6",
 
   // Status — chip text tones from DESIGN.md §1
-  green: "#0a7a4a",
-  greenBg: "#d3f5e4",
-  amber: "#92400e",
-  amberBg: "#fef3c7",
-  red: "#c81e4f",
-  redBg: "#fde2e9",
+  green: "#156047",
+  greenBg: "#d6e9e1",
+  amber: "#8a5a00",
+  amberBg: "#fdf0ce",
+  red: "#a62920",
+  redBg: "#f9deda",
 
   // Accent rule under the letterhead (brand)
-  gold: "#533afd",
+  gold: "#1B5E43",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -230,19 +230,19 @@ const S = StyleSheet.create({
     marginBottom: 2,
   },
   instUnit: {
-    color: "#93C5FD",
+    color: "#9CC8AE",
     fontSize: 6.5,
     marginBottom: 3,
     letterSpacing: 0.2,
   },
   instDivider: {
     height: 0.5,
-    backgroundColor: "#2D6EA8",
+    backgroundColor: "#1B3A55",
     marginBottom: 4,
     width: 60,
   },
   instAddr: {
-    color: "#94A3B8",
+    color: "#A9BCCB",
     fontSize: 5.5,
     lineHeight: 1.7,
   },
@@ -250,7 +250,7 @@ const S = StyleSheet.create({
   // Right: document identity
   docBlock: { alignItems: "flex-end", minWidth: 130 },
   docType: {
-    color: "#93C5FD",
+    color: "#9CC8AE",
     fontSize: 5.5,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -263,9 +263,9 @@ const S = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: 3,
   },
-  docNoLabel: { color: "#94A3B8", fontSize: 5.5, marginBottom: 1 },
+  docNoLabel: { color: "#A9BCCB", fontSize: 5.5, marginBottom: 1 },
   docNo: {
-    color: "#BFDBFE",
+    color: "#9CC8AE",
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
     letterSpacing: 0.5,
@@ -281,7 +281,7 @@ const S = StyleSheet.create({
     alignItems: "center",
   },
   metaItem: { flexDirection: "row", alignItems: "center", gap: 3 },
-  metaLabel: { color: "#93C5FD", fontSize: 6 },
+  metaLabel: { color: "#9CC8AE", fontSize: 6 },
   metaValue: { color: C.white, fontSize: 6, fontFamily: "Helvetica-Bold" },
 
   // Status badge
@@ -611,7 +611,7 @@ const S = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  operatorText: { fontSize: 5, color: "#94A3B8" },
+  operatorText: { fontSize: 5, color: "#A9BCCB" },
 
   // ── PAGE FOOTER (fixed, every page) ───────────────────────────────────────
   pageFooter: {
