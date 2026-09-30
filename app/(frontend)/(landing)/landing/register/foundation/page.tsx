@@ -1,39 +1,16 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
 
-
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {
-  Building2,
-  Upload,
-  Phone,
-  MapPin,
-  Hash,
-  Image as ImageIcon,
-  Loader2,
-  CheckCircle2,
-  ArrowLeft,
-} from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 
 // UI Components
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -43,6 +20,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  FieldGroup,
+  Sheet,
+  SheetActions,
+  SheetHeading,
+  SheetMasthead,
+  SheetPage,
+} from "@/components/entry/Sheet";
 
 // Hooks
 import {
@@ -52,7 +38,6 @@ import {
 import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/lib/authClients";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 
 // Form Schema untuk Daftarkan Yayasan
@@ -109,6 +94,22 @@ const foundationCodeSchema = z.object({
 export type FoundationFormData = z.infer<typeof foundationSchema>;
 export type FoundationCodeFormData = z.infer<typeof foundationCodeSchema>;
 
+/** Wait between polls without holding the event loop's executor form open. */
+const delay = (ms: number): Promise<void> => {
+  const { promise, resolve } = Promise.withResolvers<void>();
+  setTimeout(resolve, ms);
+  return promise;
+};
+
+/* Field labels are set as a printed form sets them — sentence case, one weight
+   up from the value beneath. See DESIGN.md §3. */
+const LABEL = "text-secondary-foreground text-[13px] font-medium";
+
+/* The mode selector sits on the sheet's top edge as two cells, the active one
+   marked by the rule under it. */
+const MODE =
+  "text-muted-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground h-auto flex-1 items-center justify-center rounded-none border-0 border-b-2 border-transparent bg-transparent px-4 py-3 text-[13px] font-medium whitespace-nowrap shadow-none transition-colors data-[state=active]:bg-transparent data-[state=active]:shadow-none sm:flex-none sm:px-5";
+
 export default function RegisterFoundation() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -154,11 +155,11 @@ export default function RegisterFoundation() {
 
         // Wait 500ms before next attempt
         console.log("⏳ Foundation ID not found yet, waiting 500ms...");
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await delay(500);
       } catch (error) {
         console.error("❌ Error polling user data:", error);
         // Continue polling even if there's an error
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await delay(500);
       }
     }
 
@@ -215,9 +216,7 @@ export default function RegisterFoundation() {
   });
 
   // Handle image upload (placeholder for now)
-  const handleImageUpload = async (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -228,7 +227,7 @@ export default function RegisterFoundation() {
       const placeholderUrl = `https://via.placeholder.com/400x300?text=${encodeURIComponent(form.getValues("name") || "Foundation")}`;
       form.setValue("imageUrl", placeholderUrl);
       toast.success("Gambar berhasil diunggah");
-    } catch (error) {
+    } catch {
       toast.error("Gagal mengunggah gambar");
     } finally {
       setUploadingImage(false);
@@ -321,438 +320,292 @@ export default function RegisterFoundation() {
   };
 
   return (
-    <div className="min-h-[100dvh]">
-      {/* Header with Breadcrumb */}
-      <div className="absolute top-6 left-6 z-20">
-        <Link
-          href="/"
-          className="border-border bg-background/80 text-secondary-foreground hover:border-tertiary-border hover:bg-background hover:text-primary inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-xs backdrop-blur-md transition-all active:translate-y-[1px]"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          <span>Kembali ke Beranda</span>
-        </Link>
-      </div>
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto w-full max-w-2xl">
-          {/* Header Section */}
-          <div className="mb-8">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-              <Building2 className="text-info h-8 w-8" />
-            </div>
-            <h1 className="mb-2 text-3xl font-bold tracking-tight">
-              Daftarkan Yayasan
-            </h1>
-            <p className="text-muted-foreground">
-              Lengkapi informasi yayasan untuk memulai menggunakan sistem
-              manajemen sekolah
-            </p>
-            <Badge variant="secondary" className="mt-3">
-              <CheckCircle2 className="mr-1 h-3 w-3" />
-              Gratis untuk 30 hari pertama
-            </Badge>
-          </div>
+    <SheetPage>
+      <SheetMasthead label="PENDAFTARAN YAYASAN" />
 
-          {/* User Info Section */}
-          {session.data?.user && (
-            <div className="mb-6">
-              <Card className="bg-muted/50">
-                <CardContent className="">
-                  <div className="flex items-center gap-3">
-                    {session.data.user.image && (
-                      <div className="border-background relative h-12 w-12 overflow-hidden rounded-full border-2 shadow-sm">
-                        <Image
-                          src={session.data.user.image}
-                          alt={session.data.user.name || "User Avatar"}
-                          width={48}
-                          height={48}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      </div>
+      {session.data?.user && (
+        <p className="text-muted-foreground mt-3 text-xs">
+          Mendaftar sebagai{" "}
+          <span className="text-foreground font-medium">
+            {session.data.user.name}
+          </span>
+          {session.data.user.email ? ` (${session.data.user.email})` : ""}
+        </p>
+      )}
+
+      <Sheet>
+        <Tabs defaultValue="register" className="gap-0">
+          <TabsList className="border-border h-auto w-full justify-start rounded-none border-b bg-transparent p-0">
+            <TabsTrigger value="register" className={MODE}>
+              Yayasan baru
+            </TabsTrigger>
+            <TabsTrigger value="inputID" className={MODE}>
+              Kode yayasan
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="register">
+            <SheetHeading
+              title="Daftarkan yayasan Anda"
+              description="Isi identitas yayasan. Kode yayasan dibuat otomatis dari namanya, dan dipakai pengguna lain untuk masuk ke yayasan ini."
+            />
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FieldGroup label="IDENTITAS YAYASAN">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Nama yayasan *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Yayasan Pendidikan Nusantara"
+                            className="h-11"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Nama resmi yayasan. Tercetak pada rapor siswa.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Mendaftar sebagai:</p>
-                      <p className="text-lg font-semibold">
-                        {session.data.user.name}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        {session.data.user.email}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+                  />
 
-          <div>
-            <Tabs defaultValue="register" className="w-full">
-              <TabsList className="w-full">
-                <TabsTrigger value="register" className="flex-1">
-                  Daftarkan Yayasan
-                </TabsTrigger>
-                <TabsTrigger value="inputID" className="flex-1">
-                  Masuk Dengan Code Yayasan
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="register">
-                {" "}
-                {/* Form Card */}
-                <Card className="shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Building2 className="h-5 w-5" />
-                      Informasi Yayasan
-                    </CardTitle>
-                    <CardDescription>
-                      Masukkan detail yayasan yang akan menggunakan sistem ini
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Form {...form}>
-                      <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6"
-                      >
-                        {/* Foundation Name */}
-                        <FormField
-                          control={form.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Building2 className="h-4 w-4" />
-                                Nama Yayasan *
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="contoh: Yayasan Pendidikan Nusantara"
-                                  className="h-11"
-                                  {...field}
+                  <FormField
+                    control={form.control}
+                    name="foundationCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Kode yayasan *</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled
+                            placeholder="YAYASAN_NUSANTARA_A7B9"
+                            className="bg-muted h-11 font-mono text-xs"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Dibuat otomatis dari nama yayasan. Bagikan kode ini
+                          kepada guru, siswa, dan orang tua agar akun mereka
+                          masuk ke yayasan ini.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FieldGroup>
+
+                <FieldGroup label="ALAMAT & KONTAK">
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Alamat lengkap *</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Jl. Pendidikan No. 123, Bandung 40123"
+                            className="min-h-[100px]"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Alamat kantor pusat yayasan.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Nomor telepon *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="+62 22 1234567"
+                            className="h-11"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Nomor yang dapat dihubungi cabang dan orang tua.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FieldGroup>
+
+                <FieldGroup label="LOGO YAYASAN (OPSIONAL)">
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Logo yayasan</FormLabel>
+                        <div className="space-y-3">
+                          {field.value && (
+                            <div className="border-border flex items-center gap-3 border px-3 py-2">
+                              <span className="bg-muted h-12 w-12 overflow-hidden rounded-sm">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={field.value}
+                                  alt="Pratinjau logo yayasan"
+                                  className="h-full w-full object-cover"
                                 />
-                              </FormControl>
-                              <FormDescription>
-                                Nama lengkap yayasan yang akan terdaftar di
-                                sistem
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* Foundation Code */}
-                        <FormField
-                          control={form.control}
-                          name="foundationCode"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Hash className="h-4 w-4" />
-                                Kode Yayasan *
-                                <Badge
-                                  variant="outline"
-                                  className="ml-auto text-xs font-normal"
-                                >
-                                  Auto-generated
-                                </Badge>
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  disabled={true}
-                                  placeholder="YAYASAN_NUSANTARA_A7B9"
-                                  className="bg-muted h-11 cursor-not-allowed font-mono"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Kode unik untuk identifikasi yayasan (dibuat
-                                otomatis dari nama + kode random)
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <Separator />
-
-                        {/* Address */}
-                        <FormField
-                          control={form.control}
-                          name="address"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <MapPin className="h-4 w-4" />
-                                Alamat Lengkap *
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Jl. Pendidikan No. 123, Kelurahan Sukamaju, Kecamatan Bandung Utara, Kota Bandung, Jawa Barat 40123"
-                                  className="min-h-[100px] resize-none"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Alamat lengkap kantor pusat yayasan
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* Phone */}
-                        <FormField
-                          control={form.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Phone className="h-4 w-4" />
-                                Nomor Telepon *
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="+62 22 1234567 atau 022-1234567"
-                                  className="h-11"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Nomor telepon yang dapat dihubungi
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <Separator />
-
-                        {/* Image Upload */}
-                        <FormField
-                          control={form.control}
-                          name="imageUrl"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <ImageIcon className="h-4 w-4" />
-                                Logo Yayasan (Opsional)
-                              </FormLabel>
-                              <div className="space-y-3">
-                                {/* Current Image Preview */}
-                                {field.value && (
-                                  <div className="flex items-center gap-3 rounded-lg border p-3">
-                                    <div className="bg-muted h-12 w-12 overflow-hidden rounded-lg">
-                                      <img
-                                        src={field.value}
-                                        alt="Logo Preview"
-                                        className="h-full w-full object-cover"
-                                      />
-                                    </div>
-                                    <div className="flex-1">
-                                      <p className="text-sm font-medium">
-                                        Logo telah diunggah
-                                      </p>
-                                      <p className="text-muted-foreground text-xs">
-                                        Klik tombol di bawah untuk mengubah
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* Upload Button */}
-                                <div className="flex items-center gap-3">
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={uploadingImage}
-                                    onClick={() =>
-                                      document
-                                        .getElementById("image-upload")
-                                        ?.click()
-                                    }
-                                  >
-                                    {uploadingImage ? (
-                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    ) : (
-                                      <Upload className="mr-2 h-4 w-4" />
-                                    )}
-                                    {uploadingImage
-                                      ? "Mengunggah..."
-                                      : "Pilih Gambar"}
-                                  </Button>
-                                  <FormControl>
-                                    <Input
-                                      id="image-upload"
-                                      type="file"
-                                      accept="image/*"
-                                      className="hidden"
-                                      onChange={handleImageUpload}
-                                    />
-                                  </FormControl>
-                                </div>
-                              </div>
-                              <FormDescription>
-                                Upload logo yayasan (format: JPG, PNG, maksimal
-                                2MB)
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* Submit Button */}
-                        <div className="flex flex-col gap-4 pt-4">
-                          {/* DEBUG: Show form values in development */}
-                          {process.env.NODE_ENV === "development" && (
-                            <div className="bg-muted rounded-lg p-4 text-xs">
-                              <p className="mb-2 font-bold">
-                                🐛 Debug - Form Values:
-                              </p>
-                              <pre className="whitespace-pre-wrap">
-                                {JSON.stringify(form.watch(), null, 2)}
-                              </pre>
+                              </span>
+                              <span className="text-xs">
+                                Logo terpasang. Pilih gambar lain untuk
+                                menggantinya.
+                              </span>
                             </div>
                           )}
 
-                          <Button
-                            type="submit"
-                            size="lg"
-                            disabled={isSubmitting}
-                            className="h-12 w-full"
-                          >
-                            {isSubmitting ? (
-                              <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Mendaftarkan Yayasan...
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle2 className="mr-2 h-4 w-4" />
-                                Daftarkan Yayasan
-                              </>
-                            )}
-                          </Button>
-
-                          <Alert>
-                            <CheckCircle2 className="h-4 w-4" />
-                            <AlertDescription>
-                              Setelah mendaftar, Anda akan dapat login dan mulai
-                              menggunakan sistem manajemen sekolah.
-                            </AlertDescription>
-                          </Alert>
+                          <div className="flex items-center gap-3">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              disabled={uploadingImage}
+                              onClick={() =>
+                                document.getElementById("image-upload")?.click()
+                              }
+                            >
+                              {uploadingImage ? (
+                                <Loader2 className="animate-spin" />
+                              ) : (
+                                <Upload />
+                              )}
+                              {uploadingImage ? "Mengunggah..." : "Pilih gambar"}
+                            </Button>
+                            <FormControl>
+                              <Input
+                                id="image-upload"
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleImageUpload}
+                              />
+                            </FormControl>
+                          </div>
                         </div>
-                      </form>
-                    </Form>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              <TabsContent value="inputID">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Building2 className="h-5 w-5" />
-                      Masuk dengan Code Yayasan
-                    </CardTitle>
-                    <CardDescription>
-                      Masukkan code yayasan yang sudah terdaftar untuk bergabung
-                      dengan yayasan tersebut
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Form {...codeForm}>
-                      <form
-                        onSubmit={codeForm.handleSubmit(
-                          handleInputCodeFoundation,
-                        )}
-                        className="space-y-4"
-                      >
-                        {/* Foundation Code Input */}
-                        <FormField
-                          control={codeForm.control}
-                          name="foundationCode"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="flex items-center gap-2">
-                                <Hash className="h-4 w-4" />
-                                Code Yayasan *
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="YAYASAN_NUSANTARA_A7B9"
-                                  className="h-11 font-mono uppercase"
-                                  {...field}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.value.toUpperCase())
-                                  }
-                                />
-                              </FormControl>
-                              <FormDescription>
-                                Masukkan code yayasan yang diberikan oleh admin
-                                yayasan. Format: NAMA_YAYASAN_KODE (contoh:
-                                YAYASAN_NUSANTARA_A7B9)
-                              </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                        <FormDescription className="text-xs">
+                          Format JPG atau PNG, maksimal 2MB.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FieldGroup>
 
-                        {/* Submit Button */}
-                        <div className="flex flex-col gap-4 pt-2">
-                          <Button
-                            type="submit"
-                            size="lg"
-                            disabled={isJoining}
-                            className="h-12 w-full"
-                          >
-                            {isJoining ? (
-                              <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Bergabung dengan Yayasan...
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle2 className="mr-2 h-4 w-4" />
-                                Masuk dengan Code Yayasan
-                              </>
-                            )}
-                          </Button>
+                <SheetActions aside="Setelah terdaftar, Anda diarahkan ke profil untuk melengkapi data.">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" />
+                        Mendaftarkan...
+                      </>
+                    ) : (
+                      "Daftarkan yayasan"
+                    )}
+                  </Button>
+                </SheetActions>
+              </form>
+            </Form>
+          </TabsContent>
 
-                          <Alert>
-                            <CheckCircle2 className="h-4 w-4" />
-                            <AlertDescription>
-                              Dengan memasukkan code yayasan, Anda akan
-                              bergabung dengan yayasan yang sudah terdaftar di
-                              sistem.
-                            </AlertDescription>
-                          </Alert>
-                        </div>
-                      </form>
-                    </Form>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
-          </div>
+          <TabsContent value="inputID">
+            <SheetHeading
+              title="Gabung dengan kode yayasan"
+              description="Masukkan kode yayasan yang diberikan admin. Akun ini langsung terhubung ke yayasan tersebut."
+            />
 
-          {/* Footer Info */}
-          <div className="mt-8">
-            <p className="text-muted-foreground text-sm">
-              Sudah memiliki akun yayasan?{" "}
-              <Button
-                variant="link"
-                className="h-auto p-0"
-                onClick={() => router.push("/auth/sign-in")}
-              >
-                Masuk di sini
-              </Button>
-            </p>
-          </div>
+            <Form {...codeForm}>
+              <form onSubmit={codeForm.handleSubmit(handleInputCodeFoundation)}>
+                <FieldGroup label="KODE YAYASAN">
+                  <FormField
+                    control={codeForm.control}
+                    name="foundationCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={LABEL}>Kode yayasan *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="YAYASAN_NUSANTARA_A7B9"
+                            autoComplete="off"
+                            className="h-11 font-mono text-xs uppercase"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(e.target.value.toUpperCase())
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Contoh format: YAYASAN_NUSANTARA_A7B9. Minta kode ini
+                          dari admin yayasan.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FieldGroup>
+
+                <SheetActions>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isJoining}
+                    className="w-full sm:w-auto"
+                  >
+                    {isJoining ? (
+                      <>
+                        <Loader2 className="animate-spin" />
+                        Bergabung...
+                      </>
+                    ) : (
+                      "Gabung dengan yayasan"
+                    )}
+                  </Button>
+                </SheetActions>
+              </form>
+            </Form>
+          </TabsContent>
+        </Tabs>
+      </Sheet>
+
+      <p className="text-muted-foreground mt-4 text-xs">
+        Sudah memiliki akun yayasan?{" "}
+        <Link
+          href="/auth/sign-in"
+          className="text-primary rounded-sm font-medium underline-offset-4 hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+        >
+          Masuk
+        </Link>
+      </p>
+
+      {/* DEBUG: Show form values in development */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="border-border bg-card mt-3 border px-4 py-3">
+          <p className="text-muted-foreground font-mono text-[11px]">
+            debug: form.watch()
+          </p>
+          <pre className="text-muted-foreground mt-2 overflow-x-auto font-mono text-[11px]">
+            {JSON.stringify(form.watch(), null, 2)}
+          </pre>
         </div>
-      </div>
-    </div>
+      )}
+    </SheetPage>
   );
 }
