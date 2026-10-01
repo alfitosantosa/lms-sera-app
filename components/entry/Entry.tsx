@@ -199,15 +199,3 @@ export function EntryLink({ href, children }: { href: string; children: ReactNod
     </Link>
   );
 }
-
-/**
- * The ink panel on the right: what the portal holds, shown rather than
- * described. Its content arrives 300ms behind the column's first line.
- */
-export function EntryPanel({ children }: { children: ReactNode }) {
-  return (
-    <div className="bg-navy animate-aside animate-delay-300 absolute inset-4 flex flex-col overflow-hidden rounded-3xl p-8">
-      {children}
-    </div>
-  );
-}

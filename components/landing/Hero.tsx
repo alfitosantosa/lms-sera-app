@@ -13,10 +13,11 @@ const MARK_LABEL: Record<Mark, string> = {
   A: "Alfa",
 };
 
+/* The domain map of DESIGN.md §1: sakit rides `warning`, izin rides `info`. */
 const MARK_CHIP: Record<Mark, string> = {
   H: "bg-success-chip text-success-strong",
-  S: "bg-info-chip text-info-strong",
-  I: "bg-warning-chip text-warning-strong",
+  S: "bg-warning-chip text-warning-strong",
+  I: "bg-info-chip text-info-strong",
   A: "bg-destructive-chip text-destructive-strong",
 };
 
@@ -124,9 +125,10 @@ const ROWS: RegisterRow[] = [
 const rupiah = (n: number) => `Rp ${n.toLocaleString("id-ID")}`;
 
 /**
- * The masthead. Centred, because the register below it is the one wide thing on
- * the page — it overlaps the ink band's lower edge, so the sheet starts on the
- * band and finishes on the ground.
+ * The masthead. Left-aligned on DESIGN.md's light blue gradient, with the
+ * register below it as the one wide object on the page — it overlaps the
+ * band's lower edge, so the sheet starts on the band and finishes on the
+ * canvas.
  */
 export function Hero() {
   const diterima = ROWS.filter((r) => r.status === "LUNAS").reduce(
@@ -137,35 +139,31 @@ export function Hero() {
 
   return (
     <>
-      <section className="bg-navy text-navy-foreground">
-        <div className="mx-auto max-w-3xl px-6 pt-16 pb-40 text-center sm:pt-24">
-          <p className="animate-element animate-delay-100 border-navy-border text-navy-muted inline-block rounded-full border px-3 py-1 text-xs">
+      <section className="from-brand-tint via-brand-tint/55 to-background border-border border-b bg-linear-to-b">
+        <div className="mx-auto max-w-6xl px-6 pt-16 pb-40 sm:pt-24">
+          <p className="animate-element animate-delay-100 border-interactive-border bg-card text-primary inline-flex rounded-full border px-3 py-1 text-xs font-medium tracking-wide">
             SMP, SMA, dan SMK IT dalam satu yayasan
           </p>
 
-          <h1 className="animate-element animate-delay-200 mt-6 text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.1] font-semibold tracking-tight text-balance">
+          <h1 className="animate-element animate-delay-200 mt-6 max-w-[24ch] text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1.04] font-bold tracking-[-0.04em] text-balance">
             Presensi, tahfidz, dan tagihan SPP siswa dalam satu catatan.
           </h1>
 
-          <p className="text-navy-muted animate-element animate-delay-300 mx-auto mt-5 max-w-[54ch] text-base leading-relaxed text-pretty">
+          <p className="text-muted-foreground animate-element animate-delay-300 mt-5 max-w-[58ch] text-lg leading-relaxed text-pretty">
             Guru mencatat kehadiran per jadwal, bendahara memverifikasi setoran,
             dan orang tua menerima ringkasannya lewat WhatsApp. Data tiap cabang
             berdiri sendiri.
           </p>
 
-          <div className="animate-element animate-delay-400 mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              asChild
-              size="lg"
-              className="bg-navy-foreground text-navy hover:bg-navy-muted w-full px-7 text-sm font-semibold sm:w-auto"
-            >
-              <Link href="/landing/register/foundation">Daftar yayasan</Link>
+          <div className="animate-element animate-delay-400 mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="w-full sm:w-auto">
+              <Link href="/auth/sign-in">Daftar yayasan</Link>
             </Button>
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="border-navy-border text-navy-foreground hover:bg-navy-foreground/10 w-full bg-transparent px-7 text-sm font-medium sm:w-auto"
+              className="w-full sm:w-auto"
             >
               <Link href="/auth/sign-in">Masuk ke akun</Link>
             </Button>
@@ -173,9 +171,9 @@ export function Hero() {
         </div>
       </section>
 
-      {/* The register itself — the one wide object, on the ground. */}
+      {/* The register itself — the one wide object, on the canvas. */}
       <section className="mx-auto -mt-28 max-w-6xl px-6">
-        <div className="border-border bg-card animate-element animate-delay-500 overflow-hidden rounded-3xl border">
+        <div className="border-border bg-card animate-element animate-delay-500 shadow-md overflow-hidden rounded-3xl border">
           <div className="border-border text-muted-foreground flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b px-4 py-3 text-sm">
             <span>Register kelas VII-A dan VII-B</span>
             <span>Pekan berjalan</span>

@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { type Metadata, type Viewport } from "next";
 import {
   IBM_Plex_Mono,
-  IBM_Plex_Sans,
+  Inter,
   Noto_Naskh_Arabic,
 } from "next/font/google";
 
@@ -15,12 +15,13 @@ import { BranchProvider } from "./(context)/BranchContext";
 import { ReactNode, Suspense } from "react";
 
 // Optimized font loading with next/font.
-// Body: an institutional sans with honest Indonesian numerals and diacritics.
-const plexSans = IBM_Plex_Sans({
+// Body: DESIGN.md's type system is Inter, exclusively — 400 body, 600 labels,
+// 700 display.
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap", // Prevent FOIT (Flash of Invisible Text)
-  variable: "--font-plex-sans",
+  variable: "--font-inter",
   preload: true,
 });
 
@@ -41,7 +42,7 @@ const naskh = Noto_Naskh_Arabic({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f7f7f8",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -71,10 +72,10 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${plexSans.variable} ${plexMono.variable} ${naskh.variable}`}
+      className={`${inter.variable} ${plexMono.variable} ${naskh.variable}`}
       suppressHydrationWarning
     >
-      <body className={plexSans.className} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <Toaster />
         <ReactQueryProvider>
           <TooltipProvider>

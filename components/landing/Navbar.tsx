@@ -24,11 +24,6 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
 
-  const goToRegister = () => {
-    setMobileOpen(false);
-    router.push("/landing/register/foundation");
-  };
-
   const goToSignIn = () => {
     setMobileOpen(false);
     router.push("/auth/sign-in");
@@ -60,7 +55,7 @@ export function Navbar() {
           <Button variant="ghost" onClick={goToSignIn} className="text-sm">
             Masuk
           </Button>
-          <Button onClick={goToRegister} className="text-sm">
+          <Button onClick={goToSignIn} className="text-sm">
             Daftar yayasan
           </Button>
         </div>
@@ -102,7 +97,7 @@ export function Navbar() {
                 <Separator />
 
                 <div className="space-y-2 p-5">
-                  <Button onClick={goToRegister} className="w-full">
+                  <Button onClick={goToSignIn} className="w-full">
                     Daftar yayasan
                   </Button>
                   <Button variant="outline" onClick={goToSignIn} className="w-full">

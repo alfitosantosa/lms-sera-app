@@ -20,12 +20,12 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const C = {
-  ink: "#16283A",
-  sub: "#40566b",
-  muted: "#5C6E80",
-  border: "#C6CED6",
-  stripe: "#F4F7EF",
-  navy: "#10263A",
+  ink: "#0a0a0a",
+  sub: "#3d3d3d",
+  muted: "#5e6268",
+  border: "#d4d4d4",
+  stripe: "#f5f5f5",
+  navy: "#171717",
 };
 
 const S = StyleSheet.create({

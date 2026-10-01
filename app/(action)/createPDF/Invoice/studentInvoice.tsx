@@ -154,37 +154,37 @@ const PH = 595;
 const PH_MARGIN = 20; // horizontal page margin
 
 const C = {
-  // Navy palette — formal, mirrors --navy from app/globals.css.
-  // react-pdf cannot resolve CSS variables, so these are the design system's
-  // values expressed as literals. See DESIGN.md §1.
-  navy: "#10263A",
-  navyMid: "#1b3a55",
-  navyLt: "#2c5680",
-  navyFade: "#eff3f7",
+  // Dark band — mirrors --navy from app/globals.css. react-pdf cannot resolve
+  // CSS variables, so these are the design system's values as literals.
+  // See DESIGN.md §1.
+  navy: "#171717",
+  navyMid: "#262626",
+  navyLt: "#404040",
+  navyFade: "#f5f5f5",
 
   // Text — --foreground / --secondary-foreground / --muted-foreground
-  ink: "#16283A",
-  sub: "#40566b",
-  muted: "#5C6E80",
-  faint: "#6e8296",
+  ink: "#0a0a0a",
+  sub: "#3d3d3d",
+  muted: "#5e6268",
+  faint: "#8e9192",
 
   // Surface — --card / --secondary / --border
   white: "#FFFFFF",
-  offWhite: "#F4F7EF",
-  stripe: "#F4F7EF",
-  border: "#C6CED6",
-  borderLt: "#C6CED6",
+  offWhite: "#f5f5f5",
+  stripe: "#f5f5f5",
+  border: "#d4d4d4",
+  borderLt: "#d4d4d4",
 
   // Status — chip text tones from DESIGN.md §1
-  green: "#156047",
-  greenBg: "#d6e9e1",
+  green: "#1b7a5e",
+  greenBg: "#d1ede8",
   amber: "#8a5a00",
-  amberBg: "#fdf0ce",
-  red: "#a62920",
-  redBg: "#f9deda",
+  amberBg: "#ffe8cc",
+  red: "#c41e3a",
+  redBg: "#ffe5e5",
 
-  // Accent rule under the letterhead (brand)
-  gold: "#1B5E43",
+  // Accent rule under the letterhead (--ring, DESIGN.md's primary)
+  accent: "#0284c5",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -201,10 +201,10 @@ const S = StyleSheet.create({
 
   // ── HEADER ─────────────────────────────────────────────────────────────────
 
-  // Gold rule at very top
+  // Accent rule at very top
   goldRule: {
     height: 3,
-    backgroundColor: C.gold,
+    backgroundColor: C.accent,
   },
 
   header: {
@@ -230,19 +230,19 @@ const S = StyleSheet.create({
     marginBottom: 2,
   },
   instUnit: {
-    color: "#9CC8AE",
+    color: "#5eb3ff",
     fontSize: 6.5,
     marginBottom: 3,
     letterSpacing: 0.2,
   },
   instDivider: {
     height: 0.5,
-    backgroundColor: "#1B3A55",
+    backgroundColor: "#262626",
     marginBottom: 4,
     width: 60,
   },
   instAddr: {
-    color: "#A9BCCB",
+    color: "#a3a3a3",
     fontSize: 5.5,
     lineHeight: 1.7,
   },
@@ -250,7 +250,7 @@ const S = StyleSheet.create({
   // Right: document identity
   docBlock: { alignItems: "flex-end", minWidth: 130 },
   docType: {
-    color: "#9CC8AE",
+    color: "#5eb3ff",
     fontSize: 5.5,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -263,9 +263,9 @@ const S = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: 3,
   },
-  docNoLabel: { color: "#A9BCCB", fontSize: 5.5, marginBottom: 1 },
+  docNoLabel: { color: "#a3a3a3", fontSize: 5.5, marginBottom: 1 },
   docNo: {
-    color: "#9CC8AE",
+    color: "#5eb3ff",
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
     letterSpacing: 0.5,
@@ -281,7 +281,7 @@ const S = StyleSheet.create({
     alignItems: "center",
   },
   metaItem: { flexDirection: "row", alignItems: "center", gap: 3 },
-  metaLabel: { color: "#9CC8AE", fontSize: 6 },
+  metaLabel: { color: "#5eb3ff", fontSize: 6 },
   metaValue: { color: C.white, fontSize: 6, fontFamily: "Helvetica-Bold" },
 
   // Status badge
@@ -396,11 +396,11 @@ const S = StyleSheet.create({
   colQty: { width: "8%", textAlign: "center" as const },
   colAmt: { width: "19%", textAlign: "right" as const },
 
-  // Gold rule below table body
+  // Accent rule below table body
   tableBottomRule: {
     marginHorizontal: PH_MARGIN,
     height: 1.5,
-    backgroundColor: C.gold,
+    backgroundColor: C.accent,
   },
 
   // ── TOTALS SECTION ─────────────────────────────────────────────────────────
@@ -611,7 +611,7 @@ const S = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  operatorText: { fontSize: 5, color: "#A9BCCB" },
+  operatorText: { fontSize: 5, color: "#a3a3a3" },
 
   // ── PAGE FOOTER (fixed, every page) ───────────────────────────────────────
   pageFooter: {

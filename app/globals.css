@@ -7,7 +7,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans:
-    var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
   /* Arabic script — surah names from `surah_quran.name`. */
   --font-arabic: var(--font-naskh), "Noto Naskh Arabic", serif;
@@ -104,115 +104,115 @@
   --color-interactive-fill: var(--interactive-fill);
   --color-interactive-border: var(--interactive-border);
   --color-interactive-surface: var(--interactive-surface);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* DESIGN.md's `rounded` scale, verbatim: sm 4 · DEFAULT 8 · md 12 · lg 16 ·
+     xl 24. Buttons and inputs ride `rounded-lg`, cards ride `rounded-xl`. */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
   /* The house style's two working radii: fields and buttons ride `rounded-2xl`,
-     panels and asides ride `rounded-3xl`. Everything derives from --radius. */
-  --radius-2xl: calc(var(--radius) + 6px);
-  --radius-3xl: calc(var(--radius) + 14px);
+     panels and asides ride `rounded-3xl`. Both alias the DESIGN.md steps above. */
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
 
-  /* Ink-tinted elevation — never black (DESIGN.md §4). Hue 268 = logo indigo. */
-  --shadow-2xs: 0 1px 2px 0 oklch(0.15 0.05 268 / 4%);
-  --shadow-xs:
-    0 1px 2px 0 oklch(0.15 0.05 268 / 5%), 0 1px 3px 0 oklch(0.15 0.05 268 / 4%);
-  --shadow-sm:
-    0 1px 3px 0 oklch(0.15 0.05 268 / 7%),
-    0 1px 2px -1px oklch(0.15 0.05 268 / 5%);
-  --shadow-md:
-    0 4px 12px -2px oklch(0.15 0.05 268 / 8%),
-    0 2px 6px -2px oklch(0.15 0.05 268 / 5%);
-  --shadow-lg:
-    0 12px 30px -6px oklch(0.15 0.05 268 / 10%),
-    0 4px 12px -4px oklch(0.15 0.05 268 / 6%);
-  --shadow-xl:
-    0 20px 50px -12px oklch(0.15 0.05 268 / 12%),
-    0 8px 20px -8px oklch(0.15 0.05 268 / 6%);
-  --shadow-2xl: 0 32px 64px -16px oklch(0.15 0.05 268 / 16%);
+  /* DESIGN.md's three elevation levels. The extra Tailwind steps alias onto
+     them, so no element ever stacks two levels onto one surface. */
+  --shadow-2xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 /*
  * Design system — single source of truth. See DESIGN.md.
  *
- * Brand colour is taken from the Santosa Tech Indonesia logo: #3e58eb
- * (royal indigo-blue). Every brand tone below is a shade or tint of that hue.
+ * DESIGN.md's "Accessible Clarity": a white canvas carrying one teal accent on
+ * every call to action, with coral and gold reserved for status. Three roles:
+ *   teal (--primary / --ring)       = an action, or the control you are touching
+ *   stamp / margin (--success-*, --destructive-* / --margin) = verified, or owed
+ *   gold (--warning-*, --caution-*) = a deadline, a soft warning
  *
- * Three ink roles carry all meaning:
- *   brand blue (--primary)  = an action being taken
- *   stamp (--success)       = settled, verified, paid
- *   margin red (--margin / --destructive) = owing, absent, wrong
+ * Values are DESIGN.md's where they clear WCAG AA; where DESIGN.md's own tone
+ * does not (its #0284c5 CTA carries only 3.8:1 under white text, its #b8860b
+ * badge 2.7:1 on white) the same hue is taken one step deeper and DESIGN.md's
+ * exact tone keeps the non-text role. Each deviation is commented.
  *
- * Contrast — re-run `bun scripts/color-audit.mjs` after editing. Spot checks
- * on white: primary 5.5 · primary-hover 6.9 · brand-accent 8.0 ·
- * ink 16.8 · muted 6.3 · ring 4.3 (>= 3 for non-text).
+ * Contrast — verified by `bun scripts/color-audit.mjs`, which parses this file.
+ * Light (WCAG AA, on the white canvas): ink 19.6 · muted 6.1 · teal 5.9 ·
+ * stamp 5.3 · margin 4.9 · ring 5.9 · every `-strong` on its `-chip` >= 4.5.
  */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
 
-  /* Surfaces and ink — a faintly blue ground, white sheet, indigo-black ink. */
-  --background: #f6f7fb;
-  --foreground: #141b3a;
+  /* Surfaces — DESIGN.md's stack: a white canvas, grey sheets, near-black ink. */
+  --background: #ffffff;
+  --foreground: #0a0a0a;
   --card: #ffffff;
-  --card-foreground: #141b3a;
+  --card-foreground: #0a0a0a;
   --popover: #ffffff;
-  --popover-foreground: #141b3a;
-  --secondary: #f0f2f8;
-  --secondary-foreground: #3d4566;
-  --muted: #f0f2f8;
-  --muted-foreground: #5b5f73;
-  --accent: #e6e9f6;
-  --accent-foreground: #141b3a;
-  --border: #d8dbe8;
-  --input: #d8dbe8;
-  /* Focus ring: the lighter logo blue. */
-  --ring: #4f6bff;
+  --popover-foreground: #0a0a0a;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #3d3d3d;
+  --muted: #f5f5f5;
+  --muted-foreground: #5e6268;
+  --accent: #eeeeee;
+  --accent-foreground: #0a0a0a;
+  /* surface-container-high: a visible rule needs 1.2:1 on every surface above. */
+  --border: #d4d4d4;
+  --input: #d4d4d4;
+  /* Focus is the action teal, one step deeper so it clears 4.5:1 on a sheet. */
+  --ring: #016a9f;
 
-  /* Brand — the logo blue as the action fill, and its tint / deep accent */
-  --primary: #3e58eb;
+  /* Brand — the teal on every CTA. DESIGN.md's own #0284c5 keeps the non-text
+     roles (chart-1, the PDF accent rule) where 3:1 is the bar. */
+  --primary: #016a9f;
   --primary-foreground: #ffffff;
-  --primary-hover: #3049d6;
-  --primary-active: #2438b8;
-  --brand-tint: #e8ecfe;
-  --brand-accent: #2b3fc4;
+  --primary-hover: #0066a1;
+  --primary-active: #005a99;
+  --brand-tint: #cce5f7;
+  --brand-accent: #005a99;
 
-  /* Interaction — links, the ring, a checked box, and the wash a focused
-     field takes. Same family as the brand so the UI reads as one colour. */
-  --interactive: #3148d8;
-  --interactive-fill: #3e58eb;
-  --interactive-border: #9fb0ff;
-  --interactive-surface: #f3f5ff;
+  /* Interaction — the action teal family: links, a checked box, and the wash a
+     focused field takes. DESIGN.md keeps one accent, so this is that accent. */
+  --interactive: #005a99;
+  --interactive-fill: #016a9f;
+  --interactive-border: #a3d1f0;
+  --interactive-surface: #f0f7fc;
   /* The red margin rule that opens a register sheet */
-  --margin: #b4322a;
+  --margin: #e40014;
 
-  /* Inverse surfaces (the landing hero, the closing CTA band) — deep indigo */
-  --navy: #0f1a4a;
-  --navy-foreground: #f5f6ff;
-  --navy-muted: #aab4d8;
+  /* Inverse surfaces (the closing CTA band, the auth aside) */
+  --navy: #171717;
+  --navy-foreground: #fafafa;
+  --navy-muted: #a3a3a3;
   --navy-border: oklch(1 0 0 / 10%);
-  /* Inverse-surface tones. The light-theme semantic tokens fall below 4.5:1
-     on navy — use these on bg-navy bands. */
-  --navy-accent: #aab8ff;
+  /* Inverse-surface tones. The light-theme semantic tokens (--info, --success,
+     --brand-accent) fall below 4.5:1 on navy — use these on bg-navy bands. */
+  --navy-accent: #5eb3ff;
   --navy-info: #6fd3e8;
   --navy-success: #7fe0be;
 
-  /* Status: text tone, solid button fill, tinted surfaces */
-  --destructive: #a62920;
-  --destructive-solid: #a62920;
-  --destructive-surface: #fdf1ef;
-  --destructive-chip: #f9deda;
-  --destructive-border: #e8b4ae;
-  --destructive-strong: #7f1d14;
-  --success: #156047;
-  --success-solid: #156047;
-  --success-surface: #eff6f2;
-  --success-chip: #d6e9e1;
+  /* Status: text tone, solid button fill, tinted surfaces. Tones come from
+     DESIGN.md's badges; its badge warning is darkened to clear 4.5:1 on white. */
+  --destructive: #c41e3a;
+  --destructive-solid: #e40014;
+  --destructive-surface: #fff5f5;
+  --destructive-chip: #ffe5e5;
+  --destructive-border: #ffcccf;
+  --destructive-strong: #3d0005;
+  --success: #1b7a5e;
+  --success-solid: #1b7a5e;
+  --success-surface: #f0f9f7;
+  --success-chip: #d1ede8;
   --success-border: #a9cfc0;
-  --success-strong: #0e4531;
+  --success-strong: #14604a;
   --warning: #8a5a00;
   --warning-solid: #8a5a00;
-  --warning-surface: #fff8e8;
-  --warning-chip: #fdf0ce;
+  --warning-surface: #fffbf0;
+  --warning-chip: #ffe8cc;
   --warning-border: #e7ce8e;
   --warning-strong: #6b4500;
   --caution: #9a4a14;
@@ -221,90 +221,90 @@
   --caution-chip: #fbe5d3;
   --caution-border: #efc79f;
   --caution-strong: #7a3a0f;
-  /* Info stays a cooler, teal-leaning blue so it never reads as a button. */
-  --info: #14568c;
-  --info-solid: #14568c;
-  --info-surface: #f0f5fb;
+  --info: #0e5f86;
+  --info-solid: #0e5f86;
+  --info-surface: #f0f7fc;
   --info-chip: #dce9f7;
   --info-border: #b3cde8;
   --info-strong: #0e3f69;
-  --tertiary: #7c3aed;
-  --tertiary-solid: #6d28d9;
-  --tertiary-surface: #f7f4ff;
-  --tertiary-chip: #ede9fe;
-  --tertiary-border: #d6ccfb;
-  --tertiary-strong: #4c1d95;
+  --tertiary: #0d6f78;
+  --tertiary-solid: #0d6f78;
+  --tertiary-surface: #eff8f8;
+  --tertiary-chip: #d6edef;
+  --tertiary-border: #a9d3d8;
+  --tertiary-strong: #0a545c;
 
-  /* Data visualisation — ten hues, all >= 3:1 on white. chart-1 is the logo.
-     Consumed as `var(--chart-N)` by lib/charts.ts, not as utilities. */
-  --chart-1: #3e58eb;
-  --chart-2: #1b5e43;
-  --chart-3: #0e7c86;
-  --chart-4: #14568c;
-  --chart-5: #7c3aed;
+  /* Data visualisation — ten hues, all >= 3:1 on white. chart-1 is the teal,
+     chart-5 DESIGN.md's coral secondary. Consumed as `var(--chart-N)` by
+     lib/charts.ts, not as utilities. */
+  --chart-1: #0284c5;
+  --chart-2: #1b7a5e;
+  --chart-3: #0d6f78;
+  --chart-4: #0e5f86;
+  --chart-5: #fb2c36;
   --chart-6: #a62920;
   --chart-7: #c2410c;
   --chart-8: #8a5a00;
   --chart-9: #4f7a1f;
   --chart-10: #a5367a;
 
-  /* Application sidebar — a panel on the ground. Where you are is a brand pill. */
+  /* Application sidebar — a panel on the canvas. Where you are is a teal pill. */
   --sidebar: #ffffff;
-  --sidebar-foreground: #141b3a;
-  --sidebar-primary: #3e58eb;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #016a9f;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f0f2f8;
-  --sidebar-accent-foreground: #141b3a;
-  --sidebar-active: #3e58eb;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-active: #016a9f;
   --sidebar-active-foreground: #ffffff;
-  --sidebar-border: #e3e5ef;
-  --sidebar-ring: #4f6bff;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #016a9f;
 }
 
 /*
  * Dark theme is not wired at runtime (no ThemeProvider; `.dark` is never
  * applied — see components/ui/sonner.tsx). Kept coherent for whenever it is.
- * ponytail: `--primary` stays a mid blue fill so the 90-odd `bg-*-solid`
+ * ponytail: `--primary` stays a mid teal fill so the 90-odd `bg-*-solid`
  * buttons that inherit `text-primary-foreground` keep light-on-dark text;
- * `text-primary` therefore reads low on dark surfaces. If dark mode goes live,
- * add a `--solid-foreground` token and point the Button variants at it instead.
+ * `text-primary` therefore sits at 2.6:1 here. If dark mode goes live, add a
+ * `--solid-foreground` token and point the Button variants at it instead.
  */
 .dark {
-  --background: #0d0f1a;
-  --foreground: #f1f2fa;
-  --card: #161929;
-  --card-foreground: #f1f2fa;
-  --popover: #161929;
-  --popover-foreground: #f1f2fa;
-  --secondary: #1c2033;
-  --secondary-foreground: #d3d6e8;
-  --muted: #1c2033;
-  --muted-foreground: #a2a7c2;
-  --accent: #252a42;
-  --accent-foreground: #f1f2fa;
-  --border: #32374f;
-  --input: #32374f;
-  --ring: #8fa2ff;
+  --background: #171717;
+  --foreground: #fafafa;
+  --card: #1f1f1f;
+  --card-foreground: #fafafa;
+  --popover: #1f1f1f;
+  --popover-foreground: #fafafa;
+  --secondary: #262626;
+  --secondary-foreground: #d4d4d4;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #333333;
+  --accent-foreground: #fafafa;
+  --border: #4d4d4d;
+  --input: #4d4d4d;
+  --ring: #7fc4ec;
 
-  --primary: #4860ea;
+  --primary: #1b78ab;
   --primary-foreground: #ffffff;
-  --primary-hover: #5a72f0;
-  --primary-active: #3a50d0;
-  --brand-tint: #1a2250;
-  --brand-accent: #9fb0ff;
+  --primary-hover: #1f7cad;
+  --primary-active: #16618c;
+  --brand-tint: #143246;
+  --brand-accent: #7fc4ec;
 
-  --margin: #e0766b;
+  --margin: #ff9c90;
 
-  --interactive: #aab8ff;
-  --interactive-fill: #5b74f0;
-  --interactive-border: #4860ea;
-  --interactive-surface: #1c2350;
+  --interactive: #7fc4ec;
+  --interactive-fill: #2f9ad6;
+  --interactive-border: #1f7cad;
+  --interactive-surface: #12293a;
 
-  --navy: #080d2b;
-  --navy-foreground: #f5f6ff;
-  --navy-muted: #aab4d8;
+  --navy: #0f0f0f;
+  --navy-foreground: #fafafa;
+  --navy-muted: #a3a3a3;
   --navy-border: oklch(1 0 0 / 10%);
-  --navy-accent: #aab8ff;
+  --navy-accent: #7fc4ec;
   --navy-info: #6fd3e8;
   --navy-success: #7fe0be;
 
@@ -338,34 +338,34 @@
   --info-chip: #193650;
   --info-border: #2d5478;
   --info-strong: #bce0fa;
-  --tertiary: #c9bcf5;
-  --tertiary-solid: #6d28d9;
-  --tertiary-surface: #241f3d;
-  --tertiary-chip: #2e2750;
-  --tertiary-border: #4c3f80;
-  --tertiary-strong: #e4ddfb;
+  --tertiary: #6fd0da;
+  --tertiary-solid: #0d6f78;
+  --tertiary-surface: #103236;
+  --tertiary-chip: #164449;
+  --tertiary-border: #2b6c74;
+  --tertiary-strong: #a5e5ec;
 
-  --chart-1: #8fa2ff;
+  --chart-1: #5eb3ff;
   --chart-2: #7cc3a1;
   --chart-3: #5fc7d4;
   --chart-4: #8cc4f0;
-  --chart-5: #c9bcf5;
-  --chart-6: #ff9c90;
+  --chart-5: #ff8a7a;
+  --chart-6: #e05a4e;
   --chart-7: #f0a878;
   --chart-8: #f0c571;
   --chart-9: #a7b8c6;
   --chart-10: #eba0c8;
 
-  --sidebar: #161929;
-  --sidebar-foreground: #f1f2fa;
-  --sidebar-primary: #eef0ff;
-  --sidebar-primary-foreground: #161929;
-  --sidebar-accent: #252a42;
-  --sidebar-accent-foreground: #f1f2fa;
-  --sidebar-active: #eef0ff;
-  --sidebar-active-foreground: #161929;
-  --sidebar-border: #32374f;
-  --sidebar-ring: #8fa2ff;
+  --sidebar: #1f1f1f;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #1b78ab;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #333333;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-active: #1b78ab;
+  --sidebar-active-foreground: #ffffff;
+  --sidebar-border: #4d4d4d;
+  --sidebar-ring: #7fc4ec;
 }
 
 @layer base {

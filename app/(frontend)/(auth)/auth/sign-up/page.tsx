@@ -6,9 +6,8 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { GoogleMark } from "@/components/entry/GoogleMark";
-import { EntryAside } from "@/components/entry/EntryAside";
 import {
   EntryBanner,
   EntryDivider,
@@ -21,7 +20,7 @@ import {
   EntryScreen,
 } from "@/components/entry/Entry";
 import { signIn, signUp } from "@/lib/authClients";
-import { ChangeEvent, FormEvent, useState } from "react";
+import {type ChangeEvent, type FormEvent, useState } from "react";
 
 async function convertImageToBase64(file: File): Promise<string> {
   const { promise, resolve, reject } = Promise.withResolvers<string>();
@@ -150,7 +149,7 @@ export default function SignUp() {
   };
 
   return (
-    <EntryScreen aside={<EntryAside />}>
+    <EntryScreen>
       <EntryForm>
         <EntryBanner />
 

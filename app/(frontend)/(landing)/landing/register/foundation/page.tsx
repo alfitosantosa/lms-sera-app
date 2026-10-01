@@ -21,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EntryAside } from "@/components/entry/EntryAside";
 import {
   EntryFooter,
   EntryForm,
@@ -315,7 +314,7 @@ export default function RegisterFoundation() {
   };
 
   return (
-    <EntryScreen aside={<EntryAside />}>
+    <EntryScreen>
       <EntryForm>
         <EntryHeading
           title="Yayasan Anda"

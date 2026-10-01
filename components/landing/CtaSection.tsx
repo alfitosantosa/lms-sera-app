@@ -69,7 +69,7 @@ export function CtaSection() {
             ))}
           </ul>
 
-          <span className="text-navy-accent border-navy-accent animate-card self-start rounded-2xl border px-4 py-2 text-sm font-semibold">
+          <span className="text-navy-accent border-navy-accent self-start rounded-2xl border px-4 py-2 text-sm font-semibold">
             Terverifikasi
           </span>
         </div>
