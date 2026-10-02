@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { HeroCharts } from "./HeroCharts";
 
 /* Presensi is marked by letter, the way a class register is marked. */
 type Mark = "H" | "S" | "I" | "A";
@@ -39,6 +40,13 @@ const STATUS_CHIP: Record<Status, string> = {
   MENUNGGU: "border-warning-border bg-warning-surface text-warning-strong",
   TUNGGAKAN:
     "border-destructive-border bg-destructive-surface text-destructive-strong",
+};
+
+/* A colored edge on each row, so payment status reads down the page. */
+const STATUS_EDGE: Record<Status, string> = {
+  LUNAS: "border-l-success-strong",
+  MENUNGGU: "border-l-warning-strong",
+  TUNGGAKAN: "border-l-destructive-strong",
 };
 
 type RegisterRow = {
@@ -128,7 +136,7 @@ const rupiah = (n: number) => `Rp ${n.toLocaleString("id-ID")}`;
  * The masthead. Left-aligned on DESIGN.md's light blue gradient, with the
  * register below it as the one wide object on the page — it overlaps the
  * band's lower edge, so the sheet starts on the band and finishes on the
- * canvas.
+ * canvas. Color carries meaning here: every tint is a status in the data.
  */
 export function Hero() {
   const diterima = ROWS.filter((r) => r.status === "LUNAS").reduce(
@@ -136,11 +144,50 @@ export function Hero() {
     0,
   );
   const tertunggak = ROWS.reduce((sum, r) => sum + r.spp, 0) - diterima;
+  const hadir = ROWS.filter((r) => r.mark === "H").length;
+  const tidakHadir = ROWS.length - hadir;
+
+  const presensiData = MARKS.map((mark) => ({
+    mark,
+    count: ROWS.filter((r) => r.mark === mark).length,
+  }));
+  const sppData = ROWS.map((r) => ({
+    nama: r.nama.split(" ")[0],
+    spp: r.spp,
+    status: r.status,
+  }));
+
+  const tiles = [
+    {
+      label: "Hadir",
+      value: `${hadir} dari ${ROWS.length}`,
+      cls: "border-success-border bg-success-surface",
+      text: "text-success-strong",
+    },
+    {
+      label: "Sakit, izin, alfa",
+      value: `${tidakHadir} siswa`,
+      cls: "border-warning-border bg-warning-surface",
+      text: "text-warning-strong",
+    },
+    {
+      label: "SPP diterima",
+      value: rupiah(diterima),
+      cls: "border-interactive-border bg-brand-tint",
+      text: "text-primary",
+    },
+    {
+      label: "SPP tertunggak",
+      value: rupiah(tertunggak),
+      cls: "border-destructive-border bg-destructive-surface",
+      text: "text-destructive-strong",
+    },
+  ];
 
   return (
     <>
       <section className="from-brand-tint via-brand-tint/55 to-background border-border border-b bg-linear-to-b">
-        <div className="mx-auto max-w-6xl px-6 pt-16 pb-40 sm:pt-24">
+        <div className="mx-auto max-w-6xl px-6 pt-16 pb-48 sm:pt-24">
           <p className="animate-element animate-delay-100 border-interactive-border bg-card text-primary inline-flex rounded-full border px-3 py-1 text-xs font-medium tracking-wide">
             SMP, SMA, dan SMK IT dalam satu yayasan
           </p>
@@ -157,13 +204,13 @@ export function Hero() {
 
           <div className="animate-element animate-delay-400 mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/auth/sign-in">Daftar yayasan</Link>
+              <Link href="/landing/register/foundation">Daftar yayasan</Link>
             </Button>
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto"
+              className="bg-card w-full sm:w-auto"
             >
               <Link href="/auth/sign-in">Masuk ke akun</Link>
             </Button>
@@ -172,12 +219,35 @@ export function Hero() {
       </section>
 
       {/* The register itself — the one wide object, on the canvas. */}
-      <section className="mx-auto -mt-28 max-w-6xl px-6">
-        <div className="border-border bg-card animate-element animate-delay-500 shadow-md overflow-hidden rounded-3xl border">
+      <section className="mx-auto -mt-36 max-w-6xl px-6">
+        <div className="border-border bg-card animate-element animate-delay-500 overflow-hidden rounded-3xl border shadow-lg">
           <div className="border-border text-muted-foreground flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b px-4 py-3 text-sm">
-            <span>Register kelas VII-A dan VII-B</span>
+            <span className="text-foreground font-medium">
+              Register kelas VII-A dan VII-B
+            </span>
             <span>Pekan berjalan</span>
           </div>
+
+          {/* Recap, colored by what it counts. */}
+          <dl className="border-border grid grid-cols-2 gap-3 border-b p-4 lg:grid-cols-4">
+            {tiles.map((tile) => (
+              <div
+                key={tile.label}
+                className={`rounded-2xl border px-4 py-3 ${tile.cls}`}
+              >
+                <dt className="text-secondary-foreground text-xs">
+                  {tile.label}
+                </dt>
+                <dd
+                  className={`mt-1 text-lg font-semibold tracking-tight tabular-nums ${tile.text}`}
+                >
+                  {tile.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <HeroCharts presensi={presensiData} spp={sppData} />
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
@@ -256,19 +326,21 @@ export function Hero() {
                     key={row.nisn}
                     className="border-border odd:bg-accent/60 border-b last:border-b-0"
                   >
-                    <td className="text-muted-foreground px-3 py-2.5 text-xs">
+                    <td
+                      className={`text-muted-foreground border-l-4 px-3 py-3 text-xs ${STATUS_EDGE[row.status]}`}
+                    >
                       {row.kelas}
                     </td>
-                    <td className="text-muted-foreground hidden px-3 py-2.5 font-mono text-xs md:table-cell">
+                    <td className="text-muted-foreground hidden px-3 py-3 font-mono text-xs md:table-cell">
                       {row.nisn}
                     </td>
-                    <td className="px-3 py-2.5 font-medium whitespace-nowrap">
+                    <td className="px-3 py-3 font-medium whitespace-nowrap">
                       {row.nama}
                     </td>
                     {MARKS.map((mark) => (
                       <td
                         key={mark}
-                        className="border-border w-8 border-l px-0 py-2.5 text-center"
+                        className="border-border w-8 border-l px-0 py-3 text-center"
                       >
                         {row.mark === mark ? (
                           <span
@@ -283,18 +355,28 @@ export function Hero() {
                         )}
                       </td>
                     ))}
-                    <td className="border-border hidden border-l px-3 py-2.5 lg:table-cell">
-                      <span className="font-arabic block text-[15px] leading-tight">
-                        {row.surah.arabic}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {row.surah.latin} {row.surah.ayat}
-                      </span>
+                    <td className="border-border hidden border-l px-3 py-3 lg:table-cell">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`inline-grid size-6 shrink-0 place-content-center rounded-lg border text-xs font-semibold ${GRADE_CHIP[row.grade]}`}
+                          title={`Nilai ${row.grade}`}
+                        >
+                          {row.grade}
+                        </span>
+                        <span>
+                          <span className="font-arabic block text-[15px] leading-tight">
+                            {row.surah.arabic}
+                          </span>
+                          <span className="text-muted-foreground text-xs">
+                            {row.surah.latin} {row.surah.ayat}
+                          </span>
+                        </span>
+                      </div>
                     </td>
-                    <td className="hidden px-3 py-2.5 text-right tabular-nums sm:table-cell">
+                    <td className="hidden px-3 py-3 text-right tabular-nums sm:table-cell">
                       {rupiah(row.spp)}
                     </td>
-                    <td className="px-3 py-2.5">
+                    <td className="px-3 py-3">
                       <span
                         className={`inline-block rounded-full border px-2 py-0.5 text-xs font-medium ${STATUS_CHIP[row.status]}`}
                       >
@@ -307,25 +389,20 @@ export function Hero() {
             </table>
           </div>
 
-          {/* Recap and the closing mark. */}
+          {/* Legend and the closing mark. */}
           <div className="border-border bg-secondary/60 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t px-4 py-3">
-            <span className="text-muted-foreground text-sm">Rekap pekan ini</span>
-            <dl className="flex flex-wrap items-baseline gap-x-7 gap-y-2 text-sm">
-              <div className="flex items-baseline gap-2">
-                <dt className="text-muted-foreground text-xs">Diterima</dt>
-                <dd className="font-medium tabular-nums">{rupiah(diterima)}</dd>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <dt className="text-muted-foreground text-xs">Tertunggak</dt>
-                <dd className="text-destructive font-medium tabular-nums">
-                  {rupiah(tertunggak)}
-                </dd>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <dt className="text-muted-foreground text-xs">Siswa</dt>
-                <dd className="font-medium tabular-nums">{ROWS.length}</dd>
-              </div>
-            </dl>
+            <ul className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+              {MARKS.map((mark) => (
+                <li key={mark} className="flex items-center gap-1.5">
+                  <span
+                    className={`inline-grid size-5 place-content-center rounded-md text-[11px] font-semibold ${MARK_CHIP[mark]}`}
+                  >
+                    {mark}
+                  </span>
+                  {MARK_LABEL[mark]}
+                </li>
+              ))}
+            </ul>
             <span className="bg-success-chip text-success-strong rounded-full px-3 py-1 text-xs font-semibold">
               Terverifikasi
             </span>
