@@ -365,7 +365,7 @@ export function AppSidebar() {
                           <div className="flex items-center gap-2.5">
                             {Icon && (
                               <Icon
-                                className={`h-4 w-4 transition-colors ${isActive ? "text-primary" : "text-muted-foreground group-hover/item:text-foreground"}`}
+                                className={`h-4 w-4 transition-colors ${isActive ? "text-primary text-white" : "text-muted-foreground group-hover/item:text-foreground"}`}
                               />
                             )}
                             <span>{item.title}</span>
