@@ -14,7 +14,7 @@ import {
   Upload,
   Users,
 } from "lucide-react";
-import { ElementType } from "react";
+import { type ElementType } from "react";
 
 // Icon mapping
 const iconMap: Record<string, ElementType> = {
@@ -187,7 +187,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Data Pelanggaran",
-          url: "/dashboard/violations",
+          url: "/dashboard/admin/discipline/violations",
           icon: "violation",
         },
       ],

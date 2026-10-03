@@ -59,23 +59,6 @@ export function EntryForm({ children }: { children: ReactNode }) {
  * form column still fits a laptop screen — it arrives first, ahead of the
  * heading's own delay.
  */
-export function EntryBanner() {
-  return (
-    <div className="animate-element border-border bg-card rounded-3xl border p-5">
-      <SeraLogo markClassName="h-8 w-auto" />
-
-      <p className="text-foreground mt-4 text-sm leading-snug font-medium text-pretty">
-        Presensi, tahfidz, dan tagihan SPP siswa dalam satu catatan.
-      </p>
-
-      <p className="text-muted-foreground mt-2 text-xs leading-relaxed text-pretty">
-        Calon siswa atau orang tua?{" "}
-        <EntryLink href="/landing/welcome">Halaman selamat datang</EntryLink>{" "}
-        menjelaskan apa yang tercatat selama anak Anda di sekolah.
-      </p>
-    </div>
-  );
-}
 
 export function EntryHeading({
   title,
@@ -189,7 +172,13 @@ export function EntryFooter({
 }
 
 /** A link inside a sentence — the only place the accent appears as text. */
-export function EntryLink({ href, children }: { href: string; children: ReactNode }) {
+export function EntryLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
   return (
     <Link
       href={href}

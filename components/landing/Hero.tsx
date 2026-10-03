@@ -204,7 +204,7 @@ export function Hero() {
 
           <div className="animate-element animate-delay-400 mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/landing/register/foundation">Daftar yayasan</Link>
+              <Link href="/auth/sign-in">Daftar yayasan</Link>
             </Button>
             <Button
               asChild

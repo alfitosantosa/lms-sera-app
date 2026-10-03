@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleMark } from "@/components/entry/GoogleMark";
 import {
-  EntryBanner,
   EntryDivider,
   EntryField,
   EntryFooter,
@@ -100,8 +99,6 @@ export default function SignIn() {
   return (
     <EntryScreen>
       <EntryForm>
-        <EntryBanner />
-
         <EntryHeading
           title="Masuk ke akun Anda"
           description="Gunakan email dan kata sandi akun sekolah yang diberikan admin yayasan atau cabang Anda."

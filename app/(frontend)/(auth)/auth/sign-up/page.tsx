@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 
 import { GoogleMark } from "@/components/entry/GoogleMark";
 import {
-  EntryBanner,
   EntryDivider,
   EntryField,
   EntryFooter,
@@ -20,7 +19,7 @@ import {
   EntryScreen,
 } from "@/components/entry/Entry";
 import { signIn, signUp } from "@/lib/authClients";
-import {type ChangeEvent, type FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useState } from "react";
 
 async function convertImageToBase64(file: File): Promise<string> {
   const { promise, resolve, reject } = Promise.withResolvers<string>();
@@ -151,8 +150,6 @@ export default function SignUp() {
   return (
     <EntryScreen>
       <EntryForm>
-        <EntryBanner />
-
         <EntryHeading
           title="Buat akun"
           description="Akun ini dipakai untuk masuk ke portal sekolah. Data profil bisa dilengkapi setelah akun aktif."
@@ -201,10 +198,7 @@ export default function SignUp() {
             label="Kata sandi"
             delay="animate-element animate-delay-400"
           >
-            <EntryField
-              label="Kata sandi (min. 8 karakter)"
-              htmlFor="password"
-            >
+            <EntryField label="Kata sandi (min. 8 karakter)" htmlFor="password">
               <Input
                 id="password"
                 type="password"
@@ -236,7 +230,10 @@ export default function SignUp() {
             label="Foto profil"
             delay="animate-element animate-delay-500"
           >
-            <EntryField label="Foto profil (opsional, maks 2MB)" htmlFor="image">
+            <EntryField
+              label="Foto profil (opsional, maks 2MB)"
+              htmlFor="image"
+            >
               <div className="flex items-center gap-3">
                 {imagePreview ? (
                   <div className="border-border relative size-12 shrink-0 overflow-hidden rounded-xl border">
