@@ -186,7 +186,10 @@ export function Hero() {
 
   return (
     <>
-      <section className="from-brand-tint via-brand-tint/55 to-background border-border border-b bg-linear-to-b">
+      <section
+        id="fitur"
+        className="from-brand-tint via-brand-tint/55 to-background border-border border-b bg-linear-to-b"
+      >
         <div className="mx-auto max-w-6xl px-6 pt-16 pb-48 sm:pt-24">
           <p className="animate-element animate-delay-100 border-interactive-border bg-card text-primary inline-flex rounded-full border px-3 py-1 text-xs font-medium tracking-wide">
             SMP, SMA, dan SMK IT dalam satu yayasan
