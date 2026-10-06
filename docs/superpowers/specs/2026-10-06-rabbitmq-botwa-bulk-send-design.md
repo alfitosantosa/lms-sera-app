@@ -230,9 +230,16 @@ redelivered on restart.
 
 ### Reconnection
 
-The worker retries the connection with exponential backoff indefinitely — it must
-survive a broker restart. The API does the opposite: fail fast with `503`, because an
-HTTP request cannot wait for a broker to come back.
+Delegated to amqplib 2.x's built-in recovery (`recovery: { setup }`) rather than
+hand-rolled backoff. `setup` runs after **every** successful connection and re-runs
+`assertTopology()`. amqplib recovers only the connection — channels and consumers are
+not restored — so the worker creates its consume channel inside `onConnected`, which is
+invoked by `setup`.
+
+The two entrypoints differ in one flag: the worker uses the default (`maxRetries:
+Infinity`) and therefore survives a broker restart; the API passes `failFast: true`
+(`initialMaxRetries: 0`) and fails with `503`, because an HTTP request cannot wait for a
+broker to come back.
 
 ### Known ceiling
 
@@ -262,8 +269,10 @@ Call sites:
   `delayMs: 500` are removed; rate limiting is now worker-side and global. The old
   `successCount` / `failCount` toasts are replaced, since the response no longer carries
   per-recipient outcomes.
-- `dashboard/student/payment/page.tsx` — single recipient, `message` with `{name}`, no
-  change to its immediate `toast.success("Pembayaran berhasil!")`.
+- `dashboard/student/payment/page.tsx` — **no change required.** It passes one recipient
+  with a fully rendered `message` (no `{name}`) and ignores the mutation response, so it
+  already works against the new contract. Its immediate
+  `toast.success("Pembayaran berhasil!")` is unchanged.
 
 ## 10. Deployment
 
@@ -318,10 +327,36 @@ Also:
    management UI, not from application code.
 4. Durability: stop the worker, `POST` a batch, assert `accepted` equals the recipient
    count and the work queue depth grows; start the worker, assert the queue drains.
-5. One `bun test` file (Bun's built-in runner — no new dependency, no framework config)
-   covering the two pure functions that carry real logic: `nextRetryQueue` and the body
-   resolution (`recipient.message` override plus `{name}` fallback). The repository has
-   no test convention, so this is intentionally a single file rather than a suite.
+5. One runnable self-check for the two pure functions that carry real logic:
+   `nextRetryQueue` and body resolution (`recipient.message` override plus `{name}`
+   fallback). Run with `bun run lib/rabbitMQ/retry.check.ts`.
+   `bun:test` was **not** used: `@types/bun` is not installed, so importing
+   `bun:test` fails `tsc --noEmit`. The check uses `node:assert/strict` under an
+   `import.meta.main`-free top-level script instead — no new dependency.
+
+### Verification results (2026-10-06)
+
+| Check | Result |
+|---|---|
+| `bunx tsc --noEmit` | clean, exit 0 |
+| `bun run build` (turbopack) | succeeded, 39.9 s |
+| `bun run lib/rabbitMQ/retry.check.ts` | all asserts pass |
+| Topology on live broker | 5 queues, all `type=quorum durable=true` |
+| Consumer registration | `consumers=1`, `ack_required=true` |
+| `POST` publish path | `200 {batchId, accepted:2, rejected:1}` in **216 ms** for 3 recipients (empty number counted `rejected`) |
+| Retry chain | 4 attempts per message, log shows `retry.1s → retry.5s → retry.30s → DLQ` |
+| DLQ | received both messages; all queues drained to 0, nothing stuck unacked |
+| Graceful shutdown | `SIGTERM` → clean exit 0 |
+
+Not verified: the **happy path** (a message actually delivered by Evolution with a real
+`messageId`) needs a real WhatsApp number. The smoke used deliberately invalid numbers,
+so Evolution answered `400` and the message exercised the failure path instead. That
+path also confirms the failure classification works, but a real number is still required
+before calling delivery proven.
+
+The DLQ payloads were consumed during inspection, so `x-attempt: 4` and the per-recipient
+override text were confirmed from the worker log and the queue's `ready` count rather
+than by reading a dead-lettered body.
 
 ## 13. File manifest
 
@@ -330,14 +365,14 @@ Also:
 | `lib/rabbitMQ/rabbitMQ.ts` | rework — no credential fallback, reconnect, confirm channel, drop unused `getChannel` |
 | `lib/rabbitMQ/topology.ts` | new — queue/exchange names, arguments, `assertTopology()` |
 | `lib/rabbitMQ/retry.ts` | new — `nextRetryQueue()`, body resolution |
-| `lib/rabbitMQ/retry.test.ts` | new — one `bun test` file |
+| `lib/rabbitMQ/retry.check.ts` | new — `assert`-based self-check (no framework) |
 | `worker/index.ts` | new — consumer |
 | `app/(backend)/api/botwa/bulk/send/route.ts` | rewrite `POST`, keep `GET` |
 | `app/(backend)/api/botwa/bulk/consumer/` | delete |
 | `app/(hooks)/hooks/BotWA/useBotWA.ts` | modify — `{ batchId, accepted, rejected }` |
 | `app/(frontend)/(dashboard)/dashboard/teacher/attendance/[id]/page.tsx` | modify — single batched send |
 | `app/(frontend)/(dashboard)/dashboard/teacher/attendance/tahfidz/[id]/page.tsx` | modify — single batched send |
-| `app/(frontend)/(dashboard)/dashboard/student/payment/page.tsx` | modify — pass `{name}` template |
+| `app/(frontend)/(dashboard)/dashboard/student/payment/page.tsx` | no change needed — verified against new contract |
 | `Dockerfile` | new stage `worker` |
 | `docker-compose.yml` | modify — add `worker` service |
 | `package.json` | modify — `worker` script, drop `bullmq` |

@@ -36,7 +36,22 @@ RUN bunx prisma generate && \
 
 
 # ==========================================
-# Stage 3: Production Runner
+# Stage 3: Worker (consumer RabbitMQ)
+# ==========================================
+# Worker TIDAK bisa ikut image runner: runner hanya menyalin .next/standalone
+# (tanpa node_modules) dan `worker/index.ts` tidak terjangkau dari entrypoint
+# Next mana pun, jadi tracing standalone tidak akan pernah memasukkannya.
+# Stage ini dibangun dari builder yang sudah punya node_modules + Prisma client.
+#
+# Sengaja diletakkan SEBELUM stage runner supaya runner tetap jadi stage
+# terakhir (= target default `docker build`).
+FROM builder AS worker
+
+CMD ["bun", "worker/index.ts"]
+
+
+# ==========================================
+# Stage 4: Production Runner
 # ==========================================
 FROM oven/bun:latest AS runner
 

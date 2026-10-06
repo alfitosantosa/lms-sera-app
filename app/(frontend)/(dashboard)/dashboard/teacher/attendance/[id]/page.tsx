@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import {
   AlertTriangle,
   BookOpen,
@@ -248,53 +248,44 @@ Terima kasih.
 *IT ${process.env.NEXT_PUBLIC_CLIENT_NAME}*`,
     ];
 
-    // Send individual messages with personalized status
+    // Satu request untuk seluruh batch. Template acak + {status}/{notes}
+    // dirender di sini karena data absensi hanya ada di browser; worker hanya
+    // mengirim apa yang ada di antrian.
     setIsSendingWA(true);
-    let successCount = 0;
-    let failCount = 0;
 
     try {
-      for (const student of studentsWithPhone) {
+      const recipients = studentsWithPhone.map((student) => {
         const status = attendanceInfo[student.id]?.status || "unknown";
         const statusLabel =
           STATUS_MAP[status as keyof typeof STATUS_MAP]?.label || status;
         const notes = attendanceInfo[student.id]?.notes;
 
         // Select a random template for this student
-        const randomTemplateIndex = Math.floor(
-          Math.random() * templates.length,
-        );
-        const selectedTemplate = templates[randomTemplateIndex];
+        const selectedTemplate =
+          templates[Math.floor(Math.random() * templates.length)];
 
-        // Personalize message for each student
-        const personalizedMessage = selectedTemplate
-          .replace("{name}", student.name)
-          .replace("{status}", statusLabel)
-          .replace("{notes}", notes ? `📝 *Catatan:* ${notes}` : "");
+        return {
+          number: student.parentPhone!,
+          name: student.name,
+          message: selectedTemplate
+            .replace("{name}", student.name)
+            .replace("{status}", statusLabel)
+            .replace("{notes}", notes ? `📝 *Catatan:* ${notes}` : ""),
+        };
+      });
 
-        try {
-          await bulkSendWA.mutateAsync({
-            recipients: [{ number: student.parentPhone!, name: student.name }],
-            message: personalizedMessage,
-            delayMs: 500,
-          });
-          successCount++;
-        } catch (error) {
-          console.error(`Failed to send WA to ${student.name}:`, error);
-          failCount++;
-        }
+      const result = await bulkSendWA.mutateAsync({
+        recipients,
+        delayMs: 10000,
+      });
 
-        // Small delay between messages
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }
-
-      if (successCount > 0) {
+      if (result.accepted > 0) {
         toast.success(
-          `Berhasil mengirim ${successCount} notifikasi WhatsApp ke orang tua.`,
+          `${result.accepted} notifikasi WhatsApp sedang dikirim ke orang tua.`,
         );
       }
-      if (failCount > 0) {
-        toast.error(`Gagal mengirim ${failCount} notifikasi WhatsApp.`);
+      if (result.rejected > 0) {
+        toast.error(`${result.rejected} nomor gagal masuk ke antrian.`);
       }
     } catch (error) {
       console.error("Error sending WhatsApp notifications:", error);

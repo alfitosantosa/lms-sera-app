@@ -64,6 +64,57 @@ services:
       - "com.${COMPOSE_PROJECT_NAME}.environment=production"
 
   # ==========================================
+  # WORKER SERVICE - Consumer RabbitMQ (pengiriman WhatsApp)
+  # Route API hanya publish; proses ini yang memanggil Evolution API.
+  # ==========================================
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+      args:
+        - NODE_ENV=production
+      cache_from:
+        - ${COMPOSE_PROJECT_NAME}-worker:latest
+    image: ${COMPOSE_PROJECT_NAME}-worker:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-worker
+    restart: unless-stopped
+
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+
+    env_file:
+      - .env.production
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+        compress: "true"
+
+    tmpfs:
+      - /tmp:size=100m,mode=1777
+      - /var/tmp:size=100m,mode=1777
+
+    security_opt:
+      - no-new-privileges:true
+
+    labels:
+      - "com.${COMPOSE_PROJECT_NAME}.service=worker"
+      - "com.${COMPOSE_PROJECT_NAME}.environment=production"
+
+  # ==========================================
   # CLEANUP SERVICE - Otomatis bersihkan unused images/containers
   # ==========================================
   docker-cleanup:
