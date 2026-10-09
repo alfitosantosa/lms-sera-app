@@ -29,8 +29,40 @@ const FOUNDATION_QUERY_KEY = ["foundation"] as const;
 // HELPERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-const invalidateFoundationQueries = (queryClient: any) => {
+const invalidateFoundationQueries = (queryClient: QueryClient) => {
   queryClient.invalidateQueries({ queryKey: FOUNDATION_QUERY_KEY });
+};
+
+/**
+ * Setelah user dibuat/dipindah ke sebuah yayasan, `foundationId` berubah di dua
+ * query yang dipakai halaman profil: `["users-profile", userId]` (userData) dan
+ * `["betterauth-by-id", userId]` (user + foundation). Keduanya fresh 5 menit,
+ * jadi tanpa invalidasi halaman profil tetap menampilkan "Belum Terdaftar" dan
+ * user memasukkan kode yayasan berulang. Refetch ditunggu agar redirect ke
+ * profil sudah membawa data baru (tanpa kedipan state lama).
+ */
+const invalidateUserFoundationQueries = async (
+  queryClient: QueryClient,
+  userId?: string,
+): Promise<void> => {
+  queryClient.invalidateQueries({ queryKey: ["users-profile"] });
+  queryClient.invalidateQueries({ queryKey: ["users"] });
+
+  if (!userId) return;
+
+  queryClient.invalidateQueries({ queryKey: ["betterauth-by-id", userId] });
+  // `type: "all"`: saat join, query profil belum tentu punya observer (mis. halaman
+  // register hanya memakai users-profile), jadi jangan hanya refetch yang aktif.
+  await Promise.all([
+    queryClient.refetchQueries({
+      queryKey: ["users-profile", userId],
+      type: "all",
+    }),
+    queryClient.refetchQueries({
+      queryKey: ["betterauth-by-id", userId],
+      type: "all",
+    }),
+  ]);
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -64,17 +96,9 @@ export const useCreateFoundation = () => {
       // Invalidate foundation queries
       invalidateFoundationQueries(queryClient);
 
-      // CRITICAL: Also invalidate user data cache to force refetch with updated foundationId
-      queryClient.invalidateQueries({ queryKey: ["users-profile"] });
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-
-      // Wait for user cache to be cleared and potentially refetched
-      // Use the userId from the submitted form data
-      if (variables.userId) {
-        await queryClient.refetchQueries({
-          queryKey: ["users-profile", variables.userId],
-        });
-      }
+      // Profil di-redirect setelah ini: tunggu cache user ter-refresh dulu
+      // supaya halaman tidak menampilkan "Belum Terdaftar".
+      await invalidateUserFoundationQueries(queryClient, variables.userId);
 
       toast.success("Foundation created successfully!");
     },
@@ -142,10 +166,10 @@ export const useFoundationAssignUser = () => {
       const response = await apiPost("/api/foundation/assign", data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: async (_data, variables) => {
       toast.success("Berhasil Masuk Menggunakan Code Yayasan");
-      //invalidate betterauth getUserData users-profile
-      queryClient.invalidateQueries({ queryKey: ["users-profile"] });
+      // Refetch ditunggu: halaman profil baru membaca foundationId dari query ini.
+      await invalidateUserFoundationQueries(queryClient, variables.userId);
     },
     onError: (error) => {
       errorHandlerFrontend(error);
