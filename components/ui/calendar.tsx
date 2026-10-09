@@ -2,7 +2,7 @@
 import { ComponentProps, useEffect, useRef } from "react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,

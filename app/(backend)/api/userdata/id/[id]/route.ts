@@ -56,8 +56,8 @@
 //   @@map("users")
 // }
 
-import { prisma } from "@/lib/prisma";
-import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
+import { prisma } from "@/lib/api/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(

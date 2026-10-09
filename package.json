@@ -8,7 +8,7 @@
     "build:webpack": "next build --webpack",
     "build:turbopack": "next build --turbopack",
     "start": "NODE_ENV=production next start",
-    "worker": "bun worker/index.ts",
+    "worker": "bun worker/whatsapp-worker.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",

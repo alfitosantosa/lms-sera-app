@@ -60,7 +60,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TeacherCombobox } from "@/components/ui/teacher-combobox";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ColumnDef,

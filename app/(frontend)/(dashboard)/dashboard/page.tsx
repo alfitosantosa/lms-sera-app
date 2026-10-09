@@ -29,7 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CHART_GRID_STROKE, CHART_SERIES } from "@/lib/charts";
+import { CHART_GRID_STROKE, CHART_SERIES } from "@/lib/ui/charts";
 import {
   Activity,
   AlertCircle,

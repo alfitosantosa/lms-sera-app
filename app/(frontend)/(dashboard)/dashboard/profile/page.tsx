@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { Badge } from "@/components/ui/badge";
 import {

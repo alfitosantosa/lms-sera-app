@@ -3,7 +3,7 @@ import {
   type ReportStatusTypes,
 } from "@/app/(types)";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 
 /**
  * Warna status rapor. Label selalu dari `REPORT_STATUS_LABELS` (satu sumber),

@@ -46,7 +46,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { authClient, useSession } from "@/lib/authClients";
+import { authClient, useSession } from "@/lib/betterauth/authClients";
 import {
   type ColumnDef,
   type ColumnFiltersState,

@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 

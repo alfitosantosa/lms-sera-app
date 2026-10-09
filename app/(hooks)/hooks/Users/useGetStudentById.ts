@@ -1,6 +1,6 @@
 "use client";
 import { type userDataBranchTypes, type UserDataTypes } from "@/app/(types)";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetStudentById = (id: string) => {

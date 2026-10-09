@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import {
   type ColumnDef,
   flexRender,

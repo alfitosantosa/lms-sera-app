@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import Logo from "@/public/Logo.svg";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 
 export const CLIENT_NAME = process.env.NEXT_PUBLIC_CLIENT_NAME || "Sera App";
 

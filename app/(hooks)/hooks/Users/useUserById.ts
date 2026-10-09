@@ -3,7 +3,7 @@
 import { type UserDataTypes } from "@/app/(types)";
 // app/api/users/route.ts
 
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetUserById = (id: string) => {

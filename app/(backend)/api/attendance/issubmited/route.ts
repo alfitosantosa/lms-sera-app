@@ -1,6 +1,6 @@
 "use server";
-import { prisma } from "@/lib/prisma";
-import { resolveFoundation } from "@/lib/tenant";
+import { prisma } from "@/lib/api/prisma";
+import { resolveFoundation } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

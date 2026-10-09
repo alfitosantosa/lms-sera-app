@@ -1,6 +1,6 @@
 import type { ExamDetailDTO } from "@/app/(types)/types/exam-types";
 import { toExamDetailDTO, toExamQuestionItem } from "@/lib/exam/exam.mapper";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/api/prisma";
 
 /** Nama kelas milik yayasan, dibatch sekali query (hindari N+1 per baris). */
 export async function resolveClassNames(

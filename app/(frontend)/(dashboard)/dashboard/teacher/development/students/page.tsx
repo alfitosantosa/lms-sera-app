@@ -32,7 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { AlertCircle, Eye } from "lucide-react";

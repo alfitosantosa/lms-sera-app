@@ -5,7 +5,7 @@ import { ExamQuestionImage } from "@/components/exam/exam-question-image";
 import { formatExamDateTime } from "@/components/exam/exam-shared";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import { CheckCircle2, XCircle } from "lucide-react";
 
 type ExamResultProps = {

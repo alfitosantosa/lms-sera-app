@@ -9,8 +9,8 @@
 //   @@map("surah_quran")
 // }
 
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET() {

@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { StudentCombobox } from "@/components/ui/student-combobox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import {

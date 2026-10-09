@@ -11,7 +11,7 @@ import {
   requireStaff,
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 type RouteContext = { params: Promise<{ id: string }> };

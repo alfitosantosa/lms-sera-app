@@ -18,7 +18,7 @@ import {
   EntryLink,
   EntryScreen,
 } from "@/components/entry/Entry";
-import { signIn, signUp } from "@/lib/authClients";
+import { signIn, signUp } from "@/lib/betterauth/authClients";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 
 async function convertImageToBase64(file: File): Promise<string> {

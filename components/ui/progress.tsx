@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { ComponentProps } from "react";
 

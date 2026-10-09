@@ -3,7 +3,7 @@
 // app/api/users/route.ts
 
 import { type UserDataTypes } from "@/app/(types)/types/userData-types";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetUserByIdBetterAuth = (id: string) => {

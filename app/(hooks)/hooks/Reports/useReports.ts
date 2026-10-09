@@ -6,9 +6,9 @@ import {
   type StudentReportDTO,
 } from "@/app/(types)";
 import { unwrap } from "@/app/(hooks)/hooks/Development/useDailyLogs";
-import { apiGet, apiPatch, apiPost } from "@/lib/apiClients";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
-import { type PaginationResponse } from "@/lib/pagination";
+import { apiGet, apiPatch, apiPost } from "@/lib/api/apiClients";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
+import { type PaginationResponse } from "@/lib/api/pagination";
 import {
   type QueryClient,
   useMutation,

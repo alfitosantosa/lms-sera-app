@@ -3,7 +3,7 @@
 import { type TimelineEntryDTO } from "@/app/(types)/types/development-types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EVIDENCE_TYPE_LABELS as EVIDENCE_LABELS } from "@/app/(types)/types/development-types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { CalendarDays, FileText, Paperclip } from "lucide-react";

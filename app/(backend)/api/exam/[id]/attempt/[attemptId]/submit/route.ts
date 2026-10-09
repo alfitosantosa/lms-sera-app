@@ -6,8 +6,8 @@ import {
 } from "@/lib/exam/exam.guard";
 import { gradeAttempt } from "@/lib/exam/exam.grading";
 import { toStudentResultDTO } from "@/lib/exam/exam.mapper";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 const ATTEMPT_SELECT = {

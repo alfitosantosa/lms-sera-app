@@ -54,7 +54,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { signOut, useSession } from "@/lib/authClients";
+import { signOut, useSession } from "@/lib/betterauth/authClients";
 import { useEffect, useState, type ElementType } from "react";
 import {
   Select,

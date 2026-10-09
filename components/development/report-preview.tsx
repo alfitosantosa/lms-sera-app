@@ -4,7 +4,7 @@ import {
   type ReportPdfContext,
   type ReportPdfData,
 } from "@/lib/report/report.pdf.data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 
 const fmtDate = (value: string | null | undefined) => {
   if (!value) return "-";

@@ -64,6 +64,7 @@ async function handleMessage(
   const result = await sendWhatsAppMessage(body.number, body.message);
   const nextAttempt = attempt + 1;
 
+
   if (result.success) {
     const messageId =
       result.data.key?.id ?? result.data.id ?? result.data.messageId ?? "-";

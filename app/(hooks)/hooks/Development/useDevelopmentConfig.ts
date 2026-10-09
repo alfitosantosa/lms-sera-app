@@ -11,7 +11,7 @@ import {
   type DevelopmentIndicatorDTO,
   type DevelopmentIndicatorInput,
 } from "@/app/(types)";
-import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/apiClients";
+import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/api/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type ListBody<T> = { success: boolean; data: T[] };

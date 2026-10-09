@@ -1,6 +1,6 @@
 "use client";
 import { type SpecialScheduleData } from "@/app/(frontend)/(dashboard)/dashboard/admin/academic/specialschedule/page";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetSpecialSchedules = (filters?: { branchId?: string }) => {

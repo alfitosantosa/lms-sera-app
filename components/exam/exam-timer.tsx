@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import { Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 

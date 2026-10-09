@@ -76,8 +76,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/authClients";
-import { cn } from "@/lib/utils";
+import { useSession } from "@/lib/betterauth/authClients";
+import { cn } from "@/lib/shadCN/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ColumnDef,

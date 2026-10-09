@@ -1,6 +1,6 @@
 "use client";
 
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useRolesByIdUser = (id: string) => {

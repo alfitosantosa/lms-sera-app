@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CHART_GRID_STROKE, CHART_PALETTE } from "@/lib/charts";
+import { CHART_GRID_STROKE, CHART_PALETTE } from "@/lib/ui/charts";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import {

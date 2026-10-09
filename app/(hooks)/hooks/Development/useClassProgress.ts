@@ -6,7 +6,7 @@ import {
   type UserDataTypes,
 } from "@/app/(types)";
 import { useGetSchedulesByTeacher } from "@/app/(hooks)/hooks/Schedules/useSchedules";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 

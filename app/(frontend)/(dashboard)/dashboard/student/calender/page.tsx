@@ -17,7 +17,7 @@ import {
   CalendarProvider,
   CalendarYearPicker,
 } from "@/components/ui/kibo-ui/calendar";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { format, isSameDay } from "date-fns";
 import { id } from "date-fns/locale";
 import { Calendar, Clock, MapPin, User } from "lucide-react";

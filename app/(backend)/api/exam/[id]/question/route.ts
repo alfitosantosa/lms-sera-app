@@ -1,7 +1,7 @@
 import { findExamInTenant, examError, requireStaff, resolveExamActor } from "@/lib/exam/exam.guard";
 import { toExamQuestionItem } from "@/lib/exam/exam.mapper";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { questionInputSchema } from "@/app/(types)/types/exam-types";
 import { type NextRequest, NextResponse } from "next/server";
 

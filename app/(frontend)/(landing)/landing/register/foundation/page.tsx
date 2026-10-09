@@ -37,7 +37,7 @@ import {
 } from "@/app/(hooks)/hooks/Foundation/useFoundation";
 import { useGetUserByIdBetterAuthProfile } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 
 // Form Schema untuk Daftarkan Yayasan
 const foundationSchema = z.object({

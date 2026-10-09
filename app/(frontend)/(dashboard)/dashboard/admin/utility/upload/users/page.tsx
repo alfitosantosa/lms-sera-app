@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { AlertCircle, Download, FileText, Upload, X } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import { ChangeEvent, useState } from "react";

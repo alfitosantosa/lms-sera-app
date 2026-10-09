@@ -17,9 +17,9 @@
 //   @@map("tahfidz_records")
 // }
 
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
-import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

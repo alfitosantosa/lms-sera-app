@@ -3,7 +3,7 @@
 import { type ViolationTypes } from "@/app/(types)";
 // app/api/violations/student/[id]/route.ts
 
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetViolationsByIdTeacher = (id: string) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { type attendanceTypes } from "@/app/(types)/types/attendance-types";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetAttendanceByIdSchedule = (id: string) => {

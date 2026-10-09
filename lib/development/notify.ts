@@ -1,5 +1,5 @@
-import { sendWhatsAppMessage } from "@/lib/botwa";
-import { prisma } from "@/lib/prisma";
+import { sendWhatsAppMessage } from "@/lib/WhatsappGateway/botwa";
+import { prisma } from "@/lib/api/prisma";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { writeAudit } from "./audit";

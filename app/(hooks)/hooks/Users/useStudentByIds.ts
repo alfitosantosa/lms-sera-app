@@ -1,7 +1,7 @@
 // ===== 1. TANSTACK QUERY HOOKS =====
 // hooks/useParentDashboard.ts
 
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 // ===== Types inferred from API responses =====

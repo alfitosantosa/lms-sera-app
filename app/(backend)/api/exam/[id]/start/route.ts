@@ -4,8 +4,8 @@ import {
   requireStudent,
   resolveExamActor,
 } from "@/lib/exam/exam.guard";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { Prisma } from "@/prisma/generated/client";
 import { type NextRequest, NextResponse } from "next/server";
 

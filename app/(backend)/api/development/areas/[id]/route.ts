@@ -4,8 +4,8 @@ import {
   requireStaff,
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 type RouteContext = { params: Promise<{ id: string }> };

@@ -1,7 +1,7 @@
 "use client";
 
 import { type ClassDataTypes } from "@/app/(types)";
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { useQuery } from "@tanstack/react-query";
 
 export const useClassByIdUser = (id: string) => {

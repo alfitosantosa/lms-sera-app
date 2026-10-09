@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 
 export type ScaleOption = { id: string; label: string; color: string | null };
 

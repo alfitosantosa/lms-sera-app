@@ -32,8 +32,8 @@ import {
   useCalendarMonth,
   useCalendarYear,
 } from "@/components/ui/kibo-ui/calendar";
-import { useSession } from "@/lib/authClients";
-import { CHART_SERIES } from "@/lib/charts";
+import { useSession } from "@/lib/betterauth/authClients";
+import { CHART_SERIES } from "@/lib/ui/charts";
 import { useQuery } from "@tanstack/react-query";
 import { format, isSameDay } from "date-fns";
 import { id as localeId } from "date-fns/locale";

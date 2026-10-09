@@ -8,8 +8,8 @@ import {
   type FoundationUpdateResponse,
   type FoundationAssignUserTypes,
 } from "@/app/(types)/types/foundation-types";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/apiClients";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
 import {
   QueryClient,
   useMutation,

@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { ASSESSMENT_PERIOD_STATUS_LABELS } from "@/app/(types)";
 import { AlertCircle, Info } from "lucide-react";
 import { useEffect, useState } from "react";

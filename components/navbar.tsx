@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { signOut, useSession } from "@/lib/authClients";
+import { signOut, useSession } from "@/lib/betterauth/authClients";
 import Logo from "@/public/Logo.svg";
 import { LogOut, User } from "lucide-react";
 import Image from "next/image";

@@ -15,8 +15,8 @@ import {
   resolveDevelopmentActor,
   teacherClassIds,
 } from "@/lib/development/development.guard";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
-import { prisma } from "@/lib/prisma";
+import { createPaginationResponse, getPaginationQuery } from "@/lib/api/pagination";
+import { prisma } from "@/lib/api/prisma";
 import { type Prisma } from "@/prisma/generated/client";
 import { type NextRequest, NextResponse } from "next/server";
 

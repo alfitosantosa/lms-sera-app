@@ -20,9 +20,9 @@
 //   @@map("payment_items")
 // }
 
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
-import { resolveFoundation } from "@/lib/tenant";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
+import { resolveFoundation } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 interface PaymentItemsInput {

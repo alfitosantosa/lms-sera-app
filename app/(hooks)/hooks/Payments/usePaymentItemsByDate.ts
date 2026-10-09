@@ -1,4 +1,4 @@
-import { apiGet } from "@/lib/apiClients";
+import { apiGet } from "@/lib/api/apiClients";
 import { type PaymentItemsTypes } from "@/app/(types)";
 import { useQuery } from "@tanstack/react-query";
 

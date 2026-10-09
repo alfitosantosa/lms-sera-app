@@ -14,9 +14,9 @@ import {
   buildQuery,
   unwrap,
 } from "@/app/(hooks)/hooks/Development/useDailyLogs";
-import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/apiClients";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
-import { type PaginationResponse } from "@/lib/pagination";
+import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/api/apiClients";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
+import { type PaginationResponse } from "@/lib/api/pagination";
 import {
   type QueryClient,
   useMutation,

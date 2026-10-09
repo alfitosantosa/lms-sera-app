@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/api/prisma";
 
 /**
  * Seed default modul pengembangan siswa (Bahasa Indonesia).

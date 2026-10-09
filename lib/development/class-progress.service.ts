@@ -4,7 +4,7 @@ import {
   assertClassAccess,
   type DevelopmentActor,
 } from "@/lib/development/development.guard";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/api/prisma";
 import { endOfDay, startOfDay } from "date-fns";
 
 /**

@@ -56,8 +56,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/authClients";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
+import { useSession } from "@/lib/betterauth/authClients";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ColumnDef,

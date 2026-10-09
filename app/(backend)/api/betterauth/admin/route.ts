@@ -1,10 +1,10 @@
 "use server";
 // app/api/clerk-users/route.ts
-import { auth } from "@/lib/auth";
-import { authClient } from "@/lib/authClients";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
-import { resolveFoundation, tenantForbidden } from "@/lib/tenant";
+import { auth } from "@/lib/betterauth/auth";
+import { authClient } from "@/lib/betterauth/authClients";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
+import { resolveFoundation, tenantForbidden } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

@@ -76,7 +76,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";

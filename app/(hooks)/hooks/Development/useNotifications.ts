@@ -1,9 +1,9 @@
 "use client";
 
 import { type NotificationDTO } from "@/app/(types)";
-import { apiGet, apiPatch } from "@/lib/apiClients";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
-import { type PaginationResponse } from "@/lib/pagination";
+import { apiGet, apiPatch } from "@/lib/api/apiClients";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
+import { type PaginationResponse } from "@/lib/api/pagination";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { buildQuery, unwrap } from "./useDailyLogs";
 

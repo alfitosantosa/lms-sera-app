@@ -24,8 +24,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useSession } from "@/lib/authClients";
-import { CHART_GRID_STROKE, CHART_PALETTE, CHART_SERIES } from "@/lib/charts";
+import { useSession } from "@/lib/betterauth/authClients";
+import {
+  CHART_GRID_STROKE,
+  CHART_PALETTE,
+  CHART_SERIES,
+} from "@/lib/ui/charts";
 import { format, subMonths } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import {

@@ -29,7 +29,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import {
   BookOpen,
   ClipboardList,

@@ -2,7 +2,7 @@
 
 import { createPDFReportCard } from "@/app/(action)/createPDF/ReportCard/studentReport";
 import { type StudentReportDTO } from "@/app/(types)";
-import { errorHandlerFrontend } from "@/lib/errorHandlerFrontend";
+import { errorHandlerFrontend } from "@/lib/errorHandler/errorHandlerFrontend";
 import { reportPdfContext, toReportPdfData } from "@/lib/report/report.pdf.data";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";

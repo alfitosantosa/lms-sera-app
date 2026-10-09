@@ -2,9 +2,9 @@ import {
   developmentError,
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { createPaginationResponse, getPaginationQuery } from "@/lib/api/pagination";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 /**

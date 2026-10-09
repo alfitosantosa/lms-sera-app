@@ -1,4 +1,7 @@
-import { getWhatsAppConfig, sendWhatsAppMessage } from "@/lib/botwa";
+import {
+  getWhatsAppConfig,
+  sendWhatsAppMessage,
+} from "@/lib/WhatsappGateway/botwa";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

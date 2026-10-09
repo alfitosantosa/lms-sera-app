@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
-import { tenantUnauthorized } from "@/lib/tenant";
+import { auth } from "@/lib/betterauth/auth";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
+import { tenantUnauthorized } from "@/lib/api/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

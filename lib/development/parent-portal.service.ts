@@ -5,7 +5,7 @@ import {
   type DevelopmentMeReportDTO,
   type DevelopmentMeStudentDTO,
 } from "@/app/(types)";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/api/prisma";
 import { getStudentOverview } from "./assessment.service";
 import { getStudentTimeline } from "./daily-log.service";
 import { type DevelopmentActor } from "./development.guard";

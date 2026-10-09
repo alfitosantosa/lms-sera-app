@@ -1,4 +1,4 @@
-import { apiPost, apiPut } from "@/lib/apiClients";
+import { apiPost, apiPut } from "@/lib/api/apiClients";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateAttendanceBulk = () => {

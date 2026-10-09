@@ -14,8 +14,8 @@ import {
   type DevelopmentActor,
 } from "@/lib/development/development.guard";
 import { notifyDailyLogCreated } from "@/lib/development/notify";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { type Prisma } from "@/prisma/generated/client";
 import { type NextResponse } from "next/server";
 

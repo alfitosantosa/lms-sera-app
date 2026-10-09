@@ -11,7 +11,7 @@ import {
   type StudentExamResultDTO,
   type StudentExamSessionDTO,
 } from "@/app/(types)/types/exam-types";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/apiClients";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/apiClients";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type ExamFilters = {

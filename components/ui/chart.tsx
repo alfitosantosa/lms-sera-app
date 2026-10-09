@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useContext, useId } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import {
   ComponentProps,
   ComponentType,

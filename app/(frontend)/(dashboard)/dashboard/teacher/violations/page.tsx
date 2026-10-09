@@ -21,8 +21,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/authClients";
-import { cn } from "@/lib/utils";
+import { useSession } from "@/lib/betterauth/authClients";
+import { cn } from "@/lib/shadCN/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { AlertTriangle, ArrowUpDown, Calendar, Check, ChevronDown, MoreHorizontal, Pencil, Plus, Search, Trash2, User, X } from "lucide-react";

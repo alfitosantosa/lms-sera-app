@@ -46,7 +46,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

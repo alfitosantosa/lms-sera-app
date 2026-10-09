@@ -18,7 +18,7 @@ import {
   EntryLink,
   EntryScreen,
 } from "@/components/entry/Entry";
-import { signIn } from "@/lib/authClients";
+import { signIn } from "@/lib/betterauth/authClients";
 import { type FormEvent, useState } from "react";
 
 export default function SignIn() {

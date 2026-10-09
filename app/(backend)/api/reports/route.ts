@@ -10,8 +10,8 @@ import {
   reportErrorResponse,
   reportInclude,
 } from "@/lib/development/report.service";
-import { createPaginationResponse, getPaginationQuery } from "@/lib/pagination";
-import { prisma } from "@/lib/prisma";
+import { createPaginationResponse, getPaginationQuery } from "@/lib/api/pagination";
+import { prisma } from "@/lib/api/prisma";
 import { type Prisma } from "@/prisma/generated/client";
 import { type NextRequest, NextResponse } from "next/server";
 

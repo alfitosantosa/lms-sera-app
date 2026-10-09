@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/shadCN/utils";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 import { ComponentProps } from "react";
 

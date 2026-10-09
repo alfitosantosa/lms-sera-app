@@ -4,8 +4,8 @@ import {
   resolveExamActor,
 } from "@/lib/exam/exam.guard";
 import { toStudentSessionDTO } from "@/lib/exam/exam.mapper";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
-import { prisma } from "@/lib/prisma";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
+import { prisma } from "@/lib/api/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(

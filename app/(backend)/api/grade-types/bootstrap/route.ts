@@ -3,7 +3,7 @@ import {
   requireStaff,
   resolveDevelopmentActor,
 } from "@/lib/development/development.guard";
-import { handlePrismaError } from "@/lib/errorHandlerBackend";
+import { handlePrismaError } from "@/lib/errorHandler/errorHandlerBackend";
 import { type NextRequest, NextResponse } from "next/server";
 
 /**

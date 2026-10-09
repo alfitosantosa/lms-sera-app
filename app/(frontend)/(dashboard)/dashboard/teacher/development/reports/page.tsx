@@ -33,7 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { AlertCircle, Eye, FilePlus2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";

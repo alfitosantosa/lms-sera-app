@@ -25,9 +25,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSession } from "@/lib/authClients";
+import { useSession } from "@/lib/betterauth/authClients";
 import { exportClassAttendanceDailyToExcel } from "@/lib/export/exportClassAttendance";
-import { DEFAULT_AVATAR } from "@/lib/imageLoader";
+import { DEFAULT_AVATAR } from "@/lib/ui/imageLoader";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import {
