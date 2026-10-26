@@ -3,8 +3,8 @@
 import {
   useGetNotifications,
   useMarkNotificationRead,
-} from "@/app/(hooks)/hooks/Development/useNotifications";
-import { type NotificationDTO } from "@/app/(types)";
+} from "@/hooks/Development/useNotifications";
+import { type NotificationDTO } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { Bell } from "lucide-react";

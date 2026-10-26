@@ -1,24 +1,24 @@
 "use client";
 import { useState, useEffect, useMemo, useRef, ChangeEvent } from "react";
 
-import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
-import { useGetBranchs } from "@/app/(hooks)/hooks/Branchs/useBranchs";
-import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
-import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
-import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
-import { useBulkDeleteUserData } from "@/app/(hooks)/hooks/Users/useBulkUsersData";
+import { useGetAcademicYears } from "@/hooks/AcademicYears/useAcademicYear";
+import { useGetClasses } from "@/hooks/Classes/useClass";
+import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
+import { useGetRoles } from "@/hooks/Roles/useRoles";
+import { useGetTahfidzGroup } from "@/hooks/TahfidzGroup/useTahfidzGroup";
+import { useGetBetterAuthWithoutUserData } from "@/hooks/Users/useBetterAuthWithoutUserData";
+import { useBulkDeleteUserData } from "@/hooks/Users/useBulkUsersData";
 import {
   useCreateUser,
   useDeleteUser,
   useGetUsers,
   useUpdateUser,
-} from "@/app/(hooks)/hooks/Users/useUsers";
+} from "@/hooks/Users/useUsers";
 import {
   getErrorMessage,
   type SelectOption,
   type tahfidzGroupTypes,
-} from "@/app/(types)";
+} from "@/types";
 import {
   AlertDialog,
   AlertDialogAction,

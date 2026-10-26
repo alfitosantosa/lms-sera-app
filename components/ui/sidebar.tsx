@@ -17,8 +17,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useIsMobile } from "@/app/(hooks)/hooks/Mobile/use-mobile";
-import { cn } from "@/lib/shadCN/utils";
+import { useIsMobile } from "@/hooks/Mobile/use-mobile";
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import { Slot } from "radix-ui";

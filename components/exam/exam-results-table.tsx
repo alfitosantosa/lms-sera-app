@@ -3,7 +3,7 @@
 import {
   type AttemptStatusTypes,
   type ExamResultsDTO,
-} from "@/app/(types)/types/exam-types";
+} from "@/types/exam-types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toPercentage } from "@/lib/exam/exam.grading";
+import { toPercentage } from "@/services/exam/exam.grading";
 
 const ATTEMPT_STATUS_LABELS: Record<AttemptStatusTypes, string> = {
   IN_PROGRESS: "Sedang Mengerjakan",

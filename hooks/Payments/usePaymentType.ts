@@ -1,0 +1,92 @@
+"use client";
+import { type PaymentTypeInput, type PaymentTypeTypes } from "@/types";
+import { CACHE_STRATEGIES } from "@/app/providers";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/http/apiClient";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+export const useGetPaymentTypes = (filters?: { branchId?: string }) => {
+  return useQuery({
+    queryKey: ["paymentTypes", filters],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+
+      if (filters?.branchId) {
+        params.append("branchId", filters.branchId);
+      }
+
+      const url = params.toString()
+        ? `/api/paymenttype?${params.toString()}`
+        : "/api/paymenttype";
+      const res = await apiGet<PaymentTypeTypes[]>(url);
+      return res.data;
+    },
+    // ✅ Payment types are static - cache for 1 hour
+    ...CACHE_STRATEGIES.static,
+  });
+};
+
+export const useCreatePaymentType = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: PaymentTypeInput) => {
+      const res = await apiPost("/api/paymenttype", data);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["paymentTypes"] });
+    },
+  });
+};
+
+export const useUpdatePaymentType = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: PaymentTypeInput) => {
+      const res = await apiPut("/api/paymenttype", data);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["paymentTypes"] });
+    },
+  });
+};
+
+export const useDeletePaymentType = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiDelete(`/api/paymenttype/`, {
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["paymentType"] });
+    },
+  });
+};
+
+export const useGetPaymentTypeById = (id: string) => {
+  return useQuery({
+    queryKey: ["paymentType", id],
+    queryFn: async () => {
+      const res = await apiGet(`/api/paymenttype/${id}`);
+      return res.data;
+    },
+  });
+};
+
+export const useGetPaymentTypeByIdBranch = (id: string) => {
+  return useQuery({
+    queryKey: ["paymentType", id],
+    queryFn: async () => {
+      const res = await apiGet<PaymentTypeTypes[]>(
+        `/api/paymenttype/branch/${id}`,
+      );
+      return res.data;
+    },
+  });
+};

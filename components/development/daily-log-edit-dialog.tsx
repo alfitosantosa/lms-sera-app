@@ -1,7 +1,7 @@
 "use client";
 
-import { type DailyLogDTO } from "@/app/(types)/types/development-types";
-import { useUpdateDailyLog } from "@/app/(hooks)/hooks/Development/useDailyLogs";
+import { type DailyLogDTO } from "@/types/development-types";
+import { useUpdateDailyLog } from "@/hooks/Development/useDailyLogs";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {

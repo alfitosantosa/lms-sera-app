@@ -1,11 +1,11 @@
 "use client";
 
-import { type ClassProgressStudentDTO } from "@/app/(types)/types/development-types";
+import { type ClassProgressStudentDTO } from "@/types/development-types";
 import {
   useGetIndicators,
   useGetScales,
-} from "@/app/(hooks)/hooks/Development/useDevelopmentConfig";
-import { useCreateDailyLog } from "@/app/(hooks)/hooks/Development/useDailyLogs";
+} from "@/hooks/Development/useDevelopmentConfig";
+import { useCreateDailyLog } from "@/hooks/Development/useDailyLogs";
 import { ObservationTemplatePicker } from "@/components/development/observation-template-picker";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

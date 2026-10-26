@@ -1,4 +1,4 @@
-import { useGetBetterAuthWithoutUserData } from "@/app/(hooks)/hooks/Users/useBetterAuthWithoutUserData";
+import { useGetBetterAuthWithoutUserData } from "@/hooks/Users/useBetterAuthWithoutUserData";
 import { Search, User } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";

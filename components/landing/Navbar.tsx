@@ -25,9 +25,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { signOut, useSession } from "@/lib/betterauth/authClients";
+import { signOut, useSession } from "@/services/auth/authClients";
 import { products } from "@/lib/marketing/products";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 export const NAV_LINKS = [
   { label: "Paket", href: "#paket" },

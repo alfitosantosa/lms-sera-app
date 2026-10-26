@@ -1,7 +1,7 @@
 "use client";
 import { FormEvent, useState } from "react";
 
-import { getErrorMessage } from "@/app/(types)";
+import { getErrorMessage } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authClient } from "@/lib/betterauth/authClients";
+import { authClient } from "@/services/auth/authClients";
 import { Loader2 } from "lucide-react";
 
 import { toast } from "sonner";

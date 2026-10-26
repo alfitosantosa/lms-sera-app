@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 export type DevelopmentCardScale = {
   label: string;

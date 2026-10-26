@@ -3,7 +3,7 @@
 import {
   DAILY_LOG_STATUS_LABELS,
   type DailyLogDTO,
-} from "@/app/(types)/types/development-types";
+} from "@/types/development-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import {
   type ColumnDef,
   flexRender,

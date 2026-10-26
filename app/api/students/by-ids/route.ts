@@ -1,0 +1,38 @@
+// app/api/students/by-ids/route.ts
+import { handlePrismaError } from "@/services/errorHandler";
+import { prisma } from "@/services/prisma";
+import { resolveFoundation } from "@/services/tenant";
+import { type NextRequest, NextResponse } from "next/server";
+
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
+  if (!t.ok) return t.response;
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const idsParam = searchParams.get("ids");
+
+    if (!idsParam) {
+      return NextResponse.json({ error: "IDs required" }, { status: 400 });
+    }
+
+    const ids = idsParam.split(",");
+
+    const students = await prisma.userData.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+        foundationId: t.foundationId,
+      },
+      include: { class: true, branch: true, academicYear: true, role: true },
+    });
+
+    return NextResponse.json(students);
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}

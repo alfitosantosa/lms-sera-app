@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Separator as SeparatorPrimitive } from "radix-ui";
 import { ComponentProps } from "react";
 
