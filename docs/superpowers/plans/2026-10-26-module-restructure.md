@@ -28,21 +28,21 @@
 
 **Files:** all of `app/(backend)/api`, `app/(frontend)/*`, `app/(hooks)/hooks`, `app/(types)`, `app/(action)/createPDF/*`, `app/repository`, `app/(context)`, `app/client`, `app/(health)`, `lib/api`, `lib/errorHandler`, `lib/betterauth`, `lib/WhatsappGateway`, `lib/rabbitMQ`, `lib/exam`, `lib/development`, `lib/shadCN`.
 
-- [ ] `git mv` every mapping from spec §6.2; `git rm` the two dead files and remove empty route groups.
-- [ ] Confirm counts: `route.ts` 141, `page.tsx` 90 before and after.
+- [x] `git mv` every mapping from spec §6.2; `git rm` the two dead files and remove empty route groups.
+- [x] Confirm counts: `route.ts` 141, `page.tsx` 90 before and after.
 
 ### Task 0.2: Rewrite imports
 
-- [ ] Apply the ordered replacement table from spec §6.3 across `*.ts/*.tsx/*.css`.
-- [ ] Fix relative imports by `tsc` errors.
-- [ ] Update `package.json` `worker`, `Dockerfile` CMD/comment, `AGENTS.md`, `README.md`, `lib/tours/tour.check.ts` paths.
+- [x] Apply the ordered replacement table from spec §6.3 across `*.ts/*.tsx/*.css`.
+- [x] Fix relative imports by `tsc` errors.
+- [x] Update `package.json` `worker`, `Dockerfile` CMD/comment, `AGENTS.md`, `README.md`, `lib/tours/tour.check.ts` paths.
 
 ### Task 0.3: Verify Phase 0
 
-- [ ] `bunx tsc --noEmit`
-- [ ] `bun run build`
-- [ ] `bun run lib/tours/tour.check.ts`, `bun run lib/rabbitMQ/retry.check.ts`
-- [ ] Commit.
+- [x] `bunx tsc --noEmit`
+- [x] `bun run build`
+- [x] `bun run lib/tours/tour.check.ts`, `bun run lib/rabbitMQ/retry.check.ts`
+- [x] Commit.
 
 ---
 
@@ -52,50 +52,50 @@
 
 **Files:** Create `config/modules.ts`, `config/modules.check.ts`.
 
-- [ ] `ModuleKey`, `ALL_MODULES`, `MODULES` (label, description, pagePrefixes, apiPrefixes).
-- [ ] `moduleForPath`, `moduleForApiPath` — longest prefix wins, core returns `null`.
-- [ ] `config/modules.check.ts` asserts every prefix maps to exactly one module, longest-first, and `ALL_MODULES` matches the Prisma default list.
+- [x] `ModuleKey`, `ALL_MODULES`, `MODULES` (label, description, pagePrefixes, apiPrefixes).
+- [x] `moduleForPath`, `moduleForApiPath` — longest prefix wins, core returns `null`.
+- [x] `config/modules.check.ts` asserts every prefix maps to exactly one module, longest-first, and `ALL_MODULES` matches the Prisma default list.
 
 ### Task 1.2: Schema + API accept modules
 
 **Files:** `prisma/schema.prisma`, `prisma/migrations/*`, `app/api/foundation/route.ts`, `app/api/foundation/[id]/route.ts`.
 
-- [ ] `Foundation.modules String[] @default(["keuangan","absensi","pelanggaran","pembelajaran","tahfidz"])`.
-- [ ] Migration + `npx prisma generate`.
-- [ ] POST: omitted → `ALL_MODULES`; explicit `[]` → core only; unknown key → 400.
-- [ ] PUT: replace when present; foundation admin only.
+- [x] `Foundation.modules String[] @default(["keuangan","absensi","pelanggaran","pembelajaran","tahfidz"])`.
+- [x] Migration + `npx prisma generate`.
+- [x] POST: omitted → `ALL_MODULES`; explicit `[]` → core only; unknown key → 400.
+- [x] PUT: replace when present; foundation admin only.
 
 ### Task 1.3: Menu + sidebar + dead URLs
 
 **Files:** `components/layout/appSidebar.tsx`, `config/menuGroupsSidebar.ts`, `components/navbar.tsx`, `lib/tours/tours.ts`.
 
-- [ ] `filterMenuByModules(items, enabled)` uses `moduleForPath(item.url)`.
-- [ ] Replace dead `/dashboard/attendance`, `/dashboard/recapattendance(+ /class)` with `admin/...`.
-- [ ] Re-run `tour.check.ts`.
+- [x] `filterMenuByModules(items, enabled)` uses `moduleForPath(item.url)`.
+- [x] Replace dead `/dashboard/attendance`, `/dashboard/recapattendance(+ /class)` with `admin/...`.
+- [x] Re-run `tour.check.ts`.
 
 ### Task 1.4: Route guard + core dashboard
 
 **Files:** `components/layout/ModuleGuard.tsx`, `components/layout/ConditionalLayout.tsx`, dashboard page split.
 
-- [ ] Guard replaces to `/dashboard` + toast when the current path's module is disabled.
-- [ ] Dashboard renders attendance only when `absensi` enabled; otherwise core summary.
+- [x] Guard replaces to `/dashboard` + toast when the current path's module is disabled.
+- [x] Dashboard renders attendance only when `absensi` enabled; otherwise core summary.
 
 ### Task 1.5: API enforcement
 
 **Files:** `services/tenant.ts`, `services/exam/exam.guard.ts`, `services/development/development.guard.ts`, module route handlers.
 
-- [ ] Resolvers return `modules`; `assertModuleAccess` throws 403 with Indonesian message.
-- [ ] Apply to module-owned routes only; core untouched.
+- [x] Resolvers return `modules`; `assertModuleAccess` throws 403 with Indonesian message.
+- [x] Apply to module-owned routes only; core untouched.
 
 ### Task 1.6: UI — module picker
 
 **Files:** `components/foundation/ModulePicker.tsx`, register foundation page, `components/dialog/DialogEditFoundation.tsx`, foundation hooks.
 
-- [ ] Checkbox cards, core shown read-only. Default all selected.
-- [ ] Edit dialog resets on open via `useEffect`.
-- [ ] Invalidate `["foundation"]`, `["users"]`, `["users-profile"]` after save.
+- [x] Checkbox cards, core shown read-only. Default all selected.
+- [x] Edit dialog resets on open via `useEffect`.
+- [x] Invalidate `["foundation"]`, `["users"]`, `["users-profile"]` after save.
 
 ### Task 1.7: Verify Phase 1
 
-- [ ] `bunx tsc --noEmit`, `bun run build`, all check scripts.
-- [ ] Smoke: create core-only foundation → sidebar/API gated; enable `keuangan` → restored.
+- [x] `bunx tsc --noEmit`, `bun run build`, all check scripts.
+- [x] Smoke: create core-only foundation → sidebar/API gated; enable `keuangan` → restored.
