@@ -61,6 +61,9 @@ assert.equal(moduleForPath("/dashboard/admin/master/classes"), null);
 assert.equal(moduleForPath("/dashboard/admin/academic/schedules"), null);
 assert.equal(moduleForPath("/dashboard/profile"), null);
 assert.equal(moduleForPath("/dashboard"), null);
+assert.equal(moduleForPath("/dashboard/teacher/questionbank"), "pembelajaran");
+// Pusat laporan mencakup semua domain, jadi tetap core.
+assert.equal(moduleForPath("/dashboard/reports"), null);
 
 // Setiap menu yang dipetakan harus punya page.tsx, dan tidak ada URL mati.
 function collectUrls(items: { url: string; items?: unknown[] }[]): string[] {
@@ -75,6 +78,31 @@ const allUrls = Object.values(menuGroups).flatMap((groups) =>
   collectUrls(groups.flatMap((group) => group.items)),
 );
 assert.ok(allUrls.length > 0, "menu kosong");
+
+// Grup bernama modul hanya boleh berisi menu milik modul itu; Akademik murni core.
+// Ini menjaga pemisahan SIAKAD vs Absensi/Tahfidz/Pembelajaran tidak tercampur lagi.
+const MODULE_GROUPS: Record<string, ModuleKey | null> = {
+  Akademik: null,
+  Absensi: "absensi",
+  Tahfidz: "tahfidz",
+  Pembelajaran: "pembelajaran",
+  Pelanggaran: "pelanggaran",
+  Keuangan: "keuangan",
+};
+
+for (const [role, groups] of Object.entries(menuGroups)) {
+  for (const group of groups) {
+    if (!(group.title in MODULE_GROUPS)) continue;
+    const expected = MODULE_GROUPS[group.title];
+    for (const url of collectUrls(group.items)) {
+      assert.equal(
+        moduleForPath(url),
+        expected,
+        `${role}/${group.title}: ${url} bukan menu ${expected ?? "core"}`,
+      );
+    }
+  }
+}
 
 for (const url of new Set(allUrls)) {
   if (!url.startsWith("/dashboard")) continue;

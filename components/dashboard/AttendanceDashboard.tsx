@@ -1,6 +1,9 @@
 "use client";
 
+import { monthToDateRange } from "@/lib/dateRange";
+import { CHART_GRID_STROKE, CHART_SERIES, CHART_PALETTE } from "@/lib/ui/charts";
 import { useAttendanceByDate } from "@/hooks/Attendances/useAttendanceByDate";
+import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
 import { DatePickerWithRange } from "@/components/date/datePicker";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -29,18 +32,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CHART_GRID_STROKE, CHART_SERIES } from "@/lib/ui/charts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type {
+  AttendanceDailyPoint,
+  AttendanceStatus,
+  AttendanceSummary,
+} from "@/types/attendance-types";
+import { format, subDays } from "date-fns";
+import { id as localeId } from "date-fns/locale";
 import {
   Activity,
   AlertCircle,
   AlertTriangle,
   BarChart3,
   BookOpen,
+  Building2,
   CalendarDays,
   CheckCircle,
   Clock,
   MapPin,
-  PieChart as PieChartIcon,
   RefreshCw,
   Search,
   TrendingUp,
@@ -48,16 +58,22 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import React, { ElementType, useMemo, useState } from "react";
+import React, {
+  type ElementType,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import type { DateRange } from "react-day-picker";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
   Legend,
-  Line,
-  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -66,68 +82,22 @@ import {
   YAxis,
 } from "recharts";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Status config ────────────────────────────────────────────────────────────
 
-type StatusKey = "present" | "absent" | "late" | "excused" | "sick";
-
-type AttendanceRecord = {
-  id: string;
-  status: StatusKey;
-  date: string;
-  notes?: string | null;
-  student: {
-    name: string;
-    nisn?: string | null;
-  };
-  schedule: {
-    room?: string | null;
-    subject?: {
-      id: string;
-      name: string;
-    } | null;
-  };
-};
-
-type StatsMap = {
-  total: number;
-  present: number;
-  absent: number;
-  late: number;
-  excused: number;
-  sick: number;
-  attendanceRate: string | number;
-};
-
-type DailyRecord = {
-  date: string;
-  present: number;
-  late: number;
-  absent: number;
-  sick: number;
-  excused: number;
-  total: number;
-  [key: string]: string | number;
-};
-
-type ClassRecord = {
-  class: string;
-  present: number;
-  late: number;
-  absent: number;
-  sick: number;
-  excused: number;
-  [key: string]: string | number;
-};
-
-// ─── Status Config ────────────────────────────────────────────────────────────
+const STATUS_KEYS: AttendanceStatus[] = [
+  "present",
+  "late",
+  "excused",
+  "sick",
+  "absent",
+];
 
 const STATUS_MAP: Record<
-  StatusKey,
+  AttendanceStatus,
   {
     label: string;
     color: string;
     bgColor: string;
-    borderColor: string;
     icon: ElementType;
     chartColor: string;
   }
@@ -136,23 +106,13 @@ const STATUS_MAP: Record<
     label: "Hadir",
     color: "text-success-strong",
     bgColor: "bg-success-surface",
-    borderColor: "border-success",
     icon: CheckCircle,
     chartColor: CHART_SERIES.positive,
-  },
-  absent: {
-    label: "Tidak Hadir",
-    color: "text-destructive-strong",
-    bgColor: "bg-destructive-surface",
-    borderColor: "border-destructive",
-    icon: XCircle,
-    chartColor: CHART_SERIES.negative,
   },
   late: {
     label: "Terlambat",
     color: "text-warning-strong",
     bgColor: "bg-warning-surface",
-    borderColor: "border-warning",
     icon: Clock,
     chartColor: CHART_SERIES.warning,
   },
@@ -160,7 +120,6 @@ const STATUS_MAP: Record<
     label: "Izin",
     color: "text-info-strong",
     bgColor: "bg-info-surface",
-    borderColor: "border-info",
     icon: AlertCircle,
     chartColor: CHART_SERIES.info,
   },
@@ -168,13 +127,31 @@ const STATUS_MAP: Record<
     label: "Sakit",
     color: "text-tertiary-strong",
     bgColor: "bg-tertiary-surface",
-    borderColor: "border-tertiary",
     icon: AlertCircle,
     chartColor: CHART_SERIES.neutral,
   },
+  absent: {
+    label: "Alfa",
+    color: "text-destructive-strong",
+    bgColor: "bg-destructive-surface",
+    icon: XCircle,
+    chartColor: CHART_SERIES.negative,
+  },
 };
 
-// ─── Custom Tooltip ───────────────────────────────────────────────────────────
+const EMPTY_SUMMARY: AttendanceSummary = {
+  total: 0,
+  present: 0,
+  absent: 0,
+  late: 0,
+  excused: 0,
+  sick: 0,
+  attendanceRate: 0,
+};
+
+const numberFormat = (value: number) => value.toLocaleString("id-ID");
+
+// ─── Shared bits ──────────────────────────────────────────────────────────────
 
 function CustomTooltip({
   active,
@@ -192,10 +169,7 @@ function CustomTooltip({
         {label}
       </p>
       {payload.map((p, i) => (
-        <div
-          key={i}
-          className="flex items-center justify-between gap-4 text-xs"
-        >
+        <div key={i} className="flex items-center justify-between gap-4 text-xs">
           <span className="flex items-center gap-1.5">
             <span
               className="h-2 w-2 rounded-full"
@@ -203,838 +177,1121 @@ function CustomTooltip({
             />
             <span className="text-muted-foreground">{p.name}</span>
           </span>
-          <span className="font-semibold">{p.value}</span>
+          <span className="font-semibold">{numberFormat(p.value)}</span>
         </div>
       ))}
     </div>
   );
 }
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
+function KPICard({
+  title,
+  value,
+  sub,
+  icon: Icon,
+  color,
+  badge,
+}: {
+  title: string;
+  value: string;
+  sub?: string;
+  icon: ElementType;
+  color: string;
+  badge?: { label: string; positive?: boolean };
+}) {
+  return (
+    <Card className="relative overflow-hidden">
+      <div
+        className="absolute top-0 right-0 left-0 h-1"
+        style={{ backgroundColor: color }}
+      />
+      <CardContent className="pt-5 pb-4">
+        <div className="mb-3 flex items-center justify-between">
+          <span className="text-muted-foreground text-sm font-medium">
+            {title}
+          </span>
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-lg"
+            style={{
+              backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`,
+            }}
+          >
+            <Icon className="h-5 w-5" style={{ color }} />
+          </div>
+        </div>
+        <div className="text-2xl font-semibold tracking-tight">{value}</div>
+        <div className="mt-1 flex items-center justify-between">
+          {sub && <p className="text-muted-foreground text-xs">{sub}</p>}
+          {badge && (
+            <Badge
+              variant={badge.positive ? "default" : "destructive"}
+              className="px-1.5 py-0 text-[10px]"
+            >
+              {badge.label}
+            </Badge>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function EmptyChart({ message }: { message: string }) {
+  return (
+    <div className="flex h-48 flex-col items-center justify-center gap-2 text-center">
+      <BarChart3 className="text-muted-foreground/40 h-10 w-10" />
+      <p className="text-muted-foreground text-sm">{message}</p>
+    </div>
+  );
+}
 
 function DashboardSkeleton() {
   return (
-    <div className="mx-auto min-h-screen max-w-7xl space-y-6 p-6">
-      {/* Header skeleton */}
-      <div className="bg-info h-32 animate-pulse rounded-3xl" />
-
-      {/* Filter skeleton */}
-      <div className="bg-card h-24 animate-pulse rounded-3xl border" />
-
-      {/* KPI skeleton */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className="bg-card h-24 animate-pulse rounded-3xl border"
-          />
+    <div className="mx-auto min-h-screen w-full max-w-7xl space-y-6 p-6">
+      <div className="space-y-2">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+      <Skeleton className="h-40 w-full rounded-3xl" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="h-32 rounded-3xl" />
         ))}
       </div>
-
-      {/* Charts skeleton */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <div
-            key={i}
-            className="bg-card h-80 animate-pulse rounded-3xl border"
-          />
-        ))}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Skeleton className="h-80 rounded-3xl lg:col-span-2" />
+        <Skeleton className="h-80 rounded-3xl" />
       </div>
     </div>
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
+function StatusBadge({ status }: { status: string }) {
+  const config = STATUS_MAP[status as AttendanceStatus];
+  if (!config) return <Badge variant="outline">{status}</Badge>;
+  const Icon = config.icon;
+  return (
+    <Badge
+      className={`${config.bgColor} ${config.color} flex w-fit items-center gap-1 border-0 text-xs`}
+    >
+      <Icon className="h-3 w-3" />
+      {config.label}
+    </Badge>
+  );
+}
+
+// ─── Pipeline ────────────────────────────────────────────────────────────────
+
+function PipelineRow({ day }: { day: AttendanceDailyPoint }) {
+  const date = new Date(`${day.date}T00:00:00`);
+  return (
+    <div className="grid grid-cols-[76px_1fr_auto] items-center gap-3 border-b px-4 py-2.5 last:border-0 hover:bg-muted/20">
+      <div>
+        <p className="text-sm font-medium">{format(date, "d MMM")}</p>
+        <p className="text-muted-foreground text-[11px]">
+          {format(date, "EEEE", { locale: localeId })}
+        </p>
+      </div>
+
+      <div className="flex h-2.5 overflow-hidden rounded-full bg-muted">
+        {day.total === 0
+          ? null
+          : STATUS_KEYS.map((key) => {
+              const width = (day[key] / day.total) * 100;
+              if (width === 0) return null;
+              return (
+                <div
+                  key={key}
+                  style={{ width: `${width}%`, backgroundColor: STATUS_MAP[key].chartColor }}
+                  title={`${STATUS_MAP[key].label}: ${day[key]}`}
+                />
+              );
+            })}
+      </div>
+
+      <div className="flex items-center gap-3 text-xs tabular-nums">
+        <span className="text-muted-foreground hidden w-20 sm:block">
+          {day.total} record
+        </span>
+        <span
+          className="text-success-strong hidden w-8 text-right sm:block"
+          title="Hadir"
+        >
+          {day.present}
+        </span>
+        <span
+          className="text-warning-strong hidden w-8 text-right sm:block"
+          title="Terlambat"
+        >
+          {day.late}
+        </span>
+        <span
+          className="text-destructive-strong hidden w-8 text-right sm:block"
+          title="Alfa"
+        >
+          {day.absent}
+        </span>
+        <Badge variant="outline" className="w-14 justify-center">
+          {day.attendanceRate}%
+        </Badge>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main dashboard ──────────────────────────────────────────────────────────
 
 export default function AttendanceDashboard() {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(() =>
+    monthToDateRange(),
+  );
+  const [selectedBranch, setSelectedBranch] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [searchStudent, setSearchStudent] = useState<string>("");
-  const [showAllRows, setShowAllRows] = useState<boolean>(false);
+  const deferredSearch = useDeferredValue(searchStudent.trim());
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [activeTab, setActiveTab] = useState("overview");
 
-  // ── Data ─────────────────────────────────────────────────────────────────
+  const { data: branchs = [] } = useGetBranchs();
+
   const {
-    data: rawData,
+    data: response,
     isLoading,
     isError,
-    refetch,
     isFetching,
+    refetch,
   } = useAttendanceByDate({
-    fromdate: dateRange?.from ?? new Date(),
-    todate: dateRange?.to ?? new Date(),
+    fromdate: dateRange?.from,
+    todate: dateRange?.to,
+    branchId: selectedBranch === "all" ? undefined : selectedBranch,
+    status: selectedStatus === "all" ? undefined : selectedStatus,
+    classId: selectedClass === "all" ? undefined : selectedClass,
+    subjectId: selectedSubject === "all" ? undefined : selectedSubject,
+    search: deferredSearch || undefined,
+    page,
+    limit: pageSize,
   });
 
-  const attendanceData: AttendanceRecord[] = useMemo(
-    () => (Array.isArray(rawData) ? (rawData as AttendanceRecord[]) : []),
-    [rawData],
+  const rows = response?.data ?? [];
+  const pagination = response?.pagination;
+  const summary = response?.summary ?? EMPTY_SUMMARY;
+  const daily = response?.daily ?? [];
+  const byClass = response?.byClass ?? [];
+  const filterOptions = response?.filterOptions ?? {
+    classes: [],
+    subjects: [],
+  };
+
+  useEffect(() => {
+    setPage(1);
+  }, [deferredSearch]);
+
+  useEffect(() => {
+    if (pagination && pagination.pages > 0 && page > pagination.pages) {
+      setPage(pagination.pages);
+    }
+  }, [pagination, page]);
+
+  const pieData = useMemo(
+    () =>
+      STATUS_KEYS.map((key) => ({
+        name: STATUS_MAP[key].label,
+        value: summary[key],
+        color: STATUS_MAP[key].chartColor,
+      })).filter((entry) => entry.value > 0),
+    [summary],
   );
 
-  // ── Derived filter options ───────────────────────────────────────────────
-  const classes = useMemo<string[]>(() => {
-    const set = new Set<string>();
-    attendanceData.forEach((r) => {
-      if (r.schedule?.room) set.add(r.schedule.room);
-    });
-    return Array.from(set).sort();
-  }, [attendanceData]);
+  const trendData = useMemo(
+    () =>
+      daily.map((day) => ({
+        label: format(new Date(`${day.date}T00:00:00`), "d MMM"),
+        Hadir: day.present,
+        Terlambat: day.late,
+        Izin: day.excused,
+        Sakit: day.sick,
+        Alfa: day.absent,
+      })),
+    [daily],
+  );
 
-  const subjects = useMemo<string[]>(() => {
-    const set = new Set<string>();
-    attendanceData.forEach((r) => {
-      if (r.schedule?.subject?.name) set.add(r.schedule.subject.name);
-    });
-    return Array.from(set).sort();
-  }, [attendanceData]);
+  const classData = useMemo(
+    () =>
+      byClass.map((row) => ({
+        class: row.className,
+        Hadir: row.present,
+        Terlambat: row.late,
+        Izin: row.excused,
+        Sakit: row.sick,
+        Alfa: row.absent,
+      })),
+    [byClass],
+  );
 
-  // ── Filtered data ────────────────────────────────────────────────────────
-  const filteredData = useMemo<AttendanceRecord[]>(() => {
-    return attendanceData.filter((r) => {
-      const matchStatus =
-        selectedStatus === "all" || r.status === selectedStatus;
-      const matchClass =
-        selectedClass === "all" || r.schedule?.room === selectedClass;
-      const matchSubject =
-        selectedSubject === "all" ||
-        r.schedule?.subject?.name === selectedSubject;
-      const q = searchStudent.toLowerCase();
-      const matchSearch =
-        !q ||
-        r.student?.name?.toLowerCase().includes(q) ||
-        (r.student?.nisn ?? "").includes(q);
-      return matchStatus && matchClass && matchSubject && matchSearch;
-    });
-  }, [
-    attendanceData,
-    selectedStatus,
-    selectedClass,
-    selectedSubject,
-    searchStudent,
-  ]);
-
-  // ── Stats ────────────────────────────────────────────────────────────────
-  const stats = useMemo<StatsMap>(() => {
-    const total = filteredData.length;
-    const present = filteredData.filter((r) => r.status === "present").length;
-    const late = filteredData.filter((r) => r.status === "late").length;
-    const absent = filteredData.filter((r) => r.status === "absent").length;
-    const sick = filteredData.filter((r) => r.status === "sick").length;
-    const excused = filteredData.filter((r) => r.status === "excused").length;
-    return {
-      total,
-      present,
-      late,
-      absent,
-      sick,
-      excused,
-      attendanceRate:
-        total > 0 ? (((present + late) / total) * 100).toFixed(1) : "0",
-    };
-  }, [filteredData]);
-
-  // ── Pie data ─────────────────────────────────────────────────────────────
-  const pieData = useMemo(() => {
-    return (Object.keys(STATUS_MAP) as StatusKey[])
-      .map((key) => ({
-        name: STATUS_MAP[key].label,
-        value: stats[key],
-        color: STATUS_MAP[key].chartColor,
-      }))
-      .filter((d) => d.value > 0);
-  }, [stats]);
-
-  // ── Line chart data ───────────────────────────────────────────────────────
-  const lineData = useMemo<DailyRecord[]>(() => {
-    const daily: Record<string, DailyRecord> = {};
-    filteredData.forEach((r) => {
-      const date = new Date(r.date).toLocaleDateString("id-ID");
-      if (!daily[date]) {
-        daily[date] = {
-          date,
-          present: 0,
-          late: 0,
-          absent: 0,
-          sick: 0,
-          excused: 0,
-          total: 0,
-        };
-      }
-      (daily[date][r.status] as number)++;
-      (daily[date].total as number)++;
-    });
-    return Object.values(daily).sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    );
-  }, [filteredData]);
-
-  // ── Bar chart data (by class) ─────────────────────────────────────────────
-  const classData = useMemo<ClassRecord[]>(() => {
-    const map: Record<string, ClassRecord> = {};
-    filteredData.forEach((r) => {
-      const cls = r.schedule?.room ?? "Unknown";
-      if (!map[cls]) {
-        map[cls] = {
-          class: cls,
-          present: 0,
-          late: 0,
-          absent: 0,
-          sick: 0,
-          excused: 0,
-        };
-      }
-      (map[cls][r.status] as number)++;
-    });
-    return Object.values(map).sort((a, b) =>
-      String(a.class).localeCompare(String(b.class)),
-    );
-  }, [filteredData]);
-
-  const displayedRows = showAllRows ? filteredData : filteredData.slice(0, 10);
   const hasActiveFilter =
+    selectedBranch !== "all" ||
     selectedStatus !== "all" ||
     selectedClass !== "all" ||
     selectedSubject !== "all" ||
     !!searchStudent;
 
-  // ── Error state ───────────────────────────────────────────────────────────
+  const dateLabel =
+    dateRange?.from && dateRange?.to
+      ? `${format(dateRange.from, "d MMM yyyy", { locale: localeId })} – ${format(
+          dateRange.to,
+          "d MMM yyyy",
+          { locale: localeId },
+        )}`
+      : "Belum dipilih";
+
+  const totalRecords = pagination?.total ?? 0;
+  const pageCount = Math.max(1, pagination?.pages ?? 0);
+  const firstRow = totalRecords === 0 ? 0 : (page - 1) * pageSize + 1;
+  const lastRow = Math.min(page * pageSize, totalRecords);
+
+  const resetFilters = () => {
+    setSelectedBranch("all");
+    setSelectedStatus("all");
+    setSelectedClass("all");
+    setSelectedSubject("all");
+    setSearchStudent("");
+    setPage(1);
+  };
+
+  const quickRanges = [
+    { label: "Bulan Ini", range: monthToDateRange() },
+    {
+      label: "7 Hari",
+      range: { from: subDays(new Date(), 6), to: new Date() },
+    },
+    {
+      label: "30 Hari",
+      range: { from: subDays(new Date(), 29), to: new Date() },
+    },
+  ];
+
+  if (isLoading) return <DashboardSkeleton />;
+
   if (isError) {
     return (
-      <div className="min-h-screen p-6">
-        <div className="mx-auto max-w-7xl pt-8">
-          <Alert className="border-destructive-border bg-destructive-surface">
-            <AlertTriangle className="text-destructive h-4 w-4" />
-            <AlertDescription className="text-destructive-strong">
-              Gagal memuat data kehadiran. Silakan coba muat ulang halaman.
-            </AlertDescription>
-          </Alert>
-          <Button className="mt-4" onClick={() => refetch()}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Coba Lagi
-          </Button>
-        </div>
+      <div className="mx-auto min-h-screen max-w-7xl p-6">
+        <Alert className="border-destructive-border bg-destructive-surface">
+          <AlertTriangle className="text-destructive h-4 w-4" />
+          <AlertDescription className="text-destructive-strong">
+            Gagal memuat data kehadiran. Silakan coba muat ulang halaman.
+          </AlertDescription>
+        </Alert>
+        <Button className="mt-4" onClick={() => refetch()}>
+          <RefreshCw className="mr-2 h-4 w-4" />
+          Coba Lagi
+        </Button>
       </div>
     );
   }
 
-  if (isLoading) return <DashboardSkeleton />;
-
   return (
-    <div className="bg-background min-h-screen p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
-        {/* ── Page Header ── */}
-        <div className="bg-info-solid relative overflow-hidden rounded-3xl text-white">
-          {/* decorative circles */}
-          <div className="bg-background/10 absolute -top-12 -right-12 h-48 w-48 rounded-full" />
-          <div className="bg-background/10 absolute -bottom-8 -left-8 h-32 w-32 rounded-full" />
+    <div className="mx-auto min-h-screen w-full max-w-7xl space-y-6 p-6">
+      {/* ── Page header ── */}
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">
+            Dashboard Kehadiran
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Pantau kehadiran siswa per periode, kelas, dan mata pelajaran
+          </p>
+        </div>
 
-          <div className="relative px-8 py-6">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-              <div>
-                <p className="text-info-chip mb-1 text-sm">
-                  Sistem Informasi Sekolah
-                </p>
-                <h1 className="text-3xl font-semibold tracking-tight">
-                  Dashboard Kehadiran
-                </h1>
-                <p className="text-info-chip mt-1 text-sm">
-                  Pantau dan analisis kehadiran siswa secara real-time
-                </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline" className="gap-1.5 py-1.5 text-xs">
+            <CalendarDays className="h-3 w-3" />
+            {dateLabel}
+          </Badge>
+          {selectedStatus !== "all" && (
+            <Badge variant="secondary" className="gap-1.5 py-1.5 text-xs">
+              {STATUS_MAP[selectedStatus as AttendanceStatus]?.label}
+            </Badge>
+          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+          >
+            <RefreshCw
+              className={`mr-1.5 h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </Button>
+        </div>
+      </div>
+
+      {/* ── Filter bar ── */}
+      <Card>
+        <CardContent className="py-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <CalendarDays className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Periode
+                </span>
               </div>
+              <DatePickerWithRange
+                date={dateRange}
+                className="w-full min-w-0"
+                setDate={(range) => {
+                  setDateRange(range);
+                  setPage(1);
+                }}
+              />
+            </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                {/* Attendance rate pill */}
-                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-2xl border px-4 py-3 backdrop-blur-sm">
-                  <Activity className="text-success-chip h-5 w-5" />
-                  <div>
-                    <p className="text-info-chip text-xs">Tingkat Kehadiran</p>
-                    <p className="text-xl font-bold">{stats.attendanceRate}%</p>
-                  </div>
-                </div>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Building2 className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Sekolah
+                </span>
+              </div>
+              <Select
+                value={selectedBranch}
+                onValueChange={(value) => {
+                  setSelectedBranch(value);
+                  setSelectedClass("all");
+                  setPage(1);
+                }}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue placeholder="Semua Sekolah" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Sekolah</SelectItem>
+                  {branchs.map((branch) => (
+                    <SelectItem key={branch.id} value={branch.id}>
+                      {branch.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-                {/* Total records pill */}
-                <div className="bg-background/15 border-background/20 flex items-center gap-2 rounded-2xl border px-4 py-3 backdrop-blur-sm">
-                  <Users className="text-info-chip h-5 w-5" />
-                  <div>
-                    <p className="text-info-chip text-xs">Total Record</p>
-                    <p className="text-xl font-bold">
-                      {stats.total.toLocaleString("id-ID")}
-                    </p>
-                  </div>
-                </div>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Activity className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Status
+                </span>
+              </div>
+              <Select
+                value={selectedStatus}
+                onValueChange={(value) => {
+                  setSelectedStatus(value);
+                  setPage(1);
+                }}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue placeholder="Semua Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Status</SelectItem>
+                  {STATUS_KEYS.map((key) => (
+                    <SelectItem key={key} value={key}>
+                      <span className="flex items-center gap-2">
+                        <span
+                          className="h-2 w-2 rounded-full"
+                          style={{ backgroundColor: STATUS_MAP[key].chartColor }}
+                        />
+                        {STATUS_MAP[key].label}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => refetch()}
-                  disabled={isFetching}
-                  className="bg-background/15 border-background/30 hover:bg-background/25 text-white"
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Users className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Kelas
+                </span>
+              </div>
+              <Select
+                value={selectedClass}
+                onValueChange={(value) => {
+                  setSelectedClass(value);
+                  setPage(1);
+                }}
+                disabled={selectedBranch === "all"}
+              >
+                <SelectTrigger
+                  className="h-10 w-full"
+                  disabled={selectedBranch === "all"}
                 >
-                  <RefreshCw
-                    className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`}
+                  <SelectValue
+                    placeholder={
+                      selectedBranch === "all"
+                        ? "Pilih sekolah dulu"
+                        : "Semua Kelas"
+                    }
                   />
-                  Refresh
-                </Button>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kelas</SelectItem>
+                  {filterOptions.classes.map((cls) => (
+                    <SelectItem key={cls.id} value={cls.id}>
+                      {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <BookOpen className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Mata Pelajaran
+                </span>
+              </div>
+              <Select
+                value={selectedSubject}
+                onValueChange={(value) => {
+                  setSelectedSubject(value);
+                  setPage(1);
+                }}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue placeholder="Semua Mapel" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
+                  {filterOptions.subjects.map((subject) => (
+                    <SelectItem key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Search className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm font-medium">
+                  Cari Siswa
+                </span>
+              </div>
+              <div className="relative">
+                <Search className="text-muted-foreground absolute top-3 left-2.5 h-4 w-4" />
+                <Input
+                  placeholder="Nama atau NISN..."
+                  value={searchStudent}
+                  onChange={(event) => setSearchStudent(event.target.value)}
+                  className="h-10 pl-8"
+                />
               </div>
             </div>
           </div>
-        </div>
 
-        {/* ── Filter Bar ── */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base">
-              <CalendarDays className="text-muted-foreground h-4 w-4" />
-              Filter & Pencarian
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-4">
-              {/* Date Range */}
-              <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium">
-                  Periode
-                </label>
-                <DatePickerWithRange date={dateRange} setDate={setDateRange} />
-              </div>
-
-              {/* Status */}
-              <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium">
-                  Status
-                </label>
-                <Select
-                  value={selectedStatus}
-                  onValueChange={setSelectedStatus}
-                >
-                  <SelectTrigger className="w-40">
-                    <SelectValue placeholder="Semua Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Status</SelectItem>
-                    {(Object.keys(STATUS_MAP) as StatusKey[]).map((key) => (
-                      <SelectItem key={key} value={key}>
-                        <span className="flex items-center gap-2">
-                          <span
-                            className="h-2 w-2 rounded-full"
-                            style={{
-                              backgroundColor: STATUS_MAP[key].chartColor,
-                            }}
-                          />
-                          {STATUS_MAP[key].label}
-                        </span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Class */}
-              <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium">
-                  Kelas
-                </label>
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
-                  <SelectTrigger className="w-36">
-                    <SelectValue placeholder="Semua Kelas" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Kelas</SelectItem>
-                    {classes.map((cls) => (
-                      <SelectItem key={cls} value={cls}>
-                        {cls}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Subject */}
-              <div className="space-y-1.5">
-                <label className="text-muted-foreground text-xs font-medium">
-                  Mata Pelajaran
-                </label>
-                <Select
-                  value={selectedSubject}
-                  onValueChange={setSelectedSubject}
-                >
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Semua Mapel" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
-                    {subjects.map((s) => (
-                      <SelectItem key={s} value={s}>
-                        {s}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Search */}
-              <div className="space-y-1.5">
-                <label className="text-muted-foreground flex items-center gap-1 text-xs font-medium">
-                  <Search className="h-3 w-3" />
-                  Cari Siswa
-                </label>
-                <div className="relative">
-                  <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-3.5 w-3.5" />
-                  <Input
-                    placeholder="Nama atau NISN..."
-                    value={searchStudent}
-                    onChange={(e) => setSearchStudent(e.target.value)}
-                    className="w-48 pl-8"
-                  />
-                </div>
-              </div>
-
-              {/* Reset */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
+            <div className="flex flex-wrap items-center gap-2">
               {hasActiveFilter && (
-                <div className="space-y-1.5">
-                  <label className="text-muted-foreground text-xs font-medium opacity-0">
-                    Reset
-                  </label>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-10"
-                    onClick={() => {
-                      setSelectedStatus("all");
-                      setSelectedClass("all");
-                      setSelectedSubject("all");
-                      setSearchStudent("");
-                    }}
-                  >
-                    Reset Filter
-                  </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-9"
+                  onClick={resetFilters}
+                >
+                  <RefreshCw className="mr-2 h-3.5 w-3.5" />
+                  Reset Filter
+                </Button>
+              )}
+              {hasActiveFilter && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-muted-foreground text-xs">
+                    Filter aktif:
+                  </span>
+                  {selectedBranch !== "all" && (
+                    <Badge variant="secondary" className="text-xs">
+                      {branchs.find(
+                        (branch) => branch.id === selectedBranch,
+                      )?.name ?? selectedBranch}
+                    </Badge>
+                  )}
+                  {selectedStatus !== "all" && (
+                    <Badge variant="secondary" className="text-xs">
+                      {STATUS_MAP[selectedStatus as AttendanceStatus]?.label}
+                    </Badge>
+                  )}
+                  {selectedClass !== "all" && (
+                    <Badge variant="secondary" className="text-xs">
+                      {filterOptions.classes.find(
+                        (cls) => cls.id === selectedClass,
+                      )?.name ?? selectedClass}
+                    </Badge>
+                  )}
+                  {selectedSubject !== "all" && (
+                    <Badge variant="secondary" className="text-xs">
+                      {filterOptions.subjects.find(
+                        (subject) => subject.id === selectedSubject,
+                      )?.name ?? selectedSubject}
+                    </Badge>
+                  )}
+                  {searchStudent && (
+                    <Badge variant="secondary" className="text-xs">
+                      &quot;{searchStudent}&quot;
+                    </Badge>
+                  )}
                 </div>
               )}
             </div>
 
-            {/* Active filter badges */}
-            {hasActiveFilter && (
-              <div className="mt-3 flex flex-wrap gap-2 border-t pt-3">
-                <span className="text-muted-foreground text-xs">
-                  Filter aktif:
-                </span>
-                {selectedStatus !== "all" && (
-                  <Badge variant="secondary" className="gap-1 text-xs">
-                    <span
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{
-                        backgroundColor:
-                          STATUS_MAP[selectedStatus as StatusKey]?.chartColor,
-                      }}
-                    />
-                    {STATUS_MAP[selectedStatus as StatusKey]?.label}
-                  </Badge>
-                )}
-                {selectedClass !== "all" && (
-                  <Badge variant="secondary" className="text-xs">
-                    {selectedClass}
-                  </Badge>
-                )}
-                {selectedSubject !== "all" && (
-                  <Badge variant="secondary" className="text-xs">
-                    {selectedSubject}
-                  </Badge>
-                )}
-                {searchStudent && (
-                  <Badge variant="secondary" className="text-xs">
-                    &quot;{searchStudent}&quot;
-                  </Badge>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground mr-1 text-xs">
+                Quick:
+              </span>
+              {quickRanges.map(({ label, range }) => (
+                <Button
+                  key={label}
+                  size="sm"
+                  variant="secondary"
+                  className="h-8 text-xs"
+                  onClick={() => {
+                    setDateRange(range);
+                    setPage(1);
+                  }}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* ── KPI Cards ── */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {/* Total */}
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-muted-foreground mb-1 text-xs">Total</p>
-                  <p className="text-foreground text-2xl font-semibold tracking-tight">
-                    {stats.total.toLocaleString("id-ID")}
-                  </p>
-                </div>
-                <div className="bg-muted flex h-8 w-8 items-center justify-center rounded-lg">
-                  <Users className="text-muted-foreground h-4 w-4" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      {/* ── KPI cards ── */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KPICard
+          title="Total Record"
+          value={numberFormat(summary.total)}
+          sub="Sesuai filter aktif"
+          icon={Users}
+          color={CHART_PALETTE[0]}
+        />
+        <KPICard
+          title="Tingkat Kehadiran"
+          value={`${summary.attendanceRate}%`}
+          sub="Hadir + terlambat"
+          icon={Activity}
+          color={CHART_SERIES.positive}
+          badge={{
+            label:
+              summary.attendanceRate >= 90
+                ? "Baik"
+                : summary.attendanceRate >= 75
+                  ? "Cukup"
+                  : "Rendah",
+            positive: summary.attendanceRate >= 90,
+          }}
+        />
+        <KPICard
+          title="Hadir"
+          value={numberFormat(summary.present)}
+          sub={
+            summary.total > 0
+              ? `${Math.round((summary.present / summary.total) * 100)}% dari total`
+              : "Belum ada data"
+          }
+          icon={CheckCircle}
+          color={CHART_SERIES.positive}
+        />
+        <KPICard
+          title="Alfa"
+          value={numberFormat(summary.absent)}
+          sub={
+            summary.total > 0
+              ? `${Math.round((summary.absent / summary.total) * 100)}% dari total`
+              : "Belum ada data"
+          }
+          icon={XCircle}
+          color={CHART_SERIES.negative}
+        />
+      </div>
 
-          {/* Per status */}
-          {(Object.keys(STATUS_MAP) as StatusKey[]).map((key) => {
-            const cfg = STATUS_MAP[key];
-            const Icon = cfg.icon;
-            const count = stats[key];
-            const pct =
-              stats.total > 0 ? ((count / stats.total) * 100).toFixed(0) : "0";
+      {/* ── Tabs ── */}
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsTrigger value="overview" className="gap-1.5 text-xs">
+            <Activity className="h-3.5 w-3.5" />
+            Ringkasan
+          </TabsTrigger>
+          <TabsTrigger value="daily" className="gap-1.5 text-xs">
+            <TrendingUp className="h-3.5 w-3.5" />
+            Pipeline Harian
+          </TabsTrigger>
+          <TabsTrigger value="data" className="gap-1.5 text-xs">
+            <Users className="h-3.5 w-3.5" />
+            Data Siswa
+          </TabsTrigger>
+        </TabsList>
 
-            return (
-              <Card key={key}>
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-muted-foreground mb-1 text-xs">
-                        {cfg.label}
-                      </p>
-                      <p
-                        className="text-2xl font-semibold tracking-tight"
-                        style={{ color: cfg.chartColor }}
-                      >
-                        {count}
-                      </p>
-                      <p className="text-muted-foreground mt-0.5 text-xs">
-                        {pct}%
-                      </p>
-                    </div>
-                    <div
-                      className={`h-8 w-8 rounded-lg ${cfg.bgColor} flex items-center justify-center`}
+        {/* ═══════════ TAB: OVERVIEW ═══════════ */}
+        <TabsContent value="overview" className="mt-4 space-y-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <Card className="lg:col-span-2">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Tren Kehadiran Harian</CardTitle>
+                <CardDescription className="text-xs">
+                  Jumlah record per status setiap hari
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {trendData.length === 0 ? (
+                  <EmptyChart message="Tidak ada data dalam rentang tanggal ini" />
+                ) : (
+                  <ResponsiveContainer width="100%" height={260}>
+                    <AreaChart
+                      data={trendData}
+                      margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
                     >
-                      <Icon
-                        className="h-4 w-4"
-                        style={{ color: cfg.chartColor }}
+                      <defs>
+                        <linearGradient id="gradPresent" x1="0" y1="0" x2="0" y2="1">
+                          <stop
+                            offset="5%"
+                            stopColor={CHART_SERIES.positive}
+                            stopOpacity={0.25}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor={CHART_SERIES.positive}
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={CHART_GRID_STROKE}
                       />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                      <XAxis
+                        dataKey="label"
+                        tick={{ fontSize: 10 }}
+                        tickLine={false}
+                        axisLine={false}
+                      />
+                      <YAxis
+                        tick={{ fontSize: 10 }}
+                        tickLine={false}
+                        axisLine={false}
+                        width={28}
+                      />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend wrapperStyle={{ fontSize: 10 }} />
+                      <Area
+                        type="monotone"
+                        dataKey="Hadir"
+                        stroke={CHART_SERIES.positive}
+                        strokeWidth={2}
+                        fill="url(#gradPresent)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="Terlambat"
+                        stroke={CHART_SERIES.warning}
+                        strokeWidth={2}
+                        fill="transparent"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="Alfa"
+                        stroke={CHART_SERIES.negative}
+                        strokeWidth={2}
+                        fill="transparent"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                )}
+              </CardContent>
+            </Card>
 
-        {/* ── Charts Row 1: Pie + Line ── */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Pie Chart */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <PieChartIcon className="text-info h-4 w-4" />
-                Distribusi Status
-              </CardTitle>
-              <CardDescription>
-                Proporsi kehadiran berdasarkan status
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {pieData.length === 0 ? (
-                <div className="text-muted-foreground flex h-72 items-center justify-center text-sm">
-                  Tidak ada data untuk ditampilkan
-                </div>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <ResponsiveContainer width="60%" height={240}>
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={55}
-                        outerRadius={90}
-                        paddingAngle={3}
-                        dataKey="value"
-                      >
-                        {pieData.map((entry, i) => (
-                          <Cell key={i} fill={entry.color} />
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Distribusi Status</CardTitle>
+                <CardDescription className="text-xs">
+                  Proporsi kehadiran per status
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {pieData.length === 0 ? (
+                  <EmptyChart message="Tidak ada data untuk ditampilkan" />
+                ) : (
+                  <>
+                    <ResponsiveContainer width="100%" height={190}>
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={50}
+                          outerRadius={80}
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={index} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          formatter={(value) => numberFormat(Number(value ?? 0))}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div className="mt-2 space-y-1.5">
+                      {pieData.map((entry) => (
+                        <div
+                          key={entry.name}
+                          className="flex items-center justify-between text-xs"
+                        >
+                          <span className="flex items-center gap-1.5">
+                            <span
+                              className="h-2.5 w-2.5 rounded-full"
+                              style={{ backgroundColor: entry.color }}
+                            />
+                            <span className="text-muted-foreground">
+                              {entry.name}
+                            </span>
+                          </span>
+                          <span className="font-semibold">
+                            {numberFormat(entry.value)}
+                            <span className="text-muted-foreground ml-1 font-normal">
+                              (
+                              {summary.total > 0
+                                ? Math.round(
+                                    (entry.value / summary.total) * 100,
+                                  )
+                                : 0}
+                              %)
+                            </span>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Kehadiran per Kelas</CardTitle>
+                <CardDescription className="text-xs">
+                  Perbandingan status antar kelas
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {classData.length === 0 ? (
+                  <EmptyChart message="Tidak ada data per kelas" />
+                ) : (
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart
+                      data={classData}
+                      margin={{ top: 4, right: 8, left: 0, bottom: 4 }}
+                    >
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={CHART_GRID_STROKE}
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="class"
+                        tick={{ fontSize: 10 }}
+                        tickLine={false}
+                        axisLine={false}
+                      />
+                      <YAxis
+                        tick={{ fontSize: 10 }}
+                        tickLine={false}
+                        axisLine={false}
+                        width={28}
+                      />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend wrapperStyle={{ fontSize: 10 }} />
+                      <Bar
+                        dataKey="Hadir"
+                        stackId="status"
+                        fill={CHART_SERIES.positive}
+                        radius={[0, 0, 0, 0]}
+                        maxBarSize={28}
+                      />
+                      <Bar
+                        dataKey="Terlambat"
+                        stackId="status"
+                        fill={CHART_SERIES.warning}
+                        maxBarSize={28}
+                      />
+                      <Bar
+                        dataKey="Izin"
+                        stackId="status"
+                        fill={CHART_SERIES.info}
+                        maxBarSize={28}
+                      />
+                      <Bar
+                        dataKey="Sakit"
+                        stackId="status"
+                        fill={CHART_SERIES.neutral}
+                        maxBarSize={28}
+                      />
+                      <Bar
+                        dataKey="Alfa"
+                        stackId="status"
+                        fill={CHART_SERIES.negative}
+                        radius={[3, 3, 0, 0]}
+                        maxBarSize={28}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Rekap per Kelas</CardTitle>
+                <CardDescription className="text-xs">
+                  Jumlah record dan tingkat kehadiran setiap kelas
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
+                {byClass.length === 0 ? (
+                  <EmptyChart message="Tidak ada data per kelas" />
+                ) : (
+                  <div className="max-h-[280px] overflow-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-muted/40 sticky top-0">
+                        <tr className="border-b">
+                          <th className="text-muted-foreground px-4 py-2.5 text-left text-xs font-medium">
+                            Kelas
+                          </th>
+                          <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
+                            Record
+                          </th>
+                          <th className="text-muted-foreground px-4 py-2.5 text-right text-xs font-medium">
+                            Hadir
+                          </th>
+                          <th className="text-muted-foreground px-4 py-2.5 text-xs font-medium">
+                            Kehadiran
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {byClass.map((row, index) => (
+                          <tr
+                            key={row.classId ?? index}
+                            className={`border-b ${index % 2 === 1 ? "bg-muted/20" : ""} hover:bg-muted/30 transition-colors`}
+                          >
+                            <td className="px-4 py-2.5 font-medium">
+                              {row.className}
+                            </td>
+                            <td className="px-4 py-2.5 text-right tabular-nums">
+                              {numberFormat(row.total)}
+                            </td>
+                            <td className="px-4 py-2.5 text-right tabular-nums">
+                              {numberFormat(row.present)}
+                            </td>
+                            <td className="px-4 py-2.5">
+                              <div className="flex items-center gap-2">
+                                <div className="bg-muted h-1.5 max-w-[100px] flex-1 rounded-full">
+                                  <div
+                                    className="bg-success-solid h-1.5 rounded-full"
+                                    style={{ width: `${row.attendanceRate}%` }}
+                                  />
+                                </div>
+                                <span className="text-muted-foreground w-10 text-right text-xs tabular-nums">
+                                  {row.attendanceRate}%
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
                         ))}
-                      </Pie>
-                      <Tooltip
-                        content={({ active, payload }) => {
-                          if (!active || !payload?.length) return null;
-                          const d = payload[0];
-                          return (
-                            <div className="bg-background rounded-3xl border p-2 text-xs shadow-md">
-                              <p className="font-semibold">{d.name}</p>
-                              <p style={{ color: d.payload.color }}>
-                                {d.value} siswa
-                              </p>
-                            </div>
-                          );
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        {/* ═══════════ TAB: DAILY PIPELINE ═══════════ */}
+        <TabsContent value="daily" className="mt-4 space-y-4">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+            {STATUS_KEYS.map((key) => {
+              const config = STATUS_MAP[key];
+              const Icon = config.icon;
+              const pct =
+                summary.total > 0
+                  ? Math.round((summary[key] / summary.total) * 100)
+                  : 0;
+              return (
+                <Card key={key}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-muted-foreground text-xs">
+                        {config.label}
+                      </p>
+                      <div
+                        className={`${config.bgColor} flex h-7 w-7 items-center justify-center rounded-lg`}
+                      >
+                        <Icon
+                          className="h-4 w-4"
+                          style={{ color: config.chartColor }}
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className="mt-1 text-2xl font-semibold tracking-tight"
+                      style={{ color: config.chartColor }}
+                    >
+                      {numberFormat(summary[key])}
+                    </p>
+                    <div className="bg-muted mt-2 h-1.5 rounded-full">
+                      <div
+                        className="h-1.5 rounded-full"
+                        style={{
+                          width: `${pct}%`,
+                          backgroundColor: config.chartColor,
                         }}
                       />
-                    </PieChart>
-                  </ResponsiveContainer>
+                    </div>
+                    <p className="text-muted-foreground mt-1 text-xs">
+                      {pct}% dari {numberFormat(summary.total)} record
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
 
-                  {/* Legend */}
-                  <div className="flex-1 space-y-2">
-                    {pieData.map((d, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between text-xs"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <span
-                            className="h-2.5 w-2.5 rounded-full"
-                            style={{ backgroundColor: d.color }}
-                          />
-                          <span className="text-muted-foreground">
-                            {d.name}
-                          </span>
-                        </span>
-                        <span className="font-semibold">
-                          {d.value}{" "}
-                          <span className="text-muted-foreground font-normal">
-                            (
-                            {stats.total > 0
-                              ? ((d.value / stats.total) * 100).toFixed(0)
-                              : 0}
-                            %)
-                          </span>
-                        </span>
-                      </div>
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <CardTitle className="text-base">Pipeline Harian</CardTitle>
+                  <CardDescription className="text-xs">
+                    Alur status kehadiran setiap hari pada periode terpilih
+                  </CardDescription>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {STATUS_KEYS.map((key) => (
+                    <span
+                      key={key}
+                      className="text-muted-foreground flex items-center gap-1 text-[11px]"
+                    >
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: STATUS_MAP[key].chartColor }}
+                      />
+                      {STATUS_MAP[key].label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              {daily.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <CalendarDays className="text-muted-foreground/30 mb-3 h-12 w-12" />
+                  <p className="text-muted-foreground font-medium">
+                    Tidak ada data pada periode ini
+                  </p>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    Ubah rentang tanggal atau filter status
+                  </p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <div className="min-w-[560px]">
+                    {[...daily].reverse().map((day) => (
+                      <PipelineRow key={day.date} day={day} />
                     ))}
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
+        </TabsContent>
 
-          {/* Line Chart */}
+        {/* ═══════════ TAB: DATA ═══════════ */}
+        <TabsContent value="data" className="mt-4">
           <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
-                <TrendingUp className="text-success h-4 w-4" />
-                Tren Kehadiran Harian
+                <BookOpen className="text-info h-4 w-4" />
+                Data Kehadiran
               </CardTitle>
-              <CardDescription>Perkembangan kehadiran per hari</CardDescription>
+              <CardDescription className="mt-1">
+                Menampilkan {firstRow}–{lastRow} dari{" "}
+                {numberFormat(totalRecords)} record
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              {lineData.length === 0 ? (
-                <div className="text-muted-foreground flex h-72 items-center justify-center text-sm">
-                  Tidak ada data tren untuk periode ini
+
+            <CardContent className="p-0">
+              {rows.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <Users className="text-muted-foreground/30 mb-3 h-12 w-12" />
+                  <p className="text-muted-foreground font-medium">
+                    Tidak ada data kehadiran
+                  </p>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    Coba ubah filter atau rentang tanggal
+                  </p>
+                  {hasActiveFilter && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-4"
+                      onClick={resetFilters}
+                    >
+                      Reset Filter
+                    </Button>
+                  )}
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height={240}>
-                  <LineChart
-                    data={lineData}
-                    margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
+                <>
+                  <div
+                    className={`overflow-x-auto transition-opacity ${isFetching ? "opacity-60" : ""}`}
                   >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      stroke={CHART_GRID_STROKE}
-                    />
-                    <XAxis
-                      dataKey="date"
-                      tick={{ fontSize: 9 }}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <YAxis
-                      tick={{ fontSize: 9 }}
-                      tickLine={false}
-                      axisLine={false}
-                      width={24}
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend wrapperStyle={{ fontSize: 10 }} />
-                    <Line
-                      type="monotone"
-                      dataKey="present"
-                      stroke={CHART_SERIES.positive}
-                      strokeWidth={2}
-                      dot={false}
-                      name="Hadir"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="late"
-                      stroke={CHART_SERIES.warning}
-                      strokeWidth={2}
-                      dot={false}
-                      name="Terlambat"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="absent"
-                      stroke={CHART_SERIES.negative}
-                      strokeWidth={2}
-                      dot={false}
-                      name="Tidak Hadir"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="sick"
-                      stroke={CHART_SERIES.neutral}
-                      strokeWidth={2}
-                      dot={false}
-                      name="Sakit"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="excused"
-                      stroke={CHART_SERIES.info}
-                      strokeWidth={2}
-                      dot={false}
-                      name="Izin"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* ── Bar Chart ── */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-base">
-              <BarChart3 className="text-tertiary h-4 w-4" />
-              Kehadiran per Kelas
-            </CardTitle>
-            <CardDescription>
-              Perbandingan tingkat kehadiran antar kelas
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {classData.length === 0 ? (
-              <div className="text-muted-foreground flex h-60 items-center justify-center text-sm">
-                Tidak ada data per kelas untuk periode ini
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart
-                  data={classData}
-                  margin={{ top: 4, right: 8, left: 0, bottom: 4 }}
-                >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke={CHART_GRID_STROKE}
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="class"
-                    tick={{ fontSize: 10 }}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10 }}
-                    tickLine={false}
-                    axisLine={false}
-                    width={24}
-                  />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar
-                    dataKey="present"
-                    fill={CHART_SERIES.positive}
-                    name="Hadir"
-                    radius={[3, 3, 0, 0]}
-                    maxBarSize={20}
-                  />
-                  <Bar
-                    dataKey="late"
-                    fill={CHART_SERIES.warning}
-                    name="Terlambat"
-                    radius={[3, 3, 0, 0]}
-                    maxBarSize={20}
-                  />
-                  <Bar
-                    dataKey="absent"
-                    fill={CHART_SERIES.negative}
-                    name="Tidak Hadir"
-                    radius={[3, 3, 0, 0]}
-                    maxBarSize={20}
-                  />
-                  <Bar
-                    dataKey="sick"
-                    fill={CHART_SERIES.neutral}
-                    name="Sakit"
-                    radius={[3, 3, 0, 0]}
-                    maxBarSize={20}
-                  />
-                  <Bar
-                    dataKey="excused"
-                    fill={CHART_SERIES.info}
-                    name="Izin"
-                    radius={[3, 3, 0, 0]}
-                    maxBarSize={20}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* ── Table ── */}
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <BookOpen className="text-info h-4 w-4" />
-                  Data Kehadiran
-                </CardTitle>
-                <CardDescription className="mt-1">
-                  {filteredData.length} record ditemukan
-                  {filteredData.length !== attendanceData.length && (
-                    <span className="ml-1">
-                      (difilter dari {attendanceData.length} total)
-                    </span>
-                  )}
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-
-          <Separator />
-
-          <CardContent className="p-0">
-            {filteredData.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Users className="text-muted-foreground/30 mb-3 h-12 w-12" />
-                <p className="text-muted-foreground font-medium">
-                  Tidak ada data kehadiran
-                </p>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  Coba ubah filter atau rentang tanggal
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-muted/40 hover:bg-muted/40">
-                        <TableHead className="text-xs font-semibold">
-                          Siswa
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          NISN
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          Kelas
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          Mata Pelajaran
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          Status
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          Tanggal
-                        </TableHead>
-                        <TableHead className="text-xs font-semibold">
-                          Catatan
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {displayedRows.map((record) => {
-                        const cfg = STATUS_MAP[record.status];
-                        if (!cfg) return null;
-                        const Icon = cfg.icon;
-                        return (
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-muted/40 hover:bg-muted/40">
+                          <TableHead className="text-xs font-semibold">
+                            Siswa
+                          </TableHead>
+                          <TableHead className="text-xs font-semibold">
+                            Kelas
+                          </TableHead>
+                          <TableHead className="text-xs font-semibold">
+                            Mata Pelajaran
+                          </TableHead>
+                          <TableHead className="text-xs font-semibold">
+                            Status
+                          </TableHead>
+                          <TableHead className="text-xs font-semibold">
+                            Tanggal
+                          </TableHead>
+                          <TableHead className="text-xs font-semibold">
+                            Catatan
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {rows.map((record) => (
                           <TableRow
                             key={record.id}
                             className="hover:bg-muted/30 transition-colors"
@@ -1044,23 +1301,22 @@ export default function AttendanceDashboard() {
                                 <div className="bg-muted flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
                                   <User className="text-muted-foreground h-3.5 w-3.5" />
                                 </div>
-                                <span className="text-sm">
-                                  {record.student?.name ?? "-"}
-                                </span>
+                                <div>
+                                  <p className="text-sm">
+                                    {record.student?.name ?? "-"}
+                                  </p>
+                                  <p className="text-muted-foreground font-mono text-[11px]">
+                                    {record.student?.nisn ?? "N/A"}
+                                  </p>
+                                </div>
                               </div>
-                            </TableCell>
-                            <TableCell className="py-2.5">
-                              <Badge
-                                variant="outline"
-                                className="font-mono text-xs"
-                              >
-                                {record.student?.nisn ?? "N/A"}
-                              </Badge>
                             </TableCell>
                             <TableCell className="py-2.5">
                               <div className="text-muted-foreground flex items-center gap-1 text-sm">
                                 <MapPin className="h-3 w-3 shrink-0" />
-                                {record.schedule?.room ?? "N/A"}
+                                {record.schedule?.class?.name ??
+                                  record.schedule?.room ??
+                                  "N/A"}
                               </div>
                             </TableCell>
                             <TableCell className="py-2.5">
@@ -1070,22 +1326,10 @@ export default function AttendanceDashboard() {
                               </div>
                             </TableCell>
                             <TableCell className="py-2.5">
-                              <Badge
-                                className={`${cfg.bgColor} ${cfg.color} flex w-fit items-center gap-1 border-0 text-xs`}
-                              >
-                                <Icon className="h-3 w-3" />
-                                {cfg.label}
-                              </Badge>
+                              <StatusBadge status={record.status} />
                             </TableCell>
                             <TableCell className="text-muted-foreground py-2.5 text-sm whitespace-nowrap">
-                              {new Date(record.date).toLocaleDateString(
-                                "id-ID",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                },
-                              )}
+                              {format(new Date(record.date), "d MMM yyyy")}
                             </TableCell>
                             <TableCell className="max-w-40 py-2.5">
                               <span
@@ -1096,38 +1340,62 @@ export default function AttendanceDashboard() {
                               </span>
                             </TableCell>
                           </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
-
-                {/* Show more / show less */}
-                {filteredData.length > 10 && (
-                  <div className="flex items-center justify-between border-t p-4">
-                    <p className="text-muted-foreground text-xs">
-                      Menampilkan{" "}
-                      {showAllRows
-                        ? filteredData.length
-                        : Math.min(10, filteredData.length)}{" "}
-                      dari {filteredData.length} record
-                    </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowAllRows((v) => !v)}
-                    >
-                      {showAllRows
-                        ? "Tampilkan Lebih Sedikit"
-                        : `Lihat Semua (${filteredData.length} record)`}
-                    </Button>
+                        ))}
+                      </TableBody>
+                    </Table>
                   </div>
-                )}
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+
+                  {/* Pagination */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t p-4">
+                    <p className="text-muted-foreground text-xs">
+                      Halaman {page} dari {pageCount} ·{" "}
+                      {numberFormat(totalRecords)} record
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Select
+                        value={String(pageSize)}
+                        onValueChange={(value) => {
+                          setPageSize(Number(value));
+                          setPage(1);
+                        }}
+                      >
+                        <SelectTrigger className="h-8 w-[110px] text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[10, 25, 50, 100].map((size) => (
+                            <SelectItem key={size} value={String(size)}>
+                              {size} / halaman
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setPage((current) => Math.max(1, current - 1))
+                        }
+                        disabled={page <= 1 || isFetching}
+                      >
+                        Sebelumnya
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPage((current) => current + 1)}
+                        disabled={!pagination?.hasMore || isFetching}
+                      >
+                        Selanjutnya
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

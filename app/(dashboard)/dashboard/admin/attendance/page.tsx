@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 import {
   useCreateAttendance,
@@ -12,6 +12,7 @@ import { useGetStudents } from "@/hooks/Users/useStudents";
 import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { type attendanceTypes } from "@/types/attendance-types";
 import { DatePickerWithRange } from "@/components/date/datePicker";
+import { monthToDateRange } from "@/lib/dateRange";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -67,13 +68,10 @@ import {
   type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   type SortingState,
   useReactTable,
   type VisibilityState,
-  type Row,
 } from "@tanstack/react-table";
 import {
   AlertCircle,
@@ -461,26 +459,34 @@ function AttendanceDataTable() {
   // Filter states
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [classFilter, setClassFilter] = useState<string>("all");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(() =>
+    monthToDateRange(),
+  );
   const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  // Use the attendance by date hook with branchId filter
+  // Server-side pagination: hanya satu halaman yang diambil dari API.
   const {
-    data: attendanceByDate = [],
+    data: attendanceResponse,
     isLoading: isLoadingAttendanceByDate,
     refetch,
+    isFetching,
   } = useAttendanceByDate({
-    fromdate: dateRange?.from || new Date(),
-    todate: dateRange?.to || new Date(),
+    fromdate: dateRange?.from,
+    todate: dateRange?.to,
     branchId: selectedBranchId || undefined,
+    status: statusFilter === "all" ? undefined : statusFilter,
+    classId: classFilter === "all" ? undefined : classFilter,
+    search: globalFilter.trim() || undefined,
+    page,
+    limit: pageSize,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [dateRange?.from?.toISOString(), dateRange?.to?.toISOString()]);
+  const attendanceByDate = attendanceResponse?.data ?? [];
+  const pagination = attendanceResponse?.pagination;
+  const serverSummary = attendanceResponse?.summary;
+  const filterOptions = attendanceResponse?.filterOptions;
 
   const { data: schedules = [] } = useGetSchedules();
 
@@ -580,53 +586,7 @@ function AttendanceDataTable() {
     }
   };
 
-  const uniqueClasses = useMemo(() => {
-    const classes = schedules
-      .filter((schedule) => schedule.class)
-      .map((schedule) => schedule.class)
-      .filter(
-        (cls, index: number, arr) =>
-          arr.findIndex((c) => c?.id === cls?.id) === index,
-      );
-    return classes;
-  }, [schedules]);
-
-  const globalFilterFn = useCallback(
-    (row: Row<AttendanceData>, columnId: string, filterValue: string) => {
-      if (!filterValue) return true;
-
-      const searchValue = filterValue.toLowerCase();
-      const attendance = row.original;
-
-      const searchableText = [
-        attendance.student?.name,
-        attendance.schedule?.subject?.name,
-        attendance.schedule?.subject?.code,
-        attendance.schedule?.class?.name,
-        attendance.schedule?.teacher?.name,
-        STATUS_MAP[attendance.status as keyof typeof STATUS_MAP]?.label,
-        attendance.notes,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      return searchableText.includes(searchValue);
-    },
-    [],
-  );
-
-  const classFilterFn = useCallback(
-    (row: Row<AttendanceData>, columnId: string, filterValue: string) => {
-      if (filterValue === "all") return true;
-
-      const scheduleId = row.original.scheduleId;
-      const schedule = schedules.find((s) => s.id === scheduleId);
-
-      return schedule?.class?.id === filterValue;
-    },
-    [schedules],
-  );
+  const uniqueClasses = filterOptions?.classes ?? [];
 
   const columns: ColumnDef<AttendanceData>[] = [
     {
@@ -734,7 +694,6 @@ function AttendanceDataTable() {
           </div>
         );
       },
-      filterFn: classFilterFn,
     },
     {
       id: "status",
@@ -762,10 +721,6 @@ function AttendanceDataTable() {
             {statusConfig?.label || status}
           </Badge>
         );
-      },
-      filterFn: (row, id, value) => {
-        if (value === "all") return true;
-        return row.original.status === value;
       },
     },
     {
@@ -840,52 +795,41 @@ function AttendanceDataTable() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    globalFilterFn: globalFilterFn,
-    onGlobalFilterChange: setGlobalFilter,
+    manualPagination: true,
+    pageCount: Math.max(1, pagination?.pages ?? 0),
+    onPaginationChange: (updater) => {
+      const next =
+        typeof updater === "function"
+          ? updater({ pageIndex: page - 1, pageSize })
+          : updater;
+      setPage(next.pageIndex + 1);
+      setPageSize(next.pageSize);
+    },
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
-      globalFilter,
+      pagination: { pageIndex: page - 1, pageSize },
     },
   });
 
-  useEffect(() => {
-    if (statusFilter !== "all") {
-      table.getColumn("status")?.setFilterValue(statusFilter);
-    } else {
-      table.getColumn("status")?.setFilterValue(undefined);
-    }
-  }, [statusFilter, table]);
-
-  useEffect(() => {
-    if (classFilter !== "all") {
-      table.getColumn("schedule")?.setFilterValue(classFilter);
-    } else {
-      table.getColumn("schedule")?.setFilterValue(undefined);
-    }
-  }, [classFilter, table]);
-
-  const stats = useMemo(() => {
-    const filteredAttendances = table
-      .getFilteredRowModel()
-      .rows.map((row) => row.original);
-
-    return {
-      total: filteredAttendances.length,
-      present: filteredAttendances.filter((a) => a.status === "present").length,
-      absent: filteredAttendances.filter((a) => a.status === "absent").length,
-      late: filteredAttendances.filter((a) => a.status === "late").length,
-      excused: filteredAttendances.filter((a) => a.status === "excused").length,
-      sick: filteredAttendances.filter((a) => a.status === "sick").length,
-    };
-  }, [table.getFilteredRowModel().rows]);
+  const stats = serverSummary ?? {
+    total: 0,
+    present: 0,
+    absent: 0,
+    late: 0,
+    excused: 0,
+    sick: 0,
+    attendanceRate: 0,
+  };
+  const totalRecords = pagination?.total ?? 0;
+  const pageCount = Math.max(1, pagination?.pages ?? 0);
+  const firstRow = totalRecords === 0 ? 0 : (page - 1) * pageSize + 1;
+  const lastRow = Math.min(page * pageSize, totalRecords);
 
   if (isLoadingAttendanceByDate) {
     return <Loading />;
@@ -905,12 +849,21 @@ function AttendanceDataTable() {
               <Input
                 placeholder="Cari siswa, mata pelajaran, atau kelas..."
                 value={globalFilter ?? ""}
-                onChange={(event) => setGlobalFilter(event.target.value)}
+                onChange={(event) => {
+                  setGlobalFilter(event.target.value);
+                  setPage(1);
+                }}
                 className="max-w-sm pl-8"
               />
             </div>
 
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => {
+                setStatusFilter(value);
+                setPage(1);
+              }}
+            >
               <SelectTrigger className="w-[140px]">
                 <SelectValue placeholder="Filter Status" />
               </SelectTrigger>
@@ -927,7 +880,13 @@ function AttendanceDataTable() {
               </SelectContent>
             </Select>
 
-            <Select value={classFilter} onValueChange={setClassFilter}>
+            <Select
+              value={classFilter}
+              onValueChange={(value) => {
+                setClassFilter(value);
+                setPage(1);
+              }}
+            >
               <SelectTrigger className="w-[140px]">
                 <SelectValue placeholder="Filter Kelas" />
               </SelectTrigger>
@@ -944,7 +903,13 @@ function AttendanceDataTable() {
               </SelectContent>
             </Select>
 
-            <DatePickerWithRange date={dateRange} setDate={setDateRange} />
+            <DatePickerWithRange
+              date={dateRange}
+              setDate={(range) => {
+                setDateRange(range);
+                setPage(1);
+              }}
+            />
 
             {(globalFilter ||
               statusFilter !== "all" ||
@@ -956,6 +921,7 @@ function AttendanceDataTable() {
                   setGlobalFilter("");
                   setStatusFilter("all");
                   setClassFilter("all");
+                  setPage(1);
                   table.resetColumnFilters();
                 }}
               >
@@ -1036,7 +1002,10 @@ function AttendanceDataTable() {
                 Pencarian: {globalFilter}
                 <X
                   className="h-3 w-3 cursor-pointer"
-                  onClick={() => setGlobalFilter("")}
+                  onClick={() => {
+                    setGlobalFilter("");
+                    setPage(1);
+                  }}
                 />
               </Badge>
             )}
@@ -1046,7 +1015,10 @@ function AttendanceDataTable() {
                 {STATUS_MAP[statusFilter as keyof typeof STATUS_MAP]?.label}
                 <X
                   className="h-3 w-3 cursor-pointer"
-                  onClick={() => setStatusFilter("all")}
+                  onClick={() => {
+                    setStatusFilter("all");
+                    setPage(1);
+                  }}
                 />
               </Badge>
             )}
@@ -1055,7 +1027,10 @@ function AttendanceDataTable() {
                 Kelas: {uniqueClasses?.find((c) => c?.id === classFilter)?.name}
                 <X
                   className="h-3 w-3 cursor-pointer"
-                  onClick={() => setClassFilter("all")}
+                  onClick={() => {
+                    setClassFilter("all");
+                    setPage(1);
+                  }}
                 />
               </Badge>
             )}
@@ -1124,6 +1099,7 @@ function AttendanceDataTable() {
                             setGlobalFilter("");
                             setStatusFilter("all");
                             setClassFilter("all");
+                            setPage(1);
                             table.resetColumnFilters();
                           }}
                         >
@@ -1138,36 +1114,50 @@ function AttendanceDataTable() {
           </Table>
         </div>
 
-        <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 py-4">
           <div className="text-muted-foreground flex-1 text-sm">
             {table.getFilteredSelectedRowModel().rows.length} dari{" "}
-            {table.getFilteredRowModel().rows.length} baris dipilih.
-            {table.getFilteredRowModel().rows.length !==
-              attendanceByDate.length && (
-              <span className="ml-2">
-                (difilter dari {attendanceByDate.length} total)
-              </span>
-            )}
+            {attendanceByDate.length} baris di halaman ini dipilih.
+            <span className="ml-2">
+              Menampilkan {firstRow}–{lastRow} dari {totalRecords} data
+            </span>
           </div>
-          <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">
-              Halaman {table.getState().pagination.pageIndex + 1} dari{" "}
-              {table.getPageCount()}
+          <div className="flex items-center gap-3">
+            <Select
+              value={String(pageSize)}
+              onValueChange={(value) => {
+                setPageSize(Number(value));
+                setPage(1);
+              }}
+            >
+              <SelectTrigger className="w-[110px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[10, 25, 50, 100].map((size) => (
+                  <SelectItem key={size} value={String(size)}>
+                    {size} / halaman
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-sm font-medium whitespace-nowrap">
+              Halaman {page} dari {pageCount}
             </p>
             <div className="space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
+                onClick={() => setPage((current) => Math.max(1, current - 1))}
+                disabled={page <= 1 || isFetching}
               >
                 Sebelumnya
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
+                onClick={() => setPage((current) => current + 1)}
+                disabled={!pagination?.hasMore || isFetching}
               >
                 Selanjutnya
               </Button>
@@ -1182,12 +1172,9 @@ function AttendanceDataTable() {
               <h3 className="font-semibold">Total Kehadiran</h3>
             </div>
             <p className="mt-2 text-2xl font-semibold tracking-tight">{stats.total}</p>
-            {table.getFilteredRowModel().rows.length !==
-              attendanceByDate.length && (
-              <p className="text-muted-foreground text-sm">
-                ({table.getFilteredRowModel().rows.length} terfilter)
-              </p>
-            )}
+            <p className="text-muted-foreground text-sm">
+              Sesuai filter tanggal & status
+            </p>
           </div>
 
           <div className="bg-card rounded-3xl border border-border p-4">

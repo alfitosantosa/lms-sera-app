@@ -13,7 +13,6 @@ import {
   CreditCard,
   FileText,
   GraduationCap,
-  Home,
   LayoutDashboard,
   LogOut,
   MessageSquare,
@@ -58,21 +57,11 @@ import {
 import { signOut, useSession } from "@/services/auth/authClients";
 import { getRoleMenuKey } from "@/lib/ui/roleKey";
 import { useEffect, useState, type ElementType } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
 import { useBranch } from "@/context/BranchContext";
 
 // Icon mapping
 const iconMap: Record<string, ElementType> = {
-  home: Home,
   dashboard: LayoutDashboard,
   users: Users,
   academic: GraduationCap,
@@ -104,13 +93,13 @@ export function AppSidebar() {
     useGetUserByIdBetterAuth(session?.user?.id ?? "");
 
   // Use Branch Context
-  const { selectedBranchId, setSelectedBranchId } = useBranch();
+  const { selectedBranchId } = useBranch();
 
-  // Local state for Select component (synced with context)
+  // Selected branch, synced from context and URL
   const [school, setSchool] = useState<string>("all");
 
   // Call all hooks at the top level, before any early returns
-  const { data: branches, isPending: isBranchesPending } = useGetBranchs();
+  const { isPending: isBranchesPending } = useGetBranchs();
 
   // Sync local state with context and URL on mount
   useEffect(() => {
@@ -148,15 +137,6 @@ export function AppSidebar() {
 
   const roleMenuKey = getRoleMenuKey(userRole, school);
   const currentMenuGroups = menuGroups[roleMenuKey] || menuGroups.student;
-
-  console.log("🔑 Role Debug:", {
-    userRole,
-    roleMenuKey,
-    hasMenuGroups: !!menuGroups[roleMenuKey],
-    menuGroupKeys: Object.keys(menuGroups),
-    currentMenuGroupsLength: currentMenuGroups?.length,
-    firstGroup: currentMenuGroups?.[0]?.title,
-  });
 
   // Filter menu items based on permissions
   const filterMenuByPermissions = (items: MenuItem[]): MenuItem[] => {
@@ -229,8 +209,6 @@ export function AppSidebar() {
   const clientName = userData?.foundation
     ? userData.foundation?.name
     : "Sera App";
-
-  console.log(branches);
 
   return (
     <Sidebar className="border-border bg-sidebar text-foreground border-r">

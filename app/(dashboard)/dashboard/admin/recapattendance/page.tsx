@@ -28,6 +28,7 @@ import {
   exportStudentAttendanceDetailToExcel,
 } from "@/lib/export/exportStudentAttendance";
 import { DEFAULT_AVATAR } from "@/lib/ui/imageLoader";
+import { formatLocalDate, startOfMonth } from "@/lib/dateRange";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import {
@@ -82,9 +83,7 @@ const STATUS_CONFIG = {
 };
 
 function getDefaultStartDate() {
-  const date = new Date();
-  date.setDate(date.getDate() - 31);
-  return date.toISOString().split("T")[0];
+  return formatLocalDate(startOfMonth());
 }
 
 function getDefaultEndDate() {

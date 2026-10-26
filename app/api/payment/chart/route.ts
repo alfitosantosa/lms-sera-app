@@ -1,4 +1,5 @@
 "use server";
+import { defaultDateRange } from "@/lib/dateRange";
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
 import { resolveFoundation } from "@/services/tenant";
@@ -11,16 +12,11 @@ export async function GET(request: NextRequest) {
   );
   if (!t.ok) return t.response;
 
-  const fromdate = request.nextUrl.searchParams.get("fromdate");
-  const todate = request.nextUrl.searchParams.get("todate");
+  const { fromdate, todate } = defaultDateRange(
+    request.nextUrl.searchParams.get("fromdate"),
+    request.nextUrl.searchParams.get("todate"),
+  );
   const branchId = request.nextUrl.searchParams.get("branchId");
-
-  if (!fromdate || !todate) {
-    return NextResponse.json(
-      { error: "Missing fromdate or todate query parameters" },
-      { status: 400 },
-    );
-  }
 
   try {
     const startDate = new Date(fromdate);

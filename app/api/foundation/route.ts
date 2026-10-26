@@ -12,6 +12,7 @@
 
 import { parseModules } from "@/config/modules";
 import { auth } from "@/services/auth/auth";
+import { seedDemoFoundation, type DemoSeedResult } from "@/services/demoSeed";
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
 import {
@@ -156,11 +157,29 @@ export async function POST(request: NextRequest) {
         foundationId: createNewFoundation.id,
       },
     });
+
+    // Isi data demo TEST_ agar dashboard MVP langsung terisi. Kegagalan seed
+    // tidak membatalkan yayasan yang sudah dibuat.
+    let demoSeed: DemoSeedResult | null = null;
+    let demoSeedError: string | null = null;
+    try {
+      demoSeed = await seedDemoFoundation({
+        foundationId: createNewFoundation.id,
+        adminUserDataId: AssignUserDataFoundation.id,
+      });
+    } catch (error) {
+      console.error("[DemoSeed] Gagal membuat data demo:", error);
+      demoSeedError =
+        error instanceof Error ? error.message : "Gagal membuat data demo";
+    }
+
     return NextResponse.json({
       foundation: createNewFoundation,
       user: AssignUserFoundation,
       userData: AssignUserDataFoundation,
       createRole: CreateRole ? "true" : "false",
+      demoSeed,
+      demoSeedError,
     });
   } catch (error) {
     return handlePrismaError(error);

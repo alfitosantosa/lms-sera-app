@@ -5,6 +5,7 @@ import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
 import { usePaymentsItemsDashboardByDate } from "@/hooks/Payments/usePaymentItemsByDate";
 import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { DatePickerWithRange } from "@/components/date/datePicker";
+import { monthToDateRange } from "@/lib/dateRange";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -278,10 +279,9 @@ function UnpaidPaymentDashboard({
   userBranchId?: string;
   isAdmin: boolean;
 }) {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: subMonths(new Date(), 3),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    monthToDateRange(),
+  );
 
   const [selectedBranchId, setSelectedBranchId] = useState<string>(
     isAdmin ? "all" : (userBranchId ?? "all"),

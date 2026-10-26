@@ -80,7 +80,7 @@ export const MODULES: Record<ModuleKey, ModuleDefinition> = {
       "/dashboard/student/development",
       "/dashboard/student/exam",
       "/dashboard/parent/development",
-      "/dashboard/reports",
+      "/dashboard/teacher/questionbank",
     ],
     apiPrefixes: [
       "/api/assignments",
@@ -96,6 +96,7 @@ export const MODULES: Record<ModuleKey, ModuleDefinition> = {
     label: "Tahfidz",
     description: "Setoran hafalan, surah, dan rekap per kelas.",
     pagePrefixes: [
+      "/dashboard/tahfidz",
       "/dashboard/admin/master/classes/tahfidz",
       "/dashboard/admin/academic/tahfidzrecord",
       "/dashboard/teacher/attendance/tahfidz",

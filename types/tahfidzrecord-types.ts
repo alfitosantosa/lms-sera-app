@@ -33,6 +33,10 @@ interface StudentTahfidzTypes {
     id: string;
     name: string;
   } | null;
+  tahfidzGroup?: {
+    id: string;
+    name: string;
+  } | null;
 }
 
 interface TeacherTahfidzTypes {
@@ -52,3 +56,53 @@ export interface TahfidzRecordInput {
   teacherId: string;
   surahQuranId: string;
 }
+
+export type TahfidzSummary = {
+  total: number;
+  students: number;
+  groups: number;
+  teachers: number;
+  surahs: number;
+  averageGrade: number;
+};
+
+export type TahfidzDailyPoint = TahfidzSummary & {
+  date: string;
+  gradeCounts: Record<string, number>;
+};
+
+export type TahfidzByGrade = {
+  grade: string;
+  total: number;
+  percentage: number;
+};
+
+export type TahfidzByGroup = {
+  groupId: string | null;
+  groupName: string;
+  total: number;
+  students: number;
+  averageGrade: number;
+};
+
+export type TahfidzFilterOptions = {
+  groups: { id: string; name: string }[];
+  teachers: { id: string; name: string }[];
+  surahs: { id: string; nameLatin: string }[];
+};
+
+export type TahfidzPaginatedResponse = {
+  data: TahfidzRecordTypes[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+    hasMore: boolean;
+  };
+  summary: TahfidzSummary;
+  daily: TahfidzDailyPoint[];
+  byGrade: TahfidzByGrade[];
+  byGroup: TahfidzByGroup[];
+  filterOptions: TahfidzFilterOptions;
+};

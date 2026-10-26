@@ -4,6 +4,7 @@ import { usePaymentsDashboardByDate } from "@/hooks/Payments/usePaymentByDate";
 import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { DatePickerWithRange } from "@/components/date/datePicker";
+import { monthToDateRange } from "@/lib/dateRange";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -248,10 +249,9 @@ function PaymentDashboard({
   isAdmin: boolean;
 }) {
   // Default: last 3 months → today
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: subMonths(new Date(), 3),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    monthToDateRange(),
+  );
 
   const [selectedBranchId, setSelectedBranchId] = useState<string>(
     isAdmin ? "all" : (userBranchId ?? "all"),

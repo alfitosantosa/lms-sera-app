@@ -6,6 +6,7 @@ import { useGetBranchs } from "@/hooks/Branchs/useBranchs";
 import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { type UserDataTypes } from "@/types";
 import { DatePickerWithRange } from "@/components/date/datePicker";
+import { monthToDateRange } from "@/lib/dateRange";
 import Loading from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -304,10 +305,7 @@ function AccountBankBalanceDashboard({
 }) {
   // ✅ Memoize initial date to prevent re-creation
   const initialDateRange = useMemo(
-    () => ({
-      from: subMonths(new Date(), 3),
-      to: new Date(),
-    }),
+    () => monthToDateRange(),
     [],
   );
 

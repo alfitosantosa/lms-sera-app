@@ -7,7 +7,6 @@ import {
   CreditCard,
   FileText,
   GraduationCap,
-  Home,
   LayoutDashboard,
   MessageSquare,
   Settings,
@@ -18,7 +17,6 @@ import { type ElementType } from "react";
 
 // Icon mapping
 const iconMap: Record<string, ElementType> = {
-  home: Home,
   dashboard: LayoutDashboard,
   users: Users,
   academic: GraduationCap,
@@ -34,7 +32,8 @@ const iconMap: Record<string, ElementType> = {
   settings: Settings,
 };
 
-// Menu structure with grouping
+// Menu structure with grouping. Urutan grup sama untuk semua role:
+// Utama → Master Data → Akademik (core SIAKAD) → modul domain → Dashboard → Utilitas.
 type MenuItem = {
   title: string;
   url: string;
@@ -47,214 +46,287 @@ type MenuGroup = {
   items: MenuItem[];
 };
 
+const MENU_PROFILE: MenuItem = {
+  title: "Profil",
+  url: "/dashboard/profile",
+  icon: "users",
+};
+
+const MENU_MODULES: MenuItem = {
+  title: "Modul Yayasan",
+  url: "/dashboard/modules",
+  icon: "settings",
+};
+
+const groupUtama = (withModules = false): MenuGroup => ({
+  title: "Utama",
+  items: withModules ? [MENU_PROFILE, MENU_MODULES] : [MENU_PROFILE],
+});
+
+const groupMasterData: MenuGroup = {
+  title: "Master Data",
+  items: [
+    {
+      title: "BetterAuth",
+      url: "/dashboard/admin/master/betterauth",
+      icon: "settings",
+    },
+    {
+      title: "Roles",
+      url: "/dashboard/admin/master/roles",
+      icon: "settings",
+    },
+    {
+      title: "Users",
+      url: "/dashboard/admin/master/users",
+      icon: "users",
+    },
+    {
+      title: "Tahun Ajaran",
+      url: "/dashboard/admin/master/academicyear",
+      icon: "academic",
+    },
+    {
+      title: "Sekolah",
+      url: "/dashboard/admin/master/branchs",
+      icon: "academic",
+    },
+  ],
+};
+
+/** Core SIAKAD: kelas, mata pelajaran, dan jadwal. Tidak dimiliki modul opsional. */
+const groupAkademik: MenuGroup = {
+  title: "Akademik",
+  items: [
+    {
+      title: "Kelas",
+      url: "/dashboard/admin/master/classes",
+      icon: "academic",
+    },
+    {
+      title: "Mata Pelajaran",
+      url: "/dashboard/admin/master/subjects",
+      icon: "academic",
+    },
+    {
+      title: "Jadwal",
+      url: "/dashboard/admin/academic/schedules",
+      icon: "calendar",
+    },
+    {
+      title: "Jadwal Khusus",
+      url: "/dashboard/admin/academic/specialschedule",
+      icon: "calendar",
+    },
+  ],
+};
+
+/** Modul absensi: presensi siswa dan rekapnya, terpisah dari core SIAKAD. */
+const groupAbsensiAdmin: MenuGroup = {
+  title: "Absensi",
+  items: [
+    {
+      title: "Absensi Siswa",
+      url: "/dashboard/admin/attendance",
+      icon: "attendance",
+      items: [
+        {
+          title: "Absensi",
+          url: "/dashboard/admin/attendance",
+        },
+        {
+          title: "Backup Absensi",
+          url: "/dashboard/admin/attendance/backup",
+        },
+      ],
+    },
+    {
+      title: "Rekap Absensi",
+      url: "/dashboard/admin/recapattendance",
+      icon: "attendance",
+      items: [
+        {
+          title: "Per Kelas",
+          url: "/dashboard/admin/recapattendance/class",
+        },
+        {
+          title: "Per Murid",
+          url: "/dashboard/admin/recapattendance",
+        },
+      ],
+    },
+  ],
+};
+
+/** Modul tahfidz: grup hafalan dan setoran, terpisah dari core SIAKAD. */
+const groupTahfidzAdmin: MenuGroup = {
+  title: "Tahfidz",
+  items: [
+    {
+      title: "Dashboard Tahfizh",
+      url: "/dashboard/tahfidz",
+      icon: "dashboard",
+    },
+    {
+      title: "Grup Tahfidz",
+      url: "/dashboard/admin/master/classes/tahfidz",
+      icon: "academic",
+    },
+    {
+      title: "Setoran Tahfidz",
+      url: "/dashboard/admin/academic/tahfidzrecord",
+      icon: "academic",
+    },
+  ],
+};
+
+/** Menu operasional pembelajaran guru, dipakai juga oleh admin sebagai pemantauan. */
+const MENU_PEMBELAJARAN_GURU: MenuItem[] = [
+  {
+    title: "Dashboard Pengembangan",
+    url: "/dashboard/teacher/development",
+    icon: "academic",
+  },
+  {
+    title: "Buku Catatan Harian",
+    url: "/dashboard/teacher/development/logbook",
+    icon: "file",
+  },
+  {
+    title: "Kalender Logbook",
+    url: "/dashboard/teacher/development/logbook/calendar",
+    icon: "calendar",
+  },
+  {
+    title: "Perkembangan Siswa",
+    url: "/dashboard/teacher/development/students",
+    icon: "chart",
+  },
+  {
+    title: "Penilaian",
+    url: "/dashboard/teacher/development/assessments",
+    icon: "attendance",
+  },
+  {
+    title: "Tugas & Nilai",
+    url: "/dashboard/teacher/development/assignments",
+    icon: "file",
+  },
+  {
+    title: "Rapor",
+    url: "/dashboard/teacher/development/reports",
+    icon: "file",
+  },
+];
+
+const groupPembelajaran = (withConfig = false): MenuGroup => ({
+  title: "Pembelajaran",
+  items: [
+    ...(withConfig
+      ? [
+          {
+            title: "Konfigurasi Pengembangan",
+            url: "/dashboard/admin/academic/development",
+            icon: "academic" as const,
+          },
+        ]
+      : []),
+    {
+      title: "Ujian",
+      url: "/dashboard/teacher/exam",
+      icon: "file",
+    },
+    ...MENU_PEMBELAJARAN_GURU,
+  ],
+});
+
+const groupPelanggaran: MenuGroup = {
+  title: "Pelanggaran",
+  items: [
+    {
+      title: "Jenis Pelanggaran",
+      url: "/dashboard/admin/discipline/typeviolations",
+      icon: "violation",
+    },
+    {
+      title: "Data Pelanggaran",
+      url: "/dashboard/admin/discipline/violations",
+      icon: "violation",
+    },
+  ],
+};
+
+const groupKeuanganAdmin: MenuGroup = {
+  title: "Keuangan",
+  items: [
+    {
+      title: "Jenis Tagihan",
+      url: "/dashboard/admin/finance/paymenttypes",
+      icon: "payment",
+    },
+    {
+      title: "Tagihan",
+      url: "/dashboard/admin/finance/billing",
+      icon: "file",
+    },
+    {
+      title: "Transaksi",
+      url: "/dashboard/admin/finance/payments",
+      icon: "payment",
+    },
+    {
+      title: "Account Bank",
+      url: "/dashboard/admin/finance/accountbank",
+      icon: "bank",
+    },
+    {
+      title: "Informasi Siswa",
+      url: "/dashboard/admin/finance/studentinformation",
+      icon: "users",
+    },
+  ],
+};
+
+const groupDashboard: MenuGroup = {
+  title: "Dashboard",
+  items: [
+    {
+      title: "Dashboard Absensi",
+      url: "/dashboard",
+      icon: "chart",
+    },
+    {
+      title: "Dashboard Transaksi",
+      url: "/dashboard/admin/finance/payments/chart",
+      icon: "chart",
+    },
+    {
+      title: "Dashboard Tagihan",
+      url: "/dashboard/admin/finance/billing/chart",
+      icon: "chart",
+    },
+    {
+      title: "Dashboard Saldo",
+      url: "/dashboard/admin/finance/accountbank/chart",
+      icon: "chart",
+    },
+  ],
+};
+
 export const menuGroups: Record<string, MenuGroup[]> = {
   // =====================================================
   // ADMIN
   // =====================================================
   admin: [
-    {
-      title: "Utama",
-      items: [
-        // { title: "Home", url: "/", icon: "home" },
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-        {
-          title: "Modul Yayasan",
-          url: "/dashboard/modules",
-          icon: "settings",
-        },
-      ],
-    },
-
-    {
-      title: "Master Data",
-      items: [
-        {
-          title: "BetterAuth",
-          url: "/dashboard/admin/master/betterauth",
-          icon: "settings",
-        },
-        {
-          title: "Roles",
-          url: "/dashboard/admin/master/roles",
-          icon: "settings",
-        },
-        {
-          title: "Users",
-          url: "/dashboard/admin/master/users",
-          icon: "users",
-        },
-        {
-          title: "Tahun Ajaran",
-          url: "/dashboard/admin/master/academicyear",
-          icon: "academic",
-        },
-        {
-          title: "Sekolah",
-          url: "/dashboard/admin/master/branchs",
-          icon: "academic",
-        },
-      ],
-    },
-
-    {
-      title: "Akademik",
-      items: [
-        {
-          title: "Kelas",
-          url: "/dashboard/admin/master/classes",
-          icon: "academic",
-          items: [
-            {
-              title: "Kelas",
-              url: "/dashboard/admin/master/classes",
-            },
-            {
-              title: "Grup Tahfidz",
-              url: "/dashboard/admin/master/classes/tahfidz",
-            },
-          ],
-        },
-        {
-          title: "Mata Pelajaran",
-          url: "/dashboard/admin/master/subjects",
-          icon: "academic",
-        },
-        {
-          title: "Jadwal",
-          url: "/dashboard/admin/academic/schedules",
-          icon: "calendar",
-        },
-        {
-          title: "Absensi",
-          url: "/dashboard/admin/attendance",
-          icon: "attendance",
-          items: [
-            {
-              title: "Absensi",
-              url: "/dashboard/admin/attendance",
-            },
-            {
-              title: "Backup Absensi Admin",
-              url: "/dashboard/admin/attendance/backup",
-            },
-          ],
-        },
-        {
-          title: "Rekap Absensi",
-          url: "/dashboard/admin/recapattendance",
-          icon: "attendance",
-          items: [
-            {
-              title: "Per Kelas",
-              url: "/dashboard/admin/recapattendance/class",
-            },
-            {
-              title: "Per Murid",
-              url: "/dashboard/admin/recapattendance",
-            },
-          ],
-        },
-        {
-          title: "Jadwal Khusus",
-          url: "/dashboard/admin/academic/specialschedule",
-          icon: "calendar",
-        },
-        {
-          title: "Setoran Tahfidz",
-          url: "/dashboard/admin/academic/tahfidzrecord",
-          icon: "academic",
-        },
-      ],
-    },
-
-    {
-      title: "Pengembangan",
-      items: [
-        {
-          title: "Pengembangan Siswa",
-          url: "/dashboard/admin/academic/development",
-          icon: "academic",
-        },
-      ],
-    },
-
-    {
-      title: "Pelanggaran",
-      items: [
-        {
-          title: "Jenis Pelanggaran",
-          url: "/dashboard/admin/discipline/typeviolations",
-          icon: "violation",
-        },
-        {
-          title: "Data Pelanggaran",
-          url: "/dashboard/admin/discipline/violations",
-          icon: "violation",
-        },
-      ],
-    },
-
-    {
-      title: "Keuangan",
-      items: [
-        {
-          title: "Jenis Tagihan",
-          url: "/dashboard/admin/finance/paymenttypes",
-          icon: "payment",
-        },
-        {
-          title: "Tagihan",
-          url: "/dashboard/admin/finance/billing",
-          icon: "file",
-        },
-        {
-          title: "Transaksi",
-          url: "/dashboard/admin/finance/payments",
-          icon: "payment",
-        },
-        {
-          title: "Account Bank",
-          url: "/dashboard/admin/finance/accountbank",
-          icon: "bank",
-        },
-        {
-          title: "Informasi Siswa",
-          url: "/dashboard/admin/finance/studentinformation",
-          icon: "users",
-        },
-      ],
-    },
-
-    {
-      title: "Dashboard",
-      items: [
-        {
-          title: "Dashboard Absensi",
-          url: "/dashboard",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Transaksi",
-          url: "/dashboard/admin/finance/payments/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Tagihan",
-          url: "/dashboard/admin/finance/billing/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Saldo",
-          url: "/dashboard/admin/finance/accountbank/chart",
-          icon: "chart",
-        },
-      ],
-    },
-
+    groupUtama(true),
+    groupMasterData,
+    groupAkademik,
+    groupAbsensiAdmin,
+    groupTahfidzAdmin,
+    groupPembelajaran(true),
+    groupPelanggaran,
+    groupKeuanganAdmin,
+    groupDashboard,
     {
       title: "Utilitas",
       items: [
@@ -275,174 +347,20 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
-    {
-      title: "Pengembangan Siswa",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard/teacher/development",
-          icon: "academic",
-        },
-        {
-          title: "Buku Catatan Harian",
-          url: "/dashboard/teacher/development/logbook",
-          icon: "file",
-        },
-        {
-          title: "Kalender Logbook",
-          url: "/dashboard/teacher/development/logbook/calendar",
-          icon: "calendar",
-        },
-        {
-          title: "Perkembangan Siswa",
-          url: "/dashboard/teacher/development/students",
-          icon: "chart",
-        },
-        {
-          title: "Penilaian",
-          url: "/dashboard/teacher/development/assessments",
-          icon: "attendance",
-        },
-        {
-          title: "Tugas & Nilai",
-          url: "/dashboard/teacher/development/assignments",
-          icon: "file",
-        },
-        {
-          title: "Rapor",
-          url: "/dashboard/teacher/development/reports",
-          icon: "file",
-        },
-      ],
-    },
   ],
   // =====================================================
   // SCHOOL ADMINISTRATOR (TU)
   // Reuses existing admin/treasurer pages with branch filtering
   // =====================================================
   schooladministrator: [
+    groupUtama(true),
+    groupAkademik,
+    groupAbsensiAdmin,
+    groupTahfidzAdmin,
+    groupPembelajaran(true),
+    groupPelanggaran,
     {
-      title: "Utama",
-      items: [
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-        {
-          title: "Modul Yayasan",
-          url: "/dashboard/modules",
-          icon: "settings",
-        },
-      ],
-    },
-
-    {
-      title: "Dashboard",
-      items: [
-        {
-          title: "Dashboard Absensi",
-          url: "/dashboard",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Transaksi",
-          url: "/dashboard/admin/finance/payments/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Tagihan",
-          url: "/dashboard/admin/finance/billing/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Saldo",
-          url: "/dashboard/admin/finance/accountbank/chart",
-          icon: "chart",
-        },
-      ],
-    },
-
-    {
-      title: "Akademik",
-      items: [
-        {
-          title: "Kelas",
-          url: "/dashboard/admin/master/classes",
-          icon: "academic",
-          items: [
-            {
-              title: "Kelas",
-              url: "/dashboard/admin/master/classes",
-            },
-            {
-              title: "Grup Tahfidz",
-              url: "/dashboard/admin/master/classes/tahfidz",
-            },
-          ],
-        },
-        {
-          title: "Absensi",
-          url: "/dashboard/admin/attendance",
-          icon: "attendance",
-          items: [
-            {
-              title: "Absensi",
-              url: "/dashboard/admin/attendance",
-            },
-            {
-              title: "Backup Absensi",
-              url: "/dashboard/admin/attendance",
-            },
-          ],
-        },
-        {
-          title: "Rekap Absensi",
-          url: "/dashboard/admin/recapattendance",
-          icon: "attendance",
-          items: [
-            {
-              title: "Per Kelas",
-              url: "/dashboard/admin/recapattendance/class",
-            },
-          ],
-        },
-        {
-          title: "Jadwal Khusus",
-          url: "/dashboard/admin/academic/specialschedule",
-          icon: "calendar",
-        },
-        {
-          title: "Ujian",
-          url: "/dashboard/teacher/exam",
-          icon: "file",
-        },
-        {
-          title: "Pengembangan Siswa",
-          url: "/dashboard/admin/academic/development",
-          icon: "academic",
-        },
-      ],
-    },
-
-    {
-      title: "Pelanggaran",
-      items: [
-        {
-          title: "Tipe Pelanggaran",
-          url: "/dashboard/admin/discipline/typeviolations",
-          icon: "violation",
-        },
-        {
-          title: "Data Pelanggaran",
-          url: "/dashboard/admin/discipline/violations",
-          icon: "violation",
-        },
-      ],
-    },
-
-    {
-      title: "Informasi",
+      title: "Keuangan",
       items: [
         {
           title: "Informasi Siswa",
@@ -451,58 +369,19 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    groupDashboard,
     {
       title: "Utilitas",
       items: [
         {
           title: "Upload Siswa",
           url: "/dashboard/admin/utility/upload/users",
-          icon: "users",
+          icon: "upload",
         },
         {
-          title: "Upload Schedule",
+          title: "Upload Jadwal",
           url: "/dashboard/admin/utility/upload/schedules",
-          icon: "calendar",
-        },
-      ],
-    },
-    {
-      title: "Pengembangan Siswa",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard/teacher/development",
-          icon: "academic",
-        },
-        {
-          title: "Buku Catatan Harian",
-          url: "/dashboard/teacher/development/logbook",
-          icon: "file",
-        },
-        {
-          title: "Kalender Logbook",
-          url: "/dashboard/teacher/development/logbook/calendar",
-          icon: "calendar",
-        },
-        {
-          title: "Perkembangan Siswa",
-          url: "/dashboard/teacher/development/students",
-          icon: "chart",
-        },
-        {
-          title: "Penilaian",
-          url: "/dashboard/teacher/development/assessments",
-          icon: "attendance",
-        },
-        {
-          title: "Tugas & Nilai",
-          url: "/dashboard/teacher/development/assignments",
-          icon: "file",
-        },
-        {
-          title: "Rapor",
-          url: "/dashboard/teacher/development/reports",
-          icon: "file",
+          icon: "upload",
         },
       ],
     },
@@ -511,39 +390,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
   // TREASURER
   // =====================================================
   treasurer: [
-    {
-      title: "Utama",
-      items: [
-        // { title: "Home", url: "/", icon: "home" },
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-      ],
-    },
-
-    {
-      title: "Dashboard",
-      items: [
-        {
-          title: "Dashboard Transaksi",
-          url: "/dashboard/admin/finance/payments/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Tagihan",
-          url: "/dashboard/admin/finance/billing/chart",
-          icon: "chart",
-        },
-        {
-          title: "Dashboard Saldo",
-          url: "/dashboard/admin/finance/accountbank/chart",
-          icon: "chart",
-        },
-      ],
-    },
-
+    groupUtama(),
     {
       title: "Keuangan",
       items: [
@@ -563,6 +410,16 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "payment",
         },
         {
+          title: "Informasi Siswa",
+          url: "/dashboard/treasurer/studentinformation",
+          icon: "users",
+        },
+      ],
+    },
+    {
+      title: "Data Pendukung",
+      items: [
+        {
           title: "Data Kelas",
           url: "/dashboard/treasurer/class",
           icon: "academic",
@@ -572,14 +429,8 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/treasurer/users",
           icon: "users",
         },
-        {
-          title: "Informasi Siswa",
-          url: "/dashboard/treasurer/studentinformation",
-          icon: "users",
-        },
       ],
     },
-
     {
       title: "Upload Data",
       items: [
@@ -595,6 +446,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    groupDashboard,
   ],
 
   // =====================================================
@@ -604,16 +456,10 @@ export const menuGroups: Record<string, MenuGroup[]> = {
     {
       title: "Utama",
       items: [
-        // { title: "Home", url: "/", icon: "home" },
         { title: "Dashboard", url: "/dashboard", icon: "dashboard" },
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
+        MENU_PROFILE,
       ],
     },
-
     {
       title: "Akademik",
       items: [
@@ -623,23 +469,23 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "calendar",
         },
         {
-          title: "Absensi Kepala Sekolah",
-          url: "/dashboard/teacher/attendance",
-          icon: "attendance",
-        },
-        {
           title: "Kalender",
           url: "/dashboard/teacher/calender",
           icon: "calendar",
         },
+      ],
+    },
+    {
+      title: "Absensi",
+      items: [
         {
-          title: "Ujian",
-          url: "/dashboard/teacher/exam",
-          icon: "file",
+          title: "Absensi Guru",
+          url: "/dashboard/teacher/attendance",
+          icon: "attendance",
         },
       ],
     },
-
+    groupPembelajaran(),
     {
       title: "Pelanggaran",
       items: [
@@ -650,62 +496,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
-    {
-      title: "Pengembangan Siswa",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard/teacher/development",
-          icon: "academic",
-        },
-        {
-          title: "Buku Catatan Harian",
-          url: "/dashboard/teacher/development/logbook",
-          icon: "file",
-        },
-        {
-          title: "Kalender Logbook",
-          url: "/dashboard/teacher/development/logbook/calendar",
-          icon: "calendar",
-        },
-        {
-          title: "Perkembangan Siswa",
-          url: "/dashboard/teacher/development/students",
-          icon: "chart",
-        },
-        {
-          title: "Penilaian",
-          url: "/dashboard/teacher/development/assessments",
-          icon: "attendance",
-        },
-        {
-          title: "Tugas & Nilai",
-          url: "/dashboard/teacher/development/assignments",
-          icon: "file",
-        },
-        {
-          title: "Rapor",
-          url: "/dashboard/teacher/development/reports",
-          icon: "file",
-        },
-      ],
-    },
   ],
   // =====================================================
   // STUDENT
   // =====================================================
   student: [
-    {
-      title: "Utama",
-      items: [
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-      ],
-    },
-
+    groupUtama(),
     {
       title: "Akademik",
       items: [
@@ -715,53 +511,40 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           icon: "calendar",
         },
         {
-          title: "Absensi",
+          title: "Kalender",
+          url: "/dashboard/student/calender",
+          icon: "calendar",
+        },
+      ],
+    },
+    {
+      title: "Absensi",
+      items: [
+        {
+          title: "Absensi Saya",
           url: "/dashboard/student/attendance",
           icon: "attendance",
         },
+      ],
+    },
+    {
+      title: "Tahfidz",
+      items: [
         {
           title: "Setoran Tahfidz",
           url: "/dashboard/student/tahfidzrecord",
           icon: "academic",
         },
-        {
-          title: "Kalender",
-          url: "/dashboard/student/calender",
-          icon: "calendar",
-        },
+      ],
+    },
+    {
+      title: "Pembelajaran",
+      items: [
         {
           title: "Ujian",
           url: "/dashboard/student/exam",
           icon: "file",
         },
-      ],
-    },
-
-    {
-      title: "Keuangan",
-      items: [
-        {
-          title: "Pembayaran",
-          url: "/dashboard/student/payment",
-          icon: "payment",
-        },
-      ],
-    },
-
-    {
-      title: "Pelanggaran",
-      items: [
-        {
-          title: "Data Pelanggaran",
-          url: "/dashboard/student/violations",
-          icon: "violation",
-        },
-      ],
-    },
-
-    {
-      title: "Pengembangan Siswa",
-      items: [
         {
           title: "Tugas Saya",
           url: "/dashboard/student/development/assignments",
@@ -774,23 +557,33 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
+    {
+      title: "Pelanggaran",
+      items: [
+        {
+          title: "Data Pelanggaran",
+          url: "/dashboard/student/violations",
+          icon: "violation",
+        },
+      ],
+    },
+    {
+      title: "Keuangan",
+      items: [
+        {
+          title: "Pembayaran",
+          url: "/dashboard/student/payment",
+          icon: "payment",
+        },
+      ],
+    },
   ],
 
   // =====================================================
   // PARENT
   // =====================================================
   parent: [
-    {
-      title: "Utama",
-      items: [
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-      ],
-    },
-
+    groupUtama(),
     {
       title: "Informasi Anak",
       items: [
@@ -801,9 +594,8 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
       ],
     },
-
     {
-      title: "Pengembangan Anak",
+      title: "Pembelajaran",
       items: [
         {
           title: "Perkembangan Anak",
@@ -822,16 +614,5 @@ export const menuGroups: Record<string, MenuGroup[]> = {
   // =====================================================
   // NULL
   // =====================================================
-  null: [
-    {
-      title: "Utama",
-      items: [
-        {
-          title: "Profile",
-          url: "/dashboard/profile",
-          icon: "users",
-        },
-      ],
-    },
-  ],
+  null: [groupUtama()],
 };

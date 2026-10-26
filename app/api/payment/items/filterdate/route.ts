@@ -1,4 +1,5 @@
 "use server";
+import { defaultDateRange } from "@/lib/dateRange";
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
 import { resolveFoundation } from "@/services/tenant";
@@ -6,8 +7,10 @@ import { type NextRequest, NextResponse } from "next/server";
 
 //filter by date
 export async function GET(request: NextRequest) {
-  const fromdate = request.nextUrl.searchParams.get("fromdate");
-  const todate = request.nextUrl.searchParams.get("todate");
+  const { fromdate, todate } = defaultDateRange(
+    request.nextUrl.searchParams.get("fromdate"),
+    request.nextUrl.searchParams.get("todate"),
+  );
   const branchId = request.nextUrl.searchParams.get("branchId");
   const status = request.nextUrl.searchParams.get("status");
   const isPaidParam = request.nextUrl.searchParams.get("isPaid");
@@ -16,13 +19,6 @@ export async function GET(request: NextRequest) {
   const explicit = request.nextUrl.searchParams.get("foundationId");
   const t = await resolveFoundation(request, explicit);
   if (!t.ok) return t.response;
-
-  if (!fromdate || !todate) {
-    return NextResponse.json(
-      { error: "Missing fromdate or todate query parameters" },
-      { status: 400 },
-    );
-  }
 
   try {
     const startDate = new Date(fromdate);

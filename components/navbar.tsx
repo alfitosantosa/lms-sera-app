@@ -64,6 +64,7 @@ const permissionLabels: Record<string, string> = {
   "/dashboard/admin/master/classes/tahfidz": "Tahfidz Group Management",
   "/dashboard/student/payment": "Pembayaran untuk Siswa",
   "/dashboard/admin/academic/tahfidzrecord": "Setoran Tahfidz Management",
+  "/dashboard/tahfidz": "Dashboard Tahfizh",
   "/dashboard/student/tahfidzrecord": "Setoran Tahfidz untuk Siswa",
   "/dashboard/profile": "Profile",
   "/dashboard/admin/finance/accountbank": "Account Bank Management",

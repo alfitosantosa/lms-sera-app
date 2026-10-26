@@ -1,6 +1,7 @@
 // app/api/payment/items/dashboard/route.ts
 "use server";
 
+import { defaultDateRange } from "@/lib/dateRange";
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
 import { resolveFoundation } from "@/services/tenant";
@@ -74,12 +75,10 @@ function parseAndValidateDate(
   fromdate: string | null,
   todate: string | null,
 ): { startDate: Date; endDate: Date } | { error: string } {
-  if (!fromdate || !todate) {
-    return { error: "Parameter fromdate dan todate wajib diisi" };
-  }
+  const range = defaultDateRange(fromdate, todate);
 
-  const startDate = new Date(fromdate);
-  const endDate = new Date(todate);
+  const startDate = new Date(range.fromdate);
+  const endDate = new Date(range.todate);
 
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
     return { error: "Format tanggal tidak valid. Gunakan format YYYY-MM-DD" };

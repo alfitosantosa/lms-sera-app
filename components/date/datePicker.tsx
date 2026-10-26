@@ -17,9 +17,11 @@ import { type DateRange } from "react-day-picker";
 export function DatePickerWithRange({
   date,
   setDate,
+  className,
 }: {
   date?: DateRange;
   setDate?: (date: DateRange | undefined) => void;
+  className?: string;
 }) {
   // ✅ Use controlled date only, no internal state
   const handleSelect = useCallback(
@@ -37,20 +39,18 @@ export function DatePickerWithRange({
             id="date"
             variant="outline"
             className={cn(
-              "w-75 justify-start text-left font-normal",
+              "w-75 justify-start overflow-hidden text-left font-normal",
               !date && "text-muted-foreground",
+              className,
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
             {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
-              ) : (
-                format(date.from, "LLL dd, y")
-              )
+              <span className="truncate">
+                {date.to
+                  ? `${format(date.from, "LLL dd, y")} - ${format(date.to, "LLL dd, y")}`
+                  : format(date.from, "LLL dd, y")}
+              </span>
             ) : (
               <span>Pick a date</span>
             )}

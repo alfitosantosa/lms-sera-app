@@ -17,6 +17,7 @@ import {
   type UserDataTypes,
 } from "@/types";
 import { DatePickerWithRange } from "@/components/date/datePicker";
+import { monthToDateRange } from "@/lib/dateRange";
 import Loading from "@/components/loading";
 import {
   AlertDialog,
@@ -843,13 +844,9 @@ function BillingDataTable({
     name: string;
   };
 }) {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(() => {
-    const today = new Date();
-    return {
-      from: today,
-      to: today,
-    };
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(() =>
+    monthToDateRange(),
+  );
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

@@ -31,7 +31,9 @@ export const useGetTahfidzGroup = (filters?: { branchId?: string }) => {
         ? `/api/tahfidzgroup?${params.toString()}`
         : "/api/tahfidzgroup";
       const res = await apiGet<TahfidzGroupData[]>(url);
-      return res.data;
+      // Respons error (401/403/500) berbentuk objek, bukan array. Jangan
+      // sampai dropdown `.map` menerima objek.
+      return Array.isArray(res.data) ? res.data : [];
     },
   });
 };
