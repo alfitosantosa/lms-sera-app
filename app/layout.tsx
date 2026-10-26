@@ -4,39 +4,48 @@ import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { type Metadata, type Viewport } from "next";
-import {
-  IBM_Plex_Mono,
-  Inter,
-  Noto_Naskh_Arabic,
-} from "next/font/google";
+import localFont from "next/font/local";
 
 import { ReactQueryProvider } from "./providers";
 import { BranchProvider } from "@/context/BranchContext";
-import { ReactNode, Suspense } from "react";
+import { type ReactNode, Suspense } from "react";
 
-// Optimized font loading with next/font.
+// Self-hosted fonts: build tidak boleh bergantung pada fonts.googleapis.com
+// (Docker/CI bisa tanpa jaringan, dan Turbopack gagal saat fetch font).
 // Body: DESIGN.md's type system is Inter, exclusively — 400 body, 600 labels,
 // 700 display.
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const inter = localFont({
+  src: "./fonts/inter-variable.woff2",
+  weight: "400 700",
+  style: "normal",
   display: "swap", // Prevent FOIT (Flash of Invisible Text)
   variable: "--font-inter",
   preload: true,
 });
 
 // Data: only inside genuinely technical content (architecture, code).
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const plexMono = localFont({
+  src: [
+    {
+      path: "./fonts/ibm-plex-mono-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/ibm-plex-mono-500.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
   display: "swap",
   variable: "--font-plex-mono",
 });
 
 // Arabic script for surah names (`surah_quran.name`, next to `nameLatin`).
-const naskh = Noto_Naskh_Arabic({
-  subsets: ["arabic"],
-  weight: ["400"],
+const naskh = localFont({
+  src: "./fonts/noto-naskh-arabic-400.woff2",
+  weight: "400",
+  style: "normal",
   display: "swap",
   variable: "--font-naskh",
 });
