@@ -1,4 +1,6 @@
+import { normalizeModules } from "@/config/modules";
 import { auth } from "@/services/auth/auth";
+import { moduleAccessDenied } from "@/services/tenant";
 import { prisma } from "@/services/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -73,13 +75,18 @@ export async function resolveDevelopmentActor(
       select: {
         id: true,
         foundationId: true,
+        foundation: { select: { modules: true } },
         classId: true,
         role: { select: { name: true } },
       },
     }),
     prisma.user.findUnique({
       where: { id: userId },
-      select: { foundationId: true, role: true },
+      select: {
+        foundationId: true,
+        foundation: { select: { modules: true } },
+        role: true,
+      },
     }),
   ]);
 
@@ -90,6 +97,12 @@ export async function resolveDevelopmentActor(
       response: developmentError("Akun belum terhubung ke yayasan", 403),
     };
   }
+
+  const denied = moduleAccessDenied(
+    request.nextUrl.pathname,
+    normalizeModules(userData?.foundation?.modules ?? user?.foundation?.modules),
+  );
+  if (denied) return { ok: false, response: denied };
 
   const roleName =
     userData?.role?.name ?? user?.role ?? session?.user?.role ?? "user";

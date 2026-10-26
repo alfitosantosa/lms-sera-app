@@ -1,6 +1,11 @@
 import midtransClient from "midtrans-client";
+import { resolveFoundation } from "@/services/tenant";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const requestBody = await request.json();
 

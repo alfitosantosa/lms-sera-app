@@ -1,6 +1,7 @@
 "use client";
 
 import { AppSidebar } from "@/components/layout/appSidebar";
+import { ModuleGuard } from "@/components/layout/ModuleGuard";
 import { TourProvider } from "@/components/tour/TourProvider";
 import { TourReplayButton } from "@/components/tour/TourReplayButton";
 import Footer from "@/components/layout/footer";
@@ -54,7 +55,7 @@ export default function ConditionalLayout({
           </header>
           <main className="flex-1 overflow-auto">
             <div className="mx-auto space-y-6 p-4 md:p-6 lg:p-8">
-              {children}
+              <ModuleGuard>{children}</ModuleGuard>
             </div>
           </main>
           <Footer />

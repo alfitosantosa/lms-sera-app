@@ -125,7 +125,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Absensi",
-          url: "/dashboard/attendance",
+          url: "/dashboard/admin/attendance",
           icon: "attendance",
           items: [
             {
@@ -140,7 +140,7 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Rekap Absensi",
-          url: "/dashboard/recapattendance",
+          url: "/dashboard/admin/recapattendance",
           icon: "attendance",
           items: [
             {
@@ -373,12 +373,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Absensi",
-          url: "/dashboard/attendance",
+          url: "/dashboard/admin/attendance",
           icon: "attendance",
           items: [
             {
               title: "Absensi",
-              url: "/dashboard/attendance",
+              url: "/dashboard/admin/attendance",
             },
             {
               title: "Backup Absensi",
@@ -388,12 +388,12 @@ export const menuGroups: Record<string, MenuGroup[]> = {
         },
         {
           title: "Rekap Absensi",
-          url: "/dashboard/recapattendance",
+          url: "/dashboard/admin/recapattendance",
           icon: "attendance",
           items: [
             {
               title: "Per Kelas",
-              url: "/dashboard/recapattendance/class",
+              url: "/dashboard/admin/recapattendance/class",
             },
           ],
         },

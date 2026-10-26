@@ -14,6 +14,7 @@ model Foundation {
   name               String
   imageUrl           String
   foundationCode     String              @unique
+  modules            String[]            @default(["keuangan", "absensi", "pelanggaran", "pembelajaran", "tahfidz"])
   address            String
   phone              String
   academicYear       AcademicYear[]

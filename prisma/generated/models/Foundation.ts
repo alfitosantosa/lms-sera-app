@@ -47,6 +47,7 @@ export type FoundationCountAggregateOutputType = {
   name: number
   imageUrl: number
   foundationCode: number
+  modules: number
   address: number
   phone: number
   _all: number
@@ -76,6 +77,7 @@ export type FoundationCountAggregateInputType = {
   name?: true
   imageUrl?: true
   foundationCode?: true
+  modules?: true
   address?: true
   phone?: true
   _all?: true
@@ -158,6 +160,7 @@ export type FoundationGroupByOutputType = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules: string[]
   address: string
   phone: string
   _count: FoundationCountAggregateOutputType | null
@@ -188,6 +191,7 @@ export type FoundationWhereInput = {
   name?: Prisma.StringFilter<"Foundation"> | string
   imageUrl?: Prisma.StringFilter<"Foundation"> | string
   foundationCode?: Prisma.StringFilter<"Foundation"> | string
+  modules?: Prisma.StringNullableListFilter<"Foundation">
   address?: Prisma.StringFilter<"Foundation"> | string
   phone?: Prisma.StringFilter<"Foundation"> | string
   academicYear?: Prisma.AcademicYearListRelationFilter
@@ -211,6 +215,7 @@ export type FoundationOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   foundationCode?: Prisma.SortOrder
+  modules?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   academicYear?: Prisma.AcademicYearOrderByRelationAggregateInput
@@ -237,6 +242,7 @@ export type FoundationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.FoundationWhereInput | Prisma.FoundationWhereInput[]
   name?: Prisma.StringFilter<"Foundation"> | string
   imageUrl?: Prisma.StringFilter<"Foundation"> | string
+  modules?: Prisma.StringNullableListFilter<"Foundation">
   address?: Prisma.StringFilter<"Foundation"> | string
   phone?: Prisma.StringFilter<"Foundation"> | string
   academicYear?: Prisma.AcademicYearListRelationFilter
@@ -260,6 +266,7 @@ export type FoundationOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   foundationCode?: Prisma.SortOrder
+  modules?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   _count?: Prisma.FoundationCountOrderByAggregateInput
@@ -275,6 +282,7 @@ export type FoundationScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Foundation"> | string
   imageUrl?: Prisma.StringWithAggregatesFilter<"Foundation"> | string
   foundationCode?: Prisma.StringWithAggregatesFilter<"Foundation"> | string
+  modules?: Prisma.StringNullableListFilter<"Foundation">
   address?: Prisma.StringWithAggregatesFilter<"Foundation"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Foundation"> | string
 }
@@ -284,6 +292,7 @@ export type FoundationCreateInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -307,6 +316,7 @@ export type FoundationUncheckedCreateInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -330,6 +340,7 @@ export type FoundationUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -353,6 +364,7 @@ export type FoundationUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -376,6 +388,7 @@ export type FoundationCreateManyInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
 }
@@ -385,6 +398,7 @@ export type FoundationUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -394,8 +408,17 @@ export type FoundationUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type FoundationCountOrderByAggregateInput = {
@@ -403,6 +426,7 @@ export type FoundationCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   foundationCode?: Prisma.SortOrder
+  modules?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
 }
@@ -435,8 +459,17 @@ export type FoundationScalarRelationFilter = {
   isNot?: Prisma.FoundationWhereInput
 }
 
+export type FoundationCreatemodulesInput = {
+  set: string[]
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type FoundationUpdatemodulesInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type FoundationCreateNestedOneWithoutUserInput = {
@@ -650,6 +683,7 @@ export type FoundationCreateWithoutUserInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -672,6 +706,7 @@ export type FoundationUncheckedCreateWithoutUserInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -710,6 +745,7 @@ export type FoundationUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -732,6 +768,7 @@ export type FoundationUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -754,6 +791,7 @@ export type FoundationCreateWithoutUserDataInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -776,6 +814,7 @@ export type FoundationUncheckedCreateWithoutUserDataInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -814,6 +853,7 @@ export type FoundationUpdateWithoutUserDataInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -836,6 +876,7 @@ export type FoundationUncheckedUpdateWithoutUserDataInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -858,6 +899,7 @@ export type FoundationCreateWithoutRoleInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -880,6 +922,7 @@ export type FoundationUncheckedCreateWithoutRoleInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -918,6 +961,7 @@ export type FoundationUpdateWithoutRoleInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -940,6 +984,7 @@ export type FoundationUncheckedUpdateWithoutRoleInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -962,6 +1007,7 @@ export type FoundationCreateWithoutAcademicYearInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutFoundationInput
@@ -984,6 +1030,7 @@ export type FoundationUncheckedCreateWithoutAcademicYearInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutFoundationInput
@@ -1022,6 +1069,7 @@ export type FoundationUpdateWithoutAcademicYearInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   announcements?: Prisma.AnnouncementUpdateManyWithoutFoundationNestedInput
@@ -1044,6 +1092,7 @@ export type FoundationUncheckedUpdateWithoutAcademicYearInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1066,6 +1115,7 @@ export type FoundationCreateWithoutBranchInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1088,6 +1138,7 @@ export type FoundationUncheckedCreateWithoutBranchInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1126,6 +1177,7 @@ export type FoundationUpdateWithoutBranchInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1148,6 +1200,7 @@ export type FoundationUncheckedUpdateWithoutBranchInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1170,6 +1223,7 @@ export type FoundationCreateWithoutCalendarEventInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1192,6 +1246,7 @@ export type FoundationUncheckedCreateWithoutCalendarEventInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1230,6 +1285,7 @@ export type FoundationUpdateWithoutCalendarEventInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1252,6 +1308,7 @@ export type FoundationUncheckedUpdateWithoutCalendarEventInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1274,6 +1331,7 @@ export type FoundationCreateWithoutDashboardContentInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1296,6 +1354,7 @@ export type FoundationUncheckedCreateWithoutDashboardContentInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1334,6 +1393,7 @@ export type FoundationUpdateWithoutDashboardContentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1356,6 +1416,7 @@ export type FoundationUncheckedUpdateWithoutDashboardContentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1378,6 +1439,7 @@ export type FoundationCreateWithoutAnnouncementsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1400,6 +1462,7 @@ export type FoundationUncheckedCreateWithoutAnnouncementsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1438,6 +1501,7 @@ export type FoundationUpdateWithoutAnnouncementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1460,6 +1524,7 @@ export type FoundationUncheckedUpdateWithoutAnnouncementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1482,6 +1547,7 @@ export type FoundationCreateWithoutAssessmentPeriodsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1504,6 +1570,7 @@ export type FoundationUncheckedCreateWithoutAssessmentPeriodsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1542,6 +1609,7 @@ export type FoundationUpdateWithoutAssessmentPeriodsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1564,6 +1632,7 @@ export type FoundationUncheckedUpdateWithoutAssessmentPeriodsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1586,6 +1655,7 @@ export type FoundationCreateWithoutAssessmentScalesInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1608,6 +1678,7 @@ export type FoundationUncheckedCreateWithoutAssessmentScalesInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1646,6 +1717,7 @@ export type FoundationUpdateWithoutAssessmentScalesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1668,6 +1740,7 @@ export type FoundationUncheckedUpdateWithoutAssessmentScalesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1690,6 +1763,7 @@ export type FoundationCreateWithoutDevelopmentAreasInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1712,6 +1786,7 @@ export type FoundationUncheckedCreateWithoutDevelopmentAreasInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1750,6 +1825,7 @@ export type FoundationUpdateWithoutDevelopmentAreasInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1772,6 +1848,7 @@ export type FoundationUncheckedUpdateWithoutDevelopmentAreasInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1794,6 +1871,7 @@ export type FoundationCreateWithoutDailyLogsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1816,6 +1894,7 @@ export type FoundationUncheckedCreateWithoutDailyLogsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1854,6 +1933,7 @@ export type FoundationUpdateWithoutDailyLogsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1876,6 +1956,7 @@ export type FoundationUncheckedUpdateWithoutDailyLogsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -1898,6 +1979,7 @@ export type FoundationCreateWithoutStudentAssessmentsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -1920,6 +2002,7 @@ export type FoundationUncheckedCreateWithoutStudentAssessmentsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -1958,6 +2041,7 @@ export type FoundationUpdateWithoutStudentAssessmentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -1980,6 +2064,7 @@ export type FoundationUncheckedUpdateWithoutStudentAssessmentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -2002,6 +2087,7 @@ export type FoundationCreateWithoutStudentReportsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearCreateNestedManyWithoutFoundationInput
@@ -2024,6 +2110,7 @@ export type FoundationUncheckedCreateWithoutStudentReportsInput = {
   name: string
   imageUrl: string
   foundationCode: string
+  modules?: Prisma.FoundationCreatemodulesInput | string[]
   address: string
   phone: string
   academicYear?: Prisma.AcademicYearUncheckedCreateNestedManyWithoutFoundationInput
@@ -2062,6 +2149,7 @@ export type FoundationUpdateWithoutStudentReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUpdateManyWithoutFoundationNestedInput
@@ -2084,6 +2172,7 @@ export type FoundationUncheckedUpdateWithoutStudentReportsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   foundationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  modules?: Prisma.FoundationUpdatemodulesInput | string[]
   address?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.AcademicYearUncheckedUpdateManyWithoutFoundationNestedInput
@@ -2254,6 +2343,7 @@ export type FoundationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   name?: boolean
   imageUrl?: boolean
   foundationCode?: boolean
+  modules?: boolean
   address?: boolean
   phone?: boolean
   academicYear?: boolean | Prisma.Foundation$academicYearArgs<ExtArgs>
@@ -2278,6 +2368,7 @@ export type FoundationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   imageUrl?: boolean
   foundationCode?: boolean
+  modules?: boolean
   address?: boolean
   phone?: boolean
 }, ExtArgs["result"]["foundation"]>
@@ -2287,6 +2378,7 @@ export type FoundationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   imageUrl?: boolean
   foundationCode?: boolean
+  modules?: boolean
   address?: boolean
   phone?: boolean
 }, ExtArgs["result"]["foundation"]>
@@ -2296,11 +2388,12 @@ export type FoundationSelectScalar = {
   name?: boolean
   imageUrl?: boolean
   foundationCode?: boolean
+  modules?: boolean
   address?: boolean
   phone?: boolean
 }
 
-export type FoundationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "imageUrl" | "foundationCode" | "address" | "phone", ExtArgs["result"]["foundation"]>
+export type FoundationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "imageUrl" | "foundationCode" | "modules" | "address" | "phone", ExtArgs["result"]["foundation"]>
 export type FoundationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   academicYear?: boolean | Prisma.Foundation$academicYearArgs<ExtArgs>
   announcements?: boolean | Prisma.Foundation$announcementsArgs<ExtArgs>
@@ -2344,6 +2437,7 @@ export type $FoundationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     name: string
     imageUrl: string
     foundationCode: string
+    modules: string[]
     address: string
     phone: string
   }, ExtArgs["result"]["foundation"]>
@@ -2787,6 +2881,7 @@ export interface FoundationFieldRefs {
   readonly name: Prisma.FieldRef<"Foundation", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Foundation", 'String'>
   readonly foundationCode: Prisma.FieldRef<"Foundation", 'String'>
+  readonly modules: Prisma.FieldRef<"Foundation", 'String[]'>
   readonly address: Prisma.FieldRef<"Foundation", 'String'>
   readonly phone: Prisma.FieldRef<"Foundation", 'String'>
 }

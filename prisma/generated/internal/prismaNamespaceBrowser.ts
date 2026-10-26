@@ -125,6 +125,7 @@ export const FoundationScalarFieldEnum = {
   name: 'name',
   imageUrl: 'imageUrl',
   foundationCode: 'foundationCode',
+  modules: 'modules',
   address: 'address',
   phone: 'phone'
 } as const

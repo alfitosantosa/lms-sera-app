@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUpdateFoundation } from "@/hooks/Foundation/useFoundation";
 import { foundationTypes } from "@/types/foundation-types";
+import { ALL_MODULES, normalizeModules, type ModuleKey } from "@/config/modules";
+import { ModulePicker } from "@/components/foundation/ModulePicker";
 import { Loader2 } from "lucide-react";
 
 // Validation schema
@@ -33,6 +35,7 @@ const foundationSchema = z.object({
   address: z.string().min(1, "Alamat harus diisi"),
   phone: z.string().min(1, "Nomor telepon harus diisi"),
   imageUrl: z.string().optional(),
+  modules: z.array(z.enum(ALL_MODULES as [ModuleKey, ...ModuleKey[]])),
 });
 
 type FoundationFormData = z.infer<typeof foundationSchema>;
@@ -60,11 +63,13 @@ export function DialogEditFoundation({
       address: foundation.address,
       phone: foundation.phone,
       imageUrl: foundation.imageUrl || "",
+      modules: normalizeModules(foundation.modules),
     },
   });
 
   // Reset form when foundation data changes
-  useState(() => {
+  useEffect(() => {
+    if (!open) return;
     form.reset({
       id: foundation.id,
       name: foundation.name,
@@ -72,8 +77,9 @@ export function DialogEditFoundation({
       address: foundation.address,
       phone: foundation.phone,
       imageUrl: foundation.imageUrl || "",
+      modules: normalizeModules(foundation.modules),
     });
-  });
+  }, [open, foundation.id, foundation.modules, form]);
 
   const onSubmit = async (data: FoundationFormData) => {
     setIsSubmitting(true);
@@ -200,6 +206,25 @@ export function DialogEditFoundation({
                     <Input
                       placeholder="Masukkan URL gambar"
                       {...field}
+                      disabled={isSubmitting}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Modules */}
+            <FormField
+              control={form.control}
+              name="modules"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Modul opsional</FormLabel>
+                  <FormControl>
+                    <ModulePicker
+                      value={field.value}
+                      onChange={field.onChange}
                       disabled={isSubmitting}
                     />
                   </FormControl>

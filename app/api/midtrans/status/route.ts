@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const midtransClient = require("midtrans-client");
+import { resolveFoundation } from "@/services/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
 // cara pakai GET /api/midtrans/status?orderId=KWT-X2O4AIFK5NVUGR9LAAAA
@@ -13,6 +14,9 @@ const getCoreApi = () =>
 
 // GET status of a transaction: /api/midtrans/status?orderId=ORDER_ID
 export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const orderId = request.nextUrl.searchParams.get("orderId");
     if (!orderId) {

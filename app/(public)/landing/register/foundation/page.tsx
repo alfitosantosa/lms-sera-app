@@ -38,6 +38,8 @@ import {
 import { useGetUserByIdBetterAuthProfile } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { toast } from "sonner";
 import { useSession } from "@/services/auth/authClients";
+import { ALL_MODULES, type ModuleKey } from "@/config/modules";
+import { ModulePicker } from "@/components/foundation/ModulePicker";
 
 // Form Schema untuk Daftarkan Yayasan
 const foundationSchema = z.object({
@@ -71,6 +73,7 @@ const foundationSchema = z.object({
     .string()
     .max(1000, "Deskripsi maksimal 1000 karakter")
     .optional(),
+  modules: z.array(z.enum(ALL_MODULES as [ModuleKey, ...ModuleKey[]])),
   userId: z.string().optional(),
 });
 
@@ -197,6 +200,7 @@ export default function RegisterFoundation() {
       address: "",
       phone: "",
       imageUrl: "",
+      modules: [...ALL_MODULES],
       userId: userId || "",
     },
   });
@@ -503,6 +507,33 @@ export default function RegisterFoundation() {
                         </div>
                         <FormDescription>
                           Format JPG atau PNG, maksimal 2MB.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </EntryGroup>
+
+                <EntryGroup
+                  label="Modul"
+                  delay="animate-element animate-delay-700"
+                >
+                  <FormField
+                    control={form.control}
+                    name="modules"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Modul opsional</FormLabel>
+                        <FormControl>
+                          <ModulePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Pilih modul yang dibeli yayasan ini. Semua bisa diubah
+                          nanti dari profil yayasan.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

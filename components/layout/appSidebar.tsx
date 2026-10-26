@@ -25,6 +25,7 @@ import {
 
 import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
 import { menuGroups } from "@/config/menuGroupsSidebar";
+import { ALL_MODULES, moduleForPath } from "@/config/modules";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Collapsible,
@@ -196,6 +197,20 @@ export function AppSidebar() {
       });
   };
 
+  const enabledModules = userData?.foundation?.modules ?? ALL_MODULES;
+
+  // Modul opsional yang tidak aktif hilang dari sidebar; core selalu tampil.
+  const filterMenuByModules = (items: MenuItem[]): MenuItem[] =>
+    items
+      .filter((item) => {
+        const module = moduleForPath(item.url);
+        return !module || enabledModules.includes(module);
+      })
+      .map((item) =>
+        item.items ? { ...item, items: filterMenuByModules(item.items) } : item,
+      )
+      .filter((item) => !item.items || item.items.length > 0);
+
   const getUserInitials = (name?: string) => {
     if (!name) return "U";
     return name
@@ -244,7 +259,9 @@ export function AppSidebar() {
       {/* ── Menu Navigation Content ── */}
       <SidebarContent className="scrollbar-thin overflow-y-auto px-3 py-3">
         {currentMenuGroups.map((group, groupIndex) => {
-          const filteredItems = filterMenuByPermissions(group.items);
+          const filteredItems = filterMenuByModules(
+            filterMenuByPermissions(group.items),
+          );
           if (filteredItems.length === 0) return null;
 
           return (

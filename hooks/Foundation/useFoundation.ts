@@ -123,6 +123,9 @@ export const useUpdateFoundation = () => {
 
     onSuccess: () => {
       invalidateFoundationQueries(queryClient);
+      // Sidebar & dashboard membaca foundation.modules lewat query user.
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["users-profile"] });
       toast.success("Foundation updated successfully!");
     },
 

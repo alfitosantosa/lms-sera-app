@@ -11,9 +11,13 @@
 
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
+import { resolveFoundation } from "@/services/tenant";
 import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(request);
+  if (!t.ok) return t.response;
+
   try {
     const surahs = await prisma.surahQuran.findMany({
       orderBy: { id: "desc" },

@@ -1,3 +1,4 @@
+import { normalizeModules, moduleForApiPath, moduleLabel, type ModuleKey } from "@/config/modules";
 import { auth } from "@/services/auth/auth";
 import { prisma } from "@/services/prisma";
 import { type NextRequest, NextResponse } from "next/server";
@@ -7,9 +8,11 @@ import { type NextRequest, NextResponse } from "next/server";
  * - `foundationId` dari sesi: userData.foundationId, fallback user.foundationId.
  * - Bila klien mengirim parameter `foundationId`, nilainya diverifikasi harus sama
  *   dengan milik sesi (mencegah tenant spoofing).
+ * - `modules` adalah subset modul opsional yang aktif untuk yayasan tersebut.
  */
 export type Tenant =
-  { ok: true; foundationId: string } | { ok: false; response: NextResponse };
+  | { ok: true; foundationId: string; modules: ModuleKey[] }
+  | { ok: false; response: NextResponse };
 
 export function tenantUnauthorized(message = "Sesi tidak ditemukan") {
   return NextResponse.json({ success: false, message }, { status: 401 });
@@ -38,11 +41,17 @@ export async function resolveFoundation(
   const [userData, user] = await Promise.all([
     prisma.userData.findUnique({
       where: { userId },
-      select: { foundationId: true },
+      select: {
+        foundationId: true,
+        foundation: { select: { modules: true } },
+      },
     }),
     prisma.user.findUnique({
       where: { id: userId },
-      select: { foundationId: true },
+      select: {
+        foundationId: true,
+        foundation: { select: { modules: true } },
+      },
     }),
   ]);
 
@@ -58,5 +67,29 @@ export async function resolveFoundation(
     };
   }
 
-  return { ok: true, foundationId: sessionFoundationId };
+  const storedModules = userData?.foundation?.modules ?? user?.foundation?.modules;
+  const modules = normalizeModules(storedModules);
+
+  // Gate API terpusat: semua route yang memakai resolver ini otomatis
+  // menolak path milik modul yang tidak aktif untuk yayasan pemanggil.
+  const denied = moduleAccessDenied(request.nextUrl.pathname, modules);
+  if (denied) return { ok: false, response: denied };
+
+  return { ok: true, foundationId: sessionFoundationId, modules };
+}
+
+/** 403 untuk path modul yang tidak aktif; `null` bila boleh lewat. */
+export function moduleAccessDenied(
+  pathname: string,
+  modules: ModuleKey[],
+): NextResponse | null {
+  const moduleKey = moduleForApiPath(pathname);
+  if (!moduleKey || modules.includes(moduleKey)) return null;
+  return NextResponse.json(
+    {
+      success: false,
+      message: `Modul ${moduleLabel(moduleKey)} tidak aktif untuk yayasan ini`,
+    },
+    { status: 403 },
+  );
 }

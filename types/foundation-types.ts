@@ -20,6 +20,7 @@ export type foundationTypes = {
   name: string;
   imageUrl: string;
   foundationCode: string;
+  modules?: string[];
   address: string;
   phone: string;
   userData?: object[];

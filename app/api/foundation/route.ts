@@ -10,6 +10,7 @@
 // user           User[]
 // }
 
+import { parseModules } from "@/config/modules";
 import { auth } from "@/services/auth/auth";
 import { handlePrismaError } from "@/services/errorHandler";
 import { prisma } from "@/services/prisma";
@@ -54,14 +55,22 @@ export async function POST(request: NextRequest) {
     if (!userId) return tenantUnauthorized();
 
     // `userId` dari body diabaikan, selalu pakai user dari sesi.
-    const { name, imageUrl, foundationCode, address, phone } =
-      await request.json();
+    const body = await request.json();
+    const { name, imageUrl, foundationCode, address, phone } = body;
+    const modules = parseModules(body.modules);
+    if (!modules) {
+      return NextResponse.json(
+        { success: false, message: "Modul tidak dikenal" },
+        { status: 400 },
+      );
+    }
     // Create the foundation
     const createNewFoundation = await prisma.foundation.create({
       data: {
         name,
         imageUrl,
         foundationCode,
+        modules,
         address,
         phone,
       },
@@ -72,6 +81,8 @@ export async function POST(request: NextRequest) {
         id: userId,
       },
       data: {
+        // Pembuat yayasan harus admin Better Auth agar bisa memakai endpoint admin.
+        role: "admin",
         foundation: {
           connect: {
             id: createNewFoundation.id,
@@ -120,6 +131,12 @@ export async function POST(request: NextRequest) {
             permissions: [],
             foundationId: createNewFoundation.id,
           },
+          {
+            name: "Parent",
+            description: "Orang Tua",
+            permissions: [],
+            foundationId: createNewFoundation.id,
+          },
         ],
       }));
 
@@ -154,8 +171,16 @@ export async function PUT(request: NextRequest) {
   const t = await resolveFoundation(request);
   if (!t.ok) return t.response;
 
-  const { id, name, imageUrl, foundationCode, address, phone } =
-    await request.json();
+  const body = await request.json();
+  const { id, name, imageUrl, foundationCode, address, phone } = body;
+  const modules =
+    body.modules === undefined ? undefined : parseModules(body.modules);
+  if (modules === null) {
+    return NextResponse.json(
+      { success: false, message: "Modul tidak dikenal" },
+      { status: 400 },
+    );
+  }
   try {
     // Hanya yayasan milik pemanggil yang boleh diubah.
     if (id !== t.foundationId)
@@ -171,6 +196,7 @@ export async function PUT(request: NextRequest) {
         foundationCode,
         address,
         phone,
+        ...(modules ? { modules } : {}),
       },
     });
     return NextResponse.json(updateFoundation);
