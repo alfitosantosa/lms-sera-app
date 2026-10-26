@@ -30,7 +30,8 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
     NODE_ENV=production \
     SKIP_ENV_VALIDATION=1
 
-RUN bunx prisma generate && \
+RUN rm -rf .next && \
+    bunx prisma generate && \
     bun run build:turbopack && \
     rm -rf /tmp/* .next/cache node_modules/.cache
 
