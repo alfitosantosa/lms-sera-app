@@ -4,14 +4,14 @@ import {
   useChangeExamStatus,
   useDeleteExam,
   useGetExams,
-} from "@/app/(hooks)/hooks/Exam/useExam";
-import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+} from "@/hooks/Exam/useExam";
+import { useGetClasses } from "@/hooks/Classes/useClass";
 import {
   EXAM_STATUS_LABELS,
   type ExamListItemDTO,
   type ExamStatusTypes,
-} from "@/app/(types)/types/exam-types";
-import { getErrorMessage } from "@/app/(types)";
+} from "@/types/exam-types";
+import { getErrorMessage } from "@/types";
 import {
   AlertDialog,
   AlertDialogAction,

@@ -1,6 +1,6 @@
 "use client";
 
-import { type UserDataTypes } from "@/app/(types)";
+import { type UserDataTypes } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 

@@ -1,10 +1,10 @@
-import { type ReportPreviewSnapshot } from "@/app/(types)";
+import { type ReportPreviewSnapshot } from "@/types";
 import {
   toReportPdfData,
   type ReportPdfContext,
   type ReportPdfData,
 } from "@/lib/report/report.pdf.data";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 const fmtDate = (value: string | null | undefined) => {
   if (!value) return "-";

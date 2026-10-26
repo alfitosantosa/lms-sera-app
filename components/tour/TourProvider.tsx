@@ -3,7 +3,7 @@
 import { NextStep, NextStepProvider, type Tour } from "nextstepjs";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import { useSession } from "@/lib/betterauth/authClients";
+import { useSession } from "@/services/auth/authClients";
 import { buildTours } from "@/lib/tours/tours";
 import { isTourKey, writeTourDone } from "@/lib/tours/tourModel";
 import { useTourAutoStart, useTourKey } from "@/lib/tours/useTour";

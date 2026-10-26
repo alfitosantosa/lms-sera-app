@@ -3,7 +3,7 @@
 import {
   type AssessmentScaleRefDTO,
   type ClassMatrixDTO,
-} from "@/app/(types)";
+} from "@/types";
 import {
   ScaleSelector,
   type ScaleOption,
@@ -23,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { useMemo, useRef, useState } from "react";
 
 type MatrixEntry = {

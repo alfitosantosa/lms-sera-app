@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { pricingNote, tiers } from "@/lib/marketing/products";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 

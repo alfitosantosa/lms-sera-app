@@ -1,16 +1,16 @@
 "use client";
 
-import { useGetClasses } from "@/app/(hooks)/hooks/Classes/useClass";
+import { useGetClasses } from "@/hooks/Classes/useClass";
 import {
   useCreateExam,
   useUpdateExam,
-} from "@/app/(hooks)/hooks/Exam/useExam";
-import { useGetSubjects } from "@/app/(hooks)/hooks/Subjects/useSubjects";
-import { getErrorMessage } from "@/app/(types)";
+} from "@/hooks/Exam/useExam";
+import { useGetSubjects } from "@/hooks/Subjects/useSubjects";
+import { getErrorMessage } from "@/types";
 import {
   type ExamInputPayload,
   examInputSchema,
-} from "@/app/(types)/types/exam-types";
+} from "@/types/exam-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

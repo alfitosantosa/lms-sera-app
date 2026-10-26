@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect, useMemo, useRef, ChangeEvent } from "react";
 
-import { useGetAcademicYears } from "@/app/(hooks)/hooks/AcademicYears/useAcademicYear";
-import { useGetClassByIdBranch } from "@/app/(hooks)/hooks/Classes/useGetClassById";
-import { useGetRoles } from "@/app/(hooks)/hooks/Roles/useRoles";
-import { useGetTahfidzGroup } from "@/app/(hooks)/hooks/TahfidzGroup/useTahfidzGroup";
+import { useGetAcademicYears } from "@/hooks/AcademicYears/useAcademicYear";
+import { useGetClassByIdBranch } from "@/hooks/Classes/useGetClassById";
+import { useGetRoles } from "@/hooks/Roles/useRoles";
+import { useGetTahfidzGroup } from "@/hooks/TahfidzGroup/useTahfidzGroup";
 import {
   useCreateUser,
   useUpdateUser,
-} from "@/app/(hooks)/hooks/Users/useUsers";
-import { getErrorMessage } from "@/app/(types)";
+} from "@/hooks/Users/useUsers";
+import { getErrorMessage } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

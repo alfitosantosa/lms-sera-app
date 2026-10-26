@@ -1,0 +1,59 @@
+"use server";
+import { defaultDateRange } from "@/lib/dateRange";
+import { handlePrismaError } from "@/services/errorHandler";
+import { prisma } from "@/services/prisma";
+import { resolveFoundation } from "@/services/tenant";
+import { type NextRequest, NextResponse } from "next/server";
+
+//filter by date
+export async function GET(request: NextRequest) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
+  if (!t.ok) return t.response;
+
+  const { fromdate, todate } = defaultDateRange(
+    request.nextUrl.searchParams.get("fromdate"),
+    request.nextUrl.searchParams.get("todate"),
+  );
+  const branchId = request.nextUrl.searchParams.get("branchId");
+
+  try {
+    const startDate = new Date(fromdate);
+    const endDate = new Date(todate);
+
+    // Add 1 day to endDate to make sure we fetch data up to the end of the strict toDate
+    // set start date only from 00:00:00 and end date only until 23:59:59
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+
+    const payments = await prisma.payment.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+        branch: { foundationId: t.foundationId },
+        ...(branchId && { branchId }),
+      },
+      include: {
+        student: {
+          include: {
+            class: true,
+          },
+        },
+        branch: true,
+        accountBank: true,
+        createdBy: true,
+        paymentItems: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return NextResponse.json(payments);
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}

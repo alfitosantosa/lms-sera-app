@@ -3,8 +3,8 @@
 import {
   canDownloadReportPdf,
   useReportPdf,
-} from "@/app/(hooks)/hooks/Reports/useReportPdf";
-import { useGetReport } from "@/app/(hooks)/hooks/Reports/useReports";
+} from "@/hooks/Reports/useReportPdf";
+import { useGetReport } from "@/hooks/Reports/useReports";
 import { ReportPreview } from "@/components/development/report-preview";
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";

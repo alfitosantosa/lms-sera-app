@@ -2,7 +2,7 @@ import {
   type ReportPreviewSnapshot,
   type ReportSnapshot,
   type StudentReportDTO,
-} from "@/app/(types)";
+} from "@/types";
 
 /**
  * Bentuk data PDF rapor (PRD §64) — hasil pemetaan **murni** dari `snapshot`

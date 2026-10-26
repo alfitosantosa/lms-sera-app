@@ -3,11 +3,11 @@
 import {
   QUESTION_TYPE_LABELS,
   type ExamQuestionItemDTO,
-} from "@/app/(types)/types/exam-types";
+} from "@/types/exam-types";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 
 export type ExamAnswerValue = {

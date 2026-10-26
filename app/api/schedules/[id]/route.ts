@@ -1,0 +1,53 @@
+// model Schedule {
+//   id             String       @id @default(cuid())
+//   classId        String
+//   subjectId      String
+//   teacherId      String
+//   academicYearId String
+//   dayOfWeek      Int
+//   startTime      String
+//   endTime        String
+//   room           String?
+//   attendances    Attendance[]
+//   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+//   class          Class        @relation(fields: [classId], references: [id])
+//   subject        Subject      @relation(fields: [subjectId], references: [id])
+//   teacher        User         @relation("TeacherSchedule", fields: [teacherId], references: [id])
+
+//   @@unique([classId, subjectId, teacherId, dayOfWeek, startTime])
+//   @@map("schedules")
+// }
+
+import { handlePrismaError } from "@/services/errorHandler";
+import { prisma } from "@/services/prisma";
+import { resolveFoundation } from "@/services/tenant";
+import { type NextRequest, NextResponse } from "next/server";
+
+//use params for get id
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const t = await resolveFoundation(
+    request,
+    request.nextUrl.searchParams.get("foundationId"),
+  );
+  if (!t.ok) return t.response;
+
+  const { id } = await params;
+  try {
+    const schedules = await prisma.schedule.findMany({
+      where: { id: id, academicYear: { foundationId: t.foundationId } },
+      include: {
+        class: true,
+        subject: true,
+        teacher: true,
+        academicYear: true,
+      },
+    });
+    return NextResponse.json(schedules);
+  } catch (error) {
+    return handlePrismaError(error);
+  }
+}

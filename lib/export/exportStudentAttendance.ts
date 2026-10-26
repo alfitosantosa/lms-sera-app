@@ -1,5 +1,5 @@
-import { type UserDataTypes } from "@/app/(types)";
-import { type attendanceTypes } from "@/app/(types)/types/attendance-types";
+import { type UserDataTypes } from "@/types";
+import { type attendanceTypes } from "@/types/attendance-types";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 

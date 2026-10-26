@@ -1,9 +1,9 @@
 "use client";
 
-import { type ExamQuestionItemDTO } from "@/app/(types)/types/exam-types";
+import { type ExamQuestionItemDTO } from "@/types/exam-types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 type ExamQuestionNavProps = {
   questions: ExamQuestionItemDTO[];

@@ -4,14 +4,14 @@ import {
   useAddQuestion,
   useDeleteQuestion,
   useUpdateQuestion,
-} from "@/app/(hooks)/hooks/Exam/useExam";
-import { getErrorMessage } from "@/app/(types)";
+} from "@/hooks/Exam/useExam";
+import { getErrorMessage } from "@/types";
 import {
   type ExamQuestionItemDTO,
   QUESTION_TYPE_LABELS,
   type QuestionTypes,
   questionInputSchema,
-} from "@/app/(types)/types/exam-types";
+} from "@/types/exam-types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
@@ -44,7 +44,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 import { Info, Loader2, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";

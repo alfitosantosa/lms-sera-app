@@ -4,9 +4,9 @@ import { useCallback, useEffect, useRef } from "react";
 import { useNextStep } from "nextstepjs";
 import { useSearchParams } from "next/navigation";
 
-import { useBranch } from "@/app/(context)/BranchContext";
-import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { useSession } from "@/lib/betterauth/authClients";
+import { useBranch } from "@/context/BranchContext";
+import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
+import { useSession } from "@/services/auth/authClients";
 import { getRoleMenuKey } from "@/lib/ui/roleKey";
 import { readTourDone, tourKeyForMenuKey, type TourKey } from "./tourModel";
 

@@ -71,7 +71,7 @@ assert.equal(SELECTORS.createButton, `[${TOUR_ATTR}="${TOUR_CREATE}"]`);
 
 // Setiap rute yang dipakai tur harus punya page.tsx — kalau tidak, tur menabrak 404.
 const pagesDir = fileURLToPath(
-  new URL("../../app/(frontend)/(dashboard)", import.meta.url),
+  new URL("../../app/(dashboard)", import.meta.url),
 );
 assert.ok(
   ALL_TOUR_ROUTES.length >= 19,
@@ -207,12 +207,12 @@ const DIALOG_TARGETS: {
   fields: TourFieldKey[];
 }[] = [
   {
-    file: "app/(frontend)/(dashboard)/dashboard/admin/master/academicyear/page.tsx",
+    file: "app/(dashboard)/dashboard/admin/master/academicyear/page.tsx",
     dialog: "academicYear",
     fields: ["academicYearName", "academicYearRange", "academicYearActive"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/admin/master/branchs/page.tsx",
+    file: "app/(dashboard)/dashboard/admin/master/branchs/page.tsx",
     dialog: "sekolah",
     fields: ["sekolahCode", "sekolahName", "sekolahAdmin"],
   },
@@ -223,27 +223,27 @@ const DIALOG_TARGETS: {
     fields: ["penggunaName", "penggunaEmail", "penggunaRole"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/admin/master/classes/page.tsx",
+    file: "app/(dashboard)/dashboard/admin/master/classes/page.tsx",
     dialog: "kelas",
     fields: ["kelasName", "kelasGrade", "kelasBranch"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/treasurer/paymenttype/page.tsx",
+    file: "app/(dashboard)/dashboard/treasurer/paymenttype/page.tsx",
     dialog: "paymentType",
     fields: ["paymentTypeOwner", "paymentTypeName", "paymentTypeAmount"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/treasurer/billing/page.tsx",
+    file: "app/(dashboard)/dashboard/treasurer/billing/page.tsx",
     dialog: "billing",
     fields: ["billingStudent", "billingType", "billingName"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/treasurer/payment/page.tsx",
+    file: "app/(dashboard)/dashboard/treasurer/payment/page.tsx",
     dialog: "payment",
     fields: ["paymentStudent", "paymentBank", "paymentDate"],
   },
   {
-    file: "app/(frontend)/(dashboard)/dashboard/teacher/violations/page.tsx",
+    file: "app/(dashboard)/dashboard/teacher/violations/page.tsx",
     dialog: "violation",
     fields: ["violationStudent", "violationType", "violationNotes"],
   },

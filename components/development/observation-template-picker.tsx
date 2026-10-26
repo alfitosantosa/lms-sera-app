@@ -1,7 +1,7 @@
 "use client";
 
-import { type DailyLogDTO } from "@/app/(types)/types/development-types";
-import { useGetDailyLogs } from "@/app/(hooks)/hooks/Development/useDailyLogs";
+import { type DailyLogDTO } from "@/types/development-types";
+import { useGetDailyLogs } from "@/hooks/Development/useDailyLogs";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

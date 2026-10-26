@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import ConditionalLayout from "@/components/ConditionalLayout";
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { type Metadata, type Viewport } from "next";
@@ -10,8 +10,8 @@ import {
   Noto_Naskh_Arabic,
 } from "next/font/google";
 
-import { ReactQueryProvider } from "./client/providers";
-import { BranchProvider } from "./(context)/BranchContext";
+import { ReactQueryProvider } from "./providers";
+import { BranchProvider } from "@/context/BranchContext";
 import { ReactNode, Suspense } from "react";
 
 // Optimized font loading with next/font.

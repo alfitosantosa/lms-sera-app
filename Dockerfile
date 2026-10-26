@@ -39,18 +39,18 @@ RUN bunx prisma generate && \
 # Stage 3: Worker (consumer RabbitMQ)
 # ==========================================
 # Worker TIDAK bisa ikut image runner: runner hanya menyalin .next/standalone
-# (tanpa node_modules) dan `worker/whatsapp-worker.ts` tidak terjangkau dari entrypoint
+# (tanpa node_modules) dan `worker/whatsappWorker.ts` tidak terjangkau dari entrypoint
 # Next mana pun, jadi tracing standalone tidak akan pernah memasukkannya.
 # Stage ini dibangun dari builder yang sudah punya node_modules + Prisma client.
 #
 # Jalur berkas ini harus sama dengan script `worker` di package.json
-# (`bun worker/whatsapp-worker.ts`) — itulah perintah yang dipakai developer lokal.
+# (`bun worker/whatsappWorker.ts`) — itulah perintah yang dipakai developer lokal.
 #
 # Sengaja diletakkan SEBELUM stage runner supaya runner tetap jadi stage
 # terakhir (= target default `docker build`).
 FROM builder AS worker
 
-CMD ["bun", "worker/whatsapp-worker.ts"]
+CMD ["bun", "worker/whatsappWorker.ts"]
 
 
 # ==========================================

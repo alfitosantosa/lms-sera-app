@@ -1,9 +1,9 @@
 import {
   REPORT_STATUS_LABELS,
   type ReportStatusTypes,
-} from "@/app/(types)";
+} from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 /**
  * Warna status rapor. Label selalu dari `REPORT_STATUS_LABELS` (satu sumber),

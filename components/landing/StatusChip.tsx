@@ -1,5 +1,5 @@
 import type { ProductStatus } from "@/lib/marketing/products";
-import { cn } from "@/lib/shadCN/utils";
+import { cn } from "@/lib/utils";
 
 const STATUS_STYLES: Record<ProductStatus, { label: string; className: string }> = {
   tersedia: {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetUserByIdBetterAuth } from "@/app/(hooks)/hooks/Users/useUsersByIdBetterAuth";
-import { signOut, useSession } from "@/lib/betterauth/authClients";
+import { useGetUserByIdBetterAuth } from "@/hooks/Users/useUsersByIdBetterAuth";
+import { signOut, useSession } from "@/services/auth/authClients";
 import Logo from "@/public/Logo.svg";
 import { LogOut, User } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +38,6 @@ const permissionLabels: Record<string, string> = {
   "/dashboard/admin/master/classes": "Kelas Management",
   "/dashboard/admin/master/subjects": "Mata Pelajaran Management",
   "/dashboard/admin/academic/schedules": "Jadwal Management",
-  "/dashboard/attendance": "Absensi Management",
   "/dashboard/admin/discipline/typeviolations": "Jenis Pelanggaran Management",
   "/dashboard/violations": "Pelanggaran Management",
   "/dashboard/admin/finance/paymenttypes": "Jenis Tagihan Management",
@@ -56,15 +55,16 @@ const permissionLabels: Record<string, string> = {
   "/dashboard/admin/utility/upload/users": "Upload Users",
   "/dashboard/admin/utility/botwa": "Botwa Management",
   "/dashboard/attendance/teacher": "Absensi Kepala Sekolah",
-  "/dashboard/admin/attendance": "Absensi Admin Backup",
-  "/dashboard/recapattendance": "Rekap Absensi",
+  "/dashboard/admin/attendance": "Absensi Management",
+  "/dashboard/admin/recapattendance": "Rekap Absensi",
   "/dashboard/calender/list/teacher": "Kalender List untuk Guru",
   "/dashboard/calender/list/student": "Kalender List untuk Siswa",
   "/dashboard/admin/utility/upload/schedules": "Upload Jadwal",
-  "/dashboard/recapattendance/class": "Rekap Absensi Kelas",
+  "/dashboard/admin/recapattendance/class": "Rekap Absensi Kelas",
   "/dashboard/admin/master/classes/tahfidz": "Tahfidz Group Management",
   "/dashboard/student/payment": "Pembayaran untuk Siswa",
   "/dashboard/admin/academic/tahfidzrecord": "Setoran Tahfidz Management",
+  "/dashboard/tahfidz": "Dashboard Tahfizh",
   "/dashboard/student/tahfidzrecord": "Setoran Tahfidz untuk Siswa",
   "/dashboard/profile": "Profile",
   "/dashboard/admin/finance/accountbank": "Account Bank Management",

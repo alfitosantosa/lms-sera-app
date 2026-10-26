@@ -1,7 +1,7 @@
 "use client";
 
-import { isLogEntry, type TimelineEntryDTO } from "@/app/(types)";
-import { useGetScales } from "@/app/(hooks)/hooks/Development/useDevelopmentConfig";
+import { isLogEntry, type TimelineEntryDTO } from "@/types";
+import { useGetScales } from "@/hooks/Development/useDevelopmentConfig";
 import {
   Card,
   CardContent,
