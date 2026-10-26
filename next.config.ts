@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
   // --- CORE ---
   reactStrictMode: true,
 
+  // Izinkan akses dev lewat 127.0.0.1 (selain localhost) agar chunk/HMR
+  // tidak diblokir sebagai cross-origin saat smoke test atau preview.
+  allowedDevOrigins: ["127.0.0.1"],
+
   // Hanya aktifkan standalone/export saat build production
   ...(isProduction && {
     output: "standalone", // Menghasilkan folder 'out' saat di-build
