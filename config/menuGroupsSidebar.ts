@@ -61,6 +61,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           url: "/dashboard/profile",
           icon: "users",
         },
+        {
+          title: "Modul Yayasan",
+          url: "/dashboard/modules",
+          icon: "settings",
+        },
       ],
     },
 
@@ -323,6 +328,11 @@ export const menuGroups: Record<string, MenuGroup[]> = {
           title: "Profile",
           url: "/dashboard/profile",
           icon: "users",
+        },
+        {
+          title: "Modul Yayasan",
+          url: "/dashboard/modules",
+          icon: "settings",
         },
       ],
     },
