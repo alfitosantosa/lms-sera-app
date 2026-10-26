@@ -256,8 +256,8 @@ export type AssessmentPeriodWhereInput = {
   status?: Prisma.EnumAssessmentPeriodStatusFilter<"AssessmentPeriod"> | $Enums.AssessmentPeriodStatus
   createdAt?: Prisma.DateTimeFilter<"AssessmentPeriod"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssessmentPeriod"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   assessments?: Prisma.StudentAssessmentListRelationFilter
   studentReports?: Prisma.StudentReportListRelationFilter
 }
@@ -273,8 +273,8 @@ export type AssessmentPeriodOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   academicYear?: Prisma.AcademicYearOrderByWithRelationInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   assessments?: Prisma.StudentAssessmentOrderByRelationAggregateInput
   studentReports?: Prisma.StudentReportOrderByRelationAggregateInput
 }
@@ -294,8 +294,8 @@ export type AssessmentPeriodWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumAssessmentPeriodStatusFilter<"AssessmentPeriod"> | $Enums.AssessmentPeriodStatus
   createdAt?: Prisma.DateTimeFilter<"AssessmentPeriod"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AssessmentPeriod"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   assessments?: Prisma.StudentAssessmentListRelationFilter
   studentReports?: Prisma.StudentReportListRelationFilter
 }, "id" | "foundationId_academicYearId_semester_name">
@@ -343,8 +343,8 @@ export type AssessmentPeriodCreateInput = {
   status?: $Enums.AssessmentPeriodStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutAssessmentPeriodsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutPeriodInput
   studentReports?: Prisma.StudentReportCreateNestedManyWithoutPeriodInput
 }
@@ -373,8 +373,8 @@ export type AssessmentPeriodUpdateInput = {
   status?: Prisma.EnumAssessmentPeriodStatusFieldUpdateOperationsInput | $Enums.AssessmentPeriodStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutAssessmentPeriodsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   assessments?: Prisma.StudentAssessmentUpdateManyWithoutPeriodNestedInput
   studentReports?: Prisma.StudentReportUpdateManyWithoutPeriodNestedInput
 }
@@ -749,8 +749,8 @@ export type AssessmentPeriodCreateWithoutAssessmentsInput = {
   status?: $Enums.AssessmentPeriodStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutAssessmentPeriodsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   studentReports?: Prisma.StudentReportCreateNestedManyWithoutPeriodInput
 }
 
@@ -793,8 +793,8 @@ export type AssessmentPeriodUpdateWithoutAssessmentsInput = {
   status?: Prisma.EnumAssessmentPeriodStatusFieldUpdateOperationsInput | $Enums.AssessmentPeriodStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutAssessmentPeriodsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   studentReports?: Prisma.StudentReportUpdateManyWithoutPeriodNestedInput
 }
 
@@ -821,8 +821,8 @@ export type AssessmentPeriodCreateWithoutStudentReportsInput = {
   status?: $Enums.AssessmentPeriodStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutAssessmentPeriodsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutAssessmentPeriodsInput
   assessments?: Prisma.StudentAssessmentCreateNestedManyWithoutPeriodInput
 }
 
@@ -865,8 +865,8 @@ export type AssessmentPeriodUpdateWithoutStudentReportsInput = {
   status?: Prisma.EnumAssessmentPeriodStatusFieldUpdateOperationsInput | $Enums.AssessmentPeriodStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   academicYear?: Prisma.AcademicYearUpdateOneWithoutAssessmentPeriodsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutAssessmentPeriodsNestedInput
   assessments?: Prisma.StudentAssessmentUpdateManyWithoutPeriodNestedInput
 }
 
@@ -1039,8 +1039,8 @@ export type AssessmentPeriodSelect<ExtArgs extends runtime.Types.Extensions.Inte
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   assessments?: boolean | Prisma.AssessmentPeriod$assessmentsArgs<ExtArgs>
   studentReports?: boolean | Prisma.AssessmentPeriod$studentReportsArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentPeriodCountOutputTypeDefaultArgs<ExtArgs>
@@ -1057,8 +1057,8 @@ export type AssessmentPeriodSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentPeriod"]>
 
 export type AssessmentPeriodSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1072,8 +1072,8 @@ export type AssessmentPeriodSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentPeriod"]>
 
 export type AssessmentPeriodSelectScalar = {
@@ -1091,26 +1091,26 @@ export type AssessmentPeriodSelectScalar = {
 
 export type AssessmentPeriodOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "foundationId" | "academicYearId" | "name" | "semester" | "startDate" | "endDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["assessmentPeriod"]>
 export type AssessmentPeriodInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   assessments?: boolean | Prisma.AssessmentPeriod$assessmentsArgs<ExtArgs>
   studentReports?: boolean | Prisma.AssessmentPeriod$studentReportsArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentPeriodCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssessmentPeriodIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }
 export type AssessmentPeriodIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   academicYear?: boolean | Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
 }
 
 export type $AssessmentPeriodPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AssessmentPeriod"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs>
     academicYear: Prisma.$AcademicYearPayload<ExtArgs> | null
+    foundation: Prisma.$FoundationPayload<ExtArgs>
     assessments: Prisma.$StudentAssessmentPayload<ExtArgs>[]
     studentReports: Prisma.$StudentReportPayload<ExtArgs>[]
   }
@@ -1519,8 +1519,8 @@ readonly fields: AssessmentPeriodFieldRefs;
  */
 export interface Prisma__AssessmentPeriodClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   academicYear<T extends Prisma.AssessmentPeriod$academicYearArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriod$academicYearArgs<ExtArgs>>): Prisma.Prisma__AcademicYearClient<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assessments<T extends Prisma.AssessmentPeriod$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriod$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studentReports<T extends Prisma.AssessmentPeriod$studentReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriod$studentReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**

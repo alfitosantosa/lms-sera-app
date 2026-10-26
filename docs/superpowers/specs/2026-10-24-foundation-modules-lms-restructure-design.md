@@ -37,7 +37,8 @@ The platform has four independent gaps that the user wants closed in one program
   `scheduleId`; `ExamAnswer` has no feedback/grading timestamps;
   `Assignment.allowLateSubmission` exists and is honoured by
   `lib/development/assignment.service.ts`.
-- `app/(backend)/api` contains **141** `route.ts` files. `app/(frontend)`
+- `app/(backend)/api` contains **140** `route.ts` files, plus one `/health`
+  route outside that group. `app/(frontend)`
   contains **90** files. `app/(hooks)/hooks` contains **63** files.
   `app/(types)/types` contains **26** files. `lib/` contains **42** files.
   `components/` contains **113** files.
@@ -189,6 +190,7 @@ Menu cleanup included in the same phase:
   `/dashboard/admin/recapattendance`.
 - Replace dead `/dashboard/recapattendance/class` with
   `/dashboard/admin/recapattendance/class`.
+- Update `components/navbar.tsx` path labels for the same three URLs.
 - Update `lib/tours/tours.ts` if any tour step references the old URLs; run
   `lib/tours/tour.check.ts` afterwards.
 
@@ -443,7 +445,8 @@ root.
 ### 6.4 Verification for the move
 
 - Record baseline before moving: `find app/api -name route.ts | wc -l` must
-  equal the post-move count (141), and the `page.tsx` count must be unchanged.
+  equal the post-move count (140); `/health` is counted separately. The
+  `page.tsx` count must be unchanged (83 dashboard pages, 89 frontend pages).
 - `bunx tsc --noEmit`.
 - `bun run build`.
 - `bun run lib/tours/tour.check.ts`, `bun run lib/rabbitMQ/retry.check.ts`,
@@ -452,9 +455,7 @@ root.
 - Update `package.json` `worker` script, `Dockerfile` worker stage/CMD,
   `AGENTS.md`, and `README.md`.
 - `components.json` already points `utils` to `@/lib/utils`; the move makes
-  that alias real. Update `components/navbar.tsx` path labels for the three
-  corrected attendance URLs.
-- Document `AUTH_EMAIL_DOMAIN` in the `README.md` environment table.
+  that alias real.
 - Remove `.next` before the first post-move build.
 
 ## 7. LMS
@@ -726,6 +727,9 @@ student Better Auth admin access. The foundation creator and existing
 foundation admins (`Admin`/`Yayasan`) are the only users with Better Auth
 `role: "admin"`; the backfill migration in §5.8 covers existing rows.
 
+Document `AUTH_EMAIL_DOMAIN` in the `README.md` environment table (default
+`sera.app`).
+
 ## 9. Compatibility and migration order
 
 1. **Structure** — mechanical move only. No schema/API/UI change. Merge after
@@ -796,7 +800,7 @@ before the next starts.
 | Risk | Mitigation |
 |---|---|
 | The move touches roughly 700 import sites | One ordered codemod; route/page count parity; `tsc` + build before merge |
-| Next route-group collisions after moving `(frontend)`/`(backend)` | Route groups do not change URLs; verify the route manifest and all 141 API routes |
+| Next route-group collisions after moving `(frontend)`/`(backend)` | Route groups do not change URLs; verify the route manifest and all 140 API routes plus `/health` |
 | Module API prefix mistakes block core endpoints | Longest-prefix match; explicit core allow-list; `config/modules.check.ts`; smoke both directions |
 | Central path gating is bypassed by a route that does not use `resolveFoundation` | Module routes must use `resolveFoundation`, `resolveExamActor`, or `resolveDevelopmentActor`; grep for `auth.api.getSession` in module route groups and add the shared check |
 | Essay grading leaves a partial state | One Prisma transaction; recompute total/status server-side |

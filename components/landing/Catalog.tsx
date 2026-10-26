@@ -54,7 +54,7 @@ export function Catalog() {
 
                   <div className="mt-auto flex items-end justify-between gap-3 pt-6">
                     <div className="min-w-0">
-                      <p className="text-muted-foreground truncate text-xs leading-relaxed">
+                      <p className="text-muted-foreground text-xs leading-relaxed">
                         {product.target}
                       </p>
                       <StatusChip status={product.status} className="mt-2" />

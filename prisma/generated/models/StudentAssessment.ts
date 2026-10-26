@@ -280,15 +280,15 @@ export type StudentAssessmentWhereInput = {
   note?: Prisma.StringNullableFilter<"StudentAssessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudentAssessment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudentAssessment"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  evidences?: Prisma.EvidenceListRelationFilter
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput>
+  period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
+  scale?: Prisma.XOR<Prisma.AssessmentScaleScalarRelationFilter, Prisma.AssessmentScaleWhereInput>
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
-  period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
-  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput>
-  scale?: Prisma.XOR<Prisma.AssessmentScaleScalarRelationFilter, Prisma.AssessmentScaleWhereInput>
-  evidences?: Prisma.EvidenceListRelationFilter
 }
 
 export type StudentAssessmentOrderByWithRelationInput = {
@@ -305,15 +305,15 @@ export type StudentAssessmentOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
+  evidences?: Prisma.EvidenceOrderByRelationAggregateInput
   branch?: Prisma.BranchOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
+  indicator?: Prisma.DevelopmentIndicatorOrderByWithRelationInput
+  period?: Prisma.AssessmentPeriodOrderByWithRelationInput
+  scale?: Prisma.AssessmentScaleOrderByWithRelationInput
   student?: Prisma.UserDataOrderByWithRelationInput
   teacher?: Prisma.UserDataOrderByWithRelationInput
-  period?: Prisma.AssessmentPeriodOrderByWithRelationInput
-  indicator?: Prisma.DevelopmentIndicatorOrderByWithRelationInput
-  scale?: Prisma.AssessmentScaleOrderByWithRelationInput
-  evidences?: Prisma.EvidenceOrderByRelationAggregateInput
 }
 
 export type StudentAssessmentWhereUniqueInput = Prisma.AtLeast<{
@@ -334,15 +334,15 @@ export type StudentAssessmentWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"StudentAssessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudentAssessment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudentAssessment"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  evidences?: Prisma.EvidenceListRelationFilter
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
+  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput>
+  period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
+  scale?: Prisma.XOR<Prisma.AssessmentScaleScalarRelationFilter, Prisma.AssessmentScaleWhereInput>
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
-  period?: Prisma.XOR<Prisma.AssessmentPeriodScalarRelationFilter, Prisma.AssessmentPeriodWhereInput>
-  indicator?: Prisma.XOR<Prisma.DevelopmentIndicatorScalarRelationFilter, Prisma.DevelopmentIndicatorWhereInput>
-  scale?: Prisma.XOR<Prisma.AssessmentScaleScalarRelationFilter, Prisma.AssessmentScaleWhereInput>
-  evidences?: Prisma.EvidenceListRelationFilter
 }, "id" | "studentId_periodId_indicatorId">
 
 export type StudentAssessmentOrderByWithAggregationInput = {
@@ -391,15 +391,15 @@ export type StudentAssessmentCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
 }
 
 export type StudentAssessmentUncheckedCreateInput = {
@@ -425,15 +425,15 @@ export type StudentAssessmentUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateInput = {
@@ -928,14 +928,14 @@ export type StudentAssessmentCreateWithoutFoundationInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutFoundationInput = {
@@ -1005,14 +1005,14 @@ export type StudentAssessmentCreateWithoutStudentInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
-  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
   indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
   scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
+  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutStudentInput = {
@@ -1047,14 +1047,14 @@ export type StudentAssessmentCreateWithoutTeacherInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
-  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
   indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
   scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
+  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutTeacherInput = {
@@ -1121,14 +1121,14 @@ export type StudentAssessmentCreateWithoutBranchInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutBranchInput = {
@@ -1179,14 +1179,14 @@ export type StudentAssessmentCreateWithoutClassInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutClassInput = {
@@ -1237,14 +1237,14 @@ export type StudentAssessmentCreateWithoutPeriodInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
-  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
-  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
   indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
   scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
+  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
+  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutPeriodInput = {
@@ -1295,14 +1295,14 @@ export type StudentAssessmentCreateWithoutScaleInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutScaleInput = {
@@ -1353,14 +1353,14 @@ export type StudentAssessmentCreateWithoutIndicatorInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
-  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
-  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
   period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
   scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
-  evidences?: Prisma.EvidenceCreateNestedManyWithoutAssessmentInput
+  student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
+  teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutIndicatorInput = {
@@ -1411,14 +1411,14 @@ export type StudentAssessmentCreateWithoutEvidencesInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
   branch: Prisma.BranchCreateNestedOneWithoutStudentAssessmentsInput
   class: Prisma.ClassCreateNestedOneWithoutStudentAssessmentsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutStudentAssessmentsInput
+  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
+  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
+  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
   student: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutAssessmentsAsTeacherInput
-  period: Prisma.AssessmentPeriodCreateNestedOneWithoutAssessmentsInput
-  indicator: Prisma.DevelopmentIndicatorCreateNestedOneWithoutAssessmentsInput
-  scale: Prisma.AssessmentScaleCreateNestedOneWithoutAssessmentsInput
 }
 
 export type StudentAssessmentUncheckedCreateWithoutEvidencesInput = {
@@ -1459,14 +1459,14 @@ export type StudentAssessmentUpdateWithoutEvidencesInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutEvidencesInput = {
@@ -1506,14 +1506,14 @@ export type StudentAssessmentUpdateWithoutFoundationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutFoundationInput = {
@@ -1583,14 +1583,14 @@ export type StudentAssessmentUpdateWithoutStudentInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
-  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
   scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
+  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutStudentInput = {
@@ -1630,14 +1630,14 @@ export type StudentAssessmentUpdateWithoutTeacherInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
-  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
   scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
+  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutTeacherInput = {
@@ -1692,14 +1692,14 @@ export type StudentAssessmentUpdateWithoutBranchInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutBranchInput = {
@@ -1754,14 +1754,14 @@ export type StudentAssessmentUpdateWithoutClassInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutClassInput = {
@@ -1816,14 +1816,14 @@ export type StudentAssessmentUpdateWithoutPeriodInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
-  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
-  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
   scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
+  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
+  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutPeriodInput = {
@@ -1878,14 +1878,14 @@ export type StudentAssessmentUpdateWithoutScaleInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
+  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
-  period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  indicator?: Prisma.DevelopmentIndicatorUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutScaleInput = {
@@ -1940,14 +1940,14 @@ export type StudentAssessmentUpdateWithoutIndicatorInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
+  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutStudentAssessmentsNestedInput
-  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
-  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutStudentAssessmentsNestedInput
   period?: Prisma.AssessmentPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
   scale?: Prisma.AssessmentScaleUpdateOneRequiredWithoutAssessmentsNestedInput
-  evidences?: Prisma.EvidenceUpdateManyWithoutAssessmentNestedInput
+  student?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsStudentNestedInput
+  teacher?: Prisma.UserDataUpdateOneRequiredWithoutAssessmentsAsTeacherNestedInput
 }
 
 export type StudentAssessmentUncheckedUpdateWithoutIndicatorInput = {
@@ -2026,15 +2026,15 @@ export type StudentAssessmentSelect<ExtArgs extends runtime.Types.Extensions.Int
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  evidences?: boolean | Prisma.StudentAssessment$evidencesArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
-  evidences?: boolean | Prisma.StudentAssessment$evidencesArgs<ExtArgs>
   _count?: boolean | Prisma.StudentAssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentAssessment"]>
 
@@ -2052,14 +2052,14 @@ export type StudentAssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentAssessment"]>
 
 export type StudentAssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2076,14 +2076,14 @@ export type StudentAssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentAssessment"]>
 
 export type StudentAssessmentSelectScalar = {
@@ -2104,50 +2104,50 @@ export type StudentAssessmentSelectScalar = {
 
 export type StudentAssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "foundationId" | "branchId" | "classId" | "studentId" | "teacherId" | "periodId" | "indicatorId" | "scaleId" | "score" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["studentAssessment"]>
 export type StudentAssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  evidences?: boolean | Prisma.StudentAssessment$evidencesArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
-  evidences?: boolean | Prisma.StudentAssessment$evidencesArgs<ExtArgs>
   _count?: boolean | Prisma.StudentAssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudentAssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
 }
 export type StudentAssessmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
+  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
+  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
+  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
-  period?: boolean | Prisma.AssessmentPeriodDefaultArgs<ExtArgs>
-  indicator?: boolean | Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>
-  scale?: boolean | Prisma.AssessmentScaleDefaultArgs<ExtArgs>
 }
 
 export type $StudentAssessmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudentAssessment"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs>
+    evidences: Prisma.$EvidencePayload<ExtArgs>[]
     branch: Prisma.$BranchPayload<ExtArgs>
     class: Prisma.$ClassPayload<ExtArgs>
+    foundation: Prisma.$FoundationPayload<ExtArgs>
+    indicator: Prisma.$DevelopmentIndicatorPayload<ExtArgs>
+    period: Prisma.$AssessmentPeriodPayload<ExtArgs>
+    scale: Prisma.$AssessmentScalePayload<ExtArgs>
     student: Prisma.$UserDataPayload<ExtArgs>
     teacher: Prisma.$UserDataPayload<ExtArgs>
-    period: Prisma.$AssessmentPeriodPayload<ExtArgs>
-    indicator: Prisma.$DevelopmentIndicatorPayload<ExtArgs>
-    scale: Prisma.$AssessmentScalePayload<ExtArgs>
-    evidences: Prisma.$EvidencePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2557,15 +2557,15 @@ readonly fields: StudentAssessmentFieldRefs;
  */
 export interface Prisma__StudentAssessmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  evidences<T extends Prisma.StudentAssessment$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentAssessment$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   class<T extends Prisma.ClassDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  indicator<T extends Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>>): Prisma.Prisma__DevelopmentIndicatorClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentIndicatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  period<T extends Prisma.AssessmentPeriodDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriodDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentPeriodClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  scale<T extends Prisma.AssessmentScaleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentScaleDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentScaleClient<runtime.Types.Result.GetResult<Prisma.$AssessmentScalePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   student<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  period<T extends Prisma.AssessmentPeriodDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentPeriodDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentPeriodClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  indicator<T extends Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DevelopmentIndicatorDefaultArgs<ExtArgs>>): Prisma.Prisma__DevelopmentIndicatorClient<runtime.Types.Result.GetResult<Prisma.$DevelopmentIndicatorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  scale<T extends Prisma.AssessmentScaleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentScaleDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentScaleClient<runtime.Types.Result.GetResult<Prisma.$AssessmentScalePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  evidences<T extends Prisma.StudentAssessment$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentAssessment$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

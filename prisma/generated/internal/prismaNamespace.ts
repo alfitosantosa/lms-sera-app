@@ -4733,13 +4733,13 @@ export const AssignmentScalarFieldEnum = {
   allowLateSubmission: 'allowLateSubmission',
   maxScore: 'maxScore',
   gradeTypeId: 'gradeTypeId',
-  developmentAreaId: 'developmentAreaId',
-  indicatorId: 'indicatorId',
   isPublished: 'isPublished',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  developmentAreaId: 'developmentAreaId',
+  indicatorId: 'indicatorId'
 } as const
 
 export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
@@ -4913,10 +4913,10 @@ export const QuestionScalarFieldEnum = {
   id: 'id',
   type: 'type',
   question: 'question',
-  imageUrl: 'imageUrl',
   points: 'points',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  imageUrl: 'imageUrl'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
@@ -4937,11 +4937,11 @@ export const ExamAttemptScalarFieldEnum = {
   id: 'id',
   examId: 'examId',
   studentId: 'studentId',
-  attemptNumber: 'attemptNumber',
   status: 'status',
   startedAt: 'startedAt',
   submittedAt: 'submittedAt',
-  score: 'score'
+  score: 'score',
+  attemptNumber: 'attemptNumber'
 } as const
 
 export type ExamAttemptScalarFieldEnum = (typeof ExamAttemptScalarFieldEnum)[keyof typeof ExamAttemptScalarFieldEnum]

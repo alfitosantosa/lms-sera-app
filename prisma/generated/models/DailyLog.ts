@@ -270,11 +270,11 @@ export type DailyLogWhereInput = {
   parentVisible?: Prisma.BoolFilter<"DailyLog"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DailyLog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyLog"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
-  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   observations?: Prisma.DailyObservationListRelationFilter
   evidences?: Prisma.EvidenceListRelationFilter
@@ -297,11 +297,11 @@ export type DailyLogOrderByWithRelationInput = {
   parentVisible?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  foundation?: Prisma.FoundationOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
-  subject?: Prisma.SubjectOrderByWithRelationInput
+  foundation?: Prisma.FoundationOrderByWithRelationInput
   student?: Prisma.UserDataOrderByWithRelationInput
+  subject?: Prisma.SubjectOrderByWithRelationInput
   teacher?: Prisma.UserDataOrderByWithRelationInput
   observations?: Prisma.DailyObservationOrderByRelationAggregateInput
   evidences?: Prisma.EvidenceOrderByRelationAggregateInput
@@ -327,11 +327,11 @@ export type DailyLogWhereUniqueInput = Prisma.AtLeast<{
   parentVisible?: Prisma.BoolFilter<"DailyLog"> | boolean
   createdAt?: Prisma.DateTimeFilter<"DailyLog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyLog"> | Date | string
-  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   branch?: Prisma.XOR<Prisma.BranchScalarRelationFilter, Prisma.BranchWhereInput>
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
-  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
+  foundation?: Prisma.XOR<Prisma.FoundationScalarRelationFilter, Prisma.FoundationWhereInput>
   student?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
   teacher?: Prisma.XOR<Prisma.UserDataScalarRelationFilter, Prisma.UserDataWhereInput>
   observations?: Prisma.DailyObservationListRelationFilter
   evidences?: Prisma.EvidenceListRelationFilter
@@ -392,11 +392,11 @@ export type DailyLogCreateInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
@@ -434,11 +434,11 @@ export type DailyLogUpdateInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
@@ -892,8 +892,8 @@ export type DailyLogCreateWithoutFoundationInput = {
   updatedAt?: Date | string
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
@@ -978,9 +978,9 @@ export type DailyLogCreateWithoutStudentInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
@@ -1028,11 +1028,11 @@ export type DailyLogCreateWithoutTeacherInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
 }
@@ -1110,10 +1110,10 @@ export type DailyLogCreateWithoutBranchInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
@@ -1176,10 +1176,10 @@ export type DailyLogCreateWithoutClassInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
@@ -1242,9 +1242,9 @@ export type DailyLogCreateWithoutSubjectInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
@@ -1308,11 +1308,11 @@ export type DailyLogCreateWithoutObservationsInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   evidences?: Prisma.EvidenceCreateNestedManyWithoutDailyLogInput
 }
@@ -1364,11 +1364,11 @@ export type DailyLogUpdateWithoutObservationsInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
 }
@@ -1404,11 +1404,11 @@ export type DailyLogCreateWithoutEvidencesInput = {
   parentVisible?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   branch: Prisma.BranchCreateNestedOneWithoutDailyLogsInput
   class: Prisma.ClassCreateNestedOneWithoutDailyLogsInput
-  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
+  foundation: Prisma.FoundationCreateNestedOneWithoutDailyLogsInput
   student: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsStudentInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutDailyLogsInput
   teacher: Prisma.UserDataCreateNestedOneWithoutDailyLogsAsTeacherInput
   observations?: Prisma.DailyObservationCreateNestedManyWithoutDailyLogInput
 }
@@ -1460,11 +1460,11 @@ export type DailyLogUpdateWithoutEvidencesInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
 }
@@ -1520,8 +1520,8 @@ export type DailyLogUpdateWithoutFoundationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
@@ -1612,9 +1612,9 @@ export type DailyLogUpdateWithoutStudentInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
@@ -1670,11 +1670,11 @@ export type DailyLogUpdateWithoutTeacherInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
 }
@@ -1746,10 +1746,10 @@ export type DailyLogUpdateWithoutBranchInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
@@ -1822,10 +1822,10 @@ export type DailyLogUpdateWithoutClassInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
-  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutDailyLogsNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
   evidences?: Prisma.EvidenceUpdateManyWithoutDailyLogNestedInput
@@ -1898,9 +1898,9 @@ export type DailyLogUpdateWithoutSubjectInput = {
   parentVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   branch?: Prisma.BranchUpdateOneRequiredWithoutDailyLogsNestedInput
   class?: Prisma.ClassUpdateOneRequiredWithoutDailyLogsNestedInput
+  foundation?: Prisma.FoundationUpdateOneRequiredWithoutDailyLogsNestedInput
   student?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsStudentNestedInput
   teacher?: Prisma.UserDataUpdateOneRequiredWithoutDailyLogsAsTeacherNestedInput
   observations?: Prisma.DailyObservationUpdateManyWithoutDailyLogNestedInput
@@ -2002,11 +2002,11 @@ export type DailyLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   parentVisible?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   observations?: boolean | Prisma.DailyLog$observationsArgs<ExtArgs>
   evidences?: boolean | Prisma.DailyLog$evidencesArgs<ExtArgs>
@@ -2030,11 +2030,11 @@ export type DailyLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   parentVisible?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyLog"]>
 
@@ -2055,11 +2055,11 @@ export type DailyLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   parentVisible?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyLog"]>
 
@@ -2084,41 +2084,41 @@ export type DailyLogSelectScalar = {
 
 export type DailyLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "foundationId" | "branchId" | "classId" | "studentId" | "teacherId" | "subjectId" | "date" | "activity" | "achievement" | "challenge" | "teacherNote" | "status" | "parentVisible" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyLog"]>
 export type DailyLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
   observations?: boolean | Prisma.DailyLog$observationsArgs<ExtArgs>
   evidences?: boolean | Prisma.DailyLog$evidencesArgs<ExtArgs>
   _count?: boolean | Prisma.DailyLogCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DailyLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
 }
 export type DailyLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.BranchDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
-  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
+  foundation?: boolean | Prisma.FoundationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.DailyLog$subjectArgs<ExtArgs>
   teacher?: boolean | Prisma.UserDataDefaultArgs<ExtArgs>
 }
 
 export type $DailyLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DailyLog"
   objects: {
-    foundation: Prisma.$FoundationPayload<ExtArgs>
     branch: Prisma.$BranchPayload<ExtArgs>
     class: Prisma.$ClassPayload<ExtArgs>
-    subject: Prisma.$SubjectPayload<ExtArgs> | null
+    foundation: Prisma.$FoundationPayload<ExtArgs>
     student: Prisma.$UserDataPayload<ExtArgs>
+    subject: Prisma.$SubjectPayload<ExtArgs> | null
     teacher: Prisma.$UserDataPayload<ExtArgs>
     observations: Prisma.$DailyObservationPayload<ExtArgs>[]
     evidences: Prisma.$EvidencePayload<ExtArgs>[]
@@ -2534,11 +2534,11 @@ readonly fields: DailyLogFieldRefs;
  */
 export interface Prisma__DailyLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   branch<T extends Prisma.BranchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchClient<runtime.Types.Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   class<T extends Prisma.ClassDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  subject<T extends Prisma.DailyLog$subjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DailyLog$subjectArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  foundation<T extends Prisma.FoundationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoundationDefaultArgs<ExtArgs>>): Prisma.Prisma__FoundationClient<runtime.Types.Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   student<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  subject<T extends Prisma.DailyLog$subjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DailyLog$subjectArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.UserDataDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDataDefaultArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   observations<T extends Prisma.DailyLog$observationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DailyLog$observationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyObservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evidences<T extends Prisma.DailyLog$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DailyLog$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>

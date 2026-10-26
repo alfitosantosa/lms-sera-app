@@ -280,8 +280,8 @@ export type EvidenceWhereInput = {
   description?: Prisma.StringNullableFilter<"Evidence"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"Evidence"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Evidence"> | Date | string
-  dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   assessment?: Prisma.XOR<Prisma.StudentAssessmentNullableScalarRelationFilter, Prisma.StudentAssessmentWhereInput> | null
+  dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   submission?: Prisma.XOR<Prisma.AssignmentSubmissionNullableScalarRelationFilter, Prisma.AssignmentSubmissionWhereInput> | null
   uploadedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }
@@ -300,8 +300,8 @@ export type EvidenceOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  dailyLog?: Prisma.DailyLogOrderByWithRelationInput
   assessment?: Prisma.StudentAssessmentOrderByWithRelationInput
+  dailyLog?: Prisma.DailyLogOrderByWithRelationInput
   submission?: Prisma.AssignmentSubmissionOrderByWithRelationInput
   uploadedBy?: Prisma.UserDataOrderByWithRelationInput
 }
@@ -323,8 +323,8 @@ export type EvidenceWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Evidence"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"Evidence"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Evidence"> | Date | string
-  dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   assessment?: Prisma.XOR<Prisma.StudentAssessmentNullableScalarRelationFilter, Prisma.StudentAssessmentWhereInput> | null
+  dailyLog?: Prisma.XOR<Prisma.DailyLogNullableScalarRelationFilter, Prisma.DailyLogWhereInput> | null
   submission?: Prisma.XOR<Prisma.AssignmentSubmissionNullableScalarRelationFilter, Prisma.AssignmentSubmissionWhereInput> | null
   uploadedBy?: Prisma.XOR<Prisma.UserDataNullableScalarRelationFilter, Prisma.UserDataWhereInput> | null
 }, "id">
@@ -379,8 +379,8 @@ export type EvidenceCreateInput = {
   title?: string | null
   description?: string | null
   createdAt?: Date | string
-  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
+  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
@@ -411,8 +411,8 @@ export type EvidenceUpdateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
+  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
@@ -725,8 +725,8 @@ export type EvidenceCreateWithoutUploadedByInput = {
   title?: string | null
   description?: string | null
   createdAt?: Date | string
-  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
+  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   submission?: Prisma.AssignmentSubmissionCreateNestedOneWithoutEvidencesInput
 }
 
@@ -800,8 +800,8 @@ export type EvidenceCreateWithoutSubmissionInput = {
   title?: string | null
   description?: string | null
   createdAt?: Date | string
-  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   assessment?: Prisma.StudentAssessmentCreateNestedOneWithoutEvidencesInput
+  dailyLog?: Prisma.DailyLogCreateNestedOneWithoutEvidencesInput
   uploadedBy?: Prisma.UserDataCreateNestedOneWithoutEvidencesUploadedInput
 }
 
@@ -983,8 +983,8 @@ export type EvidenceUpdateWithoutUploadedByInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
+  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   submission?: Prisma.AssignmentSubmissionUpdateOneWithoutEvidencesNestedInput
 }
 
@@ -1043,8 +1043,8 @@ export type EvidenceUpdateWithoutSubmissionInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   assessment?: Prisma.StudentAssessmentUpdateOneWithoutEvidencesNestedInput
+  dailyLog?: Prisma.DailyLogUpdateOneWithoutEvidencesNestedInput
   uploadedBy?: Prisma.UserDataUpdateOneWithoutEvidencesUploadedNestedInput
 }
 
@@ -1214,8 +1214,8 @@ export type EvidenceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   description?: boolean
   uploadedById?: boolean
   createdAt?: boolean
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
@@ -1234,8 +1234,8 @@ export type EvidenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   uploadedById?: boolean
   createdAt?: boolean
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
@@ -1254,8 +1254,8 @@ export type EvidenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   uploadedById?: boolean
   createdAt?: boolean
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }, ExtArgs["result"]["evidence"]>
@@ -1278,20 +1278,20 @@ export type EvidenceSelectScalar = {
 
 export type EvidenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dailyLogId" | "assessmentId" | "submissionId" | "type" | "url" | "fileName" | "mimeType" | "fileSize" | "title" | "description" | "uploadedById" | "createdAt", ExtArgs["result"]["evidence"]>
 export type EvidenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
 export type EvidenceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
 export type EvidenceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   assessment?: boolean | Prisma.Evidence$assessmentArgs<ExtArgs>
+  dailyLog?: boolean | Prisma.Evidence$dailyLogArgs<ExtArgs>
   submission?: boolean | Prisma.Evidence$submissionArgs<ExtArgs>
   uploadedBy?: boolean | Prisma.Evidence$uploadedByArgs<ExtArgs>
 }
@@ -1299,8 +1299,8 @@ export type EvidenceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $EvidencePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Evidence"
   objects: {
-    dailyLog: Prisma.$DailyLogPayload<ExtArgs> | null
     assessment: Prisma.$StudentAssessmentPayload<ExtArgs> | null
+    dailyLog: Prisma.$DailyLogPayload<ExtArgs> | null
     submission: Prisma.$AssignmentSubmissionPayload<ExtArgs> | null
     uploadedBy: Prisma.$UserDataPayload<ExtArgs> | null
   }
@@ -1712,8 +1712,8 @@ readonly fields: EvidenceFieldRefs;
  */
 export interface Prisma__EvidenceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  dailyLog<T extends Prisma.Evidence$dailyLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$dailyLogArgs<ExtArgs>>): Prisma.Prisma__DailyLogClient<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assessment<T extends Prisma.Evidence$assessmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$assessmentArgs<ExtArgs>>): Prisma.Prisma__StudentAssessmentClient<runtime.Types.Result.GetResult<Prisma.$StudentAssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  dailyLog<T extends Prisma.Evidence$dailyLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$dailyLogArgs<ExtArgs>>): Prisma.Prisma__DailyLogClient<runtime.Types.Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   submission<T extends Prisma.Evidence$submissionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$submissionArgs<ExtArgs>>): Prisma.Prisma__AssignmentSubmissionClient<runtime.Types.Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   uploadedBy<T extends Prisma.Evidence$uploadedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Evidence$uploadedByArgs<ExtArgs>>): Prisma.Prisma__UserDataClient<runtime.Types.Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -2159,25 +2159,6 @@ export type EvidenceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Evidence.dailyLog
- */
-export type Evidence$dailyLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DailyLog
-   */
-  select?: Prisma.DailyLogSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DailyLog
-   */
-  omit?: Prisma.DailyLogOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DailyLogInclude<ExtArgs> | null
-  where?: Prisma.DailyLogWhereInput
-}
-
-/**
  * Evidence.assessment
  */
 export type Evidence$assessmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2194,6 +2175,25 @@ export type Evidence$assessmentArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.StudentAssessmentInclude<ExtArgs> | null
   where?: Prisma.StudentAssessmentWhereInput
+}
+
+/**
+ * Evidence.dailyLog
+ */
+export type Evidence$dailyLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyLog
+   */
+  select?: Prisma.DailyLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyLog
+   */
+  omit?: Prisma.DailyLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyLogInclude<ExtArgs> | null
+  where?: Prisma.DailyLogWhereInput
 }
 
 /**

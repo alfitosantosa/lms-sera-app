@@ -48,13 +48,13 @@ export type AssignmentMinAggregateOutputType = {
   allowLateSubmission: boolean | null
   maxScore: runtime.Decimal | null
   gradeTypeId: string | null
-  developmentAreaId: string | null
-  indicatorId: string | null
   isPublished: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  developmentAreaId: string | null
+  indicatorId: string | null
 }
 
 export type AssignmentMaxAggregateOutputType = {
@@ -71,13 +71,13 @@ export type AssignmentMaxAggregateOutputType = {
   allowLateSubmission: boolean | null
   maxScore: runtime.Decimal | null
   gradeTypeId: string | null
-  developmentAreaId: string | null
-  indicatorId: string | null
   isPublished: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
+  developmentAreaId: string | null
+  indicatorId: string | null
 }
 
 export type AssignmentCountAggregateOutputType = {
@@ -95,13 +95,13 @@ export type AssignmentCountAggregateOutputType = {
   allowLateSubmission: number
   maxScore: number
   gradeTypeId: number
-  developmentAreaId: number
-  indicatorId: number
   isPublished: number
   isActive: number
   createdAt: number
   updatedAt: number
   createdBy: number
+  developmentAreaId: number
+  indicatorId: number
   _all: number
 }
 
@@ -128,13 +128,13 @@ export type AssignmentMinAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
-  developmentAreaId?: true
-  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  developmentAreaId?: true
+  indicatorId?: true
 }
 
 export type AssignmentMaxAggregateInputType = {
@@ -151,13 +151,13 @@ export type AssignmentMaxAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
-  developmentAreaId?: true
-  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  developmentAreaId?: true
+  indicatorId?: true
 }
 
 export type AssignmentCountAggregateInputType = {
@@ -175,13 +175,13 @@ export type AssignmentCountAggregateInputType = {
   allowLateSubmission?: true
   maxScore?: true
   gradeTypeId?: true
-  developmentAreaId?: true
-  indicatorId?: true
   isPublished?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
+  developmentAreaId?: true
+  indicatorId?: true
   _all?: true
 }
 
@@ -286,13 +286,13 @@ export type AssignmentGroupByOutputType = {
   allowLateSubmission: boolean
   maxScore: runtime.Decimal
   gradeTypeId: string | null
-  developmentAreaId: string | null
-  indicatorId: string | null
   isPublished: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
   createdBy: string
+  developmentAreaId: string | null
+  indicatorId: string | null
   _count: AssignmentCountAggregateOutputType | null
   _avg: AssignmentAvgAggregateOutputType | null
   _sum: AssignmentSumAggregateOutputType | null
@@ -333,13 +333,13 @@ export type AssignmentWhereInput = {
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdBy?: Prisma.StringFilter<"Assignment"> | string
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   submissions?: Prisma.AssignmentSubmissionListRelationFilter
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaNullableScalarRelationFilter, Prisma.DevelopmentAreaWhereInput> | null
@@ -365,13 +365,13 @@ export type AssignmentOrderByWithRelationInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
-  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
-  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   submissions?: Prisma.AssignmentSubmissionOrderByRelationAggregateInput
   class?: Prisma.ClassOrderByWithRelationInput
   developmentArea?: Prisma.DevelopmentAreaOrderByWithRelationInput
@@ -400,13 +400,13 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdBy?: Prisma.StringFilter<"Assignment"> | string
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   submissions?: Prisma.AssignmentSubmissionListRelationFilter
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
   developmentArea?: Prisma.XOR<Prisma.DevelopmentAreaNullableScalarRelationFilter, Prisma.DevelopmentAreaWhereInput> | null
@@ -432,13 +432,13 @@ export type AssignmentOrderByWithAggregationInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
-  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
-  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  indicatorId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AssignmentCountOrderByAggregateInput
   _avg?: Prisma.AssignmentAvgOrderByAggregateInput
   _max?: Prisma.AssignmentMaxOrderByAggregateInput
@@ -464,13 +464,13 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   allowLateSubmission?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalWithAggregatesFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
-  developmentAreaId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
-  indicatorId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
+  developmentAreaId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
 }
 
 export type AssignmentCreateInput = {
@@ -513,13 +513,13 @@ export type AssignmentUncheckedCreateInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -563,13 +563,13 @@ export type AssignmentUncheckedUpdateInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -588,13 +588,13 @@ export type AssignmentCreateManyInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateManyMutationInput = {
@@ -629,13 +629,13 @@ export type AssignmentUncheckedUpdateManyInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentListRelationFilter = {
@@ -663,13 +663,13 @@ export type AssignmentCountOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
-  developmentAreaId?: Prisma.SortOrder
-  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
 }
 
 export type AssignmentAvgOrderByAggregateInput = {
@@ -690,13 +690,13 @@ export type AssignmentMaxOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
-  developmentAreaId?: Prisma.SortOrder
-  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
 }
 
 export type AssignmentMinOrderByAggregateInput = {
@@ -713,13 +713,13 @@ export type AssignmentMinOrderByAggregateInput = {
   allowLateSubmission?: Prisma.SortOrder
   maxScore?: Prisma.SortOrder
   gradeTypeId?: Prisma.SortOrder
-  developmentAreaId?: Prisma.SortOrder
-  indicatorId?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
+  developmentAreaId?: Prisma.SortOrder
+  indicatorId?: Prisma.SortOrder
 }
 
 export type AssignmentSumOrderByAggregateInput = {
@@ -1077,13 +1077,13 @@ export type AssignmentUncheckedCreateWithoutTeacherInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1131,13 +1131,13 @@ export type AssignmentScalarWhereInput = {
   allowLateSubmission?: Prisma.BoolFilter<"Assignment"> | boolean
   maxScore?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
-  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
   isPublished?: Prisma.BoolFilter<"Assignment"> | boolean
   isActive?: Prisma.BoolFilter<"Assignment"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdBy?: Prisma.StringFilter<"Assignment"> | string
+  developmentAreaId?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  indicatorId?: Prisma.StringNullableFilter<"Assignment"> | string | null
 }
 
 export type AssignmentCreateWithoutClassInput = {
@@ -1178,13 +1178,13 @@ export type AssignmentUncheckedCreateWithoutClassInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1252,13 +1252,13 @@ export type AssignmentUncheckedCreateWithoutSubjectInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1326,13 +1326,13 @@ export type AssignmentUncheckedCreateWithoutScheduleInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1400,13 +1400,13 @@ export type AssignmentUncheckedCreateWithoutGradeTypeInput = {
   dueDate: Date | string
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1475,13 +1475,13 @@ export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
@@ -1539,13 +1539,13 @@ export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateWithoutDevelopmentAreaInput = {
@@ -1587,12 +1587,12 @@ export type AssignmentUncheckedCreateWithoutDevelopmentAreaInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  indicatorId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1661,12 +1661,12 @@ export type AssignmentUncheckedCreateWithoutIndicatorInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
 }
 
@@ -1710,13 +1710,13 @@ export type AssignmentCreateManyTeacherInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutTeacherInput = {
@@ -1757,13 +1757,13 @@ export type AssignmentUncheckedUpdateWithoutTeacherInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -1781,13 +1781,13 @@ export type AssignmentUncheckedUpdateManyWithoutTeacherInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManyClassInput = {
@@ -1804,13 +1804,13 @@ export type AssignmentCreateManyClassInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutClassInput = {
@@ -1851,13 +1851,13 @@ export type AssignmentUncheckedUpdateWithoutClassInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -1875,13 +1875,13 @@ export type AssignmentUncheckedUpdateManyWithoutClassInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManySubjectInput = {
@@ -1898,13 +1898,13 @@ export type AssignmentCreateManySubjectInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutSubjectInput = {
@@ -1945,13 +1945,13 @@ export type AssignmentUncheckedUpdateWithoutSubjectInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -1969,13 +1969,13 @@ export type AssignmentUncheckedUpdateManyWithoutSubjectInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManyScheduleInput = {
@@ -1992,13 +1992,13 @@ export type AssignmentCreateManyScheduleInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutScheduleInput = {
@@ -2039,13 +2039,13 @@ export type AssignmentUncheckedUpdateWithoutScheduleInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -2063,13 +2063,13 @@ export type AssignmentUncheckedUpdateManyWithoutScheduleInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManyGradeTypeInput = {
@@ -2086,13 +2086,13 @@ export type AssignmentCreateManyGradeTypeInput = {
   dueDate: Date | string
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  developmentAreaId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutGradeTypeInput = {
@@ -2133,13 +2133,13 @@ export type AssignmentUncheckedUpdateWithoutGradeTypeInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -2157,13 +2157,13 @@ export type AssignmentUncheckedUpdateManyWithoutGradeTypeInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManyDevelopmentAreaInput = {
@@ -2181,12 +2181,12 @@ export type AssignmentCreateManyDevelopmentAreaInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  indicatorId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  indicatorId?: string | null
 }
 
 export type AssignmentUpdateWithoutDevelopmentAreaInput = {
@@ -2228,12 +2228,12 @@ export type AssignmentUncheckedUpdateWithoutDevelopmentAreaInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -2252,12 +2252,12 @@ export type AssignmentUncheckedUpdateManyWithoutDevelopmentAreaInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  indicatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AssignmentCreateManyIndicatorInput = {
@@ -2275,12 +2275,12 @@ export type AssignmentCreateManyIndicatorInput = {
   allowLateSubmission?: boolean
   maxScore?: runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: string | null
-  developmentAreaId?: string | null
   isPublished?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
+  developmentAreaId?: string | null
 }
 
 export type AssignmentUpdateWithoutIndicatorInput = {
@@ -2322,12 +2322,12 @@ export type AssignmentUncheckedUpdateWithoutIndicatorInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
 }
 
@@ -2346,12 +2346,12 @@ export type AssignmentUncheckedUpdateManyWithoutIndicatorInput = {
   allowLateSubmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
   maxScore?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   gradeTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  developmentAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -2400,13 +2400,13 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
-  developmentAreaId?: boolean
-  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
   developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
@@ -2433,13 +2433,13 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
-  developmentAreaId?: boolean
-  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
   developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
@@ -2464,13 +2464,13 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
-  developmentAreaId?: boolean
-  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
   developmentArea?: boolean | Prisma.Assignment$developmentAreaArgs<ExtArgs>
   gradeType?: boolean | Prisma.Assignment$gradeTypeArgs<ExtArgs>
@@ -2495,16 +2495,16 @@ export type AssignmentSelectScalar = {
   allowLateSubmission?: boolean
   maxScore?: boolean
   gradeTypeId?: boolean
-  developmentAreaId?: boolean
-  indicatorId?: boolean
   isPublished?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
+  developmentAreaId?: boolean
+  indicatorId?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scheduleId" | "classId" | "subjectId" | "teacherId" | "title" | "description" | "attachments" | "assignmentType" | "assignedDate" | "dueDate" | "allowLateSubmission" | "maxScore" | "gradeTypeId" | "developmentAreaId" | "indicatorId" | "isPublished" | "isActive" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scheduleId" | "classId" | "subjectId" | "teacherId" | "title" | "description" | "attachments" | "assignmentType" | "assignedDate" | "dueDate" | "allowLateSubmission" | "maxScore" | "gradeTypeId" | "isPublished" | "isActive" | "createdAt" | "updatedAt" | "createdBy" | "developmentAreaId" | "indicatorId", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submissions?: boolean | Prisma.Assignment$submissionsArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
@@ -2562,13 +2562,13 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     allowLateSubmission: boolean
     maxScore: runtime.Decimal
     gradeTypeId: string | null
-    developmentAreaId: string | null
-    indicatorId: string | null
     isPublished: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
     createdBy: string
+    developmentAreaId: string | null
+    indicatorId: string | null
   }, ExtArgs["result"]["assignment"]>
   composites: {}
 }
@@ -3014,13 +3014,13 @@ export interface AssignmentFieldRefs {
   readonly allowLateSubmission: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly maxScore: Prisma.FieldRef<"Assignment", 'Decimal'>
   readonly gradeTypeId: Prisma.FieldRef<"Assignment", 'String'>
-  readonly developmentAreaId: Prisma.FieldRef<"Assignment", 'String'>
-  readonly indicatorId: Prisma.FieldRef<"Assignment", 'String'>
   readonly isPublished: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Assignment", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"Assignment", 'String'>
+  readonly developmentAreaId: Prisma.FieldRef<"Assignment", 'String'>
+  readonly indicatorId: Prisma.FieldRef<"Assignment", 'String'>
 }
     
 
